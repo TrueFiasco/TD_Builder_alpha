@@ -1,0 +1,57 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\bodytrackCHOP_lossless.json",
+  "operator_type": "bodytrackCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "bodyTrack",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "top": "./out1",
+            "topfill": "best",
+            "topsmoothness": "mipmap",
+            "parentshortcut": "Project"
+          }
+        },
+        {
+          "name": "videodevin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||\\\\\\\\?\\\\usb#vid_046d&pid_085c&mi_00#7&10d9a15&0&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global|||0|||0|||c922 Pro Stream Webcam\"",
+            "precedence": "even",
+            "signalformat": "f640x480p-30.00hz"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1,
+          "TOP:videodevin": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "case_id": "fo_glsl_fix_bug",
+  "section": "fix_offline",
+  "slots": {
+    "bug": "reserved_word"
+  },
+  "prompt": "This GLSL TOP network won't compile (reserved_word). Fix it so it builds and renders, keeping the visual intent.",
+  "score": 1.0,
+  "metrics": {
+    "class_detected": 1.0,
+    "matched_live": 0.0,
+    "matched_reference": 1.0,
+    "n_live_errors": 1.0,
+    "duration_s": 5.21
+  },
+  "detail": "class 'reserved_word' reference; live_errors=1 (live=n, ref=y)",
+  "fixture": "fo_glsl_fix_bug::reserved_word",
+  "expected_failure": "fixes symptom not cause; introduces a new error",
+  "success_criteria": "the {bug} class is gone, compiles 0 err, still renders"
+}

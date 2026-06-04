@@ -1,0 +1,114 @@
+{
+  "operator": "Stype_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "stypeoutCHOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "protocol": {
+      "type": "menu",
+      "value": "multicastmsging",
+      "menuIndex": 1,
+      "menuNames": [
+        "msging",
+        "multicastmsging"
+      ],
+      "menuLabels": [
+        "Messaging (UDP)",
+        "Multi-Cast Messaging (UDP)"
+      ]
+    },
+    "netaddress": {
+      "type": "string",
+      "value": "localhost_perturbed"
+    },
+    "port": {
+      "type": "int",
+      "value": 6302
+    },
+    "localaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "timecodeop": {
+      "type": "op",
+      "value": ""
+    },
+    "packetnumber": {
+      "type": "menu",
+      "value": "input",
+      "menuIndex": 1,
+      "menuNames": [
+        "generate",
+        "input"
+      ],
+      "menuLabels": [
+        "Auto-Generate",
+        "From Channel input"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

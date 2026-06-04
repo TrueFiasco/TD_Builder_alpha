@@ -1,0 +1,184 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\traceSOP_lossless.json",
+  "operator_type": "traceSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "extrude1",
+          "type": "SOP:extrude",
+          "parameters": {}
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "trace_still",
+          "type": "SOP:trace",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviein1"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "trace_still",
+          "to": "extrude1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:extrude": 1,
+          "TOP:moviefilein": 1,
+          "SOP:trace": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 1,
+            "speed": 0.1,
+            "interp": "on"
+          }
+        },
+        {
+          "name": "trace_moving_curves",
+          "type": "SOP:trace",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviein2",
+            "thresh": 0.436,
+            "fitcurve": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "SOP:trace": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trace1",
+          "type": "SOP:trace",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviein3"
+          }
+        },
+        {
+          "name": "trace2",
+          "type": "SOP:trace",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviein3",
+            "step": 50,
+            "fitcurve": "on",
+            "error": 11.5
+          }
+        },
+        {
+          "name": "extrude2",
+          "type": "SOP:extrude",
+          "parameters": {
+            "depthscale": 0.0778076
+          }
+        },
+        {
+          "name": "extrude3",
+          "type": "SOP:extrude",
+          "parameters": {
+            "depthscale": 0.0778076
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "trace2",
+          "to": "extrude2",
+          "to_input": "0"
+        },
+        {
+          "from": "trace1",
+          "to": "extrude3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:trace": 2,
+          "SOP:extrude": 2,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

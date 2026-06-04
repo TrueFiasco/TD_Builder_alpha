@@ -1,0 +1,399 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\deleteCHOP_lossless.json",
+  "operator_type": "deleteCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "scope": "chan[1-10:2]"
+          }
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "amp": 0.1,
+            "channelname": "chan[1-10]"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "delete3",
+          "type": "CHOP:delete",
+          "parameters": {
+            "delchannels": "on",
+            "discard": "nonscoped",
+            "delscope": "chan[2-4]",
+            "selnumbers": "0-100:2",
+            "selrange1": 3.5,
+            "selrange2": 6.5,
+            "legacypattern": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "delete3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:delete": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "scope": "chan[1-10:2]"
+          }
+        },
+        {
+          "name": "wave2",
+          "type": "CHOP:wave",
+          "parameters": {
+            "amp": 0.1,
+            "channelname": "chan[1-10]"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "CHOP:delete",
+          "parameters": {
+            "delchannels": "on",
+            "selnumbers": "0-100:2",
+            "chanvalue": "complete",
+            "selrange1": 3.5,
+            "selrange2": 6.5,
+            "legacypattern": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "delete1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:delete": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "scope": "chan[1-10:2]"
+          }
+        },
+        {
+          "name": "wave3",
+          "type": "CHOP:wave",
+          "parameters": {
+            "amp": 0.1,
+            "channelname": "chan[1-10]"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "delete2",
+          "type": "CHOP:delete",
+          "parameters": {
+            "delchannels": "on",
+            "discard": "nonscoped",
+            "selnumbers": "0-100:2",
+            "selrange1": 3.5,
+            "selrange2": 6.5,
+            "selconst": "on",
+            "legacypattern": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave3",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "math3",
+          "to": "delete2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:delete": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "\"b c e\"",
+            "renameto": "c[1-10]"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "\"a \"",
+            "const0value": 0.15,
+            "const1name": "\"b \"",
+            "const1value": 0.45,
+            "const2name": "c",
+            "const2value": 0.68,
+            "const3name": "d",
+            "const3value": 0.84,
+            "const4name": "e",
+            "const4value": 0.95
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "select1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:select": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 4,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "delete4",
+          "type": "CHOP:delete",
+          "parameters": {
+            "selnumbers": "0-100:2",
+            "legacypattern": "on",
+            "delsamples": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "delete4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:delete": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.6,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "delete5",
+          "type": "CHOP:delete",
+          "parameters": {
+            "selnumbers": "0-100:2",
+            "legacypattern": "on",
+            "delsamples": "on",
+            "value1": 0.486
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "trail2",
+          "to": "delete5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:delete": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

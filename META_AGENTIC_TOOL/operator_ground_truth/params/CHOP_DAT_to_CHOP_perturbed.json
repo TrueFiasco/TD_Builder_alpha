@@ -1,0 +1,244 @@
+{
+  "operator": "DAT_to_CHOP",
+  "family": "CHOP",
+  "td_create_name": "dattoCHOP",
+  "param_count": 31,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "dat": {
+      "type": "op",
+      "value": ""
+    },
+    "extractrows": {
+      "type": "menu",
+      "value": "byname",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "byname",
+        "byindex",
+        "bynameindex",
+        "byindexname",
+        "bynames",
+        "byexpr"
+      ],
+      "menuLabels": [
+        "All",
+        "by Name",
+        "by Index",
+        "by Start Name, End Index",
+        "by Start Index, End Name",
+        "by Values",
+        "by Condition"
+      ]
+    },
+    "rownamestart": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "rowindexstart": {
+      "type": "int",
+      "value": 1
+    },
+    "rownameend": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "rowindexend": {
+      "type": "int",
+      "value": 1
+    },
+    "rownames": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "rowexpr": {
+      "type": "string",
+      "value": "strmatch(\"*\",$V)_perturbed"
+    },
+    "fromcol": {
+      "type": "int",
+      "value": 1
+    },
+    "extractcols": {
+      "type": "menu",
+      "value": "byname",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "byname",
+        "byindex",
+        "bynameindex",
+        "byindexname",
+        "bynames",
+        "byexpr"
+      ],
+      "menuLabels": [
+        "All",
+        "by Name",
+        "by Index",
+        "by Start Name, End Index",
+        "by Start Index, End Name",
+        "by Values",
+        "by Condition"
+      ]
+    },
+    "colnamestart": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "colindexstart": {
+      "type": "int",
+      "value": 1
+    },
+    "colnameend": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "colindexend": {
+      "type": "int",
+      "value": 1
+    },
+    "colnames": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "colexpr": {
+      "type": "string",
+      "value": "strmatch(\"*\",$V)_perturbed"
+    },
+    "fromrow": {
+      "type": "int",
+      "value": 1
+    },
+    "output": {
+      "type": "menu",
+      "value": "chanpercol",
+      "menuIndex": 2,
+      "menuNames": [
+        "single",
+        "chanperrow",
+        "chanpercol",
+        "chanpervalue"
+      ],
+      "menuLabels": [
+        "Single Channel",
+        "Channel per Row",
+        "Channel per Column",
+        "Channel per Value"
+      ]
+    },
+    "firstrow": {
+      "type": "menu",
+      "value": "ignored",
+      "menuIndex": 0,
+      "menuNames": [
+        "ignored",
+        "names",
+        "values"
+      ],
+      "menuLabels": [
+        "Ignored",
+        "Names",
+        "Values"
+      ]
+    },
+    "firstcolumn": {
+      "type": "menu",
+      "value": "values",
+      "menuIndex": 2,
+      "menuNames": [
+        "ignored",
+        "names",
+        "values"
+      ],
+      "menuLabels": [
+        "Ignored",
+        "Names",
+        "Values"
+      ]
+    },
+    "defval": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "duplicate": {
+      "type": "menu",
+      "value": "first",
+      "menuIndex": 1,
+      "menuNames": [
+        "unique",
+        "first",
+        "last",
+        "replace",
+        "changed"
+      ],
+      "menuLabels": [
+        "Make Unique",
+        "Keep First",
+        "Keep Last",
+        "Replace First with Last",
+        "Most Recent Changed"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

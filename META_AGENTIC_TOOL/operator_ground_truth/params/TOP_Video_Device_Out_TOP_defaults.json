@@ -1,0 +1,740 @@
+{
+  "operator": "Video_Device_Out_TOP",
+  "family": "TOP",
+  "td_create_name": "videodeviceoutTOP",
+  "param_count": 39,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 19,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Device Out",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "driver": {
+      "value": {
+        "type": "menu",
+        "value": "blackmagic",
+        "menuIndex": 0,
+        "menuNames": [
+          "blackmagic",
+          "bluefish444",
+          "aja",
+          "deltacast"
+        ],
+        "menuLabels": [
+          "Blackmagic",
+          "BlueFish444",
+          "AJA",
+          "Deltacast"
+        ]
+      },
+      "default": "blackmagic",
+      "page": "Device Out",
+      "label": "Driver",
+      "readOnly": false,
+      "expression": null
+    },
+    "device": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Device Out",
+      "label": "Device",
+      "readOnly": false,
+      "expression": null
+    },
+    "signalformat": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Device Out",
+      "label": "Signal Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "quadlinkmode": {
+      "value": {
+        "type": "menu",
+        "value": "quadrant",
+        "menuIndex": 0,
+        "menuNames": [
+          "quadrant",
+          "tsi"
+        ],
+        "menuLabels": [
+          "Quadrant",
+          "TSI (Two-Sample Interleave)"
+        ]
+      },
+      "default": "quadrant",
+      "page": "Device Out",
+      "label": "Quad Link Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "customresolutionw": {
+      "value": {
+        "type": "int",
+        "value": 1920
+      },
+      "default": 1920,
+      "page": "Device Out",
+      "label": "Custom Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "customresolutionh": {
+      "value": {
+        "type": "int",
+        "value": 1080
+      },
+      "default": 1080,
+      "page": "Device Out",
+      "label": "Custom Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "customfps": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Device Out",
+      "label": "Custom FPS",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputbitdepth": {
+      "value": {
+        "type": "menu",
+        "value": "fixed8",
+        "menuIndex": 0,
+        "menuNames": [
+          "fixed8",
+          "fixed8key8",
+          "fixed10",
+          "fixed12"
+        ],
+        "menuLabels": [
+          "8-bit",
+          "8-bit + 8-bit Key (Alpha)",
+          "10-bit",
+          "12-bit"
+        ]
+      },
+      "default": "fixed8",
+      "page": "Device Out",
+      "label": "Output Bit Depth",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputcolorformat": {
+      "value": {
+        "type": "menu",
+        "value": "yuv422",
+        "menuIndex": 0,
+        "menuNames": [
+          "yuv422",
+          "rgb444"
+        ],
+        "menuLabels": [
+          "YUV 4:2:2",
+          "RGB 4:4:4"
+        ]
+      },
+      "default": "yuv422",
+      "page": "Device Out",
+      "label": "Output Color Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "referencesource": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "external",
+          "sdi1",
+          "sdi2",
+          "sdi3",
+          "sdi4",
+          "sdi5",
+          "sdi6",
+          "sdi7",
+          "sdi8"
+        ],
+        "menuLabels": [
+          "Default",
+          "External Ref In",
+          "SDI Input 1",
+          "SDI Input 2",
+          "SDI Input 3",
+          "SDI Input 4",
+          "SDI Input 5",
+          "SDI Input 6",
+          "SDI Input 7",
+          "SDI Input 8"
+        ]
+      },
+      "default": "default",
+      "page": "Device Out",
+      "label": "Reference Source",
+      "readOnly": false,
+      "expression": null
+    },
+    "audiochop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Device Out",
+      "label": "Audio CHOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "bufferlength": {
+      "value": {
+        "type": "float",
+        "value": 0.075
+      },
+      "default": 0.075,
+      "page": "Device Out",
+      "label": "Buffer Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "manualfield": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Device Out",
+      "label": "Manual Field Control",
+      "readOnly": false,
+      "expression": null
+    },
+    "firstfield": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Device Out",
+      "label": "First Field",
+      "readOnly": false,
+      "expression": null
+    },
+    "timecodeop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Device Out",
+      "label": "Timecode Object/CHOP/DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "memorymode": {
+      "value": {
+        "type": "menu",
+        "value": "automatic",
+        "menuIndex": 0,
+        "menuNames": [
+          "automatic",
+          "pinned",
+          "regular"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "Pinned",
+          "Regular"
+        ]
+      },
+      "default": "automatic",
+      "page": "Device Out",
+      "label": "Memory Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncoutputs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Device Out",
+      "label": "Sync Outputs",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncgroupindex": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Device Out",
+      "label": "Sync Group Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetstats": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Device Out",
+      "label": "Reset Stats",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "rec2020st2084pq",
+          "rec2020hlg",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "acesproxy",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "Rec.2020 ST2084PQ",
+          "Rec.2020 HLG",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "ACESproxy",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Color",
+      "label": "Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Color",
+      "label": "Output Reference White",
+      "readOnly": false,
+      "expression": null
+    },
+    "hdrmetadata": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Color",
+      "label": "HDR Metadata",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputresolution": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "eighth",
+          "quarter",
+          "half",
+          "2x",
+          "4x",
+          "8x",
+          "fit",
+          "limit",
+          "custom",
+          "parpanel"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Eighth",
+          "Quarter",
+          "Half",
+          "2X",
+          "4X",
+          "8X",
+          "Fit Resolution",
+          "Limit Resolution",
+          "Custom Resolution",
+          "Parent Panel Size"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionw": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionh": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resmult": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputaspect": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "resolution",
+          "custom"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Resolution",
+          "Custom Aspect"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputfiltertype": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Input Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "fillmode": {
+      "value": {
+        "type": "menu",
+        "value": "best",
+        "menuIndex": 4,
+        "menuNames": [
+          "useinput",
+          "fill",
+          "width",
+          "height",
+          "best",
+          "outside",
+          "nativeres"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Fill",
+          "Fit Horizontal",
+          "Fit Vertical",
+          "Fit Best",
+          "Fit Outside",
+          "Native Resolution"
+        ]
+      },
+      "default": "best",
+      "page": "Common",
+      "label": "Fill Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "filtertype": {
+      "value": {
+        "type": "menu",
+        "value": "nearest",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "npasses": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Common",
+      "label": "Passes",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanmask": {
+      "value": {
+        "type": "menu",
+        "value": "15",
+        "menuIndex": 15,
+        "menuNames": [],
+        "menuLabels": []
+      },
+      "default": "15",
+      "page": "Common",
+      "label": "Channel Mask",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "rgba8fixed",
+          "rgba16float",
+          "rgba32float",
+          "rgb10a2fixed",
+          "rgba16fixed",
+          "rgba11float",
+          "mono8fixed",
+          "mono16fixed",
+          "mono16float",
+          "mono32float",
+          "rg8fixed",
+          "rg16fixed",
+          "rg16float",
+          "rg32float",
+          "a8fixed",
+          "a16fixed",
+          "a16float",
+          "a32float",
+          "monoalpha8fixed",
+          "monoalpha16fixed",
+          "monoalpha16float",
+          "monoalpha32float"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "8-bit fixed (RGBA)",
+          "16-bit float (RGBA)",
+          "32-bit float (RGBA)",
+          "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+          "16-bit fixed (RGBA)",
+          "11-bit float (RGB), Positive Values Only",
+          "8-bit fixed (Mono)",
+          "16-bit fixed (Mono)",
+          "16-bit float (Mono)",
+          "32-bit float (Mono)",
+          "8-bit fixed (RG)",
+          "16-bit fixed (RG)",
+          "16-bit float (RG)",
+          "32-bit float (RG)",
+          "8-bit fixed (A)",
+          "16-bit fixed (A)",
+          "16-bit float (A)",
+          "32-bit float (A)",
+          "8-bit fixed (Mono+Alpha)",
+          "16-bit fixed (Mono+Alpha)",
+          "16-bit float (Mono+Alpha)",
+          "32-bit float (Mono+Alpha)"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Pixel Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

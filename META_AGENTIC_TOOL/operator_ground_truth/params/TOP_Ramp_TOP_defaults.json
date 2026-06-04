@@ -1,0 +1,791 @@
+{
+  "operator": "Ramp_TOP",
+  "family": "TOP",
+  "td_create_name": "rampTOP",
+  "param_count": 38,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "dat": {
+      "value": {
+        "type": "op",
+        "value": "op_default_keys"
+      },
+      "default": "",
+      "page": "Ramp",
+      "label": "DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "color1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ramp",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "color2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ramp",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "color3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ramp",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "color4": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ramp",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "menu",
+        "value": "horizontal",
+        "menuIndex": 1,
+        "menuNames": [
+          "vertical",
+          "horizontal",
+          "radial",
+          "circular"
+        ],
+        "menuLabels": [
+          "Vertical",
+          "Horizontal",
+          "Radial",
+          "Circular"
+        ]
+      },
+      "default": "horizontal",
+      "page": "Ramp",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "position1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ramp",
+      "label": "Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "position2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ramp",
+      "label": "Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ramp",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "period": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ramp",
+      "label": "Period",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendleft": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 3,
+        "menuNames": [
+          "hold",
+          "blockclamptoblack",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Black",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Ramp",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendright": {
+      "value": {
+        "type": "menu",
+        "value": "sameasleft",
+        "menuIndex": 0,
+        "menuNames": [
+          "sameasleft",
+          "hold",
+          "black",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Same as Left",
+          "Hold",
+          "Black",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "sameasleft",
+      "page": "Ramp",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "interpspace": {
+      "value": {
+        "type": "menu",
+        "value": "paramcolorspaceclassic",
+        "menuIndex": 0,
+        "menuNames": [
+          "paramcolorspaceclassic",
+          "linear",
+          "perceptual"
+        ],
+        "menuLabels": [
+          "Parameter Color Space - Classic",
+          "Linear",
+          "Perceptual - OKLab"
+        ]
+      },
+      "default": "paramcolorspaceclassic",
+      "page": "Ramp",
+      "label": "Interpolation Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "interpnotches": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "step",
+          "linear",
+          "easeineaseout",
+          "hermite"
+        ],
+        "menuLabels": [
+          "Step",
+          "Linear",
+          "Ease-in, Ease-out",
+          "Hermite"
+        ]
+      },
+      "default": "linear",
+      "page": "Ramp",
+      "label": "Interpolate Notches",
+      "readOnly": false,
+      "expression": null
+    },
+    "tension": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ramp",
+      "label": "Curve Tension",
+      "readOnly": false,
+      "expression": null
+    },
+    "antialias": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Ramp",
+      "label": "Anti-Alias",
+      "readOnly": false,
+      "expression": null
+    },
+    "fitaspect": {
+      "value": {
+        "type": "menu",
+        "value": "fithorz",
+        "menuIndex": 1,
+        "menuNames": [
+          "fill",
+          "fithorz",
+          "fitvert",
+          "fitbest"
+        ],
+        "menuLabels": [
+          "Fill",
+          "Fit Horizontal",
+          "Fit Vertical",
+          "Fit Best"
+        ]
+      },
+      "default": "fithorz",
+      "page": "Ramp",
+      "label": "Fit Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "dither": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ramp",
+      "label": "Dither",
+      "readOnly": false,
+      "expression": null
+    },
+    "premultrgbbyalpha": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Ramp",
+      "label": "Pre-Multiply RGB by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "combineinput": {
+      "value": {
+        "type": "menu",
+        "value": "compres",
+        "menuIndex": 1,
+        "menuNames": [
+          "res",
+          "compres"
+        ],
+        "menuLabels": [
+          "Set Resolution Only",
+          "Composite and Set Resolution"
+        ]
+      },
+      "default": "compres",
+      "page": "Output",
+      "label": "Combine with Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "operand": {
+      "value": {
+        "type": "menu",
+        "value": "multiply",
+        "menuIndex": 27,
+        "menuNames": [
+          "add",
+          "atop",
+          "average",
+          "brightest",
+          "burncolor",
+          "burnlinear",
+          "chromadifference",
+          "color",
+          "darkercolor",
+          "difference",
+          "dimmest",
+          "divide",
+          "dodge",
+          "exclude",
+          "freeze",
+          "glow",
+          "hardlight",
+          "hardmix",
+          "heat",
+          "hue",
+          "inside",
+          "insideluminance",
+          "inverse",
+          "lightercolor",
+          "luminancedifference",
+          "maximum",
+          "minimum",
+          "multiply",
+          "negate",
+          "outside",
+          "outsideluminance",
+          "over",
+          "overlay",
+          "pinlight",
+          "reflect",
+          "screen",
+          "softlight",
+          "linearlight",
+          "stencilluminance",
+          "subtract",
+          "subtractive",
+          "under",
+          "vividlight",
+          "xor",
+          "yfilm",
+          "zfilm"
+        ],
+        "menuLabels": [
+          "Add",
+          "Atop",
+          "Average",
+          "Brightest",
+          "Burn Color",
+          "Burn Linear",
+          "Chroma Difference",
+          "Color",
+          "Darker Color",
+          "Difference",
+          "Dimmest",
+          "Divide",
+          "Dodge",
+          "Exclude",
+          "Freeze",
+          "Glow",
+          "Hard Light",
+          "Hard Mix",
+          "Heat",
+          "Hue",
+          "Inside",
+          "Inside Luminance",
+          "Inverse",
+          "Lighter Color",
+          "Luminance Difference",
+          "Maximum",
+          "Minimum",
+          "Multiply",
+          "Negate",
+          "Outside",
+          "Outside Luminance",
+          "Over",
+          "Overlay",
+          "Pinlight",
+          "Reflect",
+          "Screen",
+          "Soft Light",
+          "Linear Light",
+          "Stencil Luminance",
+          "Subtract",
+          "Subtractive",
+          "Under",
+          "Vivid Light",
+          "Xor",
+          "Y Film",
+          "Z Film"
+        ]
+      },
+      "default": "multiply",
+      "page": "Output",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "swaporder": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Swap Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputresolution": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "eighth",
+          "quarter",
+          "half",
+          "2x",
+          "4x",
+          "8x",
+          "fit",
+          "limit",
+          "custom",
+          "parpanel"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Eighth",
+          "Quarter",
+          "Half",
+          "2X",
+          "4X",
+          "8X",
+          "Fit Resolution",
+          "Limit Resolution",
+          "Custom Resolution",
+          "Parent Panel Size"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionw": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionh": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resmult": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputaspect": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "resolution",
+          "custom"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Resolution",
+          "Custom Aspect"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputfiltertype": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Input Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "fillmode": {
+      "value": {
+        "type": "menu",
+        "value": "best",
+        "menuIndex": 4,
+        "menuNames": [
+          "useinput",
+          "fill",
+          "width",
+          "height",
+          "best",
+          "outside",
+          "nativeres"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Fill",
+          "Fit Horizontal",
+          "Fit Vertical",
+          "Fit Best",
+          "Fit Outside",
+          "Native Resolution"
+        ]
+      },
+      "default": "best",
+      "page": "Common",
+      "label": "Fill Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "filtertype": {
+      "value": {
+        "type": "menu",
+        "value": "nearest",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "npasses": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Common",
+      "label": "Passes",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanmask": {
+      "value": {
+        "type": "menu",
+        "value": "15",
+        "menuIndex": 15,
+        "menuNames": [],
+        "menuLabels": []
+      },
+      "default": "15",
+      "page": "Common",
+      "label": "Channel Mask",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "rgba8fixed",
+          "rgba16float",
+          "rgba32float",
+          "rgb10a2fixed",
+          "rgba16fixed",
+          "rgba11float",
+          "mono8fixed",
+          "mono16fixed",
+          "mono16float",
+          "mono32float",
+          "rg8fixed",
+          "rg16fixed",
+          "rg16float",
+          "rg32float",
+          "a8fixed",
+          "a16fixed",
+          "a16float",
+          "a32float",
+          "monoalpha8fixed",
+          "monoalpha16fixed",
+          "monoalpha16float",
+          "monoalpha32float"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "8-bit fixed (RGBA)",
+          "16-bit float (RGBA)",
+          "32-bit float (RGBA)",
+          "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+          "16-bit fixed (RGBA)",
+          "11-bit float (RGB), Positive Values Only",
+          "8-bit fixed (Mono)",
+          "16-bit fixed (Mono)",
+          "16-bit float (Mono)",
+          "32-bit float (Mono)",
+          "8-bit fixed (RG)",
+          "16-bit fixed (RG)",
+          "16-bit float (RG)",
+          "32-bit float (RG)",
+          "8-bit fixed (A)",
+          "16-bit fixed (A)",
+          "16-bit float (A)",
+          "32-bit float (A)",
+          "8-bit fixed (Mono+Alpha)",
+          "16-bit fixed (Mono+Alpha)",
+          "16-bit float (Mono+Alpha)",
+          "32-bit float (Mono+Alpha)"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Pixel Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

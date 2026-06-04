@@ -1,0 +1,460 @@
+# TouchDesigner Network Analysis Skill
+
+## Overview
+
+This skill enables AI agents to analyze, understand, and explain TouchDesigner networks by combining:
+- ASCII network structure parsing (via toeexpand)
+- Comprehensive operator documentation (~450 operators)
+- Performance analysis patterns
+- Best practice guidelines
+
+**Use this skill when:**
+- Analyzing existing .toe files
+- Explaining what a network does
+- Identifying bottlenecks or issues
+- Suggesting optimizations
+- Understanding operator chains and data flow
+
+## Prerequisites
+
+**Required MCP Tools:**
+- `expand_toe_file` - Convert .toe to ASCII format
+- `list_directory` - Browse network structure
+- `view` (bash) - Read ASCII files
+
+**Required Knowledge:**
+- Operator documentation from project knowledge
+- TouchDesigner operator families (TOP, CHOP, SOP, MAT, DAT, COMP, POP)
+- Data flow concepts (texture, channel, surface, matrix, table, particle)
+
+## Core Concepts
+
+### TouchDesigner Operator Families
+
+**TOP (Texture Operators)** - Process 2D images/video
+- Data: RGBA pixels, resolution, aspect ratio
+- Common: Noise, Movie File In, Composite, Transform
+- Performance: GPU-bound, resolution-sensitive
+
+**CHOP (Channel Operators)** - Process time-series data
+- Data: Channels (samples over time)
+- Common: Audio, LFO, Math, Timer, MIDI
+- Performance: CPU-bound, sample-rate sensitive
+
+**SOP (Surface Operators)** - Process 3D geometry
+- Data: Points, primitives, vertices
+- Common: Box, Grid, Transform, Noise
+- Performance: Point-count sensitive
+
+**MAT (Material Operators)** - Shader materials
+- Data: Shader code, texture bindings
+- Applied to: 3D geometry for rendering
+
+**DAT (Data Operators)** - Process tables/text/scripts
+- Data: Text, CSV, JSON, Python code
+- Common: Table, Text, Execute, Script
+
+**COMP (Components)** - Containers and special systems
+- Containers: Base, Container
+- Special: Camera, Light, Geometry, Replicator
+- Physics: Actor, Bullet Solver
+
+**POP (Particle Operators)** - Particle systems
+- Data: Particle attributes (position, velocity, life, color)
+- Generators: Source, Object
+- Forces: Attract, Wind, Property
+- Modifiers: Limit, Collision, Color
+
+### Network Structure
+
+**ASCII Format:**
+```
+.toe file → toeexpand → .toe.dir/
+  ├── .toc           # Table of contents
+  ├── .n files       # Node definitions (type, position)
+  ├── .parm files    # Parameter values
+  ├── .network files # Connection graphs
+  └── directories/   # Nested containers
+```
+
+**Key Files:**
+- `operator_name.n` - Type, position, viewport, flags, color
+- `operator_name.parm` - Parameter values
+- `container/` - Nested operators inside components
+
+## Analysis Workflow
+
+### Step 1: Expand and Explore
+
+```bash
+# Expand the .toe file
+expand_toe_file("path/to/project.toe")
+
+# List top-level structure
+list_directory("path/to/project.toe.dir")
+
+# Identify containers
+# Look for directories (COMPs) and files (.n, .parm)
+```
+
+### Step 2: Parse Operator Types
+
+**Read .n files to identify operators:**
+```
+Format: FAMILY:SPECIFIC_TYPE
+Examples:
+  TOP:noise      → Noise TOP
+  CHOP:audiodevicein → Audio Device In CHOP
+  SOP:box        → Box SOP
+  COMP:container → Container COMP
+```
+
+**Extract key info:**
+- Operator family and type
+- Network position (tile coordinates)
+- Viewport state (flags)
+- Node color (organizational hints)
+
+### Step 3: Analyze Data Flow
+
+**Understand the processing chain:**
+
+1. **Identify Sources** (data input operators)
+   - TOP: Movie File In, Video Device In, Noise
+   - CHOP: Audio Device In, Constant, LFO
+   - SOP: Box, Grid, File In
+   - POP: Source POP
+
+2. **Track Transformations** (processing operators)
+   - TOP: Blur, Transform, Composite, Level
+   - CHOP: Math, Filter, Lag, Shuffle
+   - SOP: Transform, Noise, Twist
+
+3. **Find Outputs** (renderers, exporters)
+   - TOP: Null, Out
+   - CHOP: Null, CHOP Execute
+   - SOP: Null, Out
+   - COMP: Geometry COMP (renders SOPs)
+
+### Step 4: Performance Analysis
+
+**Check for common bottlenecks:**
+
+**GPU Memory Issues:**
+- High-resolution TOPs (>1920x1080)
+- Multiple render passes
+- Large texture chains
+
+**CPU Bottlenecks:**
+- High-sample-rate CHOPs
+- Complex Python scripts in Execute DATs
+- Many particles (>100K)
+
+**Cook Time Issues:**
+- Expensive operators: Blur, Edge, Convolve
+- Non-optimized feedback loops
+- Unnecessary real-time cooking
+
+### Step 5: Pattern Recognition
+
+**Common TD Patterns:**
+
+**Audio-Reactive Pattern:**
+```
+Audio Device In CHOP
+  → Audio Spectrum CHOP (FFT)
+    → Math CHOP (envelope/filter)
+      → CHOP to TOP (visualization)
+        OR → Used as parameter
+```
+
+**Generative Visual Pattern:**
+```
+Noise TOP (base texture)
+  → Feedback TOP (accumulation)
+    → Composite TOP (layer effects)
+      → Level/HSV TOP (color grading)
+        → Null TOP (output)
+```
+
+**3D Rendering Pattern:**
+```
+SOP geometry
+  → Geometry COMP (instance)
+    → Camera COMP (viewpoint)
+      → Light COMP (illumination)
+        → Render TOP (output)
+```
+
+## Using Operator Documentation
+
+### Loading Operator Info
+
+When you need details about an operator:
+
+1. **Search project knowledge** for the operator type
+   - Example: "Noise TOP parameters"
+   - Example: "Math CHOP common uses"
+
+2. **Use the database structure:**
+   ```
+   Operator Name: What it's called
+   Summary: Brief description
+   Parameters: All parameters with descriptions
+   Common Uses: Typical applications
+   ```
+
+3. **Key info to extract:**
+   - What data does it process?
+   - What are critical parameters?
+   - What are performance considerations?
+   - What are common use cases?
+
+### Example: Analyzing a Noise TOP
+
+**From documentation:**
+- **Type:** TOP:noise
+- **Purpose:** Generates procedural noise patterns
+- **Key Parameters:**
+  - `period` - Frequency of noise (lower = larger features)
+  - `amplitude` - Intensity of noise
+  - `type` - Perlin, Simplex, etc.
+- **Performance:** GPU-accelerated, resolution-dependent
+- **Common Uses:** Procedural textures, displacement maps, base layers
+
+**Analysis insight:**
+"This Noise TOP with period=10 and amplitude=1 is generating a mid-frequency Perlin noise pattern, likely used as a base texture for further processing."
+
+## Best Practices Checklist
+
+**Network Organization:**
+- ✅ Operators grouped logically (audio chain, visual chain)
+- ✅ Named descriptively (not "noise1", but "background_noise")
+- ✅ Color-coded by function
+- ✅ Comments via Text DATs
+
+**Performance:**
+- ✅ TOPs at appropriate resolution (no higher than needed)
+- ✅ Expensive operators (Blur, Edge) used sparingly
+- ✅ Time Slice mode for heavy COMPs
+- ✅ Null TOPs at key points for optimization
+
+**Data Flow:**
+- ✅ Clear left-to-right or top-to-bottom flow
+- ✅ Minimal feedback loops
+- ✅ Null operators to expose key outputs
+- ✅ Select operators to expose controls
+
+**Maintainability:**
+- ✅ Parameters exposed to parent components
+- ✅ Reusable components saved as .tox
+- ✅ Python scripts in separate DATs
+- ✅ Version control friendly structure
+
+## Common Analysis Tasks
+
+### Task 1: "What does this network do?"
+
+**Workflow:**
+1. Expand the .toe file
+2. List top-level operators
+3. Identify sources (audio, video, geometry)
+4. Trace data flow through transformations
+5. Find outputs (nulls, render, export)
+6. Summarize the pipeline in plain English
+
+**Output Format:**
+```
+This network:
+1. Inputs: [describe sources]
+2. Processing: [describe transformations]
+3. Output: [describe result]
+4. Purpose: [high-level goal]
+```
+
+### Task 2: "Identify performance bottlenecks"
+
+**Workflow:**
+1. Check TOP resolutions (flag anything >1920x1080)
+2. Count expensive operators (Blur, Edge, Convolve)
+3. Look for high-sample-rate CHOPs
+4. Check for complex Python Execute DATs
+5. Identify unnecessary real-time cooking
+
+**Output Format:**
+```
+Potential bottlenecks:
+- GPU: [list issues]
+- CPU: [list issues]
+- Recommendations: [list fixes]
+```
+
+### Task 3: "Suggest optimizations"
+
+**Workflow:**
+1. Identify bottlenecks (see Task 2)
+2. Check for common anti-patterns:
+   - TOPs at 4K when 1080p sufficient
+   - Continuous cooking when could be on-demand
+   - Missing NULL operators for optimization
+3. Reference best practices
+4. Suggest specific parameter changes
+
+**Output Format:**
+```
+Optimization suggestions:
+1. [Issue] → [Solution] → [Expected improvement]
+2. [Issue] → [Solution] → [Expected improvement]
+...
+```
+
+### Task 4: "Explain this operator chain"
+
+**Workflow:**
+1. Parse the operators in sequence
+2. Look up each operator in documentation
+3. Explain what data transformation occurs at each step
+4. Describe the cumulative result
+
+**Output Format:**
+```
+Chain Analysis: [operator1] → [operator2] → [operator3]
+
+Step 1: [operator1]
+- Takes: [input data type]
+- Does: [transformation]
+- Outputs: [result]
+
+Step 2: [operator2]
+- Takes: [previous output]
+- Does: [transformation]
+- Outputs: [result]
+
+...
+
+Final Result: [description of final output]
+```
+
+## Example: Complete Analysis
+
+**User Request:** "Analyze test.toe and explain what it does"
+
+**Agent Response:**
+
+```
+Analyzing test.toe...
+
+NETWORK OVERVIEW:
+This is an audio-reactive visual performance system with 15 operators.
+
+STRUCTURE:
+1. Audio Input Chain (CHOPs)
+   - audiodevicein1: Captures system audio
+   - audiospectrum1: FFT analysis (frequency spectrum)
+   - math1: Envelope follower on bass frequencies
+   
+2. Visual Generation Chain (TOPs)
+   - noise1: Generates Perlin noise base texture
+     → period: 10 (medium frequency)
+     → amplitude: 1.0
+   - feedback1: Creates trails/accumulation effect
+   - composite1: Layers noise over feedback
+   
+3. Audio-Reactive Control
+   - math1 output → controls noise1.period
+   - Creates dynamic frequency response to bass
+
+4. Output
+   - null1: Final composited output
+   
+PERFORMANCE ANALYSIS:
+- Resolution: 1920x1080 (appropriate for real-time)
+- Cook time: Estimated <5ms per frame
+- Bottlenecks: None identified
+- Status: Well-optimized
+
+PURPOSE:
+An audio-reactive generative visual system that responds to bass frequencies
+by modulating noise patterns, creating organic flowing visuals synchronized
+to music.
+
+RECOMMENDATIONS:
+- Consider adding color grading (HSV TOP) for more visual variety
+- Could add Transform TOP for scaling/rotation effects
+- Performance is good, no optimizations needed
+```
+
+## Tips for Effective Analysis
+
+1. **Start broad, then drill down**
+   - First understand overall structure
+   - Then analyze individual operators
+   - Finally examine parameters
+
+2. **Always explain in context**
+   - Don't just list operators
+   - Explain their role in the larger system
+   - Describe data transformations
+
+3. **Use operator documentation**
+   - Reference specific parameters
+   - Cite common uses
+   - Apply performance guidelines
+
+4. **Provide actionable insights**
+   - Not just "this might be slow"
+   - But "reduce resolution from 4K to 1080p to improve performance by ~4x"
+
+5. **Speak the user's language**
+   - Assume TD knowledge but explain clearly
+   - Use correct TD terminology
+   - Provide concrete examples
+
+## Integration with Other Skills
+
+**This skill works well with:**
+
+- **TD Audio-Reactive Skill** - For analyzing audio processing chains
+- **TD Performance Optimization Skill** - For detailed performance tuning
+- **TD Shader Development Skill** - For understanding GLSL operators
+- **TD Network Generation Skill** - For suggesting new operators to add
+
+**This skill provides foundation for:**
+
+- Network modification recommendations
+- Operator chain design
+- Debugging assistance
+- Educational explanations
+
+## Common Pitfalls to Avoid
+
+❌ **Don't:**
+- Analyze without expanding .toe first
+- Ignore operator documentation
+- Provide generic advice without specifics
+- Focus only on parameters, ignore data flow
+- Overwhelm user with technical details
+
+✅ **Do:**
+- Always use MCP tools to access network files
+- Reference operator docs for accurate info
+- Provide specific, actionable recommendations
+- Explain data flow and transformations
+- Tailor detail level to user's apparent expertise
+
+## Conclusion
+
+This skill enables systematic, intelligent analysis of TouchDesigner networks by combining:
+- Structural parsing (ASCII format)
+- Operator knowledge (comprehensive docs)
+- Pattern recognition (common workflows)
+- Performance analysis (best practices)
+
+Use it as the foundation for understanding any TD network before suggesting modifications or optimizations.
+
+---
+
+**Skill Version:** 1.0  
+**Created:** 2025-12-04  
+**Operator Database:** TouchDesigner 2025 (447 operators)  
+**Dependencies:** TD MCP Tools, Operator Documentation

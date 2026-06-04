@@ -1,0 +1,263 @@
+{
+  "operator": "Audio_Movie_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiomovieCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Movie Audio",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "moviefileintop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Movie Audio",
+      "label": "Movie File In TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "prereadlength": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Movie Audio",
+      "label": "Pre-Read Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "prereadlengthunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Movie Audio",
+      "label": "Pre-Read Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "opentimeout": {
+      "value": {
+        "type": "int",
+        "value": 999999
+      },
+      "default": 999999,
+      "page": "Movie Audio",
+      "label": "Open Timeout",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncoffset": {
+      "value": {
+        "type": "float",
+        "value": -0.15
+      },
+      "default": -0.15,
+      "page": "Movie Audio",
+      "label": "Audio Sync Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncoffsetunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Movie Audio",
+      "label": "Audio Sync Offset Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Movie Audio",
+      "label": "Index Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "audiotrack": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Movie Audio",
+      "label": "Audio Track Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "volume": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Movie Audio",
+      "label": "Volume",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

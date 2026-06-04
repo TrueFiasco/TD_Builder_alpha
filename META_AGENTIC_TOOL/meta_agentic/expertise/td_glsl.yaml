@@ -1,0 +1,725 @@
+# TD GLSL Expertise
+# TouchDesigner-specific GLSL guidance for TOP/MAT/POP/SOP plus general GLSL best practices
+
+schema_version: "1.0"
+last_updated: "2025-12-21T00:00:00Z"
+update_count: 1
+validated_against: "td_universal_parsed.json; TD GLSL TOP/MAT docs; OPSnippets ground truth"
+
+overview:
+  scope: "GLSL in TouchDesigner (TOP, MAT, SOP/particle pipelines) and general GLSL correctness."
+  td_builtins:
+    - vUV: "Fragment UV coords in GLSL TOP"
+    - TDTexture2D: "Helper to sample TD inputs; use TDTexture2D(sampler, uv) or TDTexture2D(sTD2DInputs[i], uv)"
+    - sTD2DInputs: "Array of sampler2D inputs for GLSL TOP"
+    - uTD2DInfos: "Input sizing info (res, aspect); use TD2DInfos[i].res"
+    - vVert: "Vertex position in GLSL MAT VS"
+    - vColor: "Per-vertex color in GLSL MAT VS"
+    - vTexCoord0: "Primary UV set in GLSL MAT VS/PS"
+    - TDWorldSpace: "Matrix helpers TDWorld, TDWorldInverse, TDProjection"
+
+# =========================================================================
+# BUILTIN UNIFORMS - What exists in TouchDesigner GLSL
+# =========================================================================
+builtin_uniforms:
+  description: "TouchDesigner provides these built-in uniforms in GLSL shaders."
+
+  available:
+    vUV:
+      type: "vec2"
+      description: "Fragment UV coordinates (0-1 range)"
+      usage: "vec2 uv = vUV.st;"
+      context: "GLSL TOP fragment shader"
+
+    sTD2DInputs:
+      type: "sampler2D[]"
+      description: "Array of input texture samplers (one per connected input)"
+      usage: "texture(sTD2DInputs[0], vUV)"
+      context: "GLSL TOP fragment shader"
+      warning: "Index must be < number of connected inputs"
+
+    uTD2DInfos:
+      type: "struct[]"
+      description: "INPUT texture metadata (resolution, aspect ratio)"
+      usage: "uTD2DInfos[0].res.xy  // width, height of input 0"
+      context: "GLSL TOP"
+      critical_warning: "This is for INPUT textures, NOT output resolution!"
+
+    uTDOutputInfo:
+      type: "struct"
+      description: "OUTPUT texture metadata (resolution)"
+      usage: "uTDOutputInfo.res.xy  // width, height of output"
+      context: "GLSL TOP"
+      note: "Use this when you need the OUTPUT resolution (most common case)"
+
+    TDWorld:
+      type: "mat4"
+      description: "World transformation matrix"
+      context: "GLSL MAT vertex shader"
+
+    TDWorldCam:
+      type: "mat4"
+      description: "World-to-camera transformation matrix"
+      context: "GLSL MAT vertex shader"
+
+    TDProjection:
+      type: "mat4"
+      description: "Camera projection matrix"
+      context: "GLSL MAT vertex shader"
+
+  # CRITICAL: Uniforms that DO NOT EXIST
+  NOT_AVAILABLE:
+    - name: "uTDGeneral"
+      reason: "DOES NOT EXIST - commonly hallucinated by AI models"
+      what_happens: "Shader compilation error: 'uTDGeneral' undeclared"
+      correct_alternative: "Define custom uniform with absTime.seconds expression"
+
+    - name: "uTDGeneral.totalSeconds"
+      reason: "DOES NOT EXIST - there is no uTDGeneral struct"
+      correct_alternative: "uniform float uTime; // bind to absTime.seconds"
+
+    - name: "totalSeconds"
+      reason: "Not a built-in uniform"
+      correct_alternative: "Create custom uniform bound to absTime.seconds"
+
+    - name: "uTime"
+      reason: "NOT built-in - must be defined as custom uniform"
+      correct_alternative: |
+        Define in shader: uniform float uTime;
+        Bind via uniforms array: {"name": "uTime", "value": 0, "expr": "absTime.seconds"}
+
+    - name: "iTime"
+      reason: "Shadertoy convention, not available in TD"
+      correct_alternative: "Define uTime custom uniform with absTime.seconds"
+
+    - name: "iResolution"
+      reason: "Shadertoy convention, not available in TD"
+      correct_alternative: "Use uTDOutputInfo.res.xy or uTD2DInfos[0].res.xy"
+
+# =========================================================================
+# CRITICAL: AUTO-PROVIDED - DO NOT REDECLARE THESE!
+# =========================================================================
+# BUG-004 FIX: TouchDesigner automatically provides these in GLSL TOP shaders.
+# Redeclaring them causes "redeclaration of array with size" compile errors.
+auto_provided_do_not_redeclare:
+  description: |
+    CRITICAL: TouchDesigner AUTOMATICALLY provides these in GLSL TOP fragment shaders.
+    DO NOT include declarations for these in your shader code - TD injects them!
+    Redeclaring causes: "ERROR: 'sTD2DInputs' : redeclaration of array with size"
+
+  # These are injected by TD - never write "uniform sampler2D sTD2DInputs[N];"
+  fragment_shader_builtins:
+    - name: "sTD2DInputs[]"
+      auto_declaration: "uniform sampler2D sTD2DInputs[N];"
+      DO_NOT_WRITE: "uniform sampler2D sTD2DInputs[1];"
+      usage: "texture(sTD2DInputs[0], vUV)"
+      note: "TD auto-sizes array based on connected inputs"
+
+    - name: "vUV"
+      auto_declaration: "in vec2 vUV;"
+      DO_NOT_WRITE: "in vec2 vUV;"
+      usage: "vec2 uv = vUV.st;"
+      note: "Fragment UV coordinates (0-1 range)"
+
+    - name: "uTD2DInfos[]"
+      auto_declaration: "TD provides this struct array"
+      usage: "uTD2DInfos[0].res.xy"
+      note: "Input texture metadata"
+
+    - name: "uTDOutputInfo"
+      auto_declaration: "TD provides this struct"
+      usage: "uTDOutputInfo.res.xy"
+      note: "Output texture metadata"
+
+    - name: "#version directive"
+      auto_declaration: "#version 450 core"
+      DO_NOT_WRITE: "#version 450"
+      note: "TD prepends version directive automatically"
+
+  what_you_CAN_declare:
+    - "Custom uniforms (uTime, uColor, etc.)"
+    - "out vec4 fragColor; (required - output declaration)"
+    - "Custom functions and variables"
+
+  correct_minimal_shader: |
+    // CORRECT: Minimal GLSL TOP shader
+    // TD auto-provides: #version, vUV, sTD2DInputs[], uTD2DInfos[], uTDOutputInfo
+    out vec4 fragColor;
+    void main() {
+        fragColor = texture(sTD2DInputs[0], vUV);
+    }
+
+  wrong_shader_example: |
+    // WRONG: These redeclarations cause compile errors!
+    #version 450 core                    // ERROR: TD already provides this
+    uniform sampler2D sTD2DInputs[1];    // ERROR: redeclaration of array
+    in vec2 vUV;                         // ERROR: redefinition
+    out vec4 fragColor;
+    void main() {
+        fragColor = texture(sTD2DInputs[0], vUV);
+    }
+
+# =========================================================================
+# CUSTOM UNIFORMS - How to add time, colors, parameters
+# =========================================================================
+custom_uniforms:
+  description: "Custom uniforms are defined in the 'uniforms' array and bound via parameter expressions."
+
+  time_pattern:
+    description: "How to add animated time to GLSL shaders"
+    network_json:
+      uniforms:
+        - name: "uTime"
+          value: 0
+          expr: "absTime.seconds"
+    shader_usage: |
+      uniform float uTime;
+      void main() {
+        float t = uTime;  // Animated time in seconds
+        // ... use t for animation
+      }
+    common_expressions:
+      - expr: "absTime.seconds"
+        description: "Total seconds since TD started (float)"
+      - expr: "absTime.frame"
+        description: "Current frame number"
+      - expr: "me.time.seconds"
+        description: "Operator's local time"
+
+  color_pattern:
+    description: "How to pass color values to GLSL"
+    network_json:
+      uniforms:
+        - name: "uColor"
+          value: [1.0, 0.5, 0.2, 1.0]
+    shader_usage: |
+      uniform vec4 uColor;
+      void main() {
+        fragColor = texture(sTD2DInputs[0], vUV) * uColor;
+      }
+
+  float_parameter:
+    description: "Bind a slider/float parameter"
+    network_json:
+      uniforms:
+        - name: "uIntensity"
+          value: 1.0
+          expr: "op('control')['intensity']"
+    shader_usage: "uniform float uIntensity;"
+
+# =========================================================================
+# ANTI-PATTERNS - Common mistakes to AVOID
+# =========================================================================
+anti_patterns:
+  description: "These are common mistakes when writing GLSL for TouchDesigner. AVOID THESE."
+
+  GLSL-001:
+    name: "Hallucinated time uniform"
+    severity: "critical"
+    bad_code: |
+      float t = uTDGeneral.totalSeconds;  // ERROR: uTDGeneral does not exist!
+    good_code: |
+      uniform float uTime;  // Declare custom uniform
+      void main() {
+        float t = uTime;  // Use custom uniform
+        // ... animation code
+      }
+    fix: "Define uTime in uniforms array with expr: absTime.seconds"
+    network_json_fix:
+      uniforms:
+        - name: "uTime"
+          value: 0
+          expr: "absTime.seconds"
+
+  GLSL-002:
+    name: "Wrong resolution source for output"
+    severity: "high"
+    bad_code: |
+      vec2 res = uTD2DInfos[0].res.zw;  // WRONG: .zw is inverse, not size
+      vec2 res = uTD2DInfos[0].res.xy;  // WRONG for output resolution
+    good_code: |
+      vec2 res = uTDOutputInfo.res.xy;  // CORRECT for output resolution
+      vec2 inputRes = uTD2DInfos[0].res.xy;  // CORRECT for input 0 resolution
+    explanation: |
+      - uTD2DInfos is for INPUT textures
+      - uTDOutputInfo is for OUTPUT texture
+      - Most shaders want OUTPUT resolution for normalization
+
+  GLSL-003:
+    name: "Shadertoy syntax in TouchDesigner"
+    severity: "medium"
+    bad_code: |
+      void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.xy;  // Shadertoy syntax
+    good_code: |
+      out vec4 fragColor;
+      void main() {
+        vec2 uv = vUV.st;  // TD provides vUV directly
+    explanation: "TouchDesigner uses different conventions than Shadertoy"
+
+  GLSL-004:
+    name: "Using uTD2DInfos without inputs"
+    severity: "high"
+    bad_code: |
+      // In standalone shader with NO inputs connected:
+      vec2 res = uTD2DInfos[0].res.xy;  // ERROR: no inputs!
+    good_code: |
+      vec2 res = uTDOutputInfo.res.xy;  // Works without inputs
+    explanation: "uTD2DInfos requires connected inputs; use uTDOutputInfo for standalone shaders"
+
+  GLSL-005:
+    name: "Using GLSL reserved word as variable name"
+    severity: "medium"
+    bad_code: |
+      float active = step(0.5, noise);  // ERROR: 'active' is reserved
+      float input = texture(...).r;     // ERROR: 'input' is reserved
+    good_code: |
+      float isActive = step(0.5, noise);  // Use prefix
+      float inputVal = texture(...).r;    // Use suffix
+    explanation: "GLSL has many reserved words. Use prefixes like 'is', 'has', 'my' or suffixes like 'Val', 'Data'"
+
+  # BUG-004 FIX: New anti-pattern for redeclaring auto-provided uniforms
+  GLSL-006:
+    name: "Redeclaring TouchDesigner auto-provided uniforms"
+    severity: "critical"
+    td_error: "ERROR: 'sTD2DInputs' : redeclaration of array with size"
+    bad_code: |
+      // WRONG: TD already provides these!
+      uniform sampler2D sTD2DInputs[1];  // CAUSES ERROR
+      in vec2 vUV;                        // CAUSES ERROR
+      out vec4 fragColor;
+      void main() {
+          fragColor = texture(sTD2DInputs[0], vUV);
+      }
+    good_code: |
+      // CORRECT: Only declare what TD doesn't provide
+      out vec4 fragColor;
+      void main() {
+          // sTD2DInputs and vUV are auto-provided by TD
+          fragColor = texture(sTD2DInputs[0], vUV);
+      }
+    fix: |
+      Remove declarations for: sTD2DInputs[], vUV, uTD2DInfos[], uTDOutputInfo, #version
+      TD automatically injects these into GLSL TOP fragment shaders.
+    see_also: "auto_provided_do_not_redeclare section above"
+
+# =========================================================================
+# GLSL RESERVED WORDS - Avoid these as variable names (Bug #4 fix)
+# =========================================================================
+glsl_reserved_words:
+  description: "These words cannot be used as variable, function, or type names in GLSL."
+
+  # Core language reserved words that cause compile errors
+  keywords:
+    - active       # Common mistake - use 'isActive'
+    - input        # Use 'inputVal' or 'myInput'
+    - output       # Use 'outputVal' or 'myOutput'
+    - attribute
+    - const
+    - uniform
+    - varying
+    - buffer
+    - shared
+    - coherent
+    - volatile
+    - restrict
+    - readonly
+    - writeonly
+    - atomic_uint
+    - layout
+    - centroid
+    - flat
+    - smooth
+    - noperspective
+    - patch
+    - sample
+    - break
+    - continue
+    - do
+    - for
+    - while
+    - switch
+    - case
+    - default
+    - if
+    - else
+    - subroutine
+    - in
+    - out
+    - inout
+    - true
+    - false
+    - invariant
+    - precise
+    - discard
+    - return
+    - struct
+    - void
+
+  # Type names - also reserved
+  types:
+    - float
+    - double
+    - int
+    - uint
+    - bool
+    - vec2
+    - vec3
+    - vec4
+    - dvec2
+    - dvec3
+    - dvec4
+    - ivec2
+    - ivec3
+    - ivec4
+    - uvec2
+    - uvec3
+    - uvec4
+    - bvec2
+    - bvec3
+    - bvec4
+    - mat2
+    - mat3
+    - mat4
+    - sampler1D
+    - sampler2D
+    - sampler3D
+    - samplerCube
+
+  # Safe naming patterns to avoid collisions
+  safe_prefixes:
+    - "is"      # isActive, isVisible
+    - "has"     # hasInput, hasAlpha
+    - "my"      # myInput, myOutput
+    - "the"     # theResult, theColor
+    - "u"       # uTime, uColor (for uniforms)
+    - "v"       # vPosition (for varyings)
+    - "f"       # fResult (for floats)
+
+  safe_suffixes:
+    - "Val"     # inputVal, outputVal
+    - "Data"    # inputData
+    - "Value"   # activeValue
+    - "Var"     # tempVar
+
+# =========================================================================
+# STANDALONE SHADER PATTERN - GLSL TOP with no inputs
+# =========================================================================
+standalone_shader_pattern:
+  description: "When creating procedural shaders (noise, patterns) with NO inputs connected."
+
+  # CRITICAL: TouchDesigner auto-provides these - do NOT declare them in your shader!
+  # - #version 450 core (TD prepends this automatically)
+  # - in vec2 vUV (TD provides fragment UV coordinates)
+
+  available_uniforms:
+    - "uTDOutputInfo.res.xy  // Output resolution"
+    - "vUV  // Fragment UV coordinates (TD-provided, do NOT declare)"
+    - "Custom uniforms from 'uniforms' array"
+
+  NOT_available_without_inputs:
+    - "uTD2DInfos  // No inputs = no input info"
+    - "sTD2DInputs  // No inputs = no textures to sample"
+
+  complete_example:
+    description: "Standalone procedural noise shader with animation"
+    network_json:
+      name: "procedural_noise"
+      type: "glslTOP"
+      parameters:
+        outputresolution: [1920, 1080]
+      uniforms:
+        - name: "uTime"
+          value: 0
+          expr: "absTime.seconds"
+        - name: "uScale"
+          value: 5.0
+    shader_code: |
+      // IMPORTANT: Do NOT include #version or 'in vec2 vUV' - TD provides these!
+      uniform float uTime;
+      uniform float uScale;
+      out vec4 fragColor;
+
+      // Simple noise function
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+          f.y
+        );
+      }
+
+      void main() {
+        vec2 uv = vUV.st;  // vUV is provided by TD
+        vec2 res = uTDOutputInfo.res.xy;
+        float aspect = res.x / res.y;
+        uv.x *= aspect;
+
+        float n = noise(uv * uScale + uTime * 0.5);
+        fragColor = vec4(vec3(n), 1.0);
+      }
+
+glsl_top:
+  # CRITICAL: TD auto-provides #version and vUV - do NOT include them in shader code!
+  template: |
+    // TD provides: #version 450 core, in vec2 vUV
+    uniform sampler2D sTD2DInputs[1];
+    out vec4 fragColor;
+    void main() {
+        vec4 c = texture(sTD2DInputs[0], vUV);  // vUV is TD-provided
+        fragColor = c;
+    }
+  guidelines:
+    - Prefer TD helpers over manual sampler states (TDTexture2D, TD2DInfos).
+    - Keep branches simple; avoid dynamic loops for performance.
+    - Declare outputs explicitly: out vec4 fragColor;
+    - For multi-input, document channel meaning (e.g., input0=color, input1=mask).
+    - Validate compile logs in TD; ensure #version 450 core by default.
+  resolution_uniforms:
+    input_resolution: "uTD2DInfos[0].res.xy"
+    output_resolution: "uTDOutputInfo.res.xy"
+    inverse_output: "uTDOutputInfo.res.zw"
+    note: "Use uTDOutputInfo for output res, NOT uTD2DInfos[0].res.zw"
+  common_params:
+    - name: resolution_uniform
+      example: "vec2 res = uTDOutputInfo.res.xy;  // For output resolution"
+    - name: input_resolution
+      example: "vec2 inputRes = uTD2DInfos[0].res.xy;  // For input 0 resolution"
+    - name: channel_mask
+      example: "fragColor = vec4(color.rgb * mask.r, 1.0);"
+  templates:
+    pass_through:
+      description: "Sample input0 and write to fragColor."
+      # NOTE: TD auto-provides #version and vUV - do NOT include them!
+      code: |
+        // TD provides: #version 450 core, in vec2 vUV
+        uniform sampler2D sTD2DInputs[1];
+        out vec4 fragColor;
+        void main() {
+            fragColor = texture(sTD2DInputs[0], vUV);
+        }
+      td_version: "2023.1"
+      evidence:
+        - source_path: "extracted_facts/td_glsl_knowledge.json"
+          chunk_id: "glsl_top_pass_through"
+          excerpt_hash: "sha256:pass"
+    mask_multiply:
+      description: "Multiply color input by mask input (r channel)."
+      # NOTE: TD auto-provides #version and vUV - do NOT include them!
+      code: |
+        // TD provides: #version 450 core, in vec2 vUV
+        uniform sampler2D sTD2DInputs[2];
+        out vec4 fragColor;
+        void main() {
+            vec4 color = texture(sTD2DInputs[0], vUV);
+            float m = texture(sTD2DInputs[1], vUV).r;
+            fragColor = vec4(color.rgb * m, color.a);
+        }
+      td_version: "2023.1"
+      evidence:
+        - source_path: "extracted_facts/td_glsl_knowledge.json"
+          chunk_id: "glsl_top_mask"
+          excerpt_hash: "sha256:mask"
+
+glsl_mat:
+  vertex_template: |
+    #version 450 core
+    layout(location = 0) in vec3 P;
+    layout(location = 4) in vec2 uv[1];
+    uniform mat4 TDWorld;
+    uniform mat4 TDWorldCam;
+    uniform mat4 TDProjection;
+    out vec2 vUV;
+    void main() {
+        vUV = uv[0];
+        gl_Position = TDProjection * TDWorldCam * TDWorld * vec4(P, 1.0);
+    }
+  pixel_template: |
+    #version 450 core
+    in vec2 vUV;
+    uniform sampler2D sTD2DInputs[1];
+    out vec4 fragColor;
+    void main() {
+        vec4 c = texture(sTD2DInputs[0], vUV);
+        fragColor = c;
+    }
+  guidelines:
+    - Use TDWorldCam/TDProjection for correct space transforms.
+    - Pass UVs through from VS; avoid recomputing in PS.
+    - For instancing, use TDInstance matrices; respect instance attributes (index, color).
+    - Keep PS side effects minimal; no imageStore unless using compute.
+  templates:
+    textured_mat:
+      description: "Basic textured GLSL MAT (VS+PS)."
+      vertex: |
+        #version 450 core
+        layout(location = 0) in vec3 P;
+        layout(location = 4) in vec2 uv[1];
+        uniform mat4 TDWorld;
+        uniform mat4 TDWorldCam;
+        uniform mat4 TDProjection;
+        out vec2 vUV;
+        void main() {
+            vUV = uv[0];
+            gl_Position = TDProjection * TDWorldCam * TDWorld * vec4(P, 1.0);
+        }
+      pixel: |
+        #version 450 core
+        in vec2 vUV;
+        uniform sampler2D sTD2DInputs[1];
+        out vec4 fragColor;
+        void main() {
+            fragColor = texture(sTD2DInputs[0], vUV);
+        }
+      td_version: "2023.1"
+      evidence:
+        - source_path: "extracted_facts/td_glsl_knowledge.json"
+          chunk_id: "glsl_mat_basic"
+          excerpt_hash: "sha256:mat"
+
+glsl_pop:
+  description: "Particle update via GLSL TOP (ping-pong) or GLSL MAT on instanced geo."
+  patterns:
+    ping_pong_top:
+      steps:
+        - "Use two 32-bit GLSL TOPs storing RGBA = position/velocity."
+        - "Fragment shader reads previous buffer, applies forces, writes next state."
+        - "Use texelFetch with integer coords for stable indexing."
+      gotchas:
+        - "Clamp UVs; avoid sampling outside texture."
+        - "Seed RNG deterministically for reproducibility."
+    instanced_mat:
+      steps:
+        - "Store particle state in CHOP/SOP, instance via Geometry COMP + GLSL MAT."
+        - "Read instance attributes in VS (P, N, uv, instance attributes)."
+        - "Apply billboarding in VS if rendering sprites."
+      gotchas:
+        - "Enable instancing flags and bind instance attributes in TD."
+  templates:
+    ping_pong_update:
+      description: "GLSL TOP ping-pong update for pos/vel packed in RGBA."
+      # NOTE: TD auto-provides #version and vUV - do NOT include them!
+      code: |
+        // TD provides: #version 450 core, in vec2 vUV
+        uniform sampler2D sTD2DInputs[1]; // input0: prev state (pos.xyz, vel.x)
+        uniform float uDt;
+        out vec4 fragColor;
+        void main() {
+            vec4 state = texture(sTD2DInputs[0], vUV);
+            vec3 pos = state.rgb;
+            float vx = state.a;
+            vec3 vel = vec3(vx, 0.0, 0.0);
+            vel += vec3(0.0, -9.8, 0.0) * uDt;
+            pos += vel * uDt;
+            fragColor = vec4(pos, vel.x);
+        }
+      td_version: "2023.1"
+      evidence:
+        - source_path: "extracted_facts/td_glsl_knowledge.json"
+          chunk_id: "glsl_pop_ping_pong"
+          excerpt_hash: "sha256:pop"
+
+glsl_sop:
+  notes:
+    - "GLSL SOP uses point-based processing; out variables set P, N, Cd."
+    - "Access input points via tdGetPointAttrib, set outputs via tdSetPointAttrib."
+    - "Keep within attribute count; avoid heavy loops."
+
+general_glsl:
+  practices:
+    - "Always specify precision for mediump/lowp where relevant (mobile)."
+    - "Avoid undefined behavior (uninitialized variables, divergent discard)."
+    - "Use const and in/out qualifiers explicitly."
+    - "Profile texture fetch count; minimize dependent texture lookups."
+  debugging:
+    - "Write debug values to color channels; use TOP viewers."
+    - "Reduce shader to minimal repro when diagnosing compile/runtime issues."
+  performance:
+    - "Prefer vec4/ivec4 operations; avoid branching in tight loops."
+    - "Use precomputed LUTs/textures for expensive math when possible."
+
+recipes:
+  glsl_pop_minimal:
+    description: "Ping-pong GLSL TOP particle updater"
+    # NOTE: TD auto-provides #version and vUV - do NOT include them!
+    snippet: |
+      // TD provides: #version 450 core, in vec2 vUV
+      uniform sampler2D sTD2DInputs[1]; // input0: prev state RGBA
+      uniform float uDt;
+      out vec4 fragColor;
+      void main() {
+          vec4 state = texture(sTD2DInputs[0], vUV);
+          vec3 pos = state.rgb;
+          vec3 vel = vec3(0.0, -9.8, 0.0) * uDt + state.a; // simplistic
+          pos += vel * uDt;
+          fragColor = vec4(pos, vel.x); // pack back; expand as needed
+      }
+    notes:
+      - "Add bounds checks and respawn logic before production."
+      - "Store velocity in separate render target for clarity when scaling."
+
+problems:
+  known:
+    - id: "GLSL-TOP-FEEDBACK-NAN"
+      description: "Feedback loops without clamp lead to NaN propagation."
+      fix: "Clamp outputs, validate inputs, reset buffers periodically."
+      prevention: "Add clamp and clear-on-reset logic in shader."
+      status: "open"
+    - id: "GLSL-TOP-PARTICLE-VIZ-PERFORMANCE"
+      description: "Iterating all particles per pixel in GLSL TOP is O(particles × pixels) - crashes/timeouts."
+      fix: "Use 1:1 buffer visualization OR geometry-based instancing for point rendering."
+      prevention: |
+        Never use nested loops over entire particle buffer in per-pixel GLSL TOP.
+        For 64x64 particles at 1280x720, this is 64*64*1280*720 = 3.7 billion iterations/frame.
+        Instead: visualize particle buffer directly (set output res = buffer res) OR use geometry instancing.
+      status: "validated"
+    - id: "GLSL-TOP-TIME-UNIFORM"
+      description: "uTDGeneral.totalSeconds may not be available in all contexts."
+      fix: "Create custom uniform (uTime) and bind to absTime.seconds expression."
+      prevention: "Always use explicit uniforms for time, bound via parameter expressions."
+      status: "validated"
+    - id: "GLSL-TOP-RESOLUTION-WRONG"
+      description: "Using uTD2DInfos[0].res.zw for output resolution gives wrong values."
+      fix: "Use uTDOutputInfo.res.xy for output resolution."
+      prevention: |
+        - uTDOutputInfo.res.xy = OUTPUT resolution (what you usually want for viz shaders)
+        - uTD2DInfos[N].res.xy = INPUT N resolution (for reading input dimensions)
+      status: "validated"
+    - id: "GLSL-TOP-ABSTIME-STEP"
+      description: "absTime.step expression in GLSL TOP uniform may return unexpected value (1.0)."
+      fix: "Use constant value for deltaTime (0.016 for 60fps)."
+      prevention: |
+        For time-sensitive simulations:
+        - Use absTime.seconds for total time (works reliably)
+        - Use constant 0.016 for deltaTime (60fps assumed)
+        - Shader can include fallback: float dt = uDeltaTime > 0.0 ? uDeltaTime : 0.016;
+      status: "validated"
+
+feedbackTOP:
+  description: "Feedback TOP for ping-pong buffers and trail effects"
+  required_params:
+    - name: "top"
+      description: "Target TOP to feedback from (e.g., 'glsl_sim')"
+      parm_mode: 0
+    - name: "reset input"
+      description: "Wire initial/reset state to input 0"
+  pattern: |
+    # Ping-pong simulation:
+    noise_init -> feedback_sim (input)
+    feedback_sim -> glsl_sim (input)
+    feedback_sim.top = "glsl_sim"  # Parameter points to output
+
+    # Trail effect:
+    comp_glow -> trail_feedback (input)
+    trail_feedback -> trail_level -> final_comp
+    trail_feedback.top = "final_comp"
+
+refreshed_from_state: null
+state_checksum: null

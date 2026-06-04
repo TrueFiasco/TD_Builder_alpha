@@ -1,0 +1,491 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\UI\\Basic Widgets\\Tools\\widgetCacher.tox.dir",
+    "build_version": "099",
+    "build_date": "Wed Sep 30 16:04:09 2020",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2020.42160"
+  },
+  "operators": {
+    "/widgetCacher0": {
+      "name": "widgetCacher0",
+      "path": "/widgetCacher0",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        997.16,
+        420.547,
+        2.03774
+      ],
+      "tile_pos": [
+        300,
+        -1000,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "display": "off",
+        "parentshortcut": "WidgetCache",
+        "nodeview": "opviewer",
+        "opviewer": "./cache",
+        "Widgetcomp": {
+          "64": "masterFader"
+        },
+        "Indexrange": {
+          "64": 128
+        },
+        "Version": {
+          "320": "2020.20.1.01"
+        }
+      },
+      "parent": null,
+      "children": [
+        "bind",
+        "cache",
+        "select1",
+        "execute1",
+        "constant1",
+        "docsHelper"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Controls\n-1374678770 Widgetcomp \"Widget COMP\" 1 1 0 0 1 1 1 0 0 \"\" Controls 2\n772804866 Indexrange \"Index Range\" 1 3 1 0 1 1 127 0 1 \"\" Controls 3\n-1374678779 Reloadcache \"Load Cache\" 1 1 0 0 1 1 1 0 0 \"\" Controls 4\n772804869 Help Help 1 1 0 0 1 1 1 0 0 \"\" Controls 0\n772804868 Version Version 1 1 0 0 1 1 1 0 0 \"\" Controls 1\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n7\nrollu 0.924812\nrollv 0.361204\ndisplay 0\nscreenw 400\nscreenh 300\nscreenwm 400\nscreenhm 300\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/widgetCacher0/bind": {
+      "name": "bind",
+      "path": "/widgetCacher0/bind",
+      "op_type": "CHOP:bind",
+      "family": "CHOP",
+      "specific_type": "bind",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 1,
+        "exportmethod": "autoname",
+        "autoexportroot": {
+          "49": "\"\" \"parent.WidgetCache.par.Widgetcomp.eval().path if parent.WidgetCache.par.Widgetcomp.eval() else ''\""
+        }
+      },
+      "parent": "/widgetCacher0",
+      "children": [],
+      "inputs": {
+        "0": "constant1"
+      },
+      "extra_files": {
+        "bind": {
+          "content": "1\n1\n1\n1\n7.26562\n0\n7.26562\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/widgetCacher0/cache": {
+      "name": "cache",
+      "path": "/widgetCacher0/cache",
+      "op_type": "TOP:cache",
+      "family": "TOP",
+      "specific_type": "cache",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": "off",
+        "prefillpulse": {
+          "531": "0 parent.WidgetCache.par.Loadcache parent.WidgetCache.par.Reloadcache"
+        },
+        "cachesize": {
+          "49": "32 parent.WidgetCache.par.Indexrange+1"
+        },
+        "outputresolution": "custom",
+        "resolutionw": {
+          "49": "256 op('select1').width"
+        },
+        "resolutionh": {
+          "49": "256 op('select1').height"
+        },
+        "outputaspect": "resolution"
+      },
+      "parent": "/widgetCacher0",
+      "children": [],
+      "inputs": {
+        "0": "select1"
+      },
+      "extra_files": {}
+    },
+    "/widgetCacher0/select1": {
+      "name": "select1",
+      "path": "/widgetCacher0/select1",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "49": "parent.WidgetCache.par.Cacheabletop \"parent.WidgetCache.par.Widgetcomp.eval().par.Cacheabletop if parent.WidgetCache.par.Widgetcomp.eval() else ''\""
+        }
+      },
+      "parent": "/widgetCacher0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/widgetCacher0/execute1": {
+      "name": "execute1",
+      "path": "/widgetCacher0/execute1",
+      "op_type": "DAT:execute",
+      "family": "DAT",
+      "specific_type": "execute",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "start": "on",
+        "create": "on",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/widgetCacher0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHwIyBtZSAtIHRoaXMgREFUCiMgCiMgZnJhbWUgLSB0aGUgY3VycmVudCBmcmFtZQojIHN0YXRlIC0gVHJ1ZSBpZiB0aGUgdGltZWxpbmUgaXMgcGF1c2VkCiMgCiMgTWFrZSBzdXJlIHRoZSBjb3JyZXNwb25kaW5nIHRvZ2dsZSBpcyBlbmFibGVkIGluIHRoZSBFeGVjdXRlIERBVC4KCmRlZiBvblN0YXJ0KCk6CglvcCgnY2FjaGUnKS5wYXIucHJlZmlsbHB1bHNlLnB1bHNlKCkKCmRlZiBvbkNyZWF0ZSgpOgoJb3AoJ2NhY2hlJykucGFyLnByZWZpbGxwdWxzZS5wdWxzZSgpCgpkZWYgb25FeGl0KCk6CglyZXR1cm4KCmRlZiBvbkZyYW1lU3RhcnQoZnJhbWUpOgoJcmV0dXJuCgpkZWYgb25GcmFtZUVuZChmcmFtZSk6CglyZXR1cm4KCmRlZiBvblBsYXlTdGF0ZUNoYW5nZShzdGF0ZSk6CglyZXR1cm4KCmRlZiBvbkRldmljZUNoYW5nZSgpOgoJcmV0dXJuCgpkZWYgb25Qcm9qZWN0UHJlU2F2ZSgpOgoJcmV0dXJuCgpkZWYgb25Qcm9qZWN0UG9zdFNhdmUoKToKCXJldHVybgoKCQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/widgetCacher0/constant1": {
+      "name": "constant1",
+      "path": "/widgetCacher0/constant1",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "name0": {
+          "32": "Value0"
+        },
+        "value0": {
+          "49": "0 me.time.frame/parent.WidgetCache.par.Indexrange-1/parent.WidgetCache.par.Indexrange"
+        }
+      },
+      "parent": "/widgetCacher0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/widgetCacher0/docsHelper": {
+      "name": "docsHelper",
+      "path": "/widgetCacher0/docsHelper",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        1114.08,
+        83.8,
+        2.31172
+      ],
+      "tile_pos": [
+        -100,
+        200,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "w": 32,
+        "h": 32,
+        "layer": 1,
+        "display": "off",
+        "extension1": "op('./DocsHelper').module.DocsHelper(me)",
+        "promoteextension1": "on",
+        "parentshortcut": "DocsHelper",
+        "clone": {
+          "49": "/sys/TDResources/docsHelper op.TDResources.op('docsHelper')"
+        },
+        "Helpcommand": {
+          "81": "ui.viewFile('http://docs.derivative.ca/index.php?title=Palette:TDResources') ext.DocsHelper.HelpCommand"
+        },
+        "Palettename": {
+          "80": "widgetCache me.par.Palettecomp.eval().name"
+        },
+        "Palettecomp": {
+          "81": "/sys/TDResources parent()"
+        },
+        "Wikipage": {
+          "192": "\"\""
+        },
+        "Url": {
+          "192": "https://www.derivative.ca"
+        }
+      },
+      "parent": "/widgetCacher0",
+      "children": [
+        "parexec1",
+        "DocsHelper",
+        "parexec_PaletteComp"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 \"Docs Helper\"\n772804868 Helpcommand \"Help Command\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 1\n772804868 Palettename \"Palette COMP Name\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 3\n772804877 Palettecomp \"Help COMP\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 0\n-1374678779 Createhelppar \"Create Help Par\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 9\n772804869 Createversionpar \"Create Version Par\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 10\n772804869 Resetpalettecompname \"Reset Palette COMP Name\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 4\n772804869 Testopenhelp \"Test Open Help\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 11\n772804867 Experimental Experimental 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 6\n-1374678769 Mode Mode 1 1 0 0 1 1 1 0 0 Palette \"Docs Helper\" 4097 3 URL URL Wiki Wiki Palette Palette 2\n772804868 Section Section 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 7\n772804868 Wikipage \"Wiki Page\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 5\n772804868 Url URL 1 1 0 0 1 1 1 0 0 https://www.derivative.ca \"Docs Helper\" 8\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n7\nradioname sbutton\nlradioname sbutton\ndisplay 0\nscreenw 200\nscreenh 200\nscreenwm 200\nscreenhm 200\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/widgetCacher0/docsHelper/parexec1": {
+      "name": "parexec1",
+      "path": "/widgetCacher0/docsHelper/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": "*",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/widgetCacher0/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000|def onValueChange(par, prev):\n\text.DocsHelper.onParValueChange(par, prev)\n\ndef onPulse(par):\n\text.DocsHelper.onParPulse(par)",
+          "is_binary": false
+        }
+      }
+    },
+    "/widgetCacher0/docsHelper/DocsHelper": {
+      "name": "DocsHelper",
+      "path": "/widgetCacher0/docsHelper/DocsHelper",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/widgetCacher0/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000l\"\"\"\nGeneric docs help button and pulse par system\n\"\"\"\n\nDocsHelper = op.TDResources.mod.DocsHelper.DocsHelper",
+          "is_binary": false
+        }
+      }
+    },
+    "/widgetCacher0/docsHelper/parexec_PaletteComp": {
+      "name": "parexec_PaletteComp",
+      "path": "/widgetCacher0/docsHelper/parexec_PaletteComp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": {
+          "49": "/sys/TDResources parent.DocsHelper.par.Palettecomp.eval()"
+        },
+        "pars": "Help",
+        "valuechange": "off",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/widgetCacher0/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000/def onPulse(par):\n\tparent.DocsHelper.OpenDocs()",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2020.42160\ntime Wed Sep 30 16:04:09 2020\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "widgetCacher0.n",
+    "widgetCacher0.cparm",
+    "widgetCacher0.parm",
+    "widgetCacher0.panel",
+    "widgetCacher0/bind.n",
+    "widgetCacher0/bind.parm",
+    "widgetCacher0/bind.bind",
+    "widgetCacher0/cache.n",
+    "widgetCacher0/cache.parm",
+    "widgetCacher0/select1.n",
+    "widgetCacher0/select1.parm",
+    "widgetCacher0/execute1.n",
+    "widgetCacher0/execute1.parm",
+    "widgetCacher0/execute1.text",
+    "widgetCacher0/constant1.n",
+    "widgetCacher0/constant1.parm",
+    "widgetCacher0/docsHelper.n",
+    "widgetCacher0/docsHelper.cparm",
+    "widgetCacher0/docsHelper.parm",
+    "widgetCacher0/docsHelper.panel",
+    "widgetCacher0/docsHelper/parexec1.n",
+    "widgetCacher0/docsHelper/parexec1.parm",
+    "widgetCacher0/docsHelper/parexec1.text",
+    "widgetCacher0/docsHelper/DocsHelper.n",
+    "widgetCacher0/docsHelper/DocsHelper.parm",
+    "widgetCacher0/docsHelper/DocsHelper.text",
+    "widgetCacher0/docsHelper/parexec_PaletteComp.n",
+    "widgetCacher0/docsHelper/parexec_PaletteComp.parm",
+    "widgetCacher0/docsHelper/parexec_PaletteComp.text"
+  ],
+  "connections": [
+    {
+      "from": "constant1",
+      "to": "/widgetCacher0/bind",
+      "to_input": 0
+    },
+    {
+      "from": "select1",
+      "to": "/widgetCacher0/cache",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 10,
+    "total_connections": 2,
+    "total_raw_files": 1,
+    "total_extra_files": 9,
+    "total_files_captured": 31,
+    "by_family": {
+      "COMP": 2,
+      "CHOP": 2,
+      "TOP": 2,
+      "DAT": 4
+    },
+    "by_type": {
+      "COMP:container": 2,
+      "CHOP:bind": 1,
+      "TOP:cache": 1,
+      "TOP:select": 1,
+      "DAT:execute": 1,
+      "CHOP:constant": 1,
+      "DAT:parexec": 2,
+      "DAT:text": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 47
+  }
+}

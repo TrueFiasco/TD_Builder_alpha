@@ -1,0 +1,428 @@
+{
+  "operator": "Sort_SOP",
+  "family": "SOP",
+  "td_create_name": "sortSOP",
+  "param_count": 31,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "ptsort": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "vtxord",
+          "byx",
+          "byy",
+          "byz",
+          "rev",
+          "seed",
+          "shift",
+          "prox",
+          "vector",
+          "object",
+          "neighbour"
+        ],
+        "menuLabels": [
+          "No change",
+          "By vertex order",
+          "By x",
+          "By y",
+          "By z",
+          "Reverse",
+          "Random",
+          "Shift",
+          "Proximity to Point",
+          "Along Vector",
+          "Distance to Object",
+          "Closest Neighbour"
+        ]
+      },
+      "default": "none",
+      "page": "Point",
+      "label": "Point Sort",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointseed": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Point",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointoffset": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Point",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointproxx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Point",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointproxy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Point",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointproxz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Point",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointobj": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Point",
+      "label": "Vector Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointdirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Point",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointdiry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Point",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointdirz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Point",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "primsort": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "byx",
+          "byy",
+          "byz",
+          "bytype",
+          "rev",
+          "seed",
+          "shift",
+          "prox",
+          "vector",
+          "object"
+        ],
+        "menuLabels": [
+          "No change",
+          "By x",
+          "By y",
+          "By z",
+          "By Type",
+          "Reverse",
+          "Random",
+          "Shift",
+          "Proximity to Point",
+          "Along Vector",
+          "Distance to Object"
+        ]
+      },
+      "default": "none",
+      "page": "Primitive",
+      "label": "Primitive Sort",
+      "readOnly": false,
+      "expression": null
+    },
+    "primseed": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Primitive",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "primoffset": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Primitive",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "primproxx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Primitive",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "primproxy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Primitive",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "primproxz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Primitive",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "primobj": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Primitive",
+      "label": "Vector Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "primdirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Primitive",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "primdiry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Primitive",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "primdirz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Primitive",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "partsort": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "byx",
+          "byy",
+          "byz",
+          "rev",
+          "shift",
+          "prox",
+          "vector",
+          "object"
+        ],
+        "menuLabels": [
+          "No change",
+          "By x",
+          "By y",
+          "By z",
+          "Reverse",
+          "Shift",
+          "Proximity to Point",
+          "Along Vector",
+          "Distance to Object"
+        ]
+      },
+      "default": "none",
+      "page": "Particle",
+      "label": "Particle Sort",
+      "readOnly": false,
+      "expression": null
+    },
+    "partreverse": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Particle",
+      "label": "Reverse Results",
+      "readOnly": false,
+      "expression": null
+    },
+    "partoffset": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Particle",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "partproxx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Particle",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "partproxy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Particle",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "partproxz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Particle",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "partobj": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Particle",
+      "label": "Vector Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "partdirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Particle",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "partdiry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Particle",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "partdirz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Particle",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

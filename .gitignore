@@ -1,0 +1,114 @@
+# Alpha-prep quarantine (non-shipping; full backup at C:\TD_Projects\)
+_out_of_scope/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.venv_*/
+kb_pipeline/.venv_py311/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large binary files
+*.gpickle
+*.pkl
+*.pickle
+
+# Vector databases (can be regenerated)
+td_vectordb/
+
+# Build outputs
+*.egg-info/
+dist/
+build/
+
+# Test output dirs (NOT source tests/ dirs — those ship)
+**/test_output/
+**/test_results/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+*.dir/
+*.dir.rar
+
+# Archives
+*.zip
+*.rar
+*.tar.gz
+
+# TouchDesigner temp files
+*.toe.dir/
+
+# Large JSON files (optional - uncomment if too large)
+# td_graphrag.json
+# td_universal.json
+
+# Old/backup files
+*_old.*
+* old.*
+*_OLD.*
+*_COPY.*
+*_Copy.*
+* - Copy/
+*_BACKUP.*
+*_TEST.*
+*_FIXED.*
+*_FINAL.*
+*_WORKING.*
+*_CORRECT.*
+*_REAL.*
+*_SIMPLE.*
+*_VERIFIED.*
+
+# B0 merged ChromaDB store (build artefact; regenerate with META_AGENTIC_TOOL/scripts/merge_chromadb_stores.py)
+META_AGENTIC_TOOL/data/vector_db_merged/
+META_AGENTIC_TOOL/scripts/merge_log.txt
+
+# H17 eval results (timestamped JSON+md, regenerate via prompt_eval.py)
+unified_system/eval/results/post_*.json
+unified_system/eval/results/post_*.md
+
+# === Added for GitHub upload ===
+
+# Vector DB & generated KB artifacts (shipped via GitHub Releases)
+KB/vector_db/
+META_AGENTIC_TOOL/data/vector_db/
+
+# Historical data archives
+kb_pipeline/data_archive_*/
+
+# TouchDesigner per-cook scratch dirs (you have hundreds of these)
+*.tox.dir/
+
+# Real secrets (.env.template stays tracked; .env never does)
+.env
+.env.local
+td-mcp/.env
+
+# Local tool config
+.claude/settings.local.json
+
+# Vector DB release artifact (uploaded to GitHub Releases, not tracked)
+vector_db.zip
+.vector_db_download/

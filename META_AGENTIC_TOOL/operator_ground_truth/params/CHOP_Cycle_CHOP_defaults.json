@@ -1,0 +1,295 @@
+{
+  "operator": "Cycle_CHOP",
+  "family": "CHOP",
+  "td_create_name": "cycleCHOP",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "before": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Cycle",
+      "label": "Cycles Before",
+      "readOnly": false,
+      "expression": null
+    },
+    "after": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Cycle",
+      "label": "Cycles After",
+      "readOnly": false,
+      "expression": null
+    },
+    "mirror": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Cycle",
+      "label": "Mirror Cycles",
+      "readOnly": false,
+      "expression": null
+    },
+    "extremes": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Cycle",
+      "label": "Blend Start to End",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendmethod": {
+      "value": {
+        "type": "menu",
+        "value": "pre",
+        "menuIndex": 0,
+        "menuNames": [
+          "pre",
+          "ovl",
+          "ins"
+        ],
+        "menuLabels": [
+          "Preserve Length",
+          "Overlap Sequences",
+          "Insert Blend Region"
+        ]
+      },
+      "default": "pre",
+      "page": "Blend",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendfunc": {
+      "value": {
+        "type": "menu",
+        "value": "cos",
+        "menuIndex": 3,
+        "menuNames": [
+          "lin",
+          "ei",
+          "eo",
+          "cos",
+          "cub",
+          "add",
+          "holdprev"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease in",
+          "Ease out",
+          "Ease in Ease out",
+          "Cubic",
+          "Add",
+          "Hold Previous"
+        ]
+      },
+      "default": "cos",
+      "page": "Blend",
+      "label": "Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendregion": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Blend",
+      "label": "Region",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendregionunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Blend",
+      "label": "Blend Region Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendbias": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Blend",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "step": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Blend",
+      "label": "Step",
+      "readOnly": false,
+      "expression": null
+    },
+    "stepscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Blend",
+      "label": "Step Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

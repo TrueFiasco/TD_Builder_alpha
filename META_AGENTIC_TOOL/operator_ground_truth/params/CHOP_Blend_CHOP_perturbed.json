@@ -1,0 +1,93 @@
+{
+  "operator": "Blend_CHOP",
+  "family": "CHOP",
+  "td_create_name": "blendCHOP",
+  "param_count": 12,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "method": {
+      "type": "menu",
+      "value": "quaternion",
+      "menuIndex": 2,
+      "menuNames": [
+        "prop",
+        "dif",
+        "quaternion",
+        "additive"
+      ],
+      "menuLabels": [
+        "Proportional",
+        "Difference",
+        "Quaternion",
+        "Additive"
+      ]
+    },
+    "firstweight": {
+      "type": "toggle",
+      "value": true
+    },
+    "underflow": {
+      "type": "toggle",
+      "value": false
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

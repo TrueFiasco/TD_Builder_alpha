@@ -1,0 +1,338 @@
+{
+  "operator": "Examine_DAT",
+  "family": "DAT",
+  "td_create_name": "examineDAT",
+  "param_count": 21,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 16,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "op": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Examine",
+      "label": "Operator",
+      "readOnly": false,
+      "expression": null
+    },
+    "source": {
+      "value": {
+        "type": "menu",
+        "value": "storage",
+        "menuIndex": 0,
+        "menuNames": [
+          "storage",
+          "locals",
+          "extensions",
+          "globals",
+          "expression"
+        ],
+        "menuLabels": [
+          "Operator Storage",
+          "Operator Locals",
+          "Extensions",
+          "Globals",
+          "Expression"
+        ]
+      },
+      "default": "storage",
+      "page": "Examine",
+      "label": "Source",
+      "readOnly": false,
+      "expression": null
+    },
+    "subkey": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Examine",
+      "label": "Subkey",
+      "readOnly": false,
+      "expression": null
+    },
+    "expression": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Examine",
+      "label": "Expression",
+      "readOnly": false,
+      "expression": null
+    },
+    "level": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Examine",
+      "label": "Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "key": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Examine",
+      "label": "Key",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Examine",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "value": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Examine",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "expandclasses": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Examine",
+      "label": "Expand Classes",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlevels": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Examine",
+      "label": "Max Levels",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "text",
+        "menuIndex": 0,
+        "menuNames": [
+          "text",
+          "table"
+        ],
+        "menuLabels": [
+          "Text",
+          "Table"
+        ]
+      },
+      "default": "text",
+      "page": "Examine",
+      "label": "Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputheaders": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Examine",
+      "label": "Output Headers",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputlevel": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Examine",
+      "label": "Output Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputkey": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Examine",
+      "label": "Output Key",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputtype": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Examine",
+      "label": "Output Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputvalue": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Examine",
+      "label": "Output Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\switchMAT_lossless.json",
+  "operator_type": "switchMAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 3,
+            "tx": 4.36653,
+            "ty": -1.04692,
+            "tz": 2.1994,
+            "rx": -25.4546,
+            "ry": -60.8451,
+            "px": -4.36653,
+            "py": 1.04692,
+            "pz": -7.1994,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "null2"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "pbr1",
+          "type": "MAT:pbr",
+          "parameters": {
+            "metallic": 0.506,
+            "roughness": 0.232
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "distancenear": 4.5,
+            "pointsizemultiplier": 3.42
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "MAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "loop",
+            "limitmax": 3,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tx": 44.5027,
+            "ty": -15.8883,
+            "tz": 34.3084,
+            "rx": -22.7133,
+            "ry": 318.346,
+            "rz": 0.000267386,
+            "px": -52.6424,
+            "py": 17.2972,
+            "pz": -92.1163,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffg": 0.733333,
+            "diffb": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "poly",
+            "freq": 15
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "MAT:switch",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "MAT:constant",
+          "parameters": {}
+        },
+        {
+          "name": "wireframe1",
+          "type": "MAT:wireframe",
+          "parameters": {
+            "wireframemode": "topology"
+          }
+        },
+        {
+          "name": "environment1",
+          "type": "COMP:environment",
+          "parameters": {
+            "envlightmap": "moviefilein2"
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "render1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "phong1",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "pbr1",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "line1",
+          "to": "switch1",
+          "to_input": "3"
+        },
+        {
+          "from": "wireframe1",
+          "to": "switch1",
+          "to_input": "4"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 19,
+        "connection_count": 9,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "CHOP:lfo": 1,
+          "MAT:pbr": 1,
+          "MAT:line": 1,
+          "TOP:null": 1,
+          "MAT:null": 1,
+          "CHOP:null": 1,
+          "CHOP:count": 1,
+          "COMP:light": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "TOP:render": 1,
+          "SOP:sphere": 1,
+          "MAT:switch": 1,
+          "MAT:constant": 1,
+          "MAT:wireframe": 1,
+          "COMP:environment": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

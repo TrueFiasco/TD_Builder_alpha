@@ -1,0 +1,3807 @@
+# Palette Semantic Catalog
+# Semantic descriptions of TouchDesigner palette components
+# Total components: 278
+# Categories: Generators, ImageFilters, Mapping, MetaQuest, POPs, TDAbleton, TDBitwig, TDSynchro, TDVR, TDVS, Techniques, ThreadManager, Tools, UI, Uncategorized, Vive, WebRTC
+
+_metadata:
+  description: Semantic catalog of TouchDesigner Palette components
+  total_components: 278
+  categories:
+  - Generators
+  - ImageFilters
+  - Mapping
+  - MetaQuest
+  - POPs
+  - TDAbleton
+  - TDBitwig
+  - TDSynchro
+  - TDVR
+  - TDVS
+  - Techniques
+  - Uncategorized
+  - ThreadManager
+  - Tools
+  - UI
+  - Vive
+  - WebRTC
+  generated_by: generate_palette_catalog.py
+checker:
+  name: checker
+  category: Generators
+  tox_path: Generators\checker.tox.dir
+  purpose: Generators component for checker
+  key_operators:
+  - checker
+  - icon
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  wiki_url: https://docs.derivative.ca/Palette:checker
+julia:
+  name: julia
+  category: Generators
+  tox_path: Generators\julia.tox.dir
+  purpose: The Julia COMP is a mapping of the Julia fractal set, more information about the Julia set can be found here.
+  summary: The Julia COMP is a mapping of the Julia fractal set, more information about the Julia set can be found here.
+  key_operators:
+  - help
+  - julia
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  wiki_url: https://docs.derivative.ca/Palette:julia
+mandelbrot:
+  name: mandelbrot
+  category: Generators
+  tox_path: Generators\mandelbrot.tox.dir
+  purpose: The Mandelbrot COMP is a mapping of the Mandlebrot fractal set, more information about the Mandelbrot set can be
+    found here.
+  summary: The Mandelbrot COMP is a mapping of the Mandlebrot fractal set, more information about the Mandelbrot set can be
+    found here.
+  key_operators:
+  - icon
+  - mandelbrot
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  wiki_url: https://docs.derivative.ca/Palette:mandelbrot
+mesh:
+  name: mesh
+  category: Generators
+  tox_path: Generators\mesh.tox.dir
+  purpose: The Mesh COMP creates a SOP based on the selected parametric equation in the "shape" parameter.
+  summary: The Mesh COMP creates a SOP based on the selected parametric equation in the "shape" parameter.
+  key_operators:
+  - icon
+  - mesh
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  wiki_url: https://docs.derivative.ca/Palette:mesh
+noise:
+  name: noise
+  category: Generators
+  tox_path: Generators\noise.tox.dir
+  purpose: These Extensions reference a specific Palette:noise.
+  summary: These Extensions reference a specific Palette:noise.
+  key_operators:
+  - icon
+  - noise
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  - Procedural noise generation
+  wiki_url: https://docs.derivative.ca/Palette:noise
+superFormula:
+  name: superFormula
+  category: Generators
+  tox_path: Generators\superFormula.tox.dir
+  purpose: The superFormula COMP creates a SOP using the 2D and 3D superformula based on equations proposed by Johan Gielis.
+    More information about the superformula equation can be found here.
+  summary: The superFormula COMP creates a SOP using the 2D and 3D superformula based on equations proposed by Johan Gielis.
+    More information about the superformula equation can be found here.
+  key_operators:
+  - icon
+  - superFormula
+  has_ui: false
+  use_cases:
+  - Procedural texture generation
+  - Background patterns
+  wiki_url: https://docs.derivative.ca/Palette:superFormula
+bloom:
+  name: bloom
+  category: ImageFilters
+  tox_path: ImageFilters\bloom.tox.dir
+  purpose: The Bloom COMP is a combination of several image effects that selects and remap the brightest pixels of a TOP.
+    The pixels in the second input TOP are warped around the selection defined by the blur pa
+  summary: The Bloom COMP is a combination of several image effects that selects and remap the brightest pixels of a TOP.
+    The pixels in the second input TOP are warped around the selection defined by the blur parameters. The blur parameters
+    modifies the selection of the brightest pixels of the input 1 TOP. For example increasing the “Contrast” parameter would
+    reshape the selection to narrow the range of brightness, selecting the brightest pixels. The glow parameters overlays
+    the pixels selected in the blur
+  key_operators:
+  - bloom
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:bloom
+cartesianToPolar:
+  name: cartesianToPolar
+  category: ImageFilters
+  tox_path: ImageFilters\cartesianToPolar.tox.dir
+  purpose: ImageFilters component for cartesianToPolar
+  key_operators:
+  - cartesianToPolar
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+changeColor:
+  name: changeColor
+  category: ImageFilters
+  tox_path: ImageFilters\changeColor.tox.dir
+  purpose: The changeColor COMP selects a color using the RGB values in the “Color to change” parameter and modifies the selected
+    color using the HSV parameter values. The changeColor COMP can output a color cor
+  summary: The changeColor COMP selects a color using the RGB values in the “Color to change” parameter and modifies the selected
+    color using the HSV parameter values. The changeColor COMP can output a color corrected TOP image or an alpha mask.
+  key_operators:
+  - changeColor
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Color manipulation
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:changeColor
+changeToColor:
+  name: changeToColor
+  category: ImageFilters
+  tox_path: ImageFilters\changeToColor.tox.dir
+  purpose: The changeToColor COMP selects a color with the “From Color” parameter and transforms it to the color specified
+    in the “To Color” parameter. The COMP changes the hue, saturation and value of “From Col
+  summary: The changeToColor COMP selects a color with the “From Color” parameter and transforms it to the color specified
+    in the “To Color” parameter. The COMP changes the hue, saturation and value of “From Color” to the “To Color”, the tolerance
+    of the transformation can be adjusted with the hue, saturation and value tolerance parameters. The changeToColor COMP
+    outputs a color corrected TOP image or an alpha mask.
+  key_operators:
+  - changeToColor
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Color manipulation
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:changeToColor
+colorThreshold:
+  name: colorThreshold
+  category: ImageFilters
+  tox_path: ImageFilters\colorThreshold.tox.dir
+  purpose: Modifies a chosen color channel from a TOP by multiplying the original input by an inverse of the selected color
+    channels.
+  summary: Modifies a chosen color channel from a TOP by multiplying the original input by an inverse of the selected color
+    channels.
+  key_operators:
+  - colorThreshold
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Color manipulation
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:colorThreshold
+convolve:
+  name: convolve
+  category: ImageFilters
+  tox_path: ImageFilters\convolve.tox.dir
+  purpose: The convolve COMP is a simple input interface for the Convolve TOP. The three parameters in "Line 1", "Line 2"
+    and "Line 3" are a convolution matrix which is used to create image effects like sharpen,
+  summary: The convolve COMP is a simple input interface for the Convolve TOP. The three parameters in "Line 1", "Line 2"
+    and "Line 3" are a convolution matrix which is used to create image effects like sharpen, blur and edge detection. See
+    Convolve TOP for more details.
+  key_operators:
+  - convolve
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:convolve
+dent:
+  name: dent
+  category: ImageFilters
+  tox_path: ImageFilters\dent.tox.dir
+  purpose: ImageFilters component for dent
+  key_operators:
+  - dent
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:dent
+dilate:
+  name: dilate
+  category: ImageFilters
+  tox_path: ImageFilters\dilate.tox.dir
+  purpose: The Dialate COMP is an example of morphological image processing created with a GLSL TOP. This COMP has two types
+    of processesses dilate and erode. The dialate effect adds pixels to the edge of groups
+  summary: The Dialate COMP is an example of morphological image processing created with a GLSL TOP. This COMP has two types
+    of processesses dilate and erode. The dialate effect adds pixels to the edge of groups of similar pixels. The erode effect
+    removes pixels on the edges of groups of similar pixels. More information on morphological operation can be found on this
+    wikipedia article.
+  key_operators:
+  - dilate
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:dilate
+feedback:
+  name: feedback
+  category: ImageFilters
+  tox_path: ImageFilters\feedback.tox.dir
+  purpose: The feedback COMP is an example of the feedback TOP. The feedback COMP is used to create a fake motion blur by
+    not clearing the buffer. For more information see the Feedback TOP. See OP Snippets and t
+  summary: The feedback COMP is an example of the feedback TOP. The feedback COMP is used to create a fake motion blur by
+    not clearing the buffer. For more information see the Feedback TOP. See OP Snippets and the Examples section for some
+    networks detailing to use the Feedback TOP.
+  key_operators:
+  - feedback
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Visual feedback/trails
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:feedback
+feedbackEdge:
+  name: feedbackEdge
+  category: ImageFilters
+  tox_path: ImageFilters\feedbackEdge.tox.dir
+  purpose: The Feedback Edge COMP is a feedback image effect created using a Feedback, Blur, Edge, Level and Hsvadj TOPs.
+  summary: The Feedback Edge COMP is a feedback image effect created using a Feedback, Blur, Edge, Level and Hsvadj TOPs.
+  key_operators:
+  - feedbackEdge
+  - help
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Visual feedback/trails
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:feedbackEdge
+hsvBlur:
+  name: hsvBlur
+  category: ImageFilters
+  tox_path: ImageFilters\hsvBlur.tox.dir
+  purpose: The hsvBlur COMP converts a TOP to use the HSV color space then blurs the HSV channels individually.
+  summary: The hsvBlur COMP converts a TOP to use the HSV color space then blurs the HSV channels individually.
+  key_operators:
+  - hsvBlur
+  - icon
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Blur/softening effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:hsvBlur
+lightTunnel:
+  name: lightTunnel
+  category: ImageFilters
+  tox_path: ImageFilters\lightTunnel.tox.dir
+  purpose: The lightTunnel COMP uses a GLSL Multi TOP to remap and distort the pixels in an input TOP. The lightTunnel selects
+    a circle in the input TOP and extends the color of the edges to stretch across the r
+  summary: The lightTunnel COMP uses a GLSL Multi TOP to remap and distort the pixels in an input TOP. The lightTunnel selects
+    a circle in the input TOP and extends the color of the edges to stretch across the rest of the image.
+  key_operators:
+  - icon
+  - lightTunnel
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Lighting effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:lightTunnel
+monochrome:
+  name: monochrome
+  category: ImageFilters
+  tox_path: ImageFilters\monochrome.tox.dir
+  purpose: The monochrome COMP converts a TOP to grayscale colors. The intensity of each color channel can be adjusted with
+    the red, blue and green parameters.
+  summary: The monochrome COMP converts a TOP to grayscale colors. The intensity of each color channel can be adjusted with
+    the red, blue and green parameters.
+  key_operators:
+  - icon
+  - monochrome
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:monochrome
+pixelRelocator:
+  name: pixelRelocator
+  category: ImageFilters
+  tox_path: ImageFilters\pixelRelocator.tox.dir
+  purpose: 'The pixelRelocator COMP repositions the pixels from the first input TOP to a position determined by the second
+    input TOP. The positions are determined by the color channels selected in the Horizontal '
+  summary: The pixelRelocator COMP repositions the pixels from the first input TOP to a position determined by the second
+    input TOP. The positions are determined by the color channels selected in the Horizontal source and vertical source parameter.
+  key_operators:
+  - icon
+  - pixelRelocator
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:pixelRelocator
+pixelate:
+  name: pixelate
+  category: ImageFilters
+  tox_path: ImageFilters\pixelate.tox.dir
+  purpose: The pixelate COMP turns a TOP to a color bitmap by adjust the resolution.
+  summary: The pixelate COMP turns a TOP to a color bitmap by adjust the resolution.
+  key_operators:
+  - icon
+  - pixelate
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:pixelate
+pointillize:
+  name: pointillize
+  category: ImageFilters
+  tox_path: ImageFilters\pointillize.tox.dir
+  purpose: The pointillize COMP draws a point at each pixel and colors the point with the corresponding color, creating a
+    pointillism effect.
+  summary: The pointillize COMP draws a point at each pixel and colors the point with the corresponding color, creating a
+    pointillism effect.
+  key_operators:
+  - icon
+  - pointillize
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:pointillize
+radialBlur:
+  name: radialBlur
+  category: ImageFilters
+  tox_path: ImageFilters\radialBlur.tox.dir
+  purpose: The radialBlur COMP blurs a TOP image in a direction specified in the ‘Center Point’ parameter. Using a GLSL TOP
+    the radialBlur copies the image several times and overlays them to create the blur effe
+  summary: The radialBlur COMP blurs a TOP image in a direction specified in the ‘Center Point’ parameter. Using a GLSL TOP
+    the radialBlur copies the image several times and overlays them to create the blur effect.
+  key_operators:
+  - icon
+  - radialBlur
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Blur/softening effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:radialBlur
+rgbContrast:
+  name: rgbContrast
+  category: ImageFilters
+  tox_path: ImageFilters\rgbContrast.tox.dir
+  purpose: Adjust the contrast in the RGB channels separately.
+  summary: Adjust the contrast in the RGB channels separately.
+  key_operators:
+  - icon
+  - rgbContrast
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:rgbContrast
+rgbaBlur:
+  name: rgbaBlur
+  category: ImageFilters
+  tox_path: ImageFilters\rgbaBlur.tox.dir
+  purpose: The rgbaBlur COMP blurs the RGBA channels in a TOP individually.
+  summary: The rgbaBlur COMP blurs the RGBA channels in a TOP individually.
+  key_operators:
+  - icon
+  - rgbaBlur
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Blur/softening effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:rgbaBlur
+rgbaDelay:
+  name: rgbaDelay
+  category: ImageFilters
+  tox_path: ImageFilters\rgbaDelay.tox.dir
+  purpose: The rgbaDelay uses a cacheselect TOP to cache the RGBA channels separately delaying the movement of the selected
+    channel, requires a movieFilein TOP as an input with a video file selected.
+  summary: The rgbaDelay uses a cacheselect TOP to cache the RGBA channels separately delaying the movement of the selected
+    channel, requires a movieFilein TOP as an input with a video file selected.
+  key_operators:
+  - icon
+  - rgbaDelay
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:rgbaDelay
+sharpen:
+  name: sharpen
+  category: ImageFilters
+  tox_path: ImageFilters\sharpen.tox.dir
+  purpose: The sharpen COMP uses a Convolve TOP to sharpen an image. The convolve TOP uses kernel processing to perform the
+    sharpen filter. More information about kernel processing can be found on this wikipedia
+  summary: The sharpen COMP uses a Convolve TOP to sharpen an image. The convolve TOP uses kernel processing to perform the
+    sharpen filter. More information about kernel processing can be found on this wikipedia article. [1]
+  key_operators:
+  - icon
+  - sharpen
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:sharpen
+softenAlpha:
+  name: softenAlpha
+  category: ImageFilters
+  tox_path: ImageFilters\softenAlpha.tox.dir
+  purpose: Trims and adjust the edges of a TOP by its alpha channel.
+  summary: Trims and adjust the edges of a TOP by its alpha channel.
+  key_operators:
+  - icon
+  - softenAlpha
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:softenAlpha
+solarize:
+  name: solarize
+  category: ImageFilters
+  tox_path: ImageFilters\solarize.tox.dir
+  purpose: 'The solarize COMP is an image filter, it adjusts and inverts the brightest and darkest parts of the TOP. The solarize
+    effect is also called the ‘The sabattier effect’ more information can be found on '
+  summary: The solarize COMP is an image filter, it adjusts and inverts the brightest and darkest parts of the TOP. The solarize
+    effect is also called the ‘The sabattier effect’ more information can be found on this wikipedia article.
+  key_operators:
+  - icon
+  - solarize
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:solarize
+twirl:
+  name: twirl
+  category: ImageFilters
+  tox_path: ImageFilters\twirl.tox.dir
+  purpose: The twirl COMP is a image effect created with a GLSL TOP. It warps a TOP image in a swirling pattern originating
+    from a center point.
+  summary: The twirl COMP is a image effect created with a GLSL TOP. It warps a TOP image in a swirling pattern originating
+    from a center point.
+  key_operators:
+  - icon
+  - twirl
+  has_ui: false
+  use_cases:
+  - Visual effects
+  - Image post-processing
+  wiki_url: https://docs.derivative.ca/Palette:twirl
+camSchnappr:
+  name: camSchnappr
+  category: Mapping
+  tox_path: Mapping\camSchnappr.tox.dir
+  purpose: 'camSchnappr is a interactive mapping application entirely inspired by MAPAMOK, created by Kyle McDonald at the
+    YCAM Interlab. With Kyle publishing the source code for MAPAMOK, we had a chance to look '
+  summary: 'camSchnappr is a interactive mapping application entirely inspired by MAPAMOK, created by Kyle McDonald at the
+    YCAM Interlab. With Kyle publishing the source code for MAPAMOK, we had a chance to look at it and convert it into TouchDesigner.
+    For the original tool and source have a look here:'
+  key_operators:
+  - camSchnappr
+  - icon
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:camSchnappr
+cornerPinPOP:
+  name: cornerPinPOP
+  category: Mapping
+  tox_path: Mapping\cornerPinPOP.tox.dir
+  purpose: Mapping component for cornerPinPOP
+  key_operators:
+  - cornerPinPOP
+  - icon
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:cornerPinPOP
+cornerPinSOP:
+  name: cornerPinSOP
+  category: Mapping
+  tox_path: Mapping\cornerPinSOP.tox.dir
+  purpose: These Extensions reference a specific Palette:cornerPinSOP.
+  summary: These Extensions reference a specific Palette:cornerPinSOP.
+  key_operators:
+  - cornerPinSOP
+  - icon
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:cornerPinSOP
+domeViewer:
+  name: domeViewer
+  category: Mapping
+  tox_path: Mapping\domeViewer.tox.dir
+  purpose: A component designed to previsualize dome specific content and / or generate a dome shell (in POPs) to be used
+    to design dome specific content. This is based out of Fred Trétout's (anodin) InsideDome.
+  summary: A component designed to previsualize dome specific content and / or generate a dome shell (in POPs) to be used
+    to design dome specific content. This is based out of Fred Trétout's (anodin) InsideDome. The attached file is a sample
+    using the Dome Viewer to generate dome specific effects. File:DomeViewer LinesDemo.toe
+  key_operators:
+  - domeViewer
+  - help
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:domeViewer
+kantanMapper:
+  name: kantanMapper
+  category: Mapping
+  tox_path: Mapping\kantanMapper.tox.dir
+  purpose: '簡単 (kantan) - japanese for easy, simple - Kantan Mapper 2 is a new projection mapping and masking toolkit for
+    TouchDesigner. The user defines 2D polygons and bezier outlines in the field of view of a '
+  summary: 簡単 (kantan) - japanese for easy, simple - Kantan Mapper 2 is a new projection mapping and masking toolkit for TouchDesigner.
+    The user defines 2D polygons and bezier outlines in the field of view of a projector, then fills each shape with a selected
+    image (TOP) with tools to warp how the image fits into the shape.
+  key_operators:
+  - help
+  - icon
+  - kantanMapper
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:kantanMapper
+kantanUVHelper:
+  name: kantanUVHelper
+  category: Mapping
+  tox_path: Mapping\kantanUVHelper.tox.dir
+  purpose: The kantanUVHelper is a utility tool to make use of knatanMapper's second UV Map output. The UV map has a texture
+    id encoded in the blue channel and kantanUVHelper uses this to map the right input tex
+  summary: The kantanUVHelper is a utility tool to make use of knatanMapper's second UV Map output. The UV map has a texture
+    id encoded in the blue channel and kantanUVHelper uses this to map the right input texture to the correct area. The benefit
+    of this is that kantanMapper can be disabled or even deleted if the UV map from the second output is saved or locked.
+  key_operators:
+  - help
+  - kantanUVHelper
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:kantanUVHelper
+kinectCalibration:
+  name: kinectCalibration
+  category: Mapping
+  tox_path: Mapping\kinectCalibration.tox.dir
+  purpose: These Extensions reference a specific Palette:kinectCalibration.
+  summary: These Extensions reference a specific Palette:kinectCalibration.
+  key_operators:
+  - kinectCalibration
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:kinectCalibration
+projectorBlend:
+  name: projectorBlend
+  category: Mapping
+  tox_path: Mapping\projectorBlend.tox.dir
+  purpose: ProjectorBlend is a tool to smoothly blend projector arrays based on the ofxProjectorBlend add-on by Jeffrey Crouse
+    (ofxProjectorBlend on GitHub)
+  summary: ProjectorBlend is a tool to smoothly blend projector arrays based on the ofxProjectorBlend add-on by Jeffrey Crouse
+    (ofxProjectorBlend on GitHub)
+  key_operators:
+  - icon
+  - projectorBlend
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:projectorBlend
+quadReproject:
+  name: quadReproject
+  category: Mapping
+  tox_path: Mapping\quadReproject.tox.dir
+  purpose: These Extensions reference a specific Palette:quadReproject. The Extension class of a quadReproject COMP.
+  summary: These Extensions reference a specific Palette:quadReproject. The Extension class of a quadReproject COMP.
+  key_operators:
+  - help
+  - quadReproject
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:quadReproject
+stoner:
+  name: stoner
+  category: Mapping
+  tox_path: Mapping\stoner.tox.dir
+  purpose: Stoner is a grid-warping and upscale 'keystoner' tool. It has two levels of warping. First is a 4-point corner-pin.
+    Within that is a mesh warper where for each point of the mesh you can adjust positio
+  summary: 'Stoner is a grid-warping and upscale ''keystoner'' tool. It has two levels of warping. First is a 4-point corner-pin.
+    Within that is a mesh warper where for each point of the mesh you can adjust position and curvature using bezier handles.
+    Stoner has 2 outputs:'
+  key_operators:
+  - icon
+  - stoner
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:stoner
+sweetSpot:
+  name: sweetSpot
+  category: Mapping
+  tox_path: Mapping\sweetSpot.tox.dir
+  purpose: This example illustrates the setup of a so-called Trompe l'Oeil effect where you render a scene from the position
+    of the observer and use the result to re-project it onto a surface. Results created fo
+  summary: This example illustrates the setup of a so-called Trompe l'Oeil effect where you render a scene from the position
+    of the observer and use the result to re-project it onto a surface. Results created for large format projections, surround
+    environments or tracked monitor setups will seem close to perspectively correct when viewed from the general area of the
+    sweet spot. This technique is especially useful for previsualisation purposes as well as architectural mapping. Tools
+    -&gt; sweetSpot in the p
+  key_operators:
+  - icon
+  - sweetSpot
+  has_ui: false
+  use_cases:
+  - Projection mapping
+  - Multi-display setups
+  wiki_url: https://docs.derivative.ca/Palette:sweetSpot
+metaQuest:
+  name: metaQuest
+  category: MetaQuest
+  tox_path: MetaQuest\metaQuest.tox.dir
+  purpose: MetaQuest component for metaQuest
+  key_operators:
+  - help
+  - metaQuest
+  has_ui: false
+  use_cases: []
+metaQuestSimple:
+  name: metaQuestSimple
+  category: MetaQuest
+  tox_path: MetaQuest\metaQuestSimple.tox.dir
+  purpose: MetaQuest component for metaQuestSimple
+  key_operators:
+  - icon
+  - metaQuestSimple
+  has_ui: false
+  use_cases: []
+pointRender:
+  name: pointRender
+  category: POPs
+  tox_path: POPs\pointRender.tox.dir
+  purpose: Renders a point cloud from the data stored in the input textures. The first input should contain XYZ data stored
+    in the RGB channels with the alpha channel set to one for pixels that contain valid poi
+  summary: Renders a point cloud from the data stored in the input textures. The first input should contain XYZ data stored
+    in the RGB channels with the alpha channel set to one for pixels that contain valid points. The second input can contain
+    optional color data that will be applied to each point. The Normalize Colors parameter can be used to rescale colors that
+    are outside the expected zero to one range.
+  key_operators:
+  - help
+  - pointRender
+  has_ui: false
+  use_cases:
+  - Particle systems
+  - Point cloud processing
+  wiki_url: https://docs.derivative.ca/Palette:pointRender
+popViewer:
+  name: popViewer
+  category: POPs
+  tox_path: POPs\popViewer.tox.dir
+  purpose: POPs component for popViewer
+  key_operators:
+  - help
+  - popViewer
+  has_ui: false
+  use_cases:
+  - Particle systems
+  - Point cloud processing
+abletonChain:
+  name: abletonChain
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonChain.tox.dir
+  purpose: TDAbleton component for abletonChain
+  key_operators:
+  - abletonChain
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonClipSlot:
+  name: abletonClipSlot
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonClipSlot.tox.dir
+  purpose: TDAbleton component for abletonClipSlot
+  key_operators:
+  - abletonClipSlot
+  - abletonClipSlot1_callbacks
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonDeviceParameters:
+  name: abletonDeviceParameters
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonDeviceParameters.tox.dir
+  purpose: TDAbleton component for abletonDeviceParameters
+  key_operators:
+  - abletonDeviceParameters
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonLevel:
+  name: abletonLevel
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonLevel.tox.dir
+  purpose: TDAbleton component for abletonLevel
+  key_operators:
+  - abletonLevel
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonMIDI:
+  name: abletonMIDI
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonMIDI.tox.dir
+  purpose: TDAbleton component for abletonMIDI
+  key_operators:
+  - abletonMIDI
+  - abletonMIDI1_callbacks
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonMapper:
+  name: abletonMapper
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonMapper.tox.dir
+  purpose: TDAbleton component for abletonMapper
+  key_operators:
+  - abletonMapper
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonParameter:
+  name: abletonParameter
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonParameter.tox.dir
+  purpose: TDAbleton component for abletonParameter
+  key_operators:
+  - abletonParameter
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonRack:
+  name: abletonRack
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonRack.tox.dir
+  purpose: TDAbleton component for abletonRack
+  key_operators:
+  - abletonRack
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonSong:
+  name: abletonSong
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonSong.tox.dir
+  purpose: TDAbleton component for abletonSong
+  key_operators:
+  - abletonSong
+  - abletonSong_callbacks
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonTrack:
+  name: abletonTrack
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonTrack.tox.dir
+  purpose: TDAbleton component for abletonTrack
+  key_operators:
+  - abletonTrack
+  - abletonTrack1_callbacks
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+abletonValueListener:
+  name: abletonValueListener
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\abletonValueListener.tox.dir
+  purpose: TDAbleton component for abletonValueListener
+  key_operators:
+  - abletonValueListener
+  - help
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+tdAbletonPackage:
+  name: tdAbletonPackage
+  category: TDAbleton
+  tox_path: TDAbleton\Live 9 & 10\tdAbletonPackage.tox.dir
+  purpose: TDAbleton component for tdAbletonPackage
+  key_operators:
+  - help
+  - tdAbletonPackage
+  has_ui: false
+  use_cases:
+  - Ableton Live integration
+  - Music synchronization
+bitwigClip:
+  name: bitwigClip
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigClip.tox.dir
+  purpose: The bitwigClip COMP serves as an interface for controlling a specific launcher clip in Bitwig's clip launcher context.
+    Users begin by choosing which track they are interested in; then the launcher cli
+  summary: The bitwigClip COMP serves as an interface for controlling a specific launcher clip in Bitwig's clip launcher context.
+    Users begin by choosing which track they are interested in; then the launcher clip, and subsequently decide to perform
+    actions or read/modify the properties of a given launcher clip.
+  key_operators:
+  - bitwigClip
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigClip
+bitwigClipFollower:
+  name: bitwigClipFollower
+  category: TDBitwig
+  tox_path: TDBitwig\Extras\bitwigClipFollower.tox.dir
+  purpose: TDBitwig component for bitwigClipFollower
+  key_operators:
+  - bitwigClipFollower
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+bitwigClipSlot:
+  name: bitwigClipSlot
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigClipSlot.tox.dir
+  purpose: The bitwigClipSlot COMP serves as an interface for controlling clip slot playback and receiving playback information
+    of all clip slots for a given track. Users begin by choosing which track they are i
+  summary: The bitwigClipSlot COMP serves as an interface for controlling clip slot playback and receiving playback information
+    of all clip slots for a given track. Users begin by choosing which track they are interested in; from there they can access
+    the clip slots associated with that track, and subsequently decide to perform actions on a specific clip slot.
+  key_operators:
+  - bitwigClipLauncherCallbacks1
+  - bitwigClipSlot
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigClipSlot
+bitwigClipTimer:
+  name: bitwigClipTimer
+  category: TDBitwig
+  tox_path: TDBitwig\Extras\bitwigClipTimer.tox.dir
+  purpose: TDBitwig component for bitwigClipTimer
+  key_operators:
+  - bitwigClipTimer
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+bitwigMain:
+  name: bitwigMain
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigMain.tox.dir
+  purpose: The BitwigMain COMP acts as the central communication and information hub for the TDBitwig System. It is responsible
+    for relaying information between the Bitwig controller extension and the TDBitwig s
+  summary: The BitwigMain COMP acts as the central communication and information hub for the TDBitwig System. It is responsible
+    for relaying information between the Bitwig controller extension and the TDBitwig system. There should only be one of
+    these Components present for every Bitwig session the user is communicating to; in most cases this will be one.
+  key_operators:
+  - bitwigMain
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigMain
+bitwigNote:
+  name: bitwigNote
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigNote.tox.dir
+  purpose: The bitwigNote COMP allows users to read a live stream of note events on a given Bitwig Track. The incoming notes
+    will correspond to the track's note input source, whether it be output from a midi dev
+  summary: The bitwigNote COMP allows users to read a live stream of note events on a given Bitwig Track. The incoming notes
+    will correspond to the track's note input source, whether it be output from a midi device or side-chained from another
+    track or device within Bitwig. Users will use the navigation controls to specify which track's input source they want
+    to monitor.
+  key_operators:
+  - bitwigNote
+  - bitwigNoteCallbacks1
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigNote
+bitwigRemotesDevice:
+  name: bitwigRemotesDevice
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigRemotesDevice.tox.dir
+  purpose: The bitwigRemotesDevice COMP serves as an interface for accessing and controlling Device Remote Controls in Bitwig.
+    Navigation to controls begins by selecting a track, followed by the device within th
+  summary: The bitwigRemotesDevice COMP serves as an interface for accessing and controlling Device Remote Controls in Bitwig.
+    Navigation to controls begins by selecting a track, followed by the device within that track, and ending with the desired
+    page. The 8 Remote Control Parameters on this Component will correspond to the 8 Remote Controls on a single page.
+  key_operators:
+  - bitwigRemotesDevice
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigRemotesDevice
+bitwigRemotesProject:
+  name: bitwigRemotesProject
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigRemotesProject.tox.dir
+  purpose: The bitwigRemotesProject COMP serves as an interface for accessing and controlling global Project Remote Controls
+    in Bitwig. Navigation to controls begins by selecting the desired page. The 8 Remote C
+  summary: The bitwigRemotesProject COMP serves as an interface for accessing and controlling global Project Remote Controls
+    in Bitwig. Navigation to controls begins by selecting the desired page. The 8 Remote Control Parameters on this Component
+    will correspond to the 8 Remote Controls on a single page.
+  key_operators:
+  - bitwigRemotesProject
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigRemotesProject
+bitwigRemotesTrack:
+  name: bitwigRemotesTrack
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigRemotesTrack.tox.dir
+  purpose: 'The bitwigRemotesTrack COMP serves as an interface for accessing and controlling Track Remote Controls in Bitwig.
+    Navigation to controls begins by selecting a track, followed by the desired page. The '
+  summary: The bitwigRemotesTrack COMP serves as an interface for accessing and controlling Track Remote Controls in Bitwig.
+    Navigation to controls begins by selecting a track, followed by the desired page. The 8 Remote Control Parameters on this
+    Component will correspond to the 8 Remote Controls on a single page.
+  key_operators:
+  - bitwigRemotesTrack
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigRemotesTrack
+bitwigSelect:
+  name: bitwigSelect
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigSelect.tox.dir
+  purpose: The bitwigSelect COMP enables users to retrieve channel information from the output CHOP of any Bitwig Component
+    in a project. Component search can be filtered by the Object type, and once the ouput C
+  summary: The bitwigSelect COMP enables users to retrieve channel information from the output CHOP of any Bitwig Component
+    in a project. Component search can be filtered by the Object type, and once the ouput CHOP is selected, users can filter
+    specific channels they are interested in. The selection of Components uses python references based on relative paths.
+  key_operators:
+  - bitwigSelect
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigSelect
+bitwigSong:
+  name: bitwigSong
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigSong.tox.dir
+  purpose: The bitwigSong COMP acts as a bi-directional interface for Bitwig's global transport; including timing, playback,
+    and recording functionality. It also stores information about scenes and cues, and sup
+  summary: The bitwigSong COMP acts as a bi-directional interface for Bitwig's global transport; including timing, playback,
+    and recording functionality. It also stores information about scenes and cues, and supports control for their playback
+  key_operators:
+  - bitwigSong
+  - bitwigSongCallbacks1
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigSong
+bitwigTrack:
+  name: bitwigTrack
+  category: TDBitwig
+  tox_path: TDBitwig\bitwigTrack.tox.dir
+  purpose: The BitwigTrack COMP acts as an interface for accessing and controlling the attributes of a given Bitwig Track
+    object. It allows users to choose the specific track they are interested in and perform a
+  summary: The BitwigTrack COMP acts as an interface for accessing and controlling the attributes of a given Bitwig Track
+    object. It allows users to choose the specific track they are interested in and perform any actions accordingly.
+  key_operators:
+  - bitwigTrack
+  - help
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:bitwigTrack
+tdBitwigPackage:
+  name: tdBitwigPackage
+  category: TDBitwig
+  tox_path: TDBitwig\tdBitwigPackage.tox.dir
+  purpose: The tdbitwigPackage COMP is responsible for updating the tdBitwig Components in a project. When a new version of
+    the TDBitwig System is released, users can import this Component into their TDBitwig pr
+  summary: The tdbitwigPackage COMP is responsible for updating the tdBitwig Components in a project. When a new version of
+    the TDBitwig System is released, users can import this Component into their TDBitwig project to bring their current system
+    Components up to date. The version it will update to will match the corresponding version associated with this tdbitwigPackage.
+  key_operators:
+  - help
+  - tdBitwigPackage
+  has_ui: false
+  use_cases:
+  - DAW control
+  - Bitwig Studio integration
+  wiki_url: https://docs.derivative.ca/Palette:tdBitwigPackage
+synchroCache:
+  name: synchroCache
+  category: TDSynchro
+  tox_path: TDSynchro\synchroCache.tox.dir
+  purpose: 'Incoming video frames from the first input are cached and indexed according to the frame index coming in on the
+    second input. The second input expects a single channel of the name "frame_stream". The '
+  summary: Incoming video frames from the first input are cached and indexed according to the frame index coming in on the
+    second input. The second input expects a single channel of the name "frame_stream". The third input expects a single channel
+    of the name "frame_sync". The "frame_sync" channel will typically come over the network via SyncIn CHOP.
+  key_operators:
+  - help
+  - synchroCache
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroCache
+synchroClient:
+  name: synchroClient
+  category: TDSynchro
+  tox_path: TDSynchro\synchroClient.tox.dir
+  purpose: TDSynchro component for synchroClient
+  key_operators:
+  - help
+  - synchroClient
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroClient
+synchroFrameIn:
+  name: synchroFrameIn
+  category: TDSynchro
+  tox_path: TDSynchro\synchroFrameIn.tox.dir
+  purpose: The SynchroFrameIn component performs the client role of the TDSynchro system. It configures to receive the frame
+    index from the SynchroFrameOut module located on the server computer. There is one Syn
+  summary: The SynchroFrameIn component performs the client role of the TDSynchro system. It configures to receive the frame
+    index from the SynchroFrameOut module located on the server computer. There is one SynchroFrameIn component per client
+    TD application.
+  key_operators:
+  - help
+  - synchroFrameIn
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroFrameIn
+synchroFrameOut:
+  name: synchroFrameOut
+  category: TDSynchro
+  tox_path: TDSynchro\synchroFrameOut.tox.dir
+  purpose: Sends a frame index using a SyncCHOP or a TouchOut CHOP.
+  summary: Sends a frame index using a SyncCHOP or a TouchOut CHOP.
+  key_operators:
+  - help
+  - synchroFrameOut
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroFrameOut
+synchroNDIIn:
+  name: synchroNDIIn
+  category: TDSynchro
+  tox_path: TDSynchro\synchroNDIIn.tox.dir
+  purpose: 'This NDI In component is a wrapper for the NDIIn TOP. It adds features for extracting timecode and conversion
+    to a frame index as well as signal validation and a backup source for cleaner integration '
+  summary: This NDI In component is a wrapper for the NDIIn TOP. It adds features for extracting timecode and conversion to
+    a frame index as well as signal validation and a backup source for cleaner integration into user friendly systems.
+  key_operators:
+  - help
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroNDIIn
+synchroSDIIn:
+  name: synchroSDIIn
+  category: TDSynchro
+  tox_path: TDSynchro\synchroSDIIn.tox.dir
+  purpose: This SDI In component is a wrapper for the videoDeviceIn TOP. It adds features for extracting timecode and conversion
+    to a frame index as well as signal validation and a backup source for cleaner inte
+  summary: This SDI In component is a wrapper for the videoDeviceIn TOP. It adds features for extracting timecode and conversion
+    to a frame index as well as signal validation and a backup source for cleaner integration into user friendly systems.
+  key_operators:
+  - help
+  - synchroSDIIn
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroSDIIn
+synchroServer:
+  name: synchroServer
+  category: TDSynchro
+  tox_path: TDSynchro\synchroServer.tox.dir
+  purpose: TDSynchro component for synchroServer
+  key_operators:
+  - annotate1
+  - annotate2
+  - container1
+  - docsHelper
+  - info1
+  - layout
+  - moviefilein1
+  - null1_export
+  - synchroFrameOut1
+  - synchroVideoOut1
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroServer
+synchroVideoOut:
+  name: synchroVideoOut
+  category: TDSynchro
+  tox_path: TDSynchro\synchroVideoOut.tox.dir
+  purpose: Sends out a video stream encoded with a frame index using either SDI or NDI.
+  summary: Sends out a video stream encoded with a frame index using either SDI or NDI.
+  key_operators:
+  - help
+  - synchroVideoOut
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:synchroVideoOut
+tdSynchroPackage:
+  name: tdSynchroPackage
+  category: TDSynchro
+  tox_path: TDSynchro\tdSynchroPackage.tox.dir
+  purpose: TDSynchro component for tdSynchroPackage
+  key_operators:
+  - TDUpdateSystem
+  - parexec1
+  - synchroCache
+  - synchroFrameIn
+  - synchroFrameOut
+  - synchroSDIIn
+  - synchroVideoOut
+  has_ui: false
+  use_cases: []
+TDVR:
+  name: TDVR
+  category: TDVR
+  tox_path: TDVR\TDVR.tox.dir
+  purpose: The TDVR system is a set of components that together form a toolkit for working with Virtual Reality devices like
+    the Oculus Rift, VIVE and Open VR compliant devices.
+  summary: The TDVR system is a set of components that together form a toolkit for working with Virtual Reality devices like
+    the Oculus Rift, VIVE and Open VR compliant devices.
+  key_operators:
+  - VRExt
+  - drone
+  - rayPick
+  - renderManager
+  - resources
+  - scripts
+  - viewer3D
+  - vrControllers
+  - vrHMD
+  - window
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+  wiki_url: https://docs.derivative.ca/Palette:TDVR
+ambientLight:
+  name: ambientLight
+  category: TDVR
+  tox_path: TDVR\World Objects\ambientLight.tox.dir
+  purpose: TDVR component for ambientLight
+  key_operators:
+  - file1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+  - Lighting effects
+controllerScripts:
+  name: controllerScripts
+  category: TDVR
+  tox_path: TDVR\World Objects\controllerScripts.tox.dir
+  purpose: TDVR component for controllerScripts
+  key_operators:
+  - Controller
+  - controllerCallbacks
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+distantLight:
+  name: distantLight
+  category: TDVR
+  tox_path: TDVR\World Objects\distantLight.tox.dir
+  purpose: TDVR component for distantLight
+  key_operators:
+  - add1
+  - circle1
+  - circle2
+  - circle3
+  - circle4
+  - circle5
+  - copy1
+  - cross1
+  - grid1
+  - line1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+  - Lighting effects
+drone:
+  name: drone
+  category: TDVR
+  tox_path: TDVR\System Components\drone.tox.dir
+  purpose: TDVR component for drone
+  key_operators:
+  - CameraDolly
+  - eval1
+  - execute1
+  - help
+  - icon
+  - parexec
+  - parexec1
+  - replace1
+  - reset
+  - setTransform
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+environmentLight:
+  name: environmentLight
+  category: TDVR
+  tox_path: TDVR\World Objects\environmentLight.tox.dir
+  purpose: TDVR component for environmentLight
+  outputs:
+  - name: out1
+    type: SOP
+  key_operators:
+  - attribcreate1
+  - hsvadj1
+  - moviefilein1
+  - phong1
+  - skyGeo
+  - sphere1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+  - Lighting effects
+geoGround:
+  name: geoGround
+  category: TDVR
+  tox_path: TDVR\World Objects\geoGround.tox.dir
+  purpose: TDVR component for geoGround
+  key_operators:
+  - attribcreate1
+  - circle1
+  - level1
+  - notes
+  - phong2
+  - pick
+  - render
+  - texture1
+  - texture2
+  - transform1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+joystickScripts:
+  name: joystickScripts
+  category: TDVR
+  tox_path: TDVR\World Objects\joystickScripts.tox.dir
+  purpose: TDVR component for joystickScripts
+  key_operators:
+  - Controller
+  - controllerCallbacks
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+rayPick:
+  name: rayPick
+  category: TDVR
+  tox_path: TDVR\System Components\rayPick.tox.dir
+  purpose: TDVR component for rayPick
+  outputs:
+  - name: out1
+    type: CHOP
+  key_operators:
+  - PickExt
+  - buttonExecute
+  - callbacksPick
+  - controls
+  - datexec1
+  - datto4
+  - delete1
+  - delete2
+  - eval2
+  - evalExport
+  has_ui: true
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+renderManager:
+  name: renderManager
+  category: TDVR
+  tox_path: TDVR\System Components\renderManager.tox.dir
+  purpose: TDVR component for renderManager
+  key_operators:
+  - help
+  - icon
+  - opfind2_callbacks
+  - opfind2_callbacks1
+  - opfind3_callbacks1
+  - opfind3_callbacks2
+  - parExport
+  - parValues
+  - parexec1
+  - pickCams
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+resources:
+  name: resources
+  category: TDVR
+  tox_path: TDVR\System Components\resources.tox.dir
+  purpose: TDVR component for resources
+  key_operators:
+  - VRWorldExt
+  - ambientLight
+  - controllerScripts
+  - distantLight
+  - environmentLight
+  - filein1
+  - geoGround
+  - joystickScripts
+  - pickGeo1
+  - rayCaster
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+system:
+  name: system
+  category: TDVR
+  tox_path: TDVR\World Objects\system.tox.dir
+  purpose: TDVR component for system
+  key_operators:
+  - customControlMenu1
+  - customControlMenu2
+  - help
+  - indController1
+  - indController2
+  - indGaze
+  - parexec
+  - parexec1
+  - pickDeviceIn_export
+  - workstation
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+teapotExample:
+  name: teapotExample
+  category: TDVR
+  tox_path: TDVR\World Objects\teapotExample.tox.dir
+  purpose: TDVR component for teapotExample
+  key_operators:
+  - TeapotExt
+  - convert1
+  - delete1
+  - filein1
+  - noise1
+  - null2_export
+  - null3_export
+  - null5_export
+  - phong1
+  - pickGeo
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+viewer3D:
+  name: viewer3D
+  category: TDVR
+  tox_path: TDVR\System Components\viewer3D.tox.dir
+  purpose: TDVR component for viewer3D
+  key_operators:
+  - arcBall
+  - help
+  - parexec
+  - previewCamera
+  - sceneRender
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+vrControllers:
+  name: vrControllers
+  category: TDVR
+  tox_path: TDVR\System Components\vrControllers.tox.dir
+  purpose: TDVR component for vrControllers
+  key_operators:
+  - chopto1
+  - control1
+  - control2
+  - controller1PadNESW
+  - controller1PadNESW1
+  - delete1
+  - deleteScope
+  - help
+  - help1
+  - icon
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+vrHMD:
+  name: vrHMD
+  category: TDVR
+  tox_path: TDVR\System Components\vrHMD.tox.dir
+  purpose: TDVR component for vrHMD
+  key_operators:
+  - OpenVRHMDExt
+  - evalExport
+  - eyeCenter
+  - gaze
+  - help
+  - icon
+  - leftEye
+  - object1
+  - object1_export
+  - oculusrift1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+vrRenderToMovie:
+  name: vrRenderToMovie
+  category: TDVR
+  tox_path: TDVR\World Objects\vrRenderToMovie.tox.dir
+  purpose: TDVR component for vrRenderToMovie
+  key_operators:
+  - blend1
+  - camVR
+  - moviefileout1
+  - projection1
+  - render1
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+world:
+  name: world
+  category: TDVR
+  tox_path: TDVR\System Components\world.tox.dir
+  purpose: TDVR component for world
+  key_operators:
+  - VRWorldExt
+  - ambientLight
+  - controllerScripts
+  - distantLight
+  - environmentLight
+  - geoGround
+  - joystickScripts
+  - system
+  - teapotExample
+  - vrRenderToMovie
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+xboxForWindows:
+  name: xboxForWindows
+  category: TDVR
+  tox_path: TDVR\System Components\xboxForWindows.tox.dir
+  purpose: TDVR component for xboxForWindows
+  key_operators:
+  - deadzone
+  - delete1
+  - icon
+  - joystick
+  - lookup1
+  - replace1
+  - replace2
+  - script1
+  - script1_callbacks
+  has_ui: false
+  use_cases:
+  - VR content creation
+  - Virtual reality applications
+recorder:
+  name: recorder
+  category: TDVS
+  tox_path: TDVS\recorder.tox.dir
+  purpose: The recorder component is a wrapper for the moviefileout TOP. Its purpose is to simplify the video recording process
+    as a single component. It is recommended to be used as the recording system in larg
+  summary: 'The recorder component is a wrapper for the moviefileout TOP. Its purpose is to simplify the video recording process
+    as a single component. It is recommended to be used as the recording system in larger video applications.To use the recorder:#
+    Connect your video source TOP to the input# Set the output folder and filename parts (supports up to 7 filename segments
+    separated by underscores)# Configure video settings: resolution (custom or from input), frame rate, and frame range# For
+    audio recordin'
+  key_operators:
+  - help
+  - recorder
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:recorder
+geoPanel:
+  name: geoPanel
+  category: Techniques
+  tox_path: Techniques\geoPanel.tox.dir
+  purpose: This example shows you how to put any 2D panels into a 3D scene with lighting and operate them as you would in
+    2D.
+  summary: This example shows you how to put any 2D panels into a 3D scene with lighting and operate them as you would in
+    2D.
+  key_operators:
+  - geoPanel
+  - help
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:geoPanel
+gestureCapture:
+  name: gestureCapture
+  category: Techniques
+  tox_path: Techniques\gestureCapture.tox.dir
+  purpose: The gestureCapture COMP records movement and then displays the curves as (1) rendered lines and/or (2) a dot following
+    the curves and/or (3) free-hand drawn shapes. The outputs of gestureCapture are (
+  summary: The gestureCapture COMP records movement and then displays the curves as (1) rendered lines and/or (2) a dot following
+    the curves and/or (3) free-hand drawn shapes. The outputs of gestureCapture are (a) the rendered image, (b) a SOP containing
+    all paths as polygonal lines, (c) a CHOP containing the merged lines and (d) number of lines. Internally you can access
+    a CHOP and a SOP for every gesture recorded.
+  key_operators:
+  - gestureCapture
+  - help
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:gestureCapture
+initializeStart:
+  name: initializeStart
+  category: Techniques
+  tox_path: Techniques\initializeStart.tox.dir
+  purpose: The initializeStart component is designed to be installed into users components that have time-dependent behavior.
+    If you follow this procedure, you will have a component that has a TouchDesigner-stan
+  summary: The initializeStart component is designed to be installed into users components that have time-dependent behavior.
+    If you follow this procedure, you will have a component that has a TouchDesigner-standard way of being controlled, mostly
+    via its parameters on the InitStart page. Also a set of standard channels is output from your component coming from the
+    internal Timer CHOP.
+  key_operators:
+  - help
+  - initializeStart
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:initializeStart
+kinectAzurePointcloud:
+  name: kinectAzurePointcloud
+  category: Techniques
+  tox_path: Techniques\kinectAzurePointcloud.tox.dir
+  purpose: Techniques component for kinectAzurePointcloud
+  key_operators:
+  - help
+  - icon
+  - kinectAzurePointcloud
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+kinectPointcloud:
+  name: kinectPointcloud
+  category: Techniques
+  tox_path: Techniques\kinectPointcloud.tox.dir
+  purpose: The kinectPointCloud COMP generates a point cloud using depth textures and color data. The point cloud texture
+    is a 32-bit floating point texture where RGB pixel values are XYZ pixel values relative t
+  summary: The kinectPointCloud COMP generates a point cloud using depth textures and color data. The point cloud texture
+    is a 32-bit floating point texture where RGB pixel values are XYZ pixel values relative to the color camera, in meters.
+    By default the COMP uses the Kinect device as an input, to use other depth cameras connect the color and depth textures
+    to input 1 and input 2 of the component. Using the Kinect with this COMP is only supported on Windows OS with the Kinect
+    for Windows hardware. To use
+  key_operators:
+  - icon
+  - kinectPointcloud
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:kinectPointcloud
+leapPaint:
+  name: leapPaint
+  category: Techniques
+  tox_path: Techniques\leapPaint.tox.dir
+  purpose: The leapPaint COMP uses the Leap Motion device and user's hands as a controller to draw in a TOP. There are two
+    API versions for the Leap Motion device, some features are not supported on “Version 4 O
+  summary: The leapPaint COMP uses the Leap Motion device and user's hands as a controller to draw in a TOP. There are two
+    API versions for the Leap Motion device, some features are not supported on “Version 4 Orion” API for example “swipe”.
+    More information on using the Leap Motion in TouchDesigner can be found on this page.
+  key_operators:
+  - icon
+  - leapPaint
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:leapPaint
+motionSense:
+  name: motionSense
+  category: Techniques
+  tox_path: Techniques\motionSense.tox.dir
+  purpose: The motionSense COMP detects motion in a TOP texture or a camera device. This COMP outputs a 0 or 1 in a CHOP if
+    there is movement detected.
+  summary: The motionSense COMP detects motion in a TOP texture or a camera device. This COMP outputs a 0 or 1 in a CHOP if
+    there is movement detected.
+  key_operators:
+  - icon
+  - motionSense
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:motionSense
+multiTouch:
+  name: multiTouch
+  category: Techniques
+  tox_path: Techniques\multiTouch.tox.dir
+  purpose: This is documentation for the multiTouch component in the TouchDesigner Palette. (See also the MultiTouch page).
+  summary: This is documentation for the multiTouch component in the TouchDesigner Palette. (See also the MultiTouch page).
+  key_operators:
+  - help
+  - multiTouch
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:multiTouch
+pushPins:
+  name: pushPins
+  category: Techniques
+  tox_path: Techniques\pushPins.tox.dir
+  purpose: The pushPins COMP creates a pushpin effect using a TOP. The pixels in the TOP are converted to geometries in a
+    grid. The height of the geometries are determined by the brightness of the pixels.
+  summary: The pushPins COMP creates a pushpin effect using a TOP. The pixels in the TOP are converted to geometries in a
+    grid. The height of the geometries are determined by the brightness of the pixels.
+  key_operators:
+  - help
+  - pushPins
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:pushPins
+puzzle:
+  name: puzzle
+  category: Techniques
+  tox_path: Techniques\puzzle.tox.dir
+  purpose: The puzzle COMP is an example of Python Extensions in Touchdesigner. A TOP is separated into squares segments and
+    randomized, the user slides the individual pieces to reorganized the TOP. See Extensio
+  summary: The puzzle COMP is an example of Python Extensions in Touchdesigner. A TOP is separated into squares segments and
+    randomized, the user slides the individual pieces to reorganized the TOP. See Extensions for more information.
+  key_operators:
+  - icon
+  - puzzle
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:puzzle
+sickCore:
+  name: sickCore
+  category: Techniques
+  tox_path: Techniques\SICK\sickCore.tox.dir
+  purpose: Techniques component for sickCore
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+sickEngine:
+  name: sickEngine
+  category: Techniques
+  tox_path: Techniques\SICK\sickEngine.tox.dir
+  purpose: A sickEngine component launches a SICK TOP in a separate process so that more than one SICK sensor can be used
+    in the same project.
+  summary: A sickEngine component launches a SICK TOP in a separate process so that more than one SICK sensor can be used
+    in the same project.
+  key_operators:
+  - help
+  - sickEngine
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:sickEngine
+sweetSpotPreviz:
+  name: sweetSpotPreviz
+  category: Techniques
+  tox_path: Techniques\sweetSpotPreviz.tox.dir
+  purpose: This example illustrates the setup of a so-called Trompe l'Oeil effect where you render a scene from the position
+    of the observer and use the result to re-project it onto a surface. Results created fo
+  summary: This example illustrates the setup of a so-called Trompe l'Oeil effect where you render a scene from the position
+    of the observer and use the result to re-project it onto a surface. Results created for large format projections, surround
+    environments or tracked monitor setups will seem close to perspectively correct when viewed from the general area of the
+    sweet spot. This technique is especially useful for previsualisation purposes as well as architectural mapping. Tools
+    -&gt; sweetSpot in the p
+  key_operators:
+  - icon
+  - sweetSpotPreviz
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:sweetSpotPreviz
+traceImage:
+  name: traceImage
+  category: Techniques
+  tox_path: Techniques\traceImage.tox.dir
+  purpose: Techniques component for traceImage
+  inputs:
+  - name: in1
+    type: TOP
+  outputs:
+  - name: out1
+    type: Unknown
+  key_operators:
+  - attribute1
+  - delete1
+  - dialateEngine
+  - engine1_callbacks
+  - engine1_info1
+  - engine1_info2
+  - engine1_info3
+  - engine1_info4
+  - engine2_callbacks
+  - linesmooth2
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+xyScope:
+  name: xyScope
+  category: Techniques
+  tox_path: Techniques\xyScope.tox.dir
+  purpose: The xyScope COMP is an example of an audio visualization. It uses a CHOPto SOP to create a SOP using the input
+    CHOP channels ‘chan1’ and ‘chan2’ as ‘x’ and ‘y’ positions. Any CHOP with two channels ca
+  summary: The xyScope COMP is an example of an audio visualization. It uses a CHOPto SOP to create a SOP using the input
+    CHOP channels ‘chan1’ and ‘chan2’ as ‘x’ and ‘y’ positions. Any CHOP with two channels can be inputted into the CHOP input
+    of this component.
+  key_operators:
+  - icon
+  - xyScope
+  has_ui: false
+  use_cases:
+  - Advanced rendering
+  - Special effects
+  wiki_url: https://docs.derivative.ca/Palette:xyScope
+threadManagerClient:
+  name: threadManagerClient
+  category: ThreadManager
+  tox_path: ThreadManager\threadManagerClient.tox.dir
+  purpose: These Extensions reference a specific Palette:threadManagerClient. This is the extension of the ThreadManagerClient.
+  summary: These Extensions reference a specific Palette:threadManagerClient. This is the extension of the ThreadManagerClient.
+  key_operators:
+  - help
+  - threadManagerClient
+  - threadManagerClient_callbacks
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:threadManagerClient
+threadsMonitor:
+  name: threadsMonitor
+  category: ThreadManager
+  tox_path: ThreadManager\threadsMonitor.tox.dir
+  purpose: The ThreadsMonitor (Palette &gt; ThreadManager) is a small component creating a UI on top of the Thread Manager
+    and can be used as a live debugging tool. It's useful to track what a TDThread is doing,
+  summary: The ThreadsMonitor (Palette &gt; ThreadManager) is a small component creating a UI on top of the Thread Manager
+    and can be used as a live debugging tool. It's useful to track what a TDThread is doing, how busy the Thread Manager is,
+    and allows you to monitor a list of all the TDTasks whether they are queued or currently being processed.
+  key_operators:
+  - help
+  - threadsMonitor
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:threadsMonitor
+3DScope:
+  name: 3DScope
+  category: Tools
+  tox_path: Tools\3DScope.tox.dir
+  purpose: Tools component for 3DScope
+  key_operators:
+  - 3DScope
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+SVG:
+  name: SVG
+  category: Tools
+  tox_path: Tools\SVG.tox.dir
+  purpose: These Extensions reference a specific Palette:SVG. The Extension class of a SVG COMP
+  summary: These Extensions reference a specific Palette:SVG. The Extension class of a SVG COMP
+  key_operators:
+  - SVG
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:SVG
+arcBallGeometry:
+  name: arcBallGeometry
+  category: Tools
+  tox_path: Tools\arcBallGeometry.tox.dir
+  purpose: These Extensions reference a specific Palette:arcBallGeometry.
+  summary: These Extensions reference a specific Palette:arcBallGeometry.
+  key_operators:
+  - arcBallGeometry
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:arcBallGeometry
+audioAnalysis:
+  name: audioAnalysis
+  category: Tools
+  tox_path: Tools\audioAnalysis.tox.dir
+  purpose: A component to analyze an input audio waveform for its properties such as Low-, Mid-, High-Level, Kick and Snare
+    detection, Rythm, Spectral Centroid as well as Slow- and Fast- Spectral Density.
+  summary: A component to analyze an input audio waveform for its properties such as Low-, Mid-, High-Level, Kick and Snare
+    detection, Rythm, Spectral Centroid as well as Slow- and Fast- Spectral Density.
+  key_operators:
+  - audioAnalysis
+  - help
+  has_ui: false
+  use_cases:
+  - Audio-reactive visuals
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:audioAnalysis
+  # BUG-007 FIX: Document actual output channel names
+  outputs:
+    description: "CHOP output channels from audioAnalysis component"
+    CRITICAL_NOTE: "Channel names are 'low', 'mid', 'high' - NOT 'bass'!"
+    channels:
+      - name: low
+        description: "Low frequency band level (NOT 'bass'!)"
+        typical_range: [0, 1]
+      - name: mid
+        description: "Mid frequency band level"
+        typical_range: [0, 1]
+      - name: high
+        description: "High frequency band level"
+        typical_range: [0, 1]
+      - name: volume
+        description: "Overall volume level"
+        typical_range: [0, 1]
+      - name: kick
+        description: "Kick drum detection"
+        typical_range: [0, 1]
+      - name: snare
+        description: "Snare detection"
+        typical_range: [0, 1]
+      - name: rhythm
+        description: "Rhythm analysis"
+        typical_range: [0, 1]
+      - name: spectralcentroid
+        description: "Spectral centroid (brightness)"
+        typical_range: [0, 1]
+      - name: slowspectraldensity
+        description: "Slow spectral density"
+        typical_range: [0, 1]
+      - name: fastspectraldensity
+        description: "Fast spectral density"
+        typical_range: [0, 1]
+    usage_example: |
+      # Access low frequency band (NOT 'bass')
+      op('audioAnalysis')['low']
+
+      # WRONG - 'bass' does not exist!
+      # op('audioAnalysis')['bass']  # ERROR: channel not found
+audioSet:
+  name: audioSet
+  category: Tools
+  tox_path: Tools\audioSet.tox.dir
+  purpose: The audioSet COMP is a visualization and modifier of gain in an Audio File In CHOP.
+  summary: The audioSet COMP is a visualization and modifier of gain in an Audio File In CHOP.
+  key_operators:
+  - audioSet
+  - icon
+  has_ui: false
+  use_cases:
+  - Audio-reactive visuals
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:audioSet
+autoMediaPlayer:
+  name: autoMediaPlayer
+  category: Tools
+  tox_path: Tools\autoMediaPlayer.tox.dir
+  purpose: The autoMediaPlayer allows for looping over movies and still images in a specified folder on disc in linear or
+    randomized order. There are options to adjust the output resolution, change the length of
+  summary: The autoMediaPlayer allows for looping over movies and still images in a specified folder on disc in linear or
+    randomized order. There are options to adjust the output resolution, change the length of still images, as well as set
+    the transition length.
+  key_operators:
+  - autoMediaPlayer
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:autoMediaPlayer
+battery:
+  name: battery
+  category: Tools
+  tox_path: Tools\battery.tox.dir
+  purpose: The Battery COMP monitors the battery or power status of your machine. A Perform CHOP is used to get the power
+    status of your machine.
+  summary: The Battery COMP monitors the battery or power status of your machine. A Perform CHOP is used to get the power
+    status of your machine.
+  key_operators:
+  - battery
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:battery
+blendModes:
+  name: blendModes
+  category: Tools
+  tox_path: Tools\blendModes.tox.dir
+  purpose: blendModes is a 2-stream video mixer for exploring and using the 45+ blend modes of the Composite TOP. Connect
+    2 video inputs, select a Mix Mode (Crossfade by default) and use the X or XY crossfader a
+  summary: blendModes is a 2-stream video mixer for exploring and using the 45+ blend modes of the Composite TOP. Connect
+    2 video inputs, select a Mix Mode (Crossfade by default) and use the X or XY crossfader at the top-middle. On the top
+    right is the blended output of the component.
+  key_operators:
+  - blendModes
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:blendModes
+callbacksHelper:
+  name: callbacksHelper
+  category: Tools
+  tox_path: Tools\callbacksHelper.tox.dir
+  purpose: The callbacksHelper Component provides an easy setup for Python callbacks on your custom components. It installs
+    and sets up parameters on your component for the CallbacksExt Extension, and provides a
+  summary: The callbacksHelper Component provides an easy setup for Python callbacks on your custom components. It installs
+    and sets up parameters on your component for the CallbacksExt Extension, and provides a few other usability features.
+  key_operators:
+  - callbacksHelper
+  - defaultCallbacks
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:callbacksHelper
+cameraViewport:
+  name: cameraViewport
+  category: Tools
+  tox_path: Tools\cameraViewport.tox.dir
+  purpose: The cameraViewport component is a modified Camera COMP that can be used to interactively control a camera's position/rotation
+    in a 3D scene. It can be used instead of the default Camera COMP. Its view
+  summary: The cameraViewport component is a modified Camera COMP that can be used to interactively control a camera's position/rotation
+    in a 3D scene. It can be used instead of the default Camera COMP. Its viewer is an interactive Panel containing a rendered
+    image from any Render TOP.
+  key_operators:
+  - cameraViewport
+  - help
+  has_ui: false
+  use_cases:
+  - Camera control
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:cameraViewport
+chromaKey:
+  name: chromaKey
+  category: Tools
+  tox_path: Tools\chromaKey.tox.dir
+  purpose: This helps you build an alpha channel from video with a blue-screen or green-screen (or other) background color
+    by interactively selecting background colors from an image and refining the key. It also
+  summary: This helps you build an alpha channel from video with a blue-screen or green-screen (or other) background color
+    by interactively selecting background colors from an image and refining the key. It also smooths the edges and eliminates
+    "color spill".
+  key_operators:
+  - chromaKey
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:chromaKey
+compareComp:
+  name: compareComp
+  category: Tools
+  tox_path: Tools\compareComp.tox.dir
+  purpose: This compares two components. It first identifies nodes that are unique to either of the two components.
+  summary: This compares two components. It first identifies nodes that are unique to either of the two components.
+  key_operators:
+  - compareComp
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:compareComp
+cppParsTemplateGen:
+  name: cppParsTemplateGen
+  category: Tools
+  tox_path: Tools\cppParsTemplateGen.tox.dir
+  purpose: These Extensions reference a specific Palette:cppParsTemplateGen. The extension class of a CppParsTemplateGen COMP.
+  summary: These Extensions reference a specific Palette:cppParsTemplateGen. The extension class of a CppParsTemplateGen COMP.
+  key_operators:
+  - cppParsTemplateGen
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:cppParsTemplateGen
+customAttributes:
+  name: customAttributes
+  category: Tools
+  tox_path: Tools\customAttributes.tox.dir
+  purpose: 'This component helps with adding custom attributes to a SOP via python scripting. It duplicates functionality
+    found in the Point SOP, Vertex SOP and Primitive SOP but can still be helpful when trying '
+  summary: This component helps with adding custom attributes to a SOP via python scripting. It duplicates functionality found
+    in the Point SOP, Vertex SOP and Primitive SOP but can still be helpful when trying to find out how to add attributes
+    via python.
+  key_operators:
+  - customAttributes
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:customAttributes
+debugControl:
+  name: debugControl
+  category: Tools
+  tox_path: Tools\debugControl.tox.dir
+  purpose: This component facilitates experimentation with and control of the builtin debug statement. It is an operator based
+    interface for the debug module.
+  summary: This component facilitates experimentation with and control of the builtin debug statement. It is an operator based
+    interface for the debug module.
+  key_operators:
+  - debugControl
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:debugControl
+equalizer:
+  name: equalizer
+  category: Tools
+  tox_path: Tools\equalizer.tox.dir
+  purpose: Tools component for equalizer
+  key_operators:
+  - equalizer
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:equalizer
+firmata:
+  name: firmata
+  category: Tools
+  tox_path: Tools\firmata.tox.dir
+  purpose: These Extensions reference a specific Palette:firmata.
+  summary: These Extensions reference a specific Palette:firmata.
+  key_operators:
+  - firmata
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:firmata
+graphPlot:
+  name: graphPlot
+  category: Tools
+  tox_path: Tools\graphPlot.tox.dir
+  purpose: graphPlot creates 2D graphs with data points or curves plotted over XY grids with controls over units, ranges,
+    divisions and labels.
+  summary: graphPlot creates 2D graphs with data points or curves plotted over XY grids with controls over units, ranges,
+    divisions and labels.
+  key_operators:
+  - graphPlot
+  - help
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:graphPlot
+histogram:
+  name: histogram
+  category: Tools
+  tox_path: Tools\histogram.tox.dir
+  purpose: Tools component for histogram
+  key_operators:
+  - histogram
+  - icon
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:histogram
+imageSearch:
+  name: imageSearch
+  category: Tools
+  tox_path: Tools\imageSearch.tox.dir
+  purpose: ImageSearch uses the Custom Search interface of Google to find images which match the given search term.
+  summary: ImageSearch uses the Custom Search interface of Google to find images which match the given search term.
+  key_operators:
+  - icon
+  - imageSearch
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:imageSearch
+kinectRecorder:
+  name: kinectRecorder
+  category: Tools
+  tox_path: Tools\kinectRecorder.tox.dir
+  purpose: Tools component for kinectRecorder
+  key_operators:
+  - icon
+  - kinectRecorder
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+logger:
+  name: logger
+  category: Tools
+  tox_path: Tools\logger.tox.dir
+  purpose: These Extensions reference a specific Palette:logger. The Extension class of a logger COMP.
+  summary: These Extensions reference a specific Palette:logger. The Extension class of a logger COMP.
+  key_operators:
+  - help
+  - logger
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:logger
+materialDesignIcons:
+  name: materialDesignIcons
+  category: Tools
+  tox_path: Tools\materialDesignIcons.tox.dir
+  purpose: These Extensions reference a specific Palette:materialDesignIcons.
+  summary: These Extensions reference a specific Palette:materialDesignIcons.
+  key_operators:
+  - help
+  - materialDesignIcons
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:materialDesignIcons
+movieBlender:
+  name: movieBlender
+  category: Tools
+  tox_path: Tools\movieBlender.tox.dir
+  purpose: Tools component for movieBlender
+  key_operators:
+  - icon
+  - movieBlender
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:movieBlender
+movieEngine:
+  name: movieEngine
+  category: Tools
+  tox_path: Tools\movieEngine.tox.dir
+  purpose: The ParCollection class can be used to access parameters. To access a parameter you need to use its internal name,
+    which you can obtain by hovering your mouse over the parameter name, and looking at t
+  summary: The ParCollection class can be used to access parameters. To access a parameter you need to use its internal name,
+    which you can obtain by hovering your mouse over the parameter name, and looking at the popup that will come up. See also
+    Par Class.
+  key_operators:
+  - help
+  - movieEngine
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:movieEngine
+moviePlayer:
+  name: moviePlayer
+  category: Tools
+  tox_path: Tools\moviePlayer.tox.dir
+  purpose: The ParCollection class can be used to access parameters. To access a parameter you need to use its internal name,
+    which you can obtain by hovering your mouse over the parameter name, and looking at t
+  summary: The ParCollection class can be used to access parameters. To access a parameter you need to use its internal name,
+    which you can obtain by hovering your mouse over the parameter name, and looking at the popup that will come up. See also
+    Par Class.
+  key_operators:
+  - help
+  - moviePlayer
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:moviePlayer
+moviePlaylist:
+  name: moviePlaylist
+  category: Tools
+  tox_path: Tools\moviePlaylist.tox.dir
+  purpose: The moviePlaylist is able to loop over images or movies selected via a folder or specified via a Table DAT given
+    as an input. It offers some control over playback, blend- and end- behaviour.
+  summary: The moviePlaylist is able to loop over images or movies selected via a folder or specified via a Table DAT given
+    as an input. It offers some control over playback, blend- and end- behaviour.
+  key_operators:
+  - icon
+  - moviePlaylist
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:moviePlaylist
+multiLevel:
+  name: multiLevel
+  category: Tools
+  tox_path: Tools\multiLevel.tox.dir
+  purpose: By clicking and dragging around the UI, multiLevel outputs a single channel of multiple samples, or multiple channels
+    one sample each.
+  summary: By clicking and dragging around the UI, multiLevel outputs a single channel of multiple samples, or multiple channels
+    one sample each.
+  key_operators:
+  - icon
+  - multiLevel
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:multiLevel
+multiMix:
+  name: multiMix
+  category: Tools
+  tox_path: Tools\multiMix.tox.dir
+  purpose: These Extensions reference a specific Palette:multiMix.
+  summary: These Extensions reference a specific Palette:multiMix.
+  key_operators:
+  - icon
+  - multiMix
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:multiMix
+onScreenKeyboard:
+  name: onScreenKeyboard
+  category: Tools
+  tox_path: Tools\onScreenKeyboard.tox.dir
+  purpose: Tools component for onScreenKeyboard
+  key_operators:
+  - icon
+  - onScreenKeyboard
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:onScreenKeyboard
+opBrowser:
+  name: opBrowser
+  category: Tools
+  tox_path: Tools\opBrowser.tox.dir
+  purpose: 'The opBrowser Custom Component provides a range of network browsing, viewing, and parameter editing capabilities.
+    It can be used as a standalone browser or embedded into other UI''s. All configuration '
+  summary: The opBrowser Custom Component provides a range of network browsing, viewing, and parameter editing capabilities.
+    It can be used as a standalone browser or embedded into other UI's. All configuration features are controlled by custom
+    parameters and can be made accessible or not in the browser UI.
+  key_operators:
+  - annotate1
+  - help
+  - icon
+  - opBrowser
+  - releaseChecklist
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:opBrowser
+opticalFlow:
+  name: opticalFlow
+  category: Tools
+  tox_path: Tools\opticalFlow.tox.dir
+  purpose: This finds apparent motion and puts the left-right motion in the red channel of the output TOP, and the bottom-top
+    motion in the green channel.
+  summary: This finds apparent motion and puts the left-right motion in the red channel of the output TOP, and the bottom-top
+    motion in the green channel.
+  key_operators:
+  - icon
+  - opticalFlow
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:opticalFlow
+particlesGpu:
+  name: particlesGpu
+  category: Tools
+  tox_path: Tools\particlesGpu.tox.dir
+  purpose: These Extensions reference a specific Palette:particlesGpu.
+  summary: These Extensions reference a specific Palette:particlesGpu.
+  key_operators:
+  - help
+  - particlesGpu
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:particlesGpu
+probe:
+  name: probe
+  category: Tools
+  tox_path: Tools\probe.tox.dir
+  purpose: These Extensions reference a specific Palette:probe.
+  summary: These Extensions reference a specific Palette:probe.
+  key_operators:
+  - help
+  - probe
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:probe
+remotePanel:
+  name: remotePanel
+  category: Tools
+  tox_path: Tools\remotePanel.tox.dir
+  purpose: The combination of these two components lets you see and interact with a TouchDesigner panel running on another
+    machine.
+  summary: The combination of these two components lets you see and interact with a TouchDesigner panel running on another
+    machine.
+  key_operators:
+  - help
+  - remotePanel
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:remotePanel
+sceneChanger:
+  name: sceneChanger
+  category: Tools
+  tox_path: Tools\sceneChanger.tox.dir
+  purpose: These Extensions reference a specific Palette:sceneChanger.
+  summary: These Extensions reference a specific Palette:sceneChanger.
+  inputs:
+  - name: in1
+    type: DAT
+  outputs:
+  - name: out1
+    type: TOP
+  key_operators:
+  - PackageCompliance
+  - SceneChangerExt
+  - TDUpdateSystem
+  - docsHelper
+  - opfind1
+  - opfind1_callbacks
+  - parexec1
+  - replicator1
+  - replicator1_callbacks
+  - sceneChangerUi
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:sceneChanger
+search:
+  name: search
+  category: Tools
+  tox_path: Tools\search.tox.dir
+  purpose: Tools component for search
+  key_operators:
+  - icon
+  - search
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:search
+searchReplace:
+  name: searchReplace
+  category: Tools
+  tox_path: Tools\searchReplace.tox.dir
+  purpose: The searchReplace Component lets you search and (optionally) replace text in operators. The replace operation is
+    undoable.
+  summary: The searchReplace Component lets you search and (optionally) replace text in operators. The replace operation is
+    undoable.
+  key_operators:
+  - help
+  - searchReplace
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:searchReplace
+showCooks:
+  name: showCooks
+  category: Tools
+  tox_path: Tools\showCooks.tox.dir
+  purpose: Tools component for showCooks
+  key_operators:
+  - icon
+  - showCooks
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+sopRender:
+  name: sopRender
+  category: Tools
+  tox_path: Tools\sopRender.tox.dir
+  purpose: sopRender takes a SOP input and renders it with basic lighting and an optional texture map.
+  summary: sopRender takes a SOP input and renders it with basic lighting and an optional texture map.
+  key_operators:
+  - help
+  - sopRender
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:sopRender
+splitter:
+  name: splitter
+  category: Tools
+  tox_path: Tools\splitter.tox.dir
+  purpose: These Extensions reference a specific Palette:splitter. The Extension class of a splitter COMP.
+  summary: These Extensions reference a specific Palette:splitter. The Extension class of a splitter COMP.
+  key_operators:
+  - help
+  - splitter
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:splitter
+stitcher:
+  name: stitcher
+  category: Tools
+  tox_path: Tools\stitcher.tox.dir
+  purpose: These Extensions reference a specific Palette:stitcher.
+  summary: These Extensions reference a specific Palette:stitcher.
+  key_operators:
+  - icon
+  - stitcher
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:stitcher
+tdPyEnvManager:
+  name: tdPyEnvManager
+  category: Tools
+  tox_path: Tools\tdPyEnvManager.tox.dir
+  purpose: These Extensions reference a specific Palette:tdPyEnvManager.
+  summary: These Extensions reference a specific Palette:tdPyEnvManager.
+  key_operators:
+  - help
+  - tdPyEnvManager
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:tdPyEnvManager
+testGrid:
+  name: testGrid
+  category: Tools
+  tox_path: Tools\testGrid.tox.dir
+  purpose: These Extensions reference a specific Palette:testGrid.
+  summary: These Extensions reference a specific Palette:testGrid.
+  key_operators:
+  - help
+  - testGrid
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:testGrid
+vectorScope:
+  name: vectorScope
+  category: Tools
+  tox_path: Tools\vectorScope.tox.dir
+  purpose: Tools component for vectorScope
+  key_operators:
+  - icon
+  - vectorScope
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:vectorScope
+virtualFile:
+  name: virtualFile
+  category: Tools
+  tox_path: Tools\virtualFile.tox.dir
+  purpose: These Extensions reference a specific Palette:virtualFile.
+  summary: These Extensions reference a specific Palette:virtualFile.
+  key_operators:
+  - help
+  - icon
+  - virtualFile
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:virtualFile
+vstHost:
+  name: vstHost
+  category: Tools
+  tox_path: Tools\vstHost.tox.dir
+  purpose: 'VSTHost is an experimental component for loading and hosting VST plugins. A VST Host loads VST-plugins, and provides
+    a framework for synchronizing playback, routing MIDI events and audio channel data '
+  summary: VSTHost is an experimental component for loading and hosting VST plugins. A VST Host loads VST-plugins, and provides
+    a framework for synchronizing playback, routing MIDI events and audio channel data and mapping parameters for control,
+    modulation and automation.
+  key_operators:
+  - help
+  - vstHost
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:vstHost
+waveformMonitor:
+  name: waveformMonitor
+  category: Tools
+  tox_path: Tools\waveformMonitor.tox.dir
+  purpose: The Waveform Monitor displays the color values of each row of the input texture superimposed. For this a pixels
+    color component value is placed on a vertical scale. For example if the red value of a p
+  summary: 'The Waveform Monitor displays the color values of each row of the input texture superimposed. For this a pixels
+    color component value is placed on a vertical scale. For example if the red value of a pixel is 0.5, a red pixel is placed
+    at half the height of the display in the pixels horizontal position. More about the usage of Waveform Monitors can be
+    read here: https://en.wikipedia.org/wiki/Waveform_monitor'
+  key_operators:
+  - icon
+  - waveformMonitor
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:waveformMonitor
+webBrowser:
+  name: webBrowser
+  category: Tools
+  tox_path: Tools\webBrowser.tox.dir
+  purpose: The webBrowser component in the palette is an interactive interface to the Web Render TOP. It is currently available
+    on Windows only, in the Commercial, Educational and Pro versions of TouchDesigner.
+  summary: The webBrowser component in the palette is an interactive interface to the Web Render TOP. It is currently available
+    on Windows only, in the Commercial, Educational and Pro versions of TouchDesigner.
+  key_operators:
+  - icon
+  - webBrowser
+  has_ui: false
+  use_cases:
+  - Utility functions
+  - Data processing
+  wiki_url: https://docs.derivative.ca/Palette:webBrowser
+autoUI:
+  name: autoUI
+  category: UI
+  tox_path: UI\Basic Widgets\Tools\autoUI.tox.dir
+  purpose: UI component for autoUI
+  key_operators:
+  - AutoUIExt
+  - docsHelper
+  - parexec1
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+basicWidgets:
+  name: basicWidgets
+  category: UI
+  tox_path: UI\Basic Widgets\Package\basicWidgets.tox.dir
+  purpose: UI component for basicWidgets
+  key_operators:
+  - TDUpdateSystem
+  - autoUI
+  - buttonCheckbox
+  - buttonMomentary
+  - buttonRadio
+  - buttonRocker
+  - buttonScript
+  - buttonState
+  - buttonToggle
+  - categories
+  has_ui: true
+  use_cases:
+  - Interactive controls
+  - User interface building
+buttonCheckbox:
+  name: buttonCheckbox
+  category: UI
+  tox_path: UI\Basic Widgets\buttonCheckbox.tox.dir
+  purpose: UI component for buttonCheckbox
+  key_operators:
+  - buttonCheckbox
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonMomentary:
+  name: buttonMomentary
+  category: UI
+  tox_path: UI\Basic Widgets\buttonMomentary.tox.dir
+  purpose: UI component for buttonMomentary
+  key_operators:
+  - buttonMomentary
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonRadio:
+  name: buttonRadio
+  category: UI
+  tox_path: UI\Basic Widgets\buttonRadio.tox.dir
+  purpose: UI component for buttonRadio
+  key_operators:
+  - buttonRadio
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonRocker:
+  name: buttonRocker
+  category: UI
+  tox_path: UI\Basic Widgets\buttonRocker.tox.dir
+  purpose: UI component for buttonRocker
+  key_operators:
+  - buttonRocker
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonScript:
+  name: buttonScript
+  category: UI
+  tox_path: UI\Basic Widgets\buttonScript.tox.dir
+  purpose: UI component for buttonScript
+  key_operators:
+  - buttonScript
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonState:
+  name: buttonState
+  category: UI
+  tox_path: UI\Basic Widgets\buttonState.tox.dir
+  purpose: UI component for buttonState
+  key_operators:
+  - buttonState
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+buttonToggle:
+  name: buttonToggle
+  category: UI
+  tox_path: UI\Basic Widgets\buttonToggle.tox.dir
+  purpose: UI component for buttonToggle
+  key_operators:
+  - buttonToggle
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+displayList:
+  name: displayList
+  category: UI
+  tox_path: UI\displayList.tox.dir
+  purpose: UI component for displayList
+  key_operators:
+  - displayList
+  - icon
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+dropDownButton:
+  name: dropDownButton
+  category: UI
+  tox_path: UI\Basic Widgets\dropDownButton.tox.dir
+  purpose: UI component for dropDownButton
+  key_operators:
+  - dropDownButton
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+dropDownMenu:
+  name: dropDownMenu
+  category: UI
+  tox_path: UI\Basic Widgets\dropDownMenu.tox.dir
+  purpose: UI component for dropDownMenu
+  key_operators:
+  - dropDownMenu
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+extensionParExec:
+  name: extensionParExec
+  category: UI
+  tox_path: UI\Basic Widgets\Scripting\extensionParExec.tox.dir
+  purpose: UI component for extensionParExec
+  key_operators:
+  - extensionParExec
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+fieldFileBrowser:
+  name: fieldFileBrowser
+  category: UI
+  tox_path: UI\Basic Widgets\fieldFileBrowser.tox.dir
+  purpose: UI component for fieldFileBrowser
+  key_operators:
+  - fieldFileBrowser
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+fieldFolderBrowser:
+  name: fieldFolderBrowser
+  category: UI
+  tox_path: UI\Basic Widgets\fieldFolderBrowser.tox.dir
+  purpose: UI component for fieldFolderBrowser
+  key_operators:
+  - fieldFolderBrowser
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+fieldString:
+  name: fieldString
+  category: UI
+  tox_path: UI\Basic Widgets\fieldString.tox.dir
+  purpose: UI component for fieldString
+  key_operators:
+  - fieldString
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+fieldStringExec:
+  name: fieldStringExec
+  category: UI
+  tox_path: UI\Basic Widgets\fieldStringExec.tox.dir
+  purpose: UI component for fieldStringExec
+  key_operators:
+  - fieldStringExec
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+fieldTextArea:
+  name: fieldTextArea
+  category: UI
+  tox_path: UI\Basic Widgets\fieldTextArea.tox.dir
+  purpose: UI component for fieldTextArea
+  key_operators:
+  - fieldTextArea
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+float1:
+  name: float1
+  category: UI
+  tox_path: UI\Basic Widgets\float1.tox.dir
+  purpose: UI component for float1
+  key_operators:
+  - float1
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+float2:
+  name: float2
+  category: UI
+  tox_path: UI\Basic Widgets\float2.tox.dir
+  purpose: UI component for float2
+  key_operators:
+  - float2
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+float3:
+  name: float3
+  category: UI
+  tox_path: UI\Basic Widgets\float3.tox.dir
+  purpose: UI component for float3
+  key_operators:
+  - float3
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+float4:
+  name: float4
+  category: UI
+  tox_path: UI\Basic Widgets\float4.tox.dir
+  purpose: UI component for float4
+  key_operators:
+  - float4
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+folderTabs:
+  name: folderTabs
+  category: UI
+  tox_path: UI\Basic Widgets\folderTabs.tox.dir
+  purpose: UI component for folderTabs
+  key_operators:
+  - folderTabs
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+footer:
+  name: footer
+  category: UI
+  tox_path: UI\Basic Widgets\footer.tox.dir
+  purpose: UI component for footer
+  key_operators:
+  - footer
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+gal:
+  name: gal
+  category: UI
+  tox_path: UI\gal.tox.dir
+  purpose: gal (Gadget Library) is a collection 11 master components that are simple UI gadgets like sliders, buttons, radios,
+    menus, fields.
+  summary: gal (Gadget Library) is a collection 11 master components that are simple UI gadgets like sliders, buttons, radios,
+    menus, fields.
+  key_operators:
+  - gal
+  - help
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:gal
+header:
+  name: header
+  category: UI
+  tox_path: UI\Basic Widgets\header.tox.dir
+  purpose: UI component for header
+  key_operators:
+  - header
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+int1:
+  name: int1
+  category: UI
+  tox_path: UI\Basic Widgets\int1.tox.dir
+  purpose: UI component for int1
+  key_operators:
+  - int1
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+int2:
+  name: int2
+  category: UI
+  tox_path: UI\Basic Widgets\int2.tox.dir
+  purpose: UI component for int2
+  key_operators:
+  - int2
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+int3:
+  name: int3
+  category: UI
+  tox_path: UI\Basic Widgets\int3.tox.dir
+  purpose: UI component for int3
+  key_operators:
+  - int3
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+int4:
+  name: int4
+  category: UI
+  tox_path: UI\Basic Widgets\int4.tox.dir
+  purpose: UI component for int4
+  key_operators:
+  - int4
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+knobEndless:
+  name: knobEndless
+  category: UI
+  tox_path: UI\Basic Widgets\knobEndless.tox.dir
+  purpose: UI component for knobEndless
+  key_operators:
+  - knobEndless
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+knobFixed:
+  name: knobFixed
+  category: UI
+  tox_path: UI\Basic Widgets\knobFixed.tox.dir
+  purpose: UI component for knobFixed
+  key_operators:
+  - knobFixed
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+label:
+  name: label
+  category: UI
+  tox_path: UI\Basic Widgets\label.tox.dir
+  purpose: UI component for label
+  key_operators:
+  - label
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+lister:
+  name: lister
+  category: UI
+  tox_path: UI\lister.tox.dir
+  purpose: The lister custom Component builds on List COMP to make a multi-featured tool for listing complex data. Formatting
+    of the lister is set up in the config Component, which starts out docked to the liste
+  summary: 'The lister custom Component builds on List COMP to make a multi-featured tool for listing complex data. Formatting
+    of the lister is set up in the config Component, which starts out docked to the lister. Data can be provided via Python,
+    parameter or table. Complex data and effects can be achieved using callbacks. NOTE: Many of lister''s features require
+    a basic knowledge of Python.'
+  key_operators:
+  - help
+  - lister
+  - listerConfig
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:lister
+masterButton:
+  name: masterButton
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterButton.tox.dir
+  purpose: UI component for masterButton
+  key_operators:
+  - masterButton
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+masterButtonPush:
+  name: masterButtonPush
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterButtonPush.tox.dir
+  purpose: UI component for masterButtonPush
+  key_operators:
+  - masterButtonPush
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+masterCheckbox:
+  name: masterCheckbox
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterCheckbox.tox.dir
+  purpose: UI component for masterCheckbox
+  key_operators:
+  - masterCheckbox
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterDropMenu:
+  name: masterDropMenu
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterDropMenu.tox.dir
+  purpose: UI component for masterDropMenu
+  key_operators:
+  - masterDropMenu
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterFolderTabs:
+  name: masterFolderTabs
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterFolderTabs.tox.dir
+  purpose: UI component for masterFolderTabs
+  key_operators:
+  - masterFolderTabs
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterFolderTabsLegacy:
+  name: masterFolderTabsLegacy
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterFolderTabsLegacy.tox.dir
+  purpose: UI component for masterFolderTabsLegacy
+  key_operators:
+  - masterFolderTabsLegacy
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterFolderTabsWIcons:
+  name: masterFolderTabsWIcons
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterFolderTabsWIcons.tox.dir
+  purpose: UI component for masterFolderTabsWIcons
+  key_operators:
+  - masterFolderTabsWIcons
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterFooter:
+  name: masterFooter
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterFooter.tox.dir
+  purpose: UI component for masterFooter
+  key_operators:
+  - masterFooter
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterHeader:
+  name: masterHeader
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterHeader.tox.dir
+  purpose: UI component for masterHeader
+  key_operators:
+  - masterHeader
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterIconMenu:
+  name: masterIconMenu
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterIconMenu.tox.dir
+  purpose: UI component for masterIconMenu
+  key_operators:
+  - masterIconMenu
+  - popMenuCallbacks
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterKnob:
+  name: masterKnob
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterKnob.tox.dir
+  purpose: UI component for masterKnob
+  key_operators:
+  - masterKnob
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterLabel:
+  name: masterLabel
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterLabel.tox.dir
+  purpose: UI component for masterLabel
+  key_operators:
+  - masterLabel
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterList:
+  name: masterList
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterList.tox.dir
+  purpose: UI component for masterList
+  key_operators:
+  - masterList
+  - masterListConfig
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterNumericField:
+  name: masterNumericField
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterNumericField.tox.dir
+  purpose: UI component for masterNumericField
+  key_operators:
+  - masterNumericField
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterRadioButton:
+  name: masterRadioButton
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterRadioButton.tox.dir
+  purpose: UI component for masterRadioButton
+  key_operators:
+  - masterRadioButton
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+masterRadioMenu:
+  name: masterRadioMenu
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterRadioMenu.tox.dir
+  purpose: UI component for masterRadioMenu
+  key_operators:
+  - masterRadioMenu
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterRange:
+  name: masterRange
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterRange.tox.dir
+  purpose: UI component for masterRange
+  key_operators:
+  - masterRange
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterReferenceOP:
+  name: masterReferenceOP
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterReferenceOP.tox.dir
+  purpose: UI component for masterReferenceOP
+  key_operators:
+  - masterReferenceOP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterRocker:
+  name: masterRocker
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterRocker.tox.dir
+  purpose: UI component for masterRocker
+  key_operators:
+  - masterRocker
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterSlider:
+  name: masterSlider
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterSlider.tox.dir
+  purpose: UI component for masterSlider
+  key_operators:
+  - masterSlider
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+masterSlider2D:
+  name: masterSlider2D
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterSlider2D.tox.dir
+  purpose: UI component for masterSlider2D
+  key_operators:
+  - masterSlider2D
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+masterStringField:
+  name: masterStringField
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterStringField.tox.dir
+  purpose: UI component for masterStringField
+  key_operators:
+  - masterStringField
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterStringMenu:
+  name: masterStringMenu
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterStringMenu.tox.dir
+  purpose: UI component for masterStringMenu
+  key_operators:
+  - masterStringMenu
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterTextEditor:
+  name: masterTextEditor
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterTextEditor.tox.dir
+  purpose: UI component for masterTextEditor
+  key_operators:
+  - masterTextEditor
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+masterValueLabel:
+  name: masterValueLabel
+  category: UI
+  tox_path: UI\Basic Widgets\Core\masterValueLabel.tox.dir
+  purpose: UI component for masterValueLabel
+  key_operators:
+  - masterValueLabel
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+opViewer:
+  name: opViewer
+  category: UI
+  tox_path: UI\Basic Widgets\opViewer.tox.dir
+  purpose: UI component for opViewer
+  key_operators:
+  - opViewer
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+operatorPath:
+  name: operatorPath
+  category: UI
+  tox_path: UI\operatorPath.tox.dir
+  purpose: The operatorPath Component is a full-featured UI element for navigating operator paths in TouchDesigner networks.
+  summary: The operatorPath Component is a full-featured UI element for navigating operator paths in TouchDesigner networks.
+  key_operators:
+  - help
+  - operatorPath
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:operatorPath
+pathBar:
+  name: pathBar
+  category: UI
+  tox_path: UI\Basic Widgets\Gadgets\pathBar.tox.dir
+  purpose: UI component for pathBar
+  key_operators:
+  - ContextExt
+  - backHistory
+  - extensionParExec
+  - forwardHistory
+  - ui
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+popDialog:
+  name: popDialog
+  category: UI
+  tox_path: UI\popDialog.tox.dir
+  purpose: These Extensions reference a specific Palette:popDialog.
+  summary: These Extensions reference a specific Palette:popDialog.
+  key_operators:
+  - help
+  - popDialog
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:popDialog
+popMenu:
+  name: popMenu
+  category: UI
+  tox_path: UI\popMenu.tox.dir
+  purpose: The popMenu custom Component builds on Container COMP to make an easy-to-use pop-up menu that can be used as a
+    context menu, in dropdown controls, or for other menu needs. The dialog can be set up usi
+  summary: The popMenu custom Component builds on Container COMP to make an easy-to-use pop-up menu that can be used as a
+    context menu, in dropdown controls, or for other menu needs. The dialog can be set up using parameters or script. Multi-level
+    menus can be created through scripting. Custom formatting of popMenu is set up in the internal config Component. A callback
+    system is provided for more complex needs.
+  key_operators:
+  - help
+  - popMenu
+  - popMenuConfig
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:popMenu
+radioList:
+  name: radioList
+  category: UI
+  tox_path: UI\radioList.tox.dir
+  purpose: UI component for radioList
+  key_operators:
+  - icon
+  - radioList
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+range:
+  name: range
+  category: UI
+  tox_path: UI\Basic Widgets\range.tox.dir
+  purpose: UI component for range
+  key_operators:
+  - range
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceCHOP:
+  name: referenceCHOP
+  category: UI
+  tox_path: UI\Basic Widgets\referenceCHOP.tox.dir
+  purpose: UI component for referenceCHOP
+  key_operators:
+  - referenceCHOP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceCOMP:
+  name: referenceCOMP
+  category: UI
+  tox_path: UI\Basic Widgets\referenceCOMP.tox.dir
+  purpose: UI component for referenceCOMP
+  key_operators:
+  - referenceCOMP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceDAT:
+  name: referenceDAT
+  category: UI
+  tox_path: UI\Basic Widgets\referenceDAT.tox.dir
+  purpose: UI component for referenceDAT
+  key_operators:
+  - referenceDAT
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceMAT:
+  name: referenceMAT
+  category: UI
+  tox_path: UI\Basic Widgets\referenceMAT.tox.dir
+  purpose: UI component for referenceMAT
+  key_operators:
+  - referenceMAT
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceOBJ:
+  name: referenceOBJ
+  category: UI
+  tox_path: UI\Basic Widgets\referenceOBJ.tox.dir
+  purpose: UI component for referenceOBJ
+  key_operators:
+  - referenceOBJ
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceOP:
+  name: referenceOP
+  category: UI
+  tox_path: UI\Basic Widgets\referenceOP.tox.dir
+  purpose: UI component for referenceOP
+  key_operators:
+  - referenceOP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceSOP:
+  name: referenceSOP
+  category: UI
+  tox_path: UI\Basic Widgets\referenceSOP.tox.dir
+  purpose: UI component for referenceSOP
+  key_operators:
+  - referenceSOP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+referenceTOP:
+  name: referenceTOP
+  category: UI
+  tox_path: UI\Basic Widgets\referenceTOP.tox.dir
+  purpose: UI component for referenceTOP
+  key_operators:
+  - referenceTOP
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+section:
+  name: section
+  category: UI
+  tox_path: UI\Basic Widgets\section.tox.dir
+  purpose: UI component for section
+  key_operators:
+  - section
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+simpleList:
+  name: simpleList
+  category: UI
+  tox_path: UI\simpleList.tox.dir
+  purpose: UI component for simpleList
+  key_operators:
+  - icon
+  - simpleList
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+slider2D:
+  name: slider2D
+  category: UI
+  tox_path: UI\Basic Widgets\slider2D.tox.dir
+  purpose: UI component for slider2D
+  key_operators:
+  - slider2D
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+slider3Hsv:
+  name: slider3Hsv
+  category: UI
+  tox_path: UI\Basic Widgets\slider3Hsv.tox.dir
+  purpose: UI component for slider3Hsv
+  key_operators:
+  - slider3Hsv
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+slider3Rgb:
+  name: slider3Rgb
+  category: UI
+  tox_path: UI\Basic Widgets\slider3Rgb.tox.dir
+  purpose: UI component for slider3Rgb
+  key_operators:
+  - slider3Rgb
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+slider4Hsva:
+  name: slider4Hsva
+  category: UI
+  tox_path: UI\Basic Widgets\slider4Hsva.tox.dir
+  purpose: UI component for slider4Hsva
+  key_operators:
+  - slider4Hsva
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+slider4Rgba:
+  name: slider4Rgba
+  category: UI
+  tox_path: UI\Basic Widgets\slider4Rgba.tox.dir
+  purpose: UI component for slider4Rgba
+  key_operators:
+  - slider4Rgba
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+sliderHorz:
+  name: sliderHorz
+  category: UI
+  tox_path: UI\Basic Widgets\sliderHorz.tox.dir
+  purpose: UI component for sliderHorz
+  key_operators:
+  - sliderHorz
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+sliderHorzXFade:
+  name: sliderHorzXFade
+  category: UI
+  tox_path: UI\Basic Widgets\sliderHorzXFade.tox.dir
+  purpose: UI component for sliderHorzXFade
+  key_operators:
+  - sliderHorzXFade
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+sliderVert:
+  name: sliderVert
+  category: UI
+  tox_path: UI\Basic Widgets\sliderVert.tox.dir
+  purpose: UI component for sliderVert
+  key_operators:
+  - sliderVert
+  has_ui: true
+  use_cases:
+  - UI control elements
+  - Interactive controls
+  - User interface building
+topMenu:
+  name: topMenu
+  category: UI
+  tox_path: UI\Basic Widgets\topMenu.tox.dir
+  purpose: UI component for topMenu
+  key_operators:
+  - topMenu
+  - topMenuCallbacks
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+treeLister:
+  name: treeLister
+  category: UI
+  tox_path: UI\treeLister.tox.dir
+  purpose: The treeLister custom Component provides a powerful and easy way to make tree controls for displaying hierarchical
+    data. It is derived from the lister custom component, so many of its features are doc
+  summary: 'The treeLister custom Component provides a powerful and easy way to make tree controls for displaying hierarchical
+    data. It is derived from the lister custom component, so many of its features are documented in that Component''s wiki
+    pages. Note: many of treeLister''s features require a basic knowledge of Python.'
+  key_operators:
+  - help
+  - treeLister
+  - treeListerConfig
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+  wiki_url: https://docs.derivative.ca/Palette:treeLister
+widgetCacher:
+  name: widgetCacher
+  category: UI
+  tox_path: UI\Basic Widgets\Tools\widgetCacher.tox.dir
+  purpose: UI component for widgetCacher
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+windowHeader:
+  name: windowHeader
+  category: UI
+  tox_path: UI\Basic Widgets\windowHeader.tox.dir
+  purpose: UI component for windowHeader
+  key_operators:
+  - windowHeader
+  has_ui: false
+  use_cases:
+  - Interactive controls
+  - User interface building
+template:
+  name: template
+  category: Uncategorized
+  tox_path: template.tox.dir
+  purpose: Uncategorized component for template
+  has_ui: false
+  use_cases: []
+viveController:
+  name: viveController
+  category: Vive
+  tox_path: Vive\viveController.tox.dir
+  purpose: Vive component for viveController
+  key_operators:
+  - icon
+  - viveController
+  has_ui: false
+  use_cases: []
+viveGeoPanel:
+  name: viveGeoPanel
+  category: Vive
+  tox_path: Vive\viveGeoPanel.tox.dir
+  purpose: Vive component for viveGeoPanel
+  key_operators:
+  - icon
+  - viveGeoPanel
+  has_ui: false
+  use_cases: []
+viveGestureDraw:
+  name: viveGestureDraw
+  category: Vive
+  tox_path: Vive\viveGestureDraw.tox.dir
+  purpose: Vive component for viveGestureDraw
+  key_operators:
+  - icon
+  - viveGestureDraw
+  has_ui: false
+  use_cases: []
+viveRender:
+  name: viveRender
+  category: Vive
+  tox_path: Vive\viveRender.tox.dir
+  purpose: Vive component for viveRender
+  key_operators:
+  - icon
+  - viveRender
+  has_ui: false
+  use_cases: []
+viveSimple:
+  name: viveSimple
+  category: Vive
+  tox_path: Vive\viveSimple.tox.dir
+  purpose: Vive component for viveSimple
+  key_operators:
+  - icon
+  - viveSimple
+  has_ui: false
+  use_cases: []
+signalingClient:
+  name: signalingClient
+  category: WebRTC
+  tox_path: WebRTC\signalingClient.tox.dir
+  purpose: These Extensions reference a specific Palette:signalingClient. The extension of the signalingClient COMP.
+  summary: These Extensions reference a specific Palette:signalingClient. The extension of the signalingClient COMP.
+  key_operators:
+  - help
+  - signalingClient
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:signalingClient
+signalingServer:
+  name: signalingServer
+  category: WebRTC
+  tox_path: WebRTC\signalingServer.tox.dir
+  purpose: These Extensions reference a specific Palette:signalingServer. The Extension class of a signalingServer COMP.
+  summary: These Extensions reference a specific Palette:signalingServer. The Extension class of a signalingServer COMP.
+  key_operators:
+  - help
+  - signalingServer
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:signalingServer
+webRTC:
+  name: webRTC
+  category: WebRTC
+  tox_path: WebRTC\webRTC.tox.dir
+  purpose: These Extensions reference a specific Palette:webRTC. The extension of the webRTC COMP.
+  summary: These Extensions reference a specific Palette:webRTC. The extension of the webRTC COMP.
+  key_operators:
+  - help
+  - webRTC
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:webRTC
+webRTCPanel:
+  name: webRTCPanel
+  category: WebRTC
+  tox_path: WebRTC\webRTCPanel.tox.dir
+  purpose: These Extensions reference a specific Palette:webRTCPanel. The extension of the webRTCPanel COMP.
+  summary: These Extensions reference a specific Palette:webRTCPanel. The extension of the webRTCPanel COMP.
+  key_operators:
+  - help
+  - webRTCPanel
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:webRTCPanel
+webRTCPanelRcv:
+  name: webRTCPanelRcv
+  category: WebRTC
+  tox_path: WebRTC\webRTCPanelRcv.tox.dir
+  purpose: These Extensions reference a specific Palette:webRTCPanelRcv. The extension of the webRTCPanelRcv COMP.
+  summary: These Extensions reference a specific Palette:webRTCPanelRcv. The extension of the webRTCPanelRcv COMP.
+  key_operators:
+  - help
+  - webRTCPanelRcv
+  has_ui: false
+  use_cases: []
+  wiki_url: https://docs.derivative.ca/Palette:webRTCPanelRcv

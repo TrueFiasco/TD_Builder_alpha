@@ -1,0 +1,1074 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\Techniques\\traceImage.tox.dir",
+    "build_version": "099",
+    "build_date": "Thu Aug  7 17:12:58 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.30640"
+  },
+  "operators": {
+    "/traceImage": {
+      "name": "traceImage",
+      "path": "/traceImage",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": [
+        -165.708,
+        757.293,
+        1.11735
+      ],
+      "tile_pos": [
+        1600,
+        -1000,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "enableexternaltox": "off",
+        "Version": {
+          "67109184": "1.0.4"
+        },
+        "Toxsavebuild": {
+          "67109184": 2025.30258
+        }
+      },
+      "parent": null,
+      "children": [
+        "in1",
+        "out1",
+        "color",
+        "merge2",
+        "delete1",
+        "attribute1",
+        "lookuptex2",
+        "traceShape",
+        "boundingBox",
+        "linesmooth2",
+        "traceEngine",
+        "moviefilein1",
+        "dialateEngine",
+        "engine1_info1",
+        "engine1_info2",
+        "engine1_info3",
+        "engine1_info4",
+        "engine1_callbacks",
+        "engine2_callbacks"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 About\n772804869 Help Help 1 1 0 0 1 1 1 2 0 \"\" \"\" About 0\n772804868 Version Version 1 1 0 0 1 1 1 2 0 \"\" \"\" About 1\n772804868 Toxsavebuild \".tox Save Build\" 1 1 0 0 1 1 1 2 0 \"\" \"\" About 2\n?\n",
+          "is_binary": false
+        },
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \t\"\"\n\tin1\n\tTOP\n}\nend\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/traceImage/in1": {
+      "name": "in1",
+      "path": "/traceImage/in1",
+      "op_type": "TOP:in",
+      "family": "TOP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        925,
+        -250,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "filtertype": "nearest"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "moviefilein1"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/out1": {
+      "name": "out1",
+      "path": "/traceImage/out1",
+      "op_type": "POP:out",
+      "family": "POP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        2600,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "linesmooth2"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/color": {
+      "name": "color",
+      "path": "/traceImage/color",
+      "op_type": "TOP:null",
+      "family": "TOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1300,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "filtertype": "nearest"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "dialateEngine/out1"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/merge2": {
+      "name": "merge2",
+      "path": "/traceImage/merge2",
+      "op_type": "POP:merge",
+      "family": "POP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        1650,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "input1pop": "\"\"",
+        "input1attrclass": "point",
+        "input1group": "\"\""
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "traceShape",
+        "1": "boundingBox"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/delete1": {
+      "name": "delete1",
+      "path": "/traceImage/delete1",
+      "op_type": "POP:delete",
+      "family": "POP",
+      "specific_type": "delete",
+      "viewport_pos": null,
+      "tile_pos": [
+        2050,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 4,
+        "group0name": "trace_border"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "lookuptex2"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/attribute1": {
+      "name": "attribute1",
+      "path": "/traceImage/attribute1",
+      "op_type": "POP:attribute",
+      "family": "POP",
+      "specific_type": "attribute",
+      "viewport_pos": null,
+      "tile_pos": [
+        2225,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 4,
+        "ptdel": "N"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "delete1"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/lookuptex2": {
+      "name": "lookuptex2",
+      "path": "/traceImage/lookuptex2",
+      "op_type": "POP:lookuptex",
+      "family": "POP",
+      "specific_type": "lookuptex",
+      "viewport_pos": null,
+      "tile_pos": [
+        1850,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "attrclass": "vertex",
+        "top": "color",
+        "lookupattr0": "Tex(0)",
+        "lookupattr1": "Tex(1)",
+        "outputattrscope": "Color"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "merge2"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/traceShape": {
+      "name": "traceShape",
+      "path": "/traceImage/traceShape",
+      "op_type": "POP:null",
+      "family": "POP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1450,
+        -275,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "traceEngine/out1"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/boundingBox": {
+      "name": "boundingBox",
+      "path": "/traceImage/boundingBox",
+      "op_type": "POP:null",
+      "family": "POP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1400,
+        -450,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "traceEngine/out2"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/linesmooth2": {
+      "name": "linesmooth2",
+      "path": "/traceImage/linesmooth2",
+      "op_type": "POP:linesmooth",
+      "family": "POP",
+      "specific_type": "linesmooth",
+      "viewport_pos": null,
+      "tile_pos": [
+        2400,
+        -350,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "filterdist": 0.01
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {
+        "0": "attribute1"
+      },
+      "extra_files": {}
+    },
+    "/traceImage/traceEngine": {
+      "name": "traceEngine",
+      "path": "/traceImage/traceEngine",
+      "op_type": "COMP:engine",
+      "family": "COMP",
+      "specific_type": "engine",
+      "viewport_pos": [
+        303.189,
+        183.9,
+        9.53556
+      ],
+      "tile_pos": [
+        1100,
+        -400,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "49": "traceEngine.tox app.samplesFolder+'/Tools/Engine/traceEngine.tox'"
+        },
+        "callbacks": "engine2_callbacks",
+        "Version": {
+          "67108928": "1.0.2"
+        },
+        "Toxsavebuild": {
+          "67109184": 2025.30194
+        }
+      },
+      "parent": "/traceImage",
+      "children": [
+        "in1",
+        "out1",
+        "out2"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 Trace About\n772804865 Thresh Threshold 1 1 0 0 1 1 1 2 0.1 \"\" \"\" Trace 0\n235933955 Addtexture \"Add Point Texture\" 2 1 \"\" \"\" Trace 1\n235933955 Delborder \"Remove Borders\" 2 0 \"\" \"\" Trace 2\n235933955 Normals \"Compute Normals\" 2 1 \"\" \"\" Trace 3\n202379525 Help Help About 0\n235933956 Version Version 2 0 \"\" \"\" About 1\n235933956 Toxsavebuild \".tox Save Build\" 2 0 \"\" \"\" About 2\n?\n",
+          "is_binary": false
+        },
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \tin1\n\tin1\n\tTOP\n}\nend\n",
+          "is_binary": false
+        },
+        "enginemap": {
+          "content": "1\n3\nin1\nop/in1\nout1\nop/out1\nout2\nop/out2\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/traceImage/traceEngine/in1": {
+      "name": "in1",
+      "path": "/traceImage/traceEngine/in1",
+      "op_type": "TOP:in",
+      "family": "TOP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "in1 me.name"
+        }
+      },
+      "parent": "/traceImage/traceEngine",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/traceEngine/out1": {
+      "name": "out1",
+      "path": "/traceImage/traceEngine/out1",
+      "op_type": "POP:engineout",
+      "family": "POP",
+      "specific_type": "engineout",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "out1 me.name"
+        }
+      },
+      "parent": "/traceImage/traceEngine",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/traceEngine/out2": {
+      "name": "out2",
+      "path": "/traceImage/traceEngine/out2",
+      "op_type": "POP:engineout",
+      "family": "POP",
+      "specific_type": "engineout",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "out2 me.name"
+        },
+        "connectorder": 1
+      },
+      "parent": "/traceImage/traceEngine",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/moviefilein1": {
+      "name": "moviefilein1",
+      "path": "/traceImage/moviefilein1",
+      "op_type": "TOP:moviefilein",
+      "family": "TOP",
+      "specific_type": "moviefilein",
+      "viewport_pos": null,
+      "tile_pos": [
+        750,
+        -250,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "17": "\"\" \"app.samplesFolder + '/Map/Banana.tif'\""
+        }
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/dialateEngine": {
+      "name": "dialateEngine",
+      "path": "/traceImage/dialateEngine",
+      "op_type": "COMP:engine",
+      "family": "COMP",
+      "specific_type": "engine",
+      "viewport_pos": null,
+      "tile_pos": [
+        1100,
+        -100,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "49": "\"\" \"app.samplesFolder + '/Tools/Engine/dialateEngine.tox'\""
+        },
+        "callbacks": "engine1_callbacks",
+        "Version": {
+          "67108928": "1.0.2"
+        },
+        "Toxsavebuild": {
+          "67109184": 2025.30194
+        }
+      },
+      "parent": "/traceImage",
+      "children": [
+        "in1",
+        "out1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 Dilate About\n-1374678769 Type Type 1 3 0 0 3 1 1 2 0 \"\" \"\" Dilate 4097 2 Dilate Dilate Erode Erode 0\n772804879 Kernel Kernel 1 3 0 0 3 1 1 2 0 \"\" \"\" Dilate 4097 2 Circle Circle Square Square 1\n772804866 Size \"Kernel Size\" 1 1 0 2 1 1 20 2 20 \"\" \"\" Dilate 2\n772804866 Resample \"Kernel Resample\" 1 1 0 0 1 1 9 2 5 \"\" \"\" Dilate 3\n772804865 Drywet \"Dry / Wet Mix\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Dilate 4\n202379525 Help Help About 0\n235933956 Version Version 2 0 \"\" \"\" About 1\n235933956 Toxsavebuild \".tox Save Build\" 2 0 \"\" \"\" About 2\n?\n",
+          "is_binary": false
+        },
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \tin1\n\tin1\n\tTOP\n}\nend\n",
+          "is_binary": false
+        },
+        "enginemap": {
+          "content": "1\n2\nin1\nop/in1\nout1\nop/out1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/traceImage/dialateEngine/in1": {
+      "name": "in1",
+      "path": "/traceImage/dialateEngine/in1",
+      "op_type": "TOP:in",
+      "family": "TOP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "in1 me.name"
+        }
+      },
+      "parent": "/traceImage/dialateEngine",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/dialateEngine/out1": {
+      "name": "out1",
+      "path": "/traceImage/dialateEngine/out1",
+      "op_type": "TOP:engineout",
+      "family": "TOP",
+      "specific_type": "engineout",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "out1 me.name"
+        }
+      },
+      "parent": "/traceImage/dialateEngine",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/engine1_info1": {
+      "name": "engine1_info1",
+      "path": "/traceImage/engine1_info1",
+      "op_type": "CHOP:info",
+      "family": "CHOP",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        1290,
+        -260,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "dialateEngine",
+        "infotype": "enginestatus"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/engine1_info2": {
+      "name": "engine1_info2",
+      "path": "/traceImage/engine1_info2",
+      "op_type": "DAT:info",
+      "family": "DAT",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        1100,
+        -260,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "dialateEngine",
+        "language": "text"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/engine1_info3": {
+      "name": "engine1_info3",
+      "path": "/traceImage/engine1_info3",
+      "op_type": "CHOP:info",
+      "family": "CHOP",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        1300,
+        -550,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "traceEngine",
+        "infotype": "enginestatus"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/engine1_info4": {
+      "name": "engine1_info4",
+      "path": "/traceImage/engine1_info4",
+      "op_type": "DAT:info",
+      "family": "DAT",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        1100,
+        -550,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "traceEngine",
+        "language": "text"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/traceImage/engine1_callbacks": {
+      "name": "engine1_callbacks",
+      "path": "/traceImage/engine1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        910,
+        -260,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "language": "python"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAG8IyBtZSAtIHRoaXMgREFULgojIGVuZ2luZUNvbXAgLSB0aGUgY29ubmVjdGVkIEVuZ2luZSBDT01QCgojIG9uSW5pdGlhbGl6ZSgpOiBpZiByZXR1cm4gdmFsdWUgPiAwLCBpdCB3aWxsIGJlCiMgY2FsbGVkIGFnYWluIGFmdGVyIHRoZSByZXR1cm5lZCBudW1iZXIgb2YgZnJhbWVzLgojIGNhbGxDb3VudCBpbmNyZW1lbnRzIHdpdGggZWFjaCBhdHRlbXB0LCBzdGFydGluZyBhdCAxCgpkZWYgb25Jbml0aWFsaXplKGVuZ2luZUNvbXAsIGNhbGxDb3VudCk6CglyZXR1cm4gMAoKZGVmIG9uUmVhZHkoZW5naW5lQ29tcCk6CglyZXR1cm4KCmRlZiBvblN0YXJ0KGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgd2hpbGVSdW5uaW5nKGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgb25Eb25lKGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgb25FcnJvcihlbmdpbmVDb21wKToKCXJldHVybgoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/traceImage/engine2_callbacks": {
+      "name": "engine2_callbacks",
+      "path": "/traceImage/engine2_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        900,
+        -550,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "language": "python"
+      },
+      "parent": "/traceImage",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAG8IyBtZSAtIHRoaXMgREFULgojIGVuZ2luZUNvbXAgLSB0aGUgY29ubmVjdGVkIEVuZ2luZSBDT01QCgojIG9uSW5pdGlhbGl6ZSgpOiBpZiByZXR1cm4gdmFsdWUgPiAwLCBpdCB3aWxsIGJlCiMgY2FsbGVkIGFnYWluIGFmdGVyIHRoZSByZXR1cm5lZCBudW1iZXIgb2YgZnJhbWVzLgojIGNhbGxDb3VudCBpbmNyZW1lbnRzIHdpdGggZWFjaCBhdHRlbXB0LCBzdGFydGluZyBhdCAxCgpkZWYgb25Jbml0aWFsaXplKGVuZ2luZUNvbXAsIGNhbGxDb3VudCk6CglyZXR1cm4gMAoKZGVmIG9uUmVhZHkoZW5naW5lQ29tcCk6CglyZXR1cm4KCmRlZiBvblN0YXJ0KGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgd2hpbGVSdW5uaW5nKGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgb25Eb25lKGVuZ2luZUNvbXApOgoJcmV0dXJuCgpkZWYgb25FcnJvcihlbmdpbmVDb21wKToKCXJldHVybgoJ",
+          "is_binary": true
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.30640\ntime Thu Aug  7 17:12:58 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "traceImage.n",
+    "traceImage.cparm",
+    "traceImage.parm",
+    "traceImage.network",
+    "traceImage/in1.n",
+    "traceImage/in1.parm",
+    "traceImage/out1.n",
+    "traceImage/color.n",
+    "traceImage/color.parm",
+    "traceImage/merge2.n",
+    "traceImage/merge2.parm",
+    "traceImage/delete1.n",
+    "traceImage/delete1.parm",
+    "traceImage/attribute1.n",
+    "traceImage/attribute1.parm",
+    "traceImage/lookuptex2.n",
+    "traceImage/lookuptex2.parm",
+    "traceImage/traceShape.n",
+    "traceImage/boundingBox.n",
+    "traceImage/linesmooth2.n",
+    "traceImage/linesmooth2.parm",
+    "traceImage/traceEngine.n",
+    "traceImage/traceEngine.cparm",
+    "traceImage/traceEngine.parm",
+    "traceImage/traceEngine.network",
+    "traceImage/traceEngine.enginemap",
+    "traceImage/traceEngine/in1.n",
+    "traceImage/traceEngine/in1.parm",
+    "traceImage/traceEngine/out1.n",
+    "traceImage/traceEngine/out1.parm",
+    "traceImage/traceEngine/out2.n",
+    "traceImage/traceEngine/out2.parm",
+    "traceImage/moviefilein1.n",
+    "traceImage/moviefilein1.parm",
+    "traceImage/dialateEngine.n",
+    "traceImage/dialateEngine.cparm",
+    "traceImage/dialateEngine.parm",
+    "traceImage/dialateEngine.network",
+    "traceImage/dialateEngine.enginemap",
+    "traceImage/dialateEngine/in1.n",
+    "traceImage/dialateEngine/in1.parm",
+    "traceImage/dialateEngine/out1.n",
+    "traceImage/dialateEngine/out1.parm",
+    "traceImage/engine1_info1.n",
+    "traceImage/engine1_info1.parm",
+    "traceImage/engine1_info2.n",
+    "traceImage/engine1_info2.parm",
+    "traceImage/engine1_info3.n",
+    "traceImage/engine1_info3.parm",
+    "traceImage/engine1_info4.n",
+    "traceImage/engine1_info4.parm",
+    "traceImage/engine1_callbacks.n",
+    "traceImage/engine1_callbacks.parm",
+    "traceImage/engine1_callbacks.text",
+    "traceImage/engine2_callbacks.n",
+    "traceImage/engine2_callbacks.parm",
+    "traceImage/engine2_callbacks.text"
+  ],
+  "connections": [
+    {
+      "from": "moviefilein1",
+      "to": "/traceImage/in1",
+      "to_input": 0
+    },
+    {
+      "from": "linesmooth2",
+      "to": "/traceImage/out1",
+      "to_input": 0
+    },
+    {
+      "from": "dialateEngine/out1",
+      "to": "/traceImage/color",
+      "to_input": 0
+    },
+    {
+      "from": "traceShape",
+      "to": "/traceImage/merge2",
+      "to_input": 0
+    },
+    {
+      "from": "boundingBox",
+      "to": "/traceImage/merge2",
+      "to_input": 1
+    },
+    {
+      "from": "lookuptex2",
+      "to": "/traceImage/delete1",
+      "to_input": 0
+    },
+    {
+      "from": "delete1",
+      "to": "/traceImage/attribute1",
+      "to_input": 0
+    },
+    {
+      "from": "merge2",
+      "to": "/traceImage/lookuptex2",
+      "to_input": 0
+    },
+    {
+      "from": "traceEngine/out1",
+      "to": "/traceImage/traceShape",
+      "to_input": 0
+    },
+    {
+      "from": "traceEngine/out2",
+      "to": "/traceImage/boundingBox",
+      "to_input": 0
+    },
+    {
+      "from": "attribute1",
+      "to": "/traceImage/linesmooth2",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 25,
+    "total_connections": 11,
+    "total_raw_files": 1,
+    "total_extra_files": 10,
+    "total_files_captured": 59,
+    "by_family": {
+      "COMP": 3,
+      "TOP": 6,
+      "POP": 10,
+      "CHOP": 2,
+      "DAT": 4
+    },
+    "by_type": {
+      "COMP:base": 1,
+      "TOP:in": 3,
+      "POP:out": 1,
+      "TOP:null": 1,
+      "POP:merge": 1,
+      "POP:delete": 1,
+      "POP:attribute": 1,
+      "POP:lookuptex": 1,
+      "POP:null": 2,
+      "POP:linesmooth": 1,
+      "COMP:engine": 2,
+      "POP:engineout": 2,
+      "TOP:moviefilein": 1,
+      "TOP:engineout": 1,
+      "CHOP:info": 2,
+      "DAT:info": 2,
+      "DAT:text": 2
+    },
+    "max_depth": 3,
+    "total_parameters": 44
+  }
+}

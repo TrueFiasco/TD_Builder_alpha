@@ -1,0 +1,191 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\selectTOP_lossless.json",
+  "operator_type": "selectTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select",
+          "type": "TOP:select",
+          "parameters": {
+            "top": "null1"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:null": 1,
+          "DAT:text": 1,
+          "TOP:select": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "level_1",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "select1_from_level_1",
+          "type": "TOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "select1_from_level_2",
+          "type": "TOP:select",
+          "parameters": {}
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1,
+          "TOP:select": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "square",
+            "frequency": 0.4,
+            "offset": 0.5,
+            "amp": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "banana",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "smiley",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "select1",
+          "type": "TOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "selector",
+          "type": "CHOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein2",
+          "to": "banana",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "smiley",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "selector",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "TOP:null": 2,
+          "DAT:text": 1,
+          "TOP:select": 1,
+          "TOP:moviefilein": 2,
+          "CHOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

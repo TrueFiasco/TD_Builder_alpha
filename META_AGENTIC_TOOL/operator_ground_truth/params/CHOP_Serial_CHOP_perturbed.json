@@ -1,0 +1,152 @@
+{
+  "operator": "Serial_CHOP",
+  "family": "CHOP",
+  "td_create_name": "serialCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "state": {
+      "type": "menu",
+      "value": "on",
+      "menuIndex": 1,
+      "menuNames": [
+        "offtoon",
+        "on",
+        "ontooff",
+        "off",
+        "valuechange"
+      ],
+      "menuLabels": [
+        "Off to On",
+        "While On",
+        "On to Off",
+        "While Off",
+        "Value Change"
+      ]
+    },
+    "port": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "baudrate": {
+      "type": "int",
+      "value": 9601
+    },
+    "databits": {
+      "type": "menu",
+      "value": "9",
+      "menuIndex": 3,
+      "menuNames": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "menuLabels": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ]
+    },
+    "parity": {
+      "type": "menu",
+      "value": "even",
+      "menuIndex": 0,
+      "menuNames": [
+        "even",
+        "odd",
+        "none"
+      ],
+      "menuLabels": [
+        "Even",
+        "Odd",
+        "None"
+      ]
+    },
+    "stopbits": {
+      "type": "menu",
+      "value": "1",
+      "menuIndex": 0,
+      "menuNames": [
+        "1",
+        "2"
+      ],
+      "menuLabels": [
+        "1",
+        "2"
+      ]
+    },
+    "script": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "script0callback": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\normalPOP_lossless.json",
+  "operator_type": "normalPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.2
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "POP:twist",
+          "parameters": {
+            "op": "bend",
+            "paxis": "y",
+            "saxis": "x",
+            "px": -1,
+            "strength": 145
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "normal2",
+          "type": "POP:normal",
+          "parameters": {
+            "attrclass": "vertex"
+          }
+        },
+        {
+          "name": "normal3",
+          "type": "POP:normal",
+          "parameters": {
+            "attrclass": "primitive"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "normal2",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "normal3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:twist": 1,
+          "POP:normal": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

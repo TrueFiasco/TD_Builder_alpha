@@ -1,0 +1,138 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\extrudePOP_lossless.json",
+  "operator_type": "extrudePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "facet1",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "unique"
+          }
+        },
+        {
+          "name": "facet2",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "unique"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "normal2",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "random1",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 1.7,
+            "combineop": "set",
+            "outputattrscope": "Size",
+            "attrclass": "primitive"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 3
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 3
+          }
+        },
+        {
+          "name": "extrude1",
+          "type": "POP:extrude",
+          "parameters": {
+            "distance": 0.9,
+            "inset": -0.43
+          }
+        },
+        {
+          "name": "extrude2",
+          "type": "POP:extrude",
+          "parameters": {
+            "usedistanceattr": "on",
+            "distanceattr": "Size"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "extrude1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "extrude2",
+          "to": "facet2",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet2",
+          "to": "normal2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "random1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "extrude1",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "extrude2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 7,
+        "operator_types": {
+          "POP:facet": 2,
+          "DAT:text": 1,
+          "POP:normal": 2,
+          "POP:random": 1,
+          "POP:sphere": 2,
+          "POP:extrude": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

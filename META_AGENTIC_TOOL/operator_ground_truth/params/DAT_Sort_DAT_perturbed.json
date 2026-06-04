@@ -1,0 +1,180 @@
+{
+  "operator": "Sort_DAT",
+  "family": "DAT",
+  "td_create_name": "sortDAT",
+  "param_count": 14,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "sortmethod": {
+      "type": "menu",
+      "value": "colpreserve",
+      "menuIndex": 2,
+      "menuNames": [
+        "colname",
+        "colindex",
+        "colpreserve",
+        "rowname",
+        "rowindex",
+        "rowpreserve"
+      ],
+      "menuLabels": [
+        "Rows (Specify Column Name)",
+        "Rows (Specify Column Index)",
+        "Rows (Preserve Input Order)",
+        "Columns (Specify Row Name)",
+        "Columns (Specify Row Index)",
+        "Columns (Preserve Input Order)"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "index": {
+      "type": "int",
+      "value": 1
+    },
+    "order": {
+      "type": "menu",
+      "value": "random",
+      "menuIndex": 3,
+      "menuNames": [
+        "alpha",
+        "alphanum",
+        "nums",
+        "random"
+      ],
+      "menuLabels": [
+        "Alphabetical",
+        "Alphabetical with Numbers",
+        "Numbers",
+        "Random"
+      ]
+    },
+    "seed": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "ignorecase": {
+      "type": "toggle",
+      "value": true
+    },
+    "preservefirst": {
+      "type": "toggle",
+      "value": true
+    },
+    "unique": {
+      "type": "menu",
+      "value": "single",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "single",
+        "entire"
+      ],
+      "menuLabels": [
+        "Off",
+        "Single Row/Col",
+        "Entire Rows/Cols"
+      ]
+    },
+    "reverse": {
+      "type": "toggle",
+      "value": true
+    },
+    "language": {
+      "type": "menu",
+      "value": "parameter",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "parameter",
+        "text",
+        "python",
+        "glsl",
+        "json",
+        "yaml",
+        "xml",
+        "tscript"
+      ],
+      "menuLabels": [
+        "From Input",
+        "From Parameter Language",
+        "Plain Text",
+        "Python",
+        "GLSL",
+        "JSON",
+        "YAML",
+        "XML / HTML",
+        "Tscript"
+      ]
+    },
+    "extension": {
+      "type": "menu",
+      "value": "customext",
+      "menuIndex": 17,
+      "menuNames": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "languageext",
+        "customext"
+      ],
+      "menuLabels": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "From Content Language",
+        "Custom Extension"
+      ]
+    },
+    "customext": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "wordwrap": {
+      "type": "menu",
+      "value": "on",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "on",
+        "off"
+      ],
+      "menuLabels": [
+        "Input",
+        "On",
+        "Off"
+      ]
+    }
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\renderpickDAT_lossless.json",
+  "operator_type": "renderpickDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "renderPick",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 1,
+            "w": 800,
+            "h": 450,
+            "top": "./null1",
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 5
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tz": 10
+          }
+        },
+        {
+          "name": "panel1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 2,
+            "w": 1280,
+            "h": 720,
+            "top": "to_panel"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "states",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"r g b\"",
+            "fills0expr": 1
+          }
+        },
+        {
+          "name": "geo_box",
+          "type": "COMP:geo",
+          "parameters": {
+            "tx": -0.15,
+            "ty": -0.535,
+            "rx": 33,
+            "ry": 33,
+            "rz": 33,
+            "sx": 0.56,
+            "sy": 0.56,
+            "sz": 0.56
+          }
+        },
+        {
+          "name": "hsvrgb1",
+          "type": "TOP:hsvrgb",
+          "parameters": {}
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "null_mod",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "random",
+            "seed": 2.63,
+            "torange1": -1,
+            "torange2": 1,
+            "channelname": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "to_panel",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "decay": 0.87,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "geo_spots",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "tx": 1.15,
+            "ty": 0.32,
+            "sx": 0.6,
+            "sy": 0.6,
+            "sz": 0.6,
+            "instancing": "on",
+            "instanceop": "pattern1",
+            "instancetx": "tx",
+            "instancety": "ty",
+            "instancetz": "tz",
+            "instancer": "r",
+            "instanceg": "g",
+            "instanceb": "b"
+          }
+        },
+        {
+          "name": "geo_torus",
+          "type": "COMP:geo",
+          "parameters": {
+            "tx": -1.08289,
+            "ty": 0.531275,
+            "rx": 50.4,
+            "sx": 0.35,
+            "sy": 0.35,
+            "sz": 0.35
+          }
+        },
+        {
+          "name": "mtouchin1",
+          "type": "DAT:mtouchin",
+          "parameters": {
+            "mouse": "on",
+            "callbacks": "mtouchin1_callbacks"
+          }
+        },
+        {
+          "name": "geo_copies",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 7,
+            "tx": -1.2,
+            "ty": -0.6,
+            "rz": 275,
+            "sx": 0.1,
+            "sy": 0.1,
+            "sz": 0.1
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "topto_ramp",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "hsvrgb1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "transpose1",
+          "type": "DAT:transpose",
+          "parameters": {}
+        },
+        {
+          "name": "renderpick1",
+          "type": "DAT:renderpick",
+          "parameters": {
+            "pageindex": 1,
+            "rendertop": "render1",
+            "callbacks": "renderpick1_callbacks",
+            "nameformat": "basic",
+            "uv": "on",
+            "depth": "on",
+            "instanceid": "on",
+            "customattrib1": "aaa",
+            "customattrib2": "bbb",
+            "customattrib2type": "float3",
+            "customattrib3": "MyCopyNumber"
+          }
+        },
+        {
+          "name": "mtouchin1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "renderpick1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "hsvrgb1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "null_mod",
+          "to_input": "0"
+        },
+        {
+          "from": "render1",
+          "to": "to_panel",
+          "to_input": "0"
+        },
+        {
+          "from": "renderpick1",
+          "to": "transpose1",
+          "to_input": "0"
+        },
+        {
+          "from": "mtouchin1",
+          "to": "renderpick1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 24,
+        "connection_count": 5,
+        "operator_types": {
+          "COMP:cam": 1,
+          "TOP:ramp": 1,
+          "COMP:light": 1,
+          "COMP:container": 1,
+          "DAT:text": 3,
+          "COMP:base": 1,
+          "DAT:table": 2,
+          "COMP:geo": 4,
+          "TOP:hsvrgb": 1,
+          "TOP:render": 1,
+          "DAT:null": 1,
+          "CHOP:pattern": 1,
+          "TOP:null": 1,
+          "CHOP:trigger": 1,
+          "DAT:mtouchin": 1,
+          "CHOP:topto": 1,
+          "DAT:transpose": 1,
+          "DAT:renderpick": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

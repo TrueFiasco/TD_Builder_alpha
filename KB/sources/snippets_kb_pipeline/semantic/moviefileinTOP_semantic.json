@@ -1,0 +1,975 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\moviefileinTOP_lossless.json",
+  "operator_type": "moviefileinTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "cueMovie",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Cue Movie\"",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "movieLooping",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "cuepoint": 20,
+            "cuepointunit": "indices"
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 5,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "moviePlayOnce",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "cuepoint": 20,
+            "cuepointunit": "indices",
+            "textendright": "hold"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "cueMovie/out1",
+          "to": "null2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "TOP:moviefilein": 2,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "Movie_In_Index",
+            "iscope": "index",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 1,
+            "torange2": 100
+          }
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null3_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "null3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "Movie_In_Index",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "indexunit": "indices"
+          }
+        },
+        {
+          "name": "slider_movieIndex",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "index",
+            "value0": 0.69697,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider_movieIndex/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:info": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:moviefilein": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "play",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Play",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "Movie_In_Trim",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "trim": "on",
+            "tstart": 0.231,
+            "tend": 0.622
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "play/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:button": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "movieTimeline",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "locked"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "reloadMovie",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Reload Movie\"",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "movieLooping",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 5,
+            "extension": "languageext"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "reloadMovie/out1",
+          "to": "null2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "index",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "moviefilein_sequence1"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "CHOP:limit",
+          "parameters": {
+            "type": "loop",
+            "min": 1,
+            "max": 5,
+            "quantvalue": "floor",
+            "vstep": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "index",
+            "const0value": 1.5
+          }
+        },
+        {
+          "name": "moviefilein_sequence1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "speed": 1.5,
+            "interp": "on"
+          }
+        },
+        {
+          "name": "moviefilein_sequence2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify"
+          }
+        },
+        {
+          "name": "moviefilein_stillImage",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "limit1",
+          "to": "index",
+          "to_input": "0"
+        },
+        {
+          "from": "speed1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:info": 1,
+          "CHOP:limit": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "CHOP:constant": 1,
+          "TOP:moviefilein": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 1,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "square",
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "loop",
+            "limitmin": 1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "logic1",
+          "type": "CHOP:logic",
+          "parameters": {
+            "preop": "toggle",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 1
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "folder1",
+          "type": "DAT:folder",
+          "parameters": {
+            "pageindex": 1,
+            "callbacks": "folder1_callbacks",
+            "namecol": "off"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "movieLoader",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3,
+            "ext0object": "op('./MovieLoaderExt').module.MovieLoaderExt(me)",
+            "ext0promote": "on",
+            "parentshortcut": "MovieLoader"
+          }
+        },
+        {
+          "name": "null_export",
+          "type": "CHOP:null",
+          "parameters": {
+            "pageindex": 1,
+            "exportmethod": "autoname",
+            "autoexportroot": "\"\""
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify"
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "null3_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "null4_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "null_movieTop",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "null_movieFile",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "null_switchTop",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null4_export"
+          }
+        },
+        {
+          "name": "null_switchMovie",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null3_export"
+          }
+        },
+        {
+          "name": "folder1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "logic1",
+          "to_input": "0"
+        },
+        {
+          "from": "null_export",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "folder1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "select2",
+          "to_input": "0"
+        },
+        {
+          "from": "movieLoader/out2",
+          "to": "null_export",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "null_movieTop",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "null_movieFile",
+          "to_input": "0"
+        },
+        {
+          "from": "logic1",
+          "to": "null_switchTop",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "null_switchMovie",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 23,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:count": 1,
+          "CHOP:logic": 1,
+          "DAT:text": 2,
+          "DAT:table": 3,
+          "CHOP:trail": 1,
+          "DAT:folder": 1,
+          "DAT:select": 2,
+          "COMP:annotate": 3,
+          "COMP:base": 1,
+          "CHOP:null": 3,
+          "TOP:moviefilein": 2,
+          "DAT:null": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "spec",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "crosstime",
+            "const0value": 0.7
+          }
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "add",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "curmv",
+          "type": "DAT:select",
+          "parameters": {
+            "firstrow": "on",
+            "extractrows": "byindex",
+            "rowindexstart": 4
+          }
+        },
+        {
+          "name": "mvlist",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "folder2",
+          "type": "DAT:folder",
+          "parameters": {
+            "callbacks": "folder2_callbacks"
+          }
+        },
+        {
+          "name": "mvspec1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "layer": 1,
+            "helpdat": "\"\"",
+            "bgalpha": 1,
+            "top": "./icon",
+            "topfill": "best",
+            "topsmoothness": "mipmap",
+            "dropscript": "./drop"
+          }
+        },
+        {
+          "name": "mvspec2",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "layer": 1,
+            "helpdat": "\"\"",
+            "bgalpha": 1,
+            "top": "./icon",
+            "topfill": "best",
+            "topsmoothness": "mipmap",
+            "dropscript": "./drop"
+          }
+        },
+        {
+          "name": "perform1",
+          "type": "CHOP:perform",
+          "parameters": {
+            "msec": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "sort_random",
+          "type": "DAT:sort",
+          "parameters": {
+            "order": "random",
+            "seed": 43.4,
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "movieEngine1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1290,
+            "h": 720,
+            "layer": 1,
+            "sizefromwindow": "on",
+            "helpdat": "\"\"",
+            "bgalpha": 1,
+            "top": "./out1",
+            "topfill": "best",
+            "topsmoothness": "mipmap",
+            "borderar": 1,
+            "borderag": 0.357,
+            "borderab": 0.367288,
+            "borderaalpha": 0.284,
+            "drop": "legacy",
+            "dropscript": "./drop",
+            "ext2object": "\"\"",
+            "ext2name": "\"\"",
+            "ext3object": "\"\"",
+            "ext3name": "\"\""
+          }
+        },
+        {
+          "name": "movieEngine2",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1290,
+            "h": 720,
+            "layer": 1,
+            "sizefromwindow": "on",
+            "helpdat": "\"\"",
+            "bgalpha": 1,
+            "top": "./out1",
+            "topfill": "best",
+            "topsmoothness": "mipmap",
+            "borderar": 1,
+            "borderag": 0.357,
+            "borderab": 0.367288,
+            "borderaalpha": 0.284,
+            "drop": "legacy",
+            "dropscript": "./drop",
+            "ext2object": "\"\"",
+            "ext2name": "\"\"",
+            "ext3object": "\"\"",
+            "ext3name": "\"\""
+          }
+        },
+        {
+          "name": "engine_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "python"
+          }
+        },
+        {
+          "name": "folder2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "movieEngine1/out1",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "movieEngine2/out1",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "mvlist",
+          "to": "curmv",
+          "to_input": "0"
+        },
+        {
+          "from": "sort_random",
+          "to": "mvlist",
+          "to_input": "0"
+        },
+        {
+          "from": "perform1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "folder2",
+          "to": "sort_random",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:constant": 1,
+          "TOP:comp": 1,
+          "DAT:select": 1,
+          "DAT:null": 1,
+          "DAT:text": 3,
+          "CHOP:trail": 1,
+          "DAT:folder": 1,
+          "COMP:container": 4,
+          "CHOP:perform": 1,
+          "DAT:sort": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

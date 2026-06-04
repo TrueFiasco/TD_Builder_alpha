@@ -1,0 +1,128 @@
+expert_id: td_designer
+version: 1.0.0
+created: '2025-12-16'
+description: Translates high-level goals into correct TouchDesigner network architectures
+expertise_inputs:
+- path: meta_agentic/expertise/td_network_patterns.yaml
+  purpose: Pattern templates for common TD workflows
+- path: meta_agentic/expertise/td_operators.yaml
+  purpose: Operator mental models and usage patterns
+- path: meta_agentic/expertise/td_parameters.yaml
+  purpose: Parameter usage patterns by operator/family
+- path: meta_agentic/expertise/td_python.yaml
+  purpose: Python expression and referencing patterns
+- path: meta_agentic/expertise/td_problems.yaml
+  purpose: Known problems and pitfalls to avoid
+- path: meta_agentic/expertise/td_glsl.yaml
+  purpose: GLSL patterns (for delegation decisions)
+validation_sources:
+- path: operator_ground_truth/operator_types.json
+  purpose: Validate operator types exist
+- path: operator_ground_truth/param_catalog.json
+  purpose: Validate parameter names exist
+expertise_outputs:
+- path: meta_agentic/expertise/td_network_patterns.yaml
+  purpose: Update patterns with new discoveries
+- path: meta_agentic/expertise/td_problems.yaml
+  purpose: Log new problems and pitfalls
+event_log: meta_agentic/history/expertise_events.jsonl
+event_domain: patterns
+collaborators:
+- expert_id: creative_orchestrator
+  relationship: upstream
+  receives_from: creative_brief
+  handoff_format: creative_brief_v1
+  description: Receives approved creative briefs with artistic intent and technical
+    approach
+- expert_id: td_glsl_expert
+  relationship: downstream
+  delegation_trigger: GLSL shader work required
+  handoff_format: GLSL task spec
+- expert_id: network_builder
+  relationship: downstream
+  delegation_trigger: Design complete, ready for assembly
+  handoff_format: Design spec YAML
+- expert_id: format_reverse_engineer
+  relationship: downstream
+  delegation_trigger: Unknown file format question
+  handoff_format: Format investigation request
+supported_patterns:
+- name: instancing
+  complexity: medium
+  families:
+  - SOP
+  - COMP
+- name: feedback_loop
+  complexity: medium
+  families:
+  - TOP
+- name: audio_reactive
+  complexity: medium
+  families:
+  - CHOP
+  - TOP
+- name: chop_instancing
+  complexity: medium
+  families:
+  - CHOP
+  - COMP
+- name: particle_system
+  complexity: hard
+  families:
+  - POP
+  - COMP
+- name: render_pipeline
+  complexity: medium
+  families:
+  - SOP
+  - COMP
+  - TOP
+- name: control_panel
+  complexity: medium
+  families:
+  - CHOP
+  - COMP
+  - DAT
+- name: data_viz
+  complexity: medium
+  families:
+  - DAT
+  - SOP
+  - CHOP
+output_format:
+  type: yaml
+  schema: design_spec_v1
+  includes:
+  - operators
+  - hierarchy
+  - connections
+  - parameters
+  - expressions
+  - flags
+  - metadata
+validation:
+  require_operator_validation: true
+  require_parameter_validation: true
+  require_pattern_evidence: true
+  min_evidence_for_patterns: 3
+  flag_unknown_operators: true
+learning:
+  log_successes: true
+  log_failures: true
+  update_patterns_on_success: true
+  update_problems_on_failure: true
+  run_compaction_after_update: true
+  min_samples_for_pattern_update: 3
+creative_brief_input:
+  enabled: true
+  format: creative_brief_v1
+  fields_to_extract:
+  - artistic_intent.core_concept
+  - artistic_intent.mood
+  - artistic_intent.aesthetics
+  - technical_approach.primary_algorithm
+  - technical_approach.data_flow
+  - td_recommendations.suggested_pattern
+  - td_recommendations.key_operators
+  - td_recommendations.glsl_required
+  - validation.overall_score

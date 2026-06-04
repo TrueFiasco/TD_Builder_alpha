@@ -1,0 +1,95 @@
+{
+  "operator": "Hog_CHOP",
+  "family": "CHOP",
+  "td_create_name": "hogCHOP",
+  "param_count": 13,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "cookalways": {
+      "type": "toggle",
+      "value": false
+    },
+    "delay": {
+      "type": "float",
+      "value": 0.13345
+    },
+    "delayunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

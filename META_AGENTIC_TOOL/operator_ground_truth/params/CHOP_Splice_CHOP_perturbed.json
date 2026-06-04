@@ -1,0 +1,223 @@
+{
+  "operator": "Splice_CHOP",
+  "family": "CHOP",
+  "td_create_name": "spliceCHOP",
+  "param_count": 22,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "outputtrimmed": {
+      "type": "toggle",
+      "value": true
+    },
+    "direction": {
+      "type": "menu",
+      "value": "lasttofirst",
+      "menuIndex": 1,
+      "menuNames": [
+        "firsttolast",
+        "lasttofirst"
+      ],
+      "menuLabels": [
+        "First to Last",
+        "Last to First"
+      ]
+    },
+    "start": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "units": {
+      "type": "menu",
+      "value": "frames",
+      "menuIndex": 1,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "trimmethod": {
+      "type": "menu",
+      "value": "insertlength",
+      "menuIndex": 1,
+      "menuNames": [
+        "trimlength",
+        "insertlength"
+      ],
+      "menuLabels": [
+        "Use Trim Length",
+        "Trim to Insert Input Length"
+      ]
+    },
+    "trimlength": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "trimlengthunits": {
+      "type": "menu",
+      "value": "frames",
+      "menuIndex": 1,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "insertmethod": {
+      "type": "menu",
+      "value": "stretchtrim",
+      "menuIndex": 2,
+      "menuNames": [
+        "none",
+        "natural",
+        "stretchtrim",
+        "insertlength",
+        "stretchinsert"
+      ],
+      "menuLabels": [
+        "None",
+        "Input Length",
+        "Stretch to Trim Length",
+        "Trim to Insert Length",
+        "Stretch to Insert Length"
+      ]
+    },
+    "insertlength": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "insertunits": {
+      "type": "menu",
+      "value": "frames",
+      "menuIndex": 1,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "insertinterp": {
+      "type": "menu",
+      "value": "cubic",
+      "menuIndex": 2,
+      "menuNames": [
+        "none",
+        "linear",
+        "cubic"
+      ],
+      "menuLabels": [
+        "None",
+        "Linear",
+        "Cubic"
+      ]
+    },
+    "match": {
+      "type": "menu",
+      "value": "name",
+      "menuIndex": 1,
+      "menuNames": [
+        "index",
+        "name"
+      ],
+      "menuLabels": [
+        "Channel Number",
+        "Channel Name"
+      ]
+    },
+    "unmatchedinterp": {
+      "type": "menu",
+      "value": "cubic",
+      "menuIndex": 2,
+      "menuNames": [
+        "none",
+        "linear",
+        "cubic"
+      ],
+      "menuLabels": [
+        "None",
+        "Linear",
+        "Cubic"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

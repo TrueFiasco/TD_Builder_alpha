@@ -1,0 +1,147 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\clockCHOP_lossless.json",
+  "operator_type": "clockCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "integer": "floor",
+            "fromrange2": 1000,
+            "torange2": 30,
+            "scope": "msec"
+          }
+        },
+        {
+          "name": "clock1",
+          "type": "CHOP:clock",
+          "parameters": {
+            "ampm": "\"\"",
+            "wday": "\"\"",
+            "day": "\"\"",
+            "yday": "\"\"",
+            "week": "\"\"",
+            "month": "\"\"",
+            "year": "\"\"",
+            "moonphase": "\"\"",
+            "sunphase": "\"\"",
+            "sunrise": "\"\"",
+            "sunset": "\"\"",
+            "declination": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "clock2",
+          "type": "CHOP:clock",
+          "parameters": {
+            "output": "fractions",
+            "ampm": "\"\"",
+            "wday": "\"\"",
+            "day": "\"\"",
+            "yday": "\"\"",
+            "week": "\"\"",
+            "month": "\"\"",
+            "year": "\"\"",
+            "moonphase": "\"\"",
+            "sunphase": "\"\"",
+            "sunrise": "\"\"",
+            "sunset": "\"\"",
+            "declination": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "cycle": "on",
+            "callbacks": "timer1_callbacks",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "renameto": "sec"
+          }
+        },
+        {
+          "name": "select3",
+          "type": "CHOP:select",
+          "parameters": {
+            "renamefrom": "msec",
+            "renameto": "frame"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "clock1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "clock1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "clock2",
+          "to_input": "0"
+        },
+        {
+          "from": "timer1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "select3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:clock": 2,
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:select": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

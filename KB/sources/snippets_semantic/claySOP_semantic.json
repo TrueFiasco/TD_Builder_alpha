@@ -1,0 +1,623 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\claySOP_lossless.json",
+  "operator_type": "claySOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "pageindex": 1,
+            "channelname": "\"y z\"",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.65,
+            "channelname": "u",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo3",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.31,
+            "channelname": "v",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "clay1",
+          "type": "SOP:clay",
+          "parameters": {
+            "pageindex": 1,
+            "method": "point",
+            "u": 0.762,
+            "ubias": 0.639,
+            "v": 0.652
+          }
+        },
+        {
+          "name": "clay2",
+          "type": "SOP:clay",
+          "parameters": {
+            "method": "point",
+            "u": 0.656,
+            "v": 0.41
+          }
+        },
+        {
+          "name": "clay3",
+          "type": "SOP:clay",
+          "parameters": {
+            "pageindex": 2,
+            "method": "point"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.5,
+            "torange2": 0.9
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.2,
+            "torange2": 0.8
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "rows": 14,
+            "cols": 17
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "rows": 14,
+            "cols": 17
+          }
+        },
+        {
+          "name": "sphere3",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "cols": 21
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "math_y_scope",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 3,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange2": -0.4,
+            "scope": "y"
+          }
+        },
+        {
+          "name": "math_z_scope",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange2": 1.8,
+            "scope": "z"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "clay1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "clay2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "clay3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo3",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math_z_scope",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math_y_scope",
+          "to_input": "0"
+        },
+        {
+          "from": "math_y_scope",
+          "to": "math_z_scope",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:lfo": 3,
+          "SOP:clay": 3,
+          "CHOP:math": 4,
+          "CHOP:null": 3,
+          "DAT:text": 1,
+          "SOP:sphere": 3,
+          "COMP:annotate": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -20,
+            "torange2": 20
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "rows": 21,
+            "cols": 10
+          }
+        },
+        {
+          "name": "clay_matrix",
+          "type": "SOP:clay",
+          "parameters": {
+            "tx": 0.47,
+            "ty": -0.1,
+            "u": 0.924,
+            "v": 0.529
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "clay_matrix",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:clay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "pageindex": 1,
+            "frequency": 0.39,
+            "channelname": "v",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.62,
+            "channelname": "u",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.2,
+            "torange2": 0.8
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "preoff": -0.01,
+            "torange1": 0.2,
+            "torange2": 0.8
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "rows": 39,
+            "cols": 50
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "nurbs",
+            "radx": 2,
+            "rady": 1,
+            "radz": 0.5,
+            "rows": 12,
+            "cols": 12
+          }
+        },
+        {
+          "name": "clay_vector",
+          "type": "SOP:clay",
+          "parameters": {
+            "method": "vec",
+            "dist": 0.25,
+            "dirx": -1,
+            "ubias": 0.259
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "clay_vector",
+          "to": "null",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "clay_vector",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 2,
+          "SOP:null": 1,
+          "CHOP:math": 2,
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:sphere": 1,
+          "SOP:clay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.62,
+            "channelname": "u",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "rows": 30
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "orient": "yz",
+            "sizex": 5,
+            "sizey": 4,
+            "tx": 5
+          }
+        },
+        {
+          "name": "polyspline1",
+          "type": "SOP:polyspline",
+          "parameters": {
+            "basis": "bspline",
+            "closure": "calways",
+            "tension": 4.57
+          }
+        },
+        {
+          "name": "clay_primitive",
+          "type": "SOP:clay",
+          "parameters": {
+            "pageindex": 2,
+            "method": "prim",
+            "dist": 0.25,
+            "uvsnap2": 0.4,
+            "ubias": 0.43
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle1",
+          "to": "polyspline1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "clay_primitive",
+          "to_input": "0"
+        },
+        {
+          "from": "polyspline1",
+          "to": "clay_primitive",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:rectangle": 1,
+          "SOP:polyspline": 1,
+          "SOP:clay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

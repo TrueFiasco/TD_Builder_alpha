@@ -1,0 +1,49 @@
+{
+  "target": "glsl_d6_fix",
+  "timestamp": "2026-06-04T11:37:48+00:00",
+  "n": 1,
+  "score_mean": 1.0,
+  "metrics": {
+    "class_detected": 1.0,
+    "duration_s": 4.4,
+    "matched_live": 1.0,
+    "matched_reference": 1.0,
+    "n_live_errors": 2.0
+  },
+  "by_group": {
+    "fix_offline": {
+      "n": 1,
+      "score_mean": 1.0
+    }
+  },
+  "cases": [
+    {
+      "case": "fo_glsl_fix_bug",
+      "score": 1.0,
+      "group": "fix_offline",
+      "metrics": {
+        "class_detected": 1.0,
+        "matched_live": 1.0,
+        "matched_reference": 1.0,
+        "n_live_errors": 2.0,
+        "duration_s": 4.4
+      },
+      "detail": "class 'vec3_to_vec2' live; live_errors=2 (live=y, ref=y)"
+    }
+  ],
+  "delta": {
+    "baseline_ts": "2026-06-04T11:30:17+00:00",
+    "score_mean_delta": 0.0,
+    "metric_deltas": {
+      "class_detected": 0.0,
+      "duration_s": -0.47,
+      "matched_live": 1.0,
+      "matched_reference": 0.0,
+      "n_live_errors": 1.0
+    },
+    "regressed": [],
+    "improved": [],
+    "new_cases": [],
+    "dropped_cases": []
+  }
+}

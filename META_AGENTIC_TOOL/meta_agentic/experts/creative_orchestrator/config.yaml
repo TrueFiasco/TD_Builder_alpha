@@ -1,0 +1,135 @@
+# Creative Orchestrator Configuration
+# Manages multi-agent creative workflow: creative_expert → cg_expert → critic → td_designer
+
+expert_id: "creative_orchestrator"
+version: "1.0.0"
+created: "2025-12-16"
+description: "Orchestrates the creative multi-agent workflow, managing state transitions, delegation, and revision cycles"
+
+# This is a meta-agent that coordinates others
+agent_type: "orchestrator"
+
+# Expertise files this orchestrator reads
+expertise_inputs:
+  - path: "meta_agentic/expertise/critique_patterns.yaml"
+    purpose: "Approval thresholds and revision policy"
+
+# No expertise writes - orchestrator only coordinates
+expertise_outputs: []
+
+# Event logging
+event_log: "meta_agentic/history/expertise_events.jsonl"
+event_domain: "orchestration"
+
+# Agents managed by this orchestrator
+managed_agents:
+  - expert_id: "creative_expert"
+    role: "Generate artistic vision"
+    invocation: "plan → build"
+
+  - expert_id: "cg_expert"
+    role: "Translate to technical approach"
+    invocation: "plan → build"
+
+  - expert_id: "critic"
+    role: "Validate specifications"
+    invocation: "plan → build"
+
+  - expert_id: "td_designer"
+    role: "Create TouchDesigner network design"
+    invocation: "plan → build"
+    downstream: true
+
+# State machine definition
+state_machine:
+  initial_state: "awaiting_input"
+  states:
+    - awaiting_input
+    - creative_ideation
+    - cg_translation
+    - creative_review
+    - revision_creative
+    - technical_review
+    - revision_technical
+    - final_approval
+    - handoff_ready
+    - completed
+    - failed
+
+  transitions:
+    awaiting_input:
+      - to: "creative_ideation"
+        trigger: "user_request_received"
+
+    creative_ideation:
+      - to: "cg_translation"
+        trigger: "creative_spec_generated"
+
+    cg_translation:
+      - to: "creative_review"
+        trigger: "technical_approach_generated"
+
+    creative_review:
+      - to: "revision_creative"
+        trigger: "creative_review_revise"
+      - to: "technical_review"
+        trigger: "creative_review_approve"
+
+    revision_creative:
+      - to: "creative_ideation"
+        trigger: "revision_submitted"
+      - to: "failed"
+        trigger: "max_revisions_exceeded"
+
+    technical_review:
+      - to: "revision_technical"
+        trigger: "technical_review_revise"
+      - to: "final_approval"
+        trigger: "technical_review_approve"
+
+    revision_technical:
+      - to: "cg_translation"
+        trigger: "revision_submitted"
+      - to: "failed"
+        trigger: "max_revisions_exceeded"
+
+    final_approval:
+      - to: "handoff_ready"
+        trigger: "final_review_approve"
+      - to: "revision_creative"
+        trigger: "final_review_revise_creative"
+      - to: "revision_technical"
+        trigger: "final_review_revise_technical"
+
+    handoff_ready:
+      - to: "completed"
+        trigger: "td_designer_accepts"
+
+    completed:
+      terminal: true
+
+    failed:
+      terminal: true
+
+# Revision policy
+revision_policy:
+  max_creative_revisions: 3
+  max_technical_revisions: 3
+  max_total_revisions: 5
+  on_max_exceeded: "fail_with_escalation"
+
+# Approval thresholds (from critique_patterns.yaml)
+thresholds:
+  creative_review: 0.65
+  technical_review: 0.65
+  final_approval: 0.65
+
+# Output format
+output_format:
+  type: "yaml"
+  schema: "creative_brief_v1"
+  includes:
+    - artistic_intent
+    - technical_approach
+    - td_recommendations
+    - validation

@@ -1,0 +1,258 @@
+{
+  "operator": "Wave_CHOP",
+  "family": "CHOP",
+  "td_create_name": "waveCHOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "wavetype": {
+      "type": "menu",
+      "value": "normal",
+      "menuIndex": 2,
+      "menuNames": [
+        "const",
+        "sin",
+        "normal",
+        "tri",
+        "ramp",
+        "square",
+        "pulse",
+        "expr"
+      ],
+      "menuLabels": [
+        "Constant",
+        "Sine",
+        "Gaussian",
+        "Triangle",
+        "Ramp",
+        "Square",
+        "Pulse",
+        "Expression"
+      ]
+    },
+    "period": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "periodunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "phase": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bias": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "offset": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "amp": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "decay": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "decayunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "ramp": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rampunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "exprs": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "channelname": {
+      "type": "string",
+      "value": "chan1_perturbed"
+    },
+    "start": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "startunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "end": {
+      "type": "float",
+      "value": 10.12345
+    },
+    "endunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "rate": {
+      "type": "float",
+      "value": 60.12345
+    },
+    "left": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "right": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "defval": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

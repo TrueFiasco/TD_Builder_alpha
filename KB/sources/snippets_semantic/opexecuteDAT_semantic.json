@@ -1,0 +1,59 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\opexecuteDAT_lossless.json",
+  "operator_type": "opexecuteDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "opexec1",
+          "type": "DAT:opexec",
+          "parameters": {
+            "op": "box1",
+            "precook": "on",
+            "postcook": "on",
+            "destroy": "on",
+            "flagchange": "on",
+            "wirechange": "on",
+            "namechange": "on",
+            "pathchange": "on",
+            "uichange": "on",
+            "childrename": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "DAT:opexec": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

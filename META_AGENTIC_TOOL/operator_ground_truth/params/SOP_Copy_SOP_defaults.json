@@ -1,0 +1,548 @@
+{
+  "operator": "Copy_SOP",
+  "family": "SOP",
+  "td_create_name": "copySOP",
+  "param_count": 46,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "sourcegrp": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Copy",
+      "label": "Source Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "templategrp": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Copy",
+      "label": "Template Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "ncy": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Copy",
+      "label": "Number of Copies",
+      "readOnly": false,
+      "expression": null
+    },
+    "nprims": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Copy",
+      "label": "Primitives per Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "nml": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Copy",
+      "label": "Rotate to Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "cum": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Copy",
+      "label": "Transform Cumulative",
+      "readOnly": false,
+      "expression": null
+    },
+    "xord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Copy",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Copy",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "sx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Copy",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Copy",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Copy",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Copy",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "vlength": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Copy",
+      "label": "Normals Maintain Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "newg": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Copy",
+      "label": "Create Output Groups",
+      "readOnly": false,
+      "expression": null
+    },
+    "copyg": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "copyGroup$CY",
+      "page": "Copy",
+      "label": "Copy Groups",
+      "readOnly": false,
+      "expression": "'copyGroup' + str(me.copyIndex)"
+    },
+    "lookat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Copy",
+      "label": "Look At",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectory": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Copy",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Copy",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "stamp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Stamp",
+      "label": "Stamp Inputs",
+      "readOnly": false,
+      "expression": null
+    },
+    "copy": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Stamp",
+      "label": "Copy",
+      "readOnly": false,
+      "expression": null
+    },
+    "copy0param": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Stamp",
+      "label": "Param",
+      "readOnly": false,
+      "expression": null
+    },
+    "copy0value": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Stamp",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "doattr": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Attributes",
+      "label": "Use Template Point Attribs",
+      "readOnly": false,
+      "expression": null
+    },
+    "setpt": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Attributes",
+      "label": "Copy to Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "setprim": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Copy to Primitive",
+      "readOnly": false,
+      "expression": null
+    },
+    "setvtx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Copy to Vertex",
+      "readOnly": false,
+      "expression": null
+    },
+    "mulpt": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Multiply Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "mulprim": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Multiply Primitive",
+      "readOnly": false,
+      "expression": null
+    },
+    "mulvtx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Multiply Vertex",
+      "readOnly": false,
+      "expression": null
+    },
+    "addpt": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Add Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "addprim": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Add Primitive",
+      "readOnly": false,
+      "expression": null
+    },
+    "addvtx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Add Vertex",
+      "readOnly": false,
+      "expression": null
+    },
+    "subpt": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Subtract Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "subprim": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Subtract Primitive",
+      "readOnly": false,
+      "expression": null
+    },
+    "subvtx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Subtract Vertex",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

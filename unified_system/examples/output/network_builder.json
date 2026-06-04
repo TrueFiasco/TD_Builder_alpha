@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "project_name": "saved_network",
+    "mode": "toe",
+    "root_comp": "project1"
+  },
+  "nodes": [
+    {
+      "path": "/project1/noise1",
+      "family": "CHOP",
+      "type": "noise",
+      "name": "noise1",
+      "flags": {
+        "bypass": false,
+        "display": false,
+        "render": false,
+        "lock": false
+      }
+    },
+    {
+      "path": "/project1/null1",
+      "family": "CHOP",
+      "type": "null",
+      "name": "null1",
+      "flags": {
+        "bypass": false,
+        "display": false,
+        "render": false,
+        "lock": false
+      },
+      "inputs": [
+        {
+          "index": 0,
+          "src": "noise1"
+        }
+      ]
+    }
+  ]
+}

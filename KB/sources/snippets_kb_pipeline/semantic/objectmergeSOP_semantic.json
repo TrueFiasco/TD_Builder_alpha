@@ -1,0 +1,178 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\objectmergeSOP_lossless.json",
+  "operator_type": "objectmergeSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "tx": 1.5,
+            "ty": 0.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": 1,
+            "ty": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "tx": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "objectmerge1",
+          "type": "SOP:objectmerge",
+          "parameters": {
+            "merge0sop": "box1",
+            "merge1sop": "circle1",
+            "merge2sop": "torus1"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:circle": 1,
+          "SOP:objectmerge": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "SOP:box",
+          "parameters": {
+            "tx": 1.5,
+            "ty": 0.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "tx": 1.5,
+            "ty": 0.5
+          }
+        },
+        {
+          "name": "geo3",
+          "type": "COMP:geo",
+          "parameters": {
+            "tx": -1
+          }
+        },
+        {
+          "name": "geo4",
+          "type": "COMP:geo",
+          "parameters": {
+            "tx": 1,
+            "ty": -1
+          }
+        },
+        {
+          "name": "geo5",
+          "type": "COMP:geo",
+          "parameters": {
+            "rx": 80
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": 1,
+            "ty": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "tx": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "objectmerge_geo1",
+          "type": "SOP:objectmerge",
+          "parameters": {
+            "xform": "geo5",
+            "merge0sop": "box2",
+            "merge1sop": "circle2",
+            "merge2sop": "torus2"
+          }
+        },
+        {
+          "name": "objectmerge_geo2",
+          "type": "SOP:objectmerge",
+          "parameters": {
+            "xform": "geo5",
+            "merge0sop": "geo2/box1",
+            "merge1sop": "geo3/circle1",
+            "merge2sop": "geo4/torus1"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 0,
+        "operator_types": {
+          "SOP:box": 1,
+          "COMP:geo": 4,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:circle": 1,
+          "SOP:objectmerge": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

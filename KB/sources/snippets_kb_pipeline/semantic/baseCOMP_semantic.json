@@ -1,0 +1,151 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\baseCOMP_lossless.json",
+  "operator_type": "baseCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "pageindex": 1,
+            "frequency": 0.5,
+            "channelname": "index",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "base1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "base2",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "base3",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "base1",
+            "iscope": "children_cpu_cook_time",
+            "passive": "on",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "base2",
+            "iscope": "children_cpu_cook_time",
+            "passive": "on",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "base3",
+            "iscope": "children_cpu_cook_time",
+            "passive": "on",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "count2",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "loop",
+            "limitmax": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "count2",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "count2",
+          "to_input": "0"
+        },
+        {
+          "from": "base1/out1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "base2/out1",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "base3/out1",
+          "to": "switch1",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "COMP:base": 3,
+          "CHOP:info": 3,
+          "CHOP:null": 1,
+          "TOP:null": 1,
+          "CHOP:count": 1,
+          "DAT:text": 1,
+          "TOP:switch": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

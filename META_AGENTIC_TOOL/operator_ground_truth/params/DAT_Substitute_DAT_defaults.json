@@ -1,0 +1,464 @@
+{
+  "operator": "Substitute_DAT",
+  "family": "DAT",
+  "td_create_name": "substituteDAT",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "before": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Substitute",
+      "label": "Before",
+      "readOnly": false,
+      "expression": null
+    },
+    "after": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Substitute",
+      "label": "After",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "anywhere",
+        "menuIndex": 0,
+        "menuNames": [
+          "anywhere",
+          "exact",
+          "start",
+          "end"
+        ],
+        "menuLabels": [
+          "Anywhere",
+          "Exact",
+          "At Start",
+          "At End"
+        ]
+      },
+      "default": "anywhere",
+      "page": "Substitute",
+      "label": "Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "case": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Substitute",
+      "label": "Case Sensitive",
+      "readOnly": false,
+      "expression": null
+    },
+    "expand": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Substitute",
+      "label": "Expand the From String",
+      "readOnly": false,
+      "expression": null
+    },
+    "expandto": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Substitute",
+      "label": "Expand the To String",
+      "readOnly": false,
+      "expression": null
+    },
+    "first": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Substitute",
+      "label": "First Match Only",
+      "readOnly": false,
+      "expression": null
+    },
+    "xfirstrow": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Scope",
+      "label": "Exclude First Row",
+      "readOnly": false,
+      "expression": null
+    },
+    "xfirstcol": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Scope",
+      "label": "Exclude First Col",
+      "readOnly": false,
+      "expression": null
+    },
+    "extractrows": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "byname",
+          "byindex",
+          "bynameindex",
+          "byindexname",
+          "bynames",
+          "byexpr"
+        ],
+        "menuLabels": [
+          "All",
+          "by Name",
+          "by Index",
+          "by Start Name, End Index",
+          "by Start Index, End Name",
+          "by Values",
+          "by Condition"
+        ]
+      },
+      "default": "all",
+      "page": "Scope",
+      "label": "Select Rows",
+      "readOnly": false,
+      "expression": null
+    },
+    "rownamestart": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Scope",
+      "label": "Start Row Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "rowindexstart": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "Start Row Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "rownameend": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Scope",
+      "label": "End Row  Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "rowindexend": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "End Row Index",
+      "readOnly": false,
+      "expression": "me.inputTable.numRows - 1"
+    },
+    "rownames": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Scope",
+      "label": "Row Select Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "rowexpr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "strmatch(\"*\",$V)",
+      "page": "Scope",
+      "label": "Row Select Condition",
+      "readOnly": false,
+      "expression": "re.match('.*',me.inputCell.val) != None"
+    },
+    "fromcol": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "From Column",
+      "readOnly": false,
+      "expression": null
+    },
+    "extractcols": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "byname",
+          "byindex",
+          "bynameindex",
+          "byindexname",
+          "bynames",
+          "byexpr"
+        ],
+        "menuLabels": [
+          "All",
+          "by Name",
+          "by Index",
+          "by Start Name, End Index",
+          "by Start Index, End Name",
+          "by Values",
+          "by Condition"
+        ]
+      },
+      "default": "all",
+      "page": "Scope",
+      "label": "Select Cols",
+      "readOnly": false,
+      "expression": null
+    },
+    "colnamestart": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Scope",
+      "label": "Start Col Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "colindexstart": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "Start Col Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "colnameend": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Scope",
+      "label": "End Col Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "colindexend": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "End Col Index",
+      "readOnly": false,
+      "expression": "me.inputTable.numCols - 1"
+    },
+    "colnames": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Scope",
+      "label": "Col Select Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "colexpr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "strmatch(\"*\",$V)",
+      "page": "Scope",
+      "label": "Col Select Condition",
+      "readOnly": false,
+      "expression": "re.match('.*',me.inputCell.val) != None"
+    },
+    "fromrow": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Scope",
+      "label": "From Row",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

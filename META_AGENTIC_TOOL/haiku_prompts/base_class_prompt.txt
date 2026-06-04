@@ -1,0 +1,1316 @@
+# TouchDesigner Python API - Semantic Descriptions
+
+For each method/member below, write a 1-2 sentence semantic description.
+Focus on WHAT it does and WHEN you'd use it.
+Write for someone searching 'how do I...' - use natural language.
+
+Output format:
+```yaml
+class_name:
+  method_name: "description..."
+```
+
+---
+
+## CHOP_Class
+Base class for all CHOP operators
+
+### Members
+- `numChans` → int (read-only)
+  Raw: Saves the channel to the file system. Supported file formats are
+
+- `numSamples` → int
+  Raw: Get or set the number of samples (or indices) per channel. You can change the number of samples by setting this value, only in a
+
+- `start` → float
+  Raw: Get or set the start index of the channels. This can be modified only when the
+
+- `end` → float
+  Raw: Get or set the end index of the channels. This can be modified only when the
+
+- `rate` → float
+  Raw: Get or set the sample rate of the
+
+- `isTimeSlice` → bool
+  Raw: Get or set the last cooked
+
+- `export` → bool
+  Raw: Get or set
+
+- `exportChanges` → int (read-only)
+  Raw: Number of times the export mapping information has changed.
+
+- `[nameOrIndex]` → Channel
+  Raw: Returns the first
+
+### Methods
+- `chans(*nameOrIndex, caseSensitive=True)` → list
+  Raw: Returns a (possibly empty) list of
+
+- `numpyArray()` → numpy.array
+  Raw: Returns all of the channels in this
+
+- `convertToKeyframes(tolerance=0.1)` → animationCOMP
+  Raw: Create an
+
+- `save(filepath, createFolders=False)` → str
+  Raw: Saves the channel to the file system. Supported file formats are
+
+## COMP_Class
+Base class for all COMP operators
+
+### Members
+- `extensions` → list (read-only)
+  Raw: Return a list of all component variables in this
+
+- `extensionsReady` → bool (read-only)
+  Raw: True unless the extensions are currently compiling. Can be used to avoid accessing promoted members prematurely during an extension initialization function.
+
+- `internalOPs` → Dict (read-only)
+  Raw: A dictionary of
+
+- `internalPars` → Dict (read-only)
+  Raw: A dictionary of
+
+- `clones` → List[COMP] (read-only)
+  Raw: A list of all
+
+- `componentCloneImmune` → bool
+  Raw: Get or set
+
+- `vfs` → VFS (read-only)
+  Raw: An intermediate
+
+- `dirty` → bool (read-only)
+  Raw: True if the contents of the component need to be saved.
+
+- `currentChild` → OP (read-only)
+  Raw: The child
+
+- `selectedChildren` → List[OP] (read-only)
+  Raw: The list of currently selected
+
+- `cpuCookTime` → float (read-only)
+  Raw: Duration of the last measured cook in CPU time (in milliseconds).
+
+- `childrenCPUCookTime` → float (read-only)
+  Raw: The total accumulated cook time of all children of this operator during the last frame. Zero if the operator is not a
+
+- `childrenCPUCookAbsFrame` → int (read-only)
+  Raw: The absolute frame on which childrenCookTime is based.
+
+- `gpuMemory` → int (read-only)
+  Raw: The amount of
+
+- `pickable` → bool
+  Raw: Get or set
+
+- `utility` → bool
+  Raw: Get or set utility flag.
+
+- `progressiveUnloader` → ProgressiveUnload (read-only)
+  Raw: Returns an instance of the
+
+- `isPrivate` → bool (read-only)
+  Raw: True if the the component contents cannot be directly viewed.
+
+- `isPrivacyActive` → bool (read-only)
+  Raw: True if the component is private, and privacy is active. When inactive the contents can be temporarily viewed.
+
+- `isPrivacyLicensed` → bool (read-only)
+  Raw: True if the component is private and if the required CodeMeter license is present to run it.
+
+- `privacyFirmCode` → int (read-only)
+  Raw: The CodeMeter firm code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyProductCode` → int (read-only)
+  Raw: The CodeMeter product code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyDeveloperName` → str (read-only)
+  Raw: The name of the developer of this private component.
+
+- `privacyDeveloperEmail` → str (read-only)
+  Raw: The email of the developer of this private component.
+
+- `inputCOMPs` → List[COMP] (read-only)
+  Raw: List of input components to this component through its top connector.
+
+- `inputCOMPConnectors` → List[Connector] (read-only)
+  Raw: List of input
+
+- `outputCOMPs` → List[COMP] (read-only)
+  Raw: List of output
+
+- `outputCOMPConnectors` → List[Connector] (read-only)
+  Raw: List of output
+
+### Methods
+- `create(opType, name, initialize=True)` → OP
+  Raw: Create a new node of the given type, inside this component. If
+
+- `collapseSelected()` → OP
+  Raw: Move all selected operators into a new
+
+- `layout(ops, horizontal=None, vertical=None, grid=0)` → None
+  Raw: Copy the operator into this component. If name is supplied, the new node will use that name. The new node is returned.
+
+- `copyOPs(listOfOPs)` → List[OP]
+  Raw: Copy a list of operators into this component.
+
+- `findChildren(type=None, name=None, path=None, depth=None, maxDepth=None, text=None, comment=None, tags=[], allTags=False, parValue=None, parExpr=None, parName=None, onlyNonDefaults=False, includeUtility=False, key=None)` → List[OP]
+  Raw: Return a list of
+
+- `progressiveUnload(totalFrames=None, timePerFrame=None, nodesPerFrame=None, gpuMemPerFrame=None, opsToExclude=None)` → None
+  Raw: This method allows you to try to release the CPU and
+
+- `initializeExtensions(index=None)` → Any
+  Raw: Initialize the components
+
+- `loadTox(filepath, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given file path into this component.
+
+- `loadByteArray(byteArray, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given bytearray into this
+
+- `reload(filepath, password=None)` → None
+  Raw: Reloads the component from the given file path. This will replace its children as well as top level parameters and update flags, node width/height, storage, comments and inputs (but keep original node
+
+- `resetNetworkView(recurse)` → None
+  Raw: Reset the network view such that the network editor will be re-homed upon entering this component.
+
+- `save(filepath, createFolders=False, password=None)` → str
+  Raw: Saves the component to disk. If no path is provided, a default filename is used and the
+
+- `saveByteArray(password=None)` → bytearray
+  Raw: Save the component into a bytearray. The bytearray is the same data that is held in a
+
+- `saveExternalTox(recurse=False, password=None)` → int
+  Raw: Save out the contents of any
+
+- `appendCustomPage(name)` → Page
+  Raw: Add a new
+
+- `destroyCustomPars()` → int
+  Raw: Remove all custom parameters from
+
+- `sortCustomPages(*pages)` → None
+  Raw: Reorder custom parameter pages by listing their page names.
+
+- `accessPrivateContents(key)` → bool
+  Raw: Gain access to a private component. The component will still be private the next time it is saved or re-opened.
+
+- `addPrivacy(key, developerName=None)` → None
+  Raw: Add privacy to a component with the given key.
+
+- `blockPrivateContents(key)` → None
+  Raw: Block access to a private component that was temporarily accessible.
+
+- `removePrivacy(key)` → bool
+  Raw: Completely remove privacy from a component.
+
+- `setVar(name, value)` → None
+  Raw: Set a component variable to the specified value.
+
+- `unsetVar(name)` → None
+  Raw: Unset the specified component variable. This removes the entry from the '
+
+- `vars(*patterns)` → List[str]
+  Raw: Return a list of all component variables in this
+
+## DAT_Class
+Base class for all DAT operators
+
+### Members
+- `export` → bool (read-only)
+  Raw: Returns a (possibly empty) list of columns (each being a list themselves). If no arguments are given then all columns in the table are returned.
+
+- `module` → 'module' (read-only)
+  Raw: Retrieve the contents of the
+
+- `numRows` → int (read-only)
+  Raw: Number of rows in the
+
+- `numCols` → int (read-only)
+  Raw: Number of columns in the
+
+- `text` → str
+  Raw: Get or set contents. Tables are treated as tab delimited columns, newline delimited rows.
+
+- `csv` → str
+  Raw: Get or set contents using
+
+- `editingFile` → str (read-only)
+  Raw: The path to the current file used by external editors.
+
+- `isTable` → bool (read-only)
+  Raw: True if the
+
+- `isText` → bool (read-only)
+  Raw: True if the
+
+- `isEditable` → bool (read-only)
+  Raw: True if the
+
+- `locals` → dict (read-only)
+  Raw: Local dictionary used during python execution of scripts in this
+
+- `jsonObject` → dict (read-only)
+  Raw: Parses the
+
+- `[rowNameOrIndex, colNameOrIndex]` → td.Cell
+  Raw: Find a single
+
+### Methods
+- `flush()` → None
+  Raw: Dummy function required to redirect stdout to DATs.
+
+- `isatty()` → False
+  Raw: Required to redirect stdout to DATs.
+
+- `run(*args, endFrame=False, fromOP=None, asParameter=False, group=None, delayFrames=0, delayMilliSeconds=0, wallTime=False, delayRef=None)` → td.Run
+  Raw: Saves the content of the
+
+- `write(args)` → str
+  Raw: Append content to this
+
+- `detectLanguage(setLanguage=False)` → str
+  Raw: Returns the result of attempting to auto-detect the programming language in the
+
+- `clear(keepSize=False, keepFirstRow=False, keepFirstCol=False)` → None
+  Raw: Remove all rows and columns from the table.
+
+- `appendRow(vals, nameOrIndex, sort=None)` → int
+  Raw: Append a row to the end of the table, or after the specified row name/index. Returns the integer index of the new row.
+
+- `appendRows(vals, nameOrIndex, sort=None)` → int
+  Raw: Append rows to the end of the table, or after the specified row name/index. Returns the integer of the last row appended.
+
+- `appendCol(vals, nameOrIndex, sort=None)` → int
+  Raw: Append a column to the end of the table. See appendRow for similar usage.
+
+- `appendCols(vals, nameOrIndex, sort=None)` → int
+  Raw: Append columns to the end of the table. See appendRows for similar usage.
+
+- `insertRow(vals, nameOrIndex, sort=None)` → int
+  Raw: Insert a row to the beginning of the table or before the specified row name/index. See
+
+- `insertCol(vals, nameOrIndex, sort=None)` → int
+  Raw: Insert a column to the beginning of the table or before the specified row name/index. See
+
+- `replaceRow(nameOrIndex, vals, entireRow=True)` → int
+  Raw: Replaces the contents of an existing row.
+
+- `replaceCol(nameOrIndex, vals, entireCol=True)` → int
+  Raw: Replaces the contents of an existing column. See
+
+- `deleteRow(nameOrIndex)` → None
+  Raw: Delete a single row at the specified row name or index.
+
+- `deleteRows(vals)` → None
+  Raw: Deletes multiple rows at the row names or indices specified in vals.
+
+- `deleteCol(nameOrIndex)` → None
+  Raw: Delete a single column at the specified column name or index.
+
+- `deleteCols(vals)` → None
+  Raw: Deletes multiple columns at the column names or indices specified in vals.
+
+- `setSize(numrows, numcols)` → None
+  Raw: Set the exact size of the table.
+
+- `scroll(row, col)` → None
+  Raw: Bring current
+
+- `cells(rowNameOrIndex, colNameOrIndex, caseSensitive=True, val=False)` → list
+  Raw: Returns a (possibly empty) list of
+
+- `findCell(pattern, rows=None, cols=None, valuePattern=True, rowPattern=True, colPattern=True, caseSensitive=False, val=False)` → Cell | str | None
+  Raw: Returns a cell that matches the given pattern and row/column names or indices or None if no match is found.
+
+- `findCells(pattern, rows=None, cols=None, valuePattern=True, rowPattern=True, colPattern=True, val=False)` → list
+  Raw: Returns a (possibly empty) list of cells that match the given patterns and row/column names or indices.
+
+- `row(*nameOrIndexes, caseSensitive=True, val=False)` → List[Cell]
+  Raw: Returns a list of
+
+- `rows(*nameOrIndexes, caseSensitive=True, val=False)` → List[List[Cell]]
+  Raw: Returns a (possibly empty) list of rows (each row being a list of cells). If no arguments are given it returns all rows in the table.
+
+- `col(*nameOrIndexes, caseSensitive=True, val=False)` → list
+  Raw: Returns a list of
+
+- `cols(*nameOrIndexes, caseSensitive=True, val=False)` → List[List[Cell]]
+  Raw: Returns a (possibly empty) list of columns (each being a list themselves). If no arguments are given then all columns in the table are returned.
+
+## ObjectCOMP_Class
+Base class for all ObjectCOMP operators
+
+### Members
+- `localTransform` → tdu.Matrix (read-only)
+  Raw: Return a list of all component variables in this
+
+- `worldTransform` → tdu.Matrix (read-only)
+  Raw: The current world transform of the
+
+- `extensions` → List (read-only)
+  Raw: A list of
+
+- `extensionsReady` → Bool (read-only)
+  Raw: True unless the extensions are currently compiling. Can be used to avoid accessing promoted members prematurely during an extension initialization function.
+
+- `internalOPs` → Dict (read-only)
+  Raw: A dictionary of
+
+- `internalPars` → Dict (read-only)
+  Raw: A dictionary of
+
+- `clones` → List (read-only)
+  Raw: A list of all
+
+- `componentCloneImmune` → Bool
+  Raw: Get or set
+
+- `vfs` → VFS (read-only)
+  Raw: An intermediate
+
+- `dirty` → Bool (read-only)
+  Raw: True if the contents of the component need to be saved.
+
+- `currentChild` → OP (read-only)
+  Raw: The child
+
+- `selectedChildren` → List (read-only)
+  Raw: The list of currently selected
+
+- `cpuCookTime` → float (read-only)
+  Raw: Duration of the last measured cook in CPU time (in milliseconds).
+
+- `childrenCPUCookTime` → float (read-only)
+  Raw: The total accumulated cook time of all children of this operator during the last frame. Zero if the operator is not a
+
+- `childrenCPUCookAbsFrame` → int (read-only)
+  Raw: The absolute frame on which childrenCookTime is based.
+
+- `gpuMemory` → int (read-only)
+  Raw: The amount of
+
+- `pickable` → Bool
+  Raw: Get or set
+
+- `utility` → Bool
+  Raw: Get or set utility flag.
+
+- `isPrivate` → Bool (read-only)
+  Raw: True if the the component contents cannot be directly viewed.
+
+- `isPrivacyActive` → Bool (read-only)
+  Raw: True if the component is private, and privacy is active. When inactive the contents can be temporarily viewed.
+
+- `isPrivacyLicensed` → Bool (read-only)
+  Raw: True if the component is private and if the required CodeMeter license is present to run it.
+
+- `privacyFirmCode` → int (read-only)
+  Raw: The CodeMeter firm code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyProductCode` → int (read-only)
+  Raw: The CodeMeter product code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyDeveloperName` → string (read-only)
+  Raw: The name of the developer of this private component.
+
+- `privacyDeveloperEmail` → string (read-only)
+  Raw: The email of the developer of this private component.
+
+- `inputCOMPs` → List (read-only)
+  Raw: List of input
+
+- `inputCOMPConnectors` → List (read-only)
+  Raw: List of input
+
+- `outputCOMPs` → List (read-only)
+  Raw: List of output
+
+- `outputCOMPConnectors` → List (read-only)
+  Raw: List of output
+
+### Methods
+- `transform()` → tdu.Matrix
+  Raw: Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page.
+
+- `setTransform(matrix)` → None
+  Raw: Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given
+
+- `preTransform()` → tdu.Matrix
+  Raw: Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page.
+
+- `setPreTransform(matrix)` → None
+  Raw: Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given
+
+- `relativeTransform(target)` → tdu.Matrix
+  Raw: Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positione
+
+- `importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)` → None
+  Raw: Load ABC files from the given file path.
+
+- `importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)` → None
+  Raw: Load FBX files from the given file path.
+
+- `create(opType, name, initialize=True)` → OP
+  Raw: Create a new node of the given type, inside this component. If
+
+- `collapseSelected()` → None
+  Raw: Move all selected operators into a new
+
+- `copyOPs(listOfOPs)` → List
+  Raw: Copy a list of operators into this component.
+
+- `findChildren(type=None, name=None, path=None, depth=None, maxDepth=None, text=None, comment=None, tags=[], allTags=False, parValue=None, parExpr=None, parName=None, onlyNonDefaults=False, includeUtility=False, key=None)` → List of OPs
+  Raw: Return a list of
+
+- `initializeExtensions(index=None)` → Extension
+  Raw: Initialize the components
+
+- `loadTox(filepath, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given file path into this component.
+
+- `loadByteArray(byteArray, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given bytearray into this
+
+- `reload(filepath, password=None)` → None
+  Raw: Reloads the component from the given file path. This will replace its children as well as top level parameters and update flags, node width/height, storage, comments and inputs (but keep original node
+
+- `resetNetworkView(recurse)` → None
+  Raw: Reset the network view such that the network editor will be re-homed upon entering this component.
+
+- `save(filepath, createFolders=False, password=None)` → Path
+  Raw: Saves the component to disk. If no path is provided, a default filename is used and the
+
+- `saveByteArray(password=None)` → bytearray
+  Raw: Save the component into a bytearray. The bytearray is the same data that is held in a
+
+- `saveExternalTox(recurse=False, password=None)` → int
+  Raw: Save out the contents of any
+
+- `appendCustomPage(name)` → Page
+  Raw: Add a new
+
+- `destroyCustomPars()` → Total
+  Raw: Remove all custom parameters from
+
+- `sortCustomPages(page1, page2, page3...)` → None
+  Raw: Reorder custom parameter pages by listing their page names.
+
+- `accessPrivateContents(key)` → Bool
+  Raw: Gain access to a private component. The component will still be private the next time it is saved or re-opened.
+
+- `addPrivacy(key, developerName=None)` → None
+  Raw: Add privacy to a component with the given key.
+
+- `blockPrivateContents(key)` → None
+  Raw: Block access to a private component that was temporarily accessible.
+
+- `removePrivacy(key)` → Bool
+  Raw: Completely remove privacy from a component.
+
+- `setVar(name, value)` → None
+  Raw: Set a component variable to the specified value.
+
+- `unsetVar(name)` → None
+  Raw: Unset the specified component variable. This removes the entry from the '
+
+- `vars(pattern1, pattern2...)` → List
+  Raw: Return a list of all component variables in this
+
+## OP_Class
+Base class for all OP operators
+
+### Members
+- `valid` → bool (read-only)
+  Raw: Reads the dictionary to update persistent details about the object, suitable for unpickling and deep copies.
+
+- `id` → int (read-only)
+  Raw: Unique id for the operator. This id can also be passed to the op() and ops() shortcuts. Id's are not consistent when a file is re-opened, and will change if the OP is copied/pasted, changes OP types, 
+
+- `supported` → bool (read-only)
+  Raw: True if supported on the current Operating System.
+
+- `name` → str
+  Raw: Get or set the operator name.
+
+- `path` → str (read-only)
+  Raw: Full path to the operator.
+
+- `digits` → int (read-only)
+  Raw: Returns the numeric value of the last consecutive group of digits in the name, or None if not found. The digits can be in the middle of the name if there are none at the end of the name.
+
+- `base` → str (read-only)
+  Raw: Returns the beginning portion of the name occurring before any digits.
+
+- `par` → ParCollection (read-only)
+  Raw: An intermediate
+
+- `parGroup` → ParGroupCollection (read-only)
+  Raw: An intermediate
+
+- `ext` → Ext (read-only)
+  Raw: Object that searches for parent
+
+- `passive` → bool (read-only)
+  Raw: If true, operator will not cook before its access methods are called. To use a passive version of an operator n, use passive(n).
+
+- `curPar` → Par (read-only)
+  Raw: The parameter currently being evaluated. Can be used in a parameter expression to reference itself. An easy way to see this is to put the expression
+
+- `curBlock` → SequenceBlock (read-only)
+  Raw: The SequenceBlock of the parameter currently being evaluated. Can be used in a parameter expression to reference itself.
+
+- `curSeq` → Sequence (read-only)
+  Raw: The Sequence of the parameter currently being evaluated. Can be used in a parameter expression to reference itself.
+
+- `time` → OP (read-only)
+  Raw: Returns the folder where this node is saved.
+
+- `filePath` → str (read-only)
+  Raw: Returns the file location of this node.
+
+- `mod` → MOD (read-only)
+  Raw: Get a
+
+- `pages` → List[Page] (read-only)
+  Raw: A list of all built-in pages.
+
+- `seq` → SequenceCollection (read-only)
+  Raw: An intermediate
+
+- `builtinPars` → List[Par] (read-only)
+  Raw: A list of all
+
+- `customParGroups` → List[ParGroup] (read-only)
+  Raw: A list of all
+
+- `customPars` → List[Par] (read-only)
+  Raw: A list of all
+
+- `customPages` → List[Page] (read-only)
+  Raw: A list of all
+
+- `replicator` → OP (read-only)
+  Raw: The
+
+- `storage` → dict (read-only)
+  Raw: Get or set a set of user defined strings.
+
+- `children` → List[OP] (read-only)
+  Raw: A list of
+
+- `numChildren` → int (read-only)
+  Raw: Returns the number of children contained within the operator. Only
+
+- `numChildrenRecursive` → int (read-only)
+  Raw: Returns the number of operators contained recursively within this operator. Only
+
+- `op` → OPShortcut (read-only)
+  Raw: The operator finder object, for accessing operators through paths or shortcuts.
+
+- `opex` → OPEXShortcut (read-only)
+  Raw: An operator finder object, for accessing operators through paths or shortcuts. Works like the op() shortcut method, except it will raise an exception if it fails to find the node instead of returning 
+
+- `parent` → ParentShortcut (read-only)
+  Raw: The
+
+- `iop` → IOPShortcut (read-only)
+  Raw: The Internal Operator
+
+- `ipar` → IparShortcut (read-only)
+  Raw: The Internal Operator Parameter
+
+- `currentPage` → Page
+  Raw: Get or set the currently displayed parameter page. It can be set by setting it to another page or a string label.
+
+- `enclosedBy` → List[annotateCOMP] (read-only)
+  Raw: The (possibly empty) list of
+
+- `activeViewer` → bool
+  Raw: Get or set
+
+- `allowCooking` → bool
+  Raw: Get or set
+
+- `bypass` → bool
+  Raw: Get or set
+
+- `cloneImmune` → bool
+  Raw: Get or set
+
+- `current` → bool
+  Raw: Get or set
+
+- `display` → bool
+  Raw: Get or set
+
+- `expose` → bool
+  Raw: Get or set the
+
+- `lock` → bool
+  Raw: Get or set
+
+- `selected` → bool
+  Raw: Get or set
+
+- `python` → bool
+  Raw: Get or set parameter expression language as python.
+
+- `render` → bool
+  Raw: Get or set
+
+- `showCustomOnly` → bool
+  Raw: Get or set the Show Custom Only
+
+- `showDocked` → bool
+  Raw: Get or set
+
+- `viewer` → bool
+  Raw: Get or set
+
+- `color` → tuple[float, float, float]
+  Raw: Get or set color value, expressed as a 3-tuple, representing its red, green, blue values. To convert between color spaces, use the built in colorsys module.
+
+- `comment` → str
+  Raw: Get or set comment string.
+
+- `nodeHeight` → int
+  Raw: Get or set node height, expressed in
+
+- `nodeWidth` → int
+  Raw: Get or set node width, expressed in
+
+- `nodeX` → int
+  Raw: Get or set node X value, expressed in
+
+- `nodeY` → int
+  Raw: Get or set node Y value, expressed in
+
+- `nodeCenterX` → int
+  Raw: Get or set node X value, expressed in
+
+- `nodeCenterY` → int
+  Raw: Get or set node Y value, expressed in
+
+- `dock` → OP
+  Raw: Get or set the
+
+- `docked` → List[OP] (read-only)
+  Raw: The (possibly empty) list of
+
+- `inputs` → List[OP] (read-only)
+  Raw: List of input
+
+- `outputs` → List[OP] (read-only)
+  Raw: List of output
+
+- `inputConnectors` → List[Connector] (read-only)
+  Raw: List of input
+
+- `outputConnectors` → List[Connector] (read-only)
+  Raw: List of output
+
+- `cookFrame` → float (read-only)
+  Raw: Last frame at which this operator cooked.
+
+- `cookTime` → float (read-only)
+  Raw: Duration of the last measured cook in CPU time (in milliseconds).
+
+- `cookAbsFrame` → float (read-only)
+  Raw: Last absolute frame at which this operator cooked.
+
+- `cookStartTime` → float (read-only)
+  Raw: Last offset from frame start at which this operator cook began, expressed in milliseconds.
+
+- `cookEndTime` → float (read-only)
+  Raw: Last offset from frame start at which this operator cook ended, expressed in milliseconds. Other operators may have cooked between the start and end time. See the cookTime member for this operator's s
+
+- `cookedThisFrame` → bool (read-only)
+  Raw: True when this operator has cooked this frame.
+
+- `cookedPreviousFrame` → bool (read-only)
+  Raw: True when this operator has cooked the previous frame.
+
+- `childrenCookTime` → float (read-only)
+  Raw: The total accumulated cook time of all children of this operator during the last frame. Zero if the operator is not a
+
+- `childrenCookAbsFrame` → float (read-only)
+  Raw: The absolute frame on which childrenCPUCookTime is based.
+
+- `gpuCookTime` → float (read-only)
+  Raw: Duration of
+
+- `childrenGPUCookTime` → float (read-only)
+  Raw: The total accumulated
+
+- `childrenGPUCookAbsFrame` → float (read-only)
+  Raw: The absolute frame on which childrenGPUCookTime is based.
+
+- `totalCooks` → int (read-only)
+  Raw: Number of times the operator has cooked.
+
+- `cpuMemory` → int (read-only)
+  Raw: The approximate amount of CPU memory this Operator is using, in bytes.
+
+- `gpuMemory` → int (read-only)
+  Raw: The amount of
+
+- `type` → str (read-only)
+  Raw: Operator type as a string. Example: 'oscin'.
+
+- `subType` → str (read-only)
+  Raw: Operator subtype. Currently only implemented for
+
+- `opType` → str (read-only)
+  Raw: Python operator class type, as a string. Example: 'oscinCHOP'. Can be used with
+
+- `label` → str (read-only)
+  Raw: Operator type label. Example: 'OSC In'.
+
+- `icon` → str (read-only)
+  Raw: Get the letters used to create the operator's icon.
+
+- `family` → str (read-only)
+  Raw: Operator family. Example:
+
+- `isFilter` → bool (read-only)
+  Raw: True if operator is a filter, false if it is a generator.
+
+- `minInputs` → int (read-only)
+  Raw: Minimum number of inputs to the operator.
+
+- `maxInputs` → int (read-only)
+  Raw: Maximum number of inputs to the operator.
+
+- `isMultiInputs` → bool (read-only)
+  Raw: True if inputs are ordered, false otherwise. Operators with an arbitrary number of inputs have unordered inputs, example
+
+- `visibleLevel` → int (read-only)
+  Raw: Visibility level of the operator. For example, expert operators have visibility level 1, regular operators have visibility level 0.
+
+- `isBase` → bool (read-only)
+  Raw: True if the operator is a Base (miscellaneous)
+
+- `isCHOP` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isCOMP` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isDAT` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isMAT` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isObject` → bool (read-only)
+  Raw: True if the operator is an
+
+- `isPanel` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isSOP` → bool (read-only)
+  Raw: True if the operator is a
+
+- `isTOP` → bool (read-only)
+  Raw: True if the operators is a
+
+- `isPOP` → bool (read-only)
+  Raw: True if the operators is a
+
+- `isCustom` → bool (read-only)
+  Raw: True if the operators is a
+
+- `licenseType` → str (read-only)
+  Raw: Type of
+
+### Methods
+- `pars(pattern)` → list[Par]
+  Raw: Returns a (possibly empty) list of
+
+- `parGroups(pattern)` → list[Par]
+  Raw: Returns a (possibly empty) list of
+
+- `ops(*patterns, includeUtility=False)` → List[OP]
+  Raw: Returns a (possibly empty) list of OPs that match the patterns, relative to the inside of this
+
+- `cook(force=False, recurse=False, includeUtility=False)` → None
+  Raw: Copy all of the parameters from the specified
+
+- `changeType(OPtype)` → OP
+  Raw: Change referenced operator to a new operator type. After this call, this OP object should no longer be referenced. Instead use the returned OP object.
+
+- `evalExpression(str)` → Any
+  Raw: Evaluate the expression from the context of this
+
+- `destroy()` → None
+  Raw: Destroy the operator referenced by this
+
+- `var(name, search=True)` → str
+  Raw: Evaluate a
+
+- `openMenu(x=None, y=None)` → None
+  Raw: Open a node menu for the operator at x, y. Opens at mouse if x & y are not specified.
+
+- `setInputs(listOfOPs)` → None
+  Raw: Set all the operator inputs to the specified list.
+
+- `resetPars(parNames='*', parGroupNames='*', pageNames='*', includeBuiltin=True, includeCustom=True)` → bool
+  Raw: Resets the specified parameters in the operator.
+
+- `unload(cacheMemory=False)` → None
+  Raw: Unloads CPU and
+
+- `asType(opType, checkType=False)` → OP
+  Raw: Casts this OP to the given type for editor code analysis. Returns the
+
+- `addScriptError(msg)` → None
+  Raw: Adds a script error to a node.
+
+- `addError(msg)` → None
+  Raw: Adds an error to an operator. Only valid if added while the operator is cooking. (Example
+
+- `addWarning(msg)` → None
+  Raw: Adds a warning to an operator. Only valid if added while the operator is cooking. (Example
+
+- `errors(recurse=False)` → str
+  Raw: Get error messages associated with this
+
+- `warnings(recurse=False)` → str
+  Raw: Get warning messages associated with this
+
+- `scriptErrors(recurse=False)` → str
+  Raw: Get script error messages associated with this
+
+- `clearScriptErrors(recurse=False, error='*')` → None
+  Raw: Clear any errors generated during script execution. These may be generated during execution of DATs,
+
+- `childrenCPUMemory()` → int
+  Raw: Returns the total CPU memory usage for all the children from this
+
+- `childrenGPUMemory()` → int
+  Raw: Returns the total
+
+- `resetNodeSize()` → None
+  Raw: Reset the node tile size to its default width and height.
+
+- `closeViewer(topMost=False)` → None
+  Raw: Close the floating content viewers of the
+
+- `openViewer(unique=False, borders=True)` → None
+  Raw: Open a floating content viewer for the
+
+- `resetViewer(recurse=False)` → None
+  Raw: Reset the OP content viewer to default view settings.
+
+- `openParameters()` → None
+  Raw: Open a floating dialog containing the operator parameters.
+
+- `fetch(key, default, search=True, storeDefault=False)` → Any
+  Raw: Return an object from the OP storage dictionary. If the item is not found, and a default it supplied, it will be returned instead.
+
+- `fetchOwner(key)` → OP
+  Raw: Return the operator which contains the stored key, or None if not found.
+
+- `store(key, value)` → Any
+  Raw: Add the key/value pair to the
+
+- `unstore(*keys)` → None
+  Raw: For each key, remove it from the
+
+- `storeStartupValue(key, value)` → None
+  Raw: Add the key/value pair to the
+
+- `unstoreStartupValue(*keys)` → None
+  Raw: For key, remove it from the
+
+- `__getstate__()` → dict
+  Raw: Returns a dictionary with persistent data about the object suitable for pickling and deep copies.
+
+- `__setstate__()` → dict
+  Raw: Reads the dictionary to update persistent details about the object, suitable for unpickling and deep copies.
+
+## PanelCOMP_Class
+Base class for all PanelCOMP operators
+
+### Members
+- `panel` → td.Panel (read-only)
+  Raw: Return a list of all component variables in this
+
+- `panelRoot` → OP (read-only)
+  Raw: The panelCOMP at the top of the panel hierarchy.
+
+- `panelChildren` → list (read-only)
+  Raw: The children panelCOMPs of this operator.
+
+- `x` → int (read-only)
+  Raw: The panel's x coordinate, as measured in pixels.
+
+- `y` → int (read-only)
+  Raw: The panel's y coordinate, as measured in pixels.
+
+- `width` → int (read-only)
+  Raw: The panel's width, as measured in pixels.
+
+- `height` → int (read-only)
+  Raw: The panel's height, as measured in pixels.
+
+- `marginX` → int (read-only)
+  Raw: The panel's x coordinate adjusted by margins as measured in pixels.
+
+- `marginY` → int (read-only)
+  Raw: The panel's y coordinate adjusted by margins, as measured in pixels.
+
+- `marginWidth` → int (read-only)
+  Raw: The panel's width adjusted by margins, as measured in pixels.
+
+- `marginHeight` → int (read-only)
+  Raw: The panel's height adjusted by margins, as measured in pixels.
+
+- `dropReady` → bool (read-only)
+  Raw: The current state of the drop operation. True when the drop will be accepted.
+
+- `extensions` → list (read-only)
+  Raw: A list of
+
+- `extensionsReady` → bool (read-only)
+  Raw: True unless the extensions are currently compiling. Can be used to avoid accessing promoted members prematurely during an extension initialization function.
+
+- `internalOPs` → Dict (read-only)
+  Raw: A dictionary of
+
+- `internalPars` → Dict (read-only)
+  Raw: A dictionary of
+
+- `clones` → List[COMP] (read-only)
+  Raw: A list of all
+
+- `componentCloneImmune` → bool
+  Raw: Get or set
+
+- `vfs` → VFS (read-only)
+  Raw: An intermediate
+
+- `dirty` → bool (read-only)
+  Raw: True if the contents of the component need to be saved.
+
+- `currentChild` → OP (read-only)
+  Raw: The child
+
+- `selectedChildren` → List[OP] (read-only)
+  Raw: The list of currently selected
+
+- `cpuCookTime` → float (read-only)
+  Raw: Duration of the last measured cook in CPU time (in milliseconds).
+
+- `childrenCPUCookTime` → float (read-only)
+  Raw: The total accumulated cook time of all children of this operator during the last frame. Zero if the operator is not a
+
+- `childrenCPUCookAbsFrame` → int (read-only)
+  Raw: The absolute frame on which childrenCookTime is based.
+
+- `gpuMemory` → int (read-only)
+  Raw: The amount of
+
+- `pickable` → bool
+  Raw: Get or set
+
+- `utility` → bool
+  Raw: Get or set utility flag.
+
+- `progressiveUnloader` → ProgressiveUnload (read-only)
+  Raw: Returns an instance of the
+
+- `isPrivate` → bool (read-only)
+  Raw: True if the the component contents cannot be directly viewed.
+
+- `isPrivacyActive` → bool (read-only)
+  Raw: True if the component is private, and privacy is active. When inactive the contents can be temporarily viewed.
+
+- `isPrivacyLicensed` → bool (read-only)
+  Raw: True if the component is private and if the required CodeMeter license is present to run it.
+
+- `privacyFirmCode` → int (read-only)
+  Raw: The CodeMeter firm code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyProductCode` → int (read-only)
+  Raw: The CodeMeter product code needed to use this private component. 0 if this component is not private using a CodeMeter dongle.
+
+- `privacyDeveloperName` → str (read-only)
+  Raw: The name of the developer of this private component.
+
+- `privacyDeveloperEmail` → str (read-only)
+  Raw: The email of the developer of this private component.
+
+- `inputCOMPs` → List[COMP] (read-only)
+  Raw: List of input components to this component through its top connector.
+
+- `inputCOMPConnectors` → List[Connector] (read-only)
+  Raw: List of input
+
+- `outputCOMPs` → List[COMP] (read-only)
+  Raw: List of output
+
+- `outputCOMPConnectors` → List[Connector] (read-only)
+  Raw: List of output
+
+### Methods
+- `panelParent(n)` → OP | None
+  Raw: The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel
+
+- `interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)` → PanelCOMP
+  Raw: Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The
+
+- `interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')` → PanelCOMP
+  Raw: Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent pa
+
+- `interactClear()` → None
+  Raw: Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state.
+
+- `interactStatus()` → list
+  Raw: Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary].
+
+- `locateMouse()` → Tuple[float, float]
+  Raw: Returns a tuple containing the mouse coordinates relative to the
+
+- `locateMouseUV()` → Tuple[float, float]
+  Raw: Returns a tuple containing the normalized mouse coordinates relative to the
+
+- `setFocus(moveMouse=False)` → None
+  Raw: Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open.
+
+- `create(opType, name, initialize=True)` → OP
+  Raw: Create a new node of the given type, inside this component. If
+
+- `collapseSelected()` → OP
+  Raw: Move all selected operators into a new
+
+- `layout(ops, horizontal=None, vertical=None, grid=0)` → None
+  Raw: Copy the operator into this component. If name is supplied, the new node will use that name. The new node is returned.
+
+- `copyOPs(listOfOPs)` → List[OP]
+  Raw: Copy a list of operators into this component.
+
+- `findChildren(type=None, name=None, path=None, depth=None, maxDepth=None, text=None, comment=None, tags=[], allTags=False, parValue=None, parExpr=None, parName=None, onlyNonDefaults=False, includeUtility=False, key=None)` → List[OP]
+  Raw: Return a list of
+
+- `progressiveUnload(totalFrames=None, timePerFrame=None, nodesPerFrame=None, gpuMemPerFrame=None, opsToExclude=None)` → None
+  Raw: This method allows you to try to release the CPU and
+
+- `initializeExtensions(index=None)` → Any
+  Raw: Initialize the components
+
+- `loadTox(filepath, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given file path into this component.
+
+- `loadByteArray(byteArray, unwired=False, pattern=None, password=None)` → OP
+  Raw: Load the component from the given bytearray into this
+
+- `reload(filepath, password=None)` → None
+  Raw: Reloads the component from the given file path. This will replace its children as well as top level parameters and update flags, node width/height, storage, comments and inputs (but keep original node
+
+- `resetNetworkView(recurse)` → None
+  Raw: Reset the network view such that the network editor will be re-homed upon entering this component.
+
+- `save(filepath, createFolders=False, password=None)` → str
+  Raw: Saves the component to disk. If no path is provided, a default filename is used and the
+
+- `saveByteArray(password=None)` → bytearray
+  Raw: Save the component into a bytearray. The bytearray is the same data that is held in a
+
+- `saveExternalTox(recurse=False, password=None)` → int
+  Raw: Save out the contents of any
+
+- `appendCustomPage(name)` → Page
+  Raw: Add a new
+
+- `destroyCustomPars()` → int
+  Raw: Remove all custom parameters from
+
+- `sortCustomPages(*pages)` → None
+  Raw: Reorder custom parameter pages by listing their page names.
+
+- `accessPrivateContents(key)` → bool
+  Raw: Gain access to a private component. The component will still be private the next time it is saved or re-opened.
+
+- `addPrivacy(key, developerName=None)` → None
+  Raw: Add privacy to a component with the given key.
+
+- `blockPrivateContents(key)` → None
+  Raw: Block access to a private component that was temporarily accessible.
+
+- `removePrivacy(key)` → bool
+  Raw: Completely remove privacy from a component.
+
+- `setVar(name, value)` → None
+  Raw: Set a component variable to the specified value.
+
+- `unsetVar(name)` → None
+  Raw: Unset the specified component variable. This removes the entry from the '
+
+- `vars(*patterns)` → List[str]
+  Raw: Return a list of all component variables in this
+
+## POP_Class
+Base class for all POP operators
+
+### Members
+- `compare` → bool (read-only)
+  Raw: Returns the vertex attribute values as a list.
+
+- `dimension` → Dimension (read-only)
+  Raw: The dimension in this
+
+- `maxVertsPerLineStrip` → int (read-only)
+  Raw: The max number of verts per line strip in this
+
+- `template` → bool
+  Raw: Get or set Template
+
+### Methods
+- `bounds(delayed=False)` → Bounds
+  Raw: Returns an
+
+- `computeBounds(display=False, render=False, delayed=False)` → Bounds
+  Raw: Returns an
+
+- `numPoints(delayed=False, max=False)` → int
+  Raw: Returns the number of points contained in this
+
+- `numPrims(delayed=False, max=False, primType=None)` → int
+  Raw: Returns the number of primitives contained in this
+
+- `numVerts(delayed=False, max=False, lineStrips=False)` → int
+  Raw: Returns the number of vertices contained in this
+
+- `points(attributeName, startIndex=0, count=0, delayed=False)` → list
+  Raw: Returns the point attribute values as a list.
+
+- `prims(attributeName, startIndex=0, count=0, delayed=False)` → list
+  Raw: Returns the primitive attribute values as a list.
+
+- `reallocate()` → None
+  Raw: Forces the
+
+- `save(filepath, createFolders=False)` → str
+  Raw: Save the
+
+- `verts(attributeName, startIndex=0, count=0, delayed=False)` → list
+  Raw: Returns the vertex attribute values as a list.
+
+## SOP_Class
+Base class for all SOP operators
+
+### Members
+- `compare` → bool (read-only)
+  Raw: Saves the geometry to the file system. Multiple file types are supported. Returns the filename and path saved.
+
+- `template` → bool
+  Raw: Get or set
+
+- `points` → td.Points (read-only)
+  Raw: The set of
+
+- `prims` → td.Prims (read-only)
+  Raw: The set of
+
+- `numPoints` → int (read-only)
+  Raw: The number of
+
+- `numVertices` → int (read-only)
+  Raw: The number of
+
+- `numPrims` → int (read-only)
+  Raw: The number of
+
+- `pointAttribs` → td.Attributes (read-only)
+  Raw: The set of point
+
+- `primAttribs` → td.Attributes (read-only)
+  Raw: The set of primitive
+
+- `vertexAttribs` → td.Attributes (read-only)
+  Raw: The set of vertex
+
+- `pointGroups` → dict (read-only)
+  Raw: Returns a dictionary of point
+
+- `primGroups` → dict (read-only)
+  Raw: Returns a dictionary of primitive
+
+- `center` → tdu.Position
+  Raw: Get or set the barycentric coordinate of this operator's geometry. It is expressed as a
+
+- `min` → tdu.Position (read-only)
+  Raw: The minimum coordinates of this operator's geometry along each dimension, expressed as a
+
+- `max` → tdu.Position (read-only)
+  Raw: The maximum coordinates of this operator's geometry along each dimension, expressed as
+
+- `size` → tdu.Position (read-only)
+  Raw: The size of this operator's geometry along each dimension, expressed as a
+
+### Methods
+- `bounds(display=False, render=False)` → Bounds
+  Raw: Returns an object with the bounds, center and size of the
+
+- `save(filepath, createFolders=False)` → str
+  Raw: Saves the geometry to the file system. Multiple file types are supported. Returns the filename and path saved.
+
+## TOP_Class
+Base class for all TOP operators
+
+### Members
+- `width` → int (read-only)
+  Raw: Copies the contents of the
+
+- `height` → int (read-only)
+  Raw: Texture height, measured in pixels.
+
+- `aspect` → float (read-only)
+  Raw: Texture aspect ratio, width divided by height.
+
+- `aspectWidth` → float (read-only)
+  Raw: Texture aspect ratio, width.
+
+- `aspectHeight` → float (read-only)
+  Raw: Texture aspect ratio, height.
+
+- `depth` → int (read-only)
+  Raw: Texture depth, when using a 3 dimensional texture.
+
+- `gpuMemory` → int (read-only)
+  Raw: The amount of
+
+- `curPass` → int (read-only)
+  Raw: The current cooking pass iteration, beginning at 0. The total can be set with the 'Passes' parameter on the operator's common page.
+
+- `isTOP` → bool (read-only)
+  Raw: True if the operators is a
+
+- `newestSliceWOffset` → int (read-only)
+  Raw: When a Texture3D
+
+- `pixelFormat` → str (read-only)
+  Raw: Returns the pixel Format of the
+
+### Methods
+- `sample(x=None,y=None,z=None,u=None,v=None,w=None)` → Tuple[float, float, float, float]
+  Raw: Returns a 4-tuple representing the color value at the specified texture location. One horizontal and one vertical component must be specified. Note that this is a very expensive operation currently. I
+
+- `numpyArray(delayed=False, writable=False)` → numpy.ndarray
+  Raw: Returns the
+
+- `save(filepath, asynchronous=False, createFolders=False, quality=1.0, metadata=[])` → str
+  Raw: Saves the image to the file system. Support file formats are:
+
+- `saveByteArray(filetype, quality=1.0, metadata=[])` → bytearray
+  Raw: Saves the image to a bytearray object in the requested file format. Support file formats are: .tif, .tiff, .jpg, .jpeg, .bmp, .png, .exr and .dds. Returns the bytearray object. To get the raw image da
+
+- `cudaMemory(stream=None)` → CUDAMemory
+  Raw: Copies the contents of the
+

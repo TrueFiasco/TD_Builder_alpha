@@ -1,0 +1,237 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\addSOP_lossless.json",
+  "operator_type": "addSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "add1",
+          "type": "SOP:add",
+          "parameters": {
+            "pageindex": 1,
+            "addpts": "on",
+            "point0posy": 1,
+            "poly0pattern": "\"0 1 2\"",
+            "poly0closed": "on",
+            "point1posx": -1,
+            "point1posy": -1,
+            "point1weight": 1,
+            "point2posx": 1,
+            "point2posy": -1,
+            "point2weight": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "SOP:add": 1,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "SOP:box",
+          "parameters": {
+            "ty": -1.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box5",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "box5",
+            "language": "text"
+          }
+        },
+        {
+          "name": "add_to_input_from_table",
+          "type": "SOP:add",
+          "parameters": {
+            "pointdat": "sopto2",
+            "namedattribs": "on",
+            "method": "group",
+            "add": "group",
+            "inc": 4,
+            "closedall": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box2",
+          "to": "add_to_input_from_table",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:box": 2,
+          "DAT:text": 1,
+          "DAT:sopto": 1,
+          "SOP:add": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "box3",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "add_by_group",
+          "type": "SOP:add",
+          "parameters": {
+            "keep": "on",
+            "addpts": "on",
+            "point0posx": 0.2,
+            "point0posy": 0.2,
+            "point0posz": 2,
+            "method": "group",
+            "add": "group",
+            "inc": 4,
+            "closedall": "on",
+            "poly0closed": "on",
+            "point1posx": -0.2,
+            "point1posy": 0.2,
+            "point1posz": 2,
+            "point1weight": 1,
+            "point2posx": -0.2,
+            "point2posy": -0.2,
+            "point2posz": 2,
+            "point2weight": 1,
+            "point3posx": 0.2,
+            "point3posy": -0.2,
+            "point3posz": 2,
+            "point3weight": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box3",
+          "to": "add_by_group",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "SOP:add": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "box4",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "add_delete_geometry_but_keep_points",
+          "type": "SOP:add",
+          "parameters": {
+            "keep": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box4",
+          "to": "add_delete_geometry_but_keep_points",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "SOP:add": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

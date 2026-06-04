@@ -1,0 +1,78 @@
+{
+  "family": "MAT",
+  "total": 10,
+  "with_unique_content": 3,
+  "classes": [
+    {
+      "class_name": "GlslMAT_Class",
+      "operator": "GlslMAT",
+      "is_base_class": false,
+      "family": "MAT",
+      "inherits": "MAT_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "compileResult",
+          "signature": "compileResult",
+          "return_type": "str",
+          "description": "The latest compile result.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "PbrMAT_Class",
+      "operator": "PbrMAT",
+      "is_base_class": false,
+      "family": "MAT",
+      "inherits": "MAT_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "outputShader",
+          "signature": "outputShader(includeGeoShader=False, instanceTexturing=False)",
+          "return_type": "glslMAT",
+          "description": "Will cause a new GLSL",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "includeGeoShader=False",
+            "instanceTexturing=False"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "PhongMAT_Class",
+      "operator": "PhongMAT",
+      "is_base_class": false,
+      "family": "MAT",
+      "inherits": "MAT_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "outputShader",
+          "signature": "outputShader(includeGeoShader=False, instanceTexturing=False)",
+          "return_type": "glslMAT",
+          "description": "Will cause a new GLSL",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "includeGeoShader=False",
+            "instanceTexturing=False"
+          ]
+        }
+      ],
+      "callbacks": []
+    }
+  ]
+}

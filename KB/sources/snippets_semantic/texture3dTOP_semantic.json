@@ -1,0 +1,371 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\texture3dTOP_lossless.json",
+  "operator_type": "texture3dTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 3,
+            "orthowidth": 1,
+            "fov": 95,
+            "aperture": 44.1,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 3,
+            "ty": 0.4,
+            "rx": -50,
+            "instancing": "on",
+            "instanceop": "instancer",
+            "instancetx": "tx",
+            "instancety": "ty",
+            "instancew": "w",
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "note",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "python",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "image1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "image2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "image3",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "image4",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "image5",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "image6",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "CHOP:limit",
+          "parameters": {
+            "pageindex": 2,
+            "type": "loop",
+            "max": 6,
+            "scope": "w"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "constantr": 1,
+            "constantg": 1,
+            "constantb": 1,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "circle1",
+            "custom": "on",
+            "attribscope": "P",
+            "renamescope": "\"tx ty tz\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "tex3d1",
+          "type": "TOP:tex3d",
+          "parameters": {
+            "type": "texture2darray",
+            "prefill": "on",
+            "cachesize": 6
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "merge1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 2,
+            "rady": 1.7,
+            "reverseanchors": "on",
+            "divs": 10
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 1,
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "rampsamples",
+            "channelname": "w"
+          }
+        },
+        {
+          "name": "instancer",
+          "type": "CHOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "switch1",
+          "to": "tex3d1",
+          "to_input": "0"
+        },
+        {
+          "from": "image1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "image2",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "image3",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "image4",
+          "to": "switch1",
+          "to_input": "3"
+        },
+        {
+          "from": "image5",
+          "to": "switch1",
+          "to_input": "4"
+        },
+        {
+          "from": "image6",
+          "to": "switch1",
+          "to_input": "5"
+        },
+        {
+          "from": "sopto1",
+          "to": "pattern1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "instancer",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 21,
+        "connection_count": 12,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "DAT:text": 2,
+          "TOP:moviefilein": 6,
+          "CHOP:limit": 1,
+          "CHOP:merge": 1,
+          "MAT:phong": 1,
+          "CHOP:sopto": 1,
+          "TOP:tex3d": 1,
+          "DAT:chopto": 1,
+          "SOP:circle": 1,
+          "TOP:render": 1,
+          "TOP:switch": 1,
+          "CHOP:pattern": 1,
+          "CHOP:null": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "tex3d1",
+          "type": "TOP:tex3d",
+          "parameters": {
+            "type": "texture2darray",
+            "prefill": "on"
+          }
+        },
+        {
+          "name": "tex3d2",
+          "type": "TOP:tex3d",
+          "parameters": {
+            "prefill": "on"
+          }
+        },
+        {
+          "name": "hsvadj1",
+          "type": "TOP:hsvadj",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify",
+            "outputresolution": "quarter"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "hsvadj1",
+          "to": "tex3d1",
+          "to_input": "0"
+        },
+        {
+          "from": "hsvadj1",
+          "to": "tex3d2",
+          "to_input": "0"
+        },
+        {
+          "from": "level1",
+          "to": "hsvadj1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:level": 1,
+          "DAT:text": 1,
+          "TOP:tex3d": 2,
+          "TOP:hsvadj": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

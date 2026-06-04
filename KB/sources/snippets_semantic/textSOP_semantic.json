@@ -1,0 +1,254 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\textSOP_lossless.json",
+  "operator_type": "textSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "square",
+            "frequency": 0.28,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "square",
+            "frequency": 0.34,
+            "timeslice": "on",
+            "exporttable": "lfo2_export"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "fontsizex": 0.95,
+            "legacyparsing": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "lfo2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:lfo": 2,
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "fontsizex": 0.95,
+            "output": "closedpolys",
+            "text": "daviteHQ",
+            "legacyparsing": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "resample1",
+          "type": "SOP:resample",
+          "parameters": {
+            "edge": "on"
+          }
+        },
+        {
+          "name": "resample2",
+          "type": "SOP:resample",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "resample1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "resample2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:resample": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "hole2",
+          "type": "SOP:hole",
+          "parameters": {}
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "null2",
+            "iscope": "num_prims"
+          }
+        },
+        {
+          "name": "null2",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "output": "closedpolys",
+            "text": "\"Q R a\""
+          }
+        },
+        {
+          "name": "text2",
+          "type": "SOP:text",
+          "parameters": {
+            "levelofdetail": 4,
+            "text": "\"Q B a\""
+          }
+        },
+        {
+          "name": "text3",
+          "type": "SOP:text",
+          "parameters": {
+            "levelofdetail": 4,
+            "extrude": "on",
+            "extrudedepth": 0.5,
+            "text": "\"Q R a\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "text2",
+            "extract": "primitives",
+            "language": "text"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "text3",
+            "extract": "primitives",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "hole2",
+          "to_input": "0"
+        },
+        {
+          "from": "hole2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "null3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:hole": 1,
+          "CHOP:info": 1,
+          "SOP:null": 2,
+          "SOP:text": 3,
+          "DAT:text": 1,
+          "DAT:sopto": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

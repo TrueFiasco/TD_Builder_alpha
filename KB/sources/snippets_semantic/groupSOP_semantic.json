@@ -1,0 +1,563 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\groupSOP_lossless.json",
+  "operator_type": "groupSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "group1",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 1,
+            "crname": "sphere",
+            "usenumber": "on"
+          }
+        },
+        {
+          "name": "group2",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 1,
+            "crname": "box",
+            "usenumber": "on"
+          }
+        },
+        {
+          "name": "group3",
+          "type": "SOP:group",
+          "parameters": {
+            "crname": "torus",
+            "usenumber": "on"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": 2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "tx": -2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "sphere",
+            "ty": -2,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "box",
+            "ty": 2,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "torus",
+            "ty": -2,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "group1",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "group2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "group3",
+          "to_input": "0"
+        },
+        {
+          "from": "group1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "group2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "group3",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "merge1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "transform3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 9,
+        "operator_types": {
+          "SOP:box": 1,
+          "SOP:group": 3,
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:sphere": 1,
+          "COMP:annotate": 2,
+          "SOP:transform": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "group1",
+          "type": "SOP:group",
+          "parameters": {
+            "crname": "right",
+            "entity": "point",
+            "usenumber": "on",
+            "usebounds": "on",
+            "sizex": 1,
+            "sizey": 2,
+            "sizez": 2.5,
+            "tx": -1
+          }
+        },
+        {
+          "name": "group3",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 1,
+            "crname": "upright",
+            "entity": "point",
+            "usenumber": "on",
+            "usenormal": "on",
+            "dirx": 1,
+            "diry": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "spread",
+          "type": "COMP:slider",
+          "parameters": {
+            "value0": 0.545455,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": 2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "tx": -2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "right",
+            "tx": 2.6,
+            "ry": -2,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform_teletransport",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "upright",
+            "xord": "str",
+            "tx": 0.9,
+            "ty": 1.8,
+            "rz": -20,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "group1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "group3",
+          "to_input": "0"
+        },
+        {
+          "from": "group1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "group3",
+          "to": "transform_teletransport",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "SOP:group": 2,
+          "DAT:text": 1,
+          "COMP:slider": 1,
+          "SOP:torus": 1,
+          "SOP:sphere": 1,
+          "COMP:annotate": 1,
+          "SOP:transform": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "facet1",
+          "type": "SOP:facet",
+          "parameters": {
+            "unique": "on",
+            "postnml": "on"
+          }
+        },
+        {
+          "name": "group1",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 1,
+            "crname": "top",
+            "usenumber": "on",
+            "pattern": "\"14 9 10 5\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "group": "top",
+            "sx": 1.4,
+            "sy": 1.4,
+            "sz": 1.4,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "group1",
+          "to_input": "0"
+        },
+        {
+          "from": "group1",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:facet": 1,
+          "SOP:group": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "reverseanchors": "on",
+            "rows": 50,
+            "cols": 50
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "SOP:convert",
+          "parameters": {
+            "surftype": "triangles"
+          }
+        },
+        {
+          "name": "convert2",
+          "type": "SOP:convert",
+          "parameters": {}
+        },
+        {
+          "name": "sort_random",
+          "type": "SOP:sort",
+          "parameters": {
+            "ptsort": "seed"
+          }
+        },
+        {
+          "name": "groupB_bounding",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 1,
+            "crname": "groupB",
+            "entity": "point",
+            "usebounds": "on",
+            "boundtype": "usebsphere",
+            "sizex": 2,
+            "sizey": 2,
+            "sizez": 2,
+            "tx": -0.59,
+            "tz": 0.6
+          }
+        },
+        {
+          "name": "delete_groupA_points",
+          "type": "SOP:delete",
+          "parameters": {
+            "group": "groupA",
+            "entity": "point"
+          }
+        },
+        {
+          "name": "group_first500Points",
+          "type": "SOP:group",
+          "parameters": {
+            "crname": "groupA",
+            "entity": "point",
+            "usenumber": "on",
+            "pattern": "[0-500]"
+          }
+        },
+        {
+          "name": "group_combineIntoGroupA",
+          "type": "SOP:group",
+          "parameters": {
+            "pageindex": 2,
+            "crname": "group3",
+            "entity": "point",
+            "grpequal": "groupA",
+            "grp1": "groupB",
+            "op1": "or",
+            "grp2": "groupA"
+          }
+        },
+        {
+          "name": "delete_combined_groupA_points",
+          "type": "SOP:delete",
+          "parameters": {
+            "group": "groupA",
+            "entity": "point"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "group_first500Points",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "group_combineIntoGroupA",
+          "to": "convert2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "sort_random",
+          "to_input": "0"
+        },
+        {
+          "from": "group_first500Points",
+          "to": "groupB_bounding",
+          "to_input": "0"
+        },
+        {
+          "from": "convert1",
+          "to": "delete_groupA_points",
+          "to_input": "0"
+        },
+        {
+          "from": "sort_random",
+          "to": "group_first500Points",
+          "to_input": "0"
+        },
+        {
+          "from": "groupB_bounding",
+          "to": "group_combineIntoGroupA",
+          "to_input": "0"
+        },
+        {
+          "from": "convert2",
+          "to": "delete_combined_groupA_points",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 8,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:convert": 2,
+          "SOP:sort": 1,
+          "SOP:group": 3,
+          "SOP:delete": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    }
+  ]
+}

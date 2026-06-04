@@ -1,0 +1,149 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\flipTOP_lossless.json",
+  "operator_type": "flipTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "flip_x",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipx": "on"
+          }
+        },
+        {
+          "name": "flip_y",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipy": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "flip_x_y",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipx": "on",
+            "flipy": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "flip_x",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "flip_y",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "flip_x_y",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:flip": 3,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rotate90",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipx": "on",
+            "flop": "topleft"
+          }
+        },
+        {
+          "name": "rotate90_",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipy": "on",
+            "flop": "bottomleft"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "flop_bottomLeft",
+          "type": "TOP:flip",
+          "parameters": {
+            "flop": "bottomleft"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "rotate90",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "rotate90_",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "flop_bottomLeft",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:flip": 3,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

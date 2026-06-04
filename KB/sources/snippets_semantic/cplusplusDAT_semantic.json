@@ -1,0 +1,44 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\cplusplusDAT_lossless.json",
+  "operator_type": "cplusplusDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40,
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:button": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

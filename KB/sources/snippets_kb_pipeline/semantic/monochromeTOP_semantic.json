@@ -1,0 +1,86 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\monochromeTOP_lossless.json",
+  "operator_type": "monochromeTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "mono_blue",
+          "type": "TOP:mono",
+          "parameters": {
+            "rgb": "blue"
+          }
+        },
+        {
+          "name": "mono_opaque",
+          "type": "TOP:mono",
+          "parameters": {
+            "alpha": "one"
+          }
+        },
+        {
+          "name": "mono_luminance",
+          "type": "TOP:mono",
+          "parameters": {}
+        },
+        {
+          "name": "mono_rgbMaximum",
+          "type": "TOP:mono",
+          "parameters": {
+            "rgb": "rgbmax"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "mono_blue",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "mono_opaque",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "mono_luminance",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "mono_rgbMaximum",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:mono": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

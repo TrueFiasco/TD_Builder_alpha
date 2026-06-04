@@ -1,0 +1,206 @@
+{
+  "operator": "Bind_CHOP",
+  "family": "CHOP",
+  "td_create_name": "bindCHOP",
+  "param_count": 14,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "index",
+        "menuIndex": 0,
+        "menuNames": [
+          "index",
+          "name"
+        ],
+        "menuLabels": [
+          "Channel Number",
+          "Channel Name"
+        ]
+      },
+      "default": "index",
+      "page": "Bind",
+      "label": "Match by",
+      "readOnly": false,
+      "expression": null
+    },
+    "pickup": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Bind",
+      "label": "Channel Pickup",
+      "readOnly": false,
+      "expression": null
+    },
+    "exhold": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bind",
+      "label": "Exclusive Hold",
+      "readOnly": false,
+      "expression": null
+    },
+    "exholdunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Bind",
+      "label": "Exclusive Hold Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Bind",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

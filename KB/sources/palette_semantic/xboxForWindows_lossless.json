@@ -1,0 +1,1212 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDVR\\System Components\\xboxForWindows.tox.dir",
+    "build_version": "099",
+    "build_date": "Tue Jul 23 16:25:21 2019",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2019.17420"
+  },
+  "operators": {
+    "/xboxForWindows": {
+      "name": "xboxForWindows",
+      "path": "/xboxForWindows",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        300,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.68,
+        0.226667,
+        0.0
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1"
+      },
+      "parameters": {
+        "stdswitcher1": 3,
+        "parentshortcut": "Device",
+        "opviewer": "./icon",
+        "Source": {
+          "64": "player1controller"
+        },
+        "Joystickchop": {
+          "320": "./chansOut"
+        }
+      },
+      "parent": null,
+      "children": [
+        "icon",
+        "math1",
+        "merge2",
+        "delete1",
+        "lookup1",
+        "rename1",
+        "script1",
+        "select1",
+        "select3",
+        "chansOut",
+        "deadzone",
+        "joystick",
+        "replace1",
+        "replace2",
+        "joystickChans",
+        "script1_callbacks"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 Controls \"Published OPs\"\n1846546703 Source Source 1 1 0 0 1 1 1 0 0 \"\" Controls 4097 6 default default player1controller \"Player 1 Controller\" player2controller \"Player 2 Controller\" player3controller \"Player 3 Controller\" player4controller \"Player 4 Controller\" \"tdjoy:p:Controller (XBOX 360 For Windows):l:0x5:\" \"Controller (XBOX 360 For Windows)\" 0 2 op('./joystick').par.source\n772804873 Joystickchop \"Joystick CHOP\" 1 1 0 0 1 1 1 0 0 ./chansOut \"Published OPs\" 0\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/xboxForWindows/icon": {
+      "name": "icon",
+      "path": "/xboxForWindows/icon",
+      "op_type": "TOP:moviefilein",
+      "family": "TOP",
+      "specific_type": "moviefilein",
+      "viewport_pos": null,
+      "tile_pos": [
+        500,
+        300,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "49": "\"app.samplesFolder + '/Map/Icons/viveHeadSet.jpg'\" \"app.samplesFolder + '/Map/Icons/xboxController.jpg'\""
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/xboxForWindows/math1": {
+      "name": "math1",
+      "path": "/xboxForWindows/math1",
+      "op_type": "CHOP:math",
+      "family": "CHOP",
+      "specific_type": "math",
+      "viewport_pos": null,
+      "tile_pos": [
+        695,
+        4,
+        130,
+        84
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 2,
+        "torange1": -1,
+        "torange2": 1,
+        "scope": "\"leftThumbX leftThumbY rightThumbX rightThumbY\"",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "joystick"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/merge2": {
+      "name": "merge2",
+      "path": "/xboxForWindows/merge2",
+      "op_type": "CHOP:merge",
+      "family": "CHOP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        1280,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "math1",
+        "1": "script1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/delete1": {
+      "name": "delete1",
+      "path": "/xboxForWindows/delete1",
+      "op_type": "CHOP:delete",
+      "family": "CHOP",
+      "specific_type": "delete",
+      "viewport_pos": null,
+      "tile_pos": [
+        1500,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "delchannels": "on",
+        "delscope": "\"k l p1_X p1_Y\"",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "merge2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/lookup1": {
+      "name": "lookup1",
+      "path": "/xboxForWindows/lookup1",
+      "op_type": "CHOP:lookup",
+      "family": "CHOP",
+      "specific_type": "lookup",
+      "viewport_pos": null,
+      "tile_pos": [
+        1700,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index1": -1,
+        "index2": 1,
+        "chanmatch": "onetomany",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "select1",
+        "1": "deadzone/out1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/rename1": {
+      "name": "rename1",
+      "path": "/xboxForWindows/rename1",
+      "op_type": "CHOP:rename",
+      "family": "CHOP",
+      "specific_type": "rename",
+      "viewport_pos": null,
+      "tile_pos": [
+        1900,
+        -100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "lookup1",
+        "1": "select1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/script1": {
+      "name": "script1",
+      "path": "/xboxForWindows/script1",
+      "op_type": "CHOP:script",
+      "family": "CHOP",
+      "specific_type": "script",
+      "viewport_pos": null,
+      "tile_pos": [
+        1100,
+        -100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "callbacks": "script1_callbacks",
+        "exportmethod": "datname",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "select3"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/select1": {
+      "name": "select1",
+      "path": "/xboxForWindows/select1",
+      "op_type": "CHOP:select",
+      "family": "CHOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        1500,
+        -100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "channames": "*Thumb*",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "merge2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/select3": {
+      "name": "select3",
+      "path": "/xboxForWindows/select3",
+      "op_type": "CHOP:select",
+      "family": "CHOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        890,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "channames": "\"p1_X p1_Y\"",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "math1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/chansOut": {
+      "name": "chansOut",
+      "path": "/xboxForWindows/chansOut",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        2600,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1"
+      },
+      "parameters": {},
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "replace1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone": {
+      "name": "deadzone",
+      "path": "/xboxForWindows/deadzone",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        1500,
+        -400,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/xboxForWindows",
+      "children": [
+        "out1",
+        "math2",
+        "math3",
+        "trim1",
+        "trim2",
+        "wave1",
+        "shift1",
+        "extend1",
+        "extend2",
+        "stretch1",
+        "stretch2"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/out1": {
+      "name": "out1",
+      "path": "/xboxForWindows/deadzone/out1",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        2100,
+        -800,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "math3"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/math2": {
+      "name": "math2",
+      "path": "/xboxForWindows/deadzone/math2",
+      "op_type": "CHOP:math",
+      "family": "CHOP",
+      "specific_type": "math",
+      "viewport_pos": null,
+      "tile_pos": [
+        1280,
+        -632,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 2,
+        "torange1": 0,
+        "torange2": -1,
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "trim1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/math3": {
+      "name": "math3",
+      "path": "/xboxForWindows/deadzone/math3",
+      "op_type": "CHOP:math",
+      "family": "CHOP",
+      "specific_type": "math",
+      "viewport_pos": null,
+      "tile_pos": [
+        1900,
+        -800,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "chopop": "add",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "trim2",
+        "1": "extend2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/trim1": {
+      "name": "trim1",
+      "path": "/xboxForWindows/deadzone/trim1",
+      "op_type": "CHOP:trim",
+      "family": "CHOP",
+      "specific_type": "trim",
+      "viewport_pos": null,
+      "tile_pos": [
+        1085,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "relative": "abs",
+        "end": 99,
+        "timeslice": "on",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "extend1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/trim2": {
+      "name": "trim2",
+      "path": "/xboxForWindows/deadzone/trim2",
+      "op_type": "CHOP:trim",
+      "family": "CHOP",
+      "specific_type": "trim",
+      "viewport_pos": null,
+      "tile_pos": [
+        1475,
+        -767,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "relative": "abs",
+        "end": 199,
+        "timeslice": "on",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "shift1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/wave1": {
+      "name": "wave1",
+      "path": "/xboxForWindows/deadzone/wave1",
+      "op_type": "CHOP:wave",
+      "family": "CHOP",
+      "specific_type": "wave",
+      "viewport_pos": null,
+      "tile_pos": [
+        500,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "wavetype": "ramp",
+        "period": 100,
+        "periodunit": "samples",
+        "decayunit": "samples",
+        "rampunit": "samples",
+        "startunit": "samples",
+        "end": 99,
+        "endunit": "samples",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/shift1": {
+      "name": "shift1",
+      "path": "/xboxForWindows/deadzone/shift1",
+      "op_type": "CHOP:shift",
+      "family": "CHOP",
+      "specific_type": "shift",
+      "viewport_pos": null,
+      "tile_pos": [
+        1280,
+        -767,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "start": 100,
+        "endunit": "seconds",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "trim1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/extend1": {
+      "name": "extend1",
+      "path": "/xboxForWindows/deadzone/extend1",
+      "op_type": "CHOP:extend",
+      "family": "CHOP",
+      "specific_type": "extend",
+      "viewport_pos": null,
+      "tile_pos": [
+        890,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "left": "hold",
+        "right": "hold",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "stretch1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/extend2": {
+      "name": "extend2",
+      "path": "/xboxForWindows/deadzone/extend2",
+      "op_type": "CHOP:extend",
+      "family": "CHOP",
+      "specific_type": "extend",
+      "viewport_pos": null,
+      "tile_pos": [
+        1670,
+        -632,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "left": "hold",
+        "right": "hold",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "stretch2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/stretch1": {
+      "name": "stretch1",
+      "path": "/xboxForWindows/deadzone/stretch1",
+      "op_type": "CHOP:stretch",
+      "family": "CHOP",
+      "specific_type": "stretch",
+      "viewport_pos": null,
+      "tile_pos": [
+        695,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "start": 20,
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "wave1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/deadzone/stretch2": {
+      "name": "stretch2",
+      "path": "/xboxForWindows/deadzone/stretch2",
+      "op_type": "CHOP:stretch",
+      "family": "CHOP",
+      "specific_type": "stretch",
+      "viewport_pos": null,
+      "tile_pos": [
+        1475,
+        -632,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "startunit": "seconds",
+        "endunit": "seconds",
+        "reverse": "on",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows/deadzone",
+      "children": [],
+      "inputs": {
+        "0": "math2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/joystick": {
+      "name": "joystick",
+      "path": "/xboxForWindows/joystick",
+      "op_type": "CHOP:joystick",
+      "family": "CHOP",
+      "specific_type": "joystick",
+      "viewport_pos": null,
+      "tile_pos": [
+        500,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "source": {
+          "17": "player1controller op('..').par.Source"
+        },
+        "axisrange": "zeroone",
+        "xaxis": "leftThumbX",
+        "yaxis": "leftThumbY",
+        "zaxis": "\"\"",
+        "xrot": "rightThumbX",
+        "yrot": "rightThumbY",
+        "zrot": "\"\"",
+        "slider0": "ls",
+        "slider1": "rs",
+        "buttonarray": "\"a b x y lb rb back start ltb rtb\"",
+        "axisdeadzone": 0.12,
+        "exportmethod": "datname",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "joystick": {
+          "content": "1\n{\n   rate = 90\n   start = 0\n   tracklength = 1\n   tracks = 18\n   {\n      name = leftThumbX\n      data_rle = 0.5 \n   }\n   {\n      name = leftThumbY\n      data_rle = 0.5 \n   }\n   {\n      name = rightThumbX\n      data_rle = 0.5 \n   }\n   {\n      name = rightThumbY\n      data_rle = 0.5 \n   }\n   {\n      name = ls\n      data_rle = 0 \n   }\n   {\n      name = rs\n      data_rle = 0 \n   }\n   {\n      name = a\n      data_rle = 0 \n   }\n   {\n      name = b\n      data_rle = 0 \n   }\n   {\n      name = x\n      data_rle = 0 \n   }\n   {\n      name = y\n      data_rle = 0 \n   }\n   {\n      name = lb\n      data_rle = 0 \n   }\n   {\n      name = rb\n      data_rle = 0 \n   }\n   {\n      name = back\n      data_rle = 0 \n   }\n   {\n      name = start\n      data_rle = 0 \n   }\n   {\n      name = ltb\n      data_rle = 0 \n   }\n   {\n      name = rtb\n      data_rle = 0 \n   }\n   {\n      name = p1_X\n      data_rle = 0.5 \n   }\n   {\n      name = p1_Y\n      data_rle = 0.5 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/xboxForWindows/replace1": {
+      "name": "replace1",
+      "path": "/xboxForWindows/replace1",
+      "op_type": "CHOP:replace",
+      "family": "CHOP",
+      "specific_type": "replace",
+      "viewport_pos": null,
+      "tile_pos": [
+        2400,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "length": "second",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "joystickChans",
+        "1": "replace2"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/replace2": {
+      "name": "replace2",
+      "path": "/xboxForWindows/replace2",
+      "op_type": "CHOP:replace",
+      "family": "CHOP",
+      "specific_type": "replace",
+      "viewport_pos": null,
+      "tile_pos": [
+        2200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {
+        "0": "delete1",
+        "1": "rename1"
+      },
+      "extra_files": {}
+    },
+    "/xboxForWindows/joystickChans": {
+      "name": "joystickChans",
+      "path": "/xboxForWindows/joystickChans",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        2200,
+        300,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 1,
+        "name0": "leftThumbX",
+        "name1": "leftThumbY",
+        "name2": "rightThumbX",
+        "name3": "rightThumbY",
+        "name4": "ls",
+        "name5": "rs",
+        "name6": "a",
+        "name7": "b",
+        "name8": "x",
+        "name9": "y",
+        "name10": "lb",
+        "name11": "rb",
+        "name12": "back",
+        "name13": "start",
+        "name14": "ltb",
+        "name15": "rtb",
+        "name16": "p1_X",
+        "name17": "p1_Y",
+        "name18": "up",
+        "name19": "down",
+        "name20": "left",
+        "name21": "right",
+        "rate": {
+          "16": "90 me.time.rate"
+        },
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/xboxForWindows/script1_callbacks": {
+      "name": "script1_callbacks",
+      "path": "/xboxForWindows/script1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        1100,
+        -300,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/xboxForWindows",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0003\u0017# me - this DAT\n# scriptOp - the OP which is cooking\n\n# press 'Setup Parameters' in the OP to call this function to re-create the parameters.\n#def setupParameters(scriptOp):\n#\treturn\n\n# called whenever custom pulse parameter is pushed\ndef onPulse(par):\n\treturn\n\ndef cook(scriptOp):\n\tscriptOp.clear()\n\tpxChan = scriptOp.inputs[0]['p1_X']\n\tpyChan = scriptOp.inputs[0]['p1_Y']\n\n\tpadUp = scriptOp.appendChan('up')\n\tpadDown = scriptOp.appendChan('down')\n\tpadLeft = scriptOp.appendChan('left')\n\tpadRight = scriptOp.appendChan('right')\n\n\tpadUp[0] = 0\n\tpadDown[0] = 0\n\tpadLeft[0] = 0\n\tpadRight[0] = 0\n\n\tif pxChan[0] > 0.99:\n\t\tpadRight[0] = 1\n\telif pyChan[0] > 0.99:\n\t\tpadUp[0] = 1\n\telif pyChan[0] < 0.01 and not (pxChan[0] < 0.01):\n\t\tpadDown[0] = 1\n\telif pxChan[0] < 0.01:\n\t\tpadLeft[0] = 1\n\n\treturn\n",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2019.17420\ntime Tue Jul 23 16:25:21 2019\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "xboxForWindows.n",
+    "xboxForWindows.cparm",
+    "xboxForWindows.parm",
+    "xboxForWindows/icon.n",
+    "xboxForWindows/icon.parm",
+    "xboxForWindows/math1.n",
+    "xboxForWindows/math1.parm",
+    "xboxForWindows/merge2.n",
+    "xboxForWindows/merge2.parm",
+    "xboxForWindows/delete1.n",
+    "xboxForWindows/delete1.parm",
+    "xboxForWindows/lookup1.n",
+    "xboxForWindows/lookup1.parm",
+    "xboxForWindows/rename1.n",
+    "xboxForWindows/rename1.parm",
+    "xboxForWindows/script1.n",
+    "xboxForWindows/script1.parm",
+    "xboxForWindows/select1.n",
+    "xboxForWindows/select1.parm",
+    "xboxForWindows/select3.n",
+    "xboxForWindows/select3.parm",
+    "xboxForWindows/chansOut.n",
+    "xboxForWindows/deadzone.n",
+    "xboxForWindows/deadzone/out1.n",
+    "xboxForWindows/deadzone/out1.parm",
+    "xboxForWindows/deadzone/math2.n",
+    "xboxForWindows/deadzone/math2.parm",
+    "xboxForWindows/deadzone/math3.n",
+    "xboxForWindows/deadzone/math3.parm",
+    "xboxForWindows/deadzone/trim1.n",
+    "xboxForWindows/deadzone/trim1.parm",
+    "xboxForWindows/deadzone/trim2.n",
+    "xboxForWindows/deadzone/trim2.parm",
+    "xboxForWindows/deadzone/wave1.n",
+    "xboxForWindows/deadzone/wave1.parm",
+    "xboxForWindows/deadzone/shift1.n",
+    "xboxForWindows/deadzone/shift1.parm",
+    "xboxForWindows/deadzone/extend1.n",
+    "xboxForWindows/deadzone/extend1.parm",
+    "xboxForWindows/deadzone/extend2.n",
+    "xboxForWindows/deadzone/extend2.parm",
+    "xboxForWindows/deadzone/stretch1.n",
+    "xboxForWindows/deadzone/stretch1.parm",
+    "xboxForWindows/deadzone/stretch2.n",
+    "xboxForWindows/deadzone/stretch2.parm",
+    "xboxForWindows/joystick.n",
+    "xboxForWindows/joystick.parm",
+    "xboxForWindows/joystick.joystick",
+    "xboxForWindows/replace1.n",
+    "xboxForWindows/replace1.parm",
+    "xboxForWindows/replace2.n",
+    "xboxForWindows/replace2.parm",
+    "xboxForWindows/joystickChans.n",
+    "xboxForWindows/joystickChans.parm",
+    "xboxForWindows/script1_callbacks.n",
+    "xboxForWindows/script1_callbacks.text"
+  ],
+  "connections": [
+    {
+      "from": "joystick",
+      "to": "/xboxForWindows/math1",
+      "to_input": 0
+    },
+    {
+      "from": "math1",
+      "to": "/xboxForWindows/merge2",
+      "to_input": 0
+    },
+    {
+      "from": "script1",
+      "to": "/xboxForWindows/merge2",
+      "to_input": 1
+    },
+    {
+      "from": "merge2",
+      "to": "/xboxForWindows/delete1",
+      "to_input": 0
+    },
+    {
+      "from": "select1",
+      "to": "/xboxForWindows/lookup1",
+      "to_input": 0
+    },
+    {
+      "from": "deadzone/out1",
+      "to": "/xboxForWindows/lookup1",
+      "to_input": 1
+    },
+    {
+      "from": "lookup1",
+      "to": "/xboxForWindows/rename1",
+      "to_input": 0
+    },
+    {
+      "from": "select1",
+      "to": "/xboxForWindows/rename1",
+      "to_input": 1
+    },
+    {
+      "from": "select3",
+      "to": "/xboxForWindows/script1",
+      "to_input": 0
+    },
+    {
+      "from": "merge2",
+      "to": "/xboxForWindows/select1",
+      "to_input": 0
+    },
+    {
+      "from": "math1",
+      "to": "/xboxForWindows/select3",
+      "to_input": 0
+    },
+    {
+      "from": "replace1",
+      "to": "/xboxForWindows/chansOut",
+      "to_input": 0
+    },
+    {
+      "from": "math3",
+      "to": "/xboxForWindows/deadzone/out1",
+      "to_input": 0
+    },
+    {
+      "from": "trim1",
+      "to": "/xboxForWindows/deadzone/math2",
+      "to_input": 0
+    },
+    {
+      "from": "trim2",
+      "to": "/xboxForWindows/deadzone/math3",
+      "to_input": 0
+    },
+    {
+      "from": "extend2",
+      "to": "/xboxForWindows/deadzone/math3",
+      "to_input": 1
+    },
+    {
+      "from": "extend1",
+      "to": "/xboxForWindows/deadzone/trim1",
+      "to_input": 0
+    },
+    {
+      "from": "shift1",
+      "to": "/xboxForWindows/deadzone/trim2",
+      "to_input": 0
+    },
+    {
+      "from": "trim1",
+      "to": "/xboxForWindows/deadzone/shift1",
+      "to_input": 0
+    },
+    {
+      "from": "stretch1",
+      "to": "/xboxForWindows/deadzone/extend1",
+      "to_input": 0
+    },
+    {
+      "from": "stretch2",
+      "to": "/xboxForWindows/deadzone/extend2",
+      "to_input": 0
+    },
+    {
+      "from": "wave1",
+      "to": "/xboxForWindows/deadzone/stretch1",
+      "to_input": 0
+    },
+    {
+      "from": "math2",
+      "to": "/xboxForWindows/deadzone/stretch2",
+      "to_input": 0
+    },
+    {
+      "from": "joystickChans",
+      "to": "/xboxForWindows/replace1",
+      "to_input": 0
+    },
+    {
+      "from": "replace2",
+      "to": "/xboxForWindows/replace1",
+      "to_input": 1
+    },
+    {
+      "from": "delete1",
+      "to": "/xboxForWindows/replace2",
+      "to_input": 0
+    },
+    {
+      "from": "rename1",
+      "to": "/xboxForWindows/replace2",
+      "to_input": 1
+    }
+  ],
+  "statistics": {
+    "total_operators": 28,
+    "total_connections": 27,
+    "total_raw_files": 1,
+    "total_extra_files": 3,
+    "total_files_captured": 58,
+    "by_family": {
+      "COMP": 2,
+      "TOP": 1,
+      "CHOP": 24,
+      "DAT": 1
+    },
+    "by_type": {
+      "COMP:base": 2,
+      "TOP:moviefilein": 1,
+      "CHOP:math": 3,
+      "CHOP:merge": 1,
+      "CHOP:delete": 1,
+      "CHOP:lookup": 1,
+      "CHOP:rename": 1,
+      "CHOP:script": 1,
+      "CHOP:select": 2,
+      "CHOP:out": 2,
+      "CHOP:trim": 2,
+      "CHOP:wave": 1,
+      "CHOP:shift": 1,
+      "CHOP:extend": 2,
+      "CHOP:stretch": 2,
+      "CHOP:joystick": 1,
+      "CHOP:replace": 2,
+      "CHOP:constant": 1,
+      "DAT:text": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 108
+  }
+}

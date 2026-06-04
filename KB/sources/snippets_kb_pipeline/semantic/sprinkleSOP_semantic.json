@@ -1,0 +1,252 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\sprinkleSOP_lossless.json",
+  "operator_type": "sprinkleSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "copy1",
+          "type": "SOP:copy",
+          "parameters": {
+            "ncy": 8,
+            "rz": 10
+          }
+        },
+        {
+          "name": "line1",
+          "type": "SOP:line",
+          "parameters": {
+            "points": 5
+          }
+        },
+        {
+          "name": "skin1",
+          "type": "SOP:skin",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "sprinkle1",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "numpoints": 4000
+          }
+        },
+        {
+          "name": "sprinkle2",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "method": "volume",
+            "numpoints": 4000
+          }
+        },
+        {
+          "name": "sprinkle3",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "method": "boundingbox",
+            "numpoints": 4000
+          }
+        },
+        {
+          "name": "sprinkle4",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "numpoints": 2000
+          }
+        },
+        {
+          "name": "sprinkle5",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "method": "perprim",
+            "numpoints": 2000
+          }
+        },
+        {
+          "name": "sprinkle6",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "method": "perprim",
+            "numpoints": 2000,
+            "consolidate": "on",
+            "neardist": 0.02
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "line1",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy1",
+          "to": "skin1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "sprinkle1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "sprinkle2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "sprinkle3",
+          "to_input": "0"
+        },
+        {
+          "from": "skin1",
+          "to": "sprinkle4",
+          "to_input": "0"
+        },
+        {
+          "from": "skin1",
+          "to": "sprinkle5",
+          "to_input": "0"
+        },
+        {
+          "from": "skin1",
+          "to": "sprinkle6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 8,
+        "operator_types": {
+          "SOP:copy": 1,
+          "SOP:line": 1,
+          "SOP:skin": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:sprinkle": 6
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.17,
+            "amp": 90,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "SOP:twist",
+          "parameters": {}
+        },
+        {
+          "name": "sprinkle1",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "numpoints": 356
+          }
+        },
+        {
+          "name": "sprinkle2",
+          "type": "SOP:sprinkle",
+          "parameters": {
+            "numpoints": 356
+          }
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "sprinkle1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "sprinkle2",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "sprinkle2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:twist": 1,
+          "SOP:sprinkle": 2,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

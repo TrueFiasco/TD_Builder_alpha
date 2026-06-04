@@ -1,0 +1,408 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiorenderCHOP_lossless.json",
+  "operator_type": "audiorenderCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "xord": "str",
+            "ty": 0.6,
+            "tz": 12,
+            "rx": -20,
+            "fov": 61,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "path",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiorender1",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "path_",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tz": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "source",
+          "type": "COMP:geo",
+          "parameters": {
+            "tz": 2,
+            "material": "./phong1"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "listener",
+          "type": "COMP:geo",
+          "parameters": {
+            "pathsop": "path_",
+            "pathorient": "off"
+          }
+        },
+        {
+          "name": "listenCam",
+          "type": "COMP:cam",
+          "parameters": {
+            "ty": 1,
+            "tz": 2,
+            "rx": -10,
+            "orthowidth": 101.338,
+            "aperture": 44.1,
+            "far": 3475250.0,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "audioSource",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiorender1",
+          "type": "CHOP:audiorender",
+          "parameters": {
+            "listenerobject": "listener",
+            "source0object": "source",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "path/out1",
+          "to": "path_",
+          "to_input": "0"
+        },
+        {
+          "from": "audiorender1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioSource",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "listener",
+          "to": "listenCam",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audioSource",
+          "to_input": "0"
+        },
+        {
+          "from": "audiorender1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioSource",
+          "to": "audiorender1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 7,
+        "operator_types": {
+          "COMP:cam": 2,
+          "COMP:geo": 3,
+          "CHOP:info": 1,
+          "SOP:null": 1,
+          "COMP:light": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "TOP:render": 1,
+          "CHOP:null": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1,
+          "CHOP:audiorender": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "Wall",
+          "type": "COMP:geo",
+          "parameters": {
+            "ty": 10,
+            "tz": 0.5,
+            "scale": 20,
+            "material": "./constant1"
+          }
+        },
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -48.5736,
+            "ty": -18.4509,
+            "tz": 43.7734,
+            "rx": -29.1922,
+            "ry": 46.1849,
+            "rz": -0.000246636,
+            "px": 48.135,
+            "py": 13.2082,
+            "pz": -111.51,
+            "orthowidth": 1,
+            "aperture": 44.1,
+            "far": 37585.6
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiorender1"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "audiorender1"
+          }
+        },
+        {
+          "name": "datto1",
+          "type": "POP:datto",
+          "parameters": {
+            "pointsdat": "info2",
+            "attr0columns": "\"x y z\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "Source1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pathsop": "circle1"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "orient": "zx",
+            "radx": 4,
+            "rady": 4,
+            "ty": 1.5
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "orient": "zx",
+            "radx": 4,
+            "rady": 4,
+            "ty": 1.5
+          }
+        },
+        {
+          "name": "Boundary",
+          "type": "COMP:geo",
+          "parameters": {
+            "ty": 10,
+            "scale": 20,
+            "material": "./wireframe1"
+          }
+        },
+        {
+          "name": "Listener",
+          "type": "COMP:geo",
+          "parameters": {
+            "ty": 3,
+            "tz": 5,
+            "material": "./phon1"
+          }
+        },
+        {
+          "name": "audiodyna1",
+          "type": "CHOP:audiodyna",
+          "parameters": {
+            "pageindex": 2,
+            "enablelimiter": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein2",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiorender1",
+          "type": "CHOP:audiorender",
+          "parameters": {
+            "pageindex": 1,
+            "mode": "simulation",
+            "attenuation": "on",
+            "mappingtable": "audiorender1_mappingtable",
+            "listenerobject": "Listener",
+            "source0object": "Source1",
+            "update": "on",
+            "mesh0object": "Wall",
+            "airabsorb": "on",
+            "numsurfaces": 2,
+            "reflection": "on",
+            "duration": 2,
+            "bakemode": "auto",
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "mesh1object": "Boundary"
+          }
+        },
+        {
+          "name": "slider_source",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "\"SOUND SOURCE\"",
+            "value0": 0.777778,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on",
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "audiorender1_mappingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "audiorender1",
+          "to": "audiodyna1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodyna1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein2",
+          "to": "audiorender1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 3,
+        "operator_types": {
+          "COMP:geo": 4,
+          "COMP:cam": 1,
+          "CHOP:info": 1,
+          "DAT:info": 1,
+          "POP:datto": 1,
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "POP:circle": 1,
+          "CHOP:audiodyna": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1,
+          "CHOP:audiorender": 1,
+          "COMP:slider": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

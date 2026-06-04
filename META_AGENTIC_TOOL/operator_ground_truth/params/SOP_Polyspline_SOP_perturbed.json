@@ -1,0 +1,97 @@
+{
+  "operator": "Polyspline_SOP",
+  "family": "SOP",
+  "td_create_name": "polysplineSOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "basis": {
+      "type": "menu",
+      "value": "sbezier",
+      "menuIndex": 1,
+      "menuNames": [
+        "bezier",
+        "sbezier",
+        "c1bezier",
+        "degree2",
+        "bspline",
+        "cardinal",
+        "linear"
+      ],
+      "menuLabels": [
+        "Bezier",
+        "Special Bezier",
+        "Special Smooth Bezier",
+        "Degree 2 Bezier",
+        "BSpline",
+        "Cardinal",
+        "Linear"
+      ]
+    },
+    "closure": {
+      "type": "menu",
+      "value": "cnone",
+      "menuIndex": 0,
+      "menuNames": [
+        "cnone",
+        "calways",
+        "cifpoly"
+      ],
+      "menuLabels": [
+        "Off",
+        "On",
+        "If polygon does"
+      ]
+    },
+    "divide": {
+      "type": "menu",
+      "value": "evenlen",
+      "menuIndex": 1,
+      "menuNames": [
+        "standard",
+        "evenlen",
+        "evenx",
+        "eveny",
+        "evenz"
+      ],
+      "menuLabels": [
+        "Standard",
+        "Even Length Segments",
+        "Even X Segments",
+        "Even Y Segments",
+        "Even Z Segments"
+      ]
+    },
+    "segsize": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "polydivs": {
+      "type": "int",
+      "value": 11
+    },
+    "edgedivs": {
+      "type": "int",
+      "value": 11
+    },
+    "first": {
+      "type": "int",
+      "value": 2
+    },
+    "last": {
+      "type": "int",
+      "value": 2
+    },
+    "tension": {
+      "type": "float",
+      "value": 1.12345
+    }
+  }
+}

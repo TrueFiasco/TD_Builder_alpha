@@ -1,0 +1,586 @@
+# Critique Patterns Expertise
+# Domain: Quality criteria, validation patterns, feedback templates
+# Used by: critic agent
+
+schema_version: "1.0"
+created: "2025-12-16"
+last_updated: "2025-12-16"
+update_count: 1
+validated_against: "critic agent domain knowledge"
+
+# Quality criteria for creative reviews
+quality_criteria:
+  artistic_coherence:
+    description: "Does the creative vision form a unified whole?"
+    weight: 0.25
+    indicators:
+      high_score:
+        - "Mood and aesthetics align"
+        - "Color palette supports emotional intent"
+        - "Motion qualities match stated mood"
+        - "All elements contribute to core concept"
+      low_score:
+        - "Conflicting moods specified"
+        - "Colors clash with stated emotion"
+        - "Motion doesn't match mood (e.g., fast for contemplative)"
+        - "Disconnected elements without unifying vision"
+    rubric:
+      0.0-0.3: "Major conflicts between creative elements"
+      0.3-0.5: "Some misalignment, needs clarification"
+      0.5-0.7: "Generally coherent with minor issues"
+      0.7-0.9: "Strong coherence, elements support each other"
+      0.9-1.0: "Exceptional unity of vision"
+
+  technical_feasibility:
+    description: "Can this be implemented with available tools/resources?"
+    weight: 0.25
+    indicators:
+      high_score:
+        - "Algorithm exists for desired effect"
+        - "Performance target achievable"
+        - "Required operators/tools available"
+        - "Data flow is realistic"
+      low_score:
+        - "No known algorithm for effect"
+        - "Performance requirements impossible"
+        - "Missing critical tools/operators"
+        - "Circular or impossible data flow"
+    rubric:
+      0.0-0.3: "Technically impossible or undefined"
+      0.3-0.5: "Major technical challenges, unclear solution"
+      0.5-0.7: "Feasible with known approaches"
+      0.7-0.9: "Well-defined, proven techniques"
+      0.9-1.0: "Straightforward implementation"
+
+  implementation_clarity:
+    description: "Is the specification clear enough to build?"
+    weight: 0.2
+    indicators:
+      high_score:
+        - "Specific algorithms named"
+        - "Parameters defined with ranges"
+        - "Data flow clearly documented"
+        - "Unambiguous requirements"
+      low_score:
+        - "Vague descriptions (e.g., 'looks cool')"
+        - "Missing parameter specifications"
+        - "Unclear data flow"
+        - "Ambiguous or contradictory requirements"
+    rubric:
+      0.0-0.3: "Cannot build from this specification"
+      0.3-0.5: "Too vague, many questions remain"
+      0.5-0.7: "Buildable but some clarification needed"
+      0.7-0.9: "Clear specification, ready to build"
+      0.9-1.0: "Exceptional detail, no questions"
+
+  creative_alignment:
+    description: "Does the output match the original user intent?"
+    weight: 0.2
+    indicators:
+      high_score:
+        - "Core concept addresses user request"
+        - "Emotion/mood matches user's goal"
+        - "Scale/complexity appropriate"
+        - "Use case requirements met"
+      low_score:
+        - "Missing key user requirements"
+        - "Mood doesn't match request"
+        - "Scope creep or under-delivery"
+        - "Wrong use case assumptions"
+    rubric:
+      0.0-0.3: "Does not address user request"
+      0.3-0.5: "Partially addresses but missing key elements"
+      0.5-0.7: "Addresses request with some interpretation"
+      0.7-0.9: "Strong alignment with user intent"
+      0.9-1.0: "Perfect match to user vision"
+
+  innovation_appropriateness:
+    description: "Is the level of novelty appropriate for the context?"
+    weight: 0.1
+    indicators:
+      high_score:
+        - "Novel where beneficial"
+        - "Uses proven patterns where appropriate"
+        - "Risk level matches project context"
+      low_score:
+        - "Unnecessary novelty adding risk"
+        - "Too conservative when creativity requested"
+        - "Untested approaches for critical work"
+    rubric:
+      0.0-0.3: "Inappropriate risk level"
+      0.3-0.5: "Some mismatch with context"
+      0.5-0.7: "Reasonable balance"
+      0.7-0.9: "Well-calibrated innovation"
+      0.9-1.0: "Perfect balance for context"
+
+# Common issues and how to identify them
+common_issues:
+  vague_mood:
+    description: "Mood specification too generic or undefined"
+    symptoms:
+      - "Uses words like 'cool', 'nice', 'interesting'"
+      - "No specific visual markers"
+      - "Multiple conflicting moods without hierarchy"
+    fix_suggestion: "Ask for specific mood from vocabulary (ethereal, aggressive, etc.) with primary/modifier structure"
+    severity: "medium"
+
+  algorithm_mismatch:
+    description: "Chosen algorithm doesn't produce desired visual"
+    symptoms:
+      - "Particle system for static image"
+      - "Feedback for discrete events"
+      - "Ray marching for simple 2D effect"
+    fix_suggestion: "Review cg_concepts.yaml for appropriate algorithm selection"
+    severity: "high"
+
+  performance_unrealistic:
+    description: "Performance requirements impossible to meet"
+    symptoms:
+      - "1M CPU particles at 60fps"
+      - "8K real-time ray marching"
+      - "Complex physics without GPU acceleration"
+    fix_suggestion: "Adjust resolution, particle count, or optimize algorithm"
+    severity: "high"
+
+  scope_creep:
+    description: "Solution significantly exceeds original request"
+    symptoms:
+      - "Many features not requested"
+      - "Over-engineering simple request"
+      - "Adding complexity without justification"
+    fix_suggestion: "Refocus on minimal viable implementation"
+    severity: "medium"
+
+  missing_data_flow:
+    description: "No clear path from input to output"
+    symptoms:
+      - "Input undefined"
+      - "Processing stages unclear"
+      - "Output format unspecified"
+    fix_suggestion: "Define complete input → processing → output chain"
+    severity: "high"
+
+  color_mood_conflict:
+    description: "Color palette contradicts stated mood"
+    symptoms:
+      - "Warm colors for contemplative mood"
+      - "Pastels for aggressive mood"
+      - "High saturation for minimal aesthetic"
+    fix_suggestion: "Align color palette with mood using creative_vision.yaml mappings"
+    severity: "medium"
+
+  motion_mood_conflict:
+    description: "Motion quality contradicts stated mood"
+    symptoms:
+      - "Fast motion for contemplative mood"
+      - "Slow motion for aggressive mood"
+      - "Sharp motion for organic aesthetic"
+    fix_suggestion: "Align motion quality with mood using creative_vision.yaml mappings"
+    severity: "medium"
+
+  undefined_interaction:
+    description: "Interactive elements without clear behavior"
+    symptoms:
+      - "User input mentioned but not specified"
+      - "Response to interaction undefined"
+      - "Feedback loop unclear"
+    fix_suggestion: "Define input sources, mapping ranges, and response behaviors"
+    severity: "medium"
+
+# Approval thresholds for different review types
+approval_thresholds:
+  creative_review:
+    description: "Review of artistic vision from creative_expert"
+    required_criteria:
+      - artistic_coherence: 0.6
+      - creative_alignment: 0.7
+    overall_threshold: 0.65
+    blocking_issues: ["vague_mood", "color_mood_conflict", "motion_mood_conflict"]
+
+  technical_review:
+    description: "Review of CG translation from cg_expert"
+    required_criteria:
+      - technical_feasibility: 0.7
+      - implementation_clarity: 0.6
+    overall_threshold: 0.65
+    blocking_issues: ["algorithm_mismatch", "performance_unrealistic", "missing_data_flow"]
+
+  final_approval:
+    description: "Final review before handoff to td_designer"
+    required_criteria:
+      - artistic_coherence: 0.9
+      - technical_feasibility: 0.9
+      - implementation_clarity: 0.9
+      - creative_alignment: 0.9
+    overall_threshold: 0.95  # High bar for rigorous testing
+    blocking_issues: ["algorithm_mismatch", "performance_unrealistic", "missing_data_flow", "vague_mood"]
+
+# =============================================================================
+# PREBUILT VS CUSTOM SOLUTION APPROVAL (Critic Role)
+# =============================================================================
+
+prebuilt_solution_approval:
+  description: |
+    Final quality gate before TD Builder begins implementation.
+    Reviews recommendations from TD Designer + Creative/CG Expert.
+
+  review_criteria:
+    solution_appropriateness:
+      weight: 0.30
+      questions:
+        - "Is the chosen approach (prebuilt/custom) justified?"
+        - "Does the fit percentage warrant the choice?"
+        - "Are the tradeoffs acceptable?"
+      thresholds:
+        prebuilt_fit_minimum: 0.70  # 70% fit required to approve prebuilt
+        custom_complexity_justify: "medium"  # Require justification if custom for simple needs
+
+    risk_assessment:
+      weight: 0.25
+      questions:
+        - "What could go wrong with this approach?"
+        - "Is there a fallback if issues arise?"
+        - "Are unknowns identified and mitigated?"
+      risk_factors:
+        prebuilt:
+          - "Version compatibility with TD updates"
+          - "Hidden performance costs"
+          - "Limited customization options"
+        custom:
+          - "Development time estimation accuracy"
+          - "Edge cases not considered"
+          - "Maintenance burden"
+
+    quality_standards:
+      weight: 0.25
+      questions:
+        - "Does solution meet project quality bar?"
+        - "Is maintainability acceptable?"
+        - "Does it align with architectural patterns?"
+
+    timeline_reality:
+      weight: 0.20
+      questions:
+        - "Is the implementation timeline realistic?"
+        - "Are dependencies identified?"
+        - "Is testing plan adequate?"
+
+  approval_decisions:
+    approved:
+      condition: "All criteria pass, no blocking concerns"
+      output: "TD Builder proceeds with implementation"
+      template: |
+        ## APPROVED: {task_name}
+
+        **Approach:** {PREBUILT|CUSTOM|HYBRID}
+        **Component(s):** {component_list}
+
+        ### Critic Assessment
+        - Solution Appropriateness: PASS
+        - Risk Assessment: ACCEPTABLE
+        - Quality Standards: MET
+        - Timeline Reality: CONFIRMED
+
+        ### Implementation Authorization
+        TD Builder may proceed with:
+        {implementation_instructions}
+
+        ### Quality Checkpoints
+        {required_validations}
+
+    conditional:
+      condition: "Approved with specific requirements"
+      output: "TD Builder proceeds with conditions"
+      template: |
+        ## CONDITIONALLY APPROVED: {task_name}
+
+        **Approach:** {PREBUILT|CUSTOM|HYBRID}
+
+        ### Conditions for Proceeding
+        {conditions_list}
+
+        ### Must Address Before Completion
+        {must_address}
+
+        ### Verification Required
+        {verification_steps}
+
+    blocked:
+      condition: "Major concerns prevent approval"
+      output: "Return to design phase"
+      template: |
+        ## BLOCKED: {task_name}
+
+        ### Blocking Concerns
+        {blocking_concerns}
+
+        ### Required Changes
+        {required_changes}
+
+        ### Return To
+        {TD_DESIGNER|CREATIVE_CG_EXPERT} for revision
+
+  common_blocking_issues:
+    prebuilt_solutions:
+      - "Fit percentage below 60%"
+      - "Critical feature missing with no workaround"
+      - "Performance impact unacceptable"
+      - "Integration complexity exceeds custom build effort"
+
+    custom_solutions:
+      - "Requirements unclear for implementation"
+      - "Algorithm not specified"
+      - "No testing strategy defined"
+      - "Scope too large for timeline"
+
+# Feedback templates
+feedback_templates:
+  strength_acknowledgment:
+    format: |
+      **Strengths:**
+      - {strength_1}
+      - {strength_2}
+      - {strength_3}
+    purpose: "Acknowledge what's working well"
+    required: true
+
+  issue_identification:
+    format: |
+      **Issues Requiring Attention:**
+      - [{severity}] {issue_type}: {description}
+        - Symptoms observed: {symptoms}
+        - Suggested fix: {suggestion}
+    purpose: "Clearly identify problems"
+    required_when: "issues found"
+
+  revision_request:
+    format: |
+      **Revision Requested**
+
+      Overall Score: {score}/1.0 (Threshold: {threshold})
+
+      **What to Address:**
+      1. {priority_issue_1}
+      2. {priority_issue_2}
+
+      **Guidance:**
+      {specific_guidance}
+
+      **Expected in Revision:**
+      {clear_requirements}
+    purpose: "Guide revision work"
+    required_when: "score < threshold"
+
+  approval:
+    format: |
+      **Approved for Handoff**
+
+      Overall Score: {score}/1.0
+
+      **Criteria Scores:**
+      - Artistic Coherence: {artistic_coherence}
+      - Technical Feasibility: {technical_feasibility}
+      - Implementation Clarity: {implementation_clarity}
+      - Creative Alignment: {creative_alignment}
+
+      **Ready for:** {next_stage}
+
+      **Notes for Downstream:**
+      {handoff_notes}
+    purpose: "Document approval and guide next stage"
+    required_when: "score >= threshold"
+
+  rejection:
+    format: |
+      **Not Approved - Major Revision Required**
+
+      Overall Score: {score}/1.0 (Threshold: {threshold})
+
+      **Blocking Issues:**
+      {blocking_issues_list}
+
+      **Before Re-submission:**
+      {requirements_for_resubmission}
+    purpose: "Clearly state rejection and requirements"
+    required_when: "blocking issues present"
+
+# Scoring algorithms
+scoring:
+  weighted_average:
+    description: "Calculate overall score from criteria"
+    formula: "sum(criterion_score * criterion_weight) / sum(weights)"
+    implementation: |
+      def calculate_overall_score(criteria_scores: dict) -> float:
+          weights = {
+              'artistic_coherence': 0.25,
+              'technical_feasibility': 0.25,
+              'implementation_clarity': 0.2,
+              'creative_alignment': 0.2,
+              'innovation_appropriateness': 0.1
+          }
+          total = sum(criteria_scores.get(k, 0) * w for k, w in weights.items())
+          return total / sum(weights.values())
+
+  blocking_check:
+    description: "Check if any blocking issues present"
+    implementation: |
+      def has_blocking_issues(issues: list, blocking_types: list) -> bool:
+          return any(issue['type'] in blocking_types for issue in issues)
+
+# Review state machine
+review_states:
+  pending:
+    description: "Awaiting review"
+    transitions:
+      - to: "in_review"
+        trigger: "start_review"
+
+  in_review:
+    description: "Currently being evaluated"
+    transitions:
+      - to: "approved"
+        trigger: "score >= threshold AND no blocking issues"
+      - to: "revision_requested"
+        trigger: "score < threshold OR has blocking issues"
+
+  revision_requested:
+    description: "Sent back for changes"
+    transitions:
+      - to: "pending"
+        trigger: "revision_submitted"
+      - to: "failed"
+        trigger: "max_revisions_exceeded"
+
+  approved:
+    description: "Passed review, ready for next stage"
+    transitions:
+      - to: "handed_off"
+        trigger: "downstream_accepts"
+
+  failed:
+    description: "Cannot proceed, requires escalation"
+    transitions:
+      - to: "escalated"
+        trigger: "human_review_requested"
+
+  handed_off:
+    description: "Successfully passed to downstream"
+    terminal: true
+
+  escalated:
+    description: "Requires human intervention"
+    terminal: true
+
+# Max revision cycles
+revision_policy:
+  max_cycles: 3
+  on_exceed: "fail_and_escalate"
+  escalation_message: "Creative brief exceeded {max_cycles} revision cycles. Human review required."
+
+# =============================================================================
+# V6 WORKFLOW QUALITY THRESHOLDS
+# =============================================================================
+# These thresholds are used by the V2-V6 workflow strategies for phase approval.
+# They are higher than the legacy thresholds above to ensure quality outputs.
+
+workflow_quality_thresholds:
+  description: |
+    Quality thresholds for the modular workflow architecture (V2-V6).
+    Each phase must meet its threshold before proceeding.
+    The 'stretch' threshold is optional - used when trying for excellence.
+
+  # Thresholds by phase
+  phases:
+    creative:
+      description: "Creative vision from creative_expert"
+      threshold: 0.85
+      stretch: 0.95
+      criteria_weights:
+        artistic_coherence: 0.35
+        creative_alignment: 0.35
+        innovation_appropriateness: 0.30
+      blocking_issues:
+        - "vague_mood"
+        - "color_mood_conflict"
+        - "motion_mood_conflict"
+
+    technical:
+      description: "Technical approach from cg_expert"
+      threshold: 0.85
+      stretch: 0.95
+      criteria_weights:
+        technical_feasibility: 0.40
+        implementation_clarity: 0.35
+        innovation_appropriateness: 0.25
+      blocking_issues:
+        - "algorithm_mismatch"
+        - "performance_unrealistic"
+        - "missing_data_flow"
+
+    design:
+      description: "Network design from td_designer"
+      threshold: 0.90
+      stretch: 0.95
+      criteria_weights:
+        technical_feasibility: 0.30
+        implementation_clarity: 0.30
+        artistic_coherence: 0.20
+        creative_alignment: 0.20
+      blocking_issues:
+        - "algorithm_mismatch"
+        - "performance_unrealistic"
+        - "missing_data_flow"
+        - "undefined_interaction"
+
+  # Presets for different workflow strategies
+  presets:
+    quick_draft:
+      description: "Fast turnaround, lower quality bar"
+      creative: 0.70
+      technical: 0.70
+      design: 0.80
+      stretch: null  # No stretch goal
+      max_iterations: 5
+
+    standard:
+      description: "Balanced quality and speed"
+      creative: 0.85
+      technical: 0.85
+      design: 0.90
+      stretch: 0.95
+      max_iterations: 10
+
+    excellence:
+      description: "Maximum quality, time available"
+      creative: 0.90
+      technical: 0.90
+      design: 0.95
+      stretch: 0.98
+      max_iterations: 20
+
+  # Convergence detection
+  convergence:
+    window: 2  # iterations without improvement
+    min_improvement: 0.01  # minimum score increase to count as improvement
+
+  # Multi-perspective review (for design phase)
+  multi_perspective:
+    enabled: true
+    reviewers:
+      - perspective: "creative"
+        question: "Does the visual match the creative brief?"
+        weight: 1.0
+      - perspective: "technical"
+        question: "Are techniques used correctly?"
+        weight: 1.0
+      - perspective: "critic"
+        question: "Overall coherence and quality?"
+        weight: 1.0
+    aggregation: "min"  # Most conservative - take minimum score
+
+# Validation and confidence
+validation:
+  require_all_criteria_scored: true
+  require_issues_documented: true
+  require_feedback_structured: true
+  confidence_threshold: 0.6

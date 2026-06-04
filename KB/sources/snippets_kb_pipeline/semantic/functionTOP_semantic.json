@@ -1,0 +1,133 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\functionTOP_lossless.json",
+  "operator_type": "functionTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "TOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 1000
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null4",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 1,
+            "dat": "ramp1_keys",
+            "resolutionw": 500,
+            "resolutionh": 200,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "function1",
+          "type": "TOP:function",
+          "parameters": {
+            "funcr": "powb",
+            "funcg": "sqrt"
+          }
+        },
+        {
+          "name": "function2",
+          "type": "TOP:function",
+          "parameters": {
+            "funcr": "sqrt",
+            "funcg": "cos",
+            "funcb": "powe"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "pointfilein1",
+          "type": "TOP:pointfilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "null4",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "pointfilein1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "function1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "function1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "function2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:math": 1,
+          "TOP:null": 3,
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:function": 2,
+          "DAT:table": 1,
+          "TOP:pointfilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

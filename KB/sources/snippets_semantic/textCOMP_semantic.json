@@ -1,0 +1,762 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\textCOMP_lossless.json",
+  "operator_type": "textCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "COMP:text",
+          "parameters": {
+            "callbacks": "text1_callbacks",
+            "legacyfontselection": "on",
+            "h": 40
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_tab",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "editable",
+            "callbacks": "text5_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "aligny": "top",
+            "h": 200
+          }
+        },
+        {
+          "name": "text_wordWrap",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "editable",
+            "callbacks": "text4_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 30,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "aligny": "top",
+            "h": 200
+          }
+        },
+        {
+          "name": "text1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text5_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text6_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text_multi_line",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "editable",
+            "callbacks": "text2_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "aligny": "top",
+            "h": 200
+          }
+        },
+        {
+          "name": "text_no_wordWrap",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "editmode": "editable",
+            "callbacks": "text6_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 30,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "aligny": "top",
+            "h": 200
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:text": 5,
+          "DAT:text": 6
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "text2",
+          "type": "COMP:text",
+          "parameters": {
+            "pageindex": 1,
+            "mode": "specdat",
+            "specdat": "table_spec",
+            "callbacks": "text3_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 4,
+            "textpaddingr": 4,
+            "textpaddingb": 4,
+            "textpaddingt": 4,
+            "alignx": "left"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table_spec",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 5,
+            "cols": 7,
+            "language": "text"
+          }
+        },
+        {
+          "name": "text3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:text": 1,
+          "DAT:text": 2,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "tbd",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_editable",
+          "type": "COMP:container",
+          "parameters": {}
+        },
+        {
+          "name": "container_format",
+          "type": "COMP:container",
+          "parameters": {
+            "h": 1500,
+            "align": "verttb"
+          }
+        },
+        {
+          "name": "container_styles",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 800,
+            "align": "horizlr"
+          }
+        },
+        {
+          "name": "container_callbacks",
+          "type": "COMP:container",
+          "parameters": {
+            "h": 380,
+            "align": "verttb"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "COMP:container": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text4",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "editable",
+            "callbacks": "text4_callbacks",
+            "legacyfontselection": "on",
+            "alignx": "left",
+            "aligny": "top",
+            "h": 100
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chooser",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "x": 3,
+            "y": 3,
+            "w": 450,
+            "h": 26,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "text4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 5,
+          "COMP:text": 1,
+          "COMP:widget": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "cols": 2
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "cycle": "on",
+            "ondone": "restart",
+            "callbacks": "timer1_callbacks",
+            "segdat": "table1",
+            "outseg": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "opview1",
+          "type": "TOP:opview",
+          "parameters": {
+            "pageindex": 1,
+            "preservealpha": "on",
+            "outputresolution": "custom"
+          }
+        },
+        {
+          "name": "script1",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "segment_plus_fraction",
+            "renameto": "scroll"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "DAT:convert",
+          "parameters": {
+            "how": "text",
+            "spacers": "\"\""
+          }
+        },
+        {
+          "name": "to_ticker",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "math_range",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "text_ticker",
+          "type": "COMP:text",
+          "parameters": {
+            "pageindex": 1,
+            "callbacks": "text2_callbacks",
+            "legacyfontselection": "on",
+            "fontsize": 60,
+            "alignx": "left",
+            "w": 1200,
+            "h": 180,
+            "bgalpha": 1
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "text2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "script1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "eval_widthOfDouble",
+          "type": "DAT:eval",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "script1",
+          "to_input": "0"
+        },
+        {
+          "from": "timer1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "script1",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_range",
+          "to": "to_ticker",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "math_range",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 18,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:text": 5,
+          "DAT:table": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "TOP:opview": 1,
+          "DAT:script": 1,
+          "CHOP:select": 1,
+          "COMP:annotate": 1,
+          "DAT:convert": 1,
+          "CHOP:null": 1,
+          "CHOP:math": 1,
+          "COMP:text": 1,
+          "DAT:eval": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_editable",
+          "type": "COMP:text",
+          "parameters": {
+            "pageindex": 1,
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "editable",
+            "callbacks": "text5_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "aligny": "top",
+            "h": 200
+          }
+        },
+        {
+          "name": "text4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text5_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text_selectable",
+          "type": "COMP:text",
+          "parameters": {
+            "pageindex": 1,
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "selectonly",
+            "callbacks": "text4_callbacks",
+            "legacyfontselection": "on",
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "alignx": "left",
+            "h": 200
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 3,
+          "COMP:text": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40
+          }
+        },
+        {
+          "name": "text_md_icons",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "selectonly",
+            "callbacks": "text4_callbacks",
+            "legacyfontselection": "on",
+            "font": "\"Material Design Icons\"",
+            "fontsize": 82,
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "h": 200
+          }
+        },
+        {
+          "name": "text_mdi_test",
+          "type": "COMP:text",
+          "parameters": {
+            "type": "multiline",
+            "wordwrap": "on",
+            "editmode": "selectonly",
+            "callbacks": "text5_callbacks",
+            "legacyfontselection": "on",
+            "font": "\"Material Design Icons\"",
+            "fontsize": 82,
+            "textpaddingl": 5,
+            "textpaddingr": 5,
+            "textpaddingb": 5,
+            "textpaddingt": 5,
+            "h": 200
+          }
+        },
+        {
+          "name": "text4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text5_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "materialDesignIcons",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 550,
+            "h": 520,
+            "ext0object": "op('./MaterialDesignExt').module.MaterialDesignExt(me)",
+            "ext0promote": "on",
+            "parentshortcut": "MaterialDesign"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 3,
+          "COMP:button": 1,
+          "COMP:text": 2,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

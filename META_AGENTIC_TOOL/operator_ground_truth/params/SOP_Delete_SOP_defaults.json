@@ -1,0 +1,398 @@
+{
+  "operator": "Delete_SOP",
+  "family": "SOP",
+  "td_create_name": "deleteSOP",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Delete",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "negate": {
+      "value": {
+        "type": "menu",
+        "value": "dele",
+        "menuIndex": 0,
+        "menuNames": [
+          "dele",
+          "keep"
+        ],
+        "menuLabels": [
+          "Delete Selected",
+          "Delete Non-Selected"
+        ]
+      },
+      "default": "dele",
+      "page": "Delete",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "entity": {
+      "value": {
+        "type": "menu",
+        "value": "primitive",
+        "menuIndex": 0,
+        "menuNames": [
+          "primitive",
+          "point"
+        ],
+        "menuLabels": [
+          "Primitives",
+          "Points"
+        ]
+      },
+      "default": "primitive",
+      "page": "Delete",
+      "label": "Entity",
+      "readOnly": false,
+      "expression": null
+    },
+    "geotype": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "bezierc",
+          "bezier",
+          "circle",
+          "mesh",
+          "meta",
+          "nurbc",
+          "nurb",
+          "part",
+          "poly",
+          "sphere",
+          "tube",
+          "tristrip",
+          "trifan"
+        ],
+        "menuLabels": [
+          "All Types",
+          "Bezier Curve",
+          "Bezier Surface",
+          "Circle",
+          "Mesh",
+          "Metaball",
+          "NURBS Curve",
+          "NURBS Surface",
+          "Particles",
+          "Polygon",
+          "Sphere",
+          "Tube",
+          "Triangle Strip",
+          "Triangle Fan"
+        ]
+      },
+      "default": "all",
+      "page": "Delete",
+      "label": "Geometry Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "removegrp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Delete",
+      "label": "Delete Unused Groups",
+      "readOnly": false,
+      "expression": null
+    },
+    "keeppoints": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Delete",
+      "label": "Delete Geometry, Keep Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "usenumber": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Number",
+      "label": "Use Number",
+      "readOnly": false,
+      "expression": null
+    },
+    "groupop": {
+      "value": {
+        "type": "menu",
+        "value": "pattern",
+        "menuIndex": 0,
+        "menuNames": [
+          "pattern",
+          "range",
+          "filter"
+        ],
+        "menuLabels": [
+          "Delete by Pattern",
+          "Delete by Range",
+          "Delete by Expression"
+        ]
+      },
+      "default": "pattern",
+      "page": "Number",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "pattern": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Number",
+      "label": "Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "rangestart": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Number",
+      "label": "Start / End",
+      "readOnly": false,
+      "expression": null
+    },
+    "rangeend": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Number",
+      "label": "Start / End",
+      "readOnly": false,
+      "expression": "me.inputs[0].numPrims if me.par.entity == 'primitive' else me.inputs[0].numPoints"
+    },
+    "select1": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Number",
+      "label": "Select _ of _",
+      "readOnly": false,
+      "expression": null
+    },
+    "select2": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Number",
+      "label": "Select _ of _",
+      "readOnly": false,
+      "expression": null
+    },
+    "filter": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Number",
+      "label": "Filter Expression",
+      "readOnly": false,
+      "expression": null
+    },
+    "usebounds": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Bounding Volume",
+      "label": "Use Bounds",
+      "readOnly": false,
+      "expression": null
+    },
+    "boundtype": {
+      "value": {
+        "type": "menu",
+        "value": "usebbox",
+        "menuIndex": 0,
+        "menuNames": [
+          "usebbox",
+          "usebsphere"
+        ],
+        "menuLabels": [
+          "Bounding Box",
+          "Bounding Sphere"
+        ]
+      },
+      "default": "usebbox",
+      "page": "Bounding Volume",
+      "label": "Bounding Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding Volume",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizey": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding Volume",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding Volume",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding Volume",
+      "label": "Center",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding Volume",
+      "label": "Center",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding Volume",
+      "label": "Center",
+      "readOnly": false,
+      "expression": null
+    },
+    "usenormal": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Normal",
+      "label": "Use Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Normal",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "diry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Normal",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Normal",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "angle": {
+      "value": {
+        "type": "float",
+        "value": 180.0
+      },
+      "default": 180.0,
+      "page": "Normal",
+      "label": "Spread Angle",
+      "readOnly": false,
+      "expression": null
+    },
+    "camera": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Normal",
+      "label": "Backface from",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

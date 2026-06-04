@@ -1,0 +1,83 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\opviewerTOP_lossless.json",
+  "operator_type": "opviewerTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "opview1",
+          "type": "TOP:opview",
+          "parameters": {
+            "pageindex": 1,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "opview2",
+          "type": "TOP:opview",
+          "parameters": {
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "opview3",
+          "type": "TOP:opview",
+          "parameters": {
+            "pageindex": 1,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:opview": 3,
+          "SOP:sphere": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

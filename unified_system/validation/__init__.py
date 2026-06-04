@@ -1,0 +1,1 @@
+"""Multi-stage validation pipeline."""

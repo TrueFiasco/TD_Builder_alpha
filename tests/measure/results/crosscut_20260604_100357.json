@@ -1,0 +1,127 @@
+{
+  "target": "crosscut",
+  "timestamp": "2026-06-04T10:03:57+00:00",
+  "n": 6,
+  "score_mean": 0.8427,
+  "metrics": {
+    "actionability": 1.0,
+    "compact_tokens": 478.0,
+    "cost_usd": 0.0074,
+    "full_tokens": 5254.0,
+    "latency_ms": 90.26,
+    "resp_tokens": 98.8,
+    "tokens_saved": 4776.0
+  },
+  "by_group": {
+    "bloat": {
+      "n": 1,
+      "score_mean": 0.909
+    },
+    "contract": {
+      "n": 1,
+      "score_mean": 1.0
+    },
+    "live_fallback": {
+      "n": 1,
+      "score_mean": 0.5
+    },
+    "mode2_guard": {
+      "n": 1,
+      "score_mean": 0.6471
+    },
+    "offline": {
+      "n": 2,
+      "score_mean": 1.0
+    }
+  },
+  "cases": [
+    {
+      "case": "get_server_info",
+      "score": 1.0,
+      "group": "contract",
+      "metrics": {
+        "resp_tokens": 91.0,
+        "latency_ms": 0.6,
+        "actionability": 1.0,
+        "cost_usd": 0.006825
+      },
+      "detail": "91tok 1ms; well-formed"
+    },
+    {
+      "case": "td_validate",
+      "score": 1.0,
+      "group": "offline",
+      "metrics": {
+        "resp_tokens": 136.0,
+        "latency_ms": 0.8,
+        "actionability": 1.0,
+        "cost_usd": 0.0102
+      },
+      "detail": "136tok 1ms; well-formed"
+    },
+    {
+      "case": "td_convert",
+      "score": 1.0,
+      "group": "offline",
+      "metrics": {
+        "resp_tokens": 142.0,
+        "latency_ms": 0.2,
+        "actionability": 1.0,
+        "cost_usd": 0.01065
+      },
+      "detail": "142tok 0ms; well-formed"
+    },
+    {
+      "case": "spawn_engineer",
+      "score": 0.6471,
+      "group": "mode2_guard",
+      "metrics": {
+        "resp_tokens": 81.0,
+        "latency_ms": 0.1,
+        "actionability": 1.0,
+        "cost_usd": 0.006075
+      },
+      "detail": "81tok 0ms; err; heuristic: 5/17 rubric cues present"
+    },
+    {
+      "case": "get_td_info",
+      "score": 0.5,
+      "group": "live_fallback",
+      "metrics": {
+        "resp_tokens": 44.0,
+        "latency_ms": 449.6,
+        "actionability": 1.0,
+        "cost_usd": 0.0033
+      },
+      "detail": "44tok 450ms; ok, non-JSON"
+    },
+    {
+      "case": "get_operator_info:compact_delta",
+      "score": 0.909,
+      "group": "bloat",
+      "metrics": {
+        "full_tokens": 5254.0,
+        "compact_tokens": 478.0,
+        "tokens_saved": 4776.0
+      },
+      "detail": "compact saves 4776 tok (9% of full)"
+    }
+  ],
+  "delta": {
+    "baseline_ts": "2026-06-04T10:03:53+00:00",
+    "score_mean_delta": 0.0,
+    "metric_deltas": {
+      "actionability": 0.0,
+      "compact_tokens": 0.0,
+      "cost_usd": 0.0,
+      "full_tokens": 0.0,
+      "latency_ms": -20.2,
+      "resp_tokens": 0.0,
+      "tokens_saved": 0.0
+    },
+    "regressed": [],
+    "improved": [],
+    "new_cases": [],
+    "dropped_cases": []
+  }
+}

@@ -1,0 +1,1410 @@
+schema_version: '1.0'
+last_updated: '2025-12-16T02:41:12.468763'
+update_count: 3
+validated_against: data/snippets/semantic/*.json
+seeded_from:
+- TEMPLATE_A_Workflow.md
+- TEMPLATE_B_Operator.md
+- TEMPLATE_C_Network_Biography.md
+workflows:
+  audio_reactive_visuals:
+    description: Synchronizing visual parameters to music beats and audio features
+    confidence: 0.85
+    example_count: 8
+    validated: true
+    source: TEMPLATE_A_Workflow.md
+    typical_chain:
+    - step: 1
+      operators:
+      - audiofilein
+      - audiodevicein
+      role: Audio source
+      notes: audiodevicein for live, audiofilein for files
+    - step: 2
+      operators:
+      - analyze
+      - audioSpectrum
+      role: Feature extraction
+      notes: analyze for time-domain, audioSpectrum for frequency
+    - step: 3
+      operators:
+      - beat
+      - trigger
+      role: Event detection
+      notes: beat for rhythm, trigger for threshold crossings
+    - step: 4
+      operators:
+      - math
+      - filter
+      - lag
+      role: Signal conditioning
+      notes: Smooth, scale, remap values
+    - step: 5
+      operators:
+      - export to TOP/SOP
+      role: Visual application
+      notes: Apply to visual parameters
+    variations:
+    - name: Frequency-based
+      difference: Uses audioSpectrum instead of analyze
+      example_count: 0
+    - name: Live input
+      difference: Uses audiodevicein instead of audiofilein
+      example_count: 0
+    key_parameters:
+    - operator: analyze
+      param: function
+      typical_values:
+      - Peak
+      - RMS
+      notes: Peak for transients, RMS for energy
+    - operator: beat
+      param: threshold
+      typical_range:
+      - 0.3
+      - 0.7
+      notes: Lower = more sensitive
+  instancing_workflow:
+    description: GPU instancing with SOP geometry and CHOP transforms
+    confidence: 0.75
+    example_count: 0
+    validated: false
+    typical_chain:
+    - step: 1
+      operators:
+      - grid
+      - sphere
+      - box
+      role: Base geometry
+    - step: 2
+      operators:
+      - noise
+      - pattern
+      role: Instance position generation
+    - step: 3
+      operators:
+      - geometry COMP
+      role: Instancing container
+      notes: Enable instancing, point to CHOP
+    key_parameters:
+    - operator: geometry
+      param: instancing
+      typical_values:
+      - 'On'
+    - operator: geometry
+      param: instancechop
+      typical_values:
+      - reference to CHOP
+  feedback_effect:
+    description: Creating trails/echoes using feedback TOP
+    confidence: 0.8
+    example_count: 0
+    validated: false
+    typical_chain:
+    - step: 1
+      operators:
+      - any TOP
+      role: Source content
+    - step: 2
+      operators:
+      - composite
+      - add
+      - over
+      role: Blend with feedback
+    - step: 3
+      operators:
+      - feedback
+      role: Previous frame capture
+    - step: 4
+      operators:
+      - transform
+      - level
+      role: Fade/move feedback
+      notes: Scale < 1 for fade, offset for motion
+  particle_system:
+    description: Particle effects using POPs or instancing
+    confidence: 0.7
+    example_count: 0
+    validated: false
+    typical_chain:
+    - step: 1
+      operators:
+      - particle SOP
+      - add SOP
+      role: Emission points
+    - step: 2
+      operators:
+      - popnet
+      - geometry COMP
+      role: Particle simulation or instancing
+    - step: 3
+      operators:
+      - render TOP
+      role: Visualization
+  glsl_particle_swarm:
+    description: GPU-based particle swarm using GLSL ping-pong buffers (Boids flocking)
+    confidence: 0.9
+    example_count: 1
+    validated: true
+    validation_date: "2025-12-16"
+    typical_chain:
+    - step: 1
+      operators:
+      - mouseinCHOP
+      - mathCHOP
+      - selectCHOP
+      role: Mouse input (0-1 to -1,1 range)
+      notes: "Use selectCHOP with wildcard 't*' for tx,ty"
+    - step: 2
+      operators:
+      - noiseTOP
+      role: Particle initialization
+      notes: "Set amp=2.0, offset=-1.0 for centered -1 to 1 range"
+    - step: 3
+      operators:
+      - feedbackTOP
+      - glslTOP
+      role: Ping-pong simulation
+      notes: "feedbackTOP.top points to glslTOP; uniforms bind to mouse via expressions"
+    - step: 4
+      operators:
+      - glslTOP
+      role: Visualization (per-pixel particle rendering)
+      notes: "16x16 particles feasible for per-pixel iteration; use uTDOutputInfo.res.xy"
+    - step: 5
+      operators:
+      - blurTOP
+      - compositeTOP
+      - feedbackTOP
+      - levelTOP
+      role: Trails and glow
+      notes: "levelTOP opacity < 1.0 for fade; compositeTOP operand=add"
+    key_parameters:
+    - operator: glslTOP
+      param: pixeldat
+      value: "path/to/shader_textDAT"
+    - operator: glslTOP
+      param: vec0name
+      value: "uMousePos"
+    - operator: feedbackTOP
+      param: top
+      value: "glsl_sim"
+    - operator: noiseTOP
+      param: amp
+      value: 2.0
+    - operator: noiseTOP
+      param: offset
+      value: -1.0
+    uniforms:
+      uMousePos: "op('mouse_select')['tx'], op('mouse_select')['ty']"
+      uDeltaTime: "0.016 (constant, absTime.step unreliable)"
+      uTime: "absTime.seconds"
+    reference_implementation: "tox_builder/tests/output/art/glsl_swarm.tox"
+  patterns:
+    python:
+      count: 20
+      names:
+      - access_chop_value
+      - access_chop_by_name
+      - get_all_channels
+      - chop_to_numpy
+      - access_dat_cell
+      - iterate_dat_rows
+      - append_to_table
+      - clear_table
+      - get_parameter
+      - set_parameter
+      - pulse_parameter
+      - create_operator
+      - copy_operator
+      - find_children
+      - save_top_image
+      - save_tox
+      - run_script_delayed
+      - store_fetch
+      - parent_shortcut
+      - get_operator_path
+    _last_updated: '2025-12-16T02:35:54.407079'
+    _updated_by: pattern_ingestor
+    _confidence: 0.9
+    callbacks:
+      count: 13
+      names:
+      - onInitRow
+      - onValueChange
+      - onCook
+      - onOffToOn
+      - onReceive
+      - onCreate
+      - onStart
+      - onPulse
+      - onParValueChange
+      - onTableChange
+      - onDestroy
+      - onFrameStart
+      - onFrameEnd
+      _last_updated: '2025-12-16T02:35:54.411071'
+      _updated_by: pattern_ingestor
+      _confidence: 0.9
+  glsl_templates:
+    glsl_top_basic:
+      code: "#version 450 core\nuniform sampler2D sTD2DInputs[1];\nin vec2 vUV;\n\
+        out vec4 fragColor;\nvoid main() {\n    vec4 c = texture(sTD2DInputs[0], vUV);\n\
+        \    fragColor = c;\n}"
+      type: fragment_shader
+      target: GLSL TOP
+      inputs:
+      - sTD2DInputs[0]
+      outputs:
+      - fragColor
+      builtins_used:
+      - vUV
+      - sTD2DInputs
+    _last_updated: '2025-12-16T02:41:03.264582'
+    _updated_by: glsl_validator
+    _confidence: 0.95
+    glsl_mat_vertex:
+      code: "#version 450 core\nlayout(location = 0) in vec3 P;\nlayout(location =\
+        \ 4) in vec2 uv[1];\nuniform mat4 TDWorld;\nuniform mat4 TDWorldCam;\nuniform\
+        \ mat4 TDProjection;\nout vec2 vUV;\nvoid main() {\n    vUV = uv[0];\n   \
+        \ gl_Position = TDProjection * TDWorldCam * TDWorld * vec4(P, 1.0);\n}"
+      type: vertex_shader
+      target: GLSL MAT
+      inputs:
+      - P
+      - uv
+      outputs:
+      - gl_Position
+      - vUV
+      builtins_used:
+      - TDWorld
+      - TDWorldCam
+      - TDProjection
+      _last_updated: '2025-12-16T02:41:03.265580'
+      _updated_by: glsl_validator
+      _confidence: 0.95
+    glsl_mat_pixel:
+      code: "#version 450 core\nin vec2 vUV;\nuniform sampler2D sTD2DInputs[1];\n\
+        out vec4 fragColor;\nvoid main() {\n    vec4 c = texture(sTD2DInputs[0], vUV);\n\
+        \    fragColor = c;\n}"
+      type: pixel_shader
+      target: GLSL MAT
+      inputs:
+      - vUV
+      - sTD2DInputs
+      outputs:
+      - fragColor
+      _last_updated: '2025-12-16T02:41:03.265580'
+      _updated_by: glsl_validator
+      _confidence: 0.95
+    glsl_blur:
+      code: "#version 450 core\nuniform sampler2D sTD2DInputs[1];\nuniform vec2 uResolution;\n\
+        uniform float uBlurSize;\nin vec2 vUV;\nout vec4 fragColor;\nvoid main() {\n\
+        \    vec4 sum = vec4(0.0);\n    vec2 texelSize = 1.0 / uResolution;\n    for(int\
+        \ x = -2; x <= 2; x++) {\n        for(int y = -2; y <= 2; y++) {\n       \
+        \     vec2 offset = vec2(float(x), float(y)) * texelSize * uBlurSize;\n  \
+        \          sum += texture(sTD2DInputs[0], vUV + offset);\n        }\n    }\n\
+        \    fragColor = sum / 25.0;\n}"
+      type: fragment_shader
+      target: GLSL TOP
+      effect: box_blur
+      uniforms:
+      - uResolution
+      - uBlurSize
+      kernel_size: 5x5
+      _last_updated: '2025-12-16T02:41:03.265580'
+      _updated_by: glsl_validator
+      _confidence: 0.9
+    glsl_noise:
+      code: "#version 450 core\nin vec2 vUV;\nout vec4 fragColor;\nuniform float uTime;\n\
+        uniform float uScale;\n\nfloat hash(vec2 p) {\n    return fract(sin(dot(p,\
+        \ vec2(127.1, 311.7))) * 43758.5453);\n}\n\nfloat noise(vec2 p) {\n    vec2\
+        \ i = floor(p);\n    vec2 f = fract(p);\n    f = f * f * (3.0 - 2.0 * f);\n\
+        \    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),\n           \
+        \    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);\n\
+        }\n\nvoid main() {\n    float n = noise(vUV * uScale + uTime);\n    fragColor\
+        \ = vec4(vec3(n), 1.0);\n}"
+      type: fragment_shader
+      target: GLSL TOP
+      effect: value_noise
+      uniforms:
+      - uTime
+      - uScale
+      animated: true
+      _last_updated: '2025-12-16T02:41:03.265580'
+      _updated_by: glsl_validator
+      _confidence: 0.9
+    glsl_feedback:
+      code: "#version 450 core\nuniform sampler2D sTD2DInputs[2]; // 0: live input,\
+        \ 1: feedback\nuniform float uDecay;\nin vec2 vUV;\nout vec4 fragColor;\n\
+        void main() {\n    vec4 live = texture(sTD2DInputs[0], vUV);\n    vec4 feedback\
+        \ = texture(sTD2DInputs[1], vUV) * uDecay;\n    fragColor = max(live, feedback);\n\
+        }"
+      type: fragment_shader
+      target: GLSL TOP
+      effect: feedback_decay
+      uniforms:
+      - uDecay
+      inputs: 2
+      notes: 'Input 0: live, Input 1: previous frame feedback'
+      _last_updated: '2025-12-16T02:41:03.266578'
+      _updated_by: glsl_validator
+      _confidence: 0.85
+anti_patterns:
+- pattern: Direct TOP to CHOP connection
+  problem: Type mismatch - different data types
+  solution: Insert toptoChop operator between them
+  learned_from: Type system rules
+  first_discovered: null
+- pattern: Direct CHOP to SOP connection
+  problem: Type mismatch
+  solution: Use choptoSop or reference CHOP in SOP parameters
+  learned_from: Type system rules
+  first_discovered: null
+- pattern: Feedback without fade
+  problem: Accumulates to white/black over time
+  solution: Add level or transform with scale < 1.0
+  learned_from: null
+  first_discovered: null
+co_occurrence:
+  analyze:
+    commonly_follows:
+    - audiofilein
+    - audiodevicein
+    - noise
+    - wave
+    - trail
+    commonly_precedes:
+    - math
+    - filter
+    - beat
+    validated: true
+    source: TEMPLATE_B_Operator.md
+  feedback:
+    commonly_follows:
+    - composite
+    - over
+    - add
+    commonly_precedes:
+    - level
+    - transform
+    - composite
+    validated: false
+  noise_CHOP:
+    commonly_follows: []
+    commonly_precedes:
+    - math
+    - filter
+    - export
+    validated: false
+  wave:
+    commonly_follows: []
+    commonly_precedes:
+    - analyze
+    - math
+    - filter
+    validated: true
+    source: TEMPLATE_C_Network_Biography.md
+  beat:
+    commonly_follows:
+    - analyze
+    commonly_precedes:
+    - math
+    - trigger
+    - export
+    validated: true
+    source: TEMPLATE_A_Workflow.md
+topology_patterns:
+  parallel_broadcast:
+    description: Single source broadcasting to multiple parallel branches
+    example: wave1 -> 6 parallel analyze CHOPs
+    typical_use_cases:
+    - Multi-feature analysis from single signal
+    - Parameter distribution to multiple targets
+    confidence: 0.85
+    example_count: 3
+    source: TEMPLATE_C_Network_Biography.md
+  linear_chain:
+    description: Simple sequential processing chain
+    example: audiofilein -> analyze -> beat -> math
+    typical_use_cases:
+    - Signal processing pipeline
+    - Data transformation flow
+    confidence: 0.9
+    example_count: 8
+    source: TEMPLATE_A_Workflow.md
+  feedback_loop:
+    description: Output feeds back to earlier stage
+    example: content -> composite -> feedback -> level -> composite
+    typical_use_cases:
+    - Trail effects
+    - Persistence/echo effects
+    confidence: 0.8
+    example_count: 0
+    validated: false
+discovery_queue: []
+
+# Design Patterns for td_designer expert
+# Each pattern includes: hierarchy, connections, parameters, common_errors
+design_patterns:
+  instancing:
+    description: "Render multiple copies of geometry at different positions"
+    complexity: "medium"
+    families: ["SOP", "COMP"]
+    confidence: 0.9
+    hierarchy:
+      - name: "geo1"
+        type: "geoCOMP"
+        children:
+          - name: "sphere1"
+            type: "sphereSOP"
+            flags: {display: on, render: on}
+    connections:
+      - from: "instance_source (SOP or CHOP)"
+        to: "geo1"
+        type: "reference"
+        param: "instanceop"
+    parameters:
+      - operator: "geoCOMP"
+        param: "instancing"
+        value: "on"
+      - operator: "geoCOMP"
+        param: "instanceop"
+        value: "path/to/instance_source"
+    common_errors:
+      - error: "Geometry outside COMP"
+        cause: "Geometry SOP is sibling not child of geoCOMP"
+        fix: "Move geometry SOP inside geoCOMP"
+      - error: "No render flag"
+        cause: "Internal SOP missing render flag"
+        fix: "Set render flag on internal geometry"
+      - error: "Wrong connection type"
+        cause: "Used wire instead of reference for instanceop"
+        fix: "instanceop is a path reference, not a wire input"
+
+  # BUG-006 FIX: Analyze CHOP function parameter integer mappings
+  # BUG-013 FIX: Added format field to specify integer requirement
+  analyze_chop:
+    description: "Analyze CHOP performs various analysis functions on input channels"
+    complexity: "easy"
+    families: ["CHOP"]
+    confidence: 0.95
+    canonical_type: "CHOP:analyze"
+    function_parameter:
+      description: "Analysis function to perform"
+      format: integer  # BUG-013: Specifies this menu requires INTEGER values
+      CRITICAL_NOTE: "Use INTEGER values, not strings! function=2 not function='min'"
+      values:
+        0: {name: "average", description: "Average value of all samples"}
+        1: {name: "maximum", description: "Maximum value"}
+        2: {name: "minimum", description: "Minimum value"}
+        3: {name: "maximumindex", description: "Index of maximum value"}
+        4: {name: "minimumindex", description: "Index of minimum value"}
+        5: {name: "sum", description: "Sum of all samples"}
+        6: {name: "rms", description: "Root Mean Square (audio energy)"}
+        7: {name: "absmax", description: "Maximum of absolute values"}
+        8: {name: "absmin", description: "Minimum of absolute values"}
+        9: {name: "length", description: "Number of samples"}
+        10: {name: "median", description: "Median value"}
+        11: {name: "standarddev", description: "Standard deviation"}
+      common_uses:
+        audio_level: 6  # rms
+        peak_detection: 1  # maximum
+        normalization: [1, 2]  # max/min for range
+    common_errors:
+      - error: "All analyze CHOPs output same value"
+        cause: "Used string 'min'/'max' which defaults to 0 (average)"
+        fix: "Use integers: function=1 for max, function=2 for min"
+
+  # BUG-013: Noise CHOP type parameter
+  noise_chop:
+    description: "Noise CHOP generates procedural noise patterns as channel data"
+    complexity: "easy"
+    families: ["CHOP"]
+    confidence: 0.9
+    canonical_type: "CHOP:noise"
+    type_parameter:
+      description: "Type of noise algorithm"
+      format: string  # BUG-013: Use STRING values for noise type
+      values:
+        sparse: {description: "Sparse convolution noise"}
+        hermite: {description: "Hermite interpolated noise"}
+        harmonic: {description: "Harmonic noise (smooth)"}
+        brownian: {description: "Brownian motion noise"}
+        random: {description: "Random values (no interpolation)"}
+        alligator: {description: "Alligator noise"}
+      common_uses:
+        smooth_motion: "harmonic"
+        random_values: "random"
+        organic_motion: "brownian"
+
+  # BUG-013: Noise TOP type parameter
+  noise_top:
+    description: "Noise TOP generates 2D noise textures"
+    complexity: "easy"
+    families: ["TOP"]
+    confidence: 0.9
+    canonical_type: "TOP:noise"
+    type_parameter:
+      description: "Type of noise algorithm"
+      format: string  # BUG-013: Use STRING values for noise type
+      values:
+        sparse: {description: "Sparse convolution noise"}
+        perlin: {description: "Perlin noise (classic)"}
+        simplex: {description: "Simplex noise (faster, less artifacts)"}
+        random: {description: "Random values per pixel"}
+        alligator: {description: "Alligator noise"}
+      common_uses:
+        organic_textures: "perlin"
+        fast_smooth: "simplex"
+        static_noise: "random"
+
+  # BUG-013: Math CHOP operations
+  math_chop:
+    description: "Math CHOP performs mathematical operations on channels"
+    complexity: "easy"
+    families: ["CHOP"]
+    confidence: 0.9
+    canonical_type: "CHOP:math"
+    # Math CHOP has multiple operation parameters per page
+    chanop_parameter:
+      description: "Channel operation (Mult-Add page)"
+      format: integer  # BUG-013: Integer values for channel operations
+      values:
+        0: {name: "off", description: "No operation"}
+        1: {name: "add", description: "Add channels"}
+        2: {name: "subtract", description: "Subtract channels"}
+        3: {name: "multiply", description: "Multiply channels"}
+        4: {name: "divide", description: "Divide channels"}
+        5: {name: "average", description: "Average channels"}
+        6: {name: "length", description: "Vector length"}
+        7: {name: "normalize", description: "Normalize vector"}
+    match_parameter:
+      description: "How to match channels from multiple inputs"
+      format: integer  # BUG-013: Integer values for match
+      values:
+        0: {name: "byname", description: "Match channels by name"}
+        1: {name: "byindex", description: "Match channels by index"}
+    common_uses:
+      remap_range: "Use Range page: fromrange1/2, torange1/2"
+      clamp_values: "Use Range page: clamp on"
+      normalize_values: "chanop=7 (normalize)"
+
+  # BUG-011 FIX: Complete Composite TOP operand values
+  # BUG-013 FIX: Added format field to specify string requirement
+  composite_top:
+    description: "Blend two or more TOPs using various compositing operations"
+    complexity: "easy"
+    families: ["TOP"]
+    confidence: 0.95
+    canonical_type: "TOP:comp"
+    aliases: ["compositeTOP", "composite_top", "compTOP"]
+    operand_parameter:
+      description: "Blending operation between input images"
+      format: string  # BUG-013: Specifies this menu requires STRING values (integers are corrupted)
+      parm_format: "operand 0 add"
+      note: ".parm file uses: index followed by string name"
+      CRITICAL_NOTE: "Use STRING values, not integers! operand='add' not operand=0"
+      values:
+        0: {name: "add", description: "input1.rgba + input2.rgba"}
+        1: {name: "atop", description: "Alpha composite atop"}
+        2: {name: "average", description: "(input1 + input2) / 2"}
+        3: {name: "brightest", description: "Max per channel (brighten)"}
+        4: {name: "burncolor", description: "Color burn blend mode"}
+        5: {name: "burnlinear", description: "Linear burn blend mode"}
+        6: {name: "chromadifference", description: "Difference based on chroma"}
+        7: {name: "color", description: "Color blend mode"}
+        8: {name: "darkercolor", description: "Darker color selection"}
+        9: {name: "difference", description: "abs(input1 - input2)"}
+        10: {name: "dimmest", description: "Min per channel (darken)"}
+        11: {name: "divide", description: "input1 / input2"}
+        12: {name: "dodge", description: "Color dodge blend mode"}
+        13: {name: "exclude", description: "Exclusion blend mode"}
+        14: {name: "freeze", description: "Freeze blend mode"}
+        15: {name: "glow", description: "Glow blend mode"}
+        16: {name: "hardlight", description: "Hard light blend mode"}
+        17: {name: "hardmix", description: "Hard mix blend mode"}
+        18: {name: "heat", description: "Heat blend mode"}
+        19: {name: "hue", description: "Hue blend mode"}
+        20: {name: "inside", description: "input1 * clamp(input2.a) - mask by alpha"}
+        21: {name: "insideluminance", description: "Inside by luminance"}
+        22: {name: "inverse", description: "Inverse blend"}
+        23: {name: "lightercolor", description: "Lighter color selection"}
+        24: {name: "luminancedifference", description: "Difference based on luminance"}
+        25: {name: "maximum", description: "max per channel (synonym for brightest)"}
+        26: {name: "minimum", description: "min per channel (synonym for dimmest)"}
+        27: {name: "multiply", description: "input1 * input2 (darkening blend)"}
+        28: {name: "negate", description: "Negate blend"}
+        29: {name: "outside", description: "input1 * (1 - input2.a) - inverse mask"}
+        30: {name: "outsideluminance", description: "Outside by luminance"}
+        31: {name: "over", description: "Standard alpha over compositing"}
+        32: {name: "overlay", description: "Overlay blend mode"}
+        33: {name: "pinlight", description: "Pin light blend mode"}
+        34: {name: "reflect", description: "Reflect blend mode"}
+        35: {name: "screen", description: "1 - ((1-a) * (1-b)) - lightening blend"}
+        36: {name: "softlight", description: "Soft light blend mode"}
+        37: {name: "linearlight", description: "Linear light blend mode"}
+        38: {name: "stencilluminance", description: "Stencil by luminance"}
+        39: {name: "subtract", description: "input1 - input2"}
+        40: {name: "subtractive", description: "Subtractive blend"}
+        41: {name: "under", description: "Alpha under compositing"}
+        42: {name: "vividlight", description: "Vivid light blend mode"}
+        43: {name: "xor", description: "Alpha XOR compositing"}
+        44: {name: "yfilm", description: "Y film blend"}
+        45: {name: "zfilm", description: "Z film blend"}
+      common_uses:
+        additive_glow: "add"
+        alpha_compositing: "over"
+        masking: ["inside", "outside"]
+        darkening: ["multiply", "minimum"]
+        lightening: ["screen", "add", "maximum"]
+        difference_effects: ["difference", "subtract"]
+    common_errors:
+      - error: "Type not recognized"
+        cause: "Using composite_top or compTOP instead of TOP:comp"
+        fix: "Use canonical type TOP:comp in builder, or ensure type_overrides is applied"
+
+  # BUG-007 FIX: Enhanced feedback_loop with critical notes from testing
+  feedback_loop:
+    description: "Create visual feedback/trails effect"
+    complexity: "medium"
+    families: ["TOP"]
+    confidence: 0.85
+    # CRITICAL NOTES from BUG-007 testing session
+    CRITICAL_NOTES:
+      - "Feedback TOP needs WIRE input from end of chain, not just 'top' parameter"
+      - "Use rgba16float or rgba32float pixel format for ALL TOPs in chain"
+      - "Source must ANIMATE - use expressions like absTime.seconds, not static values"
+      - "Test with 'over' operand before 'add' (add accumulates brightness faster)"
+    required_pixel_format: "rgba16float"
+    hierarchy:
+      - name: "feedback1"
+        type: "feedbackTOP"
+      - name: "composite1"
+        type: "compositeTOP"
+      - name: "level1"
+        type: "levelTOP"
+    connections:
+      - from: "source_top"
+        to: "composite1"
+        type: "wire"
+        input_index: 0
+      - from: "feedback1"
+        to: "level1"
+        type: "wire"
+        input_index: 0
+      - from: "level1"
+        to: "composite1"
+        type: "wire"
+        input_index: 1
+      - from: "composite1"
+        to: "feedback1"
+        type: "wire"
+        input_index: 0
+        notes: "CRITICAL: feedback1 must receive wire input, not just parameter reference"
+    parameters:
+      - operator: "feedbackTOP"
+        param: "format"
+        value: "rgba16float"
+        notes: "REQUIRED for quality - prevents banding and precision loss"
+      - operator: "compositeTOP"
+        param: "format"
+        value: "rgba16float"
+      - operator: "levelTOP"
+        param: "format"
+        value: "rgba16float"
+      - operator: "levelTOP"
+        param: "opacity"
+        value: "0.92-0.98"
+        notes: "Lower = faster fade. Use 0.95 as starting point."
+      - operator: "compositeTOP"
+        param: "operand"
+        value: "over"
+        format: string
+        notes: "Use 'over' for alpha compositing. 'add' accumulates faster."
+    # Animation patterns for source TOPs
+    source_animation_examples:
+      noise_animation:
+        tx: {"expr": "absTime.seconds * 0.1"}
+        ty: {"expr": "absTime.seconds * 0.07"}
+        notes: "Noise t parameter is OFFSET, not time - needs expression to animate"
+      lfo_driven:
+        notes: "Connect LFO CHOP to noise parameters via export or expression"
+    common_errors:
+      - error: "Static white image (no animation)"
+        cause: "Source not animated - using static parameter values"
+        fix: "Use expressions: tx={'expr': 'absTime.seconds * 0.1'}"
+      - error: "Banding/stepping in trails"
+        cause: "8-bit pixel format loses precision over multiple frames"
+        fix: "Set format='rgba16float' on ALL TOPs in feedback chain"
+      - error: "Infinite brightness / blows out to white"
+        cause: "Using 'add' operand without sufficient decay"
+        fix: "Use 'over' operand OR reduce opacity to 0.90-0.92"
+      - error: "No output visible"
+        cause: "Feedback needs initial frame OR no wire input"
+        fix: "Ensure composite1→feedback1 wire exists, source provides content"
+      - error: "Feedback TOP not updating"
+        cause: "Only set 'top' parameter, no wire input"
+        fix: "Feedback TOP needs BOTH: wire input AND 'top' parameter"
+    # Pre-build checklist for agent
+    agent_checklist:
+      - "Is source animated? (expression or CHOP-driven, NOT static values)"
+      - "Is feedback TOP wired to output of processing chain?"
+      - "Is pixel format rgba16float on ALL TOPs in chain?"
+      - "Is level opacity < 1.0? (0.92-0.98 range)"
+      - "Is composite operand appropriate? ('over' safer than 'add')"
+
+  audio_reactive:
+    description: "Drive visuals from audio input"
+    complexity: "medium"
+    families: ["CHOP", "TOP"]
+    confidence: 0.9
+    hierarchy:
+      - name: "audioIn1"
+        type: "audiodeviceinCHOP"
+      - name: "analyze1"
+        type: "analyzeCHOP"
+      - name: "math1"
+        type: "mathCHOP"
+    connections:
+      - from: "audioIn1"
+        to: "analyze1"
+        type: "wire"
+      - from: "analyze1"
+        to: "math1"
+        type: "wire"
+      - from: "math1"
+        to: "visual_param"
+        type: "expression"
+        expression: "op('math1')['chan1']"
+    parameters:
+      - operator: "analyzeCHOP"
+        param: "function"
+        value: "rms"
+        notes: "Peak for transients, RMS for energy"
+      - operator: "mathCHOP"
+        param: "range1"
+        value: "0"
+      - operator: "mathCHOP"
+        param: "range2"
+        value: "1"
+    common_errors:
+      - error: "No audio device"
+        cause: "audiodevicein not configured"
+        fix: "Set Device parameter to valid audio input"
+      - error: "Values too large"
+        cause: "Audio values not normalized"
+        fix: "Use math CHOP to remap to 0-1 range"
+
+  chop_instancing:
+    description: "Use CHOP channels as instance transforms"
+    complexity: "medium"
+    families: ["CHOP", "COMP"]
+    confidence: 0.85
+    hierarchy:
+      - name: "chop_source"
+        type: "noiseCHOP"
+        notes: "Produces tx, ty, tz channels"
+      - name: "geo1"
+        type: "geoCOMP"
+        children:
+          - name: "sphere1"
+            type: "sphereSOP"
+            flags: {display: on, render: on}
+    connections:
+      - from: "chop_source"
+        to: "geo1"
+        type: "reference"
+        param: "instanceop"
+    parameters:
+      - operator: "geoCOMP"
+        param: "instancing"
+        value: "on"
+      - operator: "geoCOMP"
+        param: "instanceop"
+        value: "chop_source"
+      - operator: "geoCOMP"
+        param: "instancetx"
+        value: "tx"
+      - operator: "geoCOMP"
+        param: "instancety"
+        value: "ty"
+      - operator: "geoCOMP"
+        param: "instancetz"
+        value: "tz"
+    common_errors:
+      - error: "All instances at origin"
+        cause: "Channel names don't match instancet* params"
+        fix: "Ensure CHOP has tx, ty, tz channels or update param names"
+
+  particle_system:
+    description: "Create and simulate particles using POPs"
+    complexity: "hard"
+    families: ["POP", "COMP"]
+    confidence: 0.8
+    hierarchy:
+      - name: "geo1"
+        type: "geoCOMP"
+        children:
+          - name: "add1"
+            type: "addPOP"
+          - name: "source1"
+            type: "sourcePOP"
+          - name: "force1"
+            type: "forcePOP"
+          - name: "render1"
+            type: "renderPOP"
+            flags: {display: on}
+    connections:
+      - from: "add1"
+        to: "source1"
+        type: "wire"
+      - from: "source1"
+        to: "force1"
+        type: "wire"
+      - from: "force1"
+        to: "render1"
+        type: "wire"
+      - from: "emitter_geo"
+        to: "source1"
+        type: "reference"
+        param: "soppath"
+    parameters:
+      - operator: "addPOP"
+        param: "birthrate"
+        value: "100"
+        notes: "Particles per second"
+      - operator: "forcePOP"
+        param: "forcey"
+        value: "-9.8"
+        notes: "Gravity"
+      - operator: "renderPOP"
+        param: "type"
+        value: "point"
+        notes: "point|sprite|line"
+    common_errors:
+      - error: "No particles visible"
+        cause: "renderPOP missing display flag"
+        fix: "Enable display flag on renderPOP"
+      - error: "Particles don't move"
+        cause: "No forcePOP in chain"
+        fix: "Add forcePOP between source and render"
+
+  render_pipeline:
+    description: "Standard 3D render setup with camera, lights, geometry"
+    complexity: "medium"
+    families: ["SOP", "COMP", "TOP"]
+    confidence: 0.9
+    hierarchy:
+      - name: "geo1"
+        type: "geoCOMP"
+        children:
+          - name: "sphere1"
+            type: "sphereSOP"
+            flags: {display: on, render: on}
+      - name: "camera1"
+        type: "cameraCOMP"
+      - name: "light1"
+        type: "lightCOMP"
+      - name: "render1"
+        type: "renderTOP"
+    connections:
+      - from: "geo1"
+        to: "render1"
+        type: "reference"
+        param: "geometry"
+      - from: "camera1"
+        to: "render1"
+        type: "reference"
+        param: "camera"
+      - from: "light1"
+        to: "render1"
+        type: "reference"
+        param: "lights"
+    parameters:
+      - operator: "renderTOP"
+        param: "resolutionw"
+        value: "1920"
+      - operator: "renderTOP"
+        param: "resolutionh"
+        value: "1080"
+      - operator: "cameraCOMP"
+        param: "tz"
+        value: "-5"
+        notes: "Move camera back"
+    common_errors:
+      - error: "Black render"
+        cause: "No light or light not referenced"
+        fix: "Add lightCOMP and reference in renderTOP.lights"
+      - error: "Nothing visible"
+        cause: "Camera too close or wrong direction"
+        fix: "Adjust camera tz and lookat parameters"
+
+  control_panel:
+    description: "Create interactive UI with sliders and buttons"
+    complexity: "medium"
+    families: ["CHOP", "COMP", "DAT"]
+    confidence: 0.85
+    hierarchy:
+      - name: "container1"
+        type: "containerCOMP"
+        children:
+          - name: "slider1"
+            type: "sliderCHOP"
+          - name: "button1"
+            type: "buttonCHOP"
+    connections:
+      - from: "slider1"
+        to: "target_param"
+        type: "expression"
+        expression: "op('container1/slider1')['v1']"
+    parameters:
+      - operator: "containerCOMP"
+        param: "w"
+        value: "400"
+      - operator: "containerCOMP"
+        param: "h"
+        value: "300"
+      - operator: "sliderCHOP"
+        param: "rangex1"
+        value: "0"
+      - operator: "sliderCHOP"
+        param: "rangex2"
+        value: "1"
+    common_errors:
+      - error: "Slider not visible"
+        cause: "Container not viewer active"
+        fix: "Enable Viewer Active on containerCOMP"
+      - error: "Values not updating"
+        cause: "Using script instead of expression"
+        fix: "Use cook-dependent expression: op('slider1')['v1']"
+
+  data_viz:
+    description: "Map data to visual elements"
+    complexity: "medium"
+    families: ["DAT", "SOP", "CHOP"]
+    confidence: 0.9
+    hierarchy:
+      - name: "table1"
+        type: "tableDAT"
+      - name: "datToChop1"
+        type: "dattoCHOP"
+      - name: "chopToSop1"
+        type: "choptosopSOP"
+      - name: "geo1"
+        type: "geoCOMP"
+    connections:
+      # CRITICAL: dattoCHOP does NOT connect via wire!
+      # It uses the 'dat' parameter to reference the source DAT
+      - from: "datToChop1"
+        to: "chopToSop1"
+        type: "wire"
+      - from: "chopToSop1"
+        to: "geo1"
+        type: "wire or reference"
+    parameters:
+      # CRITICAL: dattoCHOP requires 'dat' param to reference source DAT
+      - operator: "dattoCHOP"
+        param: "dat"
+        value: "table1"
+        note: "Reference to source DAT (NOT a wire connection)"
+      - operator: "dattoCHOP"
+        param: "firstrow"
+        value: "names"
+        note: "names=first row is channel names, values=first row is data"
+      - operator: "dattoCHOP"
+        param: "firstcolumn"
+        value: "names"
+        note: "names=first col is channel names, values=first col is data"
+      - operator: "choptosopSOP"
+        param: "channelscope"
+        value: "tx ty tz"
+    common_errors:
+      - error: "No channels output"
+        cause: "dattoCHOP wired to DAT instead of using dat parameter"
+        fix: "Set dattoCHOP.dat parameter to reference tableDAT name"
+      - error: "Wrong channel names"
+        cause: "firstrow/firstcolumn set incorrectly"
+        fix: "Set firstrow='names' if first row contains channel names"
+      - error: "No geometry"
+        cause: "DAT has no valid data rows"
+        fix: "Check table has numeric columns"
+      - error: "Wrong scale"
+        cause: "Data values out of expected range"
+        fix: "Normalize with mathCHOP before choptoSOP"
+
+  # BUG-005 FIX: Added explicit datto patterns
+  dat_to_chop_conversion:
+    description: "Convert DAT table data to CHOP channels"
+    complexity: "easy"
+    families: ["DAT", "CHOP"]
+    confidence: 0.95
+    critical_note: "dattoCHOP does NOT use wire connections from DATs - it uses the 'dat' parameter"
+    hierarchy:
+      - name: "sourceTable"
+        type: "tableDAT"
+      - name: "datto1"
+        type: "dattoCHOP"
+      - name: "null1"
+        type: "nullCHOP"
+    connections:
+      # NO connection from DAT to dattoCHOP - uses parameter reference
+      - from: "datto1"
+        to: "null1"
+        type: "wire"
+    parameters:
+      - operator: "dattoCHOP"
+        param: "dat"
+        value: "sourceTable"
+        required: true
+        note: "MUST set this parameter to reference the source DAT"
+      # BUG REPORT FIX (basic_1-10): TD expects INTEGER values, not strings!
+      # Menu integer mapping: 0=ignore, 1=names, 2=values
+      - operator: "dattoCHOP"
+        param: "firstrow"
+        value: 1
+        note: "INTEGER REQUIRED: 0=ignore, 1=names, 2=values"
+      - operator: "dattoCHOP"
+        param: "firstcolumn"
+        value: 2
+        note: "INTEGER REQUIRED: 0=ignore, 1=names, 2=values"
+      # BUG-002 FIX: Add output parameter integer mapping
+      - operator: "dattoCHOP"
+        param: "output"
+        value: 2
+        note: "INTEGER REQUIRED: 0=single, 1=chanperrow, 2=chanpercol, 3=chanperval"
+    # Complete integer mappings for all datto CHOP menu parameters
+    parameter_integer_mappings:
+      output:
+        description: "How to create channels from table data"
+        values:
+          0: {name: "single", meaning: "All values in one channel"}
+          1: {name: "chanperrow", meaning: "Channel Per Row (cpr)"}
+          2: {name: "chanpercol", meaning: "Channel Per Column (cpc) - common for named columns"}
+          3: {name: "chanperval", meaning: "Channel Per Single Value"}
+        common_choice: 2
+        common_reason: "Most tables have column headers as channel names"
+      firstrow:
+        description: "How to interpret first row"
+        values:
+          0: {name: "ignore", meaning: "Skip first row"}
+          1: {name: "names", meaning: "Use as channel names"}
+          2: {name: "values", meaning: "Treat as data values"}
+      firstcolumn:
+        description: "How to interpret first column"
+        values:
+          0: {name: "ignore", meaning: "Skip first column"}
+          1: {name: "names", meaning: "Use as sample indices"}
+          2: {name: "values", meaning: "Treat as data values"}
+    # Common pattern from BUG-002
+    common_pattern:
+      description: "Table with header row (channel names in first row)"
+      table_example: |
+        | x | y | z |    ← row 0: channel names
+        | 1 | 2 | 3 |    ← row 1+: data values
+        | 4 | 5 | 6 |
+        | 7 | 8 | 9 |
+      settings:
+        output: 2
+        firstrow: 1
+        firstcolumn: 2
+      result: "3 channels (x, y, z) with 3 samples each"
+    examples:
+      - name: "Table with headers"
+        setup: "First row = channel names, first column = row labels"
+        params: "firstrow: 1, firstcolumn: 0"
+        note: "1=names for first row, 0=ignore for first column"
+      - name: "Simple values grid"
+        setup: "All cells are numeric values"
+        params: "firstrow: 2, firstcolumn: 2"
+        note: "2=values for both"
+      - name: "Text DAT with single value"
+        setup: "Text DAT contains just a number"
+        params: "firstrow: 2, firstcolumn: 2"
+        note: "2=values for both"
+    # BUG-005 + BUG-002 FIX: Complete output parameter guidance with INTEGER values
+    output_parameter:
+      description: "Controls how channels are organized relative to table"
+      CRITICAL_NOTE: "Use INTEGER values, not strings! output=1 not output='cpr'"
+      values:
+        1:
+          name: "chanperrow"
+          alias: "cpr"
+          meaning: "channels per row"
+          table_layout: "Channel names in FIRST COLUMN, values across rows"
+          example_table: |
+            | chan1 | 0.5 | 0.7 |
+            | chan2 | 0.8 | 0.3 |
+          use_when: "Each row represents one channel with samples across columns"
+        2:
+          name: "chanpercol"
+          alias: "cpc"
+          meaning: "channels per column"
+          table_layout: "Channel names in FIRST ROW, values down columns"
+          example_table: |
+            | chan1 | chan2 |
+            | 0.5   | 0.8   |
+            | 0.7   | 0.3   |
+          use_when: "Each column represents one channel with samples down rows"
+      decision_tree: |
+        DAT to CHOP Layout Rules (USE INTEGER VALUES!):
+        ├── output: 1 (chanperrow/cpr)
+        │   └── Table must have channel NAMES in first COLUMN
+        │       Example: ["chan1", "0.5", "0.7"], ["chan2", "0.8", "0.3"]
+        │
+        └── output: 2 (chanpercol/cpc) - MOST COMMON
+            └── Table must have channel NAMES in first ROW
+                Example: ["chan1", "chan2"], ["0.5", "0.8"], ["0.7", "0.3"]
+      common_mistake: "Using string values ('cpr', 'cpc') instead of integers (1, 2) - TD expects integers!"
+
+    # BUG-A FIX: Complete 9-combination truth table for firstrow/firstcolumn
+    firstrow_firstcolumn_truth_table:
+      description: "All 9 combinations of firstrow (0,1,2) × firstcolumn (0,1,2)"
+      CRITICAL_NOTE: "Use INTEGER values: 0=ignore, 1=names, 2=values"
+      combinations:
+        # firstrow=0 (ignore first row)
+        - firstrow: 0
+          firstcolumn: 0
+          meaning: "Skip first row, skip first column"
+          use_case: "Data starts at [1,1], top-left is throwaway"
+        - firstrow: 0
+          firstcolumn: 1
+          meaning: "Skip first row, column 0 = sample names/indices"
+          use_case: "Named samples in column 0, no header row"
+        - firstrow: 0
+          firstcolumn: 2
+          meaning: "Skip first row, column 0 = data"
+          use_case: "Full data starting at [1,0]"
+        # firstrow=1 (first row = channel names)
+        - firstrow: 1
+          firstcolumn: 0
+          meaning: "Row 0 = channel names, skip first column"
+          use_case: "Channel names across top, first column is throwaway"
+        - firstrow: 1
+          firstcolumn: 1
+          meaning: "Row 0 = channel names, column 0 = sample names"
+          use_case: "Full headers: top row names channels, left column names samples"
+        - firstrow: 1
+          firstcolumn: 2
+          meaning: "Row 0 = channel names, column 0 = data"
+          use_case: "MOST COMMON: Header row with channel names, all columns are data"
+          example: "| x | y | z | <- names; values start at [1,0]"
+        # firstrow=2 (first row = data values)
+        - firstrow: 2
+          firstcolumn: 0
+          meaning: "Row 0 = data, skip first column"
+          use_case: "No header, first column is throwaway"
+        - firstrow: 2
+          firstcolumn: 1
+          meaning: "Row 0 = data, column 0 = sample names"
+          use_case: "Transposed: channel names in column 0, data in row 0+"
+          example: "| x | 1.5 | 2.0 | <- channel x with values"
+        - firstrow: 2
+          firstcolumn: 2
+          meaning: "Both first row and column are data"
+          use_case: "Pure numeric grid, no headers at all"
+      quick_reference:
+        most_common: {firstrow: 1, firstcolumn: 2, desc: "Header row (channel names), data columns"}
+        transposed: {firstrow: 2, firstcolumn: 1, desc: "Channel names in column 0, data across"}
+        no_headers: {firstrow: 2, firstcolumn: 2, desc: "Pure data grid"}
+        full_headers: {firstrow: 1, firstcolumn: 1, desc: "Both row and column headers"}
+
+    # BUG-005 FIX: Explicit CPR vs CPC visual examples from QA testing
+    cpr_vs_cpc_visual_guide:
+      description: "Visual guide for choosing firstcolumn based on table layout"
+      CRITICAL_BUG_NOTE: |
+        Agent mistakenly used firstcolumn: "values" when table had labels in first column.
+        ALWAYS check where the labels/names are before setting firstcolumn!
+
+      cpc_format:
+        description: "Channel Per Column - names in FIRST ROW (most common)"
+        firstcolumn_setting: 2  # values - first column IS data
+        firstrow_setting: 1     # names - first row has channel names
+        table_visual: |
+          +------+-------+-------+
+          | name | value | extra |   ← ROW 0: Channel names
+          +------+-------+-------+
+          | x    | 0.5   | 1.0   |   ← Data rows
+          | y    | 1.0   | 2.0   |
+          +------+-------+-------+
+        note: "First COLUMN contains data ('x', 'y' are values), first ROW has names"
+
+      cpr_format:
+        description: "Channel Per Row - names in FIRST COLUMN"
+        firstcolumn_setting: 1  # names - first column has channel names
+        firstrow_setting: 2     # values - first row IS data
+        table_visual: |
+          +------+------+------+
+          | x    | 0.5  | 1.0  |   ← Channel 'x' with samples
+          +------+------+------+
+          | y    | 0.8  | 0.3  |   ← Channel 'y' with samples
+          +------+------+------+
+        note: "First COLUMN contains channel names ('x', 'y'), data goes across"
+
+      decision_flowchart: |
+        Where are your CHANNEL NAMES?
+        │
+        ├─► In FIRST ROW (across the top)?
+        │   └─► Use firstrow: 1 (names), firstcolumn: 2 (values)
+        │       output: 2 (chanpercol/cpc)
+        │
+        └─► In FIRST COLUMN (down the side)?
+            └─► Use firstrow: 2 (values), firstcolumn: 1 (names)
+                output: 1 (chanperrow/cpr)
+
+      common_mistake_example:
+        table: |
+          | name  | value |
+          | x     | 0.5   |
+          | y     | 1.0   |
+        wrong: "firstcolumn: 2 (values) - treats 'x', 'y' as data!"
+        correct: "firstcolumn: 1 (names) - recognizes 'x', 'y' as channel identifiers"
+        result_wrong: "Generic channel names, wrong data interpretation"
+        result_correct: "Channels named 'x' and 'y' with correct values"
+
+  glsl_integration:
+    description: "Custom shaders in TouchDesigner"
+    complexity: "hard"
+    families: ["TOP", "MAT", "SOP"]
+    confidence: 0.85
+    hierarchy:
+      - name: "glsl1"
+        type: "glslTOP"
+      - name: "input1"
+        type: "noiseTOP"
+    connections:
+      - from: "input1"
+        to: "glsl1"
+        type: "wire"
+        input_index: 0
+    parameters:
+      - operator: "glslTOP"
+        param: "pixeldat"
+        value: "path/to/shader_dat"
+    delegate_to: "td_glsl_expert"
+    notes: "For full shader work, delegate to td_glsl_expert"
+    common_errors:
+      - error: "Compile error"
+        cause: "Missing #version or syntax error"
+        fix: "Use #version 450 core, check GLSL syntax"
+      - error: "Black output"
+        cause: "fragColor not assigned"
+        fix: "Ensure all code paths write to fragColor"
+
+  python_scripting:
+    description: "Python expressions and callbacks"
+    complexity: "varies"
+    families: ["all"]
+    confidence: 0.9
+    reference: "td_python.yaml"
+    common_patterns:
+      - name: "CHOP to parameter"
+        expression: "op('chop1')['channel']"
+      - name: "Frame animation"
+        expression: "me.time.frame * 0.1"
+      - name: "Relative reference"
+        expression: "op('../control/slider1')['v1']"
+    common_errors:
+      - error: "op() returns None"
+        cause: "Operator doesn't exist at path"
+        fix: "Verify path with print(op('name'))"
+      - error: "Circular reference"
+        cause: "A references B references A in same cook"
+        fix: "Use time-delayed reference or restructure"
+
+  referencing:
+    description: "Operator path references and exports"
+    complexity: "basic"
+    families: ["all"]
+    confidence: 0.95
+    reference: "td_python.yaml"
+    path_types:
+      - type: "absolute"
+        syntax: "/project1/container1/op1"
+      - type: "relative sibling"
+        syntax: "op('name')"
+      - type: "relative parent"
+        syntax: "op('../name')"
+      - type: "relative child"
+        syntax: "op('./child/name')"
+    special:
+      - "me"
+      - "me.parent()"
+      - "parent.Name"
+    common_errors:
+      - error: "None returned"
+        cause: "Path doesn't exist"
+        fix: "Check operator exists and path is correct"
+      - error: "Stale reference"
+        cause: "Operator was renamed or moved"
+        fix: "Update all references to new path"
+
+  # BUG-008 FIX: Select CHOP channames parameter documentation
+  select_chop_channel_selection:
+    description: "Select specific channels from CHOP outputs using patterns"
+    complexity: "easy"
+    families: ["CHOP"]
+    confidence: 0.95
+    canonical_type: "CHOP:select"
+    channames_parameter:
+      description: "Channel Names parameter - specifies which channels to select"
+      format: string
+      CRITICAL_NOTE: "Use SPACE-separated names, NOT commas!"
+      syntax:
+        space_separated:
+          description: "Multiple specific channels"
+          example: "chan1 chan2 chan3"
+          result: "Selects exactly chan1, chan2, chan3"
+        wildcards:
+          description: "Pattern matching with * and ?"
+          examples:
+            - pattern: "t*"
+              matches: "tx, ty, tz (all starting with t)"
+            - pattern: "*x"
+              matches: "tx, rx, sx (all ending with x)"
+            - pattern: "*"
+              matches: "all channels"
+            - pattern: "chan?"
+              matches: "chan1, chan2, etc. (? = single char)"
+        ranges:
+          description: "Numeric and character ranges"
+          examples:
+            - pattern: "chan[1-5]"
+              result: "chan1, chan2, chan3, chan4, chan5"
+            - pattern: "v[41-100]"
+              result: "v41 through v100"
+            - pattern: "color[rgba]"
+              result: "colorr, colorg, colorb, colora (character expansion)"
+            - pattern: "t[xyz]"
+              result: "tx, ty, tz"
+        path_patterns:
+          description: "Select from specific operator paths"
+          example: "/project1/geo1:t[xyz]"
+          note: "Use colon : to separate path from channel pattern"
+      common_errors:
+        - error: "No channels selected"
+          cause: "Using commas instead of spaces"
+          wrong: "tx,ty,tz"
+          correct: "tx ty tz"
+        - error: "Channel not found"
+          cause: "Typo in channel name or pattern"
+          fix: "Check exact channel names in source CHOP"
+        - error: "Order matters"
+          note: "Output order matches the order in channames parameter"
+          example: "ty tx tz → outputs in that order"
+      examples:
+        - name: "Select transform channels"
+          channames: "tx ty tz"
+          use_case: "Get translation from transform CHOP"
+        - name: "Select all rotation"
+          channames: "r*"
+          use_case: "Get rx, ry, rz"
+        - name: "Select specific range"
+          channames: "chan[1-8]"
+          use_case: "Get channels 1-8 from multi-channel source"
+        - name: "Duplicate channels"
+          channames: "chan1 chan1 chan1"
+          use_case: "Output same channel 3 times"
+
+refreshed_from_state: expertise_state.yaml
+state_checksum: ffa509da00b227c9

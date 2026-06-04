@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://touchdesigner.dev/schemas/unified_v2.schema.json",
+  "title": "TouchDesigner Unified Network Specification v2.0",
+  "description": "Extended format - ground truth for TouchDesigner networks with complete operator data",
+  "type": "object",
+
+  "required": ["format_version", "format_layer", "metadata", "operators"],
+
+  "properties": {
+    "format_version": {
+      "type": "string",
+      "const": "2.0.0",
+      "description": "Schema version"
+    },
+
+    "format_layer": {
+      "type": "string",
+      "enum": ["builder", "extended", "canonical", "lossless"],
+      "description": "Which layer this JSON represents"
+    },
+
+    "metadata": {
+      "type": "object",
+      "required": ["project_name", "mode"],
+      "properties": {
+        "project_name": {
+          "type": "string",
+          "description": "Project name"
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["toe", "tox"],
+          "description": "File type"
+        },
+        "root_comp": {
+          "type": "string",
+          "default": "project1",
+          "description": "Root component path"
+        },
+        "td_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "description": "TouchDesigner version (e.g., 2023.11760)"
+        },
+        "build_number": {
+          "type": "string",
+          "description": "Build number"
+        },
+        "build_date": {
+          "type": "string",
+          "description": "Build timestamp"
+        },
+        "cookrate": {
+          "type": "integer",
+          "default": 60,
+          "minimum": 1,
+          "description": "Project cook rate (fps)"
+        },
+        "realtime": {
+          "type": "boolean",
+          "default": true,
+          "description": "Realtime mode enabled"
+        },
+        "description": {
+          "type": "string",
+          "description": "Project description"
+        },
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Project tags"
+        },
+        "author": {
+          "type": "string",
+          "description": "Project author"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      }
+    },
+
+    "operators": {
+      "type": "array",
+      "description": "Array of all operators in the network",
+      "items": {
+        "$ref": "#/definitions/operator"
+      }
+    },
+
+    "connections": {
+      "type": "array",
+      "description": "Array of all connections between operators",
+      "items": {
+        "$ref": "#/definitions/connection"
+      }
+    },
+
+    "lossless_data": {
+      "type": "object",
+      "description": "Layer 4: Complete file preservation data",
+      "properties": {
+        "raw_files": {
+          "type": "object",
+          "description": "Files not part of operators (.build, .start, etc.)",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "content": {"type": "string"},
+              "is_binary": {"type": "boolean"},
+              "encoding": {"type": "string", "default": "utf-8"}
+            },
+            "required": ["content"]
+          }
+        },
+        "toc_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Exact .toc file ordering for perfect round-trip"
+        }
+      }
+    },
+
+    "canonical_data": {
+      "type": "object",
+      "description": "Layer 3: String table compression data",
+      "properties": {
+        "string_table": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Deduplicated strings for compression"
+        },
+        "compressed_nodes": {
+          "type": "array",
+          "description": "Array-based node records with string indices"
+        }
+      }
+    },
+
+    "statistics": {
+      "type": "object",
+      "description": "Network statistics",
+      "properties": {
+        "total_operators": {"type": "integer"},
+        "total_connections": {"type": "integer"},
+        "total_parameters": {"type": "integer"},
+        "max_depth": {"type": "integer"},
+        "by_family": {
+          "type": "object",
+          "additionalProperties": {"type": "integer"}
+        },
+        "by_type": {
+          "type": "object",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "operator": {
+      "type": "object",
+      "required": ["path", "name", "family", "type"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_/]+$",
+          "description": "Absolute operator path (e.g., /project1/noise1)"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+          "description": "Operator name (must be valid identifier)"
+        },
+        "parent": {
+          "type": "string",
+          "description": "Parent operator path"
+        },
+        "family": {
+          "type": "string",
+          "enum": ["CHOP", "TOP", "SOP", "MAT", "DAT", "COMP", "POP"],
+          "description": "Operator family"
+        },
+        "type": {
+          "type": "string",
+          "description": "Specific operator type (e.g., noise, render, container)"
+        },
+        "op_type": {
+          "type": "string",
+          "pattern": "^(CHOP|TOP|SOP|MAT|DAT|COMP|POP):[a-z0-9]+$",
+          "description": "Full operator type (FAMILY:type)"
+        },
+
+        "position": {
+          "type": "object",
+          "description": "Operator position in network editor",
+          "properties": {
+            "viewport": {
+              "type": "array",
+              "items": {"type": "number"},
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Viewport position [x, y, z]"
+            },
+            "tile": {
+              "type": "array",
+              "items": {"type": "integer"},
+              "minItems": 4,
+              "maxItems": 4,
+              "description": "Tile position [x, y, width, height]"
+            }
+          }
+        },
+
+        "appearance": {
+          "type": "object",
+          "description": "Visual appearance settings",
+          "properties": {
+            "color": {
+              "type": "array",
+              "items": {"type": "number", "minimum": 0, "maximum": 1},
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "RGB color [r, g, b]"
+            },
+            "node_shape": {
+              "type": "string",
+              "description": "Node shape"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Node comment"
+            }
+          }
+        },
+
+        "flags": {
+          "type": "object",
+          "description": "Operator flags",
+          "properties": {
+            "display": {
+              "type": "boolean",
+              "default": false,
+              "description": "Display flag (blue)"
+            },
+            "render": {
+              "type": "boolean",
+              "default": false,
+              "description": "Render flag (purple)"
+            },
+            "bypass": {
+              "type": "boolean",
+              "default": false,
+              "description": "Bypass flag"
+            },
+            "lock": {
+              "type": "boolean",
+              "default": false,
+              "description": "Lock flag"
+            },
+            "viewer": {
+              "type": "boolean",
+              "default": false,
+              "description": "Viewer active"
+            },
+            "current": {
+              "type": "boolean",
+              "default": false,
+              "description": "Current operator"
+            }
+          }
+        },
+
+        "parameters": {
+          "type": "object",
+          "description": "Operator parameters (non-default values)",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": ["string", "number", "boolean"],
+                "description": "Simple parameter value"
+              },
+              {
+                "type": "object",
+                "description": "Parameter with expression",
+                "properties": {
+                  "value": {
+                    "description": "Constant value"
+                  },
+                  "expression": {
+                    "type": "string",
+                    "description": "Expression string"
+                  },
+                  "language": {
+                    "type": "string",
+                    "enum": ["python", "tscript"],
+                    "default": "python",
+                    "description": "Expression language"
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": ["constant", "expression", "export", "bind"],
+                    "default": "constant",
+                    "description": "Parameter mode"
+                  },
+                  "td_mode": {
+                    "type": "integer",
+                    "description": "TouchDesigner numeric parameter mode (as stored in .parm files)"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Multi-component parameter (vector)",
+                "patternProperties": {
+                  "^[0-9]+$": {
+                    "type": ["string", "number"],
+                    "description": "Component value by index"
+                  }
+                }
+              },
+              {
+                "type": "array",
+                "description": "Vector parameter as array",
+                "items": {"type": ["string", "number"]}
+              }
+            ]
+          }
+        },
+
+        "inputs": {
+          "type": "array",
+          "description": "Input connections",
+          "items": {
+            "type": "object",
+            "required": ["index", "src"],
+            "properties": {
+              "index": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Input index (0-based)"
+              },
+              "src": {
+                "type": "string",
+                "description": "Source operator name (local) or path"
+              },
+              "src_path": {
+                "type": "string",
+                "description": "Absolute source operator path"
+              },
+              "src_output": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Source output index"
+              }
+            }
+          }
+        },
+
+        "children": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Child operator paths (for COMP operators)"
+        },
+
+        "extra_files": {
+          "type": "object",
+          "description": "Extra files attached to operator (.txt, .py, .glsl, etc.)",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "content": {"type": "string"},
+              "is_binary": {"type": "boolean", "default": false},
+              "encoding": {"type": "string", "default": "utf-8"}
+            },
+            "required": ["content"]
+          }
+        },
+
+        "custom_data": {
+          "type": "object",
+          "description": "User-defined metadata",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "connection": {
+      "type": "object",
+      "required": ["from", "to"],
+      "description": "Wire connection between operators",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "Source operator path"
+        },
+        "to": {
+          "type": "string",
+          "description": "Target operator path"
+        },
+        "from_output": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Source output index"
+        },
+        "to_input": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Target input index"
+        }
+      }
+    }
+  }
+}

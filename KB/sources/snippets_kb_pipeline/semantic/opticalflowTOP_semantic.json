@@ -1,0 +1,208 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\opticalflowTOP_lossless.json",
+  "operator_type": "opticalflowTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 2,
+            "tz": 5,
+            "projection": "ortho",
+            "orthowidth": 1
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "line1"
+          }
+        },
+        {
+          "name": "res1",
+          "type": "TOP:res",
+          "parameters": {
+            "pageindex": 1,
+            "highqualresize": "on",
+            "outputresolution": "custom"
+          }
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "pageindex": 1,
+            "tops": "\"render1 source\"",
+            "operand": "over",
+            "size": "input1"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {}
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "videodevin1",
+            "iscope": "\"aspectx aspecty\""
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "pageindex": 1,
+            "drawpoints": "on",
+            "drawvectors": "on",
+            "vecendcaptype": "arrow",
+            "arrowwidth": 2.05,
+            "arrowheight": 3.18,
+            "endcappullback": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "chopto1"
+          }
+        },
+        {
+          "name": "source",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "res1",
+            "b": "\"\"",
+            "a": "\"\"",
+            "singleset": "on",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "filter1",
+            "chanscope": "\"r g\"",
+            "attscope": "\"N(0) N(1)\""
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.2,
+            "filterpersample": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "uvunwrapcoordattrib": "uv"
+          }
+        },
+        {
+          "name": "settings",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        },
+        {
+          "name": "videodevin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||\\\\\\\\?\\\\usb#vid_1532&pid_0e05&mi_00#9&ccab91&1&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global|||0|||0|||USB Video Device\"",
+            "precedence": "even",
+            "signalformat": "f1920x1080p-30.00hz"
+          }
+        },
+        {
+          "name": "opticalflow1",
+          "type": "TOP:opticalflow",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "opticalflow1",
+          "to": "res1",
+          "to_input": "0"
+        },
+        {
+          "from": "videodevin1",
+          "to": "source",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "chopto1",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "source",
+          "to": "opticalflow1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 5,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "TOP:res": 1,
+          "TOP:comp": 1,
+          "SOP:grid": 1,
+          "CHOP:info": 1,
+          "MAT:line": 1,
+          "DAT:text": 1,
+          "DAT:sopto": 1,
+          "TOP:null": 1,
+          "CHOP:topto": 1,
+          "SOP:chopto": 1,
+          "CHOP:filter": 1,
+          "TOP:render": 1,
+          "COMP:base": 1,
+          "TOP:videodevin": 1,
+          "TOP:opticalflow": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

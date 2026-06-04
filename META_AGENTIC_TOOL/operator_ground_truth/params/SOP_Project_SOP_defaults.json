@@ -1,0 +1,362 @@
+{
+  "operator": "Project_SOP",
+  "family": "SOP",
+  "td_create_name": "projectSOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "facegroup": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Project",
+      "label": "Face Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "surfgroup": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Project",
+      "label": "Surface Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "cycle": {
+      "value": {
+        "type": "menu",
+        "value": "allseq",
+        "menuIndex": 0,
+        "menuNames": [
+          "allseq",
+          "allover",
+          "oneeach",
+          "cycled"
+        ],
+        "menuLabels": [
+          "All on Each Surface in Sequence",
+          "All on Each Surface Overlapping",
+          "One per Surface",
+          "Cycled"
+        ]
+      },
+      "default": "allseq",
+      "page": "Project",
+      "label": "Cycle Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "vector",
+        "menuIndex": 0,
+        "menuNames": [
+          "vector",
+          "parametric"
+        ],
+        "menuLabels": [
+          "Along Vector",
+          "Parametrically"
+        ]
+      },
+      "default": "vector",
+      "page": "Method",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "axis": {
+      "value": {
+        "type": "menu",
+        "value": "zaxis",
+        "menuIndex": 2,
+        "menuNames": [
+          "xaxis",
+          "yaxis",
+          "zaxis",
+          "fnorm",
+          "mindist",
+          "other"
+        ],
+        "menuLabels": [
+          "X",
+          "Y",
+          "Z",
+          "Face Normal",
+          "Minimum Distance",
+          "User Defined:"
+        ]
+      },
+      "default": "zaxis",
+      "page": "Method",
+      "label": "Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "vector1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Method",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "vector2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Method",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "vector3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Method",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "projside": {
+      "value": {
+        "type": "menu",
+        "value": "closest",
+        "menuIndex": 0,
+        "menuNames": [
+          "closest",
+          "farthest"
+        ],
+        "menuLabels": [
+          "Closest",
+          "Farthest"
+        ]
+      },
+      "default": "closest",
+      "page": "Method",
+      "label": "Side",
+      "readOnly": false,
+      "expression": null
+    },
+    "sdivs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Method",
+      "label": "Divisions per Span",
+      "readOnly": false,
+      "expression": null
+    },
+    "rtolerance": {
+      "value": {
+        "type": "float",
+        "value": 0.01
+      },
+      "default": 0.01,
+      "page": "Method",
+      "label": "Ray Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "ftolerance": {
+      "value": {
+        "type": "float",
+        "value": 0.001
+      },
+      "default": 0.001,
+      "page": "Method",
+      "label": "Fit Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "uvgap": {
+      "value": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "default": 0.10000000149011612,
+      "page": "Method",
+      "label": "Max UV Gap (%)",
+      "readOnly": false,
+      "expression": null
+    },
+    "order": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Method",
+      "label": "Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "csharp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Method",
+      "label": "Preserve Sharp Corners",
+      "readOnly": false,
+      "expression": null
+    },
+    "accurate": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Method",
+      "label": "Super Accurate Projection",
+      "readOnly": false,
+      "expression": null
+    },
+    "ufrom": {
+      "value": {
+        "type": "menu",
+        "value": "uvx",
+        "menuIndex": 0,
+        "menuNames": [
+          "uvx",
+          "uvy",
+          "uvz"
+        ],
+        "menuLabels": [
+          "X Coordinate",
+          "Y Coordinate",
+          "Z Coordinate"
+        ]
+      },
+      "default": "uvx",
+      "page": "Method",
+      "label": "U from",
+      "readOnly": false,
+      "expression": null
+    },
+    "vfrom": {
+      "value": {
+        "type": "menu",
+        "value": "uvy",
+        "menuIndex": 1,
+        "menuNames": [
+          "uvx",
+          "uvy",
+          "uvz"
+        ],
+        "menuLabels": [
+          "X Coordinate",
+          "Y Coordinate",
+          "Z Coordinate"
+        ]
+      },
+      "default": "uvy",
+      "page": "Method",
+      "label": "V from",
+      "readOnly": false,
+      "expression": null
+    },
+    "userange": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Method",
+      "label": "Map Profile to Range:",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Method",
+      "label": "U Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "Method",
+      "label": "U Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Method",
+      "label": "V Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "Method",
+      "label": "V Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "maptype": {
+      "value": {
+        "type": "menu",
+        "value": "unif",
+        "menuIndex": 0,
+        "menuNames": [
+          "unif",
+          "chordlen"
+        ],
+        "menuLabels": [
+          "Uniform",
+          "Chord Length"
+        ]
+      },
+      "default": "unif",
+      "page": "Method",
+      "label": "Mapping Type",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

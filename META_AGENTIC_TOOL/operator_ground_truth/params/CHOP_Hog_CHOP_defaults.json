@@ -1,0 +1,186 @@
+{
+  "operator": "Hog_CHOP",
+  "family": "CHOP",
+  "td_create_name": "hogCHOP",
+  "param_count": 13,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Null",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "cookalways": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Null",
+      "label": "Cook Every Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "delay": {
+      "value": {
+        "type": "float",
+        "value": 0.01
+      },
+      "default": 0.01,
+      "page": "Null",
+      "label": "Delay",
+      "readOnly": false,
+      "expression": null
+    },
+    "delayunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Null",
+      "label": "Delay Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

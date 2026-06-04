@@ -1,0 +1,180 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\projectionPOP_lossless.json",
+  "operator_type": "projectionPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "POP:box",
+          "parameters": {}
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "amp": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "sprinkle1",
+          "type": "POP:sprinkle",
+          "parameters": {
+            "method": "volnondeterministic"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "transform3",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "transform4",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "projection4",
+          "type": "POP:projection",
+          "parameters": {
+            "fromcoordsys": "cartesian",
+            "tocoordsys": "spherical",
+            "angunit": "rad"
+          }
+        },
+        {
+          "name": "projection5",
+          "type": "POP:projection",
+          "parameters": {
+            "angunit": "rad"
+          }
+        },
+        {
+          "name": "projection6",
+          "type": "POP:projection",
+          "parameters": {
+            "angunit": "rad"
+          }
+        },
+        {
+          "name": "projection7",
+          "type": "POP:projection",
+          "parameters": {
+            "angunit": "rad"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box1",
+          "to": "sprinkle1",
+          "to_input": "0"
+        },
+        {
+          "from": "projection4",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "projection4",
+          "to": "transform3",
+          "to_input": "0"
+        },
+        {
+          "from": "projection4",
+          "to": "transform4",
+          "to_input": "0"
+        },
+        {
+          "from": "sprinkle1",
+          "to": "projection4",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "projection5",
+          "to_input": "0"
+        },
+        {
+          "from": "transform3",
+          "to": "projection6",
+          "to_input": "0"
+        },
+        {
+          "from": "transform4",
+          "to": "projection7",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 8,
+        "operator_types": {
+          "POP:box": 1,
+          "CHOP:lfo": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 4,
+          "POP:sprinkle": 1,
+          "POP:transform": 3,
+          "POP:projection": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

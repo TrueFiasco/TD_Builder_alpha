@@ -1,0 +1,321 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\dmxoutPOP_lossless.json",
+  "operator_type": "dmxoutPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "dmxmap1",
+          "type": "DAT:dmxmap",
+          "parameters": {
+            "dmxpop": "dmxout1",
+            "excludeunused": "on"
+          }
+        },
+        {
+          "name": "dmxout1",
+          "type": "POP:dmxout",
+          "parameters": {
+            "fixture0pop": "dmxfixture_light",
+            "routingtable": "dmxout1_routingtable",
+            "fixture1active": "on",
+            "fixture1pop": "dmxfixture_movingHead"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "dmxout1_dmxmap",
+          "type": "DAT:dmxmap",
+          "parameters": {
+            "dmxpop": "dmxout1",
+            "excludeunused": "on"
+          }
+        },
+        {
+          "name": "point_fixture1",
+          "type": "POP:point",
+          "parameters": {
+            "attr0customname": "RGB",
+            "attr0numcomps": 3,
+            "attr1name": "custom",
+            "attr1customname": "Dimmer",
+            "attr1type": "float",
+            "attr1numcomps": 1
+          }
+        },
+        {
+          "name": "point_fixture2",
+          "type": "POP:point",
+          "parameters": {
+            "attr0customname": "Pan_Tilt",
+            "attr0numcomps": 2,
+            "attr1name": "custom",
+            "attr1customname": "RGB",
+            "attr1type": "float",
+            "attr1numcomps": 3,
+            "attr2name": "custom",
+            "attr2customname": "Dimmer",
+            "attr2type": "float",
+            "attr2numcomps": 1
+          }
+        },
+        {
+          "name": "dmxfixture_light",
+          "type": "POP:dmxfixture",
+          "parameters": {
+            "pageindex": 1,
+            "routingtable": "dmxfixture2_routingtable",
+            "dmxchan0name": "RGB",
+            "dmxchan0attr": "RGB"
+          }
+        },
+        {
+          "name": "dmxout1_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "dmxfixture_movingHead",
+          "type": "POP:dmxfixture",
+          "parameters": {
+            "routingtable": "dmxfixture2_routingtable1",
+            "universe": 1,
+            "dmxchan0name": "PanTilt",
+            "dmxchan0attr": "Pan_Tilt",
+            "dmxchan0valueres": "b16",
+            "dmxchan1name": "RGB",
+            "dmxchan1valuetype": "point",
+            "dmxchan1valuesource": "attribute",
+            "dmxchan1group": "\"\"",
+            "dmxchan1numcomps": 1,
+            "dmxchan1attr": "RGB",
+            "dmxchan1valueres": "b8",
+            "dmxchan1normalized": "on"
+          }
+        },
+        {
+          "name": "dmxfixture2_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "dmxfixture2_routingtable1",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "point_fixture1",
+          "to": "dmxfixture_light",
+          "to_input": "0"
+        },
+        {
+          "from": "point_fixture2",
+          "to": "dmxfixture_movingHead",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:dmxmap": 2,
+          "POP:dmxout": 1,
+          "COMP:annotate": 1,
+          "POP:point": 2,
+          "POP:dmxfixture": 2,
+          "DAT:table": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "dmxmap1",
+          "type": "DAT:dmxmap",
+          "parameters": {
+            "dmxpop": "dmxout1",
+            "excludeunused": "on"
+          }
+        },
+        {
+          "name": "dmxout1",
+          "type": "POP:dmxout",
+          "parameters": {
+            "fixture0pop": "dmxfixture_light",
+            "routingtable": "dmxout1_routingtable",
+            "usemultipliers": "on",
+            "multiplier0dmxchannels": "Dimmer",
+            "fixture1active": "on",
+            "fixture1pop": "dmxfixture_movingHead"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "dmxout1_dmxmap",
+          "type": "DAT:dmxmap",
+          "parameters": {
+            "dmxpop": "dmxout1",
+            "excludeunused": "on"
+          }
+        },
+        {
+          "name": "point_fixture1",
+          "type": "POP:point",
+          "parameters": {
+            "attr0customname": "RGB",
+            "attr0numcomps": 3,
+            "attr1name": "custom",
+            "attr1customname": "Dimmer",
+            "attr1type": "float",
+            "attr1numcomps": 1
+          }
+        },
+        {
+          "name": "point_fixture2",
+          "type": "POP:point",
+          "parameters": {
+            "attr0customname": "Pan_Tilt",
+            "attr0numcomps": 2,
+            "attr1name": "custom",
+            "attr1customname": "RGB",
+            "attr1type": "float",
+            "attr1numcomps": 3,
+            "attr2name": "custom",
+            "attr2customname": "Dimmer",
+            "attr2type": "float",
+            "attr2numcomps": 1
+          }
+        },
+        {
+          "name": "dmxfixture_light",
+          "type": "POP:dmxfixture",
+          "parameters": {
+            "pageindex": 1,
+            "routingtable": "dmxfixture2_routingtable",
+            "dmxchan0name": "RGB",
+            "dmxchan0attr": "RGB",
+            "dmxchan1name": "Dimmer",
+            "dmxchan1valuetype": "point",
+            "dmxchan1valuesource": "attribute",
+            "dmxchan1group": "\"\"",
+            "dmxchan1numcomps": 1,
+            "dmxchan1attr": "Dimmer",
+            "dmxchan1valueres": "b8",
+            "dmxchan1normalized": "on"
+          }
+        },
+        {
+          "name": "dmxout1_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "dmxfixture_movingHead",
+          "type": "POP:dmxfixture",
+          "parameters": {
+            "pageindex": 1,
+            "routingtable": "dmxfixture2_routingtable1",
+            "universe": 1,
+            "dmxchan0name": "PanTilt",
+            "dmxchan0attr": "Pan_Tilt",
+            "dmxchan0valueres": "b16",
+            "dmxchan1name": "RGB",
+            "dmxchan1valuetype": "point",
+            "dmxchan1valuesource": "attribute",
+            "dmxchan1group": "\"\"",
+            "dmxchan1numcomps": 1,
+            "dmxchan1attr": "RGB",
+            "dmxchan1valueres": "b8",
+            "dmxchan1normalized": "on",
+            "dmxchan2name": "Dimmer",
+            "dmxchan2valuetype": "point",
+            "dmxchan2valuesource": "attribute",
+            "dmxchan2group": "\"\"",
+            "dmxchan2numcomps": 1,
+            "dmxchan2attr": "Dimmer",
+            "dmxchan2valueres": "b8",
+            "dmxchan2normalized": "on"
+          }
+        },
+        {
+          "name": "dmxfixture2_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "dmxfixture2_routingtable1",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "point_fixture1",
+          "to": "dmxfixture_light",
+          "to_input": "0"
+        },
+        {
+          "from": "point_fixture2",
+          "to": "dmxfixture_movingHead",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:dmxmap": 2,
+          "POP:dmxout": 1,
+          "COMP:annotate": 1,
+          "POP:point": 2,
+          "POP:dmxfixture": 2,
+          "DAT:table": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "operator": "Audio_Spectrum_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiospectrumCHOP",
+  "param_count": 15,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "mode": {
+      "value": {
+        "type": "menu",
+        "value": "visual",
+        "menuIndex": 0,
+        "menuNames": [
+          "visual",
+          "timetoraw",
+          "rawtotime"
+        ],
+        "menuLabels": [
+          "Visualization",
+          "Time to Magnitude and Phase",
+          "Magnitude and Phase to Time"
+        ]
+      },
+      "default": "visual",
+      "page": "Spectrum",
+      "label": "Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "fftsize": {
+      "value": {
+        "type": "menu",
+        "value": "8192",
+        "menuIndex": 7,
+        "menuNames": [
+          "64",
+          "128",
+          "256",
+          "512",
+          "1024",
+          "2048",
+          "4096",
+          "8192",
+          "16384"
+        ],
+        "menuLabels": [
+          "64",
+          "128",
+          "256",
+          "512",
+          "1024",
+          "2048",
+          "4096",
+          "8192",
+          "16384"
+        ]
+      },
+      "default": "8192",
+      "page": "Spectrum",
+      "label": "FFT Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "frequencylog": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Spectrum",
+      "label": "Frequency <-> Logarithmic Scaling",
+      "readOnly": false,
+      "expression": null
+    },
+    "highfreqboost": {
+      "value": {
+        "type": "float",
+        "value": 0.75
+      },
+      "default": 0.75,
+      "page": "Spectrum",
+      "label": "High Frequency Boost",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputmenu": {
+      "value": {
+        "type": "menu",
+        "value": "matchtofrequency",
+        "menuIndex": 0,
+        "menuNames": [
+          "matchtofrequency",
+          "setmanually"
+        ],
+        "menuLabels": [
+          "Match Length To Frequency",
+          "Set Length Manually"
+        ]
+      },
+      "default": "matchtofrequency",
+      "page": "Spectrum",
+      "label": "Output Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "outlength": {
+      "value": {
+        "type": "int",
+        "value": 2048
+      },
+      "default": 2048,
+      "page": "Spectrum",
+      "label": "Set Output Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

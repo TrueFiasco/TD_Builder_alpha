@@ -1,0 +1,156 @@
+{
+  "operator": "Stretch_CHOP",
+  "family": "CHOP",
+  "td_create_name": "stretchCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "interp": {
+      "type": "menu",
+      "value": "cubic",
+      "menuIndex": 2,
+      "menuNames": [
+        "nointerp",
+        "linear",
+        "cubic",
+        "edge",
+        "repeat"
+      ],
+      "menuLabels": [
+        "No Interpolation",
+        "Linear",
+        "Cubic",
+        "Pulse Preserve",
+        "Repeat Samples"
+      ]
+    },
+    "constarea": {
+      "type": "toggle",
+      "value": true
+    },
+    "relative": {
+      "type": "menu",
+      "value": "cur",
+      "menuIndex": 2,
+      "menuNames": [
+        "abs",
+        "rel",
+        "cur"
+      ],
+      "menuLabels": [
+        "Absolute",
+        "Relative to Start/End",
+        "Relative to Current Frame"
+      ]
+    },
+    "start": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "startunit": {
+      "type": "menu",
+      "value": "frames",
+      "menuIndex": 1,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "end": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "endunit": {
+      "type": "menu",
+      "value": "frames",
+      "menuIndex": 1,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "scale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "reverse": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

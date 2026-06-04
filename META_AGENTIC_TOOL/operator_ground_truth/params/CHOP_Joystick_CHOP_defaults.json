@@ -1,0 +1,412 @@
+{
+  "operator": "Joystick_CHOP",
+  "family": "CHOP",
+  "td_create_name": "joystickCHOP",
+  "param_count": 31,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Control",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "source": {
+      "value": {
+        "type": "string",
+        "value": "default"
+      },
+      "default": "default",
+      "page": "Control",
+      "label": "Joystick Source",
+      "readOnly": false,
+      "expression": null
+    },
+    "axisrange": {
+      "value": {
+        "type": "menu",
+        "value": "negoneone",
+        "menuIndex": 0,
+        "menuNames": [
+          "negoneone",
+          "zeroone"
+        ],
+        "menuLabels": [
+          "[-1, 1]",
+          "[0, 1]"
+        ]
+      },
+      "default": "negoneone",
+      "page": "Control",
+      "label": "Axis Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "xaxis": {
+      "value": {
+        "type": "string",
+        "value": "xaxis"
+      },
+      "default": "xaxis",
+      "page": "Control",
+      "label": "X Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "yaxis": {
+      "value": {
+        "type": "string",
+        "value": "yaxis"
+      },
+      "default": "yaxis",
+      "page": "Control",
+      "label": "Y Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "yaxisinvert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Control",
+      "label": "Invert Y Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "zaxis": {
+      "value": {
+        "type": "string",
+        "value": "zaxis"
+      },
+      "default": "zaxis",
+      "page": "Control",
+      "label": "Z Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "xrot": {
+      "value": {
+        "type": "string",
+        "value": "xrot"
+      },
+      "default": "xrot",
+      "page": "Control",
+      "label": "X Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "yrot": {
+      "value": {
+        "type": "string",
+        "value": "yrot"
+      },
+      "default": "yrot",
+      "page": "Control",
+      "label": "Y Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "yrotinvert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Control",
+      "label": "Invert Y Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "zrot": {
+      "value": {
+        "type": "string",
+        "value": "zrot"
+      },
+      "default": "zrot",
+      "page": "Control",
+      "label": "Z Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "slider0": {
+      "value": {
+        "type": "string",
+        "value": "slider1"
+      },
+      "default": "slider1",
+      "page": "Control",
+      "label": "Slider 1",
+      "readOnly": false,
+      "expression": null
+    },
+    "slider1": {
+      "value": {
+        "type": "string",
+        "value": "slider2"
+      },
+      "default": "slider2",
+      "page": "Control",
+      "label": "Slider 2",
+      "readOnly": false,
+      "expression": null
+    },
+    "buttonarray": {
+      "value": {
+        "type": "string",
+        "value": "b[1-6]"
+      },
+      "default": "b[1-6]",
+      "page": "Control",
+      "label": "Button Array",
+      "readOnly": false,
+      "expression": null
+    },
+    "povarrray": {
+      "value": {
+        "type": "string",
+        "value": "p1"
+      },
+      "default": "p1",
+      "page": "Control",
+      "label": "POV Hat Array",
+      "readOnly": false,
+      "expression": null
+    },
+    "povstatearray": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Control",
+      "label": "POV Hat State Array",
+      "readOnly": false,
+      "expression": null
+    },
+    "connected": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Control",
+      "label": "Connected",
+      "readOnly": false,
+      "expression": null
+    },
+    "axisdeadzone": {
+      "value": {
+        "type": "float",
+        "value": 0.07
+      },
+      "default": 0.07,
+      "page": "Control",
+      "label": "Axis Dead Zone",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Channel",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "left": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "hold",
+      "page": "Channel",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "right": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "hold",
+      "page": "Channel",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "defval": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Channel",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

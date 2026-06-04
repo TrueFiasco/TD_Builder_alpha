@@ -1,0 +1,647 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\transformTOP_lossless.json",
+  "operator_type": "transformTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 60
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "transform_pivot1",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "transform_pivot2",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "transform_pivot1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "transform_pivot2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:constant": 1,
+          "DAT:table": 1,
+          "TOP:transform": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "tx": 0.3
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "xord": "tsr",
+            "tx": 0.3
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "transform_order1",
+          "type": "TOP:transform",
+          "parameters": {
+            "tx": 0.25,
+            "ty": 0.25,
+            "rotate": 45,
+            "sx": 1.2,
+            "sy": 0.5,
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "transform_order2",
+          "type": "TOP:transform",
+          "parameters": {
+            "xord": "trs",
+            "tx": 0.25,
+            "ty": 0.25,
+            "rotate": 45,
+            "sx": 1.2,
+            "sy": 0.5,
+            "limittiles": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "transform_order1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "transform_order2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:transform": 4,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "transform_compositing",
+          "type": "TOP:transform",
+          "parameters": {
+            "sx": 0.7,
+            "sy": 0.7,
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "transform_compositing1",
+          "type": "TOP:transform",
+          "parameters": {
+            "sx": 0.7,
+            "sy": 0.7,
+            "compover": "on",
+            "limittiles": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein4",
+          "to": "transform_compositing",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein4",
+          "to": "transform_compositing1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:transform": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed2",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "loop",
+            "max": 3,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviein5",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.2
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "transform_scaling",
+          "type": "TOP:transform",
+          "parameters": {
+            "sy": 1,
+            "limittiles": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed2",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "speed2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein5",
+          "to": "transform_scaling",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:constant": 1,
+          "DAT:table": 1,
+          "TOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "tile1",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "overlapu": 0.068,
+            "overlapv": 0.136
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "loop",
+            "max": 4,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.2
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "transform_mirror",
+          "type": "TOP:transform",
+          "parameters": {
+            "sx": 0.5,
+            "sy": 1,
+            "extend": "mirror",
+            "limittiles": "on",
+            "tileu1": -10,
+            "tileu2": 6,
+            "tilev1": -10,
+            "tilev2": 6
+          }
+        },
+        {
+          "name": "transform_repeat",
+          "type": "TOP:transform",
+          "parameters": {
+            "sx": 0.5,
+            "sy": 1,
+            "limittiles": "on",
+            "tileu1": -10,
+            "tileu2": 6,
+            "tilev1": -10,
+            "tilev2": 6
+          }
+        },
+        {
+          "name": "transform_mirror1",
+          "type": "TOP:transform",
+          "parameters": {
+            "extend": "mirror",
+            "limittiles": "on",
+            "tileu1": -10,
+            "tileu2": 6,
+            "tilev1": -10,
+            "tilev2": 6
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "tile1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform_mirror",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform_repeat",
+          "to_input": "0"
+        },
+        {
+          "from": "tile1",
+          "to": "transform_mirror1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:null": 1,
+          "TOP:tile": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:constant": 1,
+          "DAT:table": 1,
+          "TOP:transform": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 80,
+            "resolutionh": 45,
+            "outputaspect": "resolution",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 80,
+            "resolutionh": 45,
+            "outputaspect": "resolution",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 80,
+            "resolutionh": 45,
+            "outputaspect": "resolution",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "transform4",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 80,
+            "resolutionh": 45,
+            "outputaspect": "resolution",
+            "inputfiltertype": "mipmap",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "transform_mipmap",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "sx": 0.1,
+            "sy": 0.1,
+            "extend": "repeat",
+            "outputaspect": "resolution",
+            "inputfiltertype": "mipmap",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "transform_noMipmap",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "sx": 0.1,
+            "sy": 0.1,
+            "extend": "repeat",
+            "outputaspect": "resolution",
+            "inputfiltertype": "nearest",
+            "filtertype": "nearest"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein3",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform_mipmap",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "transform_noMipmap",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:transform": 6
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

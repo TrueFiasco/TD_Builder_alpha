@@ -1,0 +1,281 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\listCOMP_lossless.json",
+  "operator_type": "listCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "List1",
+          "type": "COMP:list",
+          "parameters": {
+            "pageindex": 8,
+            "callbacks": "./callbacks",
+            "lockfirstrow": "on",
+            "w": 700,
+            "h": 400,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "opfind3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "opfind_readme_dats",
+          "type": "DAT:opfind",
+          "parameters": {
+            "pageindex": 2,
+            "tops": "off",
+            "chops": "off",
+            "sops": "off",
+            "namefilter": "readMe",
+            "typefilter": "textDAT",
+            "typecol": "off",
+            "pathcol": "on",
+            "relpathcol": "on",
+            "callbacks": "opfind3_callbacks",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:list": 1,
+          "DAT:text": 2,
+          "DAT:opfind": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "out1",
+          "type": "TOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "list1",
+          "type": "COMP:list",
+          "parameters": {
+            "callbacks": "list1_callbacks",
+            "w": 100,
+            "h": 100
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "hermite",
+            "rough": 0.25,
+            "constraint": "offset",
+            "constrmean": 0.5,
+            "end": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "TOP:chopto",
+          "parameters": {
+            "chop": "noise1",
+            "dataformat": "legacy"
+          }
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "red",
+            "displaceweighty": 0.1,
+            "displaceweightz": 1,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "list1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "displace1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto1",
+          "to": "displace1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:out": 1,
+          "COMP:list": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 2,
+          "TOP:chopto": 1,
+          "TOP:displace": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "out1",
+          "type": "TOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "list1",
+          "type": "COMP:list",
+          "parameters": {
+            "callbacks": "list1_callbacks",
+            "w": 100,
+            "h": 100
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "hermite",
+            "rough": 0.25,
+            "constraint": "offset",
+            "constrmean": 0.5,
+            "end": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "TOP:chopto",
+          "parameters": {
+            "chop": "noise1",
+            "dataformat": "legacy"
+          }
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "red",
+            "displaceweighty": 0.1,
+            "displaceweightz": 1,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "list1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "displace1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto1",
+          "to": "displace1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:out": 1,
+          "COMP:list": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 2,
+          "TOP:chopto": 1,
+          "TOP:displace": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

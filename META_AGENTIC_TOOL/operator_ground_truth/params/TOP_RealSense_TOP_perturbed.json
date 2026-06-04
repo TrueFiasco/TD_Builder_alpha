@@ -1,0 +1,429 @@
+{
+  "operator": "RealSense_TOP",
+  "family": "TOP",
+  "td_create_name": "realsenseTOP",
+  "param_count": 40,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "model": {
+      "type": "menu",
+      "value": "d435",
+      "menuIndex": 6,
+      "menuNames": [
+        "f200",
+        "r200",
+        "zr300",
+        "sr300",
+        "d405",
+        "d415",
+        "d435",
+        "d435i",
+        "d455",
+        "d455f",
+        "d456",
+        "d555"
+      ],
+      "menuLabels": [
+        "F200",
+        "R200",
+        "ZR300",
+        "SR300",
+        "D405",
+        "D415",
+        "D435",
+        "D435i",
+        "D455",
+        "D455f",
+        "D456",
+        "D555"
+      ]
+    },
+    "sensor": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "image": {
+      "type": "menu",
+      "value": "depth",
+      "menuIndex": 1,
+      "menuNames": [
+        "color",
+        "depth",
+        "rawdepth",
+        "depthalignedtocolor",
+        "coloralignedtodepth",
+        "infrared",
+        "pointcloud",
+        "pointcloudcoloruv"
+      ],
+      "menuLabels": [
+        "Color",
+        "Depth",
+        "Raw Depth",
+        "Depth Aligned to Color",
+        "Color Aligned to Depth",
+        "Infrared",
+        "Point Cloud",
+        "Point Cloud Color UVs"
+      ]
+    },
+    "colorres": {
+      "type": "string",
+      "value": "1920x1080_perturbed"
+    },
+    "maxdepth": {
+      "type": "float",
+      "value": 5.12345
+    },
+    "mirrorimage": {
+      "type": "toggle",
+      "value": true
+    },
+    "defaulttradeoff": {
+      "type": "toggle",
+      "value": false
+    },
+    "tradeoff": {
+      "type": "int",
+      "value": 2
+    },
+    "optionschop": {
+      "type": "op",
+      "value": ""
+    },
+    "applyfilter": {
+      "type": "toggle",
+      "value": true
+    },
+    "decimation": {
+      "type": "toggle",
+      "value": false
+    },
+    "decimationmagnitude": {
+      "type": "int",
+      "value": 3
+    },
+    "spatial": {
+      "type": "toggle",
+      "value": false
+    },
+    "spatialmagnitude": {
+      "type": "int",
+      "value": 3
+    },
+    "spatialsmoothalpha": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "spatialsmoothdelta": {
+      "type": "int",
+      "value": 21
+    },
+    "spatialholefilling": {
+      "type": "int",
+      "value": 1
+    },
+    "temporal": {
+      "type": "toggle",
+      "value": false
+    },
+    "temporalsmoothalpha": {
+      "type": "float",
+      "value": 0.52345
+    },
+    "temporalsmoothdelta": {
+      "type": "int",
+      "value": 21
+    },
+    "temporalpersistencyindex": {
+      "type": "menu",
+      "value": "validin2of8",
+      "menuIndex": 4,
+      "menuNames": [
+        "disabled",
+        "validin8of8",
+        "validin2oflast3",
+        "validin2oflast4",
+        "validin2of8",
+        "validin1oflast2",
+        "validin1oflast5",
+        "validin1oflast8",
+        "persistindefinitely"
+      ],
+      "menuLabels": [
+        "Disabled",
+        "Valid in 8/8",
+        "Valid in 2/last 3",
+        "Valid in 2/last 4",
+        "Valid in 2/8",
+        "Valid in 1/last 2",
+        "Valid in 1/last 5",
+        "Valid in 1/last 8",
+        "Persist Indefinitely"
+      ]
+    },
+    "holefilling": {
+      "type": "toggle",
+      "value": false
+    },
+    "holefillmode": {
+      "type": "menu",
+      "value": "nearestfromaround",
+      "menuIndex": 2,
+      "menuNames": [
+        "fillfromleft",
+        "farestfromaround",
+        "nearestfromaround"
+      ],
+      "menuLabels": [
+        "Fill From Left",
+        "Farest From Around",
+        "Nearest From Around"
+      ]
+    },
+    "outputresolution": {
+      "type": "menu",
+      "value": "eighth",
+      "menuIndex": 1,
+      "menuNames": [
+        "useinput",
+        "eighth",
+        "quarter",
+        "half",
+        "2x",
+        "4x",
+        "8x",
+        "fit",
+        "limit",
+        "custom",
+        "parpanel"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Eighth",
+        "Quarter",
+        "Half",
+        "2X",
+        "4X",
+        "8X",
+        "Fit Resolution",
+        "Limit Resolution",
+        "Custom Resolution",
+        "Parent Panel Size"
+      ]
+    },
+    "resolutionw": {
+      "type": "int",
+      "value": 257
+    },
+    "resolutionh": {
+      "type": "int",
+      "value": 257
+    },
+    "resmult": {
+      "type": "toggle",
+      "value": false
+    },
+    "outputaspect": {
+      "type": "menu",
+      "value": "resolution",
+      "menuIndex": 1,
+      "menuNames": [
+        "useinput",
+        "resolution",
+        "custom"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Resolution",
+        "Custom Aspect"
+      ]
+    },
+    "aspect1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "aspect2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "inputfiltertype": {
+      "type": "menu",
+      "value": "mipmap",
+      "menuIndex": 2,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmap"
+      ],
+      "menuLabels": [
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "Mipmap Pixels"
+      ]
+    },
+    "fillmode": {
+      "type": "menu",
+      "value": "outside",
+      "menuIndex": 5,
+      "menuNames": [
+        "useinput",
+        "fill",
+        "width",
+        "height",
+        "best",
+        "outside",
+        "nativeres"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Fill",
+        "Fit Horizontal",
+        "Fit Vertical",
+        "Fit Best",
+        "Fit Outside",
+        "Native Resolution"
+      ]
+    },
+    "filtertype": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 2,
+      "menuNames": [
+        "useinput",
+        "nearest",
+        "linear",
+        "mipmap"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "Mipmap Pixels"
+      ]
+    },
+    "npasses": {
+      "type": "int",
+      "value": 2
+    },
+    "chanmask": {
+      "type": "menu",
+      "value": "0",
+      "menuIndex": 0,
+      "menuNames": [],
+      "menuLabels": []
+    },
+    "format": {
+      "type": "menu",
+      "value": "rgba8fixed",
+      "menuIndex": 1,
+      "menuNames": [
+        "useinput",
+        "rgba8fixed",
+        "rgba16float",
+        "rgba32float",
+        "rgb10a2fixed",
+        "rgba16fixed",
+        "rgba11float",
+        "mono8fixed",
+        "mono16fixed",
+        "mono16float",
+        "mono32float",
+        "rg8fixed",
+        "rg16fixed",
+        "rg16float",
+        "rg32float",
+        "a8fixed",
+        "a16fixed",
+        "a16float",
+        "a32float",
+        "monoalpha8fixed",
+        "monoalpha16fixed",
+        "monoalpha16float",
+        "monoalpha32float"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "8-bit fixed (RGBA)",
+        "16-bit float (RGBA)",
+        "32-bit float (RGBA)",
+        "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+        "16-bit fixed (RGBA)",
+        "11-bit float (RGB), Positive Values Only",
+        "8-bit fixed (Mono)",
+        "16-bit fixed (Mono)",
+        "16-bit float (Mono)",
+        "32-bit float (Mono)",
+        "8-bit fixed (RG)",
+        "16-bit fixed (RG)",
+        "16-bit float (RG)",
+        "32-bit float (RG)",
+        "8-bit fixed (A)",
+        "16-bit fixed (A)",
+        "16-bit float (A)",
+        "32-bit float (A)",
+        "8-bit fixed (Mono+Alpha)",
+        "16-bit fixed (Mono+Alpha)",
+        "16-bit float (Mono+Alpha)",
+        "32-bit float (Mono+Alpha)"
+      ]
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

@@ -1,0 +1,892 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\functionCHOP_lossless.json",
+  "operator_type": "functionCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "seed": 0.39,
+            "period": 3.81
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "length": 100,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "amp": 2
+          }
+        },
+        {
+          "name": "function_abs",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "abs"
+          }
+        },
+        {
+          "name": "function_sign",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "sign"
+          }
+        },
+        {
+          "name": "function_sqrt",
+          "type": "CHOP:function",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern2",
+          "to": "function_abs",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "function_sign",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_sqrt",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:pattern": 2,
+          "CHOP:function": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "add1",
+          "type": "SOP:add",
+          "parameters": {
+            "addpts": "on",
+            "poly0pattern": "\"0 1 2\"",
+            "point1weight": 1,
+            "point2posx": 1,
+            "point2weight": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": -3.14,
+            "torange2": 3.14
+          }
+        },
+        {
+          "name": "pattern3",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": -2,
+            "torange2": 2
+          }
+        },
+        {
+          "name": "pattern4",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": -1,
+            "torange2": 1
+          }
+        },
+        {
+          "name": "pattern5",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange2": 200
+          }
+        },
+        {
+          "name": "function4",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "cosh"
+          }
+        },
+        {
+          "name": "function5",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "sinh"
+          }
+        },
+        {
+          "name": "function6",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "tanh"
+          }
+        },
+        {
+          "name": "constant_x",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.81
+          }
+        },
+        {
+          "name": "constant_y",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.5
+          }
+        },
+        {
+          "name": "function_cos",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "cos"
+          }
+        },
+        {
+          "name": "function_sin",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "sin"
+          }
+        },
+        {
+          "name": "function_tan",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "tan"
+          }
+        },
+        {
+          "name": "function_atan",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "atan"
+          }
+        },
+        {
+          "name": "function__atan",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "atan"
+          }
+        },
+        {
+          "name": "function_atan2",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "atan2"
+          }
+        },
+        {
+          "name": "pattern_0_to_10",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange2": 10
+          }
+        },
+        {
+          "name": "pattern_m10_to_0",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": -10
+          }
+        },
+        {
+          "name": "function1_sin_cycles",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "cos",
+            "angunit": "cycle"
+          }
+        },
+        {
+          "name": "function_inverse_cos",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "acos"
+          }
+        },
+        {
+          "name": "function_inverse_sin",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "asin"
+          }
+        },
+        {
+          "name": "function_inverse_tan",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "atan"
+          }
+        },
+        {
+          "name": "function_sin_radians",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "cos",
+            "angunit": "rad"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern5",
+          "to": "function4",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern5",
+          "to": "function5",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern5",
+          "to": "function6",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_cos",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_sin",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_tan",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_0_to_10",
+          "to": "function_atan",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_m10_to_0",
+          "to": "function__atan",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_y",
+          "to": "function_atan2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_x",
+          "to": "function_atan2",
+          "to_input": "1"
+        },
+        {
+          "from": "pattern3",
+          "to": "function1_sin_cycles",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "function_inverse_cos",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "function_inverse_sin",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "function_inverse_tan",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function_sin_radians",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 26,
+        "connection_count": 15,
+        "operator_types": {
+          "SOP:add": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 1,
+          "CHOP:pattern": 7,
+          "CHOP:function": 14,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 1000,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern3",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 128,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern4",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 128,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "function_ln",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "ln",
+            "error": "replace",
+            "domval": -3
+          }
+        },
+        {
+          "name": "function_log2",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "logb",
+            "error": "replace",
+            "domval": -3
+          }
+        },
+        {
+          "name": "function_log10",
+          "type": "CHOP:function",
+          "parameters": {
+            "pageindex": 1,
+            "func": "log",
+            "error": "replace"
+          }
+        },
+        {
+          "name": "function2_log10",
+          "type": "CHOP:function",
+          "parameters": {
+            "pageindex": 1,
+            "func": "log",
+            "error": "replace",
+            "domval": -3
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern4",
+          "to": "function_ln",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "function_log2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_log10",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function2_log10",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:pattern": 4,
+          "CHOP:function": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "scurve1",
+          "type": "CHOP:scurve",
+          "parameters": {
+            "linearize": 1,
+            "bias": -0.076
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 5,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 5,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern3",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "function_pow_1",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powe",
+            "baseval": 1
+          }
+        },
+        {
+          "name": "function_pow_2",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powe"
+          }
+        },
+        {
+          "name": "function_pow_3",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb",
+            "baseval": 1,
+            "expval": 0.25
+          }
+        },
+        {
+          "name": "function2_pow_2",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb"
+          }
+        },
+        {
+          "name": "function2_pow_3",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb",
+            "expval": 3
+          }
+        },
+        {
+          "name": "function_pow_10",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powe",
+            "baseval": 10
+          }
+        },
+        {
+          "name": "function_fine_low",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb",
+            "baseval": 1,
+            "expval": 1.6
+          }
+        },
+        {
+          "name": "function_fine_high",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb",
+            "baseval": 1,
+            "expval": 0.65
+          }
+        },
+        {
+          "name": "function2_pow_point5",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powb",
+            "baseval": 10,
+            "expval": 0.5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern1",
+          "to": "function_pow_1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_pow_2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function_pow_3",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function2_pow_2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function2_pow_3",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_pow_10",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "function_fine_low",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "function_fine_high",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function2_pow_point5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 9,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:scurve": 1,
+          "CHOP:pattern": 3,
+          "CHOP:function": 9
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": -20,
+            "torange2": 20,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "amp": 5,
+            "torange2": 100,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern3",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": 2,
+            "torange2": 10,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "pattern4",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": 0.01,
+            "torange2": 0.1,
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "function_db_to_power",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "dbtopower"
+          }
+        },
+        {
+          "name": "function_power_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powertodb",
+            "error": "replace",
+            "domval": -15
+          }
+        },
+        {
+          "name": "function1_power_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powertodb",
+            "error": "replace",
+            "domval": -15
+          }
+        },
+        {
+          "name": "function2_power_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "powertodb",
+            "error": "replace",
+            "domval": -15
+          }
+        },
+        {
+          "name": "function_amplitude_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "amptodb",
+            "error": "replace",
+            "domval": -15
+          }
+        },
+        {
+          "name": "function_db_to_ampitiude",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "dbtoamp"
+          }
+        },
+        {
+          "name": "function1_amplitude_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "amptodb",
+            "error": "replace",
+            "domval": -15
+          }
+        },
+        {
+          "name": "function2_amplitude_to_db",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "amptodb",
+            "error": "replace",
+            "domval": -15
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern1",
+          "to": "function_db_to_power",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function_power_to_db",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "function1_power_to_db",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "function2_power_to_db",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "function_amplitude_to_db",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "function_db_to_ampitiude",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "function1_amplitude_to_db",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "function2_amplitude_to_db",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 8,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:pattern": 4,
+          "CHOP:function": 8
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

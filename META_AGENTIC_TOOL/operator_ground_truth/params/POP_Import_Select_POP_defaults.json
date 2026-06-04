@@ -1,0 +1,507 @@
+{
+  "operator": "Import_Select_POP",
+  "family": "POP",
+  "td_create_name": "importselectPOP",
+  "param_count": 33,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "parent": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "General",
+      "label": "Import Parent",
+      "readOnly": false,
+      "expression": null
+    },
+    "geometry": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "General",
+      "label": "Geo Path",
+      "readOnly": false,
+      "expression": null
+    },
+    "reload": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "General",
+      "label": "Reload",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendshape": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "General",
+      "label": "Blend Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "comptang": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "General",
+      "label": "Compute Tangents",
+      "readOnly": false,
+      "expression": null
+    },
+    "useparentanim": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Playback",
+      "label": "Use Parent Animation",
+      "readOnly": false,
+      "expression": null
+    },
+    "shiftanimationstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Shift Animation Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampleratemode": {
+      "value": {
+        "type": "menu",
+        "value": "filefps",
+        "menuIndex": 0,
+        "menuNames": [
+          "filefps",
+          "custom"
+        ],
+        "menuLabels": [
+          "File FPS",
+          "Custom"
+        ]
+      },
+      "default": "filefps",
+      "page": "Playback",
+      "label": "Sample Rate Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "samplerate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Playback",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "playmode": {
+      "value": {
+        "type": "menu",
+        "value": "sequential",
+        "menuIndex": 2,
+        "menuNames": [
+          "lockedtotimeline",
+          "specifyindex",
+          "sequential"
+        ],
+        "menuLabels": [
+          "Locked to Timeline",
+          "Specify Index",
+          "Sequential"
+        ]
+      },
+      "default": "sequential",
+      "page": "Playback",
+      "label": "Play Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "initialize": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Initialize",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "cue": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Cue",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Cue Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepoint": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Cue Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepointunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Cue Point Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Playback",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Index",
+      "readOnly": false,
+      "expression": "me.time.frame"
+    },
+    "indexunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 0,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "frames",
+      "page": "Playback",
+      "label": "Index Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "speed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Playback",
+      "label": "Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "trim": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Trim",
+      "readOnly": false,
+      "expression": null
+    },
+    "tstart": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Trim Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "tstartunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Trim Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "tend": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Playback",
+      "label": "Trim End",
+      "readOnly": false,
+      "expression": null
+    },
+    "tendunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Trim End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "textendleft": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 1,
+        "menuNames": [
+          "hold",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "cycle",
+      "page": "Playback",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "textendright": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 1,
+        "menuNames": [
+          "hold",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "cycle",
+      "page": "Playback",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

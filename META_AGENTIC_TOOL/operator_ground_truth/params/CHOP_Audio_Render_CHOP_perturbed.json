@@ -1,0 +1,331 @@
+{
+  "operator": "Audio_Render_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiorenderCHOP",
+  "param_count": 60,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "mode": {
+      "type": "menu",
+      "value": "simulation",
+      "menuIndex": 1,
+      "menuNames": [
+        "simple",
+        "simulation"
+      ],
+      "menuLabels": [
+        "Simple Positional",
+        "Simulation"
+      ]
+    },
+    "outputformat": {
+      "type": "menu",
+      "value": "stereo",
+      "menuIndex": 1,
+      "menuNames": [
+        "Binaural",
+        "stereo",
+        "quadraphonic",
+        "fiveone",
+        "sevenone",
+        "custom",
+        "ambisonics",
+        "direct"
+      ],
+      "menuLabels": [
+        "Binaural",
+        "Stereo",
+        "Quadraphonic Surround",
+        "5.1 Surround",
+        "7.1 Surround",
+        "Custom Setup",
+        "Ambisonics",
+        "Direct Effect"
+      ]
+    },
+    "attenuation": {
+      "type": "toggle",
+      "value": true
+    },
+    "ambisonicsorder": {
+      "type": "int",
+      "value": 3
+    },
+    "mappingtable": {
+      "type": "op",
+      "value": "op_perturbed_mappingtable"
+    },
+    "listenerobject": {
+      "type": "op",
+      "value": ""
+    },
+    "source": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "source0object": {
+      "type": "op",
+      "value": ""
+    },
+    "source0directivity": {
+      "type": "toggle",
+      "value": true
+    },
+    "source0dipoleweight": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "source0dipolepower": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "source0attnmode": {
+      "type": "menu",
+      "value": "custom",
+      "menuIndex": 1,
+      "menuNames": [
+        "inverse",
+        "custom"
+      ],
+      "menuLabels": [
+        "Inverse Distance",
+        "Custom Curve"
+      ]
+    },
+    "source0invpower": {
+      "type": "int",
+      "value": 1
+    },
+    "source0chop": {
+      "type": "op",
+      "value": ""
+    },
+    "update": {
+      "type": "toggle",
+      "value": true
+    },
+    "updatepulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "mesh": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "mesh0object": {
+      "type": "op",
+      "value": ""
+    },
+    "mesh0absorb1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0absorb2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0absorb3": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0scatter": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0trans1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0trans2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "mesh0trans3": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "airabsorb": {
+      "type": "toggle",
+      "value": true
+    },
+    "occlusion": {
+      "type": "toggle",
+      "value": false
+    },
+    "numsurfaces": {
+      "type": "int",
+      "value": 2
+    },
+    "reflection": {
+      "type": "toggle",
+      "value": true
+    },
+    "diffsamp": {
+      "type": "int",
+      "value": 33
+    },
+    "duration": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "refambixord": {
+      "type": "int",
+      "value": 2
+    },
+    "numrays": {
+      "type": "int",
+      "value": 4097
+    },
+    "numthreads": {
+      "type": "int",
+      "value": 3
+    },
+    "numbounces": {
+      "type": "int",
+      "value": 17
+    },
+    "irmindist": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "bakemode": {
+      "type": "menu",
+      "value": "manual",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "manual",
+        "auto"
+      ],
+      "menuLabels": [
+        "Off",
+        "Manual",
+        "Automatic"
+      ]
+    },
+    "bake": {
+      "type": "pulse",
+      "value": null
+    },
+    "variation": {
+      "type": "menu",
+      "value": "source",
+      "menuIndex": 1,
+      "menuNames": [
+        "listener",
+        "source"
+      ],
+      "menuLabels": [
+        "Static Listener",
+        "Static Source"
+      ]
+    },
+    "probedist": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "yoffset": {
+      "type": "float",
+      "value": 1.62345
+    },
+    "sizex": {
+      "type": "float",
+      "value": 100.12345
+    },
+    "sizey": {
+      "type": "float",
+      "value": 100.12345
+    },
+    "sizez": {
+      "type": "float",
+      "value": 100.12345
+    },
+    "originx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "originy": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "originz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "distance": {
+      "type": "float",
+      "value": 100.12345
+    },
+    "savedur": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "batchsize": {
+      "type": "int",
+      "value": 2
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "autoname",
+      "menuIndex": 2,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

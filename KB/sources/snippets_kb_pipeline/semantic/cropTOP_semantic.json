@@ -1,0 +1,254 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\cropTOP_lossless.json",
+  "operator_type": "cropTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "crop1",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.19,
+            "cropright": 0.76,
+            "cropbottom": 0.58,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "crop2",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.32,
+            "cropbottom": 0.4,
+            "croptop": 0.74
+          }
+        },
+        {
+          "name": "crop3",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropright": 0.61,
+            "croptop": 0.32
+          }
+        },
+        {
+          "name": "crop4",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.46,
+            "cropbottom": 0.54
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "moviein1",
+            "iscope": "\"resx resy\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "crop1",
+            "iscope": "\"resx resy\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info4",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "crop2",
+            "iscope": "\"resx resy\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "crop1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "crop2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "crop3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "crop4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:crop": 4,
+          "CHOP:info": 3,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "crop5",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropright": 0.5,
+            "cropbottom": 0.5,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "crop6",
+          "type": "TOP:crop",
+          "parameters": {
+            "croptop": 0.5
+          }
+        },
+        {
+          "name": "info3",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "moviein2",
+            "iscope": "\"resx resy\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein2",
+          "to": "crop5",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein2",
+          "to": "crop6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:crop": 2,
+          "CHOP:info": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "crop7",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": -1,
+            "cropright": 0.76,
+            "cropbottom": 0.58,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "crop8",
+          "type": "TOP:crop",
+          "parameters": {
+            "croptop": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein3",
+          "to": "crop7",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "crop8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:crop": 2,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

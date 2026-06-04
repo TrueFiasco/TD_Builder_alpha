@@ -1,0 +1,185 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\parameterexecuteDAT_lossless.json",
+  "operator_type": "parameterexecuteDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 2.98
+          }
+        },
+        {
+          "name": "period",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "period",
+            "value0": 0.5,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "parexec2",
+          "type": "DAT:parexec",
+          "parameters": {
+            "op": "wave1",
+            "pars": "period",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec1",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "valuechange": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "period/out1",
+          "to": "null3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:wave": 1,
+          "COMP:slider": 1,
+          "DAT:text": 1,
+          "DAT:parexec": 1,
+          "DAT:panelexec": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "parexec1",
+          "type": "DAT:parexec",
+          "parameters": {
+            "op": "box2",
+            "pars": "*",
+            "expressionchange": "on",
+            "exportchange": "on",
+            "enablechange": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "wiggleMe",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "center",
+            "value0": 0.5,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wiggleMe/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:box": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "DAT:parexec": 1,
+          "COMP:slider": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

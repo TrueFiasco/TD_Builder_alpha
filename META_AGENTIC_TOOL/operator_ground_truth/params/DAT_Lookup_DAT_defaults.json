@@ -1,0 +1,215 @@
+{
+  "operator": "Lookup_DAT",
+  "family": "DAT",
+  "td_create_name": "lookupDAT",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "menu",
+        "value": "rowindices",
+        "menuIndex": 0,
+        "menuNames": [
+          "rowindices",
+          "colindices",
+          "rowvalues",
+          "colvalues"
+        ],
+        "menuLabels": [
+          "Row Indices",
+          "Col Indices",
+          "Row Values",
+          "Col Values"
+        ]
+      },
+      "default": "rowindices",
+      "page": "Lookup",
+      "label": "Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "valuelocation": {
+      "value": {
+        "type": "menu",
+        "value": "name",
+        "menuIndex": 0,
+        "menuNames": [
+          "name",
+          "index"
+        ],
+        "menuLabels": [
+          "Name",
+          "Index"
+        ]
+      },
+      "default": "name",
+      "page": "Lookup",
+      "label": "Value Location",
+      "readOnly": false,
+      "expression": null
+    },
+    "valuename": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup",
+      "label": "Value Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "valueindex": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Lookup",
+      "label": "Value Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "includeheader": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lookup",
+      "label": "Include Header",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

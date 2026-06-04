@@ -1,0 +1,838 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\lookupTOP_lossless.json",
+  "operator_type": "lookupTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "TOP:lookup",
+          "parameters": {
+            "method": "chop",
+            "chop": "toLookup"
+          }
+        },
+        {
+          "name": "quantize",
+          "type": "CHOP:limit",
+          "parameters": {
+            "pageindex": 1,
+            "quantvalue": "floor",
+            "vstep": 0.25
+          }
+        },
+        {
+          "name": "reorder1",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputgreenchan": "zero",
+            "outputbluechan": "zero",
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "reorder2",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputredchan": "zero",
+            "outputbluechan": "zero",
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "reorder3",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputredchan": "zero",
+            "outputgreenchan": "zero",
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "reorder4",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputredchan": "alpha",
+            "outputgreenchan": "alpha",
+            "outputbluechan": "alpha",
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "toLookup",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "patternRed",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "channelname": "r"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "patternBlue",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "tri",
+            "numcycles": 4,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "channelname": "b",
+            "combine": "append"
+          }
+        },
+        {
+          "name": "patternAlpha",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "channelname": "a",
+            "combine": "append"
+          }
+        },
+        {
+          "name": "patternGreen",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": 1,
+            "channelname": "g",
+            "combine": "append"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "patternAlpha",
+          "to": "quantize",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "reorder1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "reorder2",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "reorder3",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "reorder4",
+          "to_input": "0"
+        },
+        {
+          "from": "quantize",
+          "to": "toLookup",
+          "to_input": "0"
+        },
+        {
+          "from": "patternGreen",
+          "to": "patternBlue",
+          "to_input": "0"
+        },
+        {
+          "from": "patternBlue",
+          "to": "patternAlpha",
+          "to_input": "0"
+        },
+        {
+          "from": "patternRed",
+          "to": "patternGreen",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 10,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:lookup": 1,
+          "CHOP:limit": 1,
+          "TOP:reorder": 4,
+          "CHOP:null": 1,
+          "CHOP:pattern": 4,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "circle3",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.24,
+            "radiusy": 0.24,
+            "centerx": -0.27,
+            "softness": 0.094,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.24,
+            "radiusy": 0.24,
+            "softness": 0.094,
+            "operand": "add",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.23,
+            "radiusy": 0.23,
+            "centerx": 0.27,
+            "softness": 0.094,
+            "operand": "add",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "TOP:lookup",
+          "parameters": {
+            "channel": "green"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle3",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "circle2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "circle3",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "lookup1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:null": 1,
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 1,
+          "TOP:circle": 3,
+          "TOP:lookup": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "xy",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 10,
+            "w": 180,
+            "h": 180,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "top": "noise1",
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "xy_",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "mono1",
+          "type": "TOP:mono",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp3_keys",
+            "type": "vertical",
+            "operand": "difference"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "seed": 6406,
+            "period": 2.4
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "TOP:lookup",
+          "parameters": {
+            "channel": "red"
+          }
+        },
+        {
+          "name": "lookup2",
+          "type": "TOP:lookup",
+          "parameters": {
+            "channel": "luminance"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "TOP:select",
+          "parameters": {
+            "top": "mono1"
+          }
+        },
+        {
+          "name": "multiply1",
+          "type": "TOP:multiply",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "multiply2",
+          "type": "TOP:multiply",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 1,
+            "sizey": 0.2,
+            "borderwidth": 0.036,
+            "combineinput": "res",
+            "resolutionw": 100,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "format": "rgba32float"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "xy/valueOut",
+          "to": "xy_",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "mono1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "ramp2",
+          "to_input": "0"
+        },
+        {
+          "from": "mono1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "select1",
+          "to": "lookup2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "lookup2",
+          "to_input": "1"
+        },
+        {
+          "from": "mono1",
+          "to": "multiply1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "multiply1",
+          "to_input": "1"
+        },
+        {
+          "from": "select1",
+          "to": "multiply2",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup2",
+          "to": "multiply2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 11,
+        "operator_types": {
+          "COMP:widget": 1,
+          "CHOP:null": 1,
+          "TOP:mono": 1,
+          "TOP:ramp": 2,
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:lookup": 2,
+          "TOP:select": 1,
+          "TOP:multiply": 2,
+          "DAT:table": 2,
+          "TOP:rectangle": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "triColorTinter",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:base": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 200
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.6,
+            "radiusy": 0.6,
+            "bgalpha": 1,
+            "softness": 0.7,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "TOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup2",
+          "type": "TOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup3",
+          "type": "TOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp3_32bit",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 200,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "topto_ramp1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "ramp1",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_ramp3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "ramp3_32bit",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle2_32bit",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.6,
+            "radiusy": 0.6,
+            "bgalpha": 1,
+            "softness": 0.7,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "circle3_32bit",
+          "type": "TOP:circle",
+          "parameters": {
+            "pageindex": 2,
+            "radiusx": 0.6,
+            "radiusy": 0.6,
+            "bgalpha": 1,
+            "softness": 0.7,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "topto_circle1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "circle1",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_circle2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "circle2_32bit",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_circle3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "circle3_32bit",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_lookup1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "lookup1",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_lookup2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "lookup2",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto_lookup3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "lookup3",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "circle2_32bit",
+          "to": "lookup2",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "lookup2",
+          "to_input": "1"
+        },
+        {
+          "from": "circle3_32bit",
+          "to": "lookup3",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp3_32bit",
+          "to": "lookup3",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 19,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:ramp": 2,
+          "DAT:text": 1,
+          "TOP:circle": 3,
+          "TOP:lookup": 3,
+          "DAT:table": 2,
+          "CHOP:topto": 8
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

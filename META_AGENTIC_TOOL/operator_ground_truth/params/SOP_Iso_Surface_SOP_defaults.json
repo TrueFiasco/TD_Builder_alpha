@@ -1,0 +1,140 @@
+{
+  "operator": "Iso_Surface_SOP",
+  "family": "SOP",
+  "td_create_name": "isosurfaceSOP",
+  "param_count": 12,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "func": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Iso Surface",
+      "label": "Implicit Function",
+      "readOnly": false,
+      "expression": "me.curPos[0] * me.curPos[0] + me.curPos[1] * me.curPos[1] + me.curPos[2] * me.curPos[2] - 1"
+    },
+    "minx": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Iso Surface",
+      "label": "Minimum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "miny": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Iso Surface",
+      "label": "Minimum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "minz": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Iso Surface",
+      "label": "Minimum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Iso Surface",
+      "label": "Maximum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Iso Surface",
+      "label": "Maximum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Iso Surface",
+      "label": "Maximum Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "divsx": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Iso Surface",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "divsy": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Iso Surface",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "divsz": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Iso Surface",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "normals": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Iso Surface",
+      "label": "Compute Normals",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

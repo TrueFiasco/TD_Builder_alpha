@@ -1,0 +1,539 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\linePOP_lossless.json",
+  "operator_type": "linePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "line1",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "line2",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethod": "cardinal"
+          }
+        },
+        {
+          "name": "line3",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "line4",
+          "type": "POP:line",
+          "parameters": {}
+        },
+        {
+          "name": "line5",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line6",
+          "type": "POP:line",
+          "parameters": {
+            "multiplelinestrips": "on",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line19",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethodpersegment": "on",
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divs": 10
+          }
+        },
+        {
+          "name": "line20",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divs": 8
+          }
+        },
+        {
+          "name": "line21",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divmethod": "linestrip",
+            "divs": 40
+          }
+        },
+        {
+          "name": "line22",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 2,
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divmethod": "distseg",
+            "divs": 40
+          }
+        },
+        {
+          "name": "line23",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 2,
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divmethod": "distseg",
+            "divs": 40,
+            "resamplemethod": "linestrip",
+            "resampledivs": 99
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "line_linear",
+          "type": "POP:line",
+          "parameters": {
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line_bspline",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "bspline",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line_cardinal",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "cardinal",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line_cubicBezier",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "cubicbezier",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line_quadraticBezier",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "quadraticbezier",
+            "attr0name": "color"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 24,
+        "connection_count": 0,
+        "operator_types": {
+          "POP:line": 16,
+          "DAT:text": 1,
+          "COMP:annotate": 7
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "line15",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethod": "cubicbeziertang",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line16",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "cubicbeziertang",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line17",
+          "type": "POP:line",
+          "parameters": {
+            "interpmethod": "cubicbeziertang",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line18",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethod": "cubicbeziertang",
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "line19",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 2,
+            "interpmethod": "cubicbeziertang",
+            "attr0name": "color",
+            "output": "ctrlpoints"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "line19"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "linedivide1",
+          "type": "POP:linedivide",
+          "parameters": {
+            "divs": 10,
+            "interpmethodpersegment": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "line19",
+          "to": "linedivide1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 1,
+        "operator_types": {
+          "POP:line": 5,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 3,
+          "POP:linedivide": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "copy1",
+          "type": "POP:copy",
+          "parameters": {
+            "scaleattrib": "\"\"",
+            "vecattr": "\"\"",
+            "upattr": "\"\""
+          }
+        },
+        {
+          "name": "line25",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 3,
+            "interpmethod": "cardinal",
+            "attr0name": "color",
+            "divmethod": "distseg",
+            "divs": 40,
+            "dist": 0.05,
+            "resamplemethod": "keyframes",
+            "resampledivs": 99,
+            "indvarattr": "Seconds",
+            "indvarstep": 0.05,
+            "attr1name": "custom",
+            "attr1customname": "Seconds",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1value3": 1
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "POP:merge",
+          "parameters": {
+            "input0pop": "line25",
+            "input1pop": "copy1",
+            "input1groupentity": "point",
+            "input1group": "\"\""
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "line25",
+            "nameformat": "basic",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "delete1",
+            "attrib": "Seconds"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "radx": 0.1,
+            "rady": 0.1
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 2,
+            "pattern0invert": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "annotate9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "line_absissca",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "interpmethod": "cardinal",
+            "tension": 1.5,
+            "enableweights": "on",
+            "closed": "on",
+            "attr0customname": "Hello",
+            "attr0value3": 1,
+            "resamplemethod": "keyframes",
+            "indvarattr": "Seconds",
+            "indvarstep": 0.05,
+            "resamplemaxverts": 2000,
+            "attr1name": "custom",
+            "attr1customname": "Seconds",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1value3": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle2",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "delete1",
+          "to": "copy1",
+          "to_input": "1"
+        },
+        {
+          "from": "lookup1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "line25",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "popto2",
+          "to": "lookup1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "POP:copy": 1,
+          "POP:line": 2,
+          "POP:merge": 1,
+          "CHOP:popto": 1,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "POP:circle": 1,
+          "POP:delete": 1,
+          "CHOP:lookup": 1,
+          "COMP:annotate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

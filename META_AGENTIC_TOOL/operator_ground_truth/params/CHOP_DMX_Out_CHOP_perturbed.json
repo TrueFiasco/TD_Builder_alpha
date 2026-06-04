@@ -1,0 +1,203 @@
+{
+  "operator": "DMX_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "dmxoutCHOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "interface": {
+      "type": "menu",
+      "value": "sacn",
+      "menuIndex": 4,
+      "menuNames": [
+        "serial",
+        "enttecusbpro",
+        "enttecusbpromk2",
+        "artnet",
+        "sacn",
+        "kinet"
+      ],
+      "menuLabels": [
+        "Generic Serial",
+        "Enttec USB Pro",
+        "Enttec USB Pro Mk2",
+        "Art-Net",
+        "sACN",
+        "KiNET"
+      ]
+    },
+    "format": {
+      "type": "menu",
+      "value": "packetperchan",
+      "menuIndex": 1,
+      "menuNames": [
+        "packetpersample",
+        "packetperchan"
+      ],
+      "menuLabels": [
+        "Packet Per Sample",
+        "Packet Per Channel"
+      ]
+    },
+    "rate": {
+      "type": "int",
+      "value": 61
+    },
+    "serialport": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "dmxkingport": {
+      "type": "string",
+      "value": "default_perturbed"
+    },
+    "device": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "net": {
+      "type": "int",
+      "value": 1
+    },
+    "subnet": {
+      "type": "int",
+      "value": 1
+    },
+    "universe": {
+      "type": "int",
+      "value": 1
+    },
+    "multicast": {
+      "type": "toggle",
+      "value": false
+    },
+    "netaddress": {
+      "type": "string",
+      "value": "255.255.255.255_perturbed"
+    },
+    "localaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "localport": {
+      "type": "int",
+      "value": 0
+    },
+    "customport": {
+      "type": "toggle",
+      "value": true
+    },
+    "netport": {
+      "type": "int",
+      "value": 6455
+    },
+    "priority": {
+      "type": "int",
+      "value": 101
+    },
+    "sendartsync": {
+      "type": "toggle",
+      "value": true
+    },
+    "artsynctimeout": {
+      "type": "int",
+      "value": 101
+    },
+    "cid": {
+      "type": "string",
+      "value": "TouchDesigner_perturbed"
+    },
+    "source": {
+      "type": "string",
+      "value": "TouchDesigner_perturbed"
+    },
+    "kinetversion": {
+      "type": "menu",
+      "value": "v2",
+      "menuIndex": 1,
+      "menuNames": [
+        "v1",
+        "v2"
+      ],
+      "menuLabels": [
+        "DmxOut (v1)",
+        "PortOut (v2)"
+      ]
+    },
+    "customkinetport": {
+      "type": "toggle",
+      "value": false
+    },
+    "kinetport": {
+      "type": "int",
+      "value": 2
+    },
+    "routingtable": {
+      "type": "op",
+      "value": "op_perturbed_routingtable"
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "autoname",
+      "menuIndex": 2,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

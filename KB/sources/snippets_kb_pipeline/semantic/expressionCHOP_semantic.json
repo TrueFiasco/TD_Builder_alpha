@@ -1,0 +1,114 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\expressionCHOP_lossless.json",
+  "operator_type": "expressionCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "on",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 1
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "clamp",
+            "max": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "express1",
+          "type": "CHOP:express",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "hold_button_for_1_second",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Press",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "express1",
+          "to": "on",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "hold_button_for_1_second/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "speed1",
+          "to_input": "1"
+        },
+        {
+          "from": "speed1",
+          "to": "express1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:null": 2,
+          "CHOP:math": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "CHOP:express": 1,
+          "COMP:button": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

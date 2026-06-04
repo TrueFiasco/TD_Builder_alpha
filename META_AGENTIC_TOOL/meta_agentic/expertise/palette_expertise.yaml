@@ -1,0 +1,197 @@
+# Palette UI Component Expertise
+# Self-improving knowledge for building TouchDesigner UIs with palette widgets
+# Last updated: 2025-12-17
+
+version: "1.1"
+domain: "palette_ui"
+confidence: 0.85
+
+# =============================================================================
+# CRITICAL BUILD REQUIREMENTS
+# =============================================================================
+
+build_requirements:
+  line_endings:
+    requirement: "Unix LF only (not Windows CRLF)"
+    reason: "TD's toecollapse silently fails with CRLF line endings"
+    python_fix: "open(path, 'w', newline='\\n')"
+    symptom: "toecollapse reports 'Unable to find .build' even when file exists"
+
+  toc_format:
+    header: "# 4 0 0 0 1"
+    content: "One filename per line, relative to .dir folder"
+    line_endings: "LF only"
+
+  build_file:
+    format: |
+      version 099
+      build 2023.11880
+    line_endings: "LF only"
+
+# =============================================================================
+# PALETTE COMPONENT LOCATIONS
+# =============================================================================
+
+paths:
+  builtin_palette: "C:/Program Files/Derivative/TouchDesigner/Samples/Palette"
+  ui_widgets: "C:/Program Files/Derivative/TouchDesigner/Samples/Palette/UI/Basic Widgets"
+
+  # Knowledge pipeline resources
+  kb_pipeline:
+    lossless_data: "data/palette_lossless"
+    lossless_json: "data/palette_lossless/{component}.json.gz"
+    enriched_index: "data/palette_lossless/enriched_index.json"
+    summaries: "data/palette_summaries.json"
+    vector_db: "chroma_db"
+
+  # Pre-extracted facts
+  extracted_facts:
+    palette_facts: "C:/TD_Projects/META_AGENTIC_TOOL/extracted_facts/palette_facts.yaml"
+    descriptions: "C:/TD_Projects/META_AGENTIC_TOOL/haiku_output/palette_descriptions.yaml"
+
+# =============================================================================
+# INTEGRATION STRATEGIES
+# =============================================================================
+
+integration_strategies:
+  runtime_import:
+    description: "Load palette TOX at runtime via init script"
+    method: "COMP.loadTox(filepath)"
+    pros:
+      - "Uses TD's built-in mechanism"
+      - "Always up-to-date with TD version"
+      - "Clean, standard approach"
+    cons:
+      - "Requires TD installation with palette"
+      - "Paths may vary by TD version"
+    example: |
+      # In a textDAT with execOnStart=True:
+      parent().loadTox('C:/Program Files/Derivative/TouchDesigner/Samples/Palette/UI/Basic Widgets/slider2D.tox')
+      # Rename and position after loading
+      op('slider2D').name = 'leftStick'
+      op('leftStick').nodeX = 100
+      op('leftStick').nodeY = 200
+
+  init_script_pattern:
+    description: "Best practice for UI initialization"
+    components:
+      - name: "init"
+        type: "DAT:text"
+        purpose: "Python init script"
+        parameters:
+          execOnStart: true
+      - name: "loadWidgets"
+        type: "Function in init"
+        code: |
+          def loadWidgets():
+              '''Load all palette widgets at startup'''
+              widgets = [
+                  ('slider2D', 'leftStick', 100, 200),
+                  ('slider2D', 'rightStick', 400, 200),
+                  ('buttonRadio', 'sceneSelect', 250, 50),
+              ]
+              palette_path = 'C:/Program Files/Derivative/TouchDesigner/Samples/Palette/UI/Basic Widgets'
+
+              for tox_name, instance_name, x, y in widgets:
+                  tox_path = f'{palette_path}/{tox_name}.tox'
+                  loaded = parent().loadTox(tox_path)
+                  loaded.name = instance_name
+                  loaded.nodeX = x
+                  loaded.nodeY = y
+
+              # Wire outputs after loading
+              wireOutputs()
+
+# =============================================================================
+# OUTPUT WIRING PATTERNS
+# =============================================================================
+
+wiring_patterns:
+  slider2D_to_chop:
+    description: "Connect 2D slider to CHOP processing"
+    pattern: |
+      # slider2D outputs 'u' and 'v' channels (0-1)
+      # Use select CHOP to rename channels
+      select1.par.channames = "tx ty"  # Rename u,v to tx,ty
+      select1.par.renamefrom = "u v"
+      select1.par.renameto = "tx ty"
+      select1.inputConnectors[0].connect(slider.op('output/chop'))
+
+  radio_to_switch:
+    description: "Connect radio button to switch operator"
+    pattern: |
+      # buttonRadio outputs 'Value0' (integer index)
+      switch1.par.index = "op('radio1/output/chop')['Value0']"
+
+  dpad_combine:
+    description: "Combine 8 direction buttons to 2 axes (-1 to 1)"
+    pattern: |
+      # Use math CHOPs to combine button states:
+      # left (-1) + right (+1) = horizontal
+      # up (+1) + down (-1) = vertical
+      # Diagonals add both axes
+      math_h.par.channelop = "add"
+      math_v.par.channelop = "add"
+
+# =============================================================================
+# COMMON UI LAYOUTS
+# =============================================================================
+
+layouts:
+  xbox_controller:
+    description: "Xbox controller UI layout"
+    components:
+      - name: "leftStick"
+        widget: "slider2D"
+        position: [100, 200]
+        outputs: ["lx", "ly"]
+      - name: "rightStick"
+        widget: "slider2D"
+        position: [500, 200]
+        outputs: ["rx", "ry"]
+      - name: "leftTrigger"
+        widget: "sliderVert"
+        position: [100, 400]
+        outputs: ["lt"]
+      - name: "rightTrigger"
+        widget: "sliderVert"
+        position: [600, 400]
+        outputs: ["rt"]
+      - name: "dpad"
+        widget: "custom_8_buttons"
+        position: [200, 100]
+        outputs: ["dpad_h", "dpad_v"]
+      - name: "faceButtons"
+        widget: "4_colored_buttons"
+        position: [450, 100]
+        outputs: ["a", "b", "x", "y"]
+      - name: "bumpers"
+        widget: "2_buttons"
+        position: [250, 400]
+        outputs: ["lb", "rb"]
+      - name: "systemButtons"
+        widget: "2_buttons"
+        position: [300, 350]
+        outputs: ["select", "start"]
+
+# =============================================================================
+# SELF-IMPROVEMENT HOOKS
+# =============================================================================
+
+learning_triggers:
+  - event: "widget_load_failure"
+    action: "Log error, check path, update paths.ui_widgets"
+  - event: "new_widget_discovered"
+    action: "Add to ui_widgets catalog with structure analysis"
+  - event: "wiring_pattern_success"
+    action: "Increase confidence for that pattern"
+  - event: "layout_tested_working"
+    action: "Add to layouts as verified example"
+
+feedback_integration:
+  - source: "user_corrections"
+    target: "wiring_patterns"
+  - source: "td_test_results"
+    target: "confidence_scores"
+  - source: "new_palette_versions"
+    target: "ui_widgets.internal_structure"

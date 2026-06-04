@@ -1,0 +1,507 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\tableDAT_lossless.json",
+  "operator_type": "tableDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "fill": "setsize",
+            "rows": 10,
+            "cols": 10,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table5",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table6",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_clear_table",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "text_appending_row",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_writing_to_cell",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_printing_to_textport",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 5,
+          "DAT:table": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "words",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "rows": 20,
+            "cols": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"a b c\""
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbyrow"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbyrow",
+            "cols": 6,
+            "fills0names": "\"a b c\""
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "rows": 6,
+            "fills0names": "\"a b c\""
+          }
+        },
+        {
+          "name": "table5",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "rows": 6,
+            "fills0names": "\"a b c\""
+          }
+        },
+        {
+          "name": "table6",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "x"
+          }
+        },
+        {
+          "name": "table7",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"x y z\""
+          }
+        },
+        {
+          "name": "table8",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol"
+          }
+        },
+        {
+          "name": "table9",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "word",
+            "fills1names": "chan"
+          }
+        },
+        {
+          "name": "words1",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "rows": 21,
+            "cols": 1
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "divs": 10
+          }
+        },
+        {
+          "name": "insert1",
+          "type": "DAT:insert",
+          "parameters": {
+            "insert": "colsexpr",
+            "at": "end",
+            "replace0names": "\"tx ty\""
+          }
+        },
+        {
+          "name": "insert2",
+          "type": "DAT:insert",
+          "parameters": {
+            "insert": "colsexpr",
+            "replace0names": "tx"
+          }
+        },
+        {
+          "name": "table10",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"x y\""
+          }
+        },
+        {
+          "name": "table12",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"x y z\""
+          }
+        },
+        {
+          "name": "table13",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "\"x y z\""
+          }
+        },
+        {
+          "name": "table14",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol"
+          }
+        },
+        {
+          "name": "table21",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "setsizeandcontents",
+            "rows": 4
+          }
+        },
+        {
+          "name": "table22",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "setsizeandcontents",
+            "rows": 4
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "length": 20,
+            "channelname": "chan[1-3]"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment10",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "words1",
+          "to": "insert1",
+          "to_input": "0"
+        },
+        {
+          "from": "insert1",
+          "to": "insert2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 33,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:table": 17,
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "DAT:insert": 2,
+          "COMP:annotate": 11,
+          "CHOP:pattern": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

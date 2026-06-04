@@ -1,0 +1,195 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\stretchCHOP_lossless.json",
+  "operator_type": "stretchCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "stretch_reverse",
+            "iscope": "length",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "wavetype": "ramp",
+            "decay": 0.2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "stretch_reverse",
+          "type": "CHOP:stretch",
+          "parameters": {
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "reverse": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave1",
+          "to": "stretch_reverse",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:info": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:stretch": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "stretch_half_length",
+            "iscope": "length",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "wave2",
+          "type": "CHOP:wave",
+          "parameters": {
+            "wavetype": "ramp",
+            "decay": 0.2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "stretch_half_length",
+          "type": "CHOP:stretch",
+          "parameters": {
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "scale": 0.5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave2",
+          "to": "stretch_half_length",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:info": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:stretch": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "wave3",
+          "type": "CHOP:wave",
+          "parameters": {
+            "end": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "stretch_times_10_and_shift1",
+          "type": "CHOP:stretch",
+          "parameters": {
+            "start": 1,
+            "startunit": "seconds",
+            "end": 11,
+            "endunit": "seconds"
+          }
+        },
+        {
+          "name": "stretch_times_10_and_shift2",
+          "type": "CHOP:stretch",
+          "parameters": {
+            "interp": "nointerp",
+            "start": 1,
+            "startunit": "seconds",
+            "end": 11,
+            "endunit": "seconds"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave3",
+          "to": "stretch_times_10_and_shift1",
+          "to_input": "0"
+        },
+        {
+          "from": "wave3",
+          "to": "stretch_times_10_and_shift2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:stretch": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

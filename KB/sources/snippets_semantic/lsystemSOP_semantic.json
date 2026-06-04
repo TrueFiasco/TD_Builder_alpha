@@ -1,0 +1,113 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\lsystemSOP_lossless.json",
+  "operator_type": "lsystemSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "normal",
+            "frequency": 0.25,
+            "amp": 7,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 3
+          }
+        },
+        {
+          "name": "lsystem1",
+          "type": "SOP:lsystem",
+          "parameters": {
+            "type": "tube",
+            "rows": 5,
+            "thickinit": 0.209,
+            "thickscale": 0.46,
+            "rules": "lsystem1_rules"
+          }
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "attribcreate1",
+          "type": "SOP:attribcreate",
+          "parameters": {
+            "compnml": "on"
+          }
+        },
+        {
+          "name": "lsystem1_rules",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "lsystem1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "lsystem1",
+          "to_input": "1"
+        },
+        {
+          "from": "lsystem1",
+          "to": "attribcreate1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "DAT:text": 2,
+          "SOP:circle": 2,
+          "SOP:lsystem": 1,
+          "DAT:table": 1,
+          "SOP:attribcreate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

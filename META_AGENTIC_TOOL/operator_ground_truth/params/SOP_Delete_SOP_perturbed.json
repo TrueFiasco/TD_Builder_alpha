@@ -1,0 +1,195 @@
+{
+  "operator": "Delete_SOP",
+  "family": "SOP",
+  "td_create_name": "deleteSOP",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "negate": {
+      "type": "menu",
+      "value": "keep",
+      "menuIndex": 1,
+      "menuNames": [
+        "dele",
+        "keep"
+      ],
+      "menuLabels": [
+        "Delete Selected",
+        "Delete Non-Selected"
+      ]
+    },
+    "entity": {
+      "type": "menu",
+      "value": "point",
+      "menuIndex": 1,
+      "menuNames": [
+        "primitive",
+        "point"
+      ],
+      "menuLabels": [
+        "Primitives",
+        "Points"
+      ]
+    },
+    "geotype": {
+      "type": "menu",
+      "value": "bezierc",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "bezierc",
+        "bezier",
+        "circle",
+        "mesh",
+        "meta",
+        "nurbc",
+        "nurb",
+        "part",
+        "poly",
+        "sphere",
+        "tube",
+        "tristrip",
+        "trifan"
+      ],
+      "menuLabels": [
+        "All Types",
+        "Bezier Curve",
+        "Bezier Surface",
+        "Circle",
+        "Mesh",
+        "Metaball",
+        "NURBS Curve",
+        "NURBS Surface",
+        "Particles",
+        "Polygon",
+        "Sphere",
+        "Tube",
+        "Triangle Strip",
+        "Triangle Fan"
+      ]
+    },
+    "removegrp": {
+      "type": "toggle",
+      "value": false
+    },
+    "keeppoints": {
+      "type": "toggle",
+      "value": true
+    },
+    "usenumber": {
+      "type": "toggle",
+      "value": true
+    },
+    "groupop": {
+      "type": "menu",
+      "value": "range",
+      "menuIndex": 1,
+      "menuNames": [
+        "pattern",
+        "range",
+        "filter"
+      ],
+      "menuLabels": [
+        "Delete by Pattern",
+        "Delete by Range",
+        "Delete by Expression"
+      ]
+    },
+    "pattern": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "rangestart": {
+      "type": "int",
+      "value": 1
+    },
+    "rangeend": {
+      "type": "int",
+      "value": 1
+    },
+    "select1": {
+      "type": "int",
+      "value": 2
+    },
+    "select2": {
+      "type": "int",
+      "value": 3
+    },
+    "filter": {
+      "type": "int",
+      "value": 2
+    },
+    "usebounds": {
+      "type": "toggle",
+      "value": true
+    },
+    "boundtype": {
+      "type": "menu",
+      "value": "usebsphere",
+      "menuIndex": 1,
+      "menuNames": [
+        "usebbox",
+        "usebsphere"
+      ],
+      "menuLabels": [
+        "Bounding Box",
+        "Bounding Sphere"
+      ]
+    },
+    "sizex": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizey": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizez": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ty": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "usenormal": {
+      "type": "toggle",
+      "value": true
+    },
+    "dirx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "diry": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dirz": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "angle": {
+      "type": "float",
+      "value": 180.0
+    },
+    "camera": {
+      "type": "op",
+      "value": ""
+    }
+  }
+}

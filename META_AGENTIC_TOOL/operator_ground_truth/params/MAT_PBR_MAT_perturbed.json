@@ -1,0 +1,2358 @@
+{
+  "operator": "PBR_MAT",
+  "family": "MAT",
+  "td_create_name": "pbrMAT",
+  "param_count": 202,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "basecolorr": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "basecolorg": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "basecolorb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "specularlevel": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "metallic": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "roughness": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "ambientocclusion": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "envlightquality": {
+      "type": "float",
+      "value": 1.0
+    },
+    "emitr": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "emitg": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "emitb": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "constantr": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "constantg": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "constantb": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "frontfacelit": {
+      "type": "menu",
+      "value": "frontlit",
+      "menuIndex": 1,
+      "menuNames": [
+        "uselight",
+        "frontlit",
+        "backlit"
+      ],
+      "menuLabels": [
+        "Use Per-Light(s) Parameter",
+        "Front Lit",
+        "Back Lit"
+      ]
+    },
+    "backfacelit": {
+      "type": "menu",
+      "value": "frontlit",
+      "menuIndex": 1,
+      "menuNames": [
+        "uselight",
+        "frontlit",
+        "backlit"
+      ],
+      "menuLabels": [
+        "Use Per-Light(s) Parameter",
+        "Front Lit",
+        "Back Lit"
+      ]
+    },
+    "outputshader": {
+      "type": "pulse",
+      "value": null
+    },
+    "substance": {
+      "type": "op",
+      "value": ""
+    },
+    "basecolormap": {
+      "type": "op",
+      "value": ""
+    },
+    "basecolormapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "basecolormapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "basecolormapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "basecolormapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "basecolormapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "texturesamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "basecolormapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "basecolormapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "basecolormapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "specularlevelmap": {
+      "type": "op",
+      "value": ""
+    },
+    "specularlevelmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "specularlevelmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "specularlevelmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "specularlevelmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "specularlevelmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "specularlevelmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "specularlevelmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "specularlevelmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "specularlevelmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "specularlevelmapchannelsource": {
+      "type": "menu",
+      "value": "green",
+      "menuIndex": 2,
+      "menuNames": [
+        "luminance",
+        "red",
+        "green",
+        "blue",
+        "alpha",
+        "rgbaverage",
+        "average"
+      ],
+      "menuLabels": [
+        "Luminance",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha",
+        "RGB Average",
+        "RGBA Average"
+      ]
+    },
+    "metallicmap": {
+      "type": "op",
+      "value": ""
+    },
+    "metalnessmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "metalnessmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "metalnessmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "metalnessmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "metalnessmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "metalnessmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "metallicmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "metalnessmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "metallicmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "metallicmapchannelsource": {
+      "type": "menu",
+      "value": "green",
+      "menuIndex": 2,
+      "menuNames": [
+        "luminance",
+        "red",
+        "green",
+        "blue",
+        "alpha",
+        "rgbaverage",
+        "average"
+      ],
+      "menuLabels": [
+        "Luminance",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha",
+        "RGB Average",
+        "RGBA Average"
+      ]
+    },
+    "roughnessmap": {
+      "type": "op",
+      "value": ""
+    },
+    "roughnessmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "roughnessmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "roughnessmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "roughnessmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "roughnessmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "roughnessmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "roughnessmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "roughnessmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "roughnessmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "roughnessmapchannelsource": {
+      "type": "menu",
+      "value": "green",
+      "menuIndex": 2,
+      "menuNames": [
+        "luminance",
+        "red",
+        "green",
+        "blue",
+        "alpha",
+        "rgbaverage",
+        "average"
+      ],
+      "menuLabels": [
+        "Luminance",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha",
+        "RGB Average",
+        "RGBA Average"
+      ]
+    },
+    "ambientocclusionmap": {
+      "type": "op",
+      "value": ""
+    },
+    "ambientocclusionmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "ambientocclusionmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "ambientocclusionmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "ambientocclusionmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "ambientocclusionmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "ambientocclusionmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "ambientocclusionmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "ambientocclusionmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "ambientocclusionmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "ambientocclusionmapchannelsource": {
+      "type": "menu",
+      "value": "green",
+      "menuIndex": 2,
+      "menuNames": [
+        "luminance",
+        "red",
+        "green",
+        "blue",
+        "alpha",
+        "rgbaverage",
+        "average"
+      ],
+      "menuLabels": [
+        "Luminance",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha",
+        "RGB Average",
+        "RGBA Average"
+      ]
+    },
+    "normalmap": {
+      "type": "op",
+      "value": ""
+    },
+    "normalmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "normalmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "normalmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "normalmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "normalmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "normalmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "normalmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "normalmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "normalmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "bumpscale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "heightmapenable": {
+      "type": "toggle",
+      "value": true
+    },
+    "heightmap": {
+      "type": "op",
+      "value": ""
+    },
+    "heightmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "heightmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "heightmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "heightmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "heightmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "heightmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "heightmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "heightmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "heightmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "heightmapchannelsource": {
+      "type": "menu",
+      "value": "green",
+      "menuIndex": 2,
+      "menuNames": [
+        "luminance",
+        "red",
+        "green",
+        "blue",
+        "alpha",
+        "rgbaverage",
+        "average"
+      ],
+      "menuLabels": [
+        "Luminance",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha",
+        "RGB Average",
+        "RGBA Average"
+      ]
+    },
+    "parallaxscale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "parallaxocclusion": {
+      "type": "toggle",
+      "value": true
+    },
+    "displaceverts": {
+      "type": "toggle",
+      "value": true
+    },
+    "displacescale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "displacemid": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "emitmap": {
+      "type": "op",
+      "value": ""
+    },
+    "emitmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "emitmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "emitmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "emitmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "emitmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "emitmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "emitmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "emitmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "emitmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "alphamap": {
+      "type": "op",
+      "value": ""
+    },
+    "alphamapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "alphamapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "alphamapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "alphamapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "alphamapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "alphamapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "alphamapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "alphamapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "alphamapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "alphamode": {
+      "type": "toggle",
+      "value": false
+    },
+    "alphafront": {
+      "type": "float",
+      "value": 1.0
+    },
+    "alphaside": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rolloff": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "rimlight": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "rimlight0enable": {
+      "type": "toggle",
+      "value": true
+    },
+    "rimlight0map": {
+      "type": "op",
+      "value": ""
+    },
+    "rimlight0mapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "rimlight0mapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "rimlight0mapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "rimlight0mapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "rimlight0mapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "rimlight0mapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "rimlight0mapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "rimlight0mapcoordattr": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "rimlight0mapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "rimlight0colorr": {
+      "type": "float",
+      "value": 0.8234499880790711
+    },
+    "rimlight0colorg": {
+      "type": "float",
+      "value": 0.8234499880790711
+    },
+    "rimlight0colorb": {
+      "type": "float",
+      "value": 0.8234499880790711
+    },
+    "rimlight0center": {
+      "type": "float",
+      "value": 90.12345
+    },
+    "rimlight0width": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "rimlight0strength": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "rimlight0strengthramp": {
+      "type": "op",
+      "value": ""
+    },
+    "shadowstrength": {
+      "type": "float",
+      "value": 1.0
+    },
+    "shadowcolorr": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "shadowcolorg": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "shadowcolorb": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "darknessemit": {
+      "type": "toggle",
+      "value": true
+    },
+    "darknessemitcolorr": {
+      "type": "float",
+      "value": 0.8234499880790711
+    },
+    "darknessemitcolorg": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "darknessemitcolorb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "darknessemitmap": {
+      "type": "op",
+      "value": ""
+    },
+    "darknessemitmapextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "darknessemitmapextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "darknessemitmapextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "darknessemitmapfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "darknessemitmapanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "darknessemitmapsamplingmode": {
+      "type": "menu",
+      "value": "screenspace",
+      "menuIndex": 1,
+      "menuNames": [
+        "regular",
+        "screenspace",
+        "triplanar"
+      ],
+      "menuLabels": [
+        "Regular",
+        "Screen Space Coordinates",
+        "Triplanar Mapping"
+      ]
+    },
+    "darknessemitmapcoord": {
+      "type": "menu",
+      "value": "uv1",
+      "menuIndex": 1,
+      "menuNames": [
+        "uv0",
+        "uv1",
+        "uv2",
+        "uv3",
+        "uv4",
+        "uv5",
+        "uv6",
+        "uv7"
+      ],
+      "menuLabels": [
+        "Texture Layer 0 (uv[0-2])",
+        "Texture Layer 1 (uv[3-5])",
+        "Texture Layer 2 (uv[6-8])",
+        "Texture Layer 3 (uv[9-11])",
+        "Texture Layer 4 (uv[12-14])",
+        "Texture Layer 5 (uv[15-17])",
+        "Texture Layer 6 (uv[18-20])",
+        "Texture Layer 7 (uv[21-23])"
+      ]
+    },
+    "darknessemitmapcoordattrib": {
+      "type": "string",
+      "value": "Tex_perturbed"
+    },
+    "darknessemitmapcoordinterp": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "perspectivecorrect",
+        "linear"
+      ],
+      "menuLabels": [
+        "Perspective Correct",
+        "Linear (noperspective)"
+      ]
+    },
+    "writecameradepthtoalpha": {
+      "type": "toggle",
+      "value": true
+    },
+    "applypointcolor": {
+      "type": "toggle",
+      "value": false
+    },
+    "instancetexture": {
+      "type": "string",
+      "value": "basecolormap_perturbed"
+    },
+    "color": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "color0output": {
+      "type": "string",
+      "value": "fullshading_perturbed"
+    },
+    "dodeform": {
+      "type": "toggle",
+      "value": true
+    },
+    "deformdata": {
+      "type": "menu",
+      "value": "mat",
+      "menuIndex": 1,
+      "menuNames": [
+        "sop",
+        "mat",
+        "deformin"
+      ],
+      "menuLabels": [
+        "From a POP/SOP",
+        "From another MAT",
+        "From a DeformIn MAT"
+      ]
+    },
+    "targetsop": {
+      "type": "op",
+      "value": ""
+    },
+    "pcaptpath": {
+      "type": "string",
+      "value": "pCaptPath0_perturbed"
+    },
+    "pcaptdata": {
+      "type": "string",
+      "value": "pCaptData0_perturbed"
+    },
+    "skelrootpath": {
+      "type": "op",
+      "value": ""
+    },
+    "mat": {
+      "type": "op",
+      "value": ""
+    },
+    "blending": {
+      "type": "toggle",
+      "value": true
+    },
+    "blendop": {
+      "type": "menu",
+      "value": "subtract",
+      "menuIndex": 1,
+      "menuNames": [
+        "add",
+        "subtract",
+        "revsubtract",
+        "minimum",
+        "maximum"
+      ],
+      "menuLabels": [
+        "Add",
+        "Subtract",
+        "Reverse Subtract",
+        "Minimum",
+        "Maximum"
+      ]
+    },
+    "srcblend": {
+      "type": "menu",
+      "value": "constantcol",
+      "menuIndex": 9,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "destblend": {
+      "type": "menu",
+      "value": "da",
+      "menuIndex": 5,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "separatealphafunc": {
+      "type": "toggle",
+      "value": true
+    },
+    "blendopa": {
+      "type": "menu",
+      "value": "subtract",
+      "menuIndex": 1,
+      "menuNames": [
+        "add",
+        "subtract",
+        "revsubtract",
+        "minimum",
+        "maximum"
+      ],
+      "menuLabels": [
+        "Add",
+        "Subtract",
+        "Reverse Subtract",
+        "Minimum",
+        "Maximum"
+      ]
+    },
+    "srcblenda": {
+      "type": "menu",
+      "value": "constantcol",
+      "menuIndex": 9,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "destblenda": {
+      "type": "menu",
+      "value": "da",
+      "menuIndex": 5,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "blendconstantr": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstantg": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstantb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstanta": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "legacyalphabehavior": {
+      "type": "toggle",
+      "value": true
+    },
+    "postmultalpha": {
+      "type": "toggle",
+      "value": false
+    },
+    "pointcolorpremult": {
+      "type": "menu",
+      "value": "premultinshader",
+      "menuIndex": 1,
+      "menuNames": [
+        "alreadypremult",
+        "premultinshader"
+      ],
+      "menuLabels": [
+        "Already Pre-Multiplied By Alpha",
+        "Pre-Multiply By Alpha in Shader"
+      ]
+    },
+    "depthtest": {
+      "type": "toggle",
+      "value": false
+    },
+    "depthfunc": {
+      "type": "menu",
+      "value": "equal",
+      "menuIndex": 2,
+      "menuNames": [
+        "less",
+        "lessorequal",
+        "equal",
+        "greater",
+        "greaterorequal",
+        "notequal",
+        "always"
+      ],
+      "menuLabels": [
+        "Less Than",
+        "Less Than or Equal",
+        "Equal",
+        "Greater Than",
+        "Greater Than or Equal",
+        "Not Equal",
+        "Always"
+      ]
+    },
+    "depthwriting": {
+      "type": "toggle",
+      "value": false
+    },
+    "alphatest": {
+      "type": "toggle",
+      "value": true
+    },
+    "alphafunc": {
+      "type": "menu",
+      "value": "greaterorequal",
+      "menuIndex": 3,
+      "menuNames": [
+        "less",
+        "lessorequal",
+        "greater",
+        "greaterorequal"
+      ],
+      "menuLabels": [
+        "Less Than",
+        "Less Than or Equal",
+        "Greater Than",
+        "Greater Than or Equal"
+      ]
+    },
+    "alphathreshold": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "wireframe": {
+      "type": "menu",
+      "value": "tesselated",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "tesselated",
+        "topology"
+      ],
+      "menuLabels": [
+        "Off",
+        "GPU Tesselated Wire Frame",
+        "Topology Wire Frame"
+      ]
+    },
+    "wirewidth": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "cullface": {
+      "type": "menu",
+      "value": "neither",
+      "menuIndex": 1,
+      "menuNames": [
+        "userender",
+        "neither",
+        "backfaces",
+        "frontfaces",
+        "bothfaces"
+      ],
+      "menuLabels": [
+        "Use Render Setting",
+        "Neither",
+        "Back Faces",
+        "Front Faces",
+        "Both Faces"
+      ]
+    },
+    "polygonoffset": {
+      "type": "toggle",
+      "value": true
+    },
+    "polygonoffsetfactor": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "polygonoffsetunits": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    }
+  }
+}

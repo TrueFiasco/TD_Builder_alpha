@@ -1,0 +1,179 @@
+{
+  "operator": "ST2110_Device_CHOP",
+  "family": "CHOP",
+  "td_create_name": "st2110deviceCHOP",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "driver": {
+      "type": "menu",
+      "value": "deltacast",
+      "menuIndex": 1,
+      "menuNames": [
+        "blackmagic",
+        "deltacast"
+      ],
+      "menuLabels": [
+        "Blackmagic",
+        "Deltacast"
+      ]
+    },
+    "device": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "usedhcp": {
+      "type": "toggle",
+      "value": false
+    },
+    "ipaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "subnet": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "gateway": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "ptpprofile": {
+      "type": "menu",
+      "value": "st2059-2",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "st2059-2",
+        "aes67"
+      ],
+      "menuLabels": [
+        "Off",
+        "ST2059-2",
+        "AES67"
+      ]
+    },
+    "ptpaddress": {
+      "type": "string",
+      "value": "224.0.1.129_perturbed"
+    },
+    "ptpdomain": {
+      "type": "int",
+      "value": 127
+    },
+    "ptppriority1": {
+      "type": "int",
+      "value": 129
+    },
+    "ptppriority2": {
+      "type": "int",
+      "value": 129
+    },
+    "ptpudpencapsulation": {
+      "type": "toggle",
+      "value": false
+    },
+    "ptpfolloweronly": {
+      "type": "toggle",
+      "value": false
+    },
+    "igmpversion": {
+      "type": "menu",
+      "value": "version2and3",
+      "menuIndex": 2,
+      "menuNames": [
+        "vesion2",
+        "version3",
+        "version2and3"
+      ],
+      "menuLabels": [
+        "Version 2",
+        "Version 3",
+        "Version 2 and 3"
+      ]
+    },
+    "enablesps": {
+      "type": "toggle",
+      "value": true
+    },
+    "spsusedhcp": {
+      "type": "toggle",
+      "value": false
+    },
+    "spsipaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "spssubnet": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "spsgateway": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

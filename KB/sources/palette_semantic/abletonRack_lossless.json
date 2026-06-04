@@ -1,0 +1,1716 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDAbleton\\Live 9 & 10\\abletonRack.tox.dir",
+    "build_version": "099",
+    "build_date": "Wed Aug 24 12:34:11 2022",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2022.27900"
+  },
+  "operators": {
+    "/abletonRack": {
+      "name": "abletonRack",
+      "path": "/abletonRack",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "opviewer": "./out1"
+      },
+      "parent": null,
+      "children": [
+        "help",
+        "abletonRack"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonRack/help": {
+      "name": "help",
+      "path": "/abletonRack/help",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "language": "text"
+      },
+      "parent": "/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0003rThis component provides faster and more accurate OSC communication through the TDA Rack... Max for Live devices. It is also useful for controlling multiple Live parameters from TouchDesigner. The abletonRack Component uses Live racks, and specifically their Macros, to create sets of 8 deeply connected parameters. The best way to create the type of Rack that you want is by using one of the three pulse parameters: Add TDA Audio Effect Rack, Add TDA Instrument Rack, and Add TDA MIDI Effect Rack. You can also create the racks manually, but you will also have to manually add a TDA Rack... device (see below) and map its parameters to the rack's macros. Note: while you can only use these parameters to add devices to Ableton tracks, not to sub-chains, you can work within sub-chains by placing the devices manually in Live and then pointing to them with your TDAbleton components.",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack": {
+      "name": "abletonRack",
+      "path": "/abletonRack/abletonRack",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.2,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 3,
+        "extension1": "op('./AbletonRackExt').module.AbletonRackExt(me)",
+        "promoteextension1": "on",
+        "opviewer": "./out1",
+        "enablecloning": "off",
+        "clone": {
+          "17": "op.TDAbleton.op('comps/abletonMIDI') me.par.Tdabletoncomp.eval().op('comps/abletonRack1')"
+        },
+        "Track": {
+          "192": "None"
+        },
+        "Device": {
+          "192": "None"
+        },
+        "Deviceon": {
+          "192": "on"
+        },
+        "Devicename": {
+          "192": "\"\""
+        },
+        "Sync": {
+          "192": 0
+        },
+        "Tdabletoncomp": {
+          "81": "\"\" op.TDAbleton"
+        },
+        "Version": {
+          "336": "1.50 0.1"
+        },
+        "Update": {
+          "64": 0
+        },
+        "Helppage": {
+          "64": 0
+        },
+        "Connect": {
+          "64": "on"
+        },
+        "Clearchop": {
+          "64": 0
+        },
+        "Chain4device": {
+          "192": "None"
+        },
+        "Chain4": {
+          "192": "None"
+        },
+        "Chain3device": {
+          "192": "None"
+        },
+        "Chain3": {
+          "192": "None"
+        },
+        "Chain2device": {
+          "192": "None"
+        },
+        "Chain2": {
+          "192": "None"
+        },
+        "Chain1device": {
+          "192": "None"
+        },
+        "Chain1": {
+          "192": "None"
+        },
+        "Addaer": {
+          "192": 0
+        },
+        "Macro1": {
+          "192": 30.6
+        },
+        "Macro2": {
+          "192": 44.3846
+        },
+        "Macro3": {
+          "192": 71.2847
+        },
+        "Macro4": {
+          "192": 71.2847
+        },
+        "Macro5": {
+          "192": 107.95
+        },
+        "Macro6": {
+          "192": 107.95
+        },
+        "Macro7": {
+          "192": 107.95
+        },
+        "Macro8": {
+          "192": 0
+        },
+        "Addir": {
+          "192": 0
+        },
+        "Addmer": {
+          "192": 0
+        },
+        "Macrososconly": {
+          "192": "off"
+        },
+        "Macroosc1": {
+          "192": "In_And_Out"
+        },
+        "Macroosc2": {
+          "192": "In_And_Out"
+        },
+        "Macroosc3": {
+          "192": "In_And_Out"
+        },
+        "Macroosc4": {
+          "192": "In_And_Out"
+        },
+        "Macroosc5": {
+          "192": "In_And_Out"
+        },
+        "Macroosc6": {
+          "192": "In_And_Out"
+        },
+        "Macroosc7": {
+          "192": "In_And_Out"
+        },
+        "Macroosc8": {
+          "192": "In_And_Out"
+        },
+        "Oscinputchop": {
+          "192": "\"\""
+        },
+        "Reorder": {
+          "192": "*"
+        },
+        "extension2": "\"\"",
+        "extname2": "\"\"",
+        "promoteextension2": "on"
+      },
+      "parent": "/abletonRack",
+      "children": [
+        "out1",
+        "math1",
+        "merge1",
+        "delete1",
+        "rename1",
+        "switch1",
+        "parexec1",
+        "reorder2",
+        "replace1",
+        "chanNames",
+        "chopexec1",
+        "macroSends",
+        "abletonBase",
+        "oscin_device",
+        "oscout_macro",
+        "sendChannels",
+        "AbletonRackExt",
+        "oscin_controls",
+        "in_OSCInputCHOP",
+        "oscin1_callbacks",
+        "script1_callbacks",
+        "select_OSCInputCHOP",
+        "chopexec_updateSends"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 3 \"Ableton Rack\" Macros TDAbleton\n-1374613233 Track Track 1 1 0 0 1 1 1 0 0 \"\" \"Ableton Rack\" 4097 8 None None 572138088 \"1 Muugy\" 572864736 \"2 Muugy\" 572949328 \"Effect Rack\" 572992208 Kick 573052680 \"Return: A-Reverb\" 573047232 \"Return: B-Delay\" 572127792 \"# Master Track #\" 0\n772870415 Device Device 1 1 0 0 1 1 1 0 0 \"\" \"Ableton Rack\" 4097 2 None None 651487260 TDA_Audio_Analyzer 1\n-1374678781 Deviceon \"Device On\" 1 1 0 0 1 127 127 0 0 \"\" \"Ableton Rack\" 10\n772804868 Devicename \"Device Name\" 1 1 0 0 1 1 1 0 0 notes \"Ableton Rack\" 11\n772804869 Sync \"Sync Pars To CHOP\" 1 1 0 0 1 1 1 0 0 0 \"Ableton Rack\" 17\n-1374678781 Autosync \"Auto Sync Pars To CHOP\" 1 1 0 0 1 1 1 0 1 \"\" \"Ableton Rack\" 16\n772804877 Tdabletoncomp \"TDAbleton Comp\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 0\n772804868 Version \"TDAbleton Version\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 1\n772804869 Update \"Update To 1.50\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 2\n772804869 Helppage \"Help Page\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 3\n-1374678781 Connect Connect 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 4\n772804869 Clearchop \"Clear CHOP\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 5\n772804866 Stripchopprefixsegments \"Strip CHOP Prefix Segments\" 1 3 0 0 1 10 10 0 0 \"\" TDAbleton 6\n-1374678782 Stripdeviceprefixsegments \"Strip Rack Prefix Segments\" 1 3 0 0 1 10 3 0 0 \"\" \"Ableton Rack\" 15\n772870415 Chain4device \"Chain 4 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 9\n772870415 Chain4 \"Chain 4\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 8\n772870415 Chain3device \"Chain 3 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 7\n772870415 Chain3 \"Chain 3\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 6\n772870415 Chain2device \"Chain 2 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 5\n772870415 Chain2 \"Chain 2\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 4\n772870415 Chain1device \"Chain 1 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 1 None None 3\n772870415 Chain1 \"Chain 1\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Rack\" 4097 5 None None 651487220 Thru 651485460 Low 651331332 Mid 651331412 High 2\n772804869 Addaer \"Add TDA Audio Effect Rack\" 1 1 0 0 1 1 1 0 0 \"\" \"Ableton Rack\" 12\n772804865 Macro1 Macro1 1 3 0 0 3 127 127 0 0 \"\" Macros 0\n772804865 Macro2 Macro2 1 3 0 0 3 127 127 0 0 \"\" Macros 1\n772804865 Macro3 Macro3 1 3 0 0 3 127 127 0 0 \"\" Macros 2\n772804865 Macro4 Macro4 1 3 0 0 3 127 127 0 0 \"\" Macros 3\n772804865 Macro5 Macro5 1 3 0 0 3 127 127 0 0 \"\" Macros 4\n772804865 Macro6 Macro6 1 3 0 0 3 127 127 0 0 \"\" Macros 5\n772804865 Macro7 Macro7 1 3 0 0 3 127 127 0 0 \"\" Macros 6\n772804865 Macro8 Macro8 1 3 0 0 3 127 127 0 0 \"\" Macros 7\n772804869 Addir \"Add TDA Instrument Rack\" 1 1 0 0 1 1 1 0 0 0 \"Ableton Rack\" 13\n772804869 Addmer \"Add TDA MIDI Effect Rack\" 1 1 0 0 1 1 1 0 0 0 \"Ableton Rack\" 14\n-1374678781 Macrososconly \"Macros OSC Only\" 1 1 0 0 1 1 1 0 0 \"\" Macros 16\n-1374678769 Macroosc1 \"Macro OSC 1\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 8\n772804879 Macroosc2 \"Macro OSC 2\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 9\n772804879 Macroosc3 \"Macro OSC 3\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 10\n772804879 Macroosc4 \"Macro OSC 4\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 11\n772804879 Macroosc5 \"Macro OSC 5\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 12\n772804879 Macroosc6 \"Macro OSC 6\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 13\n772804879 Macroosc7 \"Macro OSC 7\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 14\n772804879 Macroosc8 \"Macro OSC 8\" 1 1 0 0 1 1 1 0 0 In_And_Out Macros 4097 4 In \"In to Live\" Out \"Out from Live\" In_And_Out \"In and Out\" None None 15\n772804873 Oscinputchop \"OSC Input CHOP\" 1 1 0 0 1 1 1 0 0 \"\" Macros 17\n772804882 Reorder Reorder 1 1 0 0 1 1 1 0 0 * Macros 1 1 * * 18\n772804867 Timesliceoscchops \"Timeslice OSC Chops\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 7\n772804867 Sendonly \"Send Only\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 8\n?\n",
+          "is_binary": false
+        },
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \t\"\"\n\tin_OSCInputCHOP\n\tCHOP\n}\nend\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/out1": {
+      "name": "out1",
+      "path": "/abletonRack/abletonRack/out1",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        1400,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "switch1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/math1": {
+      "name": "math1",
+      "path": "/abletonRack/abletonRack/math1",
+      "op_type": "CHOP:math",
+      "family": "CHOP",
+      "specific_type": "math",
+      "viewport_pos": null,
+      "tile_pos": [
+        800,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1,
+        "gain": 127
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "rename1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/merge1": {
+      "name": "merge1",
+      "path": "/abletonRack/abletonRack/merge1",
+      "op_type": "CHOP:merge",
+      "family": "CHOP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "abletonBase/out1",
+        "1": "replace1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/delete1": {
+      "name": "delete1",
+      "path": "/abletonRack/abletonRack/delete1",
+      "op_type": "CHOP:delete",
+      "family": "CHOP",
+      "specific_type": "delete",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "delchannels": "on",
+        "discard": "nonscoped",
+        "select": "bynum",
+        "selnumbers": {
+          "49": "\"\" \"'0-' + str(len(parent().MacroOSCSendAddresses)-1)\""
+        },
+        "compnums": 0
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "reorder2"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/rename1": {
+      "name": "rename1",
+      "path": "/abletonRack/abletonRack/rename1",
+      "op_type": "CHOP:rename",
+      "family": "CHOP",
+      "specific_type": "rename",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "renameto": {
+          "49": "\"\" \"' '.join(parent().MacroOSCSendAddresses) \""
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "delete1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/switch1": {
+      "name": "switch1",
+      "path": "/abletonRack/abletonRack/switch1",
+      "op_type": "CHOP:switch",
+      "family": "CHOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        800,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index": {
+          "49": "0 parent().par.Macrososconly"
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "merge1",
+        "1": "replace1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/parexec1": {
+      "name": "parexec1",
+      "path": "/abletonRack/abletonRack/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": "\"Addaer Addir Addmer Macrososconly Devicename Stripdeviceprefixsegments Output Macroosc*\"",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002\u0012# me - this DAT\n# par - the Par object that has changed\n# val - the current value\n# prev - the previous value\n# \n# Make sure the corresponding toggle is enabled in the Parameter Execute DAT.\n\ndef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onParValueChange(par, val, prev)\n\ndef onPulse(par):\n\text.TDAbletonCompBaseExt.onParPulse(par)\n\ndef onExpressionChange(par, val, prev):\n\treturn\n\ndef onExportChange(par, val, prev):\n\treturn\n\ndef onEnableChange(par, val, prev):\n\treturn\n\ndef onModeChange(par, val, prev):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/reorder2": {
+      "name": "reorder2",
+      "path": "/abletonRack/abletonRack/reorder2",
+      "op_type": "CHOP:reorder",
+      "family": "CHOP",
+      "specific_type": "reorder",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "method": "character",
+        "numpattern": {
+          "17": "* parent().par.Numericreorder"
+        },
+        "charpattern": {
+          "49": "parent() parent().par.Reorder"
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "in_OSCInputCHOP"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/replace1": {
+      "name": "replace1",
+      "path": "/abletonRack/abletonRack/replace1",
+      "op_type": "CHOP:replace",
+      "family": "CHOP",
+      "specific_type": "replace",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "chanNames",
+        "1": "oscin_device"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/chanNames": {
+      "name": "chanNames",
+      "path": "/abletonRack/abletonRack/chanNames",
+      "op_type": "CHOP:script",
+      "family": "CHOP",
+      "specific_type": "script",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 2,
+        "callbacks": "script1_callbacks",
+        "exportmethod": "datname"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Custom\n772804868 Channelnames \"Channel Names\" 1 1 0 0 1 1 1 0 0 \"\" Custom 0\n?\n",
+          "is_binary": false
+        },
+        "script": {
+          "content": "1\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/chopexec1": {
+      "name": "chopexec1",
+      "path": "/abletonRack/abletonRack/chopexec1",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "chop": "macroSends",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002Z# me - this DAT\n# \n# channel - the Channel object which has changed\n# sampleIndex - the index of the changed sample\n# val - the numeric value of the changed sample\n# prev - the previous sample value\n# \n# Make sure the corresponding toggle is enabled in the CHOP Execute DAT.\n\ndef onOffToOn(channel, sampleIndex, val, prev):\n\treturn\n\ndef whileOn(channel, sampleIndex, val, prev):\n\treturn\n\ndef onOnToOff(channel, sampleIndex, val, prev):\n\treturn\n\ndef whileOff(channel, sampleIndex, val, prev):\n\treturn\n\ndef onValueChange(channel, sampleIndex, val, prev):\n\top('oscout_macro').sendOSC(channel.name, [val])\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/macroSends": {
+      "name": "macroSends",
+      "path": "/abletonRack/abletonRack/macroSends",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "math1"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/abletonBase": {
+      "name": "abletonBase",
+      "path": "/abletonRack/abletonRack/abletonBase",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 2,
+        "opviewer": "./out1",
+        "clone": {
+          "49": "\"\" op.TDAbleton.op('comps/abletonComp1/abletonBase')"
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [
+        "out1",
+        "parexec1",
+        "noTDAError",
+        "oscin_info",
+        "oscin_outputs",
+        "parexec_outPars",
+        "oscin1_callbacks",
+        "chopexec_autoSync",
+        "TDAbletonCompBaseExt"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/abletonBase/out1": {
+      "name": "out1",
+      "path": "/abletonRack/abletonRack/abletonBase/out1",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {
+        "0": "oscin_outputs"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/abletonBase/parexec1": {
+      "name": "parexec1",
+      "path": "/abletonRack/abletonRack/abletonBase/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "../..",
+        "pars": {
+          "49": "\"Track Device Parameter Tdabletoncomp Connect Sync Autosync Update\" \"'Sendonly Timesliceoscchops Stripchopprefixsegments Tdabletoncomp Autosync Sync Clearchop Connect Update Helppage ' + tdu.tryExcept(lambda: ' '.join(ext.TDAbletonCompBaseExt.lomParNames), '')\""
+        },
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002x# me - this DAT\n# par - the Par object that has changed\n# val - the current value\n# prev - the previous value\n# \n# Make sure the corresponding toggle is enabled in the Parameter Execute DAT.\n\ndef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onParValueChange(par, val, prev)\n\treturn\n\ndef onPulse(par):\n\ttry:\n\t\text.TDAbletonCompBaseExt.onParPulse(par)\n\texcept:\n\t\tui.viewFile('https://docs.derivative.ca/index.php?title=TDAbleton')\n\treturn\n\ndef onExpressionChange(par, val, prev):\n\treturn\n\ndef onExportChange(par, val, prev):\n\treturn\n\ndef onEnableChange(par, val, prev):\n\treturn\n\ndef onModeChange(par, val, prev):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/noTDAError": {
+      "name": "noTDAError",
+      "path": "/abletonRack/abletonRack/abletonBase/noTDAError",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1,
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHfY2xhc3MgVERBYmxldG9uQ29tcEJhc2VFeHQoKToKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXApOgoJCWxhYmVsID0gJ1REQWJsZXRvbkNPTVBCYXNlJwoJCWVycm9yID0gXAoJCSdcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuJ1wKCQknXHRUaGlzIGNvbXBvbmVudCByZXF1aXJlcyBhIHRkQWJsZXRvblBhY2thZ2UgaW4geW91ciBwcm9qZWN0LlxuJ1wKCQknXHQoUHJlc3MgSGVscCBwYXJhbWV0ZXIgb24gQWJvdXQgUGFnZSBmb3IgZG9jdW1lbnRhdGlvbilcbidcCgkJJyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIycKCQlwYXJlbnQoMikuYWRkU2NyaXB0RXJyb3IobGFiZWwgKyAiOiAiICsgZXJyb3IpCgkJcHJpbnQoJ1xuJyArIHBhcmVudCgyKS5wYXRoICsgJzonICsgZXJyb3IsICdcblxuJyk=",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/oscin_info": {
+      "name": "oscin_info",
+      "path": "/abletonRack/abletonRack/abletonBase/oscin_info",
+      "op_type": "DAT:oscin",
+      "family": "DAT",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        700,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off \"parent(2).par.Connect and me.par.addscope and not parent(2).ListenersConfirmed\""
+        },
+        "address": "localhost",
+        "port": {
+          "48": "58811 parent().par.Tdabletoncomp.eval().par.Inport"
+        },
+        "addscope": "\"\"",
+        "callbacks": "oscin1_callbacks",
+        "maxlines": 1,
+        "language": "text"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "fifo": {
+          "content": "MQowCioAAAABAAAACwAAAAEAAAAAAAAAAgAAAAdtZXNzYWdlAAAAAgAAALMvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiA0MDYzIDkgIjIwMTctMDYtMDIgMTg6MTM6MjMuMTIxMDAwIgAAAAIAAACzL2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgNDA2MyA5ICIyMDE3LTA2LTAyIDE4OjEzOjI1Ljk3MTAwMCIAAAACAAAAsy9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDQwNjMgOSAiMjAxNy0wNi0wMiAxODoxMzoyNi43MzgwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDE4OjE1OjUyLjUxMDAwMCIAAAACAAAAtC9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDM2MTk0IDkgIjIwMTctMDYtMDIgMTg6MTY6MTUuNzI0MDAwIgAAAAIAAAC0L2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgMzYxOTQgOSAiMjAxNy0wNi0wMiAxODoxNjozNC44NjEwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDE4OjE2OjUzLjQ4MTAwMCIAAAACAAAAtC9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDM2MTk0IDkgIjIwMTctMDYtMDIgMTk6NTc6MTguMTAxMDAwIgAAAAIAAAC0L2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgMzYxOTQgOSAiMjAxNy0wNi0wMiAyMDowMTozOS4yODMwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDIwOjAyOjE0LjQzMzAwMCI=",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/oscin_outputs": {
+      "name": "oscin_outputs",
+      "path": "/abletonRack/abletonRack/abletonBase/oscin_outputs",
+      "op_type": "CHOP:oscin",
+      "family": "CHOP",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.2,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off \"not parent(2).par.Sendonly and parent(2).par.Connect and me.par.oscaddressscope\""
+        },
+        "netaddress": "localhost",
+        "port": 58811,
+        "oscaddressscope": "\"\"",
+        "queuetarget": 13.2,
+        "queuetargetunit": "frames",
+        "queuevariance": 0,
+        "queuevarianceunit": "frames",
+        "adjusttime": 12,
+        "adjusttimeunit": "frames",
+        "stripprefixes": {
+          "49": "0 parent(2).par.Stripchopprefixsegments"
+        },
+        "timeslice": {
+          "49": "off parent(2).par.Timesliceoscchops"
+        }
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n60\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        },
+        "oscin": {
+          "content": "1\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/parexec_outPars": {
+      "name": "parexec_outPars",
+      "path": "/abletonRack/abletonRack/abletonBase/parexec_outPars",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "on \"parent(2).par.Connect and (parent(2).TDAbletonComp.Connected if hasattr(parent(2), 'TDAbletonComp') else False)\""
+        },
+        "op": "../..",
+        "pars": {
+          "17": "ext.TDAbletonBaseExt.outPars \"' '.join(parent(2).OutParNames)\""
+        },
+        "onpulse": "off",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000Qdef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onOutParChange(par)\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/oscin1_callbacks": {
+      "name": "oscin1_callbacks",
+      "path": "/abletonRack/abletonRack/abletonBase/oscin1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        700,
+        -325,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAPzIyBtZSAtIHRoaXMgREFUCiMgCiMgZGF0IC0gdGhlIERBVCB0aGF0IHJlY2VpdmVkIGEgbWVzc2FnZQojIHJvd0luZGV4IC0gdGhlIHJvdyBudW1iZXIgdGhlIG1lc3NhZ2Ugd2FzIHBsYWNlZCBpbnRvCiMgbWVzc2FnZSAtIGFuIGFzY2lpIHJlcHJlc2VudGF0aW9uIG9mIHRoZSBkYXRhCiMgICAgICAgICAgIFVucHJpbnRhYmxlIGNoYXJhY3RlcnMgYW5kIHVuaWNvZGUgY2hhcmFjdGVycyB3aWxsCiMgICAgICAgICAgIG5vdCBiZSBwcmVzZXJ2ZWQuIFVzZSB0aGUgJ2J5dGVzJyBwYXJhbWV0ZXIgdG8gZ2V0CiMgICAgICAgICAgIHRoZSByYXcgYnl0ZXMgdGhhdCB3ZXJlIHNlbnQuCiMgYnl0ZXMgLSBhIGJ5dGUgYXJyYXkgb2YgdGhlIG1lc3NhZ2UuCiMgdGltZVN0YW1wIC0gdGhlIGFycml2YWwgdGltZSBjb21wb25lbnQgdGhlIE9TQyBtZXNzYWdlCiMgYWRkcmVzcyAtIHRoZSBhZGRyZXNzIGNvbXBvbmVudCBvZiB0aGUgT1NDIG1lc3NhZ2UKIyBhcmdzIC0gYSBsaXN0IG9mIHZhbHVlcyBjb250YWluZWQgd2l0aGluIHRoZSBPU0MgbWVzc2FnZQojIHBlZXIgLSBhIFBlZXIgb2JqZWN0IGRlc2NyaWJpbmcgdGhlIG9yaWdpbmF0aW5nIG1lc3NhZ2UKIyAgIHBlZXIuY2xvc2UoKSAgICAjY2xvc2UgdGhlIGNvbm5lY3Rpb24KIyAgIHBlZXIub3duZXIgICN0aGUgb3BlcmF0b3IgdG8gd2hvbSB0aGUgcGVlciBiZWxvbmdzCiMgICBwZWVyLmFkZHJlc3MgICAgI25ldHdvcmsgYWRkcmVzcyBhc3NvY2lhdGVkIHdpdGggdGhlIHBlZXIKIyAgIHBlZXIucG9ydCAgICAgICAjbmV0d29yayBwb3J0IGFzc29jaWF0ZWQgd2l0aCB0aGUgcGVlcgojCgpkZWYgb25SZWNlaXZlT1NDKGRhdCwgcm93SW5kZXgsIG1lc3NhZ2UsIGJ5dGVzLCB0aW1lU3RhbXAsIGFkZHJlc3MsIGFyZ3MsIHBlZXIpOgoJZXh0LlREQWJsZXRvbkNvbXBCYXNlRXh0Lm9uUmVjZWl2ZU9TQ0luZm8oCgkJCQlkYXQsIHJvd0luZGV4LCBtZXNzYWdlLCBieXRlcywgdGltZVN0YW1wLCBhZGRyZXNzLCBhcmdzLCBwZWVyKQoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/chopexec_autoSync": {
+      "name": "chopexec_autoSync",
+      "path": "/abletonRack/abletonRack/abletonBase/chopexec_autoSync",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.2,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "on \"parent(2).par.Autosync if hasattr(parent(2).par, 'Autosync') else False\""
+        },
+        "chop": "oscin_outputs",
+        "channel": {
+          "49": "\"' '.join(parent(2).OutParNames)\" \"' '.join([parent(2).OutPars[parName][1] for parName in parent(2).OutParNames])\""
+        },
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000ydef onValueChange(channel, sampleIndex, val, prev):\n\text.TDAbletonCompBaseExt.onOutputsChannelChange(channel.name, val)\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/abletonBase/TDAbletonCompBaseExt": {
+      "name": "TDAbletonCompBaseExt",
+      "path": "/abletonRack/abletonRack/abletonBase/TDAbletonCompBaseExt",
+      "op_type": "DAT:select",
+      "family": "DAT",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": {
+          "49": "/project1/tdAbleton/TDAbletonCompBaseExt \"op.TDAbleton.op('TDAbletonCompBaseExt') if 'TDAbleton' in op else op('noTDAError')\""
+        },
+        "rownames": "*",
+        "colnames": "*",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/oscin_device": {
+      "name": "oscin_device",
+      "path": "/abletonRack/abletonRack/oscin_device",
+      "op_type": "CHOP:oscin",
+      "family": "CHOP",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -500,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off \"parent().OSCInCHOP.par.active and parent().par.Connect.eval() and parent().TDAbletonComp.extensionsReady and parent().TDAbletonComp.Connected\""
+        },
+        "netaddress": "localhost",
+        "port": {
+          "32": 58811
+        },
+        "oscaddressscope": "\"\"",
+        "queuetarget": 13.2,
+        "queuetargetunit": "frames",
+        "queuevariance": 0,
+        "queuevarianceunit": "frames",
+        "adjusttime": 0,
+        "adjusttimeunit": "frames",
+        "stripprefixes": {
+          "49": "0 parent().par.Stripdeviceprefixsegments"
+        },
+        "timeslice": {
+          "49": "on parent().par.Timesliceoscchops"
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n60\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        },
+        "oscin": {
+          "content": "1\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/oscout_macro": {
+      "name": "oscout_macro",
+      "path": "/abletonRack/abletonRack/oscout_macro",
+      "op_type": "DAT:oscout",
+      "family": "DAT",
+      "specific_type": "oscout",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -800,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "address": {
+          "49": "localhost parent().par.Tdabletoncomp.eval().par.Abletonaddress"
+        },
+        "port": {
+          "49": "7000 parent().par.Tdabletoncomp.eval().par.Maxport"
+        },
+        "addscope": "*",
+        "language": "text"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "fifo": {
+          "content": "1\n0\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0007message",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/sendChannels": {
+      "name": "sendChannels",
+      "path": "/abletonRack/abletonRack/sendChannels",
+      "op_type": "CHOP:info",
+      "family": "CHOP",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -1000,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "macroSends",
+        "iscope": "num_channels",
+        "childcooktime": "on"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/AbletonRackExt": {
+      "name": "AbletonRackExt",
+      "path": "/abletonRack/abletonRack/AbletonRackExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000@f# AbletonRackExt\n\nfrom distutils.log import debug\nimport socket\nfrom copy import deepcopy\n\nTDF = op.TDModules.mod.TDFunctions\nTDAbletonCompBaseExt = \\\n\tmod('abletonBase/TDAbletonCompBaseExt').TDAbletonCompBaseExt\n\n\nclass AbletonRackExt(TDAbletonCompBaseExt):\n\t\"\"\"\n\tAbletonLevelExt works with TDA_Level Max Device to get audio level data\n\t\"\"\"\n\n\tdef __init__(self, ownerComp):\n\t\t# The component to which this extension is attached\n\t\tself.OSCDeviceInCHOP = ownerComp.op('oscin_device')\n\t\tself.OSCControlsInDAT = ownerComp.op('oscin_controls')\n\t\tself.OSCMacrosSendCHOP = ownerComp.op('macroSends')\n\t\tself.ChanNameCHOP = ownerComp.op('chanNames')\n\t\tself.InOutIndexes = []\n\t\tself.deviceChannel = None\n\t\tself.rackName = None\n\t\tself.deviceName = None\n\t\tself.isRackSet = False\n\t\t# can be multiple devices\n\t\tTDF.createProperty(self, 'SendDevices', {}, dependable=True)\n\t\tTDF.createProperty(self, 'MacroOSCSendAddresses', [], dependable='deep')\n\t\tTDAbletonCompBaseExt.__init__(self, ownerComp)\n\n\t\t# list of device parameters to track, by Ableton device par index:\n\t\t# \t['TD par name', 'osc_channel_par_name'] or ['name'] or None to skip\n\t\tself.devicePars = [['Deviceon', 'Device_On']]\n\t\t# info about the rack types. {rack device name: pulse parameter}\n\t\tself.midiRackInfo = {'TDA_Instrument_Rack': ownerComp.par.Addir,\n\t\t\t\t\t\t\t 'TDA_MIDI_Effect_Rack': ownerComp.par.Addmer}\n\t\tself.audioRackInfo = {'TDA_Audio_Effect_Rack': ownerComp.par.Addaer}\n\t\tself.rackInfo = {}\n\t\tself.rackInfo.update(self.midiRackInfo)\n\t\tself.rackInfo.update(self.audioRackInfo)\n\t\tself.oscDevicePars = [ownerComp.par.Macrososconly,\n\t\t\t\t\t\t\t  ownerComp.par.Oscinputchop,\n\t\t\t\t\t\t\t  ownerComp.par.Reorder]\n\t\tself.addRackPars = [ownerComp.par.Addaer, ownerComp.par.Addir,\n\t\t\t\t\t\t\townerComp.par.Addmer]\n\n\t\trun('op(' + str(self.ownerComp.id) + \\\n\t\t\t\t').ext.TDAbletonCompBaseExt.checkDeviceEnable()'\\\n\t\t\t\t' if op(' + str(self.ownerComp.id) + ')\telse None',\n\t\t\tdelayFrames=1, delayRef=op.TDResources)\n\n\tdef updateLOMPar(self, lomPar, lomInfo):\n\t\t\"\"\"\n\t\tApply filters to base method.\n\t\tDevice will be filtered for TDA_Level M4L devices only\n\n\t\tBase method:\n\t\tUpdates a Live Object Model parameter (Track, Device, Parameter)\n\t\tlomPar is the parameter\n\t\tlomInfo is the associated dictionary from self.SongInfo\n\n\t\t menuLabel is LO.name, menuName is LO pointer or\n\t\t \t'None' if None\n\t\t \t'Not_Found' if  not found\n\t\t if lomInfo is None, set val to 'None' with no other menu options\n\t\t\"\"\"\n\t\t# only include rack devices (not drum pads)\n\t\tif lomInfo and (lomPar.name == 'Device'\n\t\t\t\t\t\tor lomPar.name.endswith('device')):\n\t\t\tnewLOMInfo = dict()\n\t\t\tfor deviceInfo in lomInfo.values():\n\t\t\t\tif deviceInfo['chainType'] == 'chains':\n\t\t\t\t\tnewLOMInfo[deviceInfo['name']] = deviceInfo\n\t\t\t# use first available device if current value not found\n\t\t\tlabel = self.getMenuLabel(lomPar)\n\t\t\tif label.endswith(' (Not Found)'):\n\t\t\t\tlabel = label[:-12]\n\t\t\t# if newLOMInfo and (label not in newLOMInfo):\n\t\t\t# \t# hack the valid device name into menu\n\t\t\t# \tlabels = lomPar.menuLabels\n\t\t\t# \tlabels[lomPar.menuIndex] = list(newLOMInfo.keys())[0]\n\t\t\t# \tlomPar.menuLabels = labels\n\t\telse:\n\t\t\tnewLOMInfo = lomInfo\n\t\treturn TDAbletonCompBaseExt.updateLOMPar(self, lomPar, newLOMInfo)\n\n\t@property\n\tdef deviceInfo(self):\n\t\t\"\"\"\n\t\tdevice par info\n\t\t:return: par info or None if invalid device or no device chosen.\n\t\t\"\"\"\n\t\tdeviceInfo = self.LOMParInfo(self.FinalDevicePar)\n\t\tif deviceInfo and deviceInfo['lomInfo']['chainType'] == 'chains':\n\t\t\treturn deviceInfo\n\t\telse:\n\t\t\treturn None\n\n\tdef setupListeners(self):\n\t\tself.isRackSet = False\n\t\tself.OSCControlsInDAT.par.active = False\n\t\tself.InOutIndexes = []\n\t\tself.MacroOSCSendAddresses = []\n\t\tself.deviceChannel = None\n\t\tTDAbletonCompBaseExt.setupListeners(self)\n\t\toldMacroLabels = []\n\t\t# default a bunch of stuff to off, turn it on later if it's valid\n\t\tfor macroNum in range(1, 9):\n\t\t\tpar = getattr(self.ownerComp.par, 'Macro' + str(macroNum))\n\t\t\toldMacroLabels.append(par.label)\n\t\t\tpar.label = 'Macro' + str(macroNum)\n\t\t\tpar.enable = False\n\t\t\tpar = getattr(self.ownerComp.par, 'Macroosc' + str(macroNum))\n\t\t\tpar.enable = False\n\t\tfor par in self.rackInfo.values():\n\t\t\tpar.enable = False\n\t\tfor par in self.oscDevicePars:\n\t\t\tpar.enable = False\n\t\t# turn on add rack buttons if we're on a track\n\t\tif self.FinalChainPar == 'Track' \\\n\t\t\t\tand self.LOMParInfo(self.FinalChainPar):\n\t\t\tfor par in self.audioRackInfo.values():\n\t\t\t\tpar.enable = True\n\t\t\tif self.LOMParInfo(self.FinalChainPar)['lomInfo']['hasMIDIInput']:\n\t\t\t\tfor par in self.midiRackInfo.values():\n\t\t\t\t\tpar.enable = True\n\n\t\t# check if we have a valid device using deviceInfo property above\n\t\tdeviceInfo = self.deviceInfo\n\t\tif deviceInfo is None:\n\t\t\tself.onDeviceInvalid()\n\t\t\treturn\n\t\tif ' ' in deviceInfo['lomInfo']['name']:\n\t\t\tself.SetError(\n\t\t\t\t\t\"TDAbleton Rack Devices can't have spaces in their names\",\n\t\t\t\t\tlabel='TDA Rack name')\n\t\telse:\n\t\t\tself.SetError('', label='TDA Rack name')\n\n\t\tself.SendDevices.clear()\n\t\tself._SendDevices.modified()\n\t\tself.isRackSet = True\n\n\t\t# set device networking for all devices in Rack\n\t\trackInfo = deviceInfo['lomInfo']\n\t\tmaxTrackID = self.MaxTrackID()\n\t\tdeviceLomExpression = deviceInfo['lomExpression']\n\t\treturnAddressBase = deviceInfo['returnAddress']\n\t\tsendDeviceInfo = None\n\t\tsendDeviceExpr = None\n\t\toscAddressScopes = []\n\n\t\tif rackInfo['chains']:\n\t\t\tchainInfo = next(iter(rackInfo['chains'].values()))\n\t\t\tif chainInfo['hasMIDIOutput']:\n\t\t\t\tdeviceName = 'TDA_Rack_MIDI_OSC'\n\t\t\telse:\n\t\t\t\tdeviceName = 'TDA_Rack_OSC'\n\t\t\tfor chain in rackInfo['chains'].values():\n\t\t\t\tif self.SendDevices:\n\t\t\t\t\tbreak\n\t\t\t\tfor chainDeviceName, device in chain['devices'].items():\n\t\t\t\t\tif 'ID_' + deviceName in device['aPars']:\n\t\t\t\t\t\tsendDeviceInfo = device\n\t\t\t\t\t\tsendDeviceExpr = deviceLomExpression + '.' + \\\n\t\t\t\t\t\t\t\t\t\t chain['expression'] + '.' + \\\n\t\t\t\t\t\t\t\t\t\t device['expression']\n\t\t\t\t\t\tself.SendDevices[sendDeviceExpr] = sendDeviceInfo\n\t\t\t\t\t\tbreak\n\n\t\t\tfor expression, device in self.SendDevices.items():\n\t\t\t\t# device channel name\n\t\t\t\tself.deviceChannel = \\\n\t\t\t\t\t'/rack/' + maxTrackID + '/' + rackInfo['name']\n\t\t\t\toscAddressScopes.append(self.deviceChannel + '/*')\n\t\t\t\tself.sendOSC('/tda/command', ['setDeviceNetworking',\n\t\t\t\t\t\t\t\t\t\t\t  expression])\n\n\t\tself.OSCDeviceInCHOP.par.oscaddressscope = ' '.join(oscAddressScopes)\n\n\t\tif sendDeviceInfo:\n\t\t\t# other info from device\n\t\t\townerId = self.ownerComp.id\n\t\t\t# Parameters (only DeviceOn for rack)\n\t\t\tfor aParNum, info in enumerate(self.devicePars[:1]):\n\t\t\t\tif info is None:\n\t\t\t\t\tcontinue\n\t\t\t\tif len(info) == 1:\n\t\t\t\t\tinfo.append(info[0])\n\t\t\t\tpar = getattr(self.ownerComp.par, info[0])\n\t\t\t\tpar.enable = True\n\t\t\t\treturnAddress = returnAddressBase + '/' + info[1] + '/value'\n\t\t\t\tlistener = (deviceLomExpression + '.parameters['\n\t\t\t\t\t\t\t+ str(aParNum) + ']', 'value', returnAddress,\n\t\t\t\t\t\t\townerId)\n\t\t\t\tself.addListener(listener, par)\n\n\t\t\tmacroAPars = list(rackInfo['aPars'].keys())\n\t\t\t# we have to search for indexes because names can change\n\t\t\tmacroPars = []\n\t\t\tfor aParName in macroAPars:\n\t\t\t\tmacroPar = rackInfo['aPars'][aParName]\n\t\t\t\tif 0 < macroPar['index'] < 9:\n\t\t\t\t\tmacroPars.append(macroPar)\n\t\t\t# macro controls\n\t\t\tchannelNames = [''] * 8\n\t\t\tfor macroPar in macroPars:\n\t\t\t\tindex = str(macroPar['index'])\n\t\t\t\tpar = getattr(self.ownerComp.par, 'Macro' + index)\n\t\t\t\tpar.label = macroPar['name']\n\t\t\t\tself.updateMacroBinds(par,\n\t\t\t\t\t\t\t\t\t  oldMacroLabels[macroPar['index'] - 1])\n\t\t\t\tchannelNames[macroPar['index'] - 1] = macroPar['name']\n\t\t\t\tpar.readOnly = False\n\t\t\t\tif not self.ownerComp.par.Macrososconly:\n\t\t\t\t\tpar.enable = True\n\t\t\t\t\t# value listener\n\t\t\t\t\tlomExpression = deviceLomExpression + '.' \\\n\t\t\t\t\t\t\t\t\t+ macroPar['expression']\n\t\t\t\t\tvalueAddress = returnAddressBase + '/' + \\\n\t\t\t\t\t\t\t\t   self.validChannelName(macroPar['name']) \\\n\t\t\t\t\t\t\t\t   + '/value'\n\t\t\t\t\tlistener = (lomExpression, 'value',\n\t\t\t\t\t\t\t\tvalueAddress, ownerId)\n\t\t\t\t\tself.addListener(listener, par, macroPar['min'],\n\t\t\t\t\t\t\t\t\t macroPar['max'])\n\t\t\t\telse:\n\t\t\t\t\tpar.enable = False\n\t\t\tself.ChanNameCHOP.par.Channelnames = ' '.join(\n\t\t\t\t[self.ChanNameStripped(self.deviceChannel + '/' +\n\t\t\t\t\t\t\t\t\t   self.validChannelName(name),\n\t\t\t\t\t\t\t\t\t   self.ownerComp.par\n\t\t\t\t\t\t\t\t\t   .Stripdeviceprefixsegments)\n\t\t\t\t for name in channelNames])\n\t\t\tfor par in self.oscDevicePars:\n\t\t\t\tpar.enable = True\n\t\t\toscControlAddressScopes = []\n\t\t\tfor i in range(1, 9):\n\t\t\t\tinOutIndex = []\n\t\t\t\tpar = getattr(self.ownerComp.par, 'Macroosc' + str(i))\n\t\t\t\tpar.enable = True\n\t\t\t\taPars = [sendDeviceInfo['aPars']['oscIn' + str(i)],\n\t\t\t\t\t\t sendDeviceInfo['aPars']['oscOut' + str(i)]]\n\t\t\t\tfor aPar in aPars:\n\t\t\t\t\tlomExpression = sendDeviceExpr + '.' + \\\n\t\t\t\t\t\t\t\t\taPar['expression']\n\t\t\t\t\tvalueAddress = returnAddressBase + '/' + aPar['name'] \\\n\t\t\t\t\t\t\t\t   + '/value'\n\t\t\t\t\tlistener = (lomExpression, 'value', valueAddress,\n\t\t\t\t\t\t\t\townerId)\n\t\t\t\t\toscControlAddressScopes.append(valueAddress)\n\t\t\t\t\tself.addListener(listener, useBaseOSC=False)\n\t\t\t\t\tinOutIndex.append(aPar['index'])\n\t\t\t\tself.InOutIndexes.append(inOutIndex)\n\t\t\t\t# Have to delay to prevent feedback loop on startup\n\t\t\t\trun('op(' + str(self.ownerComp.id) + ').ext.'\n\t\t\t\t\t'TDAbletonCompBaseExt.sendMacroOSCInOut(' + str(i) +\n\t\t\t\t\t')', delayMilliSeconds=1000, delayRef=op.TDResources)\n\t\t\t\t# self.sendMacroOSCInOut(i)\n\t\t\t\tsending = self.MacroOSCInOut(i)[0]\n\t\t\t\tif sending:\n\t\t\t\t\tself.MacroOSCSendAddresses.append(\n\t\t\t\t\t\tself.deviceChannel + '/macro' + str(i))\n\t\t\tself.OSCControlsInDAT.par.addscope = \\\n\t\t\t\t' '.join(oscControlAddressScopes)\n\t\t\tself.OSCControlsInDAT.par.active = \\\n\t\t\t\tself.ownerComp.par.Connect.eval()\n\n\t\t# name\n\t\tself.ownerComp.par.Devicename.enable = True\n\t\tself.ownerComp.par.Devicename = self.getMenuLabel(\n\t\t\tgetattr(self.ownerComp.par, self.FinalDevicePar))\n\n\t\t# oscin ready to go\n\t\tself.checkDeviceEnable()\n\t\tself.onSendCountChanged()\n\n\tdef onOutParChange(self, par):\n\t\tif par.name.startswith('Macro') and par.readOnly:\n\t\t\treturn\n\t\tTDAbletonCompBaseExt.onOutParChange(self, par)\n\n\tdef onDeviceInvalid(self):\n\t\t\"\"\"\n\t\tCall this when we don't have a valid device, to disable stuff\n\t\t:return:\n\t\t\"\"\"\n\t\tfor info in self.devicePars:\n\t\t\tif info is not None:\n\t\t\t\tgetattr(self.ownerComp.par, info[0]).enable = False\n\t\tself.ownerComp.par.Devicename = ''\n\t\tself.ownerComp.par.Devicename.enable = False\n\t\tself.OSCDeviceInCHOP.par.oscaddressscope = ''\n\t\tself.checkDeviceEnable()\n\t\tself.OSCControlsInDAT.par.active = False\n\t\tself.deviceOutAddress = ''\n\n\tdef onAbletonNotify(self, info):\n\t\tTDAbletonCompBaseExt.onAbletonNotify(self, info)\n\t\t# Set device ports when connected\n\t\tif info['notificationType'] == 'connected':\n\t\t\tself.checkDeviceEnable()\n\t\t\tself.OSCDeviceInCHOP.par.port = self.TDAbletonComp.par.Inport.eval()\n\t\t\tself.OSCControlsInDAT.par.port = \\\n\t\t\t\tself.TDAbletonComp.par.Inport.eval()\n\t\telif info['notificationType'] == 'disconnected':\n\t\t\tself.checkDeviceEnable()\n\t\t\tself.onSendCountChanged()\n\t\telif info['notificationType'] == 'lomNameChanged':\n\t\t\tdeviceInfo = self.deviceInfo\n\t\t\tif not deviceInfo:\n\t\t\t\treturn\n\t\t\tchangedObj = info\n\t\t\tdevicePtr = deviceInfo['lomInfo']['ptr']\n\t\t\tif changedObj['ptr'] == devicePtr:\n\t\t\t\tself.ownerComp.par.Devicename = changedObj['name']\n\t\t\t\tvalidName = self.validChannelName(changedObj['name'])\n\t\t\t\tif info['name'] != validName:\n\t\t\t\t\tself.setObjectName(validName)\n\t\t\telse:\n\t\t\t\t# check for rack macro name changes\n\t\t\t\ttry:\n\t\t\t\t\tchangedObj['parentInfo']['ptr']\n\t\t\t\texcept:\n\t\t\t\t\treturn\n\t\t\t\tif changedObj['parentInfo']['ptr'] == devicePtr:\n\t\t\t\t\tself.setupListeners()\n\n\tdef clearOSCIn(self):\n\t\tself.OSCDeviceInCHOP.par.resetpulse.pulse()\n\t\tTDAbletonCompBaseExt.clearOSCIn(self)\n\n\tdef onParPulse(self, par):\n\t\tif par.name in [p.name for p in self.rackInfo.values()]:\n\t\t\tif not self.TDAbletonComp.Connected:\n\t\t\t\treturn\n\t\t\tfor name, p in self.rackInfo.items():\n\t\t\t\tif p.name == par.name:\n\t\t\t\t\tbreak\n\t\t\tTDAbletonCompBaseExt.addDevice(self, name + '.adg', name)\n\t\telse:\n\t\t\tTDAbletonCompBaseExt.onParPulse(self, par)\n\n\tdef onParValueChange(self, par, val, prev):\n\t\tif par.name == 'Devicename':\n\t\t\t# make sure device name is a valid channel name or there'll be\n\t\t\t# problems receiving data\n\t\t\tdeviceInfo = self.deviceInfo\n\t\t\tif deviceInfo:\n\t\t\t\tval = self.validChannelName(val)\n\t\t\t\tif par.eval() != val or deviceInfo['lomInfo']['name'] != val:\n\t\t\t\t\tself.setObjectName(val)\n\t\telif par.name == 'Output':\n\t\t\tself.updateLOMPars()\n\t\telif par.name == 'Connect':\n\t\t\tself.checkDeviceEnable()\n\t\t\tTDAbletonCompBaseExt.onParValueChange(self, par, val, prev)\n\t\telif par.name == 'Stripdeviceprefixsegments':\n\t\t\tself.OSCDeviceInCHOP.par.resetpulse.pulse()\n\t\t\tif self.ownerComp.par.Connect:\n\t\t\t\tself.setupListeners()\n\t\telif par.name == 'Macrososconly':\n\t\t\tself.setupListeners()\n\t\telif par.name.startswith('Macroosc'):\n\t\t\tself.sendMacroOSCInOut(int(par.name[-1]))\n\t\t\tself.setupListeners()\n\t\telse:\n\t\t\tTDAbletonCompBaseExt.onParValueChange(self, par, val, prev)\n\n\tdef checkDeviceEnable(self):\n\t\tself.OutCHOP.cook(force=True)\n\t\tself.OSCDeviceInCHOP.cook(force=True)\n\n\tdef setObjectName(self, name, lomExpression=None):\n\t\t\"\"\"\n\t\tChange device's name\n\t\t:param name: new name\n\t\t:param lomExpression: expression to object or None to use FinalDevicePar\n\t\t:return:\n\t\t\"\"\"\n\t\tif not self.ownerComp.par.Connect:\n\t\t\treturn\n\t\tif lomExpression is None:\n\t\t\tlomExpression = self.LOMParInfo(\n\t\t\t\tself.FinalDevicePar)['lomExpression']\n\t\tcommand = lomExpression + '.name = \"' + name + '\"'\n\t\tself.runRemoteCode(command)\n\n\tmenuIndex2Tuple = {0: [1, 0], 1: [0, 1], 2: [1, 1], 3: [0, 0]}\n\n\tdef MacroOSCInOut(self, macroNum):\n\t\t\"\"\"\n\t\tGet a list with [in, out] bools for in and out states of OSC device\n\t\t:param macroNum: 1-8\n\t\t:return: [in, out] bools\n\t\t\"\"\"\n\t\tpar = getattr(self.ownerComp.par, 'Macroosc' + str(macroNum))\n\t\treturn self.menuIndex2Tuple[par.menuIndex]\n\n\tdef SetMacroOSCInOut(self, macroNum, inOut, value):\n\t\t\"\"\"\n\t\tSet the menu entry properly based on one of the elements\n\t\t:param macroNum: 1-9\n\t\t:param inOut: 0 for in, 1 for out\n\t\t:param value: boolean\n\t\t\"\"\"\n\t\tcurrentValue = self.MacroOSCInOut(macroNum)\n\t\tnewValue = currentValue.copy()\n\t\tnewValue[inOut] = value\n\t\tif newValue != currentValue:\n\t\t\tpar = getattr(self.ownerComp.par, 'Macroosc' + str(macroNum))\n\t\t\tfor index, pair in self.menuIndex2Tuple.items():\n\t\t\t\tif newValue == pair:\n\t\t\t\t\tpar.menuIndex = index\n\t\t\t\t\treturn\n\n\tdef onSendCountChanged(self):\n\t\tif self.deviceChannel:\n\t\t\toffMacros = ['1', '2', '3', '4', '5', '6', '7', '8']\n\t\t\tif self.ownerComp.par.Connect and self.TDAbletonComp.Connected:\n\t\t\t\tfor chan in self.OSCMacrosSendCHOP.chans():\n\t\t\t\t\tmacroNum = chan.name[-1]\n\t\t\t\t\tmacroAddress = self.deviceChannel + '/control' + macroNum\n\t\t\t\t\tself.TDAbletonComp.SendMaxOSC(macroAddress, [1])\n\t\t\t\t\tdebug(chan.name)\n\t\t\t\t\tif macroNum in offMacros:\n\t\t\t\t\t\toffMacros.remove(macroNum)\n\t\t\t\t\tmacroPar = getattr(self.ownerComp.par, 'Macro' + macroNum)\n\t\t\t\t\tmacroPar.readOnly = True\n\t\t\tfor macroNum in offMacros:\n\t\t\t\tmacroAddress = self.deviceChannel + '/control' + macroNum\n\t\t\t\tself.TDAbletonComp.SendMaxOSC(macroAddress, [0])\n\t\t\t\tmacroPar = getattr(self.ownerComp.par, 'Macro' + macroNum)\n\t\t\t\tmacroPar.readOnly = False\n\n\tdef sendMacroOSCInOut(self, macroNum):\n\t\t\"\"\"\n\t\tSend the values from Component Macro OSC parameter to Live\n\t\t:param macroNum: 1-8\n\t\t\"\"\"\n\t\tif not self.ownerComp.par.Connect:\n\t\t\treturn\n\n\t\tsettings = self.MacroOSCInOut(macroNum)\n\t\tsendDeviceExpr, sendDevice = next(iter(self.SendDevices.items()))\n\t\tfor inOut in range(2):\n\t\t\tcommand = sendDeviceExpr + '.parameters[' \\\n\t\t\t\t\t  + str(self.InOutIndexes[macroNum - 1][inOut]) \\\n\t\t\t\t\t  + '].value = ' + str(settings[inOut])\n\t\t\tself.runRemoteCode(command)\n\n\tdef onControlsChange(self, address, args):\n\t\tmacroNum = int(address[-7])\n\t\tinOut = 0 if address[-8] == 'n' else 1\n\t\tself.SetMacroOSCInOut(macroNum, inOut, args[0])\n\n\t@property\n\tdef deviceOutAddressStripped(self):\n\t\tstrips = self.ownerComp.par.Stripdeviceprefixsegments.eval()\n\t\taddress = self.deviceOutAddress[1:]\n\t\tfor i in range(strips):\n\t\t\tslash = address.find('/')\n\t\t\tif slash == -1:\n\t\t\t\taddress = ''\n\t\t\telse:\n\t\t\t\taddress = address[slash + 1:]\n\t\tif address:\n\t\t\treturn address + '/'\n\t\telse:\n\t\t\treturn ''\n\n\tdef updateMacroBinds(self, par, oldLabel):\n\t\tif oldLabel == par.label:\n\t\t\treturn\n\t\tbindChain = TDF.bindChain(par, parsOnly=True)\n\t\tdone = set()\n\t\tdef updateBindReferences(targetPar):\n\t\t\tif targetPar in done:\n\t\t\t\treturn\n\t\t\tdone.add(targetPar)\n\t\t\tif targetPar.label == oldLabel:\n\t\t\t\ttry:\n\t\t\t\t\ttargetPar.label = par.label\n\t\t\t\texcept:\n\t\t\t\t\t# builtin parameter or some other nonsense\n\t\t\t\t\tpass\n\t\t\tfor bindRef in targetPar.bindReferences:\n\t\t\t\tif isinstance(bindRef, Par):\n\t\t\t\t\tupdateBindReferences(bindRef)\n\n\t\tupdateBindReferences(bindChain[-1])",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/oscin_controls": {
+      "name": "oscin_controls",
+      "path": "/abletonRack/abletonRack/oscin_controls",
+      "op_type": "DAT:oscin",
+      "family": "DAT",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1,
+        "active": "off",
+        "address": "localhost",
+        "port": 58811,
+        "addscope": "*",
+        "callbacks": "oscin1_callbacks",
+        "maxlines": 1,
+        "language": "text"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "fifo": {
+          "content": "1\n0\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u000b\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0007message\u0000\u0000\u0000\u0002\u0000\u0000\u00009/song/2_Muugy/TDA_Instrument_Rack_OSC/Freq/value 27.03135\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.212845\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.216103\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.223093\u0000\u0000\u0000\u0002\u0000\u0000\u00008/song/2_Muugy/TDA_Instrument_Rack_OSC/Freq/value 28.3328\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.233696\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.247733\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.264968\u0000\u0000\u0000\u0002\u0000\u0000\u00009/song/2_Muugy/TDA_Instrument_Rack_OSC/Freq/value 33.65089\u0000\u0000\u0000\u0002\u0000\u0000\u0000./rack/t1/TDA_Instrument_Rack_OSC/Freq 0.285108",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonRack/abletonRack/in_OSCInputCHOP": {
+      "name": "in_OSCInputCHOP",
+      "path": "/abletonRack/abletonRack/in_OSCInputCHOP",
+      "op_type": "CHOP:in",
+      "family": "CHOP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -900,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "32": "\"OSC Input CHOP\""
+        },
+        "numchannels": 0
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {
+        "0": "select_OSCInputCHOP"
+      },
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/oscin1_callbacks": {
+      "name": "oscin1_callbacks",
+      "path": "/abletonRack/abletonRack/oscin1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -725,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAPGIyBtZSAtIHRoaXMgREFUCiMgCiMgZGF0IC0gdGhlIERBVCB0aGF0IHJlY2VpdmVkIGEgbWVzc2FnZQojIHJvd0luZGV4IC0gdGhlIHJvdyBudW1iZXIgdGhlIG1lc3NhZ2Ugd2FzIHBsYWNlZCBpbnRvCiMgbWVzc2FnZSAtIGFuIGFzY2lpIHJlcHJlc2VudGF0aW9uIG9mIHRoZSBkYXRhCiMgICAgICAgICAgIFVucHJpbnRhYmxlIGNoYXJhY3RlcnMgYW5kIHVuaWNvZGUgY2hhcmFjdGVycyB3aWxsCiMgICAgICAgICAgIG5vdCBiZSBwcmVzZXJ2ZWQuIFVzZSB0aGUgJ2J5dGVzJyBwYXJhbWV0ZXIgdG8gZ2V0CiMgICAgICAgICAgIHRoZSByYXcgYnl0ZXMgdGhhdCB3ZXJlIHNlbnQuCiMgYnl0ZXMgLSBhIGJ5dGUgYXJyYXkgb2YgdGhlIG1lc3NhZ2UuCiMgdGltZVN0YW1wIC0gdGhlIGFycml2YWwgdGltZSBjb21wb25lbnQgdGhlIE9TQyBtZXNzYWdlCiMgYWRkcmVzcyAtIHRoZSBhZGRyZXNzIGNvbXBvbmVudCBvZiB0aGUgT1NDIG1lc3NhZ2UKIyBhcmdzIC0gYSBsaXN0IG9mIHZhbHVlcyBjb250YWluZWQgd2l0aGluIHRoZSBPU0MgbWVzc2FnZQojIHBlZXIgLSBhIFBlZXIgb2JqZWN0IGRlc2NyaWJpbmcgdGhlIG9yaWdpbmF0aW5nIG1lc3NhZ2UKIyAgIHBlZXIuY2xvc2UoKSAgICAjY2xvc2UgdGhlIGNvbm5lY3Rpb24KIyAgIHBlZXIub3duZXIgICN0aGUgb3BlcmF0b3IgdG8gd2hvbSB0aGUgcGVlciBiZWxvbmdzCiMgICBwZWVyLmFkZHJlc3MgICAgI25ldHdvcmsgYWRkcmVzcyBhc3NvY2lhdGVkIHdpdGggdGhlIHBlZXIKIyAgIHBlZXIucG9ydCAgICAgICAjbmV0d29yayBwb3J0IGFzc29jaWF0ZWQgd2l0aCB0aGUgcGVlcgojCgpkZWYgb25SZWNlaXZlT1NDKGRhdCwgcm93SW5kZXgsIG1lc3NhZ2UsIGJ5dGVzLCB0aW1lU3RhbXAsIGFkZHJlc3MsIGFyZ3MsIHBlZXIpOgoJZXh0LlREQWJsZXRvbkNvbXBCYXNlRXh0Lm9uQ29udHJvbHNDaGFuZ2UoYWRkcmVzcywgYXJncykKCXJldHVybgoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonRack/abletonRack/script1_callbacks": {
+      "name": "script1_callbacks",
+      "path": "/abletonRack/abletonRack/script1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -525,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAH3IyBtZSAtIHRoaXMgREFUCiMgc2NyaXB0T3AgLSB0aGUgT1Agd2hpY2ggaXMgY29va2luZwoKIyBwcmVzcyAnU2V0dXAgUGFyYW1ldGVycycgaW4gdGhlIE9QIHRvIGNhbGwgdGhpcyBmdW5jdGlvbiB0byByZS1jcmVhdGUgdGhlIHBhcmFtZXRlcnMuCmRlZiBvblNldHVwUGFyYW1ldGVycyhzY3JpcHRPcCk6CglwYWdlID0gc2NyaXB0T3AuYXBwZW5kQ3VzdG9tUGFnZSgnQ3VzdG9tJykKCXBhZ2UuYXBwZW5kU3RyKCdDaGFubmVsbmFtZXMnLCBsYWJlbD0nQ2hhbm5lbCBOYW1lcycpCglyZXR1cm4KCiMgY2FsbGVkIHdoZW5ldmVyIGN1c3RvbSBwdWxzZSBwYXJhbWV0ZXIgaXMgcHVzaGVkCmRlZiBvblB1bHNlKHBhcik6CglyZXR1cm4KCmRlZiBvbkNvb2soc2NyaXB0T3ApOgoJc2NyaXB0T3AuY2xlYXIoKQoJZm9yIGNoYW5OYW1lIGluIHRkdS5zcGxpdChzY3JpcHRPcC5wYXIuQ2hhbm5lbG5hbWVzLmV2YWwoKSk6CgkJc2NyaXB0T3AuYXBwZW5kQ2hhbihjaGFuTmFtZSkKCXJldHVybgo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonRack/abletonRack/select_OSCInputCHOP": {
+      "name": "select_OSCInputCHOP",
+      "path": "/abletonRack/abletonRack/select_OSCInputCHOP",
+      "op_type": "CHOP:select",
+      "family": "CHOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -1000,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "chops": {
+          "49": "parent parent().par.Oscinputchop.eval()"
+        }
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonRack/abletonRack/chopexec_updateSends": {
+      "name": "chopexec_updateSends",
+      "path": "/abletonRack/abletonRack/chopexec_updateSends",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -1100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "chop": "sendChannels",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonRack/abletonRack",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002a# me - this DAT\n# \n# channel - the Channel object which has changed\n# sampleIndex - the index of the changed sample\n# val - the numeric value of the changed sample\n# prev - the previous sample value\n# \n# Make sure the corresponding toggle is enabled in the CHOP Execute DAT.\n\ndef onOffToOn(channel, sampleIndex, val, prev):\n\treturn\n\ndef whileOn(channel, sampleIndex, val, prev):\n\treturn\n\ndef onOnToOff(channel, sampleIndex, val, prev):\n\treturn\n\ndef whileOff(channel, sampleIndex, val, prev):\n\treturn\n\ndef onValueChange(channel, sampleIndex, val, prev):\n\text.TDAbletonCompBaseExt.onSendCountChanged()\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2022.27900\ntime Wed Aug 24 12:34:11 2022\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "abletonRack.n",
+    "abletonRack.parm",
+    "abletonRack/help.n",
+    "abletonRack/help.parm",
+    "abletonRack/help.text",
+    "abletonRack/abletonRack.n",
+    "abletonRack/abletonRack.cparm",
+    "abletonRack/abletonRack.parm",
+    "abletonRack/abletonRack.network",
+    "abletonRack/abletonRack/out1.n",
+    "abletonRack/abletonRack/math1.n",
+    "abletonRack/abletonRack/math1.parm",
+    "abletonRack/abletonRack/merge1.n",
+    "abletonRack/abletonRack/delete1.n",
+    "abletonRack/abletonRack/delete1.parm",
+    "abletonRack/abletonRack/rename1.n",
+    "abletonRack/abletonRack/rename1.parm",
+    "abletonRack/abletonRack/switch1.n",
+    "abletonRack/abletonRack/switch1.parm",
+    "abletonRack/abletonRack/parexec1.n",
+    "abletonRack/abletonRack/parexec1.parm",
+    "abletonRack/abletonRack/parexec1.text",
+    "abletonRack/abletonRack/reorder2.n",
+    "abletonRack/abletonRack/reorder2.parm",
+    "abletonRack/abletonRack/replace1.n",
+    "abletonRack/abletonRack/chanNames.n",
+    "abletonRack/abletonRack/chanNames.cparm",
+    "abletonRack/abletonRack/chanNames.parm",
+    "abletonRack/abletonRack/chanNames.script",
+    "abletonRack/abletonRack/chopexec1.n",
+    "abletonRack/abletonRack/chopexec1.parm",
+    "abletonRack/abletonRack/chopexec1.text",
+    "abletonRack/abletonRack/macroSends.n",
+    "abletonRack/abletonRack/abletonBase.n",
+    "abletonRack/abletonRack/abletonBase.parm",
+    "abletonRack/abletonRack/abletonBase/out1.n",
+    "abletonRack/abletonRack/abletonBase/out1.parm",
+    "abletonRack/abletonRack/abletonBase/parexec1.n",
+    "abletonRack/abletonRack/abletonBase/parexec1.parm",
+    "abletonRack/abletonRack/abletonBase/parexec1.text",
+    "abletonRack/abletonRack/abletonBase/noTDAError.n",
+    "abletonRack/abletonRack/abletonBase/noTDAError.parm",
+    "abletonRack/abletonRack/abletonBase/noTDAError.text",
+    "abletonRack/abletonRack/abletonBase/oscin_info.n",
+    "abletonRack/abletonRack/abletonBase/oscin_info.parm",
+    "abletonRack/abletonRack/abletonBase/oscin_info.fifo",
+    "abletonRack/abletonRack/abletonBase/oscin_outputs.n",
+    "abletonRack/abletonRack/abletonBase/oscin_outputs.parm",
+    "abletonRack/abletonRack/abletonBase/oscin_outputs.chop",
+    "abletonRack/abletonRack/abletonBase/oscin_outputs.ts",
+    "abletonRack/abletonRack/abletonBase/oscin_outputs.oscin",
+    "abletonRack/abletonRack/abletonBase/parexec_outPars.n",
+    "abletonRack/abletonRack/abletonBase/parexec_outPars.parm",
+    "abletonRack/abletonRack/abletonBase/parexec_outPars.text",
+    "abletonRack/abletonRack/abletonBase/oscin1_callbacks.n",
+    "abletonRack/abletonRack/abletonBase/oscin1_callbacks.parm",
+    "abletonRack/abletonRack/abletonBase/oscin1_callbacks.text",
+    "abletonRack/abletonRack/abletonBase/chopexec_autoSync.n",
+    "abletonRack/abletonRack/abletonBase/chopexec_autoSync.parm",
+    "abletonRack/abletonRack/abletonBase/chopexec_autoSync.text",
+    "abletonRack/abletonRack/abletonBase/TDAbletonCompBaseExt.n",
+    "abletonRack/abletonRack/abletonBase/TDAbletonCompBaseExt.parm",
+    "abletonRack/abletonRack/oscin_device.n",
+    "abletonRack/abletonRack/oscin_device.parm",
+    "abletonRack/abletonRack/oscin_device.chop",
+    "abletonRack/abletonRack/oscin_device.ts",
+    "abletonRack/abletonRack/oscin_device.oscin",
+    "abletonRack/abletonRack/oscout_macro.n",
+    "abletonRack/abletonRack/oscout_macro.parm",
+    "abletonRack/abletonRack/oscout_macro.fifo",
+    "abletonRack/abletonRack/sendChannels.n",
+    "abletonRack/abletonRack/sendChannels.parm",
+    "abletonRack/abletonRack/AbletonRackExt.n",
+    "abletonRack/abletonRack/AbletonRackExt.parm",
+    "abletonRack/abletonRack/AbletonRackExt.text",
+    "abletonRack/abletonRack/oscin_controls.n",
+    "abletonRack/abletonRack/oscin_controls.parm",
+    "abletonRack/abletonRack/oscin_controls.fifo",
+    "abletonRack/abletonRack/in_OSCInputCHOP.n",
+    "abletonRack/abletonRack/in_OSCInputCHOP.parm",
+    "abletonRack/abletonRack/oscin1_callbacks.n",
+    "abletonRack/abletonRack/oscin1_callbacks.parm",
+    "abletonRack/abletonRack/oscin1_callbacks.text",
+    "abletonRack/abletonRack/script1_callbacks.n",
+    "abletonRack/abletonRack/script1_callbacks.parm",
+    "abletonRack/abletonRack/script1_callbacks.text",
+    "abletonRack/abletonRack/select_OSCInputCHOP.n",
+    "abletonRack/abletonRack/select_OSCInputCHOP.parm",
+    "abletonRack/abletonRack/chopexec_updateSends.n",
+    "abletonRack/abletonRack/chopexec_updateSends.parm",
+    "abletonRack/abletonRack/chopexec_updateSends.text"
+  ],
+  "connections": [
+    {
+      "from": "switch1",
+      "to": "/abletonRack/abletonRack/out1",
+      "to_input": 0
+    },
+    {
+      "from": "rename1",
+      "to": "/abletonRack/abletonRack/math1",
+      "to_input": 0
+    },
+    {
+      "from": "abletonBase/out1",
+      "to": "/abletonRack/abletonRack/merge1",
+      "to_input": 0
+    },
+    {
+      "from": "replace1",
+      "to": "/abletonRack/abletonRack/merge1",
+      "to_input": 1
+    },
+    {
+      "from": "reorder2",
+      "to": "/abletonRack/abletonRack/delete1",
+      "to_input": 0
+    },
+    {
+      "from": "delete1",
+      "to": "/abletonRack/abletonRack/rename1",
+      "to_input": 0
+    },
+    {
+      "from": "merge1",
+      "to": "/abletonRack/abletonRack/switch1",
+      "to_input": 0
+    },
+    {
+      "from": "replace1",
+      "to": "/abletonRack/abletonRack/switch1",
+      "to_input": 1
+    },
+    {
+      "from": "in_OSCInputCHOP",
+      "to": "/abletonRack/abletonRack/reorder2",
+      "to_input": 0
+    },
+    {
+      "from": "chanNames",
+      "to": "/abletonRack/abletonRack/replace1",
+      "to_input": 0
+    },
+    {
+      "from": "oscin_device",
+      "to": "/abletonRack/abletonRack/replace1",
+      "to_input": 1
+    },
+    {
+      "from": "math1",
+      "to": "/abletonRack/abletonRack/macroSends",
+      "to_input": 0
+    },
+    {
+      "from": "oscin_outputs",
+      "to": "/abletonRack/abletonRack/abletonBase/out1",
+      "to_input": 0
+    },
+    {
+      "from": "select_OSCInputCHOP",
+      "to": "/abletonRack/abletonRack/in_OSCInputCHOP",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 35,
+    "total_connections": 14,
+    "total_raw_files": 1,
+    "total_extra_files": 25,
+    "total_files_captured": 93,
+    "by_family": {
+      "COMP": 3,
+      "DAT": 16,
+      "CHOP": 16
+    },
+    "by_type": {
+      "COMP:base": 3,
+      "DAT:text": 6,
+      "CHOP:out": 2,
+      "CHOP:math": 1,
+      "CHOP:merge": 1,
+      "CHOP:delete": 1,
+      "CHOP:rename": 1,
+      "CHOP:switch": 1,
+      "DAT:parexec": 3,
+      "CHOP:reorder": 1,
+      "CHOP:replace": 1,
+      "CHOP:script": 1,
+      "DAT:chopexec": 3,
+      "CHOP:null": 1,
+      "DAT:oscin": 2,
+      "CHOP:oscin": 2,
+      "DAT:select": 1,
+      "DAT:oscout": 1,
+      "CHOP:info": 1,
+      "CHOP:in": 1,
+      "CHOP:select": 1
+    },
+    "max_depth": 4,
+    "total_parameters": 162
+  }
+}

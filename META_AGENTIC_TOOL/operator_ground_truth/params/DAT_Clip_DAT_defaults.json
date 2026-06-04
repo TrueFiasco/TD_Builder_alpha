@@ -1,0 +1,259 @@
+{
+  "operator": "Clip_DAT",
+  "family": "DAT",
+  "td_create_name": "clipDAT",
+  "param_count": 15,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "edit": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Text",
+      "label": "Edit..",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Text",
+      "label": "File",
+      "readOnly": false,
+      "expression": null
+    },
+    "reload": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Text",
+      "label": "Reload File",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "here",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "here",
+          "comp"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "This Node",
+          "Specified Component"
+        ]
+      },
+      "default": "here",
+      "page": "Execute",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "clip": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Execute",
+      "label": "Clip",
+      "readOnly": false,
+      "expression": null
+    },
+    "component": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Execute",
+      "label": "Component",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "framefirst": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Execute",
+      "label": "Execute on Frame (First)",
+      "readOnly": false,
+      "expression": null
+    },
+    "frameloop": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Execute",
+      "label": "Execute on Frame (Loop)",
+      "readOnly": false,
+      "expression": null
+    },
+    "exit": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Execute on Exit",
+      "readOnly": false,
+      "expression": null
+    },
+    "printstate": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Print State",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

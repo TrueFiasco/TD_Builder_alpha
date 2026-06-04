@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TDNetworkSpec",
+  "type": "object",
+  "properties": {
+    "goal": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string", "description": "TouchDesigner operator type, e.g. CHOP:noise, TOP:render, COMP:base" },
+          "params": { "type": "object", "additionalProperties": true }
+        },
+        "required": ["name", "type"]
+      }
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "to_input": { "type": ["string", "integer"] }
+        },
+        "required": ["from", "to"]
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["nodes", "connections"]
+}
+

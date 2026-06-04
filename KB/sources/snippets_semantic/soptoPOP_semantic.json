@@ -1,0 +1,418 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\soptoPOP_lossless.json",
+  "operator_type": "soptoPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "font": "\"Goudy Old Style\"",
+            "bold": "on",
+            "italic": "on",
+            "fontsizex": 1.54,
+            "output": "closedpolys",
+            "alignx": "center",
+            "text": "Sderivativeq"
+          }
+        },
+        {
+          "name": "tube1",
+          "type": "SOP:tube",
+          "parameters": {
+            "rad1": 0.6,
+            "rad2": 0.6
+          }
+        },
+        {
+          "name": "tube2",
+          "type": "SOP:tube",
+          "parameters": {
+            "surftype": "rows",
+            "rad1": 0.6,
+            "rad2": 0.6
+          }
+        },
+        {
+          "name": "datto1",
+          "type": "POP:datto",
+          "parameters": {
+            "pointsdat": "popto5"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "SOP:popto",
+          "parameters": {
+            "pop": "topto1"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "SOP:popto",
+          "parameters": {
+            "pop": "transform2"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "transform2"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "transform2",
+            "nameformat": "basic",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "sopto5"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "SOP:popto",
+          "parameters": {
+            "pop": "topto1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "popto4"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "circle3",
+            "polygons": "closedlinestrip"
+          }
+        },
+        {
+          "name": "sopto3",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "rectangle1",
+            "polygons": "triangulated",
+            "mesh": "quads"
+          }
+        },
+        {
+          "name": "sopto4",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "resample1",
+            "polygons": "triangulated"
+          }
+        },
+        {
+          "name": "sopto5",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "particle1"
+          }
+        },
+        {
+          "name": "sopto6",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "transform3",
+            "polygons": "triangulated"
+          }
+        },
+        {
+          "name": "sopto7",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "transform3",
+            "polygons": "closedlinestrip"
+          }
+        },
+        {
+          "name": "sopto8",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "tube1",
+            "mesh": "quads"
+          }
+        },
+        {
+          "name": "sopto9",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "tube2",
+            "mesh": "rows"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "torus4",
+          "type": "POP:torus",
+          "parameters": {
+            "surftype": "cols"
+          }
+        },
+        {
+          "name": "chopto2",
+          "type": "POP:chopto",
+          "parameters": {
+            "chop": "popto6"
+          }
+        },
+        {
+          "name": "chopto3",
+          "type": "POP:chopto",
+          "parameters": {
+            "chop": "popto6",
+            "chanscope": "\"\"",
+            "attrscope": "\"\"",
+            "attr0chanscope": "*",
+            "attr0customname": "New",
+            "attr0numcomps": 3
+          }
+        },
+        {
+          "name": "chopto4",
+          "type": "POP:chopto",
+          "parameters": {
+            "chop": "pattern1",
+            "chanscope": "\"tx ty tz Weight\"",
+            "attrscope": "\"P(0) P(1) P(2) Weight\""
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "SOP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle4",
+          "type": "SOP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "chopto3"
+          }
+        },
+        {
+          "name": "popto11",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "chopto2"
+          }
+        },
+        {
+          "name": "popto12",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "chopto4"
+          }
+        },
+        {
+          "name": "popto17",
+          "type": "SOP:popto",
+          "parameters": {
+            "pop": "torus4"
+          }
+        },
+        {
+          "name": "sopto10",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "tube2",
+            "mesh": "rowscols"
+          }
+        },
+        {
+          "name": "sopto11",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "tube2",
+            "mesh": "points"
+          }
+        },
+        {
+          "name": "extrude1",
+          "type": "SOP:extrude",
+          "parameters": {
+            "pageindex": 1,
+            "backtype": "off",
+            "sidetype": "off"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "ramp",
+            "channelname": "Weight",
+            "combine": "append"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment11",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 2,
+            "doid": "on",
+            "domass": "on",
+            "mass": 1.29,
+            "dodrag": "on",
+            "drag": 0.78,
+            "birth": 23
+          }
+        },
+        {
+          "name": "resample1",
+          "type": "SOP:resample",
+          "parameters": {
+            "lod": 1.22,
+            "edge": "on",
+            "length": 0.04
+          }
+        },
+        {
+          "name": "annotate19",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "SOP:rectangle",
+          "parameters": {}
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "transform3",
+          "type": "SOP:transform",
+          "parameters": {
+            "rz": 21
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "extrude1",
+          "to_input": "0"
+        },
+        {
+          "from": "popto6",
+          "to": "pattern1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle4",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform3",
+          "to": "resample1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "extrude1",
+          "to": "transform3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 44,
+        "connection_count": 6,
+        "operator_types": {
+          "SOP:text": 1,
+          "SOP:tube": 2,
+          "POP:datto": 1,
+          "SOP:popto": 4,
+          "DAT:popto": 5,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:sopto": 11,
+          "POP:torus": 2,
+          "POP:chopto": 3,
+          "SOP:circle": 2,
+          "SOP:extrude": 1,
+          "CHOP:pattern": 1,
+          "COMP:annotate": 4,
+          "SOP:particle": 1,
+          "SOP:resample": 1,
+          "SOP:rectangle": 1,
+          "POP:transform": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

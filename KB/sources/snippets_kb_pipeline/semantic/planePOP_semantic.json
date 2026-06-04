@@ -1,0 +1,77 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\planePOP_lossless.json",
+  "operator_type": "planePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "plane1",
+          "type": "POP:plane",
+          "parameters": {
+            "cols": 12,
+            "rows": 8
+          }
+        },
+        {
+          "name": "plane2",
+          "type": "POP:plane",
+          "parameters": {
+            "orient": "yz",
+            "cols": 12,
+            "rows": 8
+          }
+        },
+        {
+          "name": "plane3",
+          "type": "POP:plane",
+          "parameters": {
+            "orient": "zx",
+            "cols": 12,
+            "rows": 8
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "rendersimple1",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "camdistance": 1.97,
+            "pop": "plane3",
+            "georx": 40,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "POP:plane": 3,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:rendersimple": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

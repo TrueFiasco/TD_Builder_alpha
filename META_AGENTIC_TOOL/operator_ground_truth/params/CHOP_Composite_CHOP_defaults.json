@@ -1,0 +1,441 @@
+{
+  "operator": "Composite_CHOP",
+  "family": "CHOP",
+  "td_create_name": "compositeCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "base": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Composite",
+      "label": "Base Hold",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "name",
+        "menuIndex": 1,
+        "menuNames": [
+          "index",
+          "name",
+          "union"
+        ],
+        "menuLabels": [
+          "Channel Number",
+          "Channel Name",
+          "Channel Union"
+        ]
+      },
+      "default": "name",
+      "page": "Composite",
+      "label": "Match by",
+      "readOnly": false,
+      "expression": null
+    },
+    "quatrot": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Composite",
+      "label": "Quaternion Blend",
+      "readOnly": false,
+      "expression": null
+    },
+    "shortrot": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Composite",
+      "label": "Shortest Path Rotation Blending",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotscope": {
+      "value": {
+        "type": "string",
+        "value": "*r?"
+      },
+      "default": "*r?",
+      "page": "Composite",
+      "label": "Rotation Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "cyclelen": {
+      "value": {
+        "type": "float",
+        "value": 360.0
+      },
+      "default": 360.0,
+      "page": "Composite",
+      "label": "Cycle Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "effect": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Effect",
+      "label": "Effect",
+      "readOnly": false,
+      "expression": null
+    },
+    "relative": {
+      "value": {
+        "type": "menu",
+        "value": "rel",
+        "menuIndex": 1,
+        "menuNames": [
+          "abs",
+          "rel",
+          "cur"
+        ],
+        "menuLabels": [
+          "Absolute",
+          "Relative to Start/End",
+          "Relative to Current Frame"
+        ]
+      },
+      "default": "rel",
+      "page": "Effect",
+      "label": "Unit Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Effect",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "startunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Effect",
+      "label": "Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "peak": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Effect",
+      "label": "Peak",
+      "readOnly": false,
+      "expression": null
+    },
+    "peakunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Effect",
+      "label": "Peak Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "release": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Effect",
+      "label": "Release",
+      "readOnly": false,
+      "expression": null
+    },
+    "releaseunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Effect",
+      "label": "Release Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "end": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Effect",
+      "label": "End",
+      "readOnly": false,
+      "expression": null
+    },
+    "endunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Effect",
+      "label": "End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "risefunc": {
+      "value": {
+        "type": "menu",
+        "value": "cos",
+        "menuIndex": 3,
+        "menuNames": [
+          "lin",
+          "ei",
+          "eo",
+          "cos",
+          "cub",
+          "add",
+          "holdprev"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease in",
+          "Ease out",
+          "Ease in Ease out",
+          "Cubic",
+          "Add",
+          "Hold Previous"
+        ]
+      },
+      "default": "cos",
+      "page": "Effect",
+      "label": "Rise Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "fallfunc": {
+      "value": {
+        "type": "menu",
+        "value": "cos",
+        "menuIndex": 3,
+        "menuNames": [
+          "lin",
+          "ei",
+          "eo",
+          "cos",
+          "cub",
+          "add",
+          "holdprev"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease in",
+          "Ease out",
+          "Ease in Ease out",
+          "Cubic",
+          "Add",
+          "Hold Previous"
+        ]
+      },
+      "default": "cos",
+      "page": "Effect",
+      "label": "Fall Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

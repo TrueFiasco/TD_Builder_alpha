@@ -1,0 +1,227 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\limitTOP_lossless.json",
+  "operator_type": "limitTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 1,
+            "dat": "ramp1_keys",
+            "resolutionw": 250,
+            "resolutionh": 100,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "interpnotches": "easeineaseout",
+            "resolutionw": 250,
+            "resolutionh": 100,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "TOP:limit",
+          "parameters": {
+            "mintype": "clamp",
+            "maxtype": "clamp",
+            "min": 0.25,
+            "max": 0.7
+          }
+        },
+        {
+          "name": "limit2",
+          "type": "TOP:limit",
+          "parameters": {
+            "pageindex": 2,
+            "mintype": "clamp",
+            "maxtype": "clamp",
+            "min": 0.27,
+            "max": 0.7,
+            "chanmask": 5
+          }
+        },
+        {
+          "name": "limit3",
+          "type": "TOP:limit",
+          "parameters": {
+            "mintype": "clamp",
+            "maxtype": "clamp",
+            "min": 0.25,
+            "max": 0.7,
+            "norm": "on",
+            "chanmask": 7
+          }
+        },
+        {
+          "name": "limit4",
+          "type": "TOP:limit",
+          "parameters": {
+            "pageindex": 1,
+            "quantvalue": "round"
+          }
+        },
+        {
+          "name": "limit5",
+          "type": "TOP:limit",
+          "parameters": {
+            "pageindex": 1,
+            "quantpos": "floor"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "limit1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "limit2",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "limit3",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto4",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "limit4",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto5",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "limit5",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "limit2",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "limit3",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "limit4",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "limit5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:null": 1,
+          "TOP:ramp": 2,
+          "TOP:limit": 5,
+          "DAT:text": 1,
+          "CHOP:topto": 5,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 1,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

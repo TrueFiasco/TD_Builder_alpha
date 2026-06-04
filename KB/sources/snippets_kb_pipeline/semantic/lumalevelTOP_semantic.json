@@ -1,0 +1,175 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\lumalevelTOP_lossless.json",
+  "operator_type": "lumalevelTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "luma_source",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "blacklevel": 0.19,
+            "contrast": 2.2
+          }
+        },
+        {
+          "name": "level_contrast",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp",
+            "blacklevel": 0.19,
+            "contrast": 2.2
+          }
+        },
+        {
+          "name": "lumalevel_contrast",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "source": "average",
+            "blacklevel": 0.19,
+            "contrast": 2.2
+          }
+        },
+        {
+          "name": "lumalevel_source_red",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "source": "red",
+            "blacklevel": 0.19,
+            "contrast": 2.2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "luma_source",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "level_contrast",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "lumalevel_contrast",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "lumalevel_source_red",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:lumalevel": 3,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "vertical"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "lumalevel_stepping",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "pageindex": 2,
+            "stepsize": 0.25
+          }
+        },
+        {
+          "name": "lumalevel_stepping1",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "pageindex": 2,
+            "stepsize": 0.155,
+            "soften": 0.012
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "lumalevel_stepping",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "lumalevel_stepping1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1,
+          "TOP:lumalevel": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

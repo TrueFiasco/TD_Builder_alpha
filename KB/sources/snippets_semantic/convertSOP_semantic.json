@@ -1,0 +1,179 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\convertSOP_lossless.json",
+  "operator_type": "convertSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "convert_to_polygon",
+            "iscope": "\"num_points num_prims\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "sphere_mesh",
+            "iscope": "\"num_points num_prims\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere_mesh",
+          "type": "SOP:sphere",
+          "parameters": {
+            "reverseanchors": "on",
+            "rows": 10,
+            "cols": 10,
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "convert_to_polygon",
+          "type": "SOP:convert",
+          "parameters": {
+            "surftype": "alttriangles"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere_mesh",
+          "to": "convert_to_polygon",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:info": 2,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:convert": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "convert_to_circle",
+          "type": "SOP:convert",
+          "parameters": {
+            "fromtype": "poly",
+            "totype": "circle"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box1",
+          "to": "convert_to_circle",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "SOP:convert": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "surftype": "alttriangles",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "convert_to_bezier",
+          "type": "SOP:convert",
+          "parameters": {
+            "fromtype": "poly",
+            "totype": "bezsurf",
+            "surftype": "rowcol",
+            "method": "divisions"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere2",
+          "to": "convert_to_bezier",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:convert": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

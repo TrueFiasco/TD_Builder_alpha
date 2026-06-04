@@ -1,0 +1,420 @@
+# Computer Graphics Concepts Expertise
+# Domain: Platform-agnostic CG algorithms, data structures, rendering techniques
+# Used by: cg_expert agent
+
+schema_version: "1.0"
+created: "2025-12-16"
+last_updated: "2025-12-16"
+update_count: 1
+validated_against: "cg_expert domain knowledge"
+
+# Core algorithms for generative graphics
+algorithms:
+  particle_systems:
+    description: "Discrete point-based simulation for visual effects"
+    category: "simulation"
+    complexity: "medium"
+    components:
+      - emitter: "Defines spawn location and initial properties"
+      - integrator: "Updates position/velocity over time"
+      - forces: "Gravity, wind, attraction, repulsion"
+      - lifetime: "Birth, age, death management"
+      - renderer: "Visual representation (point, sprite, mesh)"
+    parameters:
+      - emit_rate: "Particles per second"
+      - initial_velocity: "Starting speed and direction"
+      - lifetime: "Seconds until death"
+      - size: "Visual size"
+      - color: "RGBA values"
+    gpu_suitability: "high - parallel updates"
+    td_mapping:
+      operators: ["particle SOP", "popnet", "geoCOMP with instancing", "glslTOP"]
+      patterns: ["particle_system", "glsl_particle_swarm"]
+    confidence: 0.95
+
+  ray_marching:
+    description: "Iterative ray-based rendering for implicit surfaces"
+    category: "rendering"
+    complexity: "hard"
+    use_cases:
+      - "Signed distance field (SDF) rendering"
+      - "Volumetric effects"
+      - "Infinite/procedural geometry"
+    key_concepts:
+      - sdf: "Signed distance function - distance to nearest surface"
+      - march_step: "Iterative ray advancement"
+      - normal_estimation: "Gradient of SDF for lighting"
+    parameters:
+      - max_steps: "Iteration limit (64-256 typical)"
+      - min_distance: "Surface hit threshold"
+      - max_distance: "Ray termination distance"
+    gpu_suitability: "high - per-pixel parallel"
+    td_mapping:
+      operators: ["glslTOP", "glslMAT"]
+      patterns: ["glsl_integration"]
+    confidence: 0.9
+
+  noise_functions:
+    description: "Procedural pseudo-random value generation"
+    category: "procedural"
+    complexity: "easy to medium"
+    types:
+      perlin:
+        description: "Gradient noise, smooth natural-looking"
+        parameters: ["frequency", "octaves", "persistence", "lacunarity"]
+        use_cases: ["terrain", "clouds", "organic movement"]
+      simplex:
+        description: "Improved Perlin, less directional artifacts"
+        parameters: ["same as perlin"]
+        use_cases: ["same as perlin, better quality"]
+      worley:
+        description: "Cell/Voronoi noise, bubble/cell patterns"
+        parameters: ["cell_count", "distance_metric"]
+        use_cases: ["cellular patterns", "stone textures", "biological forms"]
+      fractal_brownian_motion:
+        description: "Layered noise (fBm), multiple octaves combined"
+        parameters: ["octaves", "gain", "lacunarity"]
+        use_cases: ["complex natural textures", "terrain detail"]
+      value_noise:
+        description: "Simple interpolated random values"
+        parameters: ["frequency"]
+        use_cases: ["simple randomness", "testing"]
+    gpu_suitability: "high"
+    td_mapping:
+      operators: ["noiseTOP", "noiseCHOP", "glslTOP"]
+      patterns: ["procedural patterns"]
+    confidence: 0.95
+
+  feedback_systems:
+    description: "Output fed back as input for iterative effects"
+    category: "iterative"
+    complexity: "medium"
+    types:
+      - temporal: "Previous frame used in current calculation"
+      - spatial: "Neighbor values influence current pixel"
+    key_concepts:
+      - decay: "Prevent infinite accumulation"
+      - offset: "Spatial transformation of feedback"
+      - blending: "How feedback combines with new input"
+    parameters:
+      - decay_rate: "0-1, lower = faster fade"
+      - blend_mode: "add, multiply, max, over"
+      - transform: "scale, rotate, translate"
+    warnings:
+      - "Must have decay to prevent white-out"
+      - "Careful of latency in real-time"
+    td_mapping:
+      operators: ["feedbackTOP", "compositeTOP", "levelTOP"]
+      patterns: ["feedback_loop"]
+    confidence: 0.95
+
+  reaction_diffusion:
+    description: "Chemical reaction simulation (Gray-Scott, etc.)"
+    category: "simulation"
+    complexity: "hard"
+    mechanism: "Two chemicals with diffusion and reaction rates"
+    parameters:
+      - feed_rate: "Chemical A addition rate (F)"
+      - kill_rate: "Chemical B removal rate (k)"
+      - diffusion_a: "Chemical A spread rate"
+      - diffusion_b: "Chemical B spread rate"
+    visual_results: ["organic patterns", "coral-like", "spots", "stripes", "labyrinthine"]
+    gpu_suitability: "high - parallel per-pixel"
+    td_mapping:
+      operators: ["glslTOP with ping-pong"]
+      patterns: ["glsl_particle_swarm"]
+    confidence: 0.85
+
+  cellular_automata:
+    description: "Grid-based state evolution from local rules"
+    category: "simulation"
+    complexity: "medium"
+    famous_examples:
+      - "Conway's Game of Life"
+      - "Langton's Ant"
+      - "Rule 110"
+    components:
+      - grid: "2D or 3D array of cells"
+      - states: "Discrete values (often binary)"
+      - neighborhood: "Which neighbors affect each cell"
+      - rules: "How state updates based on neighbors"
+    parameters:
+      - grid_size: "Resolution"
+      - neighborhood_type: "Moore (8) or Von Neumann (4)"
+      - rule_set: "Survival/birth conditions"
+    gpu_suitability: "high"
+    td_mapping:
+      operators: ["glslTOP"]
+      patterns: ["glsl_integration"]
+    confidence: 0.9
+
+  flocking_boids:
+    description: "Emergent swarm behavior from simple rules"
+    category: "simulation"
+    complexity: "medium"
+    rules:
+      separation: "Avoid crowding neighbors"
+      alignment: "Steer toward average heading of neighbors"
+      cohesion: "Steer toward average position of neighbors"
+    parameters:
+      - separation_radius: "Personal space"
+      - alignment_radius: "Velocity matching distance"
+      - cohesion_radius: "Group attraction distance"
+      - max_speed: "Velocity limit"
+      - max_force: "Steering force limit"
+    extensions:
+      - "Obstacle avoidance"
+      - "Goal seeking"
+      - "Predator/prey"
+    gpu_suitability: "high with spatial data structures"
+    td_mapping:
+      operators: ["glslTOP ping-pong", "particle SOP"]
+      patterns: ["glsl_particle_swarm"]
+    confidence: 0.95
+
+  L_systems:
+    description: "Lindenmayer systems for recursive growth patterns"
+    category: "procedural"
+    complexity: "medium"
+    components:
+      - axiom: "Starting string"
+      - rules: "String replacement rules"
+      - turtle: "Interpretation as drawing commands"
+    use_cases:
+      - "Plants and trees"
+      - "Fractal patterns"
+      - "Architectural forms"
+    gpu_suitability: "medium - generation CPU, rendering GPU"
+    td_mapping:
+      operators: ["scriptDAT", "lineSOP", "geoCOMP"]
+      patterns: ["data_viz"]
+    confidence: 0.8
+
+# Data structures for real-time graphics
+data_structures:
+  ping_pong_buffers:
+    description: "Double buffer for GPU read-write simulation"
+    use_case: "Update state that depends on current state"
+    mechanism: "Read from A, write to B, swap"
+    td_implementation:
+      pattern: "feedbackTOP → glslTOP → back to feedbackTOP"
+      note: "feedbackTOP provides ping-pong automatically"
+    confidence: 0.95
+
+  particle_buffers:
+    description: "Array/texture storing particle properties"
+    channels:
+      - position: "XYZ (RGB)"
+      - velocity: "XYZ (RGB)"
+      - acceleration: "XYZ (RGB)"
+      - life: "Age/max_age"
+      - color: "RGBA"
+    storage_options:
+      - "Texture (RGBA32F)"
+      - "SSBO (if available)"
+      - "VBO"
+    td_implementation:
+      operators: ["noiseTOP for init", "glslTOP for update"]
+    confidence: 0.9
+
+  spatial_hash:
+    description: "Grid-based spatial lookup for neighbor queries"
+    use_case: "Fast neighbor finding for particles, collision"
+    complexity: "O(1) average lookup"
+    parameters:
+      - cell_size: "Grid cell dimensions"
+      - hash_function: "Position to index mapping"
+    td_implementation:
+      note: "Usually implemented in GLSL compute or CPU"
+    confidence: 0.85
+
+  quad_tree:
+    description: "Hierarchical 2D spatial subdivision"
+    use_case: "Variable-density spatial queries"
+    operations:
+      - insert: "Add point to tree"
+      - query: "Find points in region"
+      - update: "Rebuild on movement"
+    td_implementation:
+      note: "CPU-side for TD, or GLSL approximation"
+    confidence: 0.8
+
+# Rendering techniques
+rendering_techniques:
+  instancing:
+    description: "Render many copies of same geometry efficiently"
+    gpu_benefit: "Single draw call for many objects"
+    parameters:
+      - instance_count: "Number of copies"
+      - transform_source: "Per-instance position/rotation/scale"
+      - attribute_source: "Per-instance color/custom data"
+    td_implementation:
+      operators: ["geoCOMP with instancing enabled"]
+      data_source: ["SOP points", "CHOP channels", "texture"]
+    confidence: 0.95
+
+  blending_modes:
+    description: "How source and destination colors combine"
+    common_modes:
+      add: "src + dst (glows, lights)"
+      multiply: "src * dst (shadows, darken)"
+      screen: "1 - (1-src) * (1-dst) (lighten)"
+      over: "src.a * src + (1-src.a) * dst (compositing)"
+      max: "max(src, dst)"
+      min: "min(src, dst)"
+    td_implementation:
+      operators: ["compositeTOP", "glslTOP"]
+      parameter: "operation or custom blend"
+    confidence: 0.95
+
+  post_processing:
+    description: "Image effects applied after main render"
+    common_effects:
+      bloom:
+        description: "Bright areas glow"
+        implementation: "Threshold → blur → add back"
+      color_grading:
+        description: "Color/contrast adjustment"
+        implementation: "LUT or curves"
+      depth_of_field:
+        description: "Focus blur"
+        implementation: "Depth-based blur kernel"
+      motion_blur:
+        description: "Movement streaking"
+        implementation: "Velocity buffer accumulation"
+      chromatic_aberration:
+        description: "Color fringing"
+        implementation: "Offset RGB channels"
+    td_implementation:
+      operators: ["blurTOP", "levelTOP", "compositeTOP", "glslTOP"]
+    confidence: 0.9
+
+  deferred_rendering:
+    description: "Render geometry to G-buffers, light in screen space"
+    g_buffer_contents:
+      - position: "World/view position"
+      - normal: "Surface normal"
+      - albedo: "Base color"
+      - specular: "Specular properties"
+    benefits: "Many lights efficient, decoupled geometry/lighting"
+    td_implementation:
+      operators: ["renderTOP with multiple outputs", "glslTOP"]
+    confidence: 0.85
+
+# Optimization strategies
+optimization_strategies:
+  spatial_hashing:
+    description: "Grid-based neighbor lookup"
+    use_case: "Particle collision, boid neighbors"
+    complexity_reduction: "O(n^2) → O(n)"
+    confidence: 0.9
+
+  level_of_detail:
+    description: "Reduce complexity for distant/small objects"
+    techniques:
+      - geometry_lod: "Simpler meshes for distant objects"
+      - particle_lod: "Fewer particles when far"
+      - effect_lod: "Simpler effects when small"
+    td_implementation:
+      operators: ["switch based on distance/size"]
+    confidence: 0.85
+
+  texture_atlasing:
+    description: "Combine many textures into one"
+    benefit: "Fewer texture switches, better batching"
+    td_implementation:
+      operators: ["layoutTOP", "compositeTOP"]
+    confidence: 0.85
+
+  compute_culling:
+    description: "Skip invisible/irrelevant calculations"
+    techniques:
+      - frustum_culling: "Skip off-screen geometry"
+      - occlusion_culling: "Skip hidden geometry"
+      - early_z: "Skip occluded fragments"
+    confidence: 0.85
+
+  resolution_scaling:
+    description: "Render at lower resolution, upscale"
+    use_case: "GPU-bound effects like ray marching"
+    td_implementation:
+      operators: ["resolution settings", "scaleTOP"]
+    confidence: 0.9
+
+# Audio analysis for reactive graphics
+audio_analysis:
+  spectrum_analysis:
+    description: "Frequency domain representation"
+    output: "Frequency bins with magnitude"
+    parameters:
+      - fft_size: "Resolution (512, 1024, 2048)"
+      - window: "Hanning, Hamming, etc."
+    td_mapping:
+      operators: ["audiospectrumCHOP"]
+    confidence: 0.95
+
+  beat_detection:
+    description: "Identify rhythmic events"
+    methods:
+      - threshold: "Amplitude exceeds level"
+      - derivative: "Rate of change spike"
+      - flux: "Spectral change detection"
+    td_mapping:
+      operators: ["analyzeCHOP", "beatCHOP", "triggerCHOP"]
+    confidence: 0.9
+
+  envelope_following:
+    description: "Smooth amplitude tracking"
+    parameters:
+      - attack: "Response to increase"
+      - release: "Response to decrease"
+    td_mapping:
+      operators: ["analyzeCHOP (RMS)", "lagCHOP", "filterCHOP"]
+    confidence: 0.95
+
+# Performance considerations
+performance_targets:
+  realtime_60fps:
+    frame_budget_ms: 16.67
+    typical_constraints:
+      - particle_count: "10k-100k GPU, 1k-10k CPU"
+      - resolution: "1080p-4k depending on complexity"
+      - ray_march_steps: "32-128"
+
+  realtime_30fps:
+    frame_budget_ms: 33.33
+    typical_constraints:
+      - particle_count: "2x realtime_60fps"
+      - resolution: "Higher, or more effects"
+      - ray_march_steps: "64-256"
+
+  offline:
+    description: "No time constraint"
+    typical_uses: "Pre-rendered content, highest quality"
+
+# Common data flow patterns
+data_flow_patterns:
+  feedback_simulation:
+    description: "State evolution through feedback"
+    flow: "init → update → feedback → update → ..."
+    implementation: "ping-pong buffers"
+
+  audio_to_visual:
+    description: "Audio analysis drives visual parameters"
+    flow: "audio → analysis → smoothing → mapping → visual"
+
+  parameter_cascade:
+    description: "High-level parameters derive detailed ones"
+    flow: "intensity → brightness + speed + size"
+
+  multi_pass:
+    description: "Multiple render passes combined"
+    flow: "pass1 → pass2 → composite"
+    use_cases: ["bloom", "shadows", "deferred"]
+
+# Validation and confidence
+validation:
+  require_algorithm_specification: true
+  require_data_flow: true
+  require_performance_consideration: true
+  confidence_threshold: 0.6

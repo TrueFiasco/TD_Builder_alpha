@@ -1,0 +1,346 @@
+{
+  "operator": "Lag_CHOP",
+  "family": "CHOP",
+  "td_create_name": "lagCHOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "lagmethod": {
+      "value": {
+        "type": "menu",
+        "value": "value",
+        "menuIndex": 0,
+        "menuNames": [
+          "value",
+          "amp",
+          "mag",
+          "rotation"
+        ],
+        "menuLabels": [
+          "Lag Value",
+          "Lag Amplitude",
+          "Lag Magnitude",
+          "Quaternion Rotation"
+        ]
+      },
+      "default": "value",
+      "page": "Lag",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "lag1": {
+      "value": {
+        "type": "float",
+        "value": 0.20000000298023224
+      },
+      "default": 0.20000000298023224,
+      "page": "Lag",
+      "label": "Lag",
+      "readOnly": false,
+      "expression": null
+    },
+    "lag2": {
+      "value": {
+        "type": "float",
+        "value": 0.20000000298023224
+      },
+      "default": 0.20000000298023224,
+      "page": "Lag",
+      "label": "Lag",
+      "readOnly": false,
+      "expression": null
+    },
+    "lagunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Lag",
+      "label": "Lag Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "overshoot1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lag",
+      "label": "Overshoot",
+      "readOnly": false,
+      "expression": null
+    },
+    "overshoot2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lag",
+      "label": "Overshoot",
+      "readOnly": false,
+      "expression": null
+    },
+    "overshootunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Lag",
+      "label": "Overshoot Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "clamp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lag",
+      "label": "Clamp Slope",
+      "readOnly": false,
+      "expression": null
+    },
+    "slope1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lag",
+      "label": "Max Slope",
+      "readOnly": false,
+      "expression": null
+    },
+    "slope2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lag",
+      "label": "Max Slope",
+      "readOnly": false,
+      "expression": null
+    },
+    "aclamp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lag",
+      "label": "Clamp Acceleration",
+      "readOnly": false,
+      "expression": null
+    },
+    "accel1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lag",
+      "label": "Max Acceleration",
+      "readOnly": false,
+      "expression": null
+    },
+    "accel2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lag",
+      "label": "Max Acceleration",
+      "readOnly": false,
+      "expression": null
+    },
+    "lagsamples": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lag",
+      "label": "Lag per Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lag",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Lag",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\sliderCOMP_lossless.json",
+  "operator_type": "sliderCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "s1",
+            "slidertype": "sliderv",
+            "value0": 0.646465,
+            "w": 20,
+            "h": 100,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "sliderxy1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "\"slider xy\"",
+            "slidertype": "slideruv",
+            "value0": 0.43038,
+            "value1": 0.329114,
+            "w": 80,
+            "h": 80,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:slider": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {}
+        },
+        {
+          "name": "wave2",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 3.44
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "parexec2",
+          "type": "DAT:parexec",
+          "parameters": {
+            "op": "sliderpar1",
+            "pars": "Value0",
+            "language": "python"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "constant1",
+            "language": "python"
+          }
+        },
+        {
+          "name": "chopexec2",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "constant2",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.76
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.61
+          }
+        },
+        {
+          "name": "sliderpar1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "Period",
+            "value0": 0.61,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sliderpar1/out1",
+          "to": "null3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:wave": 2,
+          "DAT:text": 1,
+          "DAT:parexec": 1,
+          "DAT:chopexec": 2,
+          "CHOP:constant": 2,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

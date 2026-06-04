@@ -1,0 +1,514 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\transformxyzCHOP_lossless.json",
+  "operator_type": "transformxyzCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.31,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "pageindex": 3,
+            "widthnear": 14.3,
+            "widthfar": 14.54,
+            "pointsizemultiplier": 5,
+            "drawvectors": "on",
+            "vecendcaptype": "arrow",
+            "arrowwidth": 3.4,
+            "arrowheight": 3.36,
+            "arrowtaillength": 4.26,
+            "endcapwidthmultiplier": 1.1,
+            "endcappullback": 0.565
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 90,
+            "torange2": -90
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "transformxyz1",
+          "type": "CHOP:transformxyz",
+          "parameters": {
+            "input0type": "vector"
+          }
+        },
+        {
+          "name": "rotated_vector",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "constant_vector",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "x",
+            "const1name": "y",
+            "const1value": 1,
+            "const2name": "z"
+          }
+        },
+        {
+          "name": "geo_rotatedVector",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 5,
+            "instance0customop": "constant_vector",
+            "instance0customx": "x",
+            "instance0customy": "y",
+            "instance0customz": "z",
+            "material": "line1"
+          }
+        },
+        {
+          "name": "geo_originalVector",
+          "type": "COMP:geo",
+          "parameters": {
+            "instance0customop": "constant_vector",
+            "instance0customx": "x",
+            "instance0customy": "y",
+            "instance0customz": "z",
+            "material": "line1"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_vector",
+          "to": "transformxyz1",
+          "to_input": "0"
+        },
+        {
+          "from": "transformxyz1",
+          "to": "rotated_vector",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "MAT:line": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "CHOP:transformxyz": 1,
+          "CHOP:constant": 1,
+          "COMP:geo": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -60,
+            "torange2": 60
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "sphere1",
+            "normal": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "null1",
+            "chanscope": "\"tx ty tz nx ny nz\"",
+            "attscope": "\"P(0) P(1) P(2) N\""
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "\"nx ny nz\""
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "freq": 8,
+            "rows": 40
+          }
+        },
+        {
+          "name": "transformxyz2",
+          "type": "CHOP:transformxyz",
+          "parameters": {
+            "input0type": "vector"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "transformxyz2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "chopto1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto2",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto2",
+          "to": "select2",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "transformxyz2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 2,
+          "SOP:null": 1,
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:sopto": 1,
+          "SOP:chopto": 1,
+          "CHOP:select": 2,
+          "SOP:sphere": 1,
+          "CHOP:transformxyz": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "dodivs": "on",
+            "consolidatepts": "on"
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "instancing": "on",
+            "instanceop": "position",
+            "instancetx": "tx",
+            "instancety": "ty",
+            "instancetz": "tz"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.3,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 360
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "box1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "position",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "spliceExtract",
+          "type": "CHOP:splice",
+          "parameters": {
+            "outputtrimmed": "on",
+            "trimlength": 16
+          }
+        },
+        {
+          "name": "spliceReplace",
+          "type": "CHOP:splice",
+          "parameters": {}
+        },
+        {
+          "name": "transformxyz1",
+          "type": "CHOP:transformxyz",
+          "parameters": {
+            "pageindex": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "spliceReplace",
+          "to": "position",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "spliceExtract",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "spliceReplace",
+          "to_input": "0"
+        },
+        {
+          "from": "transformxyz1",
+          "to": "spliceReplace",
+          "to_input": "1"
+        },
+        {
+          "from": "spliceExtract",
+          "to": "transformxyz1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 7,
+        "operator_types": {
+          "SOP:box": 1,
+          "COMP:geo": 1,
+          "CHOP:lfo": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "CHOP:sopto": 1,
+          "COMP:annotate": 5,
+          "CHOP:splice": 2,
+          "CHOP:transformxyz": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,810 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\neighborPOP_lossless.json",
+  "operator_type": "neighborPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "sort1",
+          "type": "DAT:sort",
+          "parameters": {
+            "sortmethod": "rowindex",
+            "index": 4,
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "noise4",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "period": 0.5,
+            "amp0": 0.5
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "neighbor1",
+            "transpose": "on",
+            "thinstep": 4
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "lookupatt1",
+            "transpose": "on",
+            "thinstep": 4
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "neighbor2",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "random1",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "combineattrscope": "\"\"",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "neighbor1",
+          "type": "POP:neighbor",
+          "parameters": {
+            "maxdistance": 0.3,
+            "numhashbuckets": 100,
+            "outputhash": "on"
+          }
+        },
+        {
+          "name": "neighbor2",
+          "type": "POP:neighbor",
+          "parameters": {
+            "maxdistance": 0.3,
+            "numhashbuckets": 100,
+            "maxneighbors": 3,
+            "nebrptattrs": "*"
+          }
+        },
+        {
+          "name": "pointgen2",
+          "type": "POP:pointgen",
+          "parameters": {
+            "numpoints": 50,
+            "radiusx": 1.5,
+            "radiusy": 1,
+            "radiusz": 1
+          }
+        },
+        {
+          "name": "lookupatt1",
+          "type": "POP:lookupatt",
+          "parameters": {
+            "lookupindexattr": "Nebr[0]",
+            "indexunit": "pointindex",
+            "lookup0valueattr": "P",
+            "lookup0outputattrscope": "PClosest"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "popto1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "pointgen2",
+          "to": "noise4",
+          "to_input": "0"
+        },
+        {
+          "from": "noise4",
+          "to": "random1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise4",
+          "to": "neighbor1",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "neighbor2",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor1",
+          "to": "lookupatt1",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor1",
+          "to": "lookupatt1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 7,
+        "operator_types": {
+          "DAT:sort": 1,
+          "POP:noise": 1,
+          "DAT:popto": 3,
+          "DAT:text": 1,
+          "POP:random": 1,
+          "COMP:annotate": 3,
+          "POP:neighbor": 2,
+          "POP:pointgen": 1,
+          "POP:lookupatt": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.05,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "copy2",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "doattr": "on"
+          }
+        },
+        {
+          "name": "copy3",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 2,
+            "doattr": "on",
+            "templateattr0names": "Color"
+          }
+        },
+        {
+          "name": "copy4",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 2,
+            "doattr": "on",
+            "templateattr0names": "Color"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge1",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\""
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noisesize": 4,
+            "amp0": 0.9,
+            "offset0": 0.5,
+            "noise": "on",
+            "noiseoutputattrscope": "Color"
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "period": 1.6,
+            "amp0": 0.7,
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "neighbor1",
+            "nameformat": "basic",
+            "attribscope": "NumNebrs"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "neighbor1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "neighbor4",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "divs": 10,
+            "scale": 0.01
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "normal2",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "random1",
+          "type": "POP:random",
+          "parameters": {
+            "seed": 0.1,
+            "combineop": "set",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "scale": 0.02
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 6
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "gt",
+            "comb0scopea": "_DimU[0]",
+            "comb0scopeb": 0.1,
+            "comb0result": "factor",
+            "delattrs": "factor",
+            "comb1oper": "ifelse",
+            "comb1scopea": "\"Color(0) Color(1) Color(2)\"",
+            "comb1scopeb": 0.2,
+            "comb1scopec": "factor",
+            "comb1result": "\"\""
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "neighbor1",
+          "type": "POP:neighbor",
+          "parameters": {
+            "maxdistance": 0.17,
+            "nebroutput": "weightedavg",
+            "maxneighbors": 8,
+            "nebrptattrs": "\"P Color\""
+          }
+        },
+        {
+          "name": "neighbor4",
+          "type": "POP:neighbor",
+          "parameters": {
+            "maxdistance": 0.05,
+            "distribution": "unique",
+            "nebroutput": "weightedavg",
+            "maxneighbors": 8,
+            "maxnebrsavg": 20,
+            "nebrptattrs": "Color"
+          }
+        },
+        {
+          "name": "pointgen1",
+          "type": "POP:pointgen",
+          "parameters": {
+            "shape": "rectangle",
+            "numpoints": 5000,
+            "sizex": 2,
+            "sizey": 2,
+            "sizez": 2
+          }
+        },
+        {
+          "name": "sprinkle2",
+          "type": "POP:sprinkle",
+          "parameters": {
+            "seed": 1.52,
+            "numpoints": 10
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "neighbor_connected",
+          "type": "POP:neighbor",
+          "parameters": {
+            "nebrtype": "connected",
+            "nebroutput": "avg",
+            "maxneighbors": 6,
+            "nebrptattrs": "P"
+          }
+        },
+        {
+          "name": "neighbor_connected1",
+          "type": "POP:neighbor",
+          "parameters": {
+            "nebrtype": "connected",
+            "nebroutput": "avg",
+            "maxneighbors": 6,
+            "nebrptattrs": "P"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "copy2",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "copy2",
+          "to_input": "1"
+        },
+        {
+          "from": "circle1",
+          "to": "copy3",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor1",
+          "to": "copy3",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "copy4",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor4",
+          "to": "copy4",
+          "to_input": "1"
+        },
+        {
+          "from": "lfo1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy4",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "noise3",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor_connected",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor_connected1",
+          "to": "normal2",
+          "to_input": "0"
+        },
+        {
+          "from": "pointgen1",
+          "to": "random1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "neighbor1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "neighbor4",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix1",
+          "to": "neighbor4",
+          "to_input": "1"
+        },
+        {
+          "from": "grid1",
+          "to": "sprinkle2",
+          "to_input": "0"
+        },
+        {
+          "from": "sprinkle2",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise3",
+          "to": "neighbor_connected",
+          "to_input": "0"
+        },
+        {
+          "from": "neighbor_connected",
+          "to": "neighbor_connected1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 30,
+        "connection_count": 22,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "POP:copy": 3,
+          "POP:grid": 1,
+          "CHOP:null": 1,
+          "POP:merge": 1,
+          "POP:noise": 2,
+          "CHOP:popto": 1,
+          "DAT:popto": 2,
+          "DAT:text": 1,
+          "POP:circle": 1,
+          "POP:normal": 2,
+          "POP:random": 1,
+          "POP:sphere": 2,
+          "POP:mathmix": 1,
+          "COMP:annotate": 3,
+          "POP:neighbor": 4,
+          "POP:pointgen": 1,
+          "POP:sprinkle": 1,
+          "POP:transform": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "ray1",
+          "type": "POP:ray",
+          "parameters": {
+            "dist": "on",
+            "numhits": "on",
+            "inside": "on"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "points",
+            "sizex": 3.3,
+            "sizey": 1.65,
+            "sizez": 3.3,
+            "cols": 31,
+            "rows": 23,
+            "slices": 31
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "neighbor3",
+            "attrib": "\"RayInside NumNebrs RayDistance\"",
+            "thinrandom": 0.9,
+            "thinrandomseed": 6.38
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "ray1",
+            "nameformat": "basic",
+            "attribscope": "\"P RayInside\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 36,
+            "rows": 32
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "POP:twist",
+          "parameters": {
+            "strength": 29
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "neighbor3",
+          "type": "POP:neighbor",
+          "parameters": {
+            "maxdistance": 0.203,
+            "nebroutput": "weightedavg",
+            "maxnebrsavg": 50,
+            "nebrptattrs": "RayInside"
+          }
+        },
+        {
+          "name": "popViewer",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "dragdropcallbacks": "./popViewer_dragdrop",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "Normalize"
+          }
+        },
+        {
+          "name": "popViewer1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "dragdropcallbacks": "./popViewer_dragdrop",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "popViewer2",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "dragdropcallbacks": "./popViewer_dragdrop",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "ray1",
+          "to_input": "0"
+        },
+        {
+          "from": "twist1",
+          "to": "ray1",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize1",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "ray1",
+          "to": "neighbor3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "normalize1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 5,
+        "operator_types": {
+          "POP:ray": 1,
+          "POP:grid": 1,
+          "DAT:popto": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:twist": 1,
+          "COMP:annotate": 2,
+          "POP:neighbor": 1,
+          "COMP:container": 3,
+          "POP:normalize": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

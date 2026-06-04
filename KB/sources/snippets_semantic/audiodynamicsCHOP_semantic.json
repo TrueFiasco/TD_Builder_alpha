@@ -1,0 +1,250 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiodynamicsCHOP_lossless.json",
+  "operator_type": "audiodynamicsCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiodyna1",
+            "iscope": "\"compressor* limiter*\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chanop": "add",
+            "chopop": "add"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodyna1",
+          "type": "CHOP:audiodyna",
+          "parameters": {
+            "pageindex": 1,
+            "enablecompressor": "on",
+            "kneecompressor": 3.2,
+            "enablelimiter": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "speed": 0.6,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein2",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "volume": 4,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audiofilein1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein2",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "math1",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodyna1",
+          "to": "trail2",
+          "to_input": "1"
+        },
+        {
+          "from": "math1",
+          "to": "audiodyna1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodyna1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:info": 1,
+          "CHOP:math": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:audiodyna": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "tri",
+            "frequency": 0.2,
+            "offset": 0.6,
+            "amp": 0.5,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiodyn1",
+            "iscope": "\"compressor* limiter*\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodyn1",
+          "type": "CHOP:audiodyna",
+          "parameters": {
+            "pageindex": 1,
+            "inputgain": 20,
+            "enablecompressor": "on",
+            "kneecompressor": 11.6,
+            "enablelimiter": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "audiodevout2",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audiofilein1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodyn1",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiodyn1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodyn1",
+          "to": "audiodevout2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:info": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:audiodyna": 1,
+          "DAT:table": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "operator": "Cache_Select_POP",
+  "family": "POP",
+  "td_create_name": "cacheselectPOP",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "cachepop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Cache Select",
+      "label": "Cache POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Cache Select",
+      "label": "Cache Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "cacheindexunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "indices",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "frames",
+      "page": "Cache Select",
+      "label": "Cache Index Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "interp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Cache Select",
+      "label": "Interpolate Frames",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

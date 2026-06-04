@@ -1,0 +1,81 @@
+{
+  "format_version": "2.0.0",
+  "format_layer": "extended",
+  "metadata": {
+    "project_name": "saved_network",
+    "mode": "toe",
+    "root_comp": "project1",
+    "td_version": null,
+    "build_number": null,
+    "build_date": null,
+    "cookrate": 60,
+    "realtime": true,
+    "description": null,
+    "tags": [],
+    "author": null,
+    "created_at": "2025-12-14T08:17:12.172386"
+  },
+  "operators": [
+    {
+      "path": "/project1/noise1",
+      "name": "noise1",
+      "family": "CHOP",
+      "type": "noise",
+      "parent": "/project1",
+      "op_type": "CHOP:noise",
+      "position": null,
+      "appearance": null,
+      "flags": {
+        "display": false,
+        "render": false,
+        "bypass": false,
+        "lock": false,
+        "viewer": false,
+        "current": false
+      },
+      "parameters": {},
+      "inputs": [],
+      "children": [],
+      "extra_files": {},
+      "custom_data": {}
+    },
+    {
+      "path": "/project1/null1",
+      "name": "null1",
+      "family": "CHOP",
+      "type": "null",
+      "parent": "/project1",
+      "op_type": "CHOP:null",
+      "position": null,
+      "appearance": null,
+      "flags": {
+        "display": false,
+        "render": false,
+        "bypass": false,
+        "lock": false,
+        "viewer": false,
+        "current": false
+      },
+      "parameters": {},
+      "inputs": [
+        {
+          "index": 0,
+          "src": "noise1",
+          "src_path": "/project1/noise1",
+          "src_output": 0
+        }
+      ],
+      "children": [],
+      "extra_files": {},
+      "custom_data": {}
+    }
+  ],
+  "connections": [
+    {
+      "source": "/project1/noise1",
+      "target": "/project1/null1",
+      "source_output": 0,
+      "target_input": 0
+    }
+  ]
+}

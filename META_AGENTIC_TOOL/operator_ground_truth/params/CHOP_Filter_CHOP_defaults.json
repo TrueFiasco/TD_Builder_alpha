@@ -1,0 +1,365 @@
+{
+  "operator": "Filter_CHOP",
+  "family": "CHOP",
+  "td_create_name": "filterCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "menu",
+        "value": "gauss",
+        "menuIndex": 0,
+        "menuNames": [
+          "gauss",
+          "halfgauss",
+          "box",
+          "halfbox",
+          "edge",
+          "sharpen",
+          "despike",
+          "ramp",
+          "oneeuro"
+        ],
+        "menuLabels": [
+          "Gaussian",
+          "Left Half Gaussian",
+          "Box",
+          "Left Half Box",
+          "Edge Detect",
+          "Sharpen",
+          "De-spike",
+          "Ramp Preserve",
+          "One Euro"
+        ]
+      },
+      "default": "gauss",
+      "page": "Filter",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "effect": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Filter",
+      "label": "Effect",
+      "readOnly": false,
+      "expression": null
+    },
+    "width": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Filter",
+      "label": "Filter Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "widthunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Filter",
+      "label": "Filter Width Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "spike": {
+      "value": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "default": 0.10000000149011612,
+      "page": "Filter",
+      "label": "Spike Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "ramptolerance": {
+      "value": {
+        "type": "float",
+        "value": 4.0
+      },
+      "default": 4.0,
+      "page": "Filter",
+      "label": "Ramp Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "ramprate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Filter",
+      "label": "Ramp Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "passes": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Filter",
+      "label": "Number of Passes",
+      "readOnly": false,
+      "expression": null
+    },
+    "cutoff": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Filter",
+      "label": "Cutoff Frequency (Hz)",
+      "readOnly": false,
+      "expression": null
+    },
+    "speedcoeff": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Filter",
+      "label": "Speed Coefficient",
+      "readOnly": false,
+      "expression": null
+    },
+    "slopecutoff": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Filter",
+      "label": "Slope Cutoff Frequency (Hz)",
+      "readOnly": false,
+      "expression": null
+    },
+    "slopedownreset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Slope Down Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "slopedownmax": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Filter",
+      "label": "Slope Down Max",
+      "readOnly": false,
+      "expression": null
+    },
+    "slopeupreset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Slope Up Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "slopeupmax": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Filter",
+      "label": "Slope Up Max",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "filterpersample": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Filter per Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

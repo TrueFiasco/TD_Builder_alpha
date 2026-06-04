@@ -1,0 +1,1720 @@
+# SOP Network Descriptions
+
+Write ONLY a 1-2 sentence network_description for each example.
+Describe the DATA FLOW based on the operators and connections.
+DO NOT explain what operators do. DO NOT explain parameter values.
+
+Output format:
+```yaml
+operator_type:
+  example_name: "description..."
+```
+
+---
+
+## addSOP
+### example1
+Curator: Polygons in clockwise order.
+ISOLATED: add1(SOP:add)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example2
+Curator: In this example we add a second box to the scene that contains a sphere.
+INPUT: box2(SOP:box)
+OUTPUT: add_to_input_from_table(SOP:add)
+ISOLATED: box5(SOP:box), sopto2(DAT:sopto)
+FLOW: box2->add_to_input_from_table
+TOPO: 4 ops, 1 conns, chain=2
+
+### example3
+Curator: In this example we manually added 4 points and created a square.
+INPUT: box3(SOP:box)
+OUTPUT: add_by_group(SOP:add)
+FLOW: box3->add_by_group
+TOPO: 2 ops, 1 conns, chain=2
+
+### example4
+Curator: The Add SOP has a useful function in that it can delete the geometry of an input while keeping the points for later use.
+INPUT: box4(SOP:box)
+OUTPUT: add_delete_geometry_but_keep_points(SOP:add)
+FLOW: box4->add_delete_geometry_but_keep_points
+TOPO: 2 ops, 1 conns, chain=2
+
+## alignSOP
+### example1
+Curator: TBD
+TOPO: 0 ops, 0 conns, chain=1
+
+## armSOP
+### example1
+Curator: This is a simple example of an arm created with the Arm SOP.
+ISOLATED: arm1(SOP:arm), noise1(CHOP:noise), noise1_export(DAT:table)
+TOPO: 3 ops, 0 conns, chain=1
+
+## attributecreateSOP
+### example1
+Curator: This example illustrates how to use the Attribute Create SOP to create tangents per-vertex. middle-click on the Attribute Create SOP to see the T attribute created.If you bypass Attrbute Create, the R
+INPUT: noise1(TOP:noise), render1(TOP:render), sphere1(SOP:sphere)
+PROCESSOR: null1(TOP:null), normal1(TOP:normal), transform1(SOP:transform), transform2(TOP:transform)
+OUTPUT: null2(TOP:null), null3(TOP:null), attribcreate1(SOP:attribcreate)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong)
+FLOW: noise1->null1, transform2->null2, normal1->null3, null1->normal1, sphere1->transform1, render1->transform2, transform1->attribcreate1
+TOPO: 14 ops, 7 conns, chain=4
+
+### example2
+Curator: See the Point SOP to create custom attributes and set values in them.
+TOPO: 0 ops, 0 conns, chain=1
+
+## basisSOP
+### example1
+Curator: This example re-parameterizes the knot sequence manually by input values.
+INPUT: grid1(SOP:grid)
+OUTPUT: basis1(SOP:basis)
+FLOW: grid1->basis1
+TOPO: 2 ops, 1 conns, chain=2
+
+## blendSOP
+### example1
+Curator: The Blend SOP can blend between two inputs.Here we blend between two different sized boxes.
+INPUT: box1(SOP:box), box2(SOP:box), lfo1(CHOP:lfo)
+OUTPUT: null1(CHOP:null), blend1(SOP:blend)
+ISOLATED: null1_export(DAT:table)
+FLOW: lfo1->null1, box1->blend1, box2->blend1
+TOPO: 6 ops, 3 conns, chain=2
+
+### example2
+Curator: The Blend SOP is unique in that you can individual weight how much each input effects the blend.Here we've individually weighted the various inputs to create our output geometry.When Diferncing is On,
+INPUT: sphere1(SOP:sphere), sphere2(SOP:sphere), sphere3(SOP:sphere)
+PROCESSOR: noise1(SOP:noise), transform1(SOP:transform)
+OUTPUT: blend2(SOP:blend)
+FLOW: sphere2->blend2, noise1->blend2, transform1->blend2, sphere1->noise1, sphere3->transform1
+TOPO: 6 ops, 5 conns, chain=3
+
+## booleanSOP
+### example1
+Curator: The Boolean SOP lets you use one SOP to add to subtract from another. NOTE: Both SOPs muse be polygonal and must be closed, eg. no open tubes etc.James Hunter
+INPUT: A(SOP:box), B(SOP:sphere)
+PROCESSOR: boolean1(SOP:boolean), boolean2(SOP:boolean), boolean3(SOP:boolean), boolean4(SOP:boolean), boolean5(SOP:boolean), boolean6(SOP:boolean)
+OUTPUT: attribcreate1(SOP:attribcreate), attribcreate2(SOP:attribcreate), attribcreate3(SOP:attribcreate), attribcreate4(SOP:attribcreate), attribcreate5(SOP:attribcreate), attribcreate6(SOP:attribcreate)
+ISOLATED: text1(DAT:text), text3(DAT:text), text4(DAT:text), text5(DAT:text), text6(DAT:text), text7(DAT:text)
+FLOW: A->boolean1, B->boolean1, A->boolean2, B->boolean2, A->boolean3, B->boolean3, A->boolean4, B->boolean4
+  ...and 10 more connections
+TOPO: 20 ops, 18 conns, chain=3
+
+## boxSOP
+### example1
+Curator: These examples show different ways of using the Size parameter to change the shape of a Box.
+ISOLATED: box_size(SOP:box), box_size1(SOP:box), box_size2(SOP:box)
+TOPO: 3 ops, 0 conns, chain=1
+
+### example2
+Curator: The Center parameters allow you to translate the Box in 3D space.
+INPUT: box_center(SOP:box), box_center1(SOP:box), box_center2(SOP:box)
+OUTPUT: merge1(SOP:merge)
+FLOW: box_center->merge1, box_center1->merge1, box_center2->merge1
+TOPO: 4 ops, 3 conns, chain=2
+
+### example3
+Curator: The Box SOP will create a Box around the input  geometry.
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: noise1(SOP:noise), box_input(SOP:box)
+OUTPUT: null2(SOP:null)
+FLOW: box_input->null2, sphere1->noise1, noise1->box_input
+TOPO: 4 ops, 3 conns, chain=4
+
+### example4
+Curator: This example demonstrates that you can consolidate the corner points of the Box and the compute correct normals for each primitive.
+INPUT: box_consolidate_corner_points(SOP:box)
+OUTPUT: null3(SOP:null)
+FLOW: box_consolidate_corner_points->null3
+TOPO: 2 ops, 1 conns, chain=2
+
+### example5
+Curator: These examples divide the Box SOP by the assigned values in the Division parameter.You can also create enforcement bars for the geometry when you create divisions.
+ISOLATED: box_divisions(SOP:box), box_divisions1(SOP:box), box_enforcement_bars(SOP:box)
+TOPO: 3 ops, 0 conns, chain=1
+
+### example6
+Curator: The Box SOP has a handy feature in that you can assign your texture UV upon creation.
+ISOLATED: geo1(COMP:geo), geo2(COMP:geo), phong1(MAT:phong), moviein1(TOP:moviefilein), box_texture(SOP:box), box_texture1(SOP:box)
+TOPO: 6 ops, 0 conns, chain=1
+
+## cacheSOP
+### example1
+Curator: The Cache SOP collects its input geometry in a cache (in RAM memory) for faster random-access playback. It can be used when cook times for a chain of SOPs is long and a quicker playback is needed.In t
+INPUT: button1(COMP:button), sphere1(SOP:sphere), constant1(CHOP:constant), bounce_animation(CHOP:null), timer_cachePlayback(CHOP:timer)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), filler(SOP:null), limit1(CHOP:limit), lookup1(CHOP:lookup), transform2(SOP:transform)
+OUTPUT: null1(CHOP:null), null2(CHOP:null), null3(CHOP:null), cache1(SOP:cache)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate), chopexec1(DAT:chopexec), timer1_callbacks(DAT:text)
+FLOW: constant1->math1, timer_cachePlayback->math2, lookup1->null1, math2->null2, button1/out1->null3, filler->cache1, transform2->filler, math1->limit1
+  ...and 3 more connections
+TOPO: 19 ops, 11 conns, chain=5
+
+## capSOP
+### example1
+Curator: This example places a rounded end cap on the input geometry.
+INPUT: tube1(SOP:tube)
+OUTPUT: cap1(SOP:cap)
+FLOW: tube1->cap1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: This example places a faceted cap on the input geometry.
+INPUT: tube2(SOP:tube)
+OUTPUT: cap2(SOP:cap)
+FLOW: tube2->cap2
+TOPO: 2 ops, 1 conns, chain=2
+
+## carveSOP
+### example1
+Curator: Here we've carved out two of the sides of the rectangle using the First U and Second U  parameters.
+INPUT: rectangle1(SOP:rectangle)
+OUTPUT: carve(SOP:carve)
+FLOW: rectangle1->carve
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: Using breakpoints means that the Carve SOP will be applied at breakpoints for for curves, and vertices for polygons, as opposed  to exactly where your carve points are.
+INPUT: rectangle2(SOP:rectangle)
+OUTPUT: carve_breakpoints(SOP:carve)
+FLOW: rectangle2->carve_breakpoints
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: These examples show the difference between the Keep Inside and Keep Outside
+INPUT: lfo1(CHOP:lfo), sphere1(SOP:sphere)
+OUTPUT: null1(CHOP:null), carve_inside(SOP:carve), carve_outside(SOP:carve)
+ISOLATED: null1_export(DAT:table)
+FLOW: lfo1->null1, sphere1->carve_inside, sphere1->carve_outside
+TOPO: 6 ops, 3 conns, chain=2
+
+### example4
+Curator: You can extract the 2D or 3D isoparametric profile of your geometry using the Carve SOP.
+INPUT: sphere2(SOP:sphere)
+OUTPUT: carve_iso_profile(SOP:carve)
+FLOW: sphere2->carve_iso_profile
+TOPO: 2 ops, 1 conns, chain=2
+
+### example5
+Curator: These two examples feature some more complex geometry being carved out of a sphere.
+INPUT: sphere3(SOP:sphere)
+OUTPUT: carve1(SOP:carve), carve2(SOP:carve)
+FLOW: sphere3->carve1, sphere3->carve2
+TOPO: 3 ops, 2 conns, chain=2
+
+### example6
+Curator: The Carve SOP can also extract the points specificed, instead of extracting a cross section.
+INPUT: sphere4(SOP:sphere)
+OUTPUT: carve4(SOP:carve)
+FLOW: sphere4->carve4
+TOPO: 2 ops, 1 conns, chain=2
+
+## choptoSOP
+### example1
+Curator: Basic CHOP to SOP. You need to match channel names to SOP attributes.
+INPUT: line1(SOP:line), noise1(CHOP:noise)
+PROCESSOR: trail1(CHOP:trail)
+OUTPUT: null1(CHOP:null), chopto_point_position(SOP:chopto)
+FLOW: trail1->null1, noise1->trail1, line1->chopto_point_position
+TOPO: 5 ops, 3 conns, chain=3
+
+### example2
+Curator: This example uses a SOP to CHOP to get all the point positions of a circle. Noise is applied to each of the point positions, then using a CHOP to SOP, we apply these new values to the Normals.This all
+INPUT: noise2(CHOP:noise), sopto1(CHOP:sopto), circle1(SOP:circle)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), point1(SOP:point), chopto_normals(SOP:chopto)
+OUTPUT: null2(CHOP:null), particle1(SOP:particle), particle2(SOP:particle)
+FLOW: sopto1->math1, math2->math1, noise2->math2, math1->null2, circle1->point1, chopto_normals->particle1, point1->particle2, point1->chopto_normals
+TOPO: 10 ops, 8 conns, chain=4
+
+### example3
+Curator: This is a more advanced example of using a CHOP to SOP.In the example a few SOP to CHOPs are used to  gather data on the points and normals. After modulating, the point positions, along  with newly cr
+INPUT: wave5(CHOP:wave), sopto1(CHOP:sopto), sopto2(CHOP:sopto), torus1(SOP:torus), noise_HSV(CHOP:noise), noise_HSV1(CHOP:noise)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), math3(CHOP:math), sort1(SOP:sort), facet1(SOP:facet), facet2(SOP:facet), merge3(CHOP:merge), point1(SOP:point), chopto1(SOP:chopto), rename1(CHOP:rename)
+  ...and 8 more
+OUTPUT: out1(SOP:out), merge1(CHOP:merge)
+FLOW: chopto1->out1, sopto1->math1, math3->math1, sopto2->math2, math1->math2, limit_normalize_and_quantize_samples1->math3, facet1->sort1, torus1->facet1
+  ...and 16 more connections
+TOPO: 26 ops, 24 conns, chain=11
+
+## circleSOP
+### example1
+Curator: These examples explore the the circle's Radius, Center and Anchor parameters.Moddle mouse click on the nodes to see that the top set is a polygon woth 40 points, and the second one is a circle primiti
+ISOLATED: circle_center_x(SOP:circle), circle_radius_x(SOP:circle), circle_radius_y(SOP:circle), circle_wireframe(SOP:circle), circle_as_polygons(SOP:circle), circle_as_primitive(SOP:circle), circle_using_anchor(SOP:circle), circle_as_polygons_wireframe(SOP:circle)
+TOPO: 8 ops, 0 conns, chain=1
+
+### example2
+Curator: This example controls the divisions of a polygon circle. Just 6 poinst around the perimeter, where the first (point 0) starts at the right-most side... where x = 1, y = 0.Note that this polygon is "cl
+ISOLATED: circle_divisions(SOP:circle)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example3
+Curator: This is an example of a closed arc type, that starts at angle 180 and ends at 360.
+INPUT: circle_arc_angle(SOP:circle)
+OUTPUT: wire1(SOP:wire)
+FLOW: circle_arc_angle->wire1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example4
+Curator: This is similar to a closed arc except that every point is connected to the center of the circle forming 10 triangles.It is then faceted (Unique Points on), and then each polygon shrunk to show them a
+INPUT: circle_arc_angle1(SOP:circle)
+PROCESSOR: facet1(SOP:facet)
+OUTPUT: primitive1(SOP:primitive)
+FLOW: circle_arc_angle1->facet1, facet1->primitive1
+TOPO: 3 ops, 2 conns, chain=3
+
+### example5
+Curator: Open Arc types don't close themselves.Start to end goes counter-clockwise if start angle is less than end angle.     (right hand rule for increasing angles - put your right hand thumb pointing along t
+ISOLATED: circle_arc_type_clockwise(SOP:circle), circle_arc_type_counerclockwise(SOP:circle)
+TOPO: 2 ops, 0 conns, chain=1
+
+## claySOP
+### example1
+Curator: The Clay SOP deforms faces and surfaces by pulling points that lie directly on them.The point that defines the area to be modified is called a "target point" or "target" for short. It is expressed as 
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo), lfo3(CHOP:lfo), sphere1(SOP:sphere), sphere2(SOP:sphere), sphere3(SOP:sphere)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), math_y_scope(CHOP:math), math_z_scope(CHOP:math)
+OUTPUT: clay1(SOP:clay), clay2(SOP:clay), clay3(SOP:clay), null1(CHOP:null), null2(CHOP:null), null3(CHOP:null)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate)
+FLOW: sphere1->clay1, sphere2->clay2, sphere3->clay3, lfo2->math1, lfo3->math2, math_z_scope->null1, math1->null2, math2->null3
+  ...and 2 more connections
+TOPO: 19 ops, 10 conns, chain=4
+
+### example2
+Curator: The Clay SOP deforms faces and surfaces by pulling points that lie directly on them.The point that defines the area to be modified is called a "target point" or "target" for short. It is expressed as 
+INPUT: lfo1(CHOP:lfo), sphere1(SOP:sphere)
+PROCESSOR: math1(CHOP:math)
+OUTPUT: null1(CHOP:null), clay_matrix(SOP:clay)
+FLOW: lfo1->math1, math1->null1, sphere1->clay_matrix
+TOPO: 5 ops, 3 conns, chain=3
+
+### example3
+Curator: The Clay SOP deforms faces and surfaces by pulling points that lie directly on them.The point that defines the area to be modified is called a "target point" or "target" for short. It is expressed as 
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo), sphere1(SOP:sphere)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), clay_vector(SOP:clay)
+OUTPUT: null(SOP:null), null1(CHOP:null), null2(CHOP:null)
+ISOLATED: torus1(SOP:torus)
+FLOW: clay_vector->null, lfo1->math1, lfo2->math2, math1->null1, math2->null2, sphere1->clay_vector
+TOPO: 10 ops, 6 conns, chain=3
+
+### example4
+Curator: The Clay SOP deforms faces and surfaces by pulling points that lie directly on them.The point that defines the area to be modified is called a "target point" or "target" for short. It is expressed as 
+INPUT: lfo1(CHOP:lfo), sphere1(SOP:sphere), rectangle1(SOP:rectangle)
+PROCESSOR: math1(CHOP:math), polyspline1(SOP:polyspline)
+OUTPUT: null1(CHOP:null), clay_primitive(SOP:clay)
+FLOW: lfo1->math1, math1->null1, rectangle1->polyspline1, sphere1->clay_primitive, polyspline1->clay_primitive
+TOPO: 7 ops, 5 conns, chain=3
+
+## clipSOP
+### example1
+Curator: These examples show how the Clip SOP cuts the geometry where at the animated plane.
+INPUT: box1(SOP:box), box2(SOP:box), box3(SOP:box), box4(SOP:box), lfo1(CHOP:lfo)
+OUTPUT: null1(CHOP:null), clip_x(SOP:clip), clip_y(SOP:clip), clip_z(SOP:clip), clip_x_y_z(SOP:clip)
+ISOLATED: null1_export(DAT:table)
+FLOW: lfo1->null1, box2->clip_x, box1->clip_y, box3->clip_z, box4->clip_x_y_z
+TOPO: 11 ops, 5 conns, chain=2
+
+## convertSOP
+### example1
+Curator: This example changes the Mesh sphere to a polygon sphere.
+INPUT: sphere_mesh(SOP:sphere)
+OUTPUT: convert_to_polygon(SOP:convert)
+ISOLATED: info1(CHOP:info), info2(CHOP:info)
+FLOW: sphere_mesh->convert_to_polygon
+TOPO: 4 ops, 1 conns, chain=2
+
+### example2
+Curator: This example changes the faces of the box to circles.
+INPUT: box1(SOP:box)
+OUTPUT: convert_to_circle(SOP:convert)
+FLOW: box1->convert_to_circle
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: This example shows how each triangle of the polygon sphere was changed to a Bezier surface.
+INPUT: sphere2(SOP:sphere)
+OUTPUT: convert_to_bezier(SOP:convert)
+FLOW: sphere2->convert_to_bezier
+TOPO: 2 ops, 1 conns, chain=2
+
+## copySOP
+### example1
+Curator: With Transform Cumulative set to On, the transform values that each copy inherit are cumulative.
+INPUT: box1(SOP:box)
+OUTPUT: copy_scale(SOP:copy), copy_rotate(SOP:copy), copy_translate(SOP:copy)
+FLOW: box1->copy_scale, box1->copy_rotate, box1->copy_translate
+TOPO: 4 ops, 3 conns, chain=2
+
+### example2
+Curator: This example makes a copy of the Copy SOPs input 1 at every point of input 2.
+INPUT: grid1(SOP:grid), torus1(SOP:torus)
+OUTPUT: copy_to_input(SOP:copy)
+FLOW: torus1->copy_to_input, grid1->copy_to_input
+TOPO: 3 ops, 2 conns, chain=2
+
+### example3
+Curator: You can stamp any parameter as long as the parameter is upstream.In these example we use the number of copies to change a parameter upstream of the Copy SOP, in this case transform1 and circle2. Use t
+INPUT: circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: transform1(SOP:transform)
+OUTPUT: copy_stamp(SOP:copy), copy_stamp1(SOP:copy)
+FLOW: transform1->copy_stamp, circle1->transform1, circle2->copy_stamp1
+TOPO: 5 ops, 3 conns, chain=3
+
+## cplusplusSOP
+### example1
+Curator: See samples in the GitHub repository:https://github.com/TouchDesigner/CustomOperatorSamples
+ISOLATED: button1(COMP:button)
+TOPO: 1 ops, 0 conns, chain=1
+
+## creepSOP
+### example1
+Curator: This example demonstrates how to use a Creep SOP to animate the first input's geometry along the surface of the second input's geometry.The second geometry should be a mesh of rows and columns. For ea
+INPUT: font1(SOP:font), text1(SOP:text), circle2(SOP:circle), sphere1(SOP:sphere), constant1(CHOP:constant)
+PROCESSOR: skin1(SOP:skin), merge1(SOP:merge), twist1(SOP:twist), resample1(SOP:resample), transform1(SOP:transform)
+OUTPUT: creep1(SOP:creep), creep2(SOP:creep), speed1(CHOP:speed)
+ISOLATED: box1(SOP:box), cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), table1(DAT:table), render1(TOP:render), speed1_export(DAT:table)
+FLOW: merge1->skin1, resample1->creep1, twist1->creep1, text1->creep2, skin1->creep2, circle2->merge1, transform1->merge1, constant1->speed1
+  ...and 3 more connections
+TOPO: 20 ops, 11 conns, chain=5
+
+## curveclaySOP
+### example1
+Curator: The Curveclay SOP is similar to the Clay SOP in that you deform a spline surface by directly manipulating the surface. However, instead of using a point on the surface, you use one or more faces to de
+INPUT: text1(SOP:text), sphere1(SOP:sphere)
+PROCESSOR: project1(SOP:project)
+OUTPUT: curveclay1(SOP:curveclay)
+FLOW: text1->project1, sphere1->project1, project1->curveclay1
+TOPO: 4 ops, 3 conns, chain=3
+
+### example2
+Curator: The Curveclay SOP is similar to the Clay SOP in that you deform a spline surface by directly manipulating the surface. However, instead of using a point on the surface, you use one or more faces to de
+INPUT: text1(SOP:text), sphere1(SOP:sphere)
+PROCESSOR: transform1(SOP:transform)
+OUTPUT: curveclay1(SOP:curveclay)
+FLOW: sphere1->curveclay1, text1->curveclay1, transform1->curveclay1, text1->transform1
+TOPO: 4 ops, 4 conns, chain=3
+
+## curvesectSOP
+### example1
+Curator: The Curvesect SOP finds the intersections or the points of minimum distance between two or more faces (polygons, Bziers, and NURBS curves) or between faces and a polygonal or spline surface. In this s
+INPUT: lfo1(CHOP:lfo), circle3(SOP:circle), circle4(SOP:circle)
+PROCESSOR: math1(CHOP:math), curvesect1(SOP:curvesect)
+OUTPUT: null3(CHOP:null), positions(SOP:null)
+ISOLATED: cam1(COMP:cam), line1(MAT:line), render1(TOP:render), geo_left_circle(COMP:geo), geo_right_circle(COMP:geo), geo_instance_red_spheres(COMP:geo)
+FLOW: lfo1->math1, math1->null3, curvesect1->positions, circle3->curvesect1, circle4->curvesect1
+TOPO: 13 ops, 5 conns, chain=3
+
+### example2
+Curator: The Curvesect SOP finds the intersections or the points of minimum distance between two or more faces (polygons, Bziers, and NURBS curves) or between faces and a polygonal or spline surface. In this s
+INPUT: circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: curvesect_keep_odd_numbered(SOP:curvesect), curvesect_keep_even_numbered(SOP:curvesect)
+OUTPUT: null1(SOP:null), null2(SOP:null)
+FLOW: curvesect_keep_even_numbered->null1, curvesect_keep_odd_numbered->null2, circle1->curvesect_keep_odd_numbered, circle2->curvesect_keep_odd_numbered, circle1->curvesect_keep_even_numbered, circle2->curvesect_keep_even_numbered
+TOPO: 6 ops, 6 conns, chain=3
+
+## dattoSOP
+### example1
+Curator: Three DATs are needed for DAT to SOP: 1) For points that hold the XYZ positions and other attributes like Texture UV and point color.2) For Vertices that specify other attributes that may also include
+INPUT: circle1(SOP:circle)
+OUTPUT: copy1(SOP:copy)
+ISOLATED: datto1(SOP:datto), sopto2_verts(DAT:sopto), sopto3_prims(DAT:sopto), sopto1_points(DAT:sopto)
+FLOW: circle1->copy1
+TOPO: 6 ops, 1 conns, chain=2
+
+### example2
+Curator: The first example creates the squares using all the data in the tables.The second example uses all of the information about the squares but then closes them on it's own.
+ISOLATED: datto4(SOP:datto), table2_prims(DAT:table), table2_verts(DAT:table), table2_points(DAT:table), datto_close_u_v(SOP:datto)
+TOPO: 5 ops, 0 conns, chain=1
+
+### example3
+Curator: You can also use a DAT to SOP to edit specific values of the input, in this case we changes the point positions.
+INPUT: circle2(SOP:circle)
+OUTPUT: datto_edit_points(SOP:datto)
+ISOLATED: table1_points(DAT:table)
+FLOW: circle2->datto_edit_points
+TOPO: 3 ops, 1 conns, chain=2
+
+## deleteSOP
+### example1
+Curator: This example deletes primitives by pattern.
+INPUT: box1(SOP:box)
+OUTPUT: delete_prims_by_pattern(SOP:delete)
+ISOLATED: info1(CHOP:info)
+FLOW: box1->delete_prims_by_pattern
+TOPO: 3 ops, 1 conns, chain=2
+
+### example2
+Curator: This example deletes points by pattern.
+INPUT: box2(SOP:box)
+OUTPUT: delete_points_by_pattern(SOP:delete)
+ISOLATED: info2(CHOP:info)
+FLOW: box2->delete_points_by_pattern
+TOPO: 3 ops, 1 conns, chain=2
+
+### example3
+Curator: This example deletes primitives by range.The ranges start and end values of 0 and 6, include all the  box's primitives.And selecting 1 of 2, means that half of the primitives between primitive 0 and 6
+INPUT: box3(SOP:box)
+OUTPUT: delete_by_range(SOP:delete)
+ISOLATED: info3(CHOP:info)
+FLOW: box3->delete_by_range
+TOPO: 3 ops, 1 conns, chain=2
+
+### example4
+Curator: This is another example of deleting by range.In this example 1 of every 5 primitives between primitive 0 and 361 are deleted.
+INPUT: grid1(SOP:grid)
+PROCESSOR: noise1(SOP:noise)
+OUTPUT: delete_range(SOP:delete)
+FLOW: grid1->noise1, noise1->delete_range
+TOPO: 3 ops, 2 conns, chain=3
+
+### example5
+Curator: You can use Delete SOP to delete by bounding box.This means that everything that falls inside the box will be deleted.
+INPUT: sphere1(SOP:sphere)
+OUTPUT: delete_bounding_box(SOP:delete)
+ISOLATED: info4(CHOP:info)
+FLOW: sphere1->delete_bounding_box
+TOPO: 3 ops, 1 conns, chain=2
+
+### example6
+Curator: This is another example of deleting by bounding box.In this example the bounding box's movement is animated.
+INPUT: grid2(SOP:grid)
+PROCESSOR: noise2(SOP:noise)
+OUTPUT: delete_bounding_box1(SOP:delete)
+FLOW: grid2->noise2, noise2->delete_bounding_box1
+TOPO: 3 ops, 2 conns, chain=3
+
+### example7
+Curator: You can delete primitives by spread angle.This compares the angle of each normal against the direction you specify using the Direction values, and i the angle is greater than the Spread Angle value, t
+INPUT: sphere2(SOP:sphere)
+OUTPUT: delete_normals_b_spread_angle(SOP:delete)
+ISOLATED: info5(CHOP:info)
+FLOW: sphere2->delete_normals_b_spread_angle
+TOPO: 3 ops, 1 conns, chain=2
+
+### example8
+Curator: This is another example of deleting by spread angle.You can see in this example the spread angle deletes all the peaks from the simulated geography.
+INPUT: grid3(SOP:grid)
+PROCESSOR: noise3(SOP:noise)
+OUTPUT: delete_spread_angles(SOP:delete)
+FLOW: grid3->noise3, noise3->delete_spread_angles
+TOPO: 3 ops, 2 conns, chain=3
+
+## divideSOP
+### example1
+Curator: The Divide SOP divides incoming polygonal geometry. It will smooth input polygons, dividing polygons, as well as sub-divide input polygons using the Bricker option.
+INPUT: box2(SOP:box)
+PROCESSOR: divide2(SOP:divide)
+OUTPUT: facet2(SOP:facet)
+FLOW: divide2->facet2, box2->divide2
+TOPO: 3 ops, 2 conns, chain=3
+
+### example2
+Curator: The Divide Sop can Bricker polygons, where it divides the incoming gemoetry into grid-like squares. Also the offset and angle can be adjusted.
+INPUT: box1(SOP:box)
+PROCESSOR: divide1(SOP:divide)
+OUTPUT: delete2(SOP:delete)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), light2(COMP:light), phong1(MAT:phong), render1(TOP:render)
+FLOW: divide1->delete2, box1->divide1
+TOPO: 9 ops, 2 conns, chain=3
+
+### example3
+Curator: The Divide SOP can also be used to find all polygon centers. When using the "compute dual" option, the Divide SOP creates a new mesh (the dual graph) that has a point at the center of each previous po
+INPUT: lfo1(CHOP:lfo), sphere1(SOP:sphere)
+PROCESSOR: add2(SOP:add), math1(CHOP:math), divide1(SOP:divide)
+OUTPUT: null1(CHOP:null), facet1(SOP:facet), positions(SOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), light1(COMP:light), render1(TOP:render), comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate), comment4(COMP:annotate)
+FLOW: divide1->add2, lfo1->math1, math1->null1, sphere1->facet1, sphere1->divide1, add2->positions
+TOPO: 17 ops, 6 conns, chain=4
+
+### example4
+Curator: The Divide SOP can give interesting effects when playing with the weight parameters of the Smooth Polygons options, combined with Compute Dual.
+INPUT: lfo1(CHOP:lfo), render1(TOP:render), sphere1(SOP:sphere), renderpass1(TOP:renderpass)
+PROCESSOR: blur1(TOP:blur), comp1(TOP:comp), math1(CHOP:math), level1(TOP:level), noise1(SOP:noise), divide1(SOP:divide)
+OUTPUT: comp2(TOP:comp), null1(CHOP:null), facet1(SOP:facet), divide2(SOP:divide)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), line1(MAT:line), light1(COMP:light)
+FLOW: renderpass1->blur1, renderpass1->comp1, level1->comp1, render1->comp2, comp1->comp2, lfo1->math1, math1->null1, divide1->facet1
+  ...and 4 more connections
+TOPO: 19 ops, 12 conns, chain=5
+
+### example5
+Curator: Here the "remove shared edges" option of the Divide SOP removes all internal edges of the Grid SOP
+INPUT: grid1(SOP:grid)
+OUTPUT: divide1(SOP:divide)
+FLOW: grid1->divide1
+TOPO: 2 ops, 1 conns, chain=2
+
+## extrudeSOP
+### example1
+Curator: This example creates 3D extruded text using the Extrude SO, startin with the Text SOP.The Attribute Create SOP is used at the end to compute the normals.
+INPUT: text1(SOP:text)
+PROCESSOR: extrude1(SOP:extrude), transform1(SOP:transform)
+OUTPUT: attribcreate1(SOP:attribcreate)
+FLOW: transform1->extrude1, text1->transform1, extrude1->attribcreate1
+TOPO: 4 ops, 3 conns, chain=4
+
+### example2
+Curator: In extrude3 for example, you can visualize it as placing the cross-section on each vertex of the input so that the first point in the curve (1,0) is on the vertex, the top of the curve (0,1) extends o
+INPUT: text1(SOP:text), circle1(SOP:circle), circle2(SOP:circle), circle3(SOP:circle), circle4(SOP:circle)
+OUTPUT: extrude1(SOP:extrude), extrude2(SOP:extrude), extrude3(SOP:extrude), extrude4(SOP:extrude)
+FLOW: text1->extrude1, circle1->extrude1, text1->extrude2, circle3->extrude2, text1->extrude3, circle2->extrude3, text1->extrude4, circle4->extrude4
+TOPO: 9 ops, 8 conns, chain=2
+
+### example3
+Curator: Be careful you are not extruding faces that are already triangulated because each triangle will be extruded.It is better to extrude the/outlines of letters in the Text SOP. The Text SOP is by defult t
+INPUT: text1(SOP:text), text2(SOP:text)
+OUTPUT: extrude1(SOP:extrude), extrude2(SOP:extrude)
+FLOW: text1->extrude1, text2->extrude2
+TOPO: 4 ops, 2 conns, chain=2
+
+## facetSOP
+### example1
+Curator: This example consolidates corner points on this sphere.
+INPUT: sphere1(SOP:sphere)
+OUTPUT: facet_consolidate_points(SOP:facet)
+FLOW: sphere1->facet_consolidate_points
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: This example creates a series of unique points at corners where different primitives meet.Notice in sphere2 where there is a single point at each corner, whereas in the viewer of the Facet SOP, you ca
+INPUT: sphere2(SOP:sphere)
+OUTPUT: facet_unique_points(SOP:facet)
+FLOW: sphere2->facet_unique_points
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: This example computes the normals of the sphere after creating unique points, allowing you to more clearly see the effect of creating unique points. In the Primitive SOP, each of the newly made primit
+INPUT: torus1(SOP:torus), sphere3(SOP:sphere)
+PROCESSOR: facet2(SOP:facet), facet_unique_point_normals(SOP:facet)
+OUTPUT: primitive1(SOP:primitive), primitive3(SOP:primitive)
+ISOLATED: text1(DAT:text), text2(DAT:text), text3(DAT:text)
+FLOW: torus1->facet2, facet_unique_point_normals->primitive1, facet2->primitive3, sphere3->facet_unique_point_normals
+TOPO: 9 ops, 4 conns, chain=3
+
+## fileinSOP
+### example1
+Curator: You can import a variety of 3D geometry from other 3D suites using the File In SOP.
+ISOLATED: filein1(SOP:filein)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example2
+Curator: If your imported geometry is missing normals, you can compute them in the File In SOP.
+ISOLATED: filein_compute_normals(SOP:filein)
+TOPO: 1 ops, 0 conns, chain=1
+
+## filletSOP
+### example1
+Curator: This example shows how a Fillet SOP can create a surface inbetween two curves or polygons without affecting the input geometry.
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: carve1(SOP:carve), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: merge1(SOP:merge), fillet1(SOP:fillet)
+FLOW: sphere1->carve1, transform1->merge1, transform2->merge1, transform1->fillet1, transform2->fillet1, carve1->transform1, carve1->transform2
+TOPO: 6 ops, 7 conns, chain=4
+
+## fitSOP
+### example1
+Curator: These two examples  use the approximation method to fit Test to the data points, without having to touch all of them.This is useful for leaning down very complex data sets.
+INPUT: font1(SOP:font), font2(SOP:font)
+OUTPUT: fit1(SOP:fit), fit2(SOP:fit)
+FLOW: font1->fit1, font2->fit2
+TOPO: 4 ops, 2 conns, chain=2
+
+### example2
+Curator: The Tolerance parameter is the precision factor for the Approximation method. The higher the value the less amount of vertices are made during the fit.Additional smoothing can  be applied via the Smoo
+INPUT: font3(SOP:font)
+OUTPUT: fit3(SOP:fit)
+FLOW: font3->fit3
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: This example uses the interpolation method to fit Test to the data points, making sure to touch every point.This is generally more useful on smaller data sets, as it can sometimes produce more control
+INPUT: font4(SOP:font)
+OUTPUT: fit4(SOP:fit)
+FLOW: font4->fit4
+TOPO: 2 ops, 1 conns, chain=2
+
+## forceSOP
+### example1
+Curator: Using the Force SOP you can apply different kinds of forces to particle systems.In this example, a vortex force is applied for as long as you hold down the 'Hold for Force' button.
+INPUT: force(COMP:button), grid2(SOP:grid), metaball1(SOP:metaball)
+PROCESSOR: force1(SOP:force)
+OUTPUT: null1(CHOP:null), particle1(SOP:particle)
+ISOLATED: null1_export(DAT:table)
+FLOW: force/out1->null1, metaball1->force1, grid2->particle1, force1->particle1
+TOPO: 7 ops, 4 conns, chain=3
+
+## fractalSOP
+### example1
+Curator: This example creates divisions along the input surface.
+INPUT: tube1(SOP:tube)
+OUTPUT: fractal1(SOP:fractal)
+FLOW: tube1->fractal1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: The Fractal SOP is useful when creating terrain like geometry.
+INPUT: grid1(SOP:grid)
+PROCESSOR: noise1(SOP:noise)
+OUTPUT: fractal2(SOP:fractal)
+FLOW: grid1->noise1, noise1->fractal2
+TOPO: 3 ops, 2 conns, chain=3
+
+## gridSOP
+### example1
+Curator: You can see the difference between the grid and the rectangle when you look at their wireframes.
+INPUT: grid1(SOP:grid), rectangle1(SOP:rectangle)
+OUTPUT: null1(SOP:null), null2(SOP:null)
+FLOW: grid1->null1, rectangle1->null2
+TOPO: 4 ops, 2 conns, chain=2
+
+## groupSOP
+### example1
+Curator: The Group SOP gives you the ability to limit the "scope" of downstream SOPs without forking them off individually. For example, here we create a group for the sphere, box and torus individually. Then 
+INPUT: box1(SOP:box), torus1(SOP:torus), sphere1(SOP:sphere)
+PROCESSOR: group1(SOP:group), group2(SOP:group), group3(SOP:group), merge1(SOP:merge), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: transform3(SOP:transform)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate)
+FLOW: sphere1->group1, box1->group2, torus1->group3, group1->merge1, group2->merge1, group3->merge1, merge1->transform1, transform1->transform2
+  ...and 1 more connections
+TOPO: 12 ops, 9 conns, chain=6
+
+### example2
+Curator: The Group SOP gives you the ability to limit the "scope" of downstream SOPs without forking them off individually. group3 groups by normals that point up and right, and group inclusion is animated usi
+INPUT: torus1(SOP:torus), sphere1(SOP:sphere)
+PROCESSOR: group1(SOP:group), group3(SOP:group)
+OUTPUT: transform1(SOP:transform), transform_teletransport(SOP:transform)
+ISOLATED: spread(COMP:slider), comment1(COMP:annotate)
+FLOW: sphere1->group1, torus1->group3, group1->transform1, group3->transform_teletransport
+TOPO: 8 ops, 4 conns, chain=3
+
+### example3
+Curator: Creating a group of primitives within one SOP, named "top".Transforming just that group.
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: facet1(SOP:facet), group1(SOP:group)
+OUTPUT: transform1(SOP:transform)
+FLOW: sphere1->facet1, facet1->group1, group1->transform1
+TOPO: 4 ops, 3 conns, chain=4
+
+### example4
+Curator: Points of the sphere are first sorted in random order. Then the first 500 points are grouped into groupA.In the top example, to be able to delete points from the sphere, and still see the remaining sh
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: convert1(SOP:convert), convert2(SOP:convert), sort_random(SOP:sort), groupB_bounding(SOP:group), group_first500Points(SOP:group), group_combineIntoGroupA(SOP:group)
+OUTPUT: delete_groupA_points(SOP:delete), delete_combined_groupA_points(SOP:delete)
+FLOW: group_first500Points->convert1, group_combineIntoGroupA->convert2, sphere1->sort_random, group_first500Points->groupB_bounding, convert1->delete_groupA_points, sort_random->group_first500Points, groupB_bounding->group_combineIntoGroupA, convert2->delete_combined_groupA_points
+TOPO: 9 ops, 8 conns, chain=7
+
+## holeSOP
+### example1
+Curator: This example demonstrates how you can create and fill holes easily with the Hole SOP.
+INPUT: box1(SOP:box), text1(SOP:text), circle1(SOP:circle), circle2(SOP:circle), circle3(SOP:circle)
+PROCESSOR: hole1(SOP:hole), hole2(SOP:hole), merge1(SOP:merge), transform1(SOP:transform)
+OUTPUT: null1(SOP:null), null2(SOP:null), null3(SOP:null)
+ISOLATED: lfo1(CHOP:lfo), info1(CHOP:info), lfo1_export(DAT:table)
+FLOW: transform1->hole1, text1->hole2, hole1->null1, hole2->null2, text1->null3, box1->merge1, circle1->merge1, circle2->merge1
+  ...and 2 more connections
+TOPO: 15 ops, 10 conns, chain=5
+
+## inSOP
+### example1
+Curator: The In SOP is used to create a SOP input in a Component. Component inputs are positioned alphanumerically on the left side of the Component.In this example base1 COMP has a blue SOP input on its left 
+INPUT: base1(COMP:base)
+OUTPUT: null1(SOP:null)
+ISOLATED: box1(SOP:box)
+FLOW: base1/out1->null1
+TOPO: 3 ops, 1 conns, chain=1
+
+## isosurfaceSOP
+### example1
+Curator: These are a few examples of how Iso Surfaces are made using Implicit Functions.
+ISOLATED: iso1(SOP:iso), iso2(SOP:iso), iso3(SOP:iso), iso4(SOP:iso)
+TOPO: 4 ops, 0 conns, chain=1
+
+## joinSOP
+### example1
+Curator: The Join SOP takes the input geometry, which contains various lines in this case, and joins them together smoothly.
+INPUT: box1(SOP:box), circle1(SOP:circle)
+PROCESSOR: copy1(SOP:copy)
+OUTPUT: join1(SOP:join)
+FLOW: circle1->copy1, box1->copy1, copy1->join1
+TOPO: 4 ops, 3 conns, chain=3
+
+## jointSOP
+### example1
+Curator: This example shows how the Joint SOP creates circles between a pair of input circles.This can be used in the creation of circle-based skeletons.
+INPUT: circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: merge1(SOP:merge), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: joint1(SOP:joint)
+FLOW: merge1->joint1, transform1->merge1, transform2->merge1, circle1->transform1, circle2->transform2
+TOPO: 6 ops, 5 conns, chain=4
+
+## latticeSOP
+### example1
+Curator: This example animates the deformation of the TEST geometry with the twisted grid.Notice how the Lattice SOP is set up as it takes specific inputs.
+INPUT: box1(SOP:box), text1(SOP:text)
+PROCESSOR: twist1(SOP:twist), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: lattice1(SOP:lattice)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: box1->twist1, transform2->lattice1, box1->lattice1, transform1->lattice1, twist1->transform1, text1->transform2
+TOPO: 8 ops, 6 conns, chain=4
+
+## limitSOP
+### example1
+Curator: At its simplest, the Limit SOP creates geometry from CHOP channels.Here, we've made a table with some very simple point positions, which  are then converted to CHOP channels, and fed to the Limit SOP.
+ISOLATED: datto1(CHOP:datto), limit1(SOP:limit), table1(DAT:table)
+TOPO: 3 ops, 0 conns, chain=1
+
+### example2
+Curator: In this example we created out CHOP channels using a SOP to CHOP, then converted our channels back to a SOP using the Limit SOP.The difference is that the Limit SOP uses a single Polygonal Line to con
+INPUT: grid2(SOP:grid)
+PROCESSOR: transform2(SOP:transform)
+OUTPUT: null4(SOP:null)
+ISOLATED: limit2(SOP:limit), sopto2(CHOP:sopto)
+FLOW: transform2->null4, grid2->transform2
+TOPO: 5 ops, 2 conns, chain=3
+
+### example3
+Curator: Directly to the right, we use two sine wave LFOs to create two channels needed to draw a circle using the Limit SOP.
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo)
+PROCESSOR: merge1(CHOP:merge)
+OUTPUT: trail1(CHOP:trail)
+ISOLATED: limit6(SOP:limit)
+FLOW: lfo1->merge1, lfo2->merge1, merge1->trail1
+TOPO: 5 ops, 3 conns, chain=3
+
+### example4
+Curator: Here we modulate our original sine waves with faster sine waves.When we use the Limit SOP with these channels, we see a more interesting pattern with swirls.
+INPUT: lfo3(CHOP:lfo), lfo4(CHOP:lfo), lfoPhase(CHOP:lfo)
+PROCESSOR: math1(CHOP:math), merge2(CHOP:merge)
+OUTPUT: trail2(CHOP:trail)
+ISOLATED: limit7(SOP:limit)
+FLOW: lfoPhase->math1, merge2->math1, lfo3->merge2, lfo4->merge2, math1->trail2
+TOPO: 7 ops, 5 conns, chain=4
+
+### example5
+Curator: If we use a triangle wave to modulate both of the previous examples channels, we can create a more interesting pattern that becomes larger and smaller as the triangle wave increases and decreases.One 
+INPUT: lfoPhase(CHOP:lfo), lfoPhase1(CHOP:lfo), lfo_decay(CHOP:lfo)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math)
+OUTPUT: trail3(CHOP:trail)
+ISOLATED: limit8(SOP:limit), limit9(SOP:limit)
+FLOW: lfoPhase->math1, lfoPhase1->math1, math1->math2, lfo_decay->math2, math2->trail3
+TOPO: 8 ops, 5 conns, chain=4
+
+### example6
+Curator: The Limit SOP has different output options.These three examples show three of the common examples used to draw some Sparse noise.
+ISOLATED: limit3(SOP:limit), limit4(SOP:limit), limit5(SOP:limit), noise1(CHOP:noise)
+TOPO: 4 ops, 0 conns, chain=1
+
+## lineSOP
+### example1
+Curator: You can create lines by assigning co-ordinates to the start and end of the line (Point A and Point B).
+ISOLATED: line1(SOP:line), line2(SOP:line), line3(SOP:line), line4(SOP:line)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example2
+Curator: You can add more points to your line using the Number of Points parameter.
+ISOLATED: line5(SOP:line), line6(SOP:line)
+TOPO: 2 ops, 0 conns, chain=1
+
+## linethickSOP
+### example1
+Curator: This example demonstrates how the Line Thick SOP can extrude a surface from a curved line.
+INPUT: circle1(SOP:circle)
+OUTPUT: linethick1(SOP:linethick)
+FLOW: circle1->linethick1
+TOPO: 2 ops, 1 conns, chain=2
+
+## lsystemSOP
+### example1
+Curator: L-Systems can be quite complicated but can create very organic geometry.This is a very basic example that creates a tree with circle and triangle leaves.
+INPUT: circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: lsystem1(SOP:lsystem)
+OUTPUT: attribcreate1(SOP:attribcreate)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table), lsystem1_rules(DAT:text)
+FLOW: circle1->lsystem1, circle2->lsystem1, lsystem1->attribcreate1
+TOPO: 7 ops, 3 conns, chain=3
+
+## magnetSOP
+### example1
+Curator: This example deforms the grid by using the metaball's force.Adding more or less weight to the metaball changes the deformation amount.
+INPUT: grid1(SOP:grid), metaball1(SOP:metaball)
+OUTPUT: magnet1(SOP:magnet)
+ISOLATED: noise1(CHOP:noise), noise1_export(DAT:table)
+FLOW: grid1->magnet1, metaball1->magnet1
+TOPO: 5 ops, 2 conns, chain=2
+
+## materialSOP
+### example1
+Curator: The Material SOP allows you to assign textures to geometry at the SOP level. This is useful if you need to texture a specific part of a more complex piece of geometry, as it takes precedence over the 
+INPUT: box1(SOP:box)
+OUTPUT: material1(SOP:material)
+ISOLATED: geo1(COMP:geo), phong1(MAT:phong), phong2(MAT:phong), moviein1(TOP:moviefilein), moviein2(TOP:moviefilein)
+FLOW: box1->material1
+TOPO: 7 ops, 1 conns, chain=2
+
+## mergeSOP
+### example1
+Curator: merge1 and merge2 both merge three diferent SOPs, done in two different ways.merge1 dies it by wiring, merge2 by giving the SOPs parameter a list of names.As you see in merge3, you can give it a patte
+INPUT: box1(SOP:box), text1(SOP:text), circle1(SOP:circle)
+OUTPUT: merge1(SOP:merge), merge3(SOP:merge)
+ISOLATED: text2(SOP:text), merge2(SOP:merge)
+FLOW: circle1->merge1, box1->merge1, text1->merge1, box1->merge3
+TOPO: 7 ops, 4 conns, chain=2
+
+## metaballSOP
+### example1
+Curator: This example demonstrates the Metaball SOPs property of changing their shape to adapt and fuse with surrounding metaballs.
+INPUT: metaball1(SOP:metaball), metaball2(SOP:metaball)
+OUTPUT: merge1(SOP:merge)
+ISOLATED: noise1(CHOP:noise), noise2(CHOP:noise), noise1_export(DAT:table), noise2_export(DAT:table)
+FLOW: metaball1->merge1, metaball2->merge1
+TOPO: 7 ops, 2 conns, chain=2
+
+## noiseSOP
+### example1
+Curator: This example applies a Sparse noise to the point positions.
+INPUT: sphere1(SOP:sphere)
+OUTPUT: noise_points_position(SOP:noise)
+FLOW: sphere1->noise_points_position
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: This example applies a Hermite noise to the sphere's normals.
+INPUT: sphere3(SOP:sphere)
+OUTPUT: noise_normals(SOP:noise)
+FLOW: sphere3->noise_normals
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: This example applies Sparse noise to the sphere's diffuse color.
+INPUT: sphere4(SOP:sphere)
+OUTPUT: noise_diffuse_color(SOP:noise)
+FLOW: sphere4->noise_diffuse_color
+TOPO: 2 ops, 1 conns, chain=2
+
+### example4
+Curator: This example applies a Sparse noise to the point alpha.
+INPUT: sphere5(SOP:sphere)
+OUTPUT: noise_alpha(SOP:noise)
+FLOW: sphere5->noise_alpha
+TOPO: 2 ops, 1 conns, chain=2
+
+### example5
+Curator: Here we've actually applied the noise to the point texture UV coordinates.
+INPUT: sphere6(SOP:sphere)
+OUTPUT: noise_texture(SOP:noise)
+ISOLATED: ramp1(TOP:ramp), container1(COMP:geo), ramp1_keys(DAT:table)
+FLOW: sphere6->noise_texture
+TOPO: 5 ops, 1 conns, chain=2
+
+### example6
+Curator: This example combines applying noise to the diffuse color and the point positions.
+INPUT: sphere2(SOP:sphere)
+PROCESSOR: noise1(SOP:noise)
+OUTPUT: noise2(SOP:noise)
+FLOW: sphere2->noise1, noise1->noise2
+TOPO: 3 ops, 2 conns, chain=3
+
+## objectmergeSOP
+### example1
+Curator: You can use an Object Merge SOP to merge geometry.
+ISOLATED: box1(SOP:box), torus1(SOP:torus), circle1(SOP:circle), objectmerge1(SOP:objectmerge)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example2
+Curator: The interesting aspect of the Object Merge SOP is that it takes the transform parameters of the referenced SOPs Geometry Component into account.See the above and below example that yield the same resu
+ISOLATED: box2(SOP:box), geo2(COMP:geo), geo3(COMP:geo), geo4(COMP:geo), geo5(COMP:geo), torus2(SOP:torus), circle2(SOP:circle), objectmerge_geo1(SOP:objectmerge), objectmerge_geo2(SOP:objectmerge)
+TOPO: 9 ops, 0 conns, chain=1
+
+## particleSOP
+### example1
+Curator: These two examples show the two different modesof the Particle SOP.The first is to use the input geometry for emitting the particles.The second is to modify the input geometry using theparticles.
+INPUT: torus2(SOP:torus)
+OUTPUT: particle1(SOP:particle), particle2(SOP:particle)
+FLOW: torus2->particle1, torus2->particle2
+TOPO: 3 ops, 2 conns, chain=2
+
+### example2
+Curator: There are 3 different collision modes for particles. The first is to bounce on collision. The second is to die on collision.The third is to stick on collision.
+INPUT: box1(SOP:box), torus1(SOP:torus)
+OUTPUT: particle3(SOP:particle), particle4(SOP:particle), particle5(SOP:particle)
+FLOW: torus1->particle3, box1->particle3, torus1->particle4, box1->particle4, torus1->particle5, box1->particle5
+TOPO: 5 ops, 6 conns, chain=2
+
+### example3
+Curator: This example adds some wind to the X axis.
+INPUT: sphere1(SOP:sphere)
+OUTPUT: particle6(SOP:particle)
+FLOW: sphere1->particle6
+TOPO: 2 ops, 1 conns, chain=2
+
+### example4
+Curator: This example adds turbulence to the wind, giving it more natural and random movement.
+INPUT: sphere5(SOP:sphere)
+OUTPUT: particle7(SOP:particle)
+FLOW: sphere5->particle7
+TOPO: 2 ops, 1 conns, chain=2
+
+### example5
+Curator: This example combines wind values and stick on contact collisions to give a very simple snow-like effect.
+INPUT: grid1(SOP:grid), sphere6(SOP:sphere)
+OUTPUT: particle8(SOP:particle)
+FLOW: sphere6->particle8, grid1->particle8
+TOPO: 3 ops, 2 conns, chain=2
+
+### example6
+Curator: These examples show you how to use a Metaball SOP and a Force SOP to create forces more complex than Wind.
+INPUT: box2(SOP:box), sphere2(SOP:sphere), metaball1(SOP:metaball)
+PROCESSOR: force1(SOP:force), force2(SOP:force), force3(SOP:force), force4(SOP:force)
+OUTPUT: particle9(SOP:particle), particle10(SOP:particle), particle11(SOP:particle), particle12(SOP:particle), particle13(SOP:particle)
+FLOW: metaball1->force1, metaball1->force2, metaball1->force3, metaball1->force4, sphere2->particle9, force1->particle9, sphere2->particle10, box2->particle11
+  ...and 5 more connections
+TOPO: 12 ops, 13 conns, chain=3
+
+### example7
+Curator: This is an example of how to use a Particle system to instance point sprites.
+INPUT: sphere3(SOP:sphere), moviefilein1(TOP:moviefilein)
+OUTPUT: null1(TOP:null), particle1(SOP:particle)
+ISOLATED: geo1(COMP:geo), pointsprite1(MAT:pointsprite)
+FLOW: moviefilein1->null1, sphere3->particle1
+TOPO: 6 ops, 2 conns, chain=2
+
+### example8
+Curator: Look at the Palette component particlesGpu. Particles on the GPU run much faster.
+ISOLATED: fastParticles(DAT:text)
+TOPO: 1 ops, 0 conns, chain=1
+
+## pointSOP
+### example1
+Curator: In this example we've taken the points of the sphere and performed simple operations on their tx and ty parameters.
+INPUT: sphere1(SOP:sphere)
+OUTPUT: point1(SOP:point)
+FLOW: sphere1->point1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: On the Custom page, create new attributes and set values.
+INPUT: box1(SOP:box)
+OUTPUT: point1(SOP:point)
+ISOLATED: sopto1(DAT:sopto)
+FLOW: box1->point1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example3
+Curator: On the Custom page, create new attributes and set values.
+INPUT: grid1(SOP:grid), sphere1(SOP:sphere)
+PROCESSOR: point1(SOP:point), point2(SOP:point)
+OUTPUT: null1(SOP:null), null2(SOP:null)
+ISOLATED: sopto1(CHOP:sopto), sopto2(CHOP:sopto), chopto1(TOP:chopto), annotate1(COMP:annotate), annotate2(COMP:annotate)
+FLOW: point2->null1, point1->null2, grid1->point1, sphere1->point2
+TOPO: 11 ops, 4 conns, chain=3
+
+## polyloftSOP
+### example1
+Curator: This example illustrates how to use the Polyloft SOP.The two arcs have differnet numbers of points. The SOP finds ht nearest neighbor.With Viewer Active, rclick -> Display Options to se the disply of 
+INPUT: circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: merge1(SOP:merge)
+OUTPUT: polyloft1(SOP:polyloft)
+FLOW: circle1->merge1, circle2->merge1, merge1->polyloft1
+TOPO: 4 ops, 3 conns, chain=3
+
+## polypatchSOP
+### example1
+Curator: The Polypatch SOP creates a smooth surface from an input of either a mesh primitive or a set of faces (polygons, NURBS or Bezier curves). In this example the rotated lines are used as input, which res
+INPUT: line1(SOP:line), render1(TOP:render), sphere1(SOP:sphere)
+PROCESSOR: copy1(SOP:copy), copy2(SOP:copy), wire1(SOP:wire), merge1(SOP:merge), polypatch1(SOP:polypatch)
+OUTPUT: out1(TOP:out), point1(SOP:point)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate), comment4(COMP:annotate), comment5(COMP:annotate), constant1(MAT:constant)
+FLOW: render1->out1, line1->copy1, sphere1->copy2, polypatch1->copy2, polypatch1->wire1, copy2->merge1, wire1->merge1, merge1->point1
+  ...and 1 more connections
+TOPO: 18 ops, 9 conns, chain=6
+
+## polyreduceSOP
+### example1
+Curator: The Polyreduce SOP reduces a high detail polygonal model into one consisting of fewer polygons.
+INPUT: filein1(SOP:filein)
+PROCESSOR: null2(SOP:null), merge1(SOP:merge), transform1(SOP:transform), polyreduce1(SOP:polyreduce)
+OUTPUT: null1(SOP:null)
+ISOLATED: info1(CHOP:info), info2(CHOP:info), filein2(SOP:filein), comment1(COMP:annotate)
+FLOW: merge1->null1, filein1->null2, null2->merge1, transform1->merge1, polyreduce1->transform1, null2->polyreduce1
+TOPO: 10 ops, 6 conns, chain=6
+
+## polysplineSOP
+### example1
+Curator: The Polyspline SOP fits a spline curve to a polygon or hull and outputs a polygonal approximation of that spline. In this snippet you see several spline methods, starting at the top with the most basi
+INPUT: box1(SOP:box), torus1(SOP:torus), filein2(SOP:filein), sphere1(SOP:sphere), rectangle1(SOP:rectangle)
+PROCESSOR: group1(SOP:group), group2(SOP:group), delete1(SOP:delete), polyspline1(SOP:polyspline), polyspline2(SOP:polyspline), polyspline3(SOP:polyspline), polyspline4(SOP:polyspline), polyspline5(SOP:polyspline), polyspline6(SOP:polyspline), polyspline_bezier_open(SOP:polyspline)
+  ...and 4 more
+OUTPUT: null1(SOP:null), null2(SOP:null), null3(SOP:null), null4(SOP:null), null5(SOP:null), null6(SOP:null), null7(SOP:null), null8(SOP:null), null9(SOP:null), null10(SOP:null)
+ISOLATED: comment1(COMP:annotate)
+FLOW: polyspline1->null1, polyspline4->null2, polyspline3->null3, polyspline6->null4, polyspline_bezier_open->null5, polyspline2->null6, polyspline_degree2Bezier_closed->null7, polyspline_degree2Bezier_open->null8
+  ...and 16 more connections
+TOPO: 30 ops, 24 conns, chain=6
+
+## polystitchSOP
+### example1
+Curator: The Polystitch SOP attempts to stitch polygonal surfaces together.In this example two grids with different detail levels, are placed next to eachother. Some primitives at the border of each grid are t
+INPUT: grid1(SOP:grid), grid2(SOP:grid)
+PROCESSOR: group1(SOP:group), merge1(SOP:merge), polystitch1(SOP:polystitch)
+OUTPUT: facet1(SOP:facet)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate)
+FLOW: polystitch1->facet1, merge1->group1, grid1->merge1, grid2->merge1, group1->polystitch1
+TOPO: 9 ops, 5 conns, chain=5
+
+### example2
+Curator: The Polystitch SOP attempts to stitch polygonal surfaces together.In this example two meshes with different detail levels, are placed next to eachother. The bordering primitives are then placed in a g
+INPUT: grid1(SOP:grid), tube1(SOP:tube)
+PROCESSOR: carve3(SOP:carve), group1(SOP:group), merge1(SOP:merge), convert1(SOP:convert), transform1(SOP:transform), transform2(SOP:transform), polystitch1(SOP:polystitch)
+OUTPUT: null1(SOP:null)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate)
+FLOW: polystitch1->null1, transform1->carve3, convert1->group1, transform2->merge1, carve3->merge1, merge1->convert1, tube1->transform1, grid1->transform2
+  ...and 1 more connections
+TOPO: 13 ops, 9 conns, chain=8
+
+## primitiveSOP
+### example1
+Curator: In this example the Primitive SOP is used to transform each individual primitive of the input geometry.We've specifically rotated each primitive 40 degrees on the Z axis.Click the 'Do Transformation' 
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: facet1(SOP:facet)
+OUTPUT: primitive4(SOP:primitive)
+FLOW: sphere1->facet1, facet1->primitive4
+TOPO: 3 ops, 2 conns, chain=3
+
+### example2
+Curator: Here we've closed the open circle using a curved surface.
+INPUT: circle1(SOP:circle)
+OUTPUT: primitive2(SOP:primitive)
+FLOW: circle1->primitive2
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: Here we've closed the circle using a straight line.
+INPUT: circle2(SOP:circle)
+OUTPUT: primitive3(SOP:primitive)
+FLOW: circle2->primitive3
+TOPO: 2 ops, 1 conns, chain=2
+
+## profileSOP
+### example1
+Curator: The Profile SOP enables the extraction and manipulation of profiles. In this snippet the Project SOP creates a profile by projecting the half circle parametrically onto the grid.The Profile SOP is the
+INPUT: grid1(SOP:grid), circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: merge1(SOP:merge), noise1(SOP:noise), project1(SOP:project), polyloft1(SOP:polyloft)
+OUTPUT: profile_extract(SOP:profile)
+FLOW: circle1->merge1, circle2->merge1, grid1->noise1, polyloft1->project1, noise1->project1, merge1->polyloft1, project1->profile_extract
+TOPO: 8 ops, 7 conns, chain=5
+
+### example2
+Curator: The Profile SOP enables the extraction and manipulation of profiles. This is an example of manipulating a profile - when the Profile Sop is set to remapping, the profile can be moved along the surface
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo), grid1(SOP:grid), circle2(SOP:circle)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), math3(CHOP:math), math4(CHOP:math), noise1(SOP:noise), rename1(CHOP:rename), rename2(CHOP:rename), rename3(CHOP:rename), rename4(CHOP:rename), project2(SOP:project)
+  ...and 1 more
+OUTPUT: null1(CHOP:null), null2(CHOP:null), null3(CHOP:null), null4(CHOP:null), trim1(SOP:trim), trim2(SOP:trim)
+FLOW: lfo1->math1, lfo1->math2, lfo2->math3, lfo2->math4, rename1->null1, rename2->null2, rename3->null3, rename4->null4
+  ...and 10 more connections
+TOPO: 21 ops, 18 conns, chain=5
+
+## projectSOP
+### example1
+Curator: The Project SOP creates curves on a surface (also known as trim or profile curves) by projecting a 3D face onto a spline surface, much like a light casts a shadow onto a surface. In this example the 3
+INPUT: tube1(SOP:tube), circle1(SOP:circle)
+PROCESSOR: project1(SOP:project)
+OUTPUT: trim_keepInside(SOP:trim), trim_keepOutside(SOP:trim)
+FLOW: circle1->project1, tube1->project1, project1->trim_keepInside, project1->trim_keepOutside
+TOPO: 5 ops, 4 conns, chain=3
+
+### example2
+Curator: The Project SOP creates curves on a surface (also known as trim or profile curves) by projecting a 3D face onto a spline surface, much like a light casts a shadow onto a surface. In this example the 3
+INPUT: grid1(SOP:grid), text1(SOP:text)
+PROCESSOR: copy1(SOP:copy), trim1(SOP:trim), project1(SOP:project), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: bridge1(SOP:bridge)
+ISOLATED: comment1(COMP:annotate)
+FLOW: transform2->copy1, project1->trim1, copy1->bridge1, transform1->project1, grid1->project1, text1->transform1, trim1->transform2
+TOPO: 9 ops, 7 conns, chain=7
+
+## railsSOP
+### example1
+Curator: The example uses two Line SOPs as  the rails and creates a bigger copy of rectangle as the rails move further apart.
+INPUT: line1(SOP:line), line2(SOP:line), rectangle1(SOP:rectangle)
+PROCESSOR: merge1(SOP:merge)
+OUTPUT: rails1(SOP:rails)
+FLOW: line2->merge1, line1->merge1, rectangle1->rails1, merge1->rails1
+TOPO: 5 ops, 4 conns, chain=3
+
+### example2
+Curator: This is another basic example of  using the Rails SOP.It is similar to the above example except that the  rails are parallel.
+INPUT: line3(SOP:line), line4(SOP:line), rectangle2(SOP:rectangle)
+PROCESSOR: merge2(SOP:merge)
+OUTPUT: rails2(SOP:rails)
+FLOW: line4->merge2, line3->merge2, rectangle2->rails2, merge2->rails2
+TOPO: 5 ops, 4 conns, chain=3
+
+### example3
+Curator: This example shows the more points there are along the rails the more copies of the  input geometry are made.
+INPUT: box1(SOP:box), line5(SOP:line), line6(SOP:line)
+PROCESSOR: merge3(SOP:merge)
+OUTPUT: rails3(SOP:rails)
+FLOW: line6->merge3, line5->merge3, box1->rails3, merge3->rails3
+TOPO: 5 ops, 4 conns, chain=3
+
+### example4
+Curator: This example uses curved rails. Notice how the offset of the rails creates copies of the input geometry on an angle, as it creates the copy between point 0 of both rails.
+INPUT: font1(SOP:font), circle1(SOP:circle), circle2(SOP:circle)
+PROCESSOR: merge5(SOP:merge)
+OUTPUT: rails5(SOP:rails)
+FLOW: circle1->merge5, circle2->merge5, font1->rails5, merge5->rails5
+TOPO: 5 ops, 4 conns, chain=3
+
+## rasterSOP
+### example1
+Curator: The Raster SOP converts TOP image data to geometry by scanning left to right, top to bottom, outputting a geometry point at each pixel. This output can be used to display image data on laser devices, 
+INPUT: moviefilein1(TOP:moviefilein), raster_vertical(SOP:raster), raster_horizontal(SOP:raster)
+PROCESSOR: constant1(TOP:constant), point1_removeColor(SOP:point), point2_removeColor(SOP:point)
+OUTPUT: res1(TOP:res), null1_zoomed_in_view(SOP:null), null2_zoomed_in_view(SOP:null)
+FLOW: constant1->res1, moviefilein1->constant1, raster_horizontal->point1_removeColor, raster_vertical->point2_removeColor, point1_removeColor->null1_zoomed_in_view, point2_removeColor->null2_zoomed_in_view
+TOPO: 9 ops, 6 conns, chain=3
+
+## raySOP
+### example1
+Curator: In this example we've used the Ray SOP to project the flat text onto the surface of the sphere.
+INPUT: box1(SOP:box), grid1(SOP:grid), text1(SOP:text), timer1(CHOP:timer), scurve1(CHOP:scurve), sphere1(SOP:sphere)
+PROCESSOR: ray1(SOP:ray), point1(SOP:point), transform1(SOP:transform), transform2(SOP:transform), attribcreate1(SOP:attribcreate)
+OUTPUT: ray2(SOP:ray), lookup1(CHOP:lookup), facet_recreateNormals(SOP:facet)
+ISOLATED: lookup1_export(DAT:table), timer1_callbacks(DAT:text)
+FLOW: point1->ray1, sphere1->ray1, transform2->ray2, transform1->ray2, attribcreate1->point1, timer1->lookup1, scurve1->lookup1, box1->transform1
+  ...and 3 more connections
+TOPO: 16 ops, 11 conns, chain=5
+
+## rectangleSOP
+### example1
+Curator: You can select which plane you'd like your rectangle to occupy.Each one of these 3 examples uses different plane settings.
+INPUT: rectangle_xy(SOP:rectangle), rectangle_yz(SOP:rectangle), rectangle_zx(SOP:rectangle)
+OUTPUT: merge1(SOP:merge)
+FLOW: rectangle_xy->merge1, rectangle_yz->merge1, rectangle_zx->merge1
+TOPO: 4 ops, 3 conns, chain=2
+
+### example2
+Curator: Try looking around in the Viewer of 'cam1' and the rectangle will always fill the camera's view.
+ISOLATED: cam1(COMP:cam), rectangle_fill_camera(SOP:rectangle)
+TOPO: 2 ops, 0 conns, chain=1
+
+## refineSOP
+### example1
+Curator: Here we've increased the amount of points between the First U and Second U parameters.
+INPUT: font1(SOP:font)
+OUTPUT: refine1(SOP:refine)
+FLOW: font1->refine1
+TOPO: 2 ops, 1 conns, chain=2
+
+## resampleSOP
+### example1
+Curator: This example resamples the input geometry with a maximum length segment of 0.1, creating more evenly spaced points along the geometry.
+INPUT: font1(SOP:font)
+OUTPUT: resample1(SOP:resample)
+FLOW: font1->resample1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: This examples uses the Along Arc measure to resample the input geometry.By animating the Segments parameter, we can see the arc change as the segments increase.
+INPUT: font2(SOP:font)
+OUTPUT: resample2(SOP:resample)
+FLOW: font2->resample2
+TOPO: 2 ops, 1 conns, chain=2
+
+## revolveSOP
+### example1
+Curator: This example uses the Revolve SOP to create a surface via the revolution of the input geometry.
+INPUT: model1(SOP:model)
+PROCESSOR: convert1(SOP:convert), revolve1(SOP:revolve)
+OUTPUT: attribcreate1(SOP:attribcreate)
+FLOW: model1->convert1, convert1->revolve1, revolve1->attribcreate1
+TOPO: 4 ops, 3 conns, chain=4
+
+## scriptSOP
+### example1
+Curator: We use the Script SOP to copy the contents of transform1, as well as creating a 5-vertex closed polygon.See docs.derivative.ca/Geometry_Detail.
+INPUT: box1(SOP:box)
+OUTPUT: transform1(SOP:transform)
+ISOLATED: script1(SOP:script), script1_callbacks(DAT:text)
+FLOW: box1->transform1
+TOPO: 4 ops, 1 conns, chain=2
+
+### example2
+Curator: This uses the Script SOP to run a simple operation on every point in the sphere in the first input.It also creates a 3-sided polygon.  The expressions that control the animationof the geometry are add
+INPUT: sphere1(SOP:sphere)
+OUTPUT: script2(SOP:script)
+ISOLATED: script2_callbacks(DAT:text)
+FLOW: sphere1->script2
+TOPO: 3 ops, 1 conns, chain=2
+
+### example3
+Curator: This creates a triangle and then adds some attributes, both built-in custom attrbutes and user-defined custom attributes.Note you can creatre attributes on points, or attributes on the verties of a pr
+ISOLATED: info1(CHOP:info), sopto1(DAT:sopto), script1(SOP:script), script3_callbacks(DAT:text)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example4
+Curator: This creates a scattering of points along a surface.See also the Sprinkle SOP.
+INPUT: torus1(SOP:torus)
+OUTPUT: script4(SOP:script)
+ISOLATED: script4_callbacks(DAT:text)
+FLOW: torus1->script4
+TOPO: 3 ops, 1 conns, chain=2
+
+### example5
+Curator: This uses Custom Parameters to create a polygon with 3-6 points.The custom integer slider is defined in the setupParameters callback, and is read from the cook callback.
+ISOLATED: script5(SOP:script), script5_callbacks(DAT:text)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example6
+Curator: This creates a scattering of points along a surface, similar to the previous example, but instead adds a Custom Parameter Pulse button to create a new seed value for the random points. This seed is st
+INPUT: torus2(SOP:torus)
+OUTPUT: script6(SOP:script)
+ISOLATED: examine1(DAT:examine), script6_callbacks(DAT:text)
+FLOW: torus2->script6
+TOPO: 4 ops, 1 conns, chain=2
+
+### example7
+Curator: Here we use the Script SOP to copy the contents of transform1, as well as create a 5-vertex closed polygon.
+ISOLATED: script2(SOP:script), script1_callbacks1(DAT:text)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example8
+Curator: The Script SOP creates 5 topologies of surfaces.Use the "switch1" operator to switch between the python scripts on the left. Each python script shows how to program different geometry using a Script S
+INPUT: script1(SOP:script), quadMesh(DAT:text), gridWaves(DAT:text), ribbonMesh(DAT:text), sphereMesh(DAT:text), superShape(DAT:text)
+PROCESSOR: switch1(DAT:switch)
+OUTPUT: null1(DAT:null), attribcreate1(SOP:attribcreate)
+FLOW: switch1->null1, quadMesh->switch1, ribbonMesh->switch1, gridWaves->switch1, sphereMesh->switch1, superShape->switch1, script1->attribcreate1
+TOPO: 9 ops, 7 conns, chain=3
+
+### example9
+Curator: Use glyphIndex as groupnameTry / except to created the primGroup if it doesn't existFor each prim, add to primGroup
+INPUT: text1(SOP:text)
+PROCESSOR: group1(SOP:group), script1(SOP:script), attribute1(SOP:attribute)
+OUTPUT: delete1(SOP:delete), primitive1(SOP:primitive), transform1(SOP:transform)
+ISOLATED: script1_callbacks(DAT:text)
+FLOW: text1->group1, script1->delete1, attribute1->script1, group1->attribute1, script1->primitive1, script1->transform1
+TOPO: 8 ops, 6 conns, chain=5
+
+## sequenceblendSOP
+### example1
+Curator: The Sequence Blend SOP allows us to blend between different inputs.Use the slider to blend between these three different shaped boxes.
+INPUT: box3(SOP:box), box4(SOP:box), box5(SOP:box), slider1(COMP:slider)
+PROCESSOR: math1(CHOP:math)
+OUTPUT: null1(CHOP:null), sblend1(SOP:sblend)
+ISOLATED: null1_export(DAT:table)
+FLOW: slider1/out1->math1, math1->null1, box3->sblend1, box4->sblend1, box5->sblend1
+TOPO: 8 ops, 5 conns, chain=2
+
+### example2
+Curator: This example animates a blend across four different boxes.
+INPUT: box6(SOP:box), box7(SOP:box), box8(SOP:box), box9(SOP:box), button1(COMP:button)
+PROCESSOR: math2(CHOP:math), blend2(SOP:sblend), noise1(SOP:noise), filter2(CHOP:filter)
+OUTPUT: null2(CHOP:null), null3(SOP:null)
+ISOLATED: null2_export(DAT:table)
+FLOW: button1/out1->math2, filter2->null2, blend2->null3, box6->blend2, box7->blend2, box8->blend2, noise1->blend2, box9->noise1
+  ...and 1 more connections
+TOPO: 12 ops, 9 conns, chain=4
+
+## skinSOP
+### example1
+Curator: This example creates a skin between the two merged grids.
+INPUT: grid1(SOP:grid), grid2(SOP:grid)
+PROCESSOR: merge1(SOP:merge)
+OUTPUT: skin1(SOP:skin)
+FLOW: merge1->skin1, grid1->merge1, grid2->merge1
+TOPO: 4 ops, 3 conns, chain=3
+
+### example2
+Curator: This example creates a surface between the two curves, one being NURBS, and both having differing number of points.
+INPUT: model1(SOP:model), circle1(SOP:circle)
+PROCESSOR: merge3(SOP:merge)
+OUTPUT: skin3(SOP:skin)
+FLOW: merge3->skin3, model1->merge3, circle1->merge3
+TOPO: 4 ops, 3 conns, chain=3
+
+## sortSOP
+### example1
+Curator: The simplest function of the Sort SOP is to sort and change the order of the points of the incoming geometry.
+INPUT: box1(SOP:box)
+PROCESSOR: sort1(SOP:sort)
+OUTPUT: null1(SOP:null)
+FLOW: sort1->null1, box1->sort1
+TOPO: 3 ops, 2 conns, chain=3
+
+### example2
+Curator: You can sort the points in a random order.This example animates the Random seed, allowing you  to see the point numbers change.
+INPUT: box2(SOP:box), lfo1(CHOP:lfo)
+PROCESSOR: sort2(SOP:sort)
+OUTPUT: math1(CHOP:math), null2(SOP:null)
+ISOLATED: math1_export(DAT:table)
+FLOW: lfo1->math1, sort2->null2, box2->sort2
+TOPO: 6 ops, 3 conns, chain=3
+
+### example3
+Curator: Sort SOP allows you to sort the numbers of primitives.This example puts them in a random order.
+INPUT: box3(SOP:box)
+PROCESSOR: sort3(SOP:sort)
+OUTPUT: null3(SOP:null)
+FLOW: sort3->null3, box3->sort3
+TOPO: 3 ops, 2 conns, chain=3
+
+### example4
+Curator: This example sorts the  primitives in reverse order.
+INPUT: box4(SOP:box)
+PROCESSOR: sort4(SOP:sort)
+OUTPUT: null4(SOP:null)
+FLOW: sort4->null4, box4->sort4
+TOPO: 3 ops, 2 conns, chain=3
+
+### example5
+Curator: This example deletes primitives within a certain range.Because the Sort SOP's random seed is animated, the primitives that fall within that range are changing, thus creating the animated pattern.
+INPUT: sphere2(SOP:sphere)
+PROCESSOR: sort6(SOP:sort), convert1(SOP:convert)
+OUTPUT: delete1(SOP:delete)
+FLOW: convert1->sort6, sort6->delete1, sphere2->convert1
+TOPO: 4 ops, 3 conns, chain=4
+
+### example6
+Curator: When doing transparency two main things need to be done: Turn on Blending in the Common page of the MAT, and ensure your primitive are sorted farthest to nearest. Notice how the random sorted geometry
+INPUT: rectangle1(SOP:rectangle)
+PROCESSOR: copy1(SOP:copy)
+OUTPUT: sort_byZ(SOP:sort), sort_random(SOP:sort)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), light1(COMP:light), phong1(MAT:phong), moviein1(TOP:moviefilein), regularRender(TOP:render), orderIndepenedentTransparency(TOP:render)
+FLOW: rectangle1->copy1, copy1->sort_byZ, copy1->sort_random
+TOPO: 12 ops, 3 conns, chain=3
+
+### example7
+Curator: The particle system on the left is not properly sorted farthest to closest, while the one on the right is. Notice the blending artifacts only appear if they particles are not proplery sorted.Order Ind
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: particle1(SOP:particle)
+OUTPUT: sort_byZ1(SOP:sort)
+ISOLATED: cam2(COMP:cam), geo3(COMP:geo), geo4(COMP:geo), ramp1(TOP:ramp), light2(COMP:light), render1(TOP:render), render2(TOP:render), ramp1_keys(DAT:table), pointsprite1(MAT:pointsprite)
+FLOW: sphere1->particle1, particle1->sort_byZ1
+TOPO: 12 ops, 2 conns, chain=3
+
+## sphereSOP
+### example1
+Curator: This Sphere SOP creates a sphere "primitive spheret type". which is not a set of polygons, but defined by a center point and radius.Middle-click on the node (Alt-rightclick without a proper 3-button m
+ISOLATED: sphere1(SOP:sphere)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example2
+Curator: This example lowers the frequency of the polygon count of the Sphere, making it more jagged.
+ISOLATED: sphere_low_frequency(SOP:sphere)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example3
+Curator: You can use meshes to create spheres, as well as NURBS and Bezier curves.
+ISOLATED: sphere_mesh(SOP:sphere)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example4
+Curator: You can control the shape of the sphere by using the Radius parameters.
+ISOLATED: sphere_radius(SOP:sphere), sphere_radius1(SOP:sphere)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example5
+Curator: You can use the input of a Sphere SOP to create a sphere around the input geometry.
+INPUT: box1(SOP:box), sphere7(SOP:sphere)
+PROCESSOR: noise1(SOP:noise), sphere_input(SOP:sphere)
+OUTPUT: merge1(SOP:merge)
+FLOW: sphere_input->merge1, sphere7->merge1, box1->noise1, noise1->sphere_input
+TOPO: 5 ops, 4 conns, chain=4
+
+## springSOP
+### example1
+Curator: This example demonstrates the ability of the Spring SOP to deform geometry based on simple physics simulations.
+INPUT: box1(SOP:box)
+PROCESSOR: facet1(SOP:facet)
+OUTPUT: spring1(SOP:spring)
+FLOW: box1->facet1, facet1->spring1
+TOPO: 3 ops, 2 conns, chain=3
+
+## sprinkleSOP
+### example1
+Curator: sprinkle1 distributes on any surface with a random uniform distribution. All surfaces are first converted to triangles.sprinkle2 disributes points inside a closed volume.sperinkle3 takes a bounding bo
+INPUT: line1(SOP:line), torus1(SOP:torus)
+PROCESSOR: copy1(SOP:copy), skin1(SOP:skin)
+OUTPUT: sprinkle1(SOP:sprinkle), sprinkle2(SOP:sprinkle), sprinkle3(SOP:sprinkle), sprinkle4(SOP:sprinkle), sprinkle5(SOP:sprinkle), sprinkle6(SOP:sprinkle)
+FLOW: line1->copy1, copy1->skin1, torus1->sprinkle1, torus1->sprinkle2, torus1->sprinkle3, skin1->sprinkle4, skin1->sprinkle5, skin1->sprinkle6
+TOPO: 10 ops, 8 conns, chain=4
+
+### example2
+Curator: If a surface is deforming, you may want the sprinked points to stick to the same part of your surface. To do this, put your undeformed surface into the first input, and the deformed surface into the s
+INPUT: torus1(SOP:torus)
+PROCESSOR: twist1(SOP:twist)
+OUTPUT: sprinkle1(SOP:sprinkle), sprinkle2(SOP:sprinkle)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: torus1->twist1, twist1->sprinkle1, torus1->sprinkle2, twist1->sprinkle2
+TOPO: 6 ops, 4 conns, chain=3
+
+## stitchSOP
+### example1
+Curator: Here the Stitch SOP is used to stitch  the two sphere fragments together into a smooth surface.
+INPUT: sphere1(SOP:sphere)
+PROCESSOR: carve1(SOP:carve), transform1(SOP:transform), transform2(SOP:transform)
+OUTPUT: stitch1(SOP:stitch)
+FLOW: sphere1->carve1, transform1->stitch1, transform2->stitch1, carve1->transform1, carve1->transform2
+TOPO: 5 ops, 5 conns, chain=4
+
+## subdivideSOP
+### example1
+Curator: This example changes the Box in input 1 to the low polygon count Sphere in input 2.
+INPUT: box1(SOP:box), sphere1(SOP:sphere)
+PROCESSOR: facet1(SOP:facet)
+OUTPUT: subdivide_to_input(SOP:subdivide)
+FLOW: box1->facet1, facet1->subdivide_to_input, sphere1->subdivide_to_input
+TOPO: 4 ops, 3 conns, chain=3
+
+### example2
+Curator: You can turn a Cube into a Sphere using the Subdivide SOP with a Depth of 2.
+INPUT: box2(SOP:box)
+PROCESSOR: facet2(SOP:facet)
+OUTPUT: subdivide_box_to_sphere(SOP:subdivide)
+FLOW: box2->facet2, facet2->subdivide_box_to_sphere
+TOPO: 3 ops, 2 conns, chain=3
+
+### example3
+Curator: The Subdivide SOP takes an input polygon surface, and divides each face to create a smoothed polygon surface using a Catmull-Clark subdivision algorithm.By tuning the depth and crease weight parameter
+INPUT: box1(SOP:box)
+PROCESSOR: subdivide1(SOP:subdivide)
+OUTPUT: facet1(SOP:facet)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate)
+FLOW: subdivide1->facet1, box1->subdivide1
+TOPO: 5 ops, 2 conns, chain=3
+
+## superquadSOP
+### example1
+Curator: Super Quadratic math generates shapes within a 1 unit cube.Including a rounded box.
+ISOLATED: superquad1(SOP:superquad), superquad2(SOP:superquad), superquad3(SOP:superquad)
+TOPO: 3 ops, 0 conns, chain=1
+
+## surfsectSOP
+### example1
+Curator: In this example the Surfsect SOP performs boolean operations on NURBS surfaces.
+INPUT: sphere1(SOP:sphere), sphere2(SOP:sphere)
+PROCESSOR: noise1(SOP:noise), surfsect_Union(SOP:surfsect), surfsect_A_minus_B(SOP:surfsect), surfsect_B_minus_A(SOP:surfsect), surfsect_Intersect(SOP:surfsect)
+OUTPUT: null1(SOP:null), null2(SOP:null), null3(SOP:null), null4(SOP:null)
+FLOW: surfsect_Union->null1, surfsect_Intersect->null2, surfsect_A_minus_B->null3, surfsect_B_minus_A->null4, sphere2->noise1, sphere1->surfsect_Union, noise1->surfsect_Union, sphere1->surfsect_A_minus_B
+  ...and 5 more connections
+TOPO: 11 ops, 13 conns, chain=4
+
+## sweepSOP
+### example1
+Curator: This is a simple example of how to use a Sweep SOP.This example places a copy of the input G at each point of the backbone.
+INPUT: font1(SOP:font), circle2(SOP:circle)
+OUTPUT: sweep(SOP:sweep)
+FLOW: font1->sweep, circle2->sweep
+TOPO: 3 ops, 2 conns, chain=2
+
+### example2
+Curator: This example is the same as the above, except that the Sweep SOP is set to skin and close the output geometry.
+INPUT: font2(SOP:font), circle1(SOP:circle)
+OUTPUT: sweep_skin_output(SOP:sweep)
+FLOW: font2->sweep_skin_output, circle1->sweep_skin_output
+TOPO: 3 ops, 2 conns, chain=2
+
+### example3
+Curator: You are able to twist and roll the copies placed on the backbone.
+INPUT: circle3(SOP:circle), rectangle1(SOP:rectangle)
+OUTPUT: sweep_roll(SOP:sweep), sweep_twist(SOP:sweep)
+FLOW: rectangle1->sweep_roll, circle3->sweep_roll, rectangle1->sweep_twist, circle3->sweep_twist
+TOPO: 4 ops, 4 conns, chain=2
+
+## switchSOP
+### example1
+Curator: The Switch SOP in this example switches between the two inputs.
+INPUT: box1(SOP:box), lfo1(CHOP:lfo), sphere1(SOP:sphere)
+OUTPUT: null1(CHOP:null), switch1(SOP:switch)
+ISOLATED: null1_export(DAT:table)
+FLOW: lfo1->null1, box1->switch1, sphere1->switch1
+TOPO: 6 ops, 3 conns, chain=2
+
+## textSOP
+### example1
+Curator: The Text SOP is used to create 3D type.Here we've animated the Bold and Italic parameters to demonstrate basic formatting.For more formatting options, see the Font SOP.
+ISOLATED: lfo1(CHOP:lfo), lfo2(CHOP:lfo), text1(SOP:text), lfo1_export(DAT:table), lfo2_export(DAT:table)
+TOPO: 5 ops, 0 conns, chain=1
+
+### example2
+Curator: If you want points that are more evenly separated, follow with a Resample SOP.Set Text SOP to Putput: Closed Polygons or Open Polygons.resample2 has most uniform separation.
+INPUT: text1(SOP:text)
+OUTPUT: resample1(SOP:resample), resample2(SOP:resample)
+FLOW: text1->resample1, text1->resample2
+TOPO: 3 ops, 2 conns, chain=2
+
+### example3
+Curator: text1 doesn't render well as the inner polygons are separate from the outer ones and get filled when shaded.The Hole SOP bridges them and makes them ready for rendering, and has the nice attribute of 
+INPUT: text1(SOP:text)
+PROCESSOR: hole2(SOP:hole)
+OUTPUT: null2(SOP:null), null3(SOP:null)
+ISOLATED: info1(CHOP:info), text2(SOP:text), text3(SOP:text), sopto1(DAT:sopto), sopto2(DAT:sopto)
+FLOW: text1->hole2, hole2->null2, text1->null3
+TOPO: 9 ops, 3 conns, chain=3
+
+## textureSOP
+### example1
+Curator: All these examples show the various ways of assigning UV and W cooridnates to input geometry, with the ability to scale and offset the texture in the process.
+INPUT: box1(SOP:box), tube1(SOP:tube), sphere1(SOP:sphere), sphere2(SOP:sphere)
+PROCESSOR: transform1(SOP:transform)
+OUTPUT: texture1(SOP:texture), texture2(SOP:texture), texture3(SOP:texture), texture4(SOP:texture), texture5(SOP:texture), texture6(SOP:texture), texture7(SOP:texture), texture8(SOP:texture), texture9(SOP:texture)
+ISOLATED: lfo1(CHOP:lfo), moviein1(TOP:moviefilein), container1(COMP:geo), container2(COMP:geo), container3(COMP:geo), container4(COMP:geo), container5(COMP:geo), container6(COMP:geo), container7(COMP:geo), container8(COMP:geo)
+  ...and 3 more
+FLOW: box1->texture1, box1->texture2, box1->texture3, box1->texture4, transform1->texture5, sphere1->texture6, tube1->texture7, box1->texture8
+  ...and 2 more connections
+TOPO: 27 ops, 10 conns, chain=3
+
+## torusSOP
+### example1
+Curator: You can use the Rows and Columns parameters to control the polygon count of a Torus SOP.
+ISOLATED: torus_rows_and_columns(SOP:torus)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example2
+Curator: There are different Torus types you can  create, including Polygon, Mesh, NURBS, and Bezier.This example is a mesh.
+ISOLATED: torus_mesh(SOP:torus)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example3
+Curator: This example is NURBS Torus.
+ISOLATED: torus_nurbs(SOP:torus)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example4
+Curator: You can control the shape of a Torus using the raidus parameters.
+ISOLATED: torus_radius(SOP:torus), torus_radius1(SOP:torus)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example5
+Curator: You can translate the Torus using the Center parameters.
+INPUT: torus_center(SOP:torus), torus_center1(SOP:torus)
+OUTPUT: merge1(SOP:merge)
+FLOW: torus_center->merge1, torus_center1->merge1
+TOPO: 3 ops, 2 conns, chain=2
+
+## traceSOP
+### example1
+Curator: This example traces Smiley.tif and extrudes the traced image.
+INPUT: trace_still(SOP:trace)
+OUTPUT: extrude1(SOP:extrude)
+ISOLATED: moviein1(TOP:moviefilein)
+FLOW: trace_still->extrude1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example2
+Curator: You are able to also trace movies.
+ISOLATED: moviein2(TOP:moviefilein), trace_moving_curves(SOP:trace)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example3
+Curator: Notice how the 2nd example fits the steps to a curve.
+INPUT: trace1(SOP:trace), trace2(SOP:trace)
+OUTPUT: extrude2(SOP:extrude), extrude3(SOP:extrude)
+ISOLATED: moviein3(TOP:moviefilein)
+FLOW: trace2->extrude2, trace1->extrude3
+TOPO: 5 ops, 2 conns, chain=2
+
+## trailSOP
+### example1
+Curator: The Trail SOP creates trails of movement.Here we've used it to create a trail of the movement of the different primitives of the noise affected box.
+INPUT: box1(SOP:box)
+PROCESSOR: noise1(SOP:noise)
+OUTPUT: trail1(SOP:trail)
+FLOW: box1->noise1, noise1->trail1
+TOPO: 3 ops, 2 conns, chain=3
+
+## transformSOP
+### example1
+Curator: You should always try to  do most of your transforming at the Component level (on your Geo Component, instead of your SOPs), as it requires far less of your computer's  resources.This becomes especial
+ISOLATED: geoTransformSOP(COMP:geo), geoTransformComp(COMP:geo)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example2
+Curator: These examples translate the box in 3D space.
+INPUT: box1(SOP:box)
+PROCESSOR: transform_translate(SOP:transform), transform_translate1(SOP:transform), transform_translate2(SOP:transform)
+OUTPUT: merge1(SOP:merge)
+FLOW: transform_translate->merge1, transform_translate1->merge1, transform_translate2->merge1, box1->transform_translate, box1->transform_translate1, box1->transform_translate2
+TOPO: 5 ops, 6 conns, chain=3
+
+### example3
+Curator: Transform SOP can be used to scale as well.
+INPUT: circle1(SOP:circle)
+OUTPUT: transform_scale(SOP:transform)
+FLOW: circle1->transform_scale
+TOPO: 2 ops, 1 conns, chain=2
+
+### example4
+Curator: This example rotates the text 180 degrees on the Z axis.
+INPUT: text1(SOP:text)
+OUTPUT: transform_rotate(SOP:transform)
+FLOW: text1->transform_rotate
+TOPO: 2 ops, 1 conns, chain=2
+
+### example5
+Curator: This example rotates the torus 100 degrees on the X axis.
+INPUT: torus1(SOP:torus)
+OUTPUT: transform_rotate1(SOP:transform)
+FLOW: torus1->transform_rotate1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example6
+Curator: Rotate around the Torus in Viewer of 'cam1' and you'll see the Torus will re-orient itself to face the camera.
+INPUT: torus2(SOP:torus)
+OUTPUT: transform_look_at(SOP:transform)
+ISOLATED: cam1(COMP:cam)
+FLOW: torus2->transform_look_at
+TOPO: 3 ops, 1 conns, chain=2
+
+## tristripSOP
+### example1
+Curator: The Tristrip SOP convert geometry into triangle strips. Triangle strips are faster to render than regular triangles or quads.
+INPUT: filein1(SOP:filein)
+OUTPUT: tristrip1(SOP:tristrip)
+FLOW: filein1->tristrip1
+TOPO: 2 ops, 1 conns, chain=2
+
+## tubeSOP
+### example1
+Curator: The Tube SOP generates open or closed tubes, cones, or pyramids along the X, Y or Z axes. It outputs as meshes, polygons or simply a tube Primitive.
+ISOLATED: tube_pyramid(SOP:tube), tube_flat_ring(SOP:tube), tube_mesh_cone(SOP:tube), tube_primitive(SOP:tube), tube_with_end_caps(SOP:tube), tube_triangular_pyramid(SOP:tube)
+TOPO: 6 ops, 0 conns, chain=1
+
+## twistSOP
+### example1
+Curator: You can change the axis that the Twist SOP is applied to.
+INPUT: tube1(SOP:tube)
+OUTPUT: twist_x(SOP:twist), twist_rolloff(SOP:twist)
+FLOW: tube1->twist_x, tube1->twist_rolloff
+TOPO: 3 ops, 2 conns, chain=2
+
+### example2
+Curator: The Twist SOP is capable of a couple of different  operations.On the right you'll see some examples of them, including bending, shearing, tapering, and squashing.
+INPUT: text1(SOP:text)
+OUTPUT: twist_bend(SOP:twist), twist_shear(SOP:twist), twist_taper(SOP:twist), twist_linear_taper(SOP:twist), twist_squash_and_stretch(SOP:twist)
+FLOW: text1->twist_bend, text1->twist_shear, text1->twist_taper, text1->twist_linear_taper, text1->twist_squash_and_stretch
+TOPO: 6 ops, 5 conns, chain=2
+
+## vertexSOP
+### example1
+Curator: Use the Vextex SOp to manipulate attributes per vertex. In this example a new crease weight is written to each vertex, depending on the y position of that vertex.
+INPUT: box1(SOP:box)
+PROCESSOR: vertex1(SOP:vertex), subdivide1(SOP:subdivide)
+OUTPUT: facet1(SOP:facet)
+ISOLATED: comment1(COMP:annotate), comment2(COMP:annotate)
+FLOW: subdivide1->facet1, box1->vertex1, vertex1->subdivide1
+TOPO: 6 ops, 3 conns, chain=4
+
+### example2
+Curator: Use the Vextex SOp to manipulate attributes per vertex. In this example the vextexes of each visible faces of a cube have been grouped together (by the Group SOPs) and then each group of vertexes gets
+INPUT: box1(SOP:box), lfo2(CHOP:lfo), render1(TOP:render), moviefilein1(TOP:moviefilein)
+PROCESSOR: fan1(CHOP:fan), count1(CHOP:count), count2(CHOP:count), count3(CHOP:count), group1(SOP:group), group2(SOP:group), group3(SOP:group), hsvadj1(TOP:hsvadj), hsvadj2(TOP:hsvadj), hsvadj3(TOP:hsvadj)
+  ...and 8 more
+OUTPUT: null1(CHOP:null), null2(CHOP:null), null3(CHOP:null), null4(TOP:null), tex3d1(TOP:tex3d), vertex3(SOP:vertex)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), comment1(COMP:annotate), comment2(COMP:annotate), comment3(COMP:annotate)
+FLOW: lfo2->fan1, count3->null1, count2->null2, count1->null3, render1->null4, select1->count1, select2->count2, select3->count3
+  ...and 20 more connections
+TOPO: 35 ops, 28 conns, chain=7
+
+## wireframeSOP
+### example1
+Curator: You can use the Wireframe SOP to create wireframes of the input geometry. This example features rounded corners and a thick wire radius.
+INPUT: box1(SOP:box)
+OUTPUT: wire1(SOP:wire)
+FLOW: box1->wire1
+TOPO: 2 ops, 1 conns, chain=2

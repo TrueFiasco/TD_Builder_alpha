@@ -1,0 +1,112 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\lineresamplePOP_lossless.json",
+  "operator_type": "lineresamplePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "seed": 6.17,
+            "parsize": 3
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 9
+          }
+        },
+        {
+          "name": "linedivide1",
+          "type": "POP:linedivide",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 48,
+            "interpmethod": "cardinal"
+          }
+        },
+        {
+          "name": "lineresample1",
+          "type": "POP:lineresample",
+          "parameters": {
+            "resamplemethod": "dist",
+            "resamplemaxdist": 0.05
+          }
+        },
+        {
+          "name": "lineresample2",
+          "type": "POP:lineresample",
+          "parameters": {
+            "resamplemethod": "curvature",
+            "resamplemindist": 0.02,
+            "resamplemaxdist": 0.32,
+            "resampleminmaxbias": -0.63
+          }
+        },
+        {
+          "name": "lineresample3",
+          "type": "POP:lineresample",
+          "parameters": {
+            "resamplemethod": "linestrip",
+            "resampledivs": 100
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "linedivide1",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "lineresample1",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "lineresample2",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "lineresample3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "POP:noise": 1,
+          "DAT:text": 1,
+          "POP:circle": 1,
+          "POP:linedivide": 1,
+          "POP:lineresample": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

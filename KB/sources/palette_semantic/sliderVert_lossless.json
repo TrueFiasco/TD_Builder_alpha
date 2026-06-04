@@ -1,0 +1,4070 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\UI\\Basic Widgets\\sliderVert.tox.dir",
+    "build_version": "099",
+    "build_date": "Mon Nov  3 15:28:39 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2023.12601"
+  },
+  "operators": {
+    "/sliderVert": {
+      "name": "sliderVert",
+      "path": "/sliderVert",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "enableexternaltox": {
+          "67108864": "off"
+        }
+      },
+      "parent": null,
+      "children": [
+        "sliderVert"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n1\nchildren 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert": {
+      "name": "sliderVert",
+      "path": "/sliderVert/sliderVert",
+      "op_type": "COMP:widget",
+      "family": "COMP",
+      "specific_type": "widget",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -9000,
+        160,
+        130
+      ],
+      "color": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108864": 450
+        },
+        "h": {
+          "67108896": 150
+        },
+        "alignorder": {
+          "67108880": "0 \"20000 - me.nodeY\""
+        },
+        "enable": {
+          "67108913": "on \"me.par.Value0.bindMaster.enable if hasattr(me.par, 'Value0') and me.par.Value0.bindMaster and isinstance(me.par.Value0.bindMaster, Par) else True\""
+        },
+        "helpdat": {
+          "67108881": "./code/help op('./code/help')"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108864": 0.2
+        },
+        "bgcolorg": {
+          "67108864": 0.2
+        },
+        "bgcolorb": {
+          "67108864": 0.2
+        },
+        "bgalpha": {
+          "67108864": 1
+        },
+        "borderar": {
+          "67108864": 0
+        },
+        "borderag": {
+          "67108864": 0
+        },
+        "borderab": {
+          "67108864": 0
+        },
+        "borderaalpha": {
+          "67108864": 0
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "align": {
+          "67108864": "vertbt"
+        },
+        "spacing": {
+          "67108864": 1
+        },
+        "marginl": {
+          "67108864": 3
+        },
+        "marginr": {
+          "67108864": 3
+        },
+        "marginb": {
+          "67108864": 3
+        },
+        "margint": {
+          "67108864": 3
+        },
+        "justifyh": {
+          "67108864": "left"
+        },
+        "justifyv": {
+          "67108864": "top"
+        },
+        "crop": {
+          "67108864": "on"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "Widget"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "clone": {
+          "67108913": "\"\" \"op.TDBasicWidgets.op('sliderVert') if hasattr(op, 'TDBasicWidgets') else ''\""
+        },
+        "Version": {
+          "67109184": "2.2.8"
+        },
+        "Widgettox": {
+          "67109056": "sliderVert"
+        },
+        "Labelwidth": {
+          "67109072": "120 me.LookVal('Labelwidth')"
+        },
+        "Numericfieldwidth": {
+          "67109056": 60
+        },
+        "Labelhfillweight": {
+          "67108944": "1 me.LookVal('Labelhfillweight')"
+        },
+        "Labelheight": {
+          "67108944": "18 me.LookVal('Labelheight')"
+        },
+        "Labelvfillweight": {
+          "67109072": "1 me.LookVal('Labelvfillweight')"
+        },
+        "Numericfieldvfillweight": {
+          "67109056": 1
+        },
+        "Valueparexec": {
+          "67109312": "\"\""
+        },
+        "Sliderpanelexec": {
+          "67109328": "\"\" None"
+        },
+        "Numericfieldpanelexec": {
+          "67109328": "\"\" None"
+        },
+        "Cacheabletop": {
+          "67109201": "\"\" op('./slider0/bg')"
+        },
+        "Label": {
+          "67109184": "./label"
+        },
+        "Numericvalue0": {
+          "67109184": "./numericValue0"
+        },
+        "Slider0": {
+          "67109184": "./slider0"
+        },
+        "Rollovercolorr": {
+          "67108928": 0.9
+        },
+        "Rollovercolorg": {
+          "67108944": "0.9 \"me.LookVal('Rollovercolor', 1)\""
+        },
+        "Rollovercolorb": {
+          "67108944": "0.9 \"me.LookVal('Rollovercolor', 2)\""
+        },
+        "Rollovercolora": {
+          "67108944": "0.15 \"me.LookVal('Rollovercolor', 3)\""
+        },
+        "Disablecolorr": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolorg": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolorb": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolora": {
+          "67108944": "0.65 None"
+        },
+        "Labeloffsetx": {
+          "67108944": "0 \"me.LookVal('Labeloffset', 0)\""
+        },
+        "Labeloffsety": {
+          "67108944": "0 \"me.LookVal('Labeloffset', 1)\""
+        },
+        "Cachefiltercolorr": {
+          "67108944": "1 None"
+        },
+        "Cachefiltercolorg": {
+          "67108944": "1 None"
+        },
+        "Cachefiltercolorb": {
+          "67108944": "1 None"
+        },
+        "Cachefiltercolora": {
+          "67108944": "1 None"
+        },
+        "Numericfieldoffsetx": {
+          "67108944": "0 None"
+        },
+        "Numericfieldoffsety": {
+          "67108944": "0 None"
+        },
+        "Labelfontfraction": {
+          "67109056": 1
+        },
+        "Numericfieldcustom": {
+          "67109056": "\"\""
+        },
+        "Numericfieldfontfraction": {
+          "67109056": 1
+        },
+        "Sliderfontfraction": {
+          "67109056": 1
+        },
+        "Labelfontsize": {
+          "67108944": "10 me.LookVal('Labelfontsize')"
+        },
+        "Value0": {
+          "67108928": 0.463675
+        },
+        "Toxsavebuild": {
+          "67109184": 2023.12601
+        }
+      },
+      "parent": "/sliderVert",
+      "children": [
+        "code",
+        "label",
+        "output",
+        "overlay",
+        "slider0",
+        "valueOut",
+        "numericValue0"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 7 Values Label Field Slider Widget OPs About\n1846677775 Font Font 1 1 0 0 1 1 1 2 0 \"Open Sans\" \"\" Widget 4097 166 Arial Arial \"Arial Black\" \"Arial Black\" Bahnschrift Bahnschrift \"Bahnschrift Condensed\" \"Bahnschrift Condensed\" \"Bahnschrift Light\" \"Bahnschrift Light\" \"Bahnschrift Light Condensed\" \"Bahnschrift Light Condensed\" \"Bahnschrift Light SemiCondensed\" \"Bahnschrift Light SemiCondensed\" \"Bahnschrift SemiBold\" \"Bahnschrift SemiBold\" \"Bahnschrift SemiBold Condensed\" \"Bahnschrift SemiBold Condensed\" \"Bahnschrift SemiBold SemiCondensed\" \"Bahnschrift SemiBold SemiCondensed\" \"Bahnschrift SemiCondensed\" \"Bahnschrift SemiCondensed\" \"Bahnschrift SemiLight\" \"Bahnschrift SemiLight\" \"Bahnschrift SemiLight Condensed\" \"Bahnschrift SemiLight Condensed\" \"Bahnschrift SemiLight SemiCondensed\" \"Bahnschrift SemiLight SemiCondensed\" Calibri Calibri \"Calibri Light\" \"Calibri Light\" Cambria Cambria \"Cambria Math\" \"Cambria Math\" Candara Candara \"Candara Light\" \"Candara Light\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Comic Sans MS\" \"Comic Sans MS\" Consolas Consolas Constantia Constantia Corbel Corbel \"Corbel Light\" \"Corbel Light\" \"Courier New\" \"Courier New\" Ebrima Ebrima \"Franklin Gothic Medium\" \"Franklin Gothic Medium\" \"GLYPHICONS Halflings\" \"GLYPHICONS Halflings\" Gabriola Gabriola Gadugi Gadugi Georgia Georgia Impact Impact \"Ink Free\" \"Ink Free\" Inter Inter \"Inter Medium\" \"Inter Medium\" \"Inter SemiBold\" \"Inter SemiBold\" \"Javanese Text\" \"Javanese Text\" \"Leelawadee UI\" \"Leelawadee UI\" \"Leelawadee UI Semilight\" \"Leelawadee UI Semilight\" \"Lucida Console\" \"Lucida Console\" \"Lucida Sans Unicode\" \"Lucida Sans Unicode\" \"MS Gothic\" \"MS Gothic\" \"MS PGothic\" \"MS PGothic\" \"MS UI Gothic\" \"MS UI Gothic\" \"MV Boli\" \"MV Boli\" \"Malgun Gothic\" \"Malgun Gothic\" \"Malgun Gothic Semilight\" \"Malgun Gothic Semilight\" Marlett Marlett \"Material Design Icons\" \"Material Design Icons\" \"Microsoft Himalaya\" \"Microsoft Himalaya\" \"Microsoft JhengHei\" \"Microsoft JhengHei\" \"Microsoft JhengHei Light\" \"Microsoft JhengHei Light\" \"Microsoft JhengHei UI\" \"Microsoft JhengHei UI\" \"Microsoft JhengHei UI Light\" \"Microsoft JhengHei UI Light\" \"Microsoft New Tai Lue\" \"Microsoft New Tai Lue\" \"Microsoft PhagsPa\" \"Microsoft PhagsPa\" \"Microsoft Sans Serif\" \"Microsoft Sans Serif\" \"Microsoft Tai Le\" \"Microsoft Tai Le\" \"Microsoft YaHei\" \"Microsoft YaHei\" \"Microsoft YaHei Light\" \"Microsoft YaHei Light\" \"Microsoft YaHei UI\" \"Microsoft YaHei UI\" \"Microsoft YaHei UI Light\" \"Microsoft YaHei UI Light\" \"Microsoft Yi Baiti\" \"Microsoft Yi Baiti\" MingLiU-ExtB MingLiU-ExtB MingLiU_HKSCS-ExtB MingLiU_HKSCS-ExtB MingLiU_MSCS-ExtB MingLiU_MSCS-ExtB \"Mongolian Baiti\" \"Mongolian Baiti\" \"Myanmar Text\" \"Myanmar Text\" NSimSun NSimSun \"Nirmala Text\" \"Nirmala Text\" \"Nirmala Text Semilight\" \"Nirmala Text Semilight\" \"Nirmala UI\" \"Nirmala UI\" \"Nirmala UI Semilight\" \"Nirmala UI Semilight\" \"Noto Kufi Arabic\" \"Noto Kufi Arabic\" \"Noto Naskh Arabic\" \"Noto Naskh Arabic\" \"Noto Sans\" \"Noto Sans\" \"Noto Sans CJK JP\" \"Noto Sans CJK JP\" \"Noto Sans CJK JP Regular\" \"Noto Sans CJK JP Regular\" \"Noto Sans Mono\" \"Noto Sans Mono\" \"Open Sans\" \"Open Sans\" \"Open Sans Light\" \"Open Sans Light\" \"Open Sans SemiBold\" \"Open Sans SemiBold\" PMingLiU-ExtB PMingLiU-ExtB \"PT Mono\" \"PT Mono\" \"Palatino Linotype\" \"Palatino Linotype\" Roboto Roboto \"Roboto Black\" \"Roboto Black\" \"Roboto Condensed\" \"Roboto Condensed\" \"Roboto Medium\" \"Roboto Medium\" SV SV \"Sans Serif Collection\" \"Sans Serif Collection\" \"Segoe Fluent Icons\" \"Segoe Fluent Icons\" \"Segoe MDL2 Assets\" \"Segoe MDL2 Assets\" \"Segoe Print\" \"Segoe Print\" \"Segoe Script\" \"Segoe Script\" \"Segoe UI\" \"Segoe UI\" \"Segoe UI Black\" \"Segoe UI Black\" \"Segoe UI Emoji\" \"Segoe UI Emoji\" \"Segoe UI Historic\" \"Segoe UI Historic\" \"Segoe UI Light\" \"Segoe UI Light\" \"Segoe UI Semibold\" \"Segoe UI Semibold\" \"Segoe UI Semilight\" \"Segoe UI Semilight\" \"Segoe UI Symbol\" \"Segoe UI Symbol\" \"Segoe UI Variable Display\" \"Segoe UI Variable Display\" \"Segoe UI Variable Display Light\" \"Segoe UI Variable Display Light\" \"Segoe UI Variable Display Semibold\" \"Segoe UI Variable Display Semibold\" \"Segoe UI Variable Display Semilight\" \"Segoe UI Variable Display Semilight\" \"Segoe UI Variable Small\" \"Segoe UI Variable Small\" \"Segoe UI Variable Small Light\" \"Segoe UI Variable Small Light\" \"Segoe UI Variable Small Semibold\" \"Segoe UI Variable Small Semibold\" \"Segoe UI Variable Small Semilight\" \"Segoe UI Variable Small Semilight\" \"Segoe UI Variable Text\" \"Segoe UI Variable Text\" \"Segoe UI Variable Text Light\" \"Segoe UI Variable Text Light\" \"Segoe UI Variable Text Semibold\" \"Segoe UI Variable Text Semibold\" \"Segoe UI Variable Text Semilight\" \"Segoe UI Variable Text Semilight\" SimSun SimSun SimSun-ExtB SimSun-ExtB SimSun-ExtG SimSun-ExtG \"Sitka Banner\" \"Sitka Banner\" \"Sitka Banner Semibold\" \"Sitka Banner Semibold\" \"Sitka Display\" \"Sitka Display\" \"Sitka Display Semibold\" \"Sitka Display Semibold\" \"Sitka Heading\" \"Sitka Heading\" \"Sitka Heading Semibold\" \"Sitka Heading Semibold\" \"Sitka Small\" \"Sitka Small\" \"Sitka Small Semibold\" \"Sitka Small Semibold\" \"Sitka Subheading\" \"Sitka Subheading\" \"Sitka Subheading Semibold\" \"Sitka Subheading Semibold\" \"Sitka Text\" \"Sitka Text\" \"Sitka Text Semibold\" \"Sitka Text Semibold\" Sylfaen Sylfaen Symbol Symbol Tahoma Tahoma \"Times New Roman\" \"Times New Roman\" \"Trebuchet MS\" \"Trebuchet MS\" Verdana Verdana Webdings Webdings Wingdings Wingdings \"Yu Gothic\" \"Yu Gothic\" \"Yu Gothic Light\" \"Yu Gothic Light\" \"Yu Gothic Medium\" \"Yu Gothic Medium\" \"Yu Gothic UI\" \"Yu Gothic UI\" \"Yu Gothic UI Light\" \"Yu Gothic UI Light\" \"Yu Gothic UI Semibold\" \"Yu Gothic UI Semibold\" \"Yu Gothic UI Semilight\" \"Yu Gothic UI Semilight\" 5 2 op.TDResources.op('TDUI/fontMenuSource').par.font \"not me.par.Fontfile\"\n772804868 Version Version 1 1 0 0 1 1 1 2 0 2.2.8 \"\" About 1\n772804868 Widgettox \"Widget Tox\" 1 1 0 0 1 1 1 2 0 sliderVert \"\" Widget 101\n772804867 Rightclickmenu \"Right Click Menu\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 9\n772804868 Popuphelp \"Popup Help\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 7\n772804868 Widgetlabel \"Widget Label\" 1 1 0 0 1 1 1 2 0 SV \"\" Label 0\n-1374678781 Labeldisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 2\n772804866 Labelwidth Width 1 3 1 1 1 300 300 2 120 \"\" \"\" Label 18\n-1374678769 Labelalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 center \"\" Label 4097 3 left Left center Center right Right 11\n772804879 Labelaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 center \"\" Label 4097 3 bottom Bottom center Center top Top 12\n772804867 Labelfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 8\n772804867 Numericfielddisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 0\n772804866 Numericfieldwidth Width 1 3 0 0 1 120 120 2 60 \"\" \"\" Field 25\n772804867 Numericfieldfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 12\n772804866 Numericfielddecimalplaces Precision 1 3 0 0 1 3 10 2 3 \"\" \"\" Field 5\n-1374678769 Labelhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fill \"\" Label 4097 2 fixed \"Fixed Width\" fill Fill 17\n772804879 Labelverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Height\" fill Fill 20\n772804865 Labelhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 19\n772804866 Labelheight Height 1 3 1 1 1 300 300 2 18 \"\" \"\" Label 21\n772804865 Labelvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 22\n772804879 Sliderorient Orientation 1 1 0 0 1 1 1 2 0 vert \"\" Slider 4097 2 horz Horizontal vert Vertical 0\n-1374678782 Sliderknobsize \"Knob Size\" 1 3 1 1 1 40 40 2 1 \"\" \"\" Slider 16\n-1374678781 Sliderlabeldisplay \"Label Display\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Slider 4\n-1374678774 Sliderbgtop \"Bg TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 17\n772804874 Sliderknobtop \"Knob TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 18\n-1374678769 Numericfieldhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fill \"\" Field 4097 2 fixed \"Fixed Width\" fill Fill 24\n772804865 Numericfieldhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 26\n772804879 Numericfieldverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Height\" fill Fill 27\n772804865 Numericfieldvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 29\n772804866 Numericfieldheight Height 1 3 0 0 1 120 120 2 26 \"\" \"\" Field 28\n-1374678780 Sliderlabelnames \"Label Name(s)\" 1 1 0 0 1 1 1 2 0 Slider \"\" Slider 3\n-1374678769 Numericfieldtype \"Field Type\" 1 1 0 0 1 1 1 2 0 float \"\" Field 4097 2 float Float integer Integer 2\n-1374678773 Numericfieldfocus \"Focus Order\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 7\n-1374678779 Createeditvalueparexec \"Create/Edit Value Par Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 50\n772804875 Valueparexec \"Value Par Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 51\n-1374678779 Slidercustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 23\n772804875 Sliderpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 24\n-1374678779 Numericfieldcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 22\n772804875 Numericfieldpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 23\n-1374678781 Sliderrelativemode \"Relative Mode\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 2\n772804874 Cacheabletop \"Cacheable TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 26\n772804877 Widgetcachecomp \"Widget Cache COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 27\n772804874 Labeltop \"Label TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 1\n-1374678781 Sliderignoreinteract \"Ignore Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 1\n-1374678781 Enablerollover \"Enable Rollover\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 1\n772804877 Label label 1 1 0 0 1 1 1 2 0 ./label \"\" OPs 0\n772804877 Numericvalue0 numericValue0 1 1 0 0 1 1 1 2 0 ./numericValue0 \"\" OPs 1\n772804877 Slider0 slider0 1 1 0 0 1 1 1 2 0 ./slider0 \"\" OPs 2\n-1374678769 Labelfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Label 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 4\n-1374678769 Sliderfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Slider 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 5\n-1374678769 Numericfieldfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Field 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 8\n-1374678781 Cacheoptimized \"Cache Optimized\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 29\n772940801 Rollovercolor \"Rollover Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.9 \"\" \"\" 2 0.9 \"\" \"\" 2 0.9 \"\" \"\" 2 0.15 \"\" \"\" Widget 2 me.par.Enablerollover.eval()\n772809729 Disablecolor \"Disable Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.65 \"\" \"\" Widget 4\n-1374670335 Labeloffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Label 13\n-1374673919 Labelbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 1 \"\" \"\" Label 15\n772809729 Labelfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.65 \"\" \"\" 2 0.65 \"\" \"\" 2 0.65 \"\" \"\" 2 1 \"\" \"\" Label 16\n-1374673919 Sliderbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.15 \"\" \"\" 2 0.15 \"\" \"\" 2 0.15 \"\" \"\" 2 1 \"\" \"\" Slider 19\n772809729 Sliderknobcolor \"Knob Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 1 \"\" \"\" Slider 20\n772809729 Sliderlabelfontcolor \"Label Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 1 \"\" \"\" Slider 21\n772809729 Sliderindicatorcolor \"Indicator Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.325 \"\" \"\" 2 0.325 \"\" \"\" 2 0.325 \"\" \"\" 2 1 \"\" \"\" Slider 22\n-1374673919 Cachefiltercolor \"Cache Filter Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 1 \"\" \"\" 2 1 \"\" \"\" 2 1 \"\" \"\" 2 1 \"\" \"\" Slider 28\n772804867 Numericfieldreadonly \"Read Only\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 1\n-1374678781 Numericfieldupdatewhiletyping \"Numeric Field Update While Typing\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 6\n-1374670335 Numericfieldoffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Field 17\n-1374673919 Numericfieldbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.28 \"\" \"\" 2 0.28 \"\" \"\" 2 0.28 \"\" \"\" 2 1 \"\" \"\" Field 19\n772809729 Numericfieldbordercolor \"Border Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 21\n772809729 Numericfieldfontcolor \"Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 1 \"\" \"\" Field 20\n-1374678781 Cacheactive Cacheactive 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 25\n-1374678781 Labelwordwrap \"Word Wrap\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 3\n772935937 Labelfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 6 \"me.par.Labelfontsizemode.eval() in ['fract', 'relfract']\"\n772805633 Labelpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Label 14\n772804879 Numericfieldformatting \"Numeric Format\" 1 1 0 0 1 1 1 2 0 number \"\" Field 4097 8 default Default number Number scientific Scientific percent Percent dollars Dollars euros Euros customfstring \"Custom F-String\" customfmt \"Fmt Syntax\" 3\n772935940 Numericfieldcustom \"Custom Expression\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4 \"me.par.Numericfieldformatting.menuIndex > 5\"\n-1374678769 Numericfieldalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 left \"\" Field 4097 3 left Left center Center right Right 15\n772804879 Numericfieldaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 center \"\" Field 4097 3 bottom Bottom center Center top Top 16\n772935937 Numericfieldfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 10 \"me.par.Numericfieldfontsizemode.eval() in ['fract', 'relfract']\"\n772805633 Numericfieldpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 18\n772935937 Sliderfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Slider 7 \"me.par.Sliderfontsizemode.eval() in ['fract', 'relfract']\"\n772804867 Sliderfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 9\n-1374678769 Slideralignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 center \"\" Slider 4097 3 left Left center Center right Right 12\n772804879 Slideraligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 center \"\" Slider 4097 3 bottom Bottom center Center top Top 13\n-1374670335 Slideroffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Slider 14\n772805633 Sliderpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Slider 15\n772804880 Fontfile \"Font File\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 6\n772935951 Rollovercomposite \"Rollover Composite\" 1 1 0 0 1 1 1 2 0 over \"\" Widget 4097 7 over Over under Under inside Inside outside Outside add Add subtract Subtract multiply Multiply 3 me.par.Enablerollover.eval()\n772804879 Labelscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 never \"\" Label 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 7\n772804867 Labelitalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 9\n772804867 Labeldropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 10\n772804879 Sliderscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 never \"\" Slider 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 8\n772804867 Slideritalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 10\n772804867 Sliderdropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 11\n772804879 Numericfieldscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 never \"\" Field 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 11\n772804867 Numericfielditalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 13\n772804867 Numericfielddropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 14\n772935938 Labelfontsize \"Font Size\" 1 3 1 6 1 20 20 2 10 \"\" \"\" Label 5 \"me.par.Labelfontsizemode.eval() in ['points', 'panelunits']\"\n772935938 Sliderfontsize \"Font Size\" 1 3 1 6 1 20 20 2 9 \"\" \"\" Slider 6 \"me.par.Sliderfontsizemode.eval() in ['points', 'panelunits']\"\n772935938 Numericfieldfontsize \"Font Size\" 1 3 1 6 1 20 20 2 10 \"\" \"\" Field 9 \"me.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits']\"\n772804865 Value0 \"Value 0\" 1 3 0 0 3 1 1 2 0 \"\" \"\" Values 0\n-1374678780 Valname0 \"Name 0\" 1 1 0 0 1 1 1 2 0 Value \"\" Values 4\n772804868 Onvaluechangescript0 \"On Value Change Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 5\n772804868 Offtoonscript0 \"Off To On Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 7\n772804868 Ontooffscript0 \"On To Off Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 6\n772804869 Help Help 1 1 0 0 1 1 1 2 0 \"\" \"\" About 0\n772804868 Toxsavebuild \".tox Save Build\" 1 1 0 0 1 1 1 2 0 \"\" \"\" About 30\n-1374678779 Update Update 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 100\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n16\nu 0.828475\nv 0.331633\ntrueu 0.828475\ntruev 0.331633\nrollu 1\nrollv 0.187919\nradio sslider0\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 3\nscreenw 38\nscreenh 150\nscreenwm 32\nscreenhm 144\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code": {
+      "name": "code",
+      "path": "/sliderVert/sliderVert/code",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [
+        "help",
+        "docsHelper",
+        "panelexec1",
+        "TDUpdateSystem"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/code/help": {
+      "name": "help",
+      "path": "/sliderVert/sliderVert/code/help",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "expr": {
+          "67108864": "parent(2).par.Popuphelp.eval()"
+        },
+        "rowindexend": {
+          "201326609": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "rowexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        },
+        "colindexend": {
+          "201326609": "0 \"me.inputs[0].numCols - 1\""
+        },
+        "colexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/code/docsHelper": {
+      "name": "docsHelper",
+      "path": "/sliderVert/sliderVert/code/docsHelper",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108864": 32
+        },
+        "h": {
+          "67108864": 32
+        },
+        "layer": {
+          "67108864": 1
+        },
+        "display": {
+          "67108864": "off"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "ext0object": {
+          "67108864": "op('./DocsHelper').module.DocsHelper(me)"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "DocsHelper"
+        },
+        "clone": {
+          "67108913": "/sys/TDResources/docsHelper op.TDResources.op('docsHelper')"
+        },
+        "Helpcommand": {
+          "67109201": "\"\" ext.DocsHelper.HelpCommand"
+        },
+        "Palettename": {
+          "67109056": "widgetsExtractor"
+        },
+        "Palettecomp": {
+          "67108977": "/sys/TDResources parent(2)"
+        },
+        "Resetpalettecompname": {
+          "67109056": 0
+        },
+        "Experimental": {
+          "67109201": "off app.experimental"
+        },
+        "Mode": {
+          "67108928": "Wiki"
+        },
+        "Wikipage": {
+          "67108928": "Widgets"
+        },
+        "Url": {
+          "67109056": "https://www.derivative.ca"
+        },
+        "Version": {
+          "67109184": 1.3
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code",
+      "children": [
+        "parexec1",
+        "DocsHelper",
+        "parexec_PaletteComp"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 \"Docs Helper\" About\n772804868 Helpcommand \"Help Command\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 1\n772935940 Palettename \"Palette COMP Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 3 \"me.par.Mode == 'Palette'\"\n772804877 Palettecomp \"Help COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 0\n-1374678779 Createaboutpage \"Create About Page and Pars\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 9\n772935941 Resetpalettecompname \"Reset Palette COMP Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 4 \"me.par.Mode == 'Palette'\"\n772804869 Testopenhelp \"Test Open Help\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 11\n772935939 Experimental Experimental 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 6 \"me.par.Mode != 'URL'\"\n-1374678769 Mode Mode 1 1 0 0 1 1 1 2 0 Palette \"\" \"Docs Helper\" 4097 3 URL URL Wiki Wiki Palette Palette 2\n772935940 Section Section 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 7 \"me.par.Mode != 'URL'\"\n772935940 Wikipage \"Wiki Page\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 5 \"me.par.Mode == 'Wiki'\"\n772935940 Url URL 1 1 0 0 1 1 1 2 0 https://www.derivative.ca \"\" \"Docs Helper\" 8 \"me.par.Mode == 'URL'\"\n772804868 Version Version 1 1 0 0 1 1 1 2 0 1.3 \"\" About 0\n772804869 Settoxsavebuild \"Set Tox Save Build\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 10\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n7\nradioname sbutton\nlradioname sbutton\ndisplay 0\nscreenw 200\nscreenh 200\nscreenwm 200\nscreenhm 200\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/docsHelper/parexec1": {
+      "name": "parexec1",
+      "path": "/sliderVert/sliderVert/code/docsHelper/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108864": ".."
+        },
+        "pars": {
+          "67108864": "*"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000|def onValueChange(par, prev):\n\text.DocsHelper.onParValueChange(par, prev)\n\ndef onPulse(par):\n\text.DocsHelper.onParPulse(par)",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/docsHelper/DocsHelper": {
+      "name": "DocsHelper",
+      "path": "/sliderVert/sliderVert/code/docsHelper/DocsHelper",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000l\"\"\"\nGeneric docs help button and pulse par system\n\"\"\"\n\nDocsHelper = op.TDResources.mod.DocsHelper.DocsHelper",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/docsHelper/parexec_PaletteComp": {
+      "name": "parexec_PaletteComp",
+      "path": "/sliderVert/sliderVert/code/docsHelper/parexec_PaletteComp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "/sys/TDResources parent.DocsHelper.par.Palettecomp.eval()"
+        },
+        "pars": {
+          "67108864": "Help"
+        },
+        "valuechange": {
+          "67108864": "off"
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000/def onPulse(par):\n\tparent.DocsHelper.OpenDocs()",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/panelexec1": {
+      "name": "panelexec1",
+      "path": "/sliderVert/sliderVert/code/panelexec1",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "67108913": "on parent.Widget.par.Rightclickmenu"
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "panels": {
+          "201326641": "\"\" \"[parent(2)] + parent(2).findChildren(type=PanelCOMP)\""
+        },
+        "panelvalue": {
+          "67108864": "rselect"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0003T# me - this DAT\n# panelValue - the PanelValue object that changed\n# \n# Make sure the corresponding toggle is enabled in the Panel Execute DAT.\n\nTDF = op.TDModules.mod.TDFunctions\n\ndef onOffToOn(panelValue):\n\tif not panelValue.owner.panel.ctrl:\n\t\treturn\n\top.TDResources.op('popMenu').Open(\n\t\t\t\t\t\titems=['Parameters', 'Viewer', 'Network', 'Customize Component'],\n\t\t\t\t\t\tcallback=onPopMenu)\n\ndef onPopMenu(info):\n\tif info['item'] == 'Parameters':\n\t\tparent.Widget.openParameters()\n\telif info['item'] == 'Viewer':\n\t\tparent.Widget.openViewer()\n\telif info['item'] == 'Network':\n\t\tTDF.showInPane(parent.Widget)\n\telif info['item'] == 'Customize Component':\n\t\top.TDDialogs.op('CompEditor').EditComp(parent.Widget)\n\t\t\n\ndef whileOn(panelValue):\n\treturn\n\ndef onOnToOff(panelValue):\n\treturn\n\ndef whileOff(panelValue):\n\treturn\n\ndef onValueChange(panelValue):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/TDUpdateSystem": {
+      "name": "TDUpdateSystem",
+      "path": "/sliderVert/sliderVert/code/TDUpdateSystem",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        160,
+        129
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "topsmoothness": {
+          "67108864": "mipmap"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "clone": {
+          "67108913": "/sys/TDResources/TDUpdater/TDUpdateSystem op.TDUpdater.op('TDUpdateSystem')"
+        },
+        "Comptoupdate": {
+          "67108977": "\"\" parent(2)"
+        },
+        "Updatesystem": {
+          "67109201": "\"\" op.TDUpdater"
+        },
+        "Invalidsourcemessage": {
+          "67108928": "\"Requires the basicWidgets package from palette>UI>Basic Widgets>Package in your project.\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code",
+      "children": [
+        "parexec_comp",
+        "parexec_system"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 \"TD Update System\" Customizations\n772804877 Comptoupdate \"COMP To Update\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 1\n-1374678779 Setupparameters \"Setup Parameters\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 3\n772804867 Enableupdatesystem \"Enable Update System\" 1 1 0 0 1 1 1 2 1 \"\" \"\" \"TD Update System\" 2\n772804877 Updatesystem \"Update System\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 0\n-1374678779 Update Update 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 4\n772804868 Invalidsourcemessage \"Invalid Source Message\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Customizations 0\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/TDUpdateSystem/parexec_comp": {
+      "name": "parexec_comp",
+      "path": "/sliderVert/sliderVert/code/TDUpdateSystem/parexec_comp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326608": ".. .."
+        },
+        "op": {
+          "67108913": "/sys/TDResources/TDUpdater parent().par.Comptoupdate.eval()"
+        },
+        "pars": {
+          "67108864": "Update"
+        },
+        "valuechange": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code/TDUpdateSystem",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAADjZGVmIHVwZGF0ZXIoKToKCXJldHVybiBwYXJlbnQoKS5wYXIuVXBkYXRlc3lzdGVtLmV2YWwoKS5leHQuVXBkYXRlcgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCBwcmV2KToKCXVwZGF0ZXIoKS5vblVwZGF0ZUNvbXBQYXJWYWx1ZUNoYW5nZShwYXIsIHByZXYsIHBhcmVudCgpKQoKZGVmIG9uUHVsc2UocGFyKToKCXVwZGF0ZXIoKS5vblVwZGF0ZUNvbXBQYXJQdWxzZShwYXIsIHBhcmVudCgpKQkKCQo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/code/TDUpdateSystem/parexec_system": {
+      "name": "parexec_system",
+      "path": "/sliderVert/sliderVert/code/TDUpdateSystem/parexec_system",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326608": ".. .."
+        },
+        "op": {
+          "67108913": "/sys/TDResources/TDUpdater/TDUpdateSystem parent()"
+        },
+        "pars": {
+          "67108864": "\"Enableupdatesystem Setupparameters Readonlyversion Update\""
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/code/TDUpdateSystem",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAC4dXBkYXRlciA9IG9wKCdwYXJleGVjX2NvbXAnKS5tb2R1bGUudXBkYXRlcgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCBwcmV2KToKCXVwZGF0ZXIoKS5vblVwZGF0ZVN5c3RlbVBhclZhbHVlQ2hhbmdlKHBhciwgcHJldikKCmRlZiBvblB1bHNlKHBhcik6Cgl1cGRhdGVyKCkub25VcGRhdGVTeXN0ZW1QYXJQdWxzZShwYXIpCQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/label": {
+      "name": "label",
+      "path": "/sliderVert/sliderVert/label",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -300,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108881": "170 parent().par.Labelwidth"
+        },
+        "h": {
+          "67108881": "32 parent().par.Labelheight"
+        },
+        "layer": {
+          "67108864": 1
+        },
+        "hmode": {
+          "67108881": "fill parent.Widget.par.Labelhorizontalmode"
+        },
+        "hfillweight": {
+          "67108881": "1 parent.Widget.par.Labelhfillweight"
+        },
+        "vmode": {
+          "67108881": "fixed parent.Widget.par.Labelverticalmode"
+        },
+        "vfillweight": {
+          "67108881": "1 parent.Widget.par.Labelvfillweight"
+        },
+        "display": {
+          "67108913": "on parent.Widget.par.Labeldisplay"
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/sliderHorz/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67109393": "off parent.Widget.par.clickthrough parent.Widget.par.clickthrough"
+        },
+        "uvbuttonsleft": {
+          "67108896": 0
+        },
+        "uvbuttonsmiddle": {
+          "67108896": 0
+        },
+        "uvbuttonsright": {
+          "67108896": 0
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorr"
+        },
+        "bgcolorg": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorg"
+        },
+        "bgcolorb": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorb"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Labelbgcolora"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Widgetlabel": {
+          "67108928": "\"Slider Horizontal\""
+        },
+        "Labelbgcolorr": {
+          "67108928": 0.2
+        },
+        "Labelbgcolorg": {
+          "67108928": 0.2
+        },
+        "Labelbgcolorb": {
+          "67108928": 0.2
+        },
+        "Labelbgcolora": {
+          "67108928": 1
+        },
+        "Labelfontcolorr": {
+          "67108928": 0.65
+        },
+        "Labelfontcolorg": {
+          "67108928": 0.65
+        },
+        "Labelfontcolorb": {
+          "67108928": 0.65
+        },
+        "Labelfontcolora": {
+          "67108928": 1
+        },
+        "Labelwidth": {
+          "67108928": 120
+        },
+        "Labelverticalmode": {
+          "67108928": "fill"
+        },
+        "Labelheight": {
+          "67108928": 32
+        },
+        "Labelaligny": {
+          "67108928": "center"
+        },
+        "Labeloffsetx": {
+          "67108928": 6
+        },
+        "Labeloffsety": {
+          "67108928": 0
+        },
+        "Labelfontsize": {
+          "67108928": 9
+        },
+        "Labelfontfraction": {
+          "67109056": 1
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [
+        "text",
+        "parexecRunCommand"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Label\n772804868 Widgetlabel \"Widget Label\" 1 1 0 0 1 1 1 2 0 Label \"\" Label 0\n-1374678781 Labeldisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 2\n-1374673919 Labelbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 1 \"\" \"\" Label 15\n772809729 Labelfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 1 \"\" \"\" Label 16\n772804874 Labeltop \"Label TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 1\n-1374678769 Labelhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Width\" fill Fill 17\n772804866 Labelwidth Width 1 3 1 1 1 300 300 2 88 \"\" \"\" Label 18\n772804865 Labelhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 19\n772804879 Labelverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Height\" fill Fill 20\n772804866 Labelheight Height 1 3 1 1 1 300 300 2 88 \"\" \"\" Label 21\n772804865 Labelvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 22\n-1374678769 Labelalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 Center \"\" Label 4097 3 left Left center Center right Right 11\n772804879 Labelaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 Center \"\" Label 4097 3 bottom Bottom center Center top Top 12\n-1374670335 Labeloffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Label 13\n772805633 Labelpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Label 14\n-1374678781 Labelwordwrap \"Word Wrap\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 3\n-1374678769 Labelfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Label 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 4\n772935938 Labelfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Label 5 \"me.par.Labelfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Labelfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 6 \"me.par.Labelfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Labelscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Label 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 7\n772804867 Labelfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 8\n772804867 Labelitalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Label 9\n772804867 Labeldropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Label 10\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n15\nu 0.649254\nv 0.36\ntrueu 0.649254\ntruev 0.36\nrollu 0.122257\nrollv 0.894737\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 320\nscreenh 20\nscreenwm 320\nscreenhm 20\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/label/text": {
+      "name": "text",
+      "path": "/sliderVert/sliderVert/label/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67108913": "Derivative parent.Widget.par.Widgetlabel.eval()"
+        },
+        "type": {
+          "67108864": "multiline"
+        },
+        "wordwrap": {
+          "67108913": "off parent.Widget.par.Labelwordwrap.eval()"
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108881": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108913": "off parent.Widget.par.Labelfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Labelitalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Labeldropshadow"
+        },
+        "scaletofit": {
+          "67108913": "always parent.Widget.par.Labelscaletofit.eval()"
+        },
+        "fontsize": {
+          "67109425": "20 \"parent.Widget.par.Labelfontsize.eval() if parent.Widget.par.Labelfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Labelfontfraction.eval()\" op('bg').par.fontsizex"
+        },
+        "fontsizeunits": {
+          "67108913": "panelunits parent.Widget.par.Labelfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108913": "1 parent.Widget.par.Labelfontcolora.eval()"
+        },
+        "textoffsetx": {
+          "67108913": "0 parent.Widget.par.Labeloffsetx.eval()"
+        },
+        "textoffsety": {
+          "67108913": "0 parent.Widget.par.Labeloffsety.eval()"
+        },
+        "textpaddingl": {
+          "67108913": "0 parent.Widget.par.Labelpadding1.eval()"
+        },
+        "textpaddingr": {
+          "67108913": "0 parent.Widget.par.Labelpadding2.eval()"
+        },
+        "textpaddingb": {
+          "67108913": "0 parent.Widget.par.Labelpadding3.eval()"
+        },
+        "textpaddingt": {
+          "67108913": "0 parent.Widget.par.Labelpadding4.eval()"
+        },
+        "alignx": {
+          "67108913": "center parent.Widget.par.Labelalignx.eval()"
+        },
+        "aligny": {
+          "67108913": "center parent.Widget.par.Labelaligny.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "bottomanchor": {
+          "67108864": 0.039
+        },
+        "helpdat": {
+          "67108881": "ext.TDUIWidget.PopupHelpDat parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "on parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "top": {
+          "67108913": "parent.Widget.par.Labeltop.eval() parent.Widget.par.Labeltop.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/label",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.576803\nv 0.421053\ntrueu 0.576803\ntruev 0.421053\nrollu 0.0501567\nrollv 0.736842\nscreenw 320\nscreenh 20\nscreenwm 320\nscreenhm 20\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/label/parexecRunCommand": {
+      "name": "parexecRunCommand",
+      "path": "/sliderVert/sliderVert/label/parexecRunCommand",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterLabel parent.Widget"
+        },
+        "pars": {
+          "67108864": "\"Labelhorizontalmode Labelverticalmode\""
+        },
+        "onpulse": {
+          "67108864": "off"
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/label",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAOCIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojCiMgTWFrZSBzdXJlIHRoZSBjb3JyZXNwb25kaW5nIHRvZ2dsZSBpcyBlbmFibGVkIGluIHRoZSBQYXJhbWV0ZXIgRXhlY3V0ZSBEQVQuCgpkZWYgdmFsdWVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJaWYgcGFyLm5hbWUgPT0gJ0xhYmVsaG9yaXpvbnRhbG1vZGUnOgoJCSNpZiBwYXIuZXZhbCgpID09ICdmaWxsJzoKCQl2YWwgPSBUcnVlIGlmIHZhbCA9PSAnZmlsbCcgZWxzZSBGYWxzZQoJCXNldGF0dHIocGFyZW50LldpZGdldC5wYXIuTGFiZWxoZmlsbHdlaWdodCwgJ2VuYWJsZScsIHZhbCkKCQlzZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLkxhYmVsd2lkdGgsICdlbmFibGUnLCBib29sKDEtdmFsKSkKCWVsaWYgcGFyLm5hbWUgPT0gJ0xhYmVsdmVydGljYWxtb2RlJzoKCQkjaWYgcGFyLmV2YWwoKSA9PSAnZmlsbCc6CgkJdmFsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQlzZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLkxhYmVsdmZpbGx3ZWlnaHQsICdlbmFibGUnLCB2YWwpCgkJc2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhci5MYWJlbGhlaWdodCwgJ2VuYWJsZScsIGJvb2woMS12YWwpKQoJcmV0dXJuCgpkZWYgb25QdWxzZShwYXIpOgoJcmV0dXJuCgpkZWYgZXhwcmVzc2lvbkNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBleHBvcnRDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgZW5hYmxlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG1vZGVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/output": {
+      "name": "output",
+      "path": "/sliderVert/sliderVert/output",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 3
+        },
+        "enablecloning": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [
+        "dat",
+        "chop",
+        "Value0",
+        "datValues",
+        "numValues",
+        "valuesParexec",
+        "valueParOPExec"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 Widget Info\n-1374678781 Connectors Connectors 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 0\n772804868 Outputgroupname \"Output Group Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 1\n772804869 Resetvaluedefaults \"Reset Value Defaults\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 4\n772804879 Valuetype \"Value Type\" 1 1 0 0 1 1 1 2 0 Float \"\" Widget 4097 4 Float Float Int Integer Str String Bool Boolean 3\n772804867 Appendopname \"Append OP Name\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/output/dat": {
+      "name": "dat",
+      "path": "/sliderVert/sliderVert/output/dat",
+      "op_type": "DAT:out",
+      "family": "DAT",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {
+        "0": "datValues"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/output/chop": {
+      "name": "chop",
+      "path": "/sliderVert/sliderVert/output/chop",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" me.parent()"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {
+        "0": "Value0"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/output/Value0": {
+      "name": "Value0",
+      "path": "/sliderVert/sliderVert/output/Value0",
+      "op_type": "CHOP:par",
+      "family": "CHOP",
+      "specific_type": "par",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "ops": {
+          "67108864": "../.."
+        },
+        "parameters": {
+          "67108864": "\"Value0 Value1 Value2 Value3\""
+        },
+        "renamefrom": {
+          "67108864": "\"Value0 Value1 Value2 Value3\""
+        },
+        "renameto": {
+          "67108913": "\"x y z a\" \"[getattr(parent.Widget.par, 'Valname0', ''), getattr(parent.Widget.par, 'Valname1', ''), getattr(parent.Widget.par, 'Valname2', ''), getattr(parent.Widget.par, 'Valname3', '')]\""
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/output/datValues": {
+      "name": "datValues",
+      "path": "/sliderVert/sliderVert/output/datValues",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "expr": {
+          "67108864": "\"getattr(parent.Widget.par, ['Valname', 'Value'][me.inputCell.col] + str(me.inputCell.row))\""
+        },
+        "rowindexend": {
+          "201326609": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "rowexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        },
+        "colindexend": {
+          "201326609": "0 \"me.inputs[0].numCols - 1\""
+        },
+        "colexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {
+        "0": "numValues"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/output/numValues": {
+      "name": "numValues",
+      "path": "/sliderVert/sliderVert/output/numValues",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "fill": {
+          "67108864": "setsize"
+        },
+        "rows": {
+          "67108913": "3 len(parent.Widget.pars('Valname*'))"
+        },
+        "cols": {
+          "67108864": 2
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/output/valuesParexec": {
+      "name": "valuesParexec",
+      "path": "/sliderVert/sliderVert/output/valuesParexec",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -775,
+        130,
+        90
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108881": "\"\" parent.Widget"
+        },
+        "pars": {
+          "67108913": "\"\" \"['Createeditvalueparexec'] + ['Value' + str(i) for i in range(4) if any([getattr(parent.Widget.par, parName, None) for parName in ['Onvaluechangescript' + str(i), 'Ontooffscript' + str(i), 'Offtoonscript' + str(i)]])]\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0004[def onValueChange(par, prev):\n\tparNum = par.name[-1]\n\tfor name in ['Onvaluechangescript', 'Ontooffscript', 'Offtoonscript']:\n\t\ttry:\n\t\t\tp = getattr(parent.Widget.par, name + parNum)\n\t\texcept:\n\t\t\treturn\n\t\tif p:\n\t\t\tif p.name.startswith('Onv'):\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\t\t\telif p.name.startswith('Ont') and prev and not par.eval():\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\t\t\telif p.name.startswith('Off') and not prev and par.eval():\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\ndef onPulse(par):\n\tif not parent.Widget.par.Valueparexec.eval():\n\t\tparexec = parent.Widget.parent().create(parameterexecuteDAT, 'valueParExec')\n\t\tparexec.nodeY = parent.Widget.nodeY\n\t\tparexec.nodeX = parent.Widget.nodeX - 200\n\t\tparexec.dock = parent.Widget\n\t\tparexec.par.op.expr = 'me.dock'\n\t\tparexec.par.pars = 'Value?'\n\t\tparexec.par.builtin = False\n\t\tparent.Widget.par.Valueparexec = parexec.name\n\t\tparent.Widget.par.Valueparexec.enable = True\n\t\tparent.Widget.par.Valueparexec.readOnly = True\n\t\top('valueParOPExec').cook(force=True)\n\tparent.Widget.par.Valueparexec.eval().par.edit.pulse()",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/output/valueParOPExec": {
+      "name": "valueParOPExec",
+      "path": "/sliderVert/sliderVert/output/valueParOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -775,
+        130,
+        90
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare \"parent.Widget.par.Valueparexec.eval() if parent.Widget.par.Valueparexec.eval() else ''\""
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000fdef onOPdelete():\n\tparent.Widget.par.Valueparexec = ''\n\tparent.Widget.par.Valueparexec.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/overlay": {
+      "name": "overlay",
+      "path": "/sliderVert/sliderVert/overlay",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        200,
+        93,
+        155
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "layer": {
+          "67108864": 100000
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignoremargin"
+        },
+        "display": {
+          "67108913": "on 1-parent().par.enable"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorr"
+        },
+        "bgcolorg": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorg"
+        },
+        "bgcolorb": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorb"
+        },
+        "bgalpha": {
+          "67108913": "0.5 parent.Widget.par.Disablecolora"
+        },
+        "topsmoothness": {
+          "67108864": "mipmap"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n11\nu 0.183463\nv 0.190476\ntrueu 0.183463\ntruev 0.190476\nrollu 0.118056\nrollv 0.297297\ndisplay 0\nscreenw 577\nscreenh 38\nscreenwm 577\nscreenhm 38\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0": {
+      "name": "slider0",
+      "path": "/sliderVert/sliderVert/slider0",
+      "op_type": "COMP:slider",
+      "family": "COMP",
+      "specific_type": "slider",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -500,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "clampul": {
+          "67108864": "off"
+        },
+        "clampuh": {
+          "67108864": "off"
+        },
+        "clampvl": {
+          "67108864": "off"
+        },
+        "clampvh": {
+          "67108864": "off"
+        },
+        "w": {
+          "67108864": 30
+        },
+        "h": {
+          "67108864": 30
+        },
+        "layer": {
+          "67108864": 1
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignorder": {
+          "67108896": 2
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/sliderHorz/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "top": {
+          "67108912": "./bg parent.Widget.par.Sliderbgtop"
+        },
+        "borderar": {
+          "67108864": 0
+        },
+        "borderag": {
+          "67108864": 0
+        },
+        "borderab": {
+          "67108864": 0
+        },
+        "borderaalpha": {
+          "67108864": 0
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "justifyv": {
+          "67108864": "center"
+        },
+        "crop": {
+          "67108864": "on"
+        },
+        "ext0object": {
+          "67108912": "\"op('./SliderExt').module.SliderExt(me) \" op('./SliderExt').module.SliderExt(me)"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "Value"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Sliderbgcolorr": {
+          "67108928": 0.15
+        },
+        "Sliderbgcolorg": {
+          "67108928": 0.15
+        },
+        "Sliderbgcolorb": {
+          "67108928": 0.15
+        },
+        "Sliderbgcolora": {
+          "67108928": 1
+        },
+        "Sliderknobcolorr": {
+          "67108928": 0.6
+        },
+        "Sliderknobcolorg": {
+          "67108928": 0.6
+        },
+        "Sliderknobcolorb": {
+          "67108928": 0.6
+        },
+        "Sliderknobcolora": {
+          "67108928": 1
+        },
+        "Sliderindicatorcolorr": {
+          "67108928": 0.325
+        },
+        "Sliderindicatorcolorg": {
+          "67108928": 0.325
+        },
+        "Sliderindicatorcolorb": {
+          "67108928": 0.325
+        },
+        "Sliderindicatorcolora": {
+          "67108928": 1
+        },
+        "Sliderlabelfontcolorr": {
+          "67108928": 0.075
+        },
+        "Sliderlabelfontcolorg": {
+          "67108928": 0.075
+        },
+        "Sliderlabelfontcolorb": {
+          "67108928": 0.075
+        },
+        "Sliderlabelfontcolora": {
+          "67108928": 1
+        },
+        "Sliderknobsize": {
+          "67108928": 1
+        },
+        "Sliderpanelexec": {
+          "67109184": "\"\""
+        },
+        "Cacheabletop": {
+          "67109201": "\"\" op('./slider0/bg')"
+        },
+        "Slideralignx": {
+          "67108928": "center"
+        },
+        "Slideraligny": {
+          "67108928": "center"
+        },
+        "Sliderfontsize": {
+          "67108928": 12
+        },
+        "Sliderfontfraction": {
+          "67109056": 1
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [
+        "bg",
+        "knob",
+        "text",
+        "flip1",
+        "over1",
+        "level1",
+        "slider",
+        "switch1",
+        "switch2",
+        "rollover",
+        "sliderBg",
+        "SliderExt",
+        "parReinit",
+        "glslSlider",
+        "panelexec1",
+        "SubWidgetExt",
+        "cacheselect1",
+        "panelExecOPExec",
+        "panelexecValueX",
+        "text1_callbacks",
+        "parexecSettingsX"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Slider\n-1374673919 Sliderbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 1 \"\" \"\" Slider 19\n772809729 Sliderknobcolor \"Knob Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.35 \"\" \"\" 2 0.35 \"\" \"\" 2 0.35 \"\" \"\" 2 0.6 \"\" \"\" Slider 20\n772809729 Sliderindicatorcolor \"Indicator Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.4 \"\" \"\" 2 0.4 \"\" \"\" 2 0.4 \"\" \"\" 2 1 \"\" \"\" Slider 22\n-1374678781 Sliderlabeldisplay \"Label Display\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Slider 4\n772809729 Sliderlabelfontcolor \"Label Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 0.7 \"\" \"\" Slider 21\n-1374678782 Sliderknobsize \"Knob Size\" 1 3 1 1 1 40 40 2 8 \"\" \"\" Slider 16\n772804879 Sliderorient Orientation 1 1 0 0 1 1 1 2 0 horz \"\" Slider 4097 2 horz Horizontal vert Vertical 0\n-1374678780 Sliderlabelnames \"Label Name(s)\" 1 1 0 0 1 1 1 2 0 Slider \"\" Slider 3\n-1374678774 Sliderbgtop \"Bg TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 17\n772804874 Sliderknobtop \"Knob TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 18\n-1374678779 Slidercustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 0 \"\" Slider 23\n772804875 Sliderpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 24\n-1374678781 Sliderrelativemode \"Relative Mode\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 2\n772804874 Cacheabletop \"Cacheable TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 26\n772804877 Widgetcachecomp \"Widget Cache COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 27\n-1374678781 Sliderignoreinteract \"Ignore Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 1\n-1374673919 Cachefiltercolor \"Cache Filter Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 1 \"\" \"\" 2 1 \"\" \"\" 2 1 \"\" \"\" 2 1 \"\" \"\" Slider 28\n-1374678781 Cacheoptimized \"Cache Optimized\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 29\n-1374678781 Cacheactive Cacheactive 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 25\n-1374678769 Slideralignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 Center \"\" Slider 4097 3 left Left center Center right Right 12\n772804879 Slideraligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 Center \"\" Slider 4097 3 bottom Bottom center Center top Top 13\n-1374670335 Slideroffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Slider 14\n772805633 Sliderpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Slider 15\n-1374678769 Sliderfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Slider 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 5\n772935938 Sliderfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Slider 6 \"me.par.Sliderfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Sliderfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Slider 7 \"me.par.Sliderfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Sliderscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Slider 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 8\n772804867 Sliderfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Slider 9\n772804867 Slideritalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Slider 10\n772804867 Sliderdropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Slider 11\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n16\nu 0.597484\nv 0.347826\ntrueu 0.597484\ntruev 0.347826\nrollu 0.647799\nradio sslider1\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 160\nscreenh 24\nscreenwm 160\nscreenhm 24\nstateu 0.597484\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/bg": {
+      "name": "bg",
+      "path": "/sliderVert/sliderVert/slider0/bg",
+      "op_type": "TOP:null",
+      "family": "TOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "switch2"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/knob": {
+      "name": "knob",
+      "path": "/sliderVert/sliderVert/slider0/knob",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "67108913": "\"\" \"parent.Widget.par.Sliderknobtop.eval() or ''\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/text": {
+      "name": "text",
+      "path": "/sliderVert/sliderVert/slider0/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67108913": "\"\" \"tdu.split(parent.Widget.par.Sliderlabelnames.eval())[parent().digits] if len(tdu.split(parent.Widget.par.Sliderlabelnames.eval()))>parent().digits and parent.Widget.par.Sliderlabeldisplay.val else ''\""
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108881": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108881": "off parent.Widget.par.Sliderfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Slideritalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Sliderdropshadow"
+        },
+        "scaletofit": {
+          "67108881": "never parent.Widget.par.Sliderscaletofit"
+        },
+        "fontsize": {
+          "67108881": "20 \"parent.Widget.par.Sliderfontsize.eval() if parent.Widget.par.Sliderfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Sliderfontfraction.eval()\""
+        },
+        "fontsizeunits": {
+          "67108881": "panelunits parent.Widget.par.Sliderfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108913": "1 parent.Widget.par.Sliderlabelfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108913": "1 parent.Widget.par.Sliderlabelfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108913": "1 parent.Widget.par.Sliderlabelfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108913": "1 parent.Widget.par.Sliderlabelfontcolora.eval()"
+        },
+        "textoffsetx": {
+          "67108881": "0 parent.Widget.par.Slideroffsetx.eval()"
+        },
+        "textoffsety": {
+          "67108881": "0 parent.Widget.par.Slideroffsety.eval()"
+        },
+        "textpaddingl": {
+          "67108881": "0 parent.Widget.par.Sliderpadding1.eval()"
+        },
+        "textpaddingr": {
+          "67108881": "0 parent.Widget.par.Sliderpadding2.eval()"
+        },
+        "textpaddingb": {
+          "67108881": "0 parent.Widget.par.Sliderpadding3.eval()"
+        },
+        "textpaddingt": {
+          "67108881": "0 parent.Widget.par.Sliderpadding4.eval()"
+        },
+        "alignx": {
+          "67108881": "center parent.Widget.par.Slideralignx.eval()"
+        },
+        "aligny": {
+          "67108881": "center parent.Widget.par.Slideraligny.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "display": {
+          "67108881": "off parent.Widget.par.Sliderlabeldisplay"
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.448276\nv 0.304348\ntrueu 0.448276\ntruev 0.304348\nrollu 0.99373\nrollv 0.73913\nscreenw 160\nscreenh 24\nscreenwm 160\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/flip1": {
+      "name": "flip1",
+      "path": "/sliderVert/sliderVert/slider0/flip1",
+      "op_type": "TOP:flip",
+      "family": "TOP",
+      "specific_type": "flip",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "flipy": {
+          "67108881": "on parent.Widget.par.Sliderorient"
+        },
+        "flop": {
+          "67108881": "bottomleft parent.Widget.par.Sliderorient"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "slider"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/over1": {
+      "name": "over1",
+      "path": "/sliderVert/sliderVert/slider0/over1",
+      "op_type": "TOP:over",
+      "family": "TOP",
+      "specific_type": "over",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -500,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "legacyxform": {
+          "67108864": "on"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "flip1",
+        "1": "level1"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/level1": {
+      "name": "level1",
+      "path": "/sliderVert/sliderVert/slider0/level1",
+      "op_type": "TOP:level",
+      "family": "TOP",
+      "specific_type": "level",
+      "viewport_pos": null,
+      "tile_pos": [
+        300,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 2
+        },
+        "clampinput": {
+          "67108864": "clamp"
+        },
+        "highr": {
+          "67108913": "1 parent.Widget.par.Cachefiltercolorr"
+        },
+        "highg": {
+          "67108913": "1 parent.Widget.par.Cachefiltercolorg"
+        },
+        "highb": {
+          "67108913": "1 parent.Widget.par.Cachefiltercolorb"
+        },
+        "higha": {
+          "67108913": "1 parent.Widget.par.Cachefiltercolora"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "cacheselect1"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/slider": {
+      "name": "slider",
+      "path": "/sliderVert/sliderVert/slider0/slider",
+      "op_type": "TOP:glslmulti",
+      "family": "TOP",
+      "specific_type": "glslmulti",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "pixeldat": {
+          "67108864": "glslSlider"
+        },
+        "autodispatchsize": {
+          "67108864": "off"
+        },
+        "dispatchsizex": {
+          "67108864": 64
+        },
+        "dispatchsizey": {
+          "67108864": 1
+        },
+        "dispatchsizez": {
+          "67108864": 1
+        },
+        "inputextenduv": {
+          "67108864": "repeat"
+        },
+        "vec0name": {
+          "67108864": "orient"
+        },
+        "vec0valuex": {
+          "67108913": "0 parent.Widget.par.Sliderorient.menuIndex"
+        },
+        "vec0valuey": {
+          "67108896": 0
+        },
+        "vec0valuez": {
+          "67108896": 0
+        },
+        "vec0valuew": {
+          "67108896": 0
+        },
+        "outputresolution": {
+          "67108864": "parpanel"
+        },
+        "resolutionw": {
+          "67108864": 2531
+        },
+        "resolutionh": {
+          "67108864": 26
+        },
+        "inputfiltertype": {
+          "67108864": "nearest"
+        },
+        "format": {
+          "67108864": "rgba8fixed"
+        },
+        "vec1name": {
+          "67108864": "bgColor"
+        },
+        "vec1valuex": {
+          "67108913": "0.15 parent.Widget.par.Sliderbgcolorr.eval()"
+        },
+        "vec1valuey": {
+          "67108913": "0.15 parent.Widget.par.Sliderbgcolorg.eval()"
+        },
+        "vec1valuez": {
+          "67108913": "0.15 parent.Widget.par.Sliderbgcolorb.eval()"
+        },
+        "vec1valuew": {
+          "67108913": "1 parent.Widget.par.Sliderbgcolora.eval()"
+        },
+        "vec2name": {
+          "67108864": "indColor"
+        },
+        "vec2valuex": {
+          "67108913": "0.325 parent.Widget.par.Sliderindicatorcolorr.eval()"
+        },
+        "vec2valuey": {
+          "67108913": "0.325 parent.Widget.par.Sliderindicatorcolorg.eval()"
+        },
+        "vec2valuez": {
+          "67108913": "0.325 parent.Widget.par.Sliderindicatorcolorb.eval()"
+        },
+        "vec2valuew": {
+          "67108913": "1 parent.Widget.par.Sliderindicatorcolora.eval()"
+        },
+        "vec3name": {
+          "67108864": "knobColor"
+        },
+        "vec3valuex": {
+          "67108913": "0.6 parent.Widget.par.Sliderknobcolorr.eval()"
+        },
+        "vec3valuey": {
+          "67108913": "0.6 parent.Widget.par.Sliderknobcolorg.eval()"
+        },
+        "vec3valuez": {
+          "67108913": "0.6 parent.Widget.par.Sliderknobcolorb.eval()"
+        },
+        "vec3valuew": {
+          "67108913": "1 parent.Widget.par.Sliderknobcolora.eval()"
+        },
+        "vec4name": {
+          "67108864": "nrmValue"
+        },
+        "vec4valuex": {
+          "67108913": "0.614363 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).evalNorm()\""
+        },
+        "vec4valuey": {
+          "67108896": 1
+        },
+        "vec4valuez": {
+          "67108896": 1
+        },
+        "vec4valuew": {
+          "67108896": 1
+        },
+        "vec5name": {
+          "67108864": "defaultValue"
+        },
+        "vec5valuex": {
+          "67108913": "0 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).default\""
+        },
+        "vec5valuey": {
+          "67108896": 1
+        },
+        "vec5valuez": {
+          "67108896": 1
+        },
+        "vec5valuew": {
+          "67108896": 1
+        },
+        "vec6name": {
+          "67108864": "minMax"
+        },
+        "vec6valuex": {
+          "67108913": "-2 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).normMin\""
+        },
+        "vec6valuey": {
+          "67108913": "2 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).normMax\""
+        },
+        "vec6valuez": {
+          "67108896": 1
+        },
+        "vec6valuew": {
+          "67108896": 1
+        },
+        "vec7name": {
+          "67108864": "knobSize"
+        },
+        "vec7valuex": {
+          "67108913": "1 parent.Widget.par.Sliderknobsize.eval()"
+        },
+        "vec7valuey": {
+          "67108896": 1
+        },
+        "vec7valuez": {
+          "67108896": 1
+        },
+        "vec7valuew": {
+          "67108896": 1
+        },
+        "vec8name": {
+          "67108864": "\"\""
+        },
+        "vec8valuex": {
+          "67108864": 1
+        },
+        "vec8valuey": {
+          "67108864": 0
+        },
+        "vec8valuez": {
+          "67108864": 0
+        },
+        "vec8valuew": {
+          "67108864": 0
+        },
+        "vec9name": {
+          "67108864": "\"\""
+        },
+        "vec9valuex": {
+          "67108864": 1
+        },
+        "vec9valuey": {
+          "67108864": 0
+        },
+        "vec9valuez": {
+          "67108864": 0
+        },
+        "vec9valuew": {
+          "67108864": 0
+        },
+        "vec10name": {
+          "67108864": "offset"
+        },
+        "vec10valuex": {
+          "67108913": "-1554.34 \"-me.par.value4x*((me.par.resolutionw-parent.Widget.par.Sliderknobsize.eval()) / parent.Widget.par.Sliderknobsize.eval())\""
+        },
+        "vec10valuey": {
+          "67108896": 1
+        },
+        "vec10valuez": {
+          "67108896": 1
+        },
+        "vec10valuew": {
+          "67108896": 1
+        },
+        "vec11name": {
+          "67108864": "scale"
+        },
+        "vec11valuex": {
+          "67108913": "2531 \"me.par.resolutionw / parent.Widget.par.Sliderknobsize.eval()\""
+        },
+        "vec11valuey": {
+          "67108913": "0.000395101 \"(parent.Widget.par.Sliderknobsize.eval() / me.par.resolutionw) * parent.Widget.par.Sliderknobsize.eval()\""
+        },
+        "vec11valuez": {
+          "67108896": 1
+        },
+        "vec11valuew": {
+          "67108896": 1
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "knob",
+        "1": "sliderBg"
+      },
+      "extra_files": {
+        "oldacbo": {
+          "content": "1\n0\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/switch1": {
+      "name": "switch1",
+      "path": "/sliderVert/sliderVert/slider0/switch1",
+      "op_type": "TOP:switch",
+      "family": "TOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        800,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index": {
+          "67108913": "0 parent.Widget.par.Cacheactive"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "slider",
+        "1": "over1"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/switch2": {
+      "name": "switch2",
+      "path": "/sliderVert/sliderVert/slider0/switch2",
+      "op_type": "TOP:switch",
+      "family": "TOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index": {
+          "67108881": "0 parent.Widget.par.Cacheoptimized"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {
+        "0": "switch1",
+        "1": "cacheselect1"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/rollover": {
+      "name": "rollover",
+      "path": "/sliderVert/sliderVert/slider0/rollover",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "w": {
+          "67108866": 400
+        },
+        "h": {
+          "67108866": 300
+        },
+        "layer": {
+          "67108864": 7
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignore"
+        },
+        "display": {
+          "67108913": "on \"(parent().panel.rollover or parent().panel.lselect or parent().panel.inside) * parent.Widget.par.Enablerollover.eval()\""
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0 parent.Widget.par.Rollovercolorr.eval()"
+        },
+        "bgcolorg": {
+          "67108913": "0.366667 parent.Widget.par.Rollovercolorg.eval()"
+        },
+        "bgcolorb": {
+          "67108913": "0.5 parent.Widget.par.Rollovercolorb.eval()"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Rollovercolora.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "composite": {
+          "67108913": "over parent.Widget.par.Rollovercomposite.eval()"
+        },
+        "clone": {
+          "67108912": "\"\" \"parent.Widget.par.Package.eval().SubComp('TDWidgetKit', 'masterButton/button0/rollover')\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n7\nu 0.503937\nv 0.590551\ntrueu 0.503937\ntruev 0.590551\nrollu 0.669291\nrollv 1\ndisplay 0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/sliderBg": {
+      "name": "sliderBg",
+      "path": "/sliderVert/sliderVert/slider0/sliderBg",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "67108913": "\"\" \"parent.Widget.par.Sliderbgtop.eval() or ''\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/SliderExt": {
+      "name": "SliderExt",
+      "path": "/sliderVert/sliderVert/slider0/SliderExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -325,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAACKvU3ViV2lkZ2V0RXh0ID0gbW9kLlN1YldpZGdldEV4dC5TdWJXaWRnZXRFeHQKVERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgU2xpZGVyRXh0KFN1YldpZGdldEV4dCk6CgkiIiIKCVZhbHVlRXh0IGlzIGFuIGV4dGVuc2lvbiB0aGF0IGNvbnRyb2xzIG11bHRpcGxlIHZhbHVlcyBmb3IgYSB2YWx1ZSBjb21wb25lbnQuCglBIHZhbHVlIGNvbXBvbmVudCBpcyBhIHdpZGdldCBzdWIgY29tcG9uZW50IHRoYXQgdmlzdWFsaXplcyBhbmQgcHJvdmlkZXMKCWludGVyYWN0aXZpdHkgZm9yIHNldHRpbmcgdmFsdWVzLgoJIiIiCglkZWYgX19pbml0X18oc2VsZiwgb3duZXJDb21wLCBkaW1lbnNpb249MSk6CgkJIyBUaGUgY29tcG9uZW50IHRvIHdoaWNoIHRoaXMgZXh0ZW5zaW9uIGlzIGF0dGFjaGVkCgkJIiIiCgkJVGhpcyBleHRlbnNpb24gaW5wdGVycHJldHMgcGFuZWwgaW50ZXJhY3Rpb25zIGFuZCBjb250cm9scyB0aGUKCQltYXN0ZXJTbGlkZXIgd2lkZ2V0IHZhbHVlcy4KCQkiIiIKCQlzZWxmLnBhclByZWZpeCA9ICdTbGlkZXInCgkJU3ViV2lkZ2V0RXh0Ll9faW5pdF9fKHNlbGYsIG93bmVyQ29tcCkKCQlzZWxmLndpZGdldENvbXAgPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0CgkJI0RpbWVzaW9uIHJlZmVycyB0byB0aGUgZGltZW5zaW9uIG9mIHRoaXMgc3ViLWNvbXBvbmVudC4gIEEgc2xpZGVyCgkJI2ZvdW5kIGluIGFuIFJHQkEgd2lkZ2V0IHdpbGwgaGF2ZSBhIGRpbWVuc2lvbiBvZiAxLCB3aGlsZSBhIHJhbmdlCgkJI3NsaWRlciB3aWxsIGhhdmUgYSBkaW1lbnNpb24gb2YgMiBzaW5jZSBpdCByZXF1aXJlcyB0d28gdmFsdWVzCgkJI2ZvciB0aGUgc2luZ2xlIHVpIGVsZW1lbnQKCQlzZWxmLmRpbWVuc2lvbiA9IGRpbWVuc2lvbgoJCSNUaGUgdmFsdWUgZ3JvdXAgaW5kZXggYWxsb3dzIGZvciBtdWx0aXBsZSByYW5nZSBmYWRlcnMgaW4gdGhlIHNhbWUKCQkjd2lkZ2V0CgkJc2VsZi52YWx1ZUdyb3VwSW5kZXggPSAwICNtYXRoLmZsb29yKHNlbGYub3duZXJDb21wLmRpZ2l0cy9zZWxmLmRpbWVuc2lvbikKCQkjU2xpZGVyIHZhcmlhYmxlcwoJCXNlbGYuTG9hZFNsaWRlckF0dHJpYnMoc2VsZi52YWx1ZUdyb3VwSW5kZXgpCgoJCXNlbGYuc2VsZWN0ID0gRmFsc2UKCQlzZWxmLmluc2lkZUtub2IgPSBGYWxzZQoJCXNlbGYubGFzdENsaWNrUG9zID0gTm9uZQoJCSNUaGUgY3VycmVudCBub3JtYWxpemVkIHZhbHVlcwoKCQlzZWxmLmtub2JJbmRleCA9IE5vbmUKCQkjVGhlIGZ1bmN0aW9uIHRvIHVzZSB0byBwcm9jZXNzIGluY29taW5nIFZhbHVlQ2hhbmdlIGV2ZW50cwoJCXNlbGYudmFsdWVQcm9jID0gTm9uZQoJCSNUaGUgY3VycmVudCBzdGFydCB2YWx1ZXMKCQlzZWxmLnN0YXJ0VmFsdWVzID0gW10KCQlzZWxmLmN1clZhbHVlcyA9IFtdCgkJc2VsZi5zdGFydERpZmZzID0gW10KCglkZWYgTG9hZFNsaWRlckF0dHJpYnMoc2VsZiwgZ3JvdXBJbmRleCk6CgkJIiIiCgkJUHJlbG9hZHMgdGhlIHNsaWRlciB2YWx1ZXMgZm9yIHRoZSBWYWx1ZSBjb21wb25lbnQuCgkJIiIiCgkJI2RlYnVnKCdpbnNpZGUnLCBncm91cEluZGV4KQoJCXNlbGYuaW5kZXggPSBncm91cEluZGV4CgkJc2VsZi5yZXMgPSBbZ2V0YXR0cihzZWxmLm93bmVyQ29tcCwgaSkgZm9yIGkgaW4gWyd3aWR0aCcsICdoZWlnaHQnXV0KCQlzZWxmLmtub2JXaWR0aCA9IHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLlNsaWRlcmtub2JzaXplLmV2YWwoKQoJCXNlbGYub3JpZW50ID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldC5wYXIuU2xpZGVyb3JpZW50Lm1lbnVJbmRleAoJCSNOZWVkcyB0byBhdm9pZCBkaXZpc2lvbiBieSB6ZXJvIGVycm9yCgkJc2VsZi5ub3JtS25vYldpZHRoID0gKHNlbGYua25vYldpZHRoIC8gc2VsZi5yZXNbc2VsZi5vcmllbnRdKSBpZiBzZWxmLnJlc1tzZWxmLm9yaWVudF0gPiAwIGVsc2UgMAoJCXNlbGYua25vYk1hcmdpbiA9IHNlbGYubm9ybUtub2JXaWR0aC8yCgkJc2VsZi5wYW5lbFZhciA9IHNlbGYub3duZXJDb21wLnBhbmVsLnYgaWYgc2VsZi5vcmllbnQgXAoJCQkJCQkJCQkJCQkJZWxzZSBzZWxmLm93bmVyQ29tcC5wYW5lbC51CgkJc2VsZi5ub3JtU2xpZGVyTWluID0gc2VsZi5ub3JtS25vYldpZHRoLzIKCQlzZWxmLm5vcm1TbGlkZXJNYXggPSAxLShzZWxmLm5vcm1Lbm9iV2lkdGgvMikKCQlzZWxmLlBhcnMgPSBbZ2V0YXR0cihzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0LnBhciwgXAoJCQkJCQkJCSdWYWx1ZScrc3RyKGkpKSBmb3IgaSBpbiByYW5nZShzZWxmLmRpbWVuc2lvbildCgkJc2VsZi5WYWx1ZXMgPSBbVmFsdWUoc2VsZi53aWRnZXRDb21wLCBwYXJbMV0sCgkJCQkJCQkJc2VsZi52YWx1ZUdyb3VwSW5kZXgrcGFyWzBdKSBcCgkJCQkJCQkJZm9yIHBhciBpbiBlbnVtZXJhdGUoc2VsZi5QYXJzKV0KCQlzZWxmLnJlbGF0aXZlTW9kZSA9IHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLlNsaWRlcnJlbGF0aXZlbW9kZS5ldmFsKCkKCgoJZGVmIFZhbHVlQ2hhbmdlKHNlbGYsIHBhbmVsVmFsdWUpOgoJCSIiIgoJCUhhbmRsZXMgYSB2YWx1ZSBjaGFuZ2UgdGFraW5nIGludG8gY29uc2lkZXJhdGlvbiBhbGwgdGhlIGF0dHJpYnV0ZXMKCQlvZiB0aGlzIHNsaWRlciBzdWItY29tcG9uZW50LgoJCSIiIgoJCSNkZWJ1ZygndmFsIGNoYW4nKQoJCWlmIHNlbGYuc2VsZWN0OgoJCQlzZWxmLnZhbHVlUHJvYyhwYW5lbFZhbHVlLnZhbCwgc2VsZi5rbm9iSW5kZXgpCgoKCWRlZiBTZWxlY3RPbihzZWxmKToKCQkiIiIKCQlHYXRoZXJzIGluZm9ybWF0aW9uIHdoZW4gdGhlIHBhbmVsIGlzIGluaXRpYWxseSBzZWxlY3RlZC4gVGhlCgkJaW5mb3JtYXRpb24gaXMgdXNlZCB3aGVuIGludGVyYWN0aW9uIHdpdGggdGhlIHdpZGdldCBzdWItY29tcG9uZW50CgkJcGFuZWwgZ2VuZXJhdGVzIHZhbHVlQ2hhbmdlIGNhbGxiYWNrIGV2ZW50cy4gVGhlc2UgZXZlbnRzIGFyZQoJCXN1YnNlcXVlbnRseSBoYW5kbGVkIGJ5IHRoZSBWYWx1ZUNoYW5nZSgpIG1ldGhvZCBvZiB0aGlzIGNsYXNzLgoJCSIiIgoJCSNrbm9iQ2xpY2tJbmRleCB3aWxsIGJlIE5vbmUgaWYgbm90IGNsaWNrZWQgb3Iga25vYiBpbmRleCBpZiBhIGtub2IKCQkjd2FzIGNsaWNrZWQKCQlrbm9iSW5kZXggPSBzZWxmLmNoZWNrS25vYkNsaWNrKCkKCQkjZGVidWcoJ2tub2InLCBrbm9iSW5kZXgpCgkJaWYga25vYkluZGV4IGlzIE5vbmU6CgkJCXNlbGYudmFsdWVQcm9jID0gc2VsZi52YWx1ZUNoYW5nZVNsaWRlcgoJCWVsc2U6CgkJCXNlbGYudmFsdWVQcm9jID0gc2VsZi52YWx1ZUNoYW5nZUtub2IKCQlzZWxmLnNlbGVjdCA9IFRydWUKCglkZWYgU2VsZWN0T2ZmKHNlbGYpOgoJCSIiIgoJCVR1cm5zIG9mZiBzZWxlY3Qgc3RhdGUgZm9yIHRoaXMgdmFsdWUuCgkJIiIiCgkJc2VsZi5zZWxlY3QgPSBGYWxzZQoJCXNlbGYubW9kZSA9IE5vbmUKCQlzZWxmLnZhbHVlUHJvYyA9IE5vbmUKCQlzZWxmLmluc2lkZUtub2IgPSBGYWxzZQoJCXNlbGYubGFzdENsaWNrUG9zID0gTm9uZQoKCWRlZiByZU5vcm1hbGl6ZVdpdGhLbm9icyhzZWxmLCBrbm9iTWFyZ2luKToKCQkiIiIKCQlUaGlzIGZ1bmN0aW9uIGFsbG93cyBmb3IgcmVub3JtYWxpemluZyB0aGUgbm9ybWFsaXplZCB2YWx1ZXMKCQl0YWtpbmcgaW50byBjb25zaWRlcmF0aW9uIHRoZSBrbm9iIHNpemUuCgkJIiIiCgkJcmV0dXJuIFtyZW1hcCh2YWwsIDAsIDEsIGtub2JNYXJnaW4sIDEtKGtub2JNYXJnaW4pKSBcCgkJCQkJCQkJCQkJZm9yIHZhbCBpbiBzZWxmLmdldE5vcm1WYWx1ZXMoKV0KCQkjcmV0dXJuIFtyZW1hcCh2YWwsIDAsIDEsIDAsIDEpIGZvciB2YWwgaW4gc2VsZi5nZXROb3JtVmFsdWVzKCldCgoJZGVmIGNoZWNrS25vYkNsaWNrKHNlbGYpOgoJCSIiIgoJCUNoZWNrcyBpZiBjbGljayB3YXMgaW5zaWRlIGEga25vYiBvciBub3QuICBSZXR1cm5zIE5vbmUgaWYgbm90IG9yIHRoZQoJCWtub2IgaW5kZXggc3RhcnRpbmcgYXQgMCBpZiBhIGtub2Igd2FzIGNsaWNrZWQuCgkJIiIiCgkJI2tub2JNYXJnaW4gPSBzZWxmLm5vcm1Lbm9iV2lkdGgvMgoJCW5vcm1WYWx1ZXMgPSBzZWxmLnJlTm9ybWFsaXplV2l0aEtub2JzKHNlbGYua25vYk1hcmdpbikKCQlwdmFsID0gc2VsZi5wYW5lbFZhci52YWwKCQlrbm9iSW5kZXggPSBOb25lCgkJZm9yIGkgaW4gcmFuZ2Uoc2VsZi5kaW1lbnNpb24pOgoJCQkjcHJpbnQoJ2NoZWNrJywgcHZhbCwgbm9ybVZhbHVlc1tpXS0oc2VsZi5rbm9iTWFyZ2luKSwgbm9ybVZhbHVlc1tpXSsoc2VsZi5rbm9iTWFyZ2luKSwgc2VsZi5rbm9iTWFyZ2luLCBzZWxmLmtub2JXaWR0aCkKCQkJaWYgcHZhbCA+IG5vcm1WYWx1ZXNbaV0tKHNlbGYua25vYk1hcmdpbikgYW5kIFwKCQkJCQkJCQkJCXB2YWwgPCAobm9ybVZhbHVlc1tpXSsoc2VsZi5rbm9iTWFyZ2luKSlcCgkJCQkJCQkJCQlvciBzZWxmLnJlbGF0aXZlTW9kZToKCQkJCSNwcmludCgna25vYkNsaWNrJykKCQkJCXNlbGYuc3RhcnRWYWx1ZXMgPSBzZWxmLmdldE5vcm1WYWx1ZXMoKQoJCQkJI2RlYnVnKCdzdGFydFZhbHVlcyBzZXQnLCBzZWxmLnN0YXJ0VmFsdWVzKQoJCQkJc2VsZi5sYXN0Q2xpY2tQb3MgPSBwdmFsCgkJCQlzZWxmLmluc2lkZUtub2IgPSBUcnVlCgkJCQlrbm9iSW5kZXggPSBpCgkJCQlzZWxmLmtub2JJbmRleCA9IGtub2JJbmRleAoJCQkJYnJlYWsKCQkJZWxzZToKCQkJCXNlbGYuc3RhcnRWYWx1ZXMgPSBzZWxmLmdldE5vcm1WYWx1ZXMoKQoJCQkJI2RlYnVnKCdzdGFydFZhbHVlcyBzZXQnLCBzZWxmLnN0YXJ0VmFsdWVzKQoJCQkJc2VsZi5sYXN0Q2xpY2tQb3MgPSBwdmFsCgkJCQlzZWxmLmluc2lkZUtub2IgPSBGYWxzZQoJCQkJc2VsZi5rbm9iQ2xpY2tPZmZzZXQgPSBOb25lCgkJCQlzZWxmLnN0YXJ0RGlmZnMgPSBzb3J0ZWQoWyhpWzBdLCBhYnMocHZhbCAtIGlbMV0pKSBmb3IgaSBcCgkJCQkJCQlpbiBlbnVtZXJhdGUobm9ybVZhbHVlcyldLCBrZXk9bGFtYmRhIHR1cDogdHVwWzFdKQoKCQlyZXR1cm4ga25vYkluZGV4CgoJZGVmIHNldFZhbHVlKHNlbGYsIHZhbHVlLCBpbmRleCk6CgkJI3NlbGYud2lkZ2V0Q29tcC5TZXRWYWx1ZU5vcm0odmFsdWUsCWluZGV4KQoJCSNwcm90b0VkaXQKCQlnZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLCAnVmFsdWUnKyBzdHIocGFyZW50KCkuZGlnaXRzKSkubm9ybVZhbCA9IHZhbHVlCgoJZGVmIGdldE5vcm1WYWx1ZXMoc2VsZik6CgkJcmV0dXJuIFtzZWxmLlZhbHVlc1t2XS5ub3JtVmFsdWUgZm9yIHYgaW4gcmFuZ2Uoc2VsZi5kaW1lbnNpb24pXQoKCWRlZiBnZXROb3JtTWluKHNlbGYsIGluZGV4KToKCQlyZXR1cm4gc2VsZi5WYWx1ZXNbaW5kZXhdLm5vcm1NaW4KCglkZWYgZ2V0Tm9ybU1heChzZWxmLCBpbmRleCk6CgkJcmV0dXJuIHNlbGYuVmFsdWVzW2luZGV4XS5ub3JtTWF4CgoJZGVmIHZhbHVlQ2hhbmdlS25vYihzZWxmLCBwVmFsLCB2YWx1ZUluZGV4KToKCQkiIiIKCQlDaGFuZ2VzIHZhbHVlIHVzaW5nIHRoZSBrbm9iLiAgVGhpcyBnZW5lcmF0ZXMgYSB2YWx1ZSBjaGFuZ2Ugb25seSBpZgoJCXRoZSBrbm9iIGlzIG1vdmVkLiAgQ2xpY2tpbmcgYW55d2hlcmUgb24gdGhlIGtub2Igd2lsbCBub3QgY2hhbmdlCgkJdGhlIHZhbHVlLgoJCSIiIgoJCXZhbHVlSW5kZXggPSB2YWx1ZUluZGV4K3NlbGYudmFsdWVHcm91cEluZGV4CgkJI2RlYnVnKHZhbHVlSW5kZXgsICdzdGFydHZzJywgc2VsZi5zdGFydFZhbHVlcykKCQlvZmZzZXQgPSAocFZhbC1zZWxmLmxhc3RDbGlja1BvcykqKDEvKDEtKHNlbGYubm9ybUtub2JXaWR0aCkpKQoJCXZhbHVlID0gKG9mZnNldCArIHNlbGYuc3RhcnRWYWx1ZXNbMF0pCgkJI3ZhbHVlID0gbWF4KDAsIG1pbih2YWx1ZSwgMSkpCgkJI2RlYnVnKCdrbm9iJywgdmFsdWUpCgkJdmFsdWUgPSBzZWxmLlZhbHVlc1t2YWx1ZUluZGV4XS52YWx1ZUNsYW1wRnVuYyh2YWx1ZSkKCQlzZWxmLnNldFZhbHVlKHZhbHVlLCB2YWx1ZUluZGV4KQoKCWRlZiB2YWx1ZUNoYW5nZVNsaWRlcihzZWxmLCBwVmFsLCB2YWx1ZUluZGV4KToKCQkiIiIKCQlDaGFuZ2VzIHZhbHVlIG5vdCB1c2luZyB0aGUga25vYi4gIFRoaXMgZ2VuZXJhdGVzIGEgdmFsdWUgY2hhbmdlIG9ubHkKCQlpZiB0aGUgc2xpZGVyIGFyZWEgd2l0aCBubyBrbm9iIGlzIHNlbGVjdGVkLgoJCSIiIgoJCSNwcmludChwVmFsKQoJCWlmIHZhbHVlSW5kZXggaXMgbm90IE5vbmU6CgkJCXZhbHVlSW5kZXggPSB2YWx1ZUluZGV4K3NlbGYudmFsdWVHcm91cEluZGV4CgkJZWxzZToKCQkJdmFsdWVJbmRleCA9IHNlbGYudmFsdWVHcm91cEluZGV4CgkJdmFsdWUgPSByZW1hcChwVmFsLCBzZWxmLm5vcm1TbGlkZXJNaW4sIHNlbGYubm9ybVNsaWRlck1heCwgMCwgMSkKCQkjdmFsdWUgPSBtYXgoMCwgbWluKHZhbHVlLCAxKSkKCQl2YWx1ZSA9IHNlbGYuVmFsdWVzW3ZhbHVlSW5kZXhdLnZhbHVlQ2xhbXBGdW5jKHZhbHVlKQoJCSNkZWJ1Zygnc2xpZGVyJywgdmFsdWUpCgoJCSMjVGV4dENPTVAgcmVmYWN0b3IgMTEvOS8yMDIxIC0gSmFycmV0dAoJCSMjdmFsdWUgPSByb3VuZCh2YWx1ZSwgcGFyZW50LldpZGdldC5wYXIuU2xpZGVyZGVjaW1hbHBsYWNlcy5ldmFsKCkpCgoJCXNlbGYuc2V0VmFsdWUodmFsdWUsIHZhbHVlSW5kZXgpCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJIiIiCgkJaWYgZXZlbnQgPT0gJ29mZlRvT24nIGFuZCBwYW5lbFZhbHVlLm5hbWUgPT0gJ3NlbGVjdCc6CgkJCXBhcmVudC5WYWx1ZS5TZWxlY3RPbigpCgkJZWxpZiBldmVudCA9PSAnb25Ub09mZicgYW5kIHBhbmVsVmFsdWUubmFtZSA9PSAnc2VsZWN0JzoKCQkJcGFyZW50LlZhbHVlLlNlbGVjdE9mZigpCgkJZWxpZiBwYW5lbFZhbHVlLm5hbWUgaW4gWyd1JywgJ3YnXToKCQkJcGFyZW50LlZhbHVlLlZhbHVlQ2hhbmdlKHBhbmVsVmFsdWUpCgpjbGFzcyBWYWx1ZToKCSIiIgoJSG9sZHMgdmFsdWUgcGFyYW1ldGVyIGZvciB3aWRnZXRzIGFuZCBwcm92aWRlcyBjb21tb24gZmVhdHVyZXMgZm9yCglnZXR0aW5nIGFuZCBzZXR0aW5nIHZhbHVlcy4KCSIiIgoJZGVmIF9faW5pdF9fKHNlbGYsIHdpZGdldENvbXAsIHZhbHVlUGFyLCBpbmRleCk6CgkJc2VsZi53aWRnZXRDb21wID0gd2lkZ2V0Q29tcAoJCXNlbGYudmFsdWVQYXIgPSB2YWx1ZVBhcgoJCXNlbGYudmFsdWVJbmRleCA9IGluZGV4CgkJc2VsZi5jdXJyZW50VmFsdWUgPSBOb25lCgkJc2VsZi5sYXN0VmFsdWUgPSBOb25lCgkJI3NlbGYua25vYkNsYW1wTWluTWF4ID0gW3dpZGdldENvbXAucGFyLlNsaWRlcmNsYW1wbWluLmV2YWwoKSwKCQkjCQkJCXdpZGdldENvbXAucGFyLlNsaWRlcmNsYW1wbWF4LmV2YWwoKV0KCQlzZWxmLmtub2JDbGFtcE1pbk1heCA9IFtnZXRhdHRyKHdpZGdldENvbXAucGFyLCAnVmFsdWUnK3N0cihzZWxmLnZhbHVlSW5kZXgpKS5jbGFtcE1pbiwKCQkJCQkJZ2V0YXR0cih3aWRnZXRDb21wLnBhciwgJ1ZhbHVlJytzdHIoc2VsZi52YWx1ZUluZGV4KSkuY2xhbXBNYXhdCgkJI3NlbGYubm9ybU1pbiA9IGdldGF0dHIod2lkZ2V0Q29tcC5wYXIsICdOb3JtbWlubWF4JyArIHN0cihpbmRleCkgKyAnMScpLmV2YWwoKQoJCXNlbGYubm9ybU1pbiA9IGdldGF0dHIod2lkZ2V0Q29tcC5wYXIsICdWYWx1ZScrIHN0cihpbmRleCkpLm5vcm1NaW4KCQkjc2VsZi5ub3JtTWF4ID0gZ2V0YXR0cih3aWRnZXRDb21wLnBhciwgJ05vcm1taW5tYXgnICsgc3RyKGluZGV4KSArICcyJykuZXZhbCgpCgkJc2VsZi5ub3JtTWF4ID0gZ2V0YXR0cih3aWRnZXRDb21wLnBhciwgJ1ZhbHVlJysgc3RyKGluZGV4KSkubm9ybU1heAoJCWlmIHNlbGYua25vYkNsYW1wTWluTWF4WzBdIGFuZCBzZWxmLmtub2JDbGFtcE1pbk1heFsxXToKCQkJc2VsZi52YWx1ZUNsYW1wRnVuYyA9IHNlbGYuY2xhbXBNaW5NYXgKCQllbGlmIHNlbGYua25vYkNsYW1wTWluTWF4WzBdIGFuZCBub3Qgc2VsZi5rbm9iQ2xhbXBNaW5NYXhbMV06CgkJCXNlbGYudmFsdWVDbGFtcEZ1bmMgPSBzZWxmLmNsYW1wTWluCgkJZWxpZiBub3Qgc2VsZi5rbm9iQ2xhbXBNaW5NYXhbMF0gYW5kIHNlbGYua25vYkNsYW1wTWluTWF4WzFdOgoJCQlzZWxmLnZhbHVlQ2xhbXBGdW5jID0gc2VsZi5jbGFtcE1heAoJCWVsc2U6CgkJCXNlbGYudmFsdWVDbGFtcEZ1bmMgPSBzZWxmLmNsYW1wT2ZmCgkJc2VsZi52YWx1ZVVwZGF0ZSgpCgoJZGVmIHZhbHVlVXBkYXRlKHNlbGYpOgoJCXNlbGYubGFzdFZhbHVlID0gc2VsZi5jdXJyZW50VmFsdWUKCQlzZWxmLmN1cnJlbnRWYWx1ZSA9IHNlbGYudmFsdWVQYXIuZXZhbCgpCgoJZGVmIGNsYW1wTWF4KHNlbGYsIHZhbHVlKToKCQlyZXR1cm4gIG1pbih2YWx1ZSwgMSkKCglkZWYgY2xhbXBNaW4oc2VsZiwgdmFsdWUpOgoJCXJldHVybiAgbWF4KDAsIHZhbHVlKQoKCWRlZiBjbGFtcE1pbk1heChzZWxmLCB2YWx1ZSk6CgkJcmV0dXJuICBtYXgoMCwgbWluKHZhbHVlLCAxKSkKCglkZWYgY2xhbXBPZmYoc2VsZiwgdmFsdWUpOgoJCXJldHVybiB2YWx1ZQoKCUBwcm9wZXJ0eQoJZGVmIG5vcm1WYWx1ZShzZWxmKToKCQkjcmV0dXJuIHNlbGYud2lkZ2V0Q29tcC5HZXRWYWx1ZU5vcm0oc2VsZi52YWx1ZUluZGV4KQoJCSNwcm90b0VkaXQKCQlyZXR1cm4gZ2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhciwgJ1ZhbHVlJysgc3RyKHNlbGYudmFsdWVJbmRleCkpLmV2YWxOb3JtKCkKCmRlZiByZW1hcCh2YWwsIGZyb21NaW4sIGZyb21NYXgsIHRvTWluLCB0b01heCk6CgkiIiIKCVJlbWFwcyB2YWwgdG8gYSBuZXcgcmFuZ2UuCgkiIiIKCglyZXN1bHQgPSAoICh2YWwgLSBmcm9tTWluKSAvIChmcm9tTWF4IC0gZnJvbU1pbikgKSAqICh0b01heCAtIHRvTWluKSArIHRvTWluCgoJcmV0dXJuIHJlc3VsdAo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/parReinit": {
+      "name": "parReinit",
+      "path": "/sliderVert/sliderVert/slider0/parReinit",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -700,
+        300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterSlider parent.Widget"
+        },
+        "pars": {
+          "67108864": "\"Sliderknobsize w h Default* Min* Norm* Clamp* Sliderclamp* Sliderrel* Sliderorient\""
+        },
+        "onpulse": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHkIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojIAojIE1ha2Ugc3VyZSB0aGUgY29ycmVzcG9uZGluZyB0b2dnbGUgaXMgZW5hYmxlZCBpbiB0aGUgUGFyYW1ldGVyIEV4ZWN1dGUgREFULgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcGFyZW50KCkucGFyLnJlaW5pdGV4dGVuc2lvbnMucHVsc2UoKQoJcmV0dXJuCgpkZWYgb25QdWxzZShwYXIpOgoJcmV0dXJuCgpkZWYgb25FeHByZXNzaW9uQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG9uRXhwb3J0Q2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG9uRW5hYmxlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG9uTW9kZUNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/glslSlider": {
+      "name": "glslSlider",
+      "path": "/sliderVert/sliderVert/slider0/glslSlider",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\n.//horizontal slider: 0, vertical slider: 1\nuniform int orient;\n//the widget's current normalized value\nuniform float nrmValue;\nuniform float defaultValue;\nuniform vec2 minMax;\nuniform vec4 bgColor;\nuniform vec4 indColor;\nuniform vec4 knobColor;\nuniform int knobSize;\n//uniform float pOffset;\n//uniform float scale;\n\nlayout(location = 0) out vec4 fragColor;\n\nfloat map(float s, float a1, float a2, float b1, float b2)\n{\n    return b1 + (s-a1)*(b2-b1)/(a2-a1);\n}\n\nvec4 over(vec4 tOver, vec4 tUnder)\n{\n    return ((1.0-tOver.a)*tUnder) + tOver.a * tOver;\n}\n\nvoid main() {\n\n    //level use v if orient is 1 else use u\n    float level = orient == 1.0 ? vUV.t : vUV.s;\n\t//Flips the incoming text and textures to the correct orientation\n\tvec2 fUV = orient == 1.0 ? (vec2(0.0, 1.0)\n\t\t\t\t\t\t\t\t+ (vUV.ts*vec2(1.0, -1.0))) : vUV.st;\n\tfloat coord = orient == 1.0 ? gl_FragCoord.y : gl_FragCoord.x;\n    float sliderPixLength = uTD2DInfos[0].res.z;\n\tvec4 color = vec4(0.0);\n\t//ranged value\n\tfloat rmin = minMax.x;\n\tfloat rmax = minMax.y;\n\t//normalize knob size\n\tfloat nmKnobSize = knobSize / sliderPixLength;\n\tfloat nmKnobSizeH = nmKnobSize/2.0;\n\tfloat nmDefault = (defaultValue-rmin) / (rmax - rmin);\n\tfloat nmValueKnob = nrmValue * (1-nmKnobSize) + nmKnobSizeH;\n    float pOffset = -nrmValue * ((sliderPixLength-knobSize) / knobSize);\n    float scale = sliderPixLength / knobSize;\n    //knob uv\n    vec2 knobUV =  vec2(fUV.s*scale+pOffset, fUV.t);\n\n    //load textures\n    //vec4 textLayer = texture(sTD2DInputs[0], fUV);\n\tvec4 bgLayer = texture(sTD2DInputs[1], fUV);\n\tvec4 knobLayer = texture(sTD2DInputs[0], knobUV);\n\n\t//Level indicator color\n    if (level < nmValueKnob-(nmKnobSizeH) && level > nmDefault ||\n\t\t\t\t\tlevel < nmDefault && level >\n                    nmValueKnob+(nmKnobSizeH))\n\t//slider range color\n    {\n        color = over(indColor, color);\n  \t}\n    else\n\t//slider bg color\n  \t{\n  \t   color = bgColor;\n  \t}\n\t//remap slider range in consideration of knob width\n\tfloat remapValue = map(nrmValue, 0, 1, nmKnobSizeH,\n                                                1-(nmKnobSizeH));\n    //float remapValue = map(normValue, 0, 1, 0, 1);\n    //knob color\n\tif (level > (remapValue - (nmKnobSizeH)) &&\n\t\t\t\t\t\t\t\t      level < (remapValue + (nmKnobSizeH)))\n    //knob color and texture\n    {\n    color = over(knobColor, color);\n    color = over(knobLayer, color);\n    }\n\t//Texture mix\n    color = over(color, bgLayer);\n    //color = over(textLayer, color);\n    //color = vec4(orient);\n    //color = vec4(float(level < (remapValue + (nmKnobSizeH))));\n    //color = vec4(uTD2DInfos[0].res.z);\n\tfragColor = color;\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/panelexec1": {
+      "name": "panelexec1",
+      "path": "/sliderVert/sliderVert/slider0/panelexec1",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -550,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "panels": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAGKIyBtZSAtIHRoaXMgREFUCiMgcGFuZWxWYWx1ZSAtIHRoZSBQYW5lbFZhbHVlIG9iamVjdCB0aGF0IGNoYW5nZWQKIyBwcmV2IC0gdGhlIHByZXZpb3VzIHZhbHVlIG9mIHRoZSBQYW5lbFZhbHVlIG9iamVjdCB0aGF0IGNoYW5nZWQKIyBNYWtlIHN1cmUgdGhlIGNvcnJlc3BvbmRpbmcgdG9nZ2xlIGlzIGVuYWJsZWQgaW4gdGhlIFBhbmVsIEV4ZWN1dGUgREFULgoKZGVmIG9uT2ZmVG9PbihwYW5lbFZhbHVlKToKCXJldHVybgoKZGVmIHdoaWxlT24ocGFuZWxWYWx1ZSk6CglyZXR1cm4KCmRlZiBvbk9uVG9PZmYocGFuZWxWYWx1ZSk6CglyZXR1cm4KCmRlZiB3aGlsZU9mZihwYW5lbFZhbHVlKToKCXJldHVybgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFuZWxWYWx1ZSwgcHJldik6CglyZXR1cm4KCQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/SubWidgetExt": {
+      "name": "SubWidgetExt",
+      "path": "/sliderVert/sliderVert/slider0/SubWidgetExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -500,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAA36VERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgU3ViV2lkZ2V0RXh0OgoJIiIiCglSb2NrZXJFeHQgZGVzY3JpcHRpb24KCSIiIgoKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXAsIGluZGV4Q29tcD1Ob25lKToKCQkjIFRoZSBjb21wb25lbnQgdG8gd2hpY2ggdGhpcyBleHRlbnNpb24gaXMgYXR0YWNoZWQKCQlzZWxmLm93bmVyQ29tcCA9IG93bmVyQ29tcAoJCWlmIGluZGV4Q29tcDoKCQkJc2VsZi5pbmRleENvbXAgPSBpbmRleENvbXAKCQllbHNlOgoJCQlzZWxmLmluZGV4Q29tcCA9IHNlbGYub3duZXJDb21wCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJUGFuZWwgZXhlYyBldmVudHMgZnJvbSB3aWRnZXQKCQkiIiIKCQlwYXNzCgoJZGVmIG9uUGFyU2V0dGluZ3NDaGFuZ2Uoc2VsZiwgcGFyLCBwcmV2KToKCQkiIiIKCQlNYW5hZ2VzIHZhbHVlIGNoYW5nZXMgd2lkZ2V0IHNldHRpbmdzIHBhcmFtZXRlcnMKCQkiIiIKCQl2YWwgPSBwYXIuZXZhbCgpCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAncnVuY29tbWFuZCc6CgkJCWVuYWJsZSA9IHBhci5ldmFsKCkKCQkJZm9yIHN1ZmZpeCBpbiBbJ2NvbW1hbmRvbicsICdjb21tYW5kb2ZmJywgJ2NvbW1hbmRvbnZhbHVlY2hhbmdlJ106CgkJCQlwID0gc2VsZi5wcmVmaXhQYXIoc3VmZml4KQoJCQkJaWYgcCBpcyBub3QgTm9uZToKCQkJCQlwLmVuYWJsZSA9IGVuYWJsZQoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnaG9yaXpvbnRhbG1vZGUnOgoJCQlmaWxsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQkJc2VsZi5wcmVmaXhQYXIoJ2hmaWxsd2VpZ2h0JykuZW5hYmxlID0gZmlsbAoJCQlzZWxmLnByZWZpeFBhcignd2lkdGgnKS5lbmFibGUgPSBub3QgZmlsbAoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAndmVydGljYWxtb2RlJzoKCQkJZmlsbCA9IFRydWUgaWYgdmFsID09ICdmaWxsJyBlbHNlIEZhbHNlCgkJCXNlbGYucHJlZml4UGFyKCd2ZmlsbHdlaWdodCcpLmVuYWJsZSA9IGZpbGwKCQkJc2VsZi5wcmVmaXhQYXIoJ2hlaWdodCcpLmVuYWJsZSA9IG5vdCBmaWxsCgkJZWxpZiBwYXIubmFtZSBpbiBbc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYScsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYicsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyJ106CgkJCWdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHBhci5uYW1lICsgJ2NvbG9ycicpLmVuYWJsZSA9IHBhci5ldmFsKCkKCglkZWYgb25QYXJTZXR0aW5nc1B1bHNlKHNlbGYsIHBhcik6CgkJIiIiCgkJTWFuYWdlcyBwdWxzZSBldmVudHMgZm9yIHdpZGdldCBzZXR0aW5ncyBwYXJhbWV0ZXJzCgkJIiIiCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnY3VzdG9taXplaW50ZXJhY3Rpb24nOgoJCQlzZWxmLm1ha2VQYW5lbEV4ZWN1dGUoKQoKCWRlZiBvblRvZ2dsZUV2ZW50KHNlbGYsIGV2ZW50LCBwYW5lbFZhbHVlKToKCQlpZiBldmVudCA9PSAnb2ZmVG9Pbic6CgkJCXNlbGYudG9nZ2xlKCkKCglkZWYgdG9nZ2xlKHNlbGYpOgoJCWluZGV4ID0gc2VsZi5pbmRleENvbXAuZGlnaXRzCgkJdmFsdWVQYXIgPSBnZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLCAnVmFsdWUnICsgc3RyKGluZGV4KSkKCQl2YWx1ZVBhci52YWwgPSAxIC0gdmFsdWVQYXIuZXZhbCgpCgoJZGVmIHByZWZpeFBhcihzZWxmLCBzdWZmaXgpOgoJCSIiIgoJCVJldHVybiBhIHBhcmFtZXRlciBwcmVmaXhlZCBieSBwYXJQcmVmaXgKCQk6cGFyYW0gc3VmZml4OiB0aGUgcGFyIG5hbWUgYWZ0ZXIgcGFyUHJlZml4IChzdHJpbmcpCgkJOnJldHVybjogdGhlIHBhcmFtZXRlciBvciBOb25lIGlmIG5vdCBmb3VuZAoJCSIiIgoJCXJldHVybiBnZXRhdHRyKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLAoJCQkJCSAgIHNlbGYucGFyUHJlZml4ICsgc3VmZml4LCBOb25lKQoKCWRlZiBnZXREb2NrRXhwcmVzc2lvblRvT3duZXIoc2VsZik6CgkJcGFnZSA9IFRERi5nZXRDdXN0b21QYWdlKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQsICdPUHMnKQoJCWV4cHIgPSAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyAiJykiCgkJZm9yIHAgaW4gcGFnZS5wYXJzOgoJCQlpZiBwLmV2YWwoKSA9PSBzZWxmLm93bmVyQ29tcDoKCQkJCWV4cHIgPSAibWUuZG9jay5wYXIuIiArIHAubmFtZSArICIuZXZhbCgpIgoJCQkJYnJlYWsKCQlyZXR1cm4gZXhwcgoKCWRlZiBtYWtlUGFuZWxFeGVjdXRlKHNlbGYsIHBhbmVsRXhwcj1Ob25lKToKCQkiIiIKCQlDcmVhdGVzIGEgcGFuZWwgZXhlY3V0ZSBEQVQgZm9yIHJ1bm5pbmcgZXh0ZXJuYWwgY29kZSBmcm9tIHRoZQoJCXdpZGdldCB0aGF0IGlzIGNvbm5lY3RlZCB0byB0aGUgYnV0dG9uIGludGVyYWN0aW9uIHJlY2VpdmVyIC0gd2hpY2gKCQlpcyB0aGUgb3duZXJDb21wIG9mIHRoaXMgY2xhc3MKCgkJcGFuZWxFeHByOiB3aWxsIGJlIHVzZWQgYXMgdGhlIGV4cHJlc3Npb24gaW4gdGhlIHBhbmVsIHBhcmFtZXRlciBvZiB0aGUKCQkJcGFuZWxFeGVjLiBEZWZhdWx0cyB0byAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyInKSIKCQkiIiIKCQlwYW5lbEV4ZWNQYXIgPSBzZWxmLlBhbmVsRXhlY1BhcgoJCXBlRGF0ID0gcGFuZWxFeGVjUGFyLmV2YWwoKQoJCWV4cHIgPSBzZWxmLmdldERvY2tFeHByZXNzaW9uVG9Pd25lcigpIFwKCQkJCQkJCQkJCQlpZiBwYW5lbEV4cHIgaXMgTm9uZSBlbHNlIHBhbmVsRXhwcgoJCWlmIG5vdCBwZURhdDoKCQkJcGVEYXQgPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0LnBhcmVudCgpLmNyZWF0ZSgKCQkJCXBhbmVsZXhlY3V0ZURBVCwgc2VsZi5wYXJQcmVmaXggKyAnUGFuZWxFeGVjJykKCQkJcGVEYXQubm9kZVggPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0Lm5vZGVYIC0gMjAwCgkJCXBlRGF0Lm5vZGVZID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldC5ub2RlWQoJCQlwZURhdC5kb2NrID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldAoJCQlwZURhdC5wYXIucGFuZWwuZXhwciA9IGV4cHIKCQkJcGVEYXQucGFyLm9udG9vZmYgPSBUcnVlCgkJCXBlRGF0LnZpZXdlciA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnZhbCA9IHBlRGF0Lm5hbWUKCQkJcGFuZWxFeGVjUGFyLmVuYWJsZSA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnJlYWRPbmx5ID0gVHJ1ZQoJCQlzZWxmLm93bmVyQ29tcC5vcCgncGFuZWxFeGVjT1BFeGVjJykuY29vayhmb3JjZT1UcnVlKQoJCWVsc2U6CgkJCWlmIGV4cHIgbm90IGluIHBlRGF0LnBhci5wYW5lbC5leHByOgoJCQkJcGVEYXQucGFyLnBhbmVsLmV4cHIgKz0gJywgJyArIGV4cHIKCQlwYW5lbEV4ZWNQYXIuZXZhbCgpLnBhci5lZGl0LnB1bHNlKCkKCglAcHJvcGVydHkKCWRlZiBQYW5lbEV4ZWNQYXIoc2VsZik6CgkJcmV0dXJuIGdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHNlbGYucGFyUHJlZml4ICsgJ3BhbmVsZXhlYycsIE5vbmUpCgo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/cacheselect1": {
+      "name": "cacheselect1",
+      "path": "/sliderVert/sliderVert/slider0/cacheselect1",
+      "op_type": "TOP:cacheselect",
+      "family": "TOP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        100,
+        -700,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachetop": {
+          "67108913": "\"\" \"parent.Widget.par.Widgetcachecomp.eval().op('cache') if parent.Widget.par.Widgetcachecomp.eval() else ''\""
+        },
+        "index": {
+          "67108913": "-127 \"((parent.Widget.par.Value0.eval()-parent.Widget.par.Value0.normMin) * (0 - -parent.Widget.par.Widgetcachecomp.eval().par.Indexrange)) / (parent.Widget.par.Value0.normMax-parent.Widget.par.Value0.normMin) + -parent.Widget.par.Widgetcachecomp.eval().par.Indexrange if parent.Widget.par.Widgetcachecomp.eval() else 0\""
+        },
+        "resolutionw": {
+          "67108913": "256 op('label').width"
+        },
+        "resolutionh": {
+          "67108913": "256 op('label').height"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/slider0/panelExecOPExec": {
+      "name": "panelExecOPExec",
+      "path": "/sliderVert/sliderVert/slider0/panelExecOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -700,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare ext.SubWidgetExt.PanelExecPar.eval()"
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000hdef onOPdelete():\n\text.SubWidgetExt.PanelExecPar.val = ''\n\text.SubWidgetExt.PanelExecPar.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/panelexecValueX": {
+      "name": "panelexecValueX",
+      "path": "/sliderVert/sliderVert/slider0/panelexecValueX",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -700,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "panels": {
+          "201326609": "\"\" parent()"
+        },
+        "panelvalue": {
+          "67108913": "\"select u v\" \"'select ' + ('v' if parent.Widget.par.Sliderorient.menuIndex else 'u')\""
+        },
+        "offtoon": {
+          "67108913": "on 1-parent.Widget.par.Sliderignoreinteract"
+        },
+        "ontooff": {
+          "67108913": "on 1-parent.Widget.par.Sliderignoreinteract"
+        },
+        "valuechange": {
+          "67108913": "on 1-parent.Widget.par.Sliderignoreinteract"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAD3ZGVmIG9mZlRvT24ocGFuZWxWYWx1ZSk6CglleHQuU3ViV2lkZ2V0RXh0Lm9uUGFuZWxFdmVudCgnb2ZmVG9PbicsIHBhbmVsVmFsdWUpCgpkZWYgb25Ub09mZihwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCdvblRvT2ZmJywgcGFuZWxWYWx1ZSkKCmRlZiB2YWx1ZUNoYW5nZShwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCd2YWx1ZUNoYW5nZScsIHBhbmVsVmFsdWUpCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/text1_callbacks": {
+      "name": "text1_callbacks",
+      "path": "/sliderVert/sliderVert/slider0/text1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -150,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAe/IyBUZXh0IENvbXBvbmVudCBjYWxsYmFja3MKCmRlZiBvblZhbHVlQ2hhbmdlKGNvbXAsIHZhbHVlLCBwcmV2VmFsdWUpOgoJIiIiCglDYWxsZWQgd2hlbmV2ZXIgdGhlIHRleHQgY29tcG9uZW50J3MgdmFsdWUgcGFyYW1ldGVyIGNoYW5nZXMgZm9yIGFueSByZWFzb24gaW5jbHVkaW5nIHR5cGluZwoJaW4gdGhlIHRleHQgd2luZG93IG9yIGNoYW5naW5nIHRoZSBwYXJhbWV0ZXIgZGlyZWN0bHkuIFRoZSBjYWxsYmFjayBpcyBlcXVpdmFsZW50IHRvIHRoZQoJb25WYWx1ZUNoYW5nZSBpbiB0aGUgcGFyYW1ldGVyIGV4ZWN0dXRlIERBVC4KCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCQl2YWx1ZTogdGhlIG5ldyB2YWx1ZQoJCXByZXZWYWx1ZTogdGhlIHByZXZpb3VzIHZhbHVlCgkiIiIKCSNkZWJ1ZygnXG5vblZhbHVlQ2hhbmdlIGNvbXA6JywgY29tcC5wYXRoLCAnLSBuZXcgdmFsdWU6ICcsIHZhbHVlLCAnLCBwcmV2IHZhbHVlOiAnLCBwcmV2VmFsdWUgKQoJcmV0dXJuCgkKZGVmIG9uRm9jdXMoY29tcCk6CgkiIiIKCUNhbGxlZCB3aGVuIG9uZSBvZiB0aGUgdGV4dCBjb21wb25lbnRzIHZpZXdlcnMgZ2V0cyBrZXlib2FyZCBmb2N1cy4gCgkKCUFyZ3M6CgkJY29tcDogdGhlIHRleHQgY29tcG9uZW50CgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzIGNvbXA6JywgY29tcC5wYXRoKQoJcmV0dXJuCgpkZWYgb25Gb2N1c0VuZChjb21wLCBpbmZvKToKCSIiIgoJQ2FsbGVkIHdoZW4gb25lIG9mIHRoZSB0ZXh0IGNvbXBvbmVudCdzIHZpZXdlcnMgbG9zZXMga2V5Ym9hcmQgZm9jdXMuIEluIHJlZ3VsYXIgZWRpdGluZyBtb2RlCgl0aGlzIGlzIHJpZ2h0IGFmdGVyIHRoZSBjb250ZW50cyBhcmUgc2F2ZWQgYmFjayB0byB0aGUgdmFsdWUgcGFyYW1ldGVyLiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZAoJZXZlcnl0aW1lIHRoZSB2aWV3ZXIgbG9zZXMgZm9jdXMsIGV2ZW4gaWYgdGhlIHRleHQgZG9lcyBub3QgY2hhbmdlLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCWluZm86IGEgZGljdGlvbmFyeSBjb250YWluaW5nIGluZm9ybWF0aW9uIGFib3V0IHRoZSBldmVudCBpbmNsdWRpbmc6CgkJCXJlYXNvbjogYSBzdHJpbmcgaW5kaWNhdGluZyB3aGF0IGNhdXNlZCB0aGUgdmlld2VyIHRvIGxvc2UgZm9jdXMgZS5nLiAnZW50ZXInLCAnZXNjYXBlJywgJ3RhYicsICd1bmtub3duJwoJCgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzRW5kIGNvbXA6JywgY29tcC5wYXRoLCAnLSBpbmZvOlxuJywgaW5mbykKCXJldHVybgoJCmRlZiBvblRleHRFZGl0KGNvbXApOgoJIiIiCglDYWxsZWQgZWFjaCB0aW1lIHRoZSBjb250ZW50cyBvZiB0aGUgdGV4dCBjb21wb25lbnQgdmlld2VyIGNoYW5nZSBpLmUuIHdoZW4gdHlwaW5nIGEgY2hhcmFjdGVyLAoJZGVsZXRpbmcgdGV4dCwgY3V0dGluZyBvciBwYXN0aW5nLiAKCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXQgY29tcDonLCBjb21wLnBhdGgsICctIHRleHQ6ICcsIGNvbXAuZWRpdFRleHQpCglyZXR1cm4KCQpkZWYgb25UZXh0RWRpdEVuZChjb21wLCB2YWx1ZSwgcHJldlZhbHVlKToKCSIiIgoJQ2FsbGVkIHdoZW4gdGhlIHVzZXIgZmluaXNoZXMgZWRpdGluZyBhbmQgdGhlIHZhbHVlIGhhcyBiZWVuIGNoYW5nZWQuIE5vdCBjYWxsZWQgaW4gJ0NvbnRpbnVvdXMgRWRpdCcgbW9kZS4gVXNlCglvblRleHRFZGl0IGFuZCBvbkZvY3VzRW5kIHdoZW4gdXNpbmcgY29udGludW91cyBlZGl0aW5nLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCXZhbHVlOiB0aGUgbmV3IHZhbHVlCgkJcHJldlZhbHVlOiB0aGUgcHJldmlvdXMgdmFsdWUKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXRFbmQgY29tcDonLCBjb21wLnBhdGgsICctIG5ldyB2YWx1ZTogJywgdmFsdWUsICcsIHByZXYgdmFsdWU6ICcsIHByZXZWYWx1ZSApCglyZXR1cm4KCQoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/slider0/parexecSettingsX": {
+      "name": "parexecSettingsX",
+      "path": "/sliderVert/sliderVert/slider0/parexecSettingsX",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -700,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterButton \"parent.Widget \""
+        },
+        "pars": {
+          "67108880": "\"Slidercustomizeinteraction Sliderhorizontalmode Sliderverticalmode\" \"'Buttonlabeltype Buttonpanelexecute Buttontype Buttonruncommand' + (' Value' + str(parent().digits) if parent.Widget.par.Buttonruncommand else '')\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/slider0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAACQZGVmIHZhbHVlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCWV4dC5TdWJXaWRnZXRFeHQub25QYXJTZXR0aW5nc0NoYW5nZShwYXIsIHByZXYpCgpkZWYgb25QdWxzZShwYXIpOgoJZXh0LlN1YldpZGdldEV4dC5vblBhclNldHRpbmdzUHVsc2UocGFyKQoK",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/valueOut": {
+      "name": "valueOut",
+      "path": "/sliderVert/sliderVert/valueOut",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [],
+      "inputs": {
+        "0": "output/chop"
+      },
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/numericValue0": {
+      "name": "numericValue0",
+      "path": "/sliderVert/sliderVert/numericValue0",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -400,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108881": "40 parent.Widget.par.Numericfieldwidth"
+        },
+        "h": {
+          "67108881": "26 parent.Widget.par.Numericfieldheight"
+        },
+        "hmode": {
+          "67108913": "fill parent.Widget.par.Numericfieldhorizontalmode"
+        },
+        "hfillweight": {
+          "67108913": "1 parent.Widget.par.Numericfieldhfillweight"
+        },
+        "vmode": {
+          "67108913": "fixed parent.Widget.par.Numericfieldverticalmode"
+        },
+        "vfillweight": {
+          "67108913": "1 parent.Widget.par.Numericfieldvfillweight"
+        },
+        "alignorder": {
+          "67108864": 1
+        },
+        "display": {
+          "67108913": "on parent.Widget.par.Numericfielddisplay"
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/sliderHorz/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "align": {
+          "67108864": "horizlr"
+        },
+        "spacing": {
+          "67108864": 1
+        },
+        "justifyv": {
+          "67108864": "center"
+        },
+        "ext0object": {
+          "67108864": "op('./NumericFieldExt').module.NumericFieldExt(me)"
+        },
+        "parentshortcut": {
+          "67108864": "Value"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Numericfieldbgcolorr": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolorg": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolorb": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolora": {
+          "67108928": 1
+        },
+        "Numericfieldbordercolorr": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolorg": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolorb": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolora": {
+          "67108928": 0
+        },
+        "Numericfieldfontcolorr": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolorg": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolorb": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolora": {
+          "67108928": 1
+        },
+        "Numericfielddecimalplaces": {
+          "67108928": 2
+        },
+        "Numericfieldpanelexec": {
+          "67109184": "\"\""
+        },
+        "Numericfieldwidth": {
+          "67108928": 60
+        },
+        "Numericfieldverticalmode": {
+          "67108928": "fill"
+        },
+        "Numericfieldformatting": {
+          "67108928": "scientific"
+        },
+        "Numericfieldcustom": {
+          "67109056": "\"\""
+        },
+        "Numericfieldfontsize": {
+          "67108928": 9
+        },
+        "Numericfieldfontfraction": {
+          "67109056": 1
+        }
+      },
+      "parent": "/sliderVert/sliderVert",
+      "children": [
+        "text",
+        "panel1",
+        "rollover",
+        "SubWidgetExt",
+        "panelexecValue",
+        "NumericFieldExt",
+        "panelExecOPExec",
+        "parexecSettings",
+        "text1_callbacks"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Field\n772804867 Numericfielddisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 0\n-1374673919 Numericfieldbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 1.05 \"\" \"\" Field 19\n772809729 Numericfieldbordercolor \"Border Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 1 \"\" \"\" Field 21\n772809729 Numericfieldfontcolor \"Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.8 \"\" \"\" 2 0.8 \"\" \"\" 2 0.8 \"\" \"\" 2 1 \"\" \"\" Field 20\n772804866 Numericfielddecimalplaces Precision 1 3 0 0 1 3 10 2 5 \"\" \"\" Field 5\n-1374678769 Numericfieldtype \"Field Type\" 1 1 0 0 1 1 10 2 0 string \"\" Field 4097 2 float Float integer Integer 2\n-1374678773 Numericfieldfocus \"Focus Order\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 7\n-1374678779 Numericfieldcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 0 \"\" Field 22\n772804875 Numericfieldpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 23\n-1374678769 Numericfieldhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Width\" fill Fill 24\n772804866 Numericfieldwidth Width 1 3 0 0 1 120 120 2 119 \"\" \"\" Field 25\n772804865 Numericfieldhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 26\n772804879 Numericfieldverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Height\" fill Fill 27\n772804866 Numericfieldheight Height 1 3 0 0 1 120 120 2 26 \"\" \"\" Field 28\n772804865 Numericfieldvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 29\n-1374678781 Numericfieldupdatewhiletyping \"Numeric Field Update While Typing\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 6\n772804867 Numericfieldreadonly \"Read Only\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 1\n-1374678769 Numericfieldalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 Center \"\" Field 4097 3 left Left center Center right Right 15\n772804879 Numericfieldaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 Center \"\" Field 4097 3 bottom Bottom center Center top Top 16\n-1374670335 Numericfieldoffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Field 17\n772805633 Numericfieldpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 18\n772804879 Numericfieldformatting \"Numeric Format\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4097 8 default Default number Number scientific Scientific percent Percent dollars Dollars euros Euros customfstring \"Custom F-String\" customfmt \"Fmt Syntax\" 3\n772935940 Numericfieldcustom \"Custom Expression\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4 \"me.par.Numericfieldformatting.menuIndex > 5\"\n-1374678769 Numericfieldfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Field 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 8\n772935938 Numericfieldfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Field 9 \"me.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Numericfieldfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 10 \"me.par.Numericfieldfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Numericfieldscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Field 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 11\n772804867 Numericfieldfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 12\n772804867 Numericfielditalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Field 13\n772804867 Numericfielddropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Field 14\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n16\nu 0.37299\nv 0.380952\ntrueu 0.37299\ntruev 0.380952\nrollu 0.271186\nrollv 0.64\nradio sslider\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/text": {
+      "name": "text",
+      "path": "/sliderVert/sliderVert/numericValue0/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67109379": "Header \"getattr(parent.Widget.par, 'Value'+str(parent().digits))\""
+        },
+        "type": {
+          "67108881": "string me.par.type.menuNames.index(parent.Widget.par.Numericfieldtype.eval())"
+        },
+        "formatting": {
+          "67108881": "customfmt parent.Widget.par.Numericfieldformatting"
+        },
+        "customformatting": {
+          "67109379": "\"\" parent.Widget.par.Numericfieldcustom"
+        },
+        "precision": {
+          "67108881": "3 parent.Widget.par.Numericfielddecimalplaces.eval()"
+        },
+        "editmode": {
+          "67108881": "locked \"0 if parent.Widget.par.Numericfieldreadonly.eval() else (2 if parent.Widget.par.Numericfieldupdatewhiletyping.eval() else 1)\""
+        },
+        "fieldfocus": {
+          "67108881": "\"\" parent.Widget.par.Numericfieldfocus"
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108913": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108913": "off parent.Widget.par.Numericfieldfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Numericfielditalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Numericfielddropshadow"
+        },
+        "scaletofit": {
+          "67109425": "never parent.Widget.par.Numericfieldscaletofit parent.Widget.par.Numericfieldfontsizemode"
+        },
+        "fontsize": {
+          "67108913": "20 \"parent.Widget.par.Numericfieldfontsize.eval() if parent.Widget.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Numericfieldfontfraction.eval()\""
+        },
+        "fontsizeunits": {
+          "67108913": "panelunits parent.Widget.par.Numericfieldfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108881": "1 parent.Widget.par.Numericfieldfontcolora.eval()"
+        },
+        "textoffsetx": {
+          "67108913": "0 parent.Widget.par.Numericfieldoffsetx.eval()"
+        },
+        "textoffsety": {
+          "67108913": "0 parent.Widget.par.Numericfieldoffsety.eval()"
+        },
+        "textpaddingl": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding1.eval()"
+        },
+        "textpaddingr": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding2.eval()"
+        },
+        "textpaddingb": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding3.eval()"
+        },
+        "textpaddingt": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding4.eval()"
+        },
+        "alignx": {
+          "67108913": "center parent.Widget.par.Numericfieldalignx.eval()"
+        },
+        "aligny": {
+          "67108913": "center parent.Widget.par.Numericfieldaligny.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorr"
+        },
+        "bgcolorg": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorg"
+        },
+        "bgcolorb": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorb"
+        },
+        "bgalpha": {
+          "67109393": "0 parent.Widget.par.Numericfieldbgcolora parent.Widget.par.Numericfieldbgcolora"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.25\nv 0.375\ntrueu 0.25\ntruev 0.375\nrollu 0.75\nrollv 0.0416667\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/panel1": {
+      "name": "panel1",
+      "path": "/sliderVert/sliderVert/numericValue0/panel1",
+      "op_type": "CHOP:panel",
+      "family": "CHOP",
+      "specific_type": "panel",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "component": {
+          "201326608": "text parent()"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/sliderVert/sliderVert/numericValue0/rollover": {
+      "name": "rollover",
+      "path": "/sliderVert/sliderVert/numericValue0/rollover",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 2
+        },
+        "w": {
+          "67108866": 400
+        },
+        "h": {
+          "67108866": 300
+        },
+        "layer": {
+          "67108864": 7
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignore"
+        },
+        "display": {
+          "67108913": "on \"(parent().panel.rollover or parent().panel.lselect or parent().panel.inside) * parent.Widget.par.Enablerollover.eval()\""
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0 parent.Widget.par.Rollovercolorr.eval()"
+        },
+        "bgcolorg": {
+          "67108913": "0.366667 parent.Widget.par.Rollovercolorg.eval()"
+        },
+        "bgcolorb": {
+          "67108913": "0.5 parent.Widget.par.Rollovercolorb.eval()"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Rollovercolora.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "composite": {
+          "67108913": "add parent.Widget.par.Rollovercomposite.eval()"
+        },
+        "clone": {
+          "67108912": "\"\" \"parent.Widget.par.Package.eval().SubComp('TDWidgetKit', 'masterButton/button0/rollover')\""
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n11\nu 0.503937\nv 0.590551\ntrueu 0.503937\ntruev 0.590551\nrollu 0.669291\nrollv 1\ndisplay 0\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/SubWidgetExt": {
+      "name": "SubWidgetExt",
+      "path": "/sliderVert/sliderVert/numericValue0/SubWidgetExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -600,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAA36VERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgU3ViV2lkZ2V0RXh0OgoJIiIiCglSb2NrZXJFeHQgZGVzY3JpcHRpb24KCSIiIgoKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXAsIGluZGV4Q29tcD1Ob25lKToKCQkjIFRoZSBjb21wb25lbnQgdG8gd2hpY2ggdGhpcyBleHRlbnNpb24gaXMgYXR0YWNoZWQKCQlzZWxmLm93bmVyQ29tcCA9IG93bmVyQ29tcAoJCWlmIGluZGV4Q29tcDoKCQkJc2VsZi5pbmRleENvbXAgPSBpbmRleENvbXAKCQllbHNlOgoJCQlzZWxmLmluZGV4Q29tcCA9IHNlbGYub3duZXJDb21wCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJUGFuZWwgZXhlYyBldmVudHMgZnJvbSB3aWRnZXQKCQkiIiIKCQlwYXNzCgoJZGVmIG9uUGFyU2V0dGluZ3NDaGFuZ2Uoc2VsZiwgcGFyLCBwcmV2KToKCQkiIiIKCQlNYW5hZ2VzIHZhbHVlIGNoYW5nZXMgd2lkZ2V0IHNldHRpbmdzIHBhcmFtZXRlcnMKCQkiIiIKCQl2YWwgPSBwYXIuZXZhbCgpCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAncnVuY29tbWFuZCc6CgkJCWVuYWJsZSA9IHBhci5ldmFsKCkKCQkJZm9yIHN1ZmZpeCBpbiBbJ2NvbW1hbmRvbicsICdjb21tYW5kb2ZmJywgJ2NvbW1hbmRvbnZhbHVlY2hhbmdlJ106CgkJCQlwID0gc2VsZi5wcmVmaXhQYXIoc3VmZml4KQoJCQkJaWYgcCBpcyBub3QgTm9uZToKCQkJCQlwLmVuYWJsZSA9IGVuYWJsZQoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnaG9yaXpvbnRhbG1vZGUnOgoJCQlmaWxsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQkJc2VsZi5wcmVmaXhQYXIoJ2hmaWxsd2VpZ2h0JykuZW5hYmxlID0gZmlsbAoJCQlzZWxmLnByZWZpeFBhcignd2lkdGgnKS5lbmFibGUgPSBub3QgZmlsbAoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAndmVydGljYWxtb2RlJzoKCQkJZmlsbCA9IFRydWUgaWYgdmFsID09ICdmaWxsJyBlbHNlIEZhbHNlCgkJCXNlbGYucHJlZml4UGFyKCd2ZmlsbHdlaWdodCcpLmVuYWJsZSA9IGZpbGwKCQkJc2VsZi5wcmVmaXhQYXIoJ2hlaWdodCcpLmVuYWJsZSA9IG5vdCBmaWxsCgkJZWxpZiBwYXIubmFtZSBpbiBbc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYScsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYicsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyJ106CgkJCWdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHBhci5uYW1lICsgJ2NvbG9ycicpLmVuYWJsZSA9IHBhci5ldmFsKCkKCglkZWYgb25QYXJTZXR0aW5nc1B1bHNlKHNlbGYsIHBhcik6CgkJIiIiCgkJTWFuYWdlcyBwdWxzZSBldmVudHMgZm9yIHdpZGdldCBzZXR0aW5ncyBwYXJhbWV0ZXJzCgkJIiIiCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnY3VzdG9taXplaW50ZXJhY3Rpb24nOgoJCQlzZWxmLm1ha2VQYW5lbEV4ZWN1dGUoKQoKCWRlZiBvblRvZ2dsZUV2ZW50KHNlbGYsIGV2ZW50LCBwYW5lbFZhbHVlKToKCQlpZiBldmVudCA9PSAnb2ZmVG9Pbic6CgkJCXNlbGYudG9nZ2xlKCkKCglkZWYgdG9nZ2xlKHNlbGYpOgoJCWluZGV4ID0gc2VsZi5pbmRleENvbXAuZGlnaXRzCgkJdmFsdWVQYXIgPSBnZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLCAnVmFsdWUnICsgc3RyKGluZGV4KSkKCQl2YWx1ZVBhci52YWwgPSAxIC0gdmFsdWVQYXIuZXZhbCgpCgoJZGVmIHByZWZpeFBhcihzZWxmLCBzdWZmaXgpOgoJCSIiIgoJCVJldHVybiBhIHBhcmFtZXRlciBwcmVmaXhlZCBieSBwYXJQcmVmaXgKCQk6cGFyYW0gc3VmZml4OiB0aGUgcGFyIG5hbWUgYWZ0ZXIgcGFyUHJlZml4IChzdHJpbmcpCgkJOnJldHVybjogdGhlIHBhcmFtZXRlciBvciBOb25lIGlmIG5vdCBmb3VuZAoJCSIiIgoJCXJldHVybiBnZXRhdHRyKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLAoJCQkJCSAgIHNlbGYucGFyUHJlZml4ICsgc3VmZml4LCBOb25lKQoKCWRlZiBnZXREb2NrRXhwcmVzc2lvblRvT3duZXIoc2VsZik6CgkJcGFnZSA9IFRERi5nZXRDdXN0b21QYWdlKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQsICdPUHMnKQoJCWV4cHIgPSAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyAiJykiCgkJZm9yIHAgaW4gcGFnZS5wYXJzOgoJCQlpZiBwLmV2YWwoKSA9PSBzZWxmLm93bmVyQ29tcDoKCQkJCWV4cHIgPSAibWUuZG9jay5wYXIuIiArIHAubmFtZSArICIuZXZhbCgpIgoJCQkJYnJlYWsKCQlyZXR1cm4gZXhwcgoKCWRlZiBtYWtlUGFuZWxFeGVjdXRlKHNlbGYsIHBhbmVsRXhwcj1Ob25lKToKCQkiIiIKCQlDcmVhdGVzIGEgcGFuZWwgZXhlY3V0ZSBEQVQgZm9yIHJ1bm5pbmcgZXh0ZXJuYWwgY29kZSBmcm9tIHRoZQoJCXdpZGdldCB0aGF0IGlzIGNvbm5lY3RlZCB0byB0aGUgYnV0dG9uIGludGVyYWN0aW9uIHJlY2VpdmVyIC0gd2hpY2gKCQlpcyB0aGUgb3duZXJDb21wIG9mIHRoaXMgY2xhc3MKCgkJcGFuZWxFeHByOiB3aWxsIGJlIHVzZWQgYXMgdGhlIGV4cHJlc3Npb24gaW4gdGhlIHBhbmVsIHBhcmFtZXRlciBvZiB0aGUKCQkJcGFuZWxFeGVjLiBEZWZhdWx0cyB0byAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyInKSIKCQkiIiIKCQlwYW5lbEV4ZWNQYXIgPSBzZWxmLlBhbmVsRXhlY1BhcgoJCXBlRGF0ID0gcGFuZWxFeGVjUGFyLmV2YWwoKQoJCWV4cHIgPSBzZWxmLmdldERvY2tFeHByZXNzaW9uVG9Pd25lcigpIFwKCQkJCQkJCQkJCQlpZiBwYW5lbEV4cHIgaXMgTm9uZSBlbHNlIHBhbmVsRXhwcgoJCWlmIG5vdCBwZURhdDoKCQkJcGVEYXQgPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0LnBhcmVudCgpLmNyZWF0ZSgKCQkJCXBhbmVsZXhlY3V0ZURBVCwgc2VsZi5wYXJQcmVmaXggKyAnUGFuZWxFeGVjJykKCQkJcGVEYXQubm9kZVggPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0Lm5vZGVYIC0gMjAwCgkJCXBlRGF0Lm5vZGVZID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldC5ub2RlWQoJCQlwZURhdC5kb2NrID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldAoJCQlwZURhdC5wYXIucGFuZWwuZXhwciA9IGV4cHIKCQkJcGVEYXQucGFyLm9udG9vZmYgPSBUcnVlCgkJCXBlRGF0LnZpZXdlciA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnZhbCA9IHBlRGF0Lm5hbWUKCQkJcGFuZWxFeGVjUGFyLmVuYWJsZSA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnJlYWRPbmx5ID0gVHJ1ZQoJCQlzZWxmLm93bmVyQ29tcC5vcCgncGFuZWxFeGVjT1BFeGVjJykuY29vayhmb3JjZT1UcnVlKQoJCWVsc2U6CgkJCWlmIGV4cHIgbm90IGluIHBlRGF0LnBhci5wYW5lbC5leHByOgoJCQkJcGVEYXQucGFyLnBhbmVsLmV4cHIgKz0gJywgJyArIGV4cHIKCQlwYW5lbEV4ZWNQYXIuZXZhbCgpLnBhci5lZGl0LnB1bHNlKCkKCglAcHJvcGVydHkKCWRlZiBQYW5lbEV4ZWNQYXIoc2VsZik6CgkJcmV0dXJuIGdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHNlbGYucGFyUHJlZml4ICsgJ3BhbmVsZXhlYycsIE5vbmUpCgo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/panelexecValue": {
+      "name": "panelexecValue",
+      "path": "/sliderVert/sliderVert/numericValue0/panelexecValue",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "panels": {
+          "201326592": ".."
+        },
+        "panelvalue": {
+          "67108864": "lselect"
+        },
+        "ontooff": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAD3ZGVmIG9mZlRvT24ocGFuZWxWYWx1ZSk6CglleHQuU3ViV2lkZ2V0RXh0Lm9uUGFuZWxFdmVudCgnb2ZmVG9PbicsIHBhbmVsVmFsdWUpCgpkZWYgb25Ub09mZihwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCdvblRvT2ZmJywgcGFuZWxWYWx1ZSkKCmRlZiB2YWx1ZUNoYW5nZShwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCd2YWx1ZUNoYW5nZScsIHBhbmVsVmFsdWUpCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/NumericFieldExt": {
+      "name": "NumericFieldExt",
+      "path": "/sliderVert/sliderVert/numericValue0/NumericFieldExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u00037SubWidgetExt = mod.SubWidgetExt.SubWidgetExt\nTDF = op.TDModules.mod.TDFunctions\n\nclass NumericFieldExt(SubWidgetExt):\n\t\"\"\"\n\tNumericFieldExt description\n\t\"\"\"\n\tdef __init__(self, ownerComp):\n\t\t# The component to which this extension is attached\n\t\tself.parPrefix = 'Numericfield'\n\t\tSubWidgetExt.__init__(self, ownerComp)\n\n\tdef onParSettingsChange(self, par, prev):\n\t\t\"\"\"\n\t\tManages value changes widget settings parameters\n\t\t\"\"\"\n\t\tval = par.eval()\n\t\tif par.name == 'Numericfieldtype':\n\t\t\tif val == 'integer':\n\t\t\t\tparent.Widget.par.Numericfielddecimalplaces.enable = False\n\t\t\telse:\n\t\t\t\tparent.Widget.par.Numericfielddecimalplaces.enable = True\n\t\telse:\n\t\t\tSubWidgetExt.onParSettingsChange(self, par, prev)\n\n\tdef makePanelExecute(self):\n\t\tSubWidgetExt.makePanelExecute(self,\n\t\t\t\t\tself.getDockExpressionToOwner() + '.op(\"field\")')\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/panelExecOPExec": {
+      "name": "panelExecOPExec",
+      "path": "/sliderVert/sliderVert/numericValue0/panelExecOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare ext.SubWidgetExt.PanelExecPar.eval()"
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000hdef onOPdelete():\n\text.SubWidgetExt.PanelExecPar.val = ''\n\text.SubWidgetExt.PanelExecPar.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/parexecSettings": {
+      "name": "parexecSettings",
+      "path": "/sliderVert/sliderVert/numericValue0/parexecSettings",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterButton \"parent.Widget \""
+        },
+        "pars": {
+          "67108912": "Numericfield* \"'Buttonlabeltype Buttonpanelexecute Buttontype Buttonruncommand' + (' Value' + str(parent().digits) if parent.Widget.par.Buttonruncommand else '')\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAACQZGVmIHZhbHVlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCWV4dC5TdWJXaWRnZXRFeHQub25QYXJTZXR0aW5nc0NoYW5nZShwYXIsIHByZXYpCgpkZWYgb25QdWxzZShwYXIpOgoJZXh0LlN1YldpZGdldEV4dC5vblBhclNldHRpbmdzUHVsc2UocGFyKQoK",
+          "is_binary": true
+        }
+      }
+    },
+    "/sliderVert/sliderVert/numericValue0/text1_callbacks": {
+      "name": "text1_callbacks",
+      "path": "/sliderVert/sliderVert/numericValue0/text1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/sliderVert/sliderVert/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAe/IyBUZXh0IENvbXBvbmVudCBjYWxsYmFja3MKCmRlZiBvblZhbHVlQ2hhbmdlKGNvbXAsIHZhbHVlLCBwcmV2VmFsdWUpOgoJIiIiCglDYWxsZWQgd2hlbmV2ZXIgdGhlIHRleHQgY29tcG9uZW50J3MgdmFsdWUgcGFyYW1ldGVyIGNoYW5nZXMgZm9yIGFueSByZWFzb24gaW5jbHVkaW5nIHR5cGluZwoJaW4gdGhlIHRleHQgd2luZG93IG9yIGNoYW5naW5nIHRoZSBwYXJhbWV0ZXIgZGlyZWN0bHkuIFRoZSBjYWxsYmFjayBpcyBlcXVpdmFsZW50IHRvIHRoZQoJb25WYWx1ZUNoYW5nZSBpbiB0aGUgcGFyYW1ldGVyIGV4ZWN0dXRlIERBVC4KCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCQl2YWx1ZTogdGhlIG5ldyB2YWx1ZQoJCXByZXZWYWx1ZTogdGhlIHByZXZpb3VzIHZhbHVlCgkiIiIKCSNkZWJ1ZygnXG5vblZhbHVlQ2hhbmdlIGNvbXA6JywgY29tcC5wYXRoLCAnLSBuZXcgdmFsdWU6ICcsIHZhbHVlLCAnLCBwcmV2IHZhbHVlOiAnLCBwcmV2VmFsdWUgKQoJcmV0dXJuCgkKZGVmIG9uRm9jdXMoY29tcCk6CgkiIiIKCUNhbGxlZCB3aGVuIG9uZSBvZiB0aGUgdGV4dCBjb21wb25lbnRzIHZpZXdlcnMgZ2V0cyBrZXlib2FyZCBmb2N1cy4gCgkKCUFyZ3M6CgkJY29tcDogdGhlIHRleHQgY29tcG9uZW50CgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzIGNvbXA6JywgY29tcC5wYXRoKQoJcmV0dXJuCgpkZWYgb25Gb2N1c0VuZChjb21wLCBpbmZvKToKCSIiIgoJQ2FsbGVkIHdoZW4gb25lIG9mIHRoZSB0ZXh0IGNvbXBvbmVudCdzIHZpZXdlcnMgbG9zZXMga2V5Ym9hcmQgZm9jdXMuIEluIHJlZ3VsYXIgZWRpdGluZyBtb2RlCgl0aGlzIGlzIHJpZ2h0IGFmdGVyIHRoZSBjb250ZW50cyBhcmUgc2F2ZWQgYmFjayB0byB0aGUgdmFsdWUgcGFyYW1ldGVyLiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZAoJZXZlcnl0aW1lIHRoZSB2aWV3ZXIgbG9zZXMgZm9jdXMsIGV2ZW4gaWYgdGhlIHRleHQgZG9lcyBub3QgY2hhbmdlLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCWluZm86IGEgZGljdGlvbmFyeSBjb250YWluaW5nIGluZm9ybWF0aW9uIGFib3V0IHRoZSBldmVudCBpbmNsdWRpbmc6CgkJCXJlYXNvbjogYSBzdHJpbmcgaW5kaWNhdGluZyB3aGF0IGNhdXNlZCB0aGUgdmlld2VyIHRvIGxvc2UgZm9jdXMgZS5nLiAnZW50ZXInLCAnZXNjYXBlJywgJ3RhYicsICd1bmtub3duJwoJCgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzRW5kIGNvbXA6JywgY29tcC5wYXRoLCAnLSBpbmZvOlxuJywgaW5mbykKCXJldHVybgoJCmRlZiBvblRleHRFZGl0KGNvbXApOgoJIiIiCglDYWxsZWQgZWFjaCB0aW1lIHRoZSBjb250ZW50cyBvZiB0aGUgdGV4dCBjb21wb25lbnQgdmlld2VyIGNoYW5nZSBpLmUuIHdoZW4gdHlwaW5nIGEgY2hhcmFjdGVyLAoJZGVsZXRpbmcgdGV4dCwgY3V0dGluZyBvciBwYXN0aW5nLiAKCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXQgY29tcDonLCBjb21wLnBhdGgsICctIHRleHQ6ICcsIGNvbXAuZWRpdFRleHQpCglyZXR1cm4KCQpkZWYgb25UZXh0RWRpdEVuZChjb21wLCB2YWx1ZSwgcHJldlZhbHVlKToKCSIiIgoJQ2FsbGVkIHdoZW4gdGhlIHVzZXIgZmluaXNoZXMgZWRpdGluZyBhbmQgdGhlIHZhbHVlIGhhcyBiZWVuIGNoYW5nZWQuIE5vdCBjYWxsZWQgaW4gJ0NvbnRpbnVvdXMgRWRpdCcgbW9kZS4gVXNlCglvblRleHRFZGl0IGFuZCBvbkZvY3VzRW5kIHdoZW4gdXNpbmcgY29udGludW91cyBlZGl0aW5nLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCXZhbHVlOiB0aGUgbmV3IHZhbHVlCgkJcHJldlZhbHVlOiB0aGUgcHJldmlvdXMgdmFsdWUKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXRFbmQgY29tcDonLCBjb21wLnBhdGgsICctIG5ldyB2YWx1ZTogJywgdmFsdWUsICcsIHByZXYgdmFsdWU6ICcsIHByZXZWYWx1ZSApCglyZXR1cm4KCQoJ",
+          "is_binary": true
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2023.12601\ntime Mon Nov  3 15:28:39 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "sliderVert.n",
+    "sliderVert.parm",
+    "sliderVert.panel",
+    "sliderVert/sliderVert.n",
+    "sliderVert/sliderVert.cparm",
+    "sliderVert/sliderVert.parm",
+    "sliderVert/sliderVert.panel",
+    "sliderVert/sliderVert/code.n",
+    "sliderVert/sliderVert/code.parm",
+    "sliderVert/sliderVert/code/help.n",
+    "sliderVert/sliderVert/code/help.parm",
+    "sliderVert/sliderVert/code/docsHelper.n",
+    "sliderVert/sliderVert/code/docsHelper.cparm",
+    "sliderVert/sliderVert/code/docsHelper.parm",
+    "sliderVert/sliderVert/code/docsHelper.panel",
+    "sliderVert/sliderVert/code/docsHelper/parexec1.n",
+    "sliderVert/sliderVert/code/docsHelper/parexec1.parm",
+    "sliderVert/sliderVert/code/docsHelper/parexec1.text",
+    "sliderVert/sliderVert/code/docsHelper/DocsHelper.n",
+    "sliderVert/sliderVert/code/docsHelper/DocsHelper.parm",
+    "sliderVert/sliderVert/code/docsHelper/DocsHelper.text",
+    "sliderVert/sliderVert/code/docsHelper/parexec_PaletteComp.n",
+    "sliderVert/sliderVert/code/docsHelper/parexec_PaletteComp.parm",
+    "sliderVert/sliderVert/code/docsHelper/parexec_PaletteComp.text",
+    "sliderVert/sliderVert/code/panelexec1.n",
+    "sliderVert/sliderVert/code/panelexec1.parm",
+    "sliderVert/sliderVert/code/panelexec1.text",
+    "sliderVert/sliderVert/code/TDUpdateSystem.n",
+    "sliderVert/sliderVert/code/TDUpdateSystem.cparm",
+    "sliderVert/sliderVert/code/TDUpdateSystem.parm",
+    "sliderVert/sliderVert/code/TDUpdateSystem.panel",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_comp.n",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_comp.parm",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_comp.text",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_system.n",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_system.parm",
+    "sliderVert/sliderVert/code/TDUpdateSystem/parexec_system.text",
+    "sliderVert/sliderVert/label.n",
+    "sliderVert/sliderVert/label.cparm",
+    "sliderVert/sliderVert/label.parm",
+    "sliderVert/sliderVert/label.panel",
+    "sliderVert/sliderVert/label/text.n",
+    "sliderVert/sliderVert/label/text.parm",
+    "sliderVert/sliderVert/label/text.panel",
+    "sliderVert/sliderVert/label/parexecRunCommand.n",
+    "sliderVert/sliderVert/label/parexecRunCommand.parm",
+    "sliderVert/sliderVert/label/parexecRunCommand.text",
+    "sliderVert/sliderVert/output.n",
+    "sliderVert/sliderVert/output.cparm",
+    "sliderVert/sliderVert/output.parm",
+    "sliderVert/sliderVert/output/dat.n",
+    "sliderVert/sliderVert/output/dat.parm",
+    "sliderVert/sliderVert/output/chop.n",
+    "sliderVert/sliderVert/output/chop.parm",
+    "sliderVert/sliderVert/output/Value0.n",
+    "sliderVert/sliderVert/output/Value0.parm",
+    "sliderVert/sliderVert/output/datValues.n",
+    "sliderVert/sliderVert/output/datValues.parm",
+    "sliderVert/sliderVert/output/numValues.n",
+    "sliderVert/sliderVert/output/numValues.parm",
+    "sliderVert/sliderVert/output/numValues.table",
+    "sliderVert/sliderVert/output/valuesParexec.n",
+    "sliderVert/sliderVert/output/valuesParexec.parm",
+    "sliderVert/sliderVert/output/valuesParexec.text",
+    "sliderVert/sliderVert/output/valueParOPExec.n",
+    "sliderVert/sliderVert/output/valueParOPExec.parm",
+    "sliderVert/sliderVert/output/valueParOPExec.text",
+    "sliderVert/sliderVert/overlay.n",
+    "sliderVert/sliderVert/overlay.parm",
+    "sliderVert/sliderVert/overlay.panel",
+    "sliderVert/sliderVert/slider0.n",
+    "sliderVert/sliderVert/slider0.cparm",
+    "sliderVert/sliderVert/slider0.parm",
+    "sliderVert/sliderVert/slider0.panel",
+    "sliderVert/sliderVert/slider0/bg.n",
+    "sliderVert/sliderVert/slider0/knob.n",
+    "sliderVert/sliderVert/slider0/knob.parm",
+    "sliderVert/sliderVert/slider0/text.n",
+    "sliderVert/sliderVert/slider0/text.parm",
+    "sliderVert/sliderVert/slider0/text.panel",
+    "sliderVert/sliderVert/slider0/flip1.n",
+    "sliderVert/sliderVert/slider0/flip1.parm",
+    "sliderVert/sliderVert/slider0/over1.n",
+    "sliderVert/sliderVert/slider0/over1.parm",
+    "sliderVert/sliderVert/slider0/level1.n",
+    "sliderVert/sliderVert/slider0/level1.parm",
+    "sliderVert/sliderVert/slider0/slider.n",
+    "sliderVert/sliderVert/slider0/slider.parm",
+    "sliderVert/sliderVert/slider0/slider.oldacbo",
+    "sliderVert/sliderVert/slider0/switch1.n",
+    "sliderVert/sliderVert/slider0/switch1.parm",
+    "sliderVert/sliderVert/slider0/switch2.n",
+    "sliderVert/sliderVert/slider0/switch2.parm",
+    "sliderVert/sliderVert/slider0/rollover.n",
+    "sliderVert/sliderVert/slider0/rollover.parm",
+    "sliderVert/sliderVert/slider0/rollover.panel",
+    "sliderVert/sliderVert/slider0/sliderBg.n",
+    "sliderVert/sliderVert/slider0/sliderBg.parm",
+    "sliderVert/sliderVert/slider0/SliderExt.n",
+    "sliderVert/sliderVert/slider0/SliderExt.parm",
+    "sliderVert/sliderVert/slider0/SliderExt.text",
+    "sliderVert/sliderVert/slider0/parReinit.n",
+    "sliderVert/sliderVert/slider0/parReinit.parm",
+    "sliderVert/sliderVert/slider0/parReinit.text",
+    "sliderVert/sliderVert/slider0/glslSlider.n",
+    "sliderVert/sliderVert/slider0/glslSlider.parm",
+    "sliderVert/sliderVert/slider0/glslSlider.text",
+    "sliderVert/sliderVert/slider0/panelexec1.n",
+    "sliderVert/sliderVert/slider0/panelexec1.parm",
+    "sliderVert/sliderVert/slider0/panelexec1.text",
+    "sliderVert/sliderVert/slider0/SubWidgetExt.n",
+    "sliderVert/sliderVert/slider0/SubWidgetExt.parm",
+    "sliderVert/sliderVert/slider0/SubWidgetExt.text",
+    "sliderVert/sliderVert/slider0/cacheselect1.n",
+    "sliderVert/sliderVert/slider0/cacheselect1.parm",
+    "sliderVert/sliderVert/slider0/panelExecOPExec.n",
+    "sliderVert/sliderVert/slider0/panelExecOPExec.parm",
+    "sliderVert/sliderVert/slider0/panelExecOPExec.text",
+    "sliderVert/sliderVert/slider0/panelexecValueX.n",
+    "sliderVert/sliderVert/slider0/panelexecValueX.parm",
+    "sliderVert/sliderVert/slider0/panelexecValueX.text",
+    "sliderVert/sliderVert/slider0/text1_callbacks.n",
+    "sliderVert/sliderVert/slider0/text1_callbacks.text",
+    "sliderVert/sliderVert/slider0/parexecSettingsX.n",
+    "sliderVert/sliderVert/slider0/parexecSettingsX.parm",
+    "sliderVert/sliderVert/slider0/parexecSettingsX.text",
+    "sliderVert/sliderVert/valueOut.n",
+    "sliderVert/sliderVert/valueOut.parm",
+    "sliderVert/sliderVert/numericValue0.n",
+    "sliderVert/sliderVert/numericValue0.cparm",
+    "sliderVert/sliderVert/numericValue0.parm",
+    "sliderVert/sliderVert/numericValue0.panel",
+    "sliderVert/sliderVert/numericValue0/text.n",
+    "sliderVert/sliderVert/numericValue0/text.parm",
+    "sliderVert/sliderVert/numericValue0/text.panel",
+    "sliderVert/sliderVert/numericValue0/panel1.n",
+    "sliderVert/sliderVert/numericValue0/panel1.parm",
+    "sliderVert/sliderVert/numericValue0/rollover.n",
+    "sliderVert/sliderVert/numericValue0/rollover.parm",
+    "sliderVert/sliderVert/numericValue0/rollover.panel",
+    "sliderVert/sliderVert/numericValue0/SubWidgetExt.n",
+    "sliderVert/sliderVert/numericValue0/SubWidgetExt.parm",
+    "sliderVert/sliderVert/numericValue0/SubWidgetExt.text",
+    "sliderVert/sliderVert/numericValue0/panelexecValue.n",
+    "sliderVert/sliderVert/numericValue0/panelexecValue.parm",
+    "sliderVert/sliderVert/numericValue0/panelexecValue.text",
+    "sliderVert/sliderVert/numericValue0/NumericFieldExt.n",
+    "sliderVert/sliderVert/numericValue0/NumericFieldExt.parm",
+    "sliderVert/sliderVert/numericValue0/NumericFieldExt.text",
+    "sliderVert/sliderVert/numericValue0/panelExecOPExec.n",
+    "sliderVert/sliderVert/numericValue0/panelExecOPExec.parm",
+    "sliderVert/sliderVert/numericValue0/panelExecOPExec.text",
+    "sliderVert/sliderVert/numericValue0/parexecSettings.n",
+    "sliderVert/sliderVert/numericValue0/parexecSettings.parm",
+    "sliderVert/sliderVert/numericValue0/parexecSettings.text",
+    "sliderVert/sliderVert/numericValue0/text1_callbacks.n",
+    "sliderVert/sliderVert/numericValue0/text1_callbacks.text"
+  ],
+  "connections": [
+    {
+      "from": "datValues",
+      "to": "/sliderVert/sliderVert/output/dat",
+      "to_input": 0
+    },
+    {
+      "from": "Value0",
+      "to": "/sliderVert/sliderVert/output/chop",
+      "to_input": 0
+    },
+    {
+      "from": "numValues",
+      "to": "/sliderVert/sliderVert/output/datValues",
+      "to_input": 0
+    },
+    {
+      "from": "switch2",
+      "to": "/sliderVert/sliderVert/slider0/bg",
+      "to_input": 0
+    },
+    {
+      "from": "slider",
+      "to": "/sliderVert/sliderVert/slider0/flip1",
+      "to_input": 0
+    },
+    {
+      "from": "flip1",
+      "to": "/sliderVert/sliderVert/slider0/over1",
+      "to_input": 0
+    },
+    {
+      "from": "level1",
+      "to": "/sliderVert/sliderVert/slider0/over1",
+      "to_input": 1
+    },
+    {
+      "from": "cacheselect1",
+      "to": "/sliderVert/sliderVert/slider0/level1",
+      "to_input": 0
+    },
+    {
+      "from": "knob",
+      "to": "/sliderVert/sliderVert/slider0/slider",
+      "to_input": 0
+    },
+    {
+      "from": "sliderBg",
+      "to": "/sliderVert/sliderVert/slider0/slider",
+      "to_input": 1
+    },
+    {
+      "from": "slider",
+      "to": "/sliderVert/sliderVert/slider0/switch1",
+      "to_input": 0
+    },
+    {
+      "from": "over1",
+      "to": "/sliderVert/sliderVert/slider0/switch1",
+      "to_input": 1
+    },
+    {
+      "from": "switch1",
+      "to": "/sliderVert/sliderVert/slider0/switch2",
+      "to_input": 0
+    },
+    {
+      "from": "cacheselect1",
+      "to": "/sliderVert/sliderVert/slider0/switch2",
+      "to_input": 1
+    },
+    {
+      "from": "output/chop",
+      "to": "/sliderVert/sliderVert/valueOut",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 57,
+    "total_connections": 15,
+    "total_raw_files": 1,
+    "total_extra_files": 46,
+    "total_files_captured": 159,
+    "by_family": {
+      "COMP": 15,
+      "DAT": 28,
+      "CHOP": 4,
+      "TOP": 10
+    },
+    "by_type": {
+      "COMP:container": 8,
+      "COMP:widget": 1,
+      "COMP:base": 2,
+      "DAT:eval": 2,
+      "DAT:parexec": 9,
+      "DAT:text": 8,
+      "DAT:panelexec": 4,
+      "COMP:text": 3,
+      "DAT:out": 1,
+      "CHOP:out": 2,
+      "CHOP:par": 1,
+      "DAT:table": 1,
+      "DAT:opexec": 3,
+      "COMP:slider": 1,
+      "TOP:null": 1,
+      "TOP:select": 2,
+      "TOP:flip": 1,
+      "TOP:over": 1,
+      "TOP:level": 1,
+      "TOP:glslmulti": 1,
+      "TOP:switch": 2,
+      "TOP:cacheselect": 1,
+      "CHOP:panel": 1
+    },
+    "max_depth": 5,
+    "total_parameters": 598
+  }
+}

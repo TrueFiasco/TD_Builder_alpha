@@ -1,0 +1,911 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\bloomTOP_lossless.json",
+  "operator_type": "bloomTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "bloom1",
+          "type": "TOP:bloom",
+          "parameters": {
+            "bloomthreshold": -0.03
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "reorder1",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "reorder2",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "reorder3",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "bloomC_wide",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.808,
+            "pregamma": 1.94,
+            "prebrightness": 1.34,
+            "minbloomradius": 0.477,
+            "bloomthreshold": -0.0146,
+            "bloomfill": 0.762,
+            "bloomintensity": 1.25
+          }
+        },
+        {
+          "name": "bloomC_tight",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.808,
+            "pregamma": 1.94,
+            "prebrightness": 1.34,
+            "minbloomradius": 0.244,
+            "maxbloomradius": 0.565,
+            "bloomthreshold": 0.0061,
+            "bloomfill": 0.754,
+            "bloomintensity": 1.37
+          }
+        },
+        {
+          "name": "moviefileinA",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefileinB",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefileinC",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefileinD",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "blooD_variant1",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.58,
+            "bloomintensity": 1.18
+          }
+        },
+        {
+          "name": "bloomA_default",
+          "type": "TOP:bloom",
+          "parameters": {}
+        },
+        {
+          "name": "bloomB_default",
+          "type": "TOP:bloom",
+          "parameters": {
+            "bloomintensity": 1.7
+          }
+        },
+        {
+          "name": "bloomIntensity",
+          "type": "TOP:bloom",
+          "parameters": {}
+        },
+        {
+          "name": "bloomA_overload",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.368,
+            "maxbloomradius": 0.642,
+            "bloomscurve": 0.487,
+            "bloomfill": 0.842,
+            "bloomintensity": 0.81
+          }
+        },
+        {
+          "name": "bloomD_variant2",
+          "type": "TOP:bloom",
+          "parameters": {
+            "maxbloomradius": 0.446,
+            "bloomthreshold": 0.005
+          }
+        },
+        {
+          "name": "bloomB_bloomWide",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.839,
+            "pregamma": 1.58,
+            "prebrightness": 1.44,
+            "minbloomradius": 0.772,
+            "bloomscurve": 0.021,
+            "bloomfill": 0.954,
+            "bloomintensity": 1.02,
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomB_extractRim",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.839,
+            "pregamma": 1.58,
+            "prebrightness": 1.44,
+            "output": "preprocess"
+          }
+        },
+        {
+          "name": "bloomD_preprocess",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.584,
+            "prebrightness": 1.7,
+            "output": "preprocess"
+          }
+        },
+        {
+          "name": "bloomB_rimBloomWide",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.839,
+            "pregamma": 1.58,
+            "prebrightness": 1.44,
+            "minbloomradius": 0.772,
+            "bloomscurve": 0.021,
+            "bloomfill": 0.954,
+            "bloomintensity": 1.02
+          }
+        },
+        {
+          "name": "bloomC_wide_bloomonly",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.808,
+            "pregamma": 1.94,
+            "prebrightness": 1.34,
+            "minbloomradius": 0.477,
+            "bloomthreshold": -0.0146,
+            "bloomfill": 0.762,
+            "bloomintensity": 1.25,
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomC_tight_bloomonly",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.808,
+            "pregamma": 1.94,
+            "prebrightness": 1.34,
+            "minbloomradius": 0.244,
+            "maxbloomradius": 0.565,
+            "bloomthreshold": 0.0061,
+            "bloomfill": 0.754,
+            "bloomintensity": 1.37,
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomA_default_bloomonly",
+          "type": "TOP:bloom",
+          "parameters": {
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomB_default_bloomonly",
+          "type": "TOP:bloom",
+          "parameters": {
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomA_default_preprocess",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.621,
+            "pregamma": 1.33,
+            "prebrightness": 1.12,
+            "output": "preprocess"
+          }
+        },
+        {
+          "name": "bloomA_overload_bloomonly",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.368,
+            "maxbloomradius": 0.642,
+            "bloomscurve": 0.487,
+            "bloomfill": 0.842,
+            "bloomintensity": 0.81,
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "bloomB_default_preprocess",
+          "type": "TOP:bloom",
+          "parameters": {
+            "output": "preprocess"
+          }
+        },
+        {
+          "name": "bloomC_default_preprocess",
+          "type": "TOP:bloom",
+          "parameters": {
+            "output": "preprocess"
+          }
+        },
+        {
+          "name": "bloomC_selectivef_preprocess",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.808,
+            "pregamma": 1.94,
+            "prebrightness": 1.34,
+            "output": "preprocess"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefileinB",
+          "to": "bloom1",
+          "to_input": "0"
+        },
+        {
+          "from": "bloomC_tight",
+          "to": "reorder1",
+          "to_input": "0"
+        },
+        {
+          "from": "bloomC_wide",
+          "to": "reorder2",
+          "to_input": "0"
+        },
+        {
+          "from": "bloom1",
+          "to": "reorder3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_wide",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_tight",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinD",
+          "to": "blooD_variant1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinA",
+          "to": "bloomA_default",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_default",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomIntensity",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinA",
+          "to": "bloomA_overload",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinD",
+          "to": "bloomD_variant2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_bloomWide",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_extractRim",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinD",
+          "to": "bloomD_preprocess",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_rimBloomWide",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_wide_bloomonly",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_tight_bloomonly",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinA",
+          "to": "bloomA_default_bloomonly",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_default_bloomonly",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinA",
+          "to": "bloomA_default_preprocess",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinA",
+          "to": "bloomA_overload_bloomonly",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinB",
+          "to": "bloomB_default_preprocess",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_default_preprocess",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefileinC",
+          "to": "bloomC_selectivef_preprocess",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 31,
+        "connection_count": 25,
+        "operator_types": {
+          "TOP:bloom": 22,
+          "DAT:text": 1,
+          "COMP:annotate": 1,
+          "TOP:reorder": 3,
+          "TOP:moviefilein": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "bloom1",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.399,
+            "maxbloomradius": 0.782,
+            "bloomfill": 0.85,
+            "bloomintensity": 4
+          }
+        },
+        {
+          "name": "bloom2",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.228,
+            "maxbloomradius": 0.373,
+            "bloomscurve": 1,
+            "bloomfill": 0.767,
+            "bloomintensity": 1.08
+          }
+        },
+        {
+          "name": "bloom3",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.593,
+            "maxbloomradius": 0.813,
+            "bloomthreshold": 0.001,
+            "bloomfill": 0.798,
+            "bloomintensity": 1.62
+          }
+        },
+        {
+          "name": "bloom4",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.358,
+            "maxbloomradius": 0.647,
+            "bloomfill": 0.798,
+            "bloomintensity": 1.39
+          }
+        },
+        {
+          "name": "bloom5",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.285,
+            "bloomfill": 1,
+            "bloomintensity": 1.47
+          }
+        },
+        {
+          "name": "bloom6",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.285,
+            "maxbloomradius": 0.523,
+            "bloomthreshold": 0.0036,
+            "bloomscurve": 0.824,
+            "bloomfill": 1,
+            "bloomintensity": 0.77
+          }
+        },
+        {
+          "name": "bloom7",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.593,
+            "maxbloomradius": 0.813,
+            "bloomthreshold": -0.0026,
+            "bloomfill": 0.762,
+            "bloomintensity": 4
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "bloom3",
+            "vstart": 0.313,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "bloom4",
+            "vstart": 0.313,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "bloom5",
+            "vstart": 0.313,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto4",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "bloom6",
+            "vstart": 0.313,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto5",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "bloom7",
+            "vstart": 0.313,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "const"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp"
+          }
+        },
+        {
+          "name": "rectangle2",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "sizex": 0.7,
+            "sizey": 0.01,
+            "rotate": 29,
+            "bgalpha": 1,
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "rectangle3",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 0.7,
+            "sizey": 0.01,
+            "rotate": 90
+          }
+        },
+        {
+          "name": "bigRectangle",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "bgalpha": 0.967,
+            "inputfiltertype": "mipmap",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "smallRectangle",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 0.02,
+            "sizey": 0.02,
+            "bgalpha": 1
+          }
+        },
+        {
+          "name": "highQualityGainOn",
+          "type": "TOP:bloom",
+          "parameters": {
+            "bloomintensity": 3.6
+          }
+        },
+        {
+          "name": "highQualityGainOff",
+          "type": "TOP:bloom",
+          "parameters": {
+            "bloomintensity": 3.6
+          }
+        },
+        {
+          "name": "highQualityGainOffSmall",
+          "type": "TOP:bloom",
+          "parameters": {
+            "bloomintensity": 19.8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "smallRectangle",
+          "to": "bloom1",
+          "to_input": "0"
+        },
+        {
+          "from": "smallRectangle",
+          "to": "bloom2",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle3",
+          "to": "bloom3",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle3",
+          "to": "bloom4",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle3",
+          "to": "bloom5",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle3",
+          "to": "bloom6",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle3",
+          "to": "bloom7",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle2",
+          "to": "rectangle3",
+          "to_input": "0"
+        },
+        {
+          "from": "bigRectangle",
+          "to": "highQualityGainOn",
+          "to_input": "0"
+        },
+        {
+          "from": "bigRectangle",
+          "to": "highQualityGainOff",
+          "to_input": "0"
+        },
+        {
+          "from": "smallRectangle",
+          "to": "highQualityGainOffSmall",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 11,
+        "operator_types": {
+          "TOP:bloom": 10,
+          "DAT:text": 1,
+          "CHOP:topto": 5,
+          "CHOP:pattern": 2,
+          "TOP:rectangle": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "add1",
+          "type": "TOP:add",
+          "parameters": {}
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "screen"
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "extendleft": "hold",
+            "extendright": "hold",
+            "interpnotches": "easeineaseout"
+          }
+        },
+        {
+          "name": "bloom1",
+          "type": "TOP:bloom",
+          "parameters": {
+            "minbloomradius": 0.441,
+            "maxbloomradius": 0.927,
+            "bloomfill": 0.653,
+            "bloomintensity": 2.24,
+            "output": "bloomwithalpha"
+          }
+        },
+        {
+          "name": "bloom2",
+          "type": "TOP:bloom",
+          "parameters": {
+            "preblacklevel": 0.544,
+            "pregamma": 1.27,
+            "prebrightness": 1.33,
+            "minbloomradius": 0.524,
+            "bloomfill": 0.653,
+            "bloomintensity": 1.53,
+            "output": "bloom"
+          }
+        },
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "highr": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chroma1",
+          "type": "TOP:chroma",
+          "parameters": {
+            "pageindex": 2,
+            "huemax": 9,
+            "satmin": 0.451,
+            "valmin": 0.316
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "TOP:lookup",
+          "parameters": {
+            "channel": "luminance"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "const"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "add2_processedBloom",
+          "type": "TOP:add",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "bloom1",
+          "to": "add1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "add1",
+          "to_input": "1"
+        },
+        {
+          "from": "bloom1",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "level1",
+          "to": "bloom1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "bloom2",
+          "to_input": "0"
+        },
+        {
+          "from": "chroma1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "chroma1",
+          "to_input": "0"
+        },
+        {
+          "from": "bloom2",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "add2_processedBloom",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "add2_processedBloom",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 12,
+        "operator_types": {
+          "TOP:add": 2,
+          "TOP:comp": 1,
+          "TOP:ramp": 1,
+          "TOP:bloom": 2,
+          "TOP:level": 1,
+          "DAT:text": 1,
+          "TOP:chroma": 1,
+          "TOP:lookup": 1,
+          "CHOP:pattern": 2,
+          "DAT:table": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

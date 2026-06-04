@@ -1,0 +1,164 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\copyPOP_lossless.json",
+  "operator_type": "copyPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "POP:box",
+          "parameters": {
+            "sizex": 0.5,
+            "sizey": 0.2,
+            "sizez": 0.16,
+            "scale": 0.2
+          }
+        },
+        {
+          "name": "copy3",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "tx": 1,
+            "dotemplaterotate": "on",
+            "rotateattr": "Rotate"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "pattern_Rotate",
+            "nameformat": "basic",
+            "attribscope": "Rotate"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 0.4,
+            "rady": 0.4,
+            "divs": 20,
+            "beginangle": 30,
+            "endangle": 330
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "P(1)",
+            "comb0scopeb": "Normalize(0)"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "tolow0": 1,
+            "tolow1": 1,
+            "tolow2": 1,
+            "outputattrscope": "Normalize"
+          }
+        },
+        {
+          "name": "normalize2",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "pattern_Rotate",
+          "type": "POP:pattern",
+          "parameters": {
+            "outputattrscope": "Rotate",
+            "overrideautoattr": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "mathmix1",
+          "to": "copy3",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_Rotate",
+          "to": "copy3",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize2",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "box2",
+          "to": "normalize2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "pattern_Rotate",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "POP:box": 1,
+          "POP:copy": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:circle": 1,
+          "COMP:annotate": 2,
+          "POP:mathmix": 1,
+          "POP:normalize": 2,
+          "POP:pattern": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

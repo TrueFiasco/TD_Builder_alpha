@@ -1,0 +1,259 @@
+{
+  "operator": "Parameter_CHOP",
+  "family": "CHOP",
+  "td_create_name": "parameterCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "ops": {
+      "value": {
+        "type": "op",
+        "value": ".."
+      },
+      "default": "..",
+      "page": "Parameter",
+      "label": "Operators",
+      "readOnly": false,
+      "expression": null
+    },
+    "fetch": {
+      "value": {
+        "type": "menu",
+        "value": "partypes",
+        "menuIndex": 0,
+        "menuNames": [
+          "partypes",
+          "sequencetypes"
+        ],
+        "menuLabels": [
+          "Parameters",
+          "Sequences"
+        ]
+      },
+      "default": "partypes",
+      "page": "Parameter",
+      "label": "Fetch",
+      "readOnly": false,
+      "expression": null
+    },
+    "sequences": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Parameter",
+      "label": "Sequences",
+      "readOnly": false,
+      "expression": null
+    },
+    "pargroups": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Parameter",
+      "label": "ParGroups",
+      "readOnly": false,
+      "expression": null
+    },
+    "parameters": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Parameter",
+      "label": "Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "custom": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Parameter",
+      "label": "Custom",
+      "readOnly": false,
+      "expression": null
+    },
+    "builtin": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Parameter",
+      "label": "Built-In",
+      "readOnly": false,
+      "expression": null
+    },
+    "nameformat": {
+      "value": {
+        "type": "menu",
+        "value": "parameter",
+        "menuIndex": 0,
+        "menuNames": [
+          "parameter",
+          "op",
+          "path"
+        ],
+        "menuLabels": [
+          "Parameter Name",
+          "OP and Parameter Names",
+          "Full Path Name"
+        ]
+      },
+      "default": "parameter",
+      "page": "Parameter",
+      "label": "Name Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "sortmethod": {
+      "value": {
+        "type": "menu",
+        "value": "parameter",
+        "menuIndex": 0,
+        "menuNames": [
+          "parameter",
+          "creation"
+        ],
+        "menuLabels": [
+          "Parameter Order",
+          "Creation Order (Legacy)"
+        ]
+      },
+      "default": "parameter",
+      "page": "Parameter",
+      "label": "Sort Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Parameter",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Parameter",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

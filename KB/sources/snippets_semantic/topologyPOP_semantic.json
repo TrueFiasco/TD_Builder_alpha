@@ -1,0 +1,396 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\topologyPOP_lossless.json",
+  "operator_type": "topologyPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "sort1",
+          "type": "POP:sort",
+          "parameters": {
+            "pageindex": 1,
+            "primmethod": "seed"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {}
+        },
+        {
+          "name": "convert1",
+          "type": "POP:convert",
+          "parameters": {
+            "convert": "uniquereorderpoints"
+          }
+        },
+        {
+          "name": "topology1",
+          "type": "POP:topology",
+          "parameters": {
+            "pageindex": 1,
+            "pointcountinfo": "fromparams",
+            "pointindexattrname": "Tex",
+            "vertattrmode": "primsource",
+            "topology": "copy",
+            "maxtrianglesmode": "custom",
+            "maxtriangles": 56
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "topology1",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "sort1",
+          "to": "topology1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "POP:sort": 1,
+          "DAT:text": 1,
+          "POP:sphere": 1,
+          "POP:convert": 1,
+          "POP:topology": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid8",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "triangles",
+            "cols": 3,
+            "rows": 3,
+            "tx": -1.5
+          }
+        },
+        {
+          "name": "grid9",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 3,
+            "rows": 3
+          }
+        },
+        {
+          "name": "math2",
+          "type": "POP:math",
+          "parameters": {
+            "attrclass": "vertex",
+            "inputattrscope": "_PointI",
+            "outputattrscope": "PointIndex",
+            "overrideautoattr": "on",
+            "attrtype": "uint"
+          }
+        },
+        {
+          "name": "grid10",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "lines",
+            "cols": 3,
+            "rows": 9,
+            "linex": "on",
+            "tx": 1.3
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\"",
+            "input2pop": "\"\"",
+            "input2groupentity": "point",
+            "input2group": "\"\""
+          }
+        },
+        {
+          "name": "point1",
+          "type": "POP:point",
+          "parameters": {
+            "pageindex": 1,
+            "attr0customname": "NumTriangles",
+            "attr0type": "uint",
+            "attr1name": "custom",
+            "attr1customname": "NumQuads",
+            "attr1type": "uint",
+            "attr1numcomps": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "delete5",
+          "type": "POP:delete",
+          "parameters": {
+            "entity": "primitive",
+            "pattern0pattern": "\"0 1\""
+          }
+        },
+        {
+          "name": "delete6",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 3,
+            "pattern0pattern": "\"0 1\""
+          }
+        },
+        {
+          "name": "popto15",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "topology_reduce_max_prims",
+            "downloadtype": "immediate",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto16",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "transform3",
+            "downloadtype": "immediate",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "random3",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\"",
+            "attrclass": "primitive"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "POP:transform",
+          "parameters": {
+            "tx": 0.1
+          }
+        },
+        {
+          "name": "convert_copy_topology",
+          "type": "POP:convert",
+          "parameters": {
+            "convert": "cpureadback"
+          }
+        },
+        {
+          "name": "topology_set_from_attrib",
+          "type": "POP:topology",
+          "parameters": {
+            "pageindex": 1,
+            "maxpoints": 41,
+            "pointcountpop": "point1",
+            "pointcountattr": "NumTriangles",
+            "primmode": "attr",
+            "pointindexattrname": "PointIndex",
+            "primattrmode": "specpop",
+            "primattrpop": "math2",
+            "primattrclass": "primitive",
+            "maxtrianglesmode": "custom",
+            "maxtriangles": 6,
+            "maxquadsmode": "custom",
+            "maxquads": 2,
+            "topoinfo": "fromattrs",
+            "topoinfopop": "point1",
+            "trianglecountmode": "set",
+            "trianglecountattr": "NumTriangles",
+            "quadcountmode": "set",
+            "quadcountattr": "NumQuads"
+          }
+        },
+        {
+          "name": "topology_set_info_on_cpu",
+          "type": "POP:topology",
+          "parameters": {
+            "pageindex": 1,
+            "maxpointsmode": "custom",
+            "maxpoints": 41,
+            "pointcountinfo": "fromparams",
+            "pointindexattrname": "PointIndex",
+            "primattrmode": "primsource",
+            "maxtrianglesmode": "custom",
+            "maxtriangles": 6,
+            "maxquadsmode": "custom",
+            "maxquads": 2,
+            "topoinfo": "fromparams"
+          }
+        },
+        {
+          "name": "topology_reduce_max_prims",
+          "type": "POP:topology",
+          "parameters": {
+            "pointindexattrname": "PointIndex",
+            "primattrmode": "primsource",
+            "maxtrianglesmode": "custom",
+            "maxtriangles": 6
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform3",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "delete5",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "delete6",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "grid10",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "grid8",
+          "to": "delete5",
+          "to_input": "0"
+        },
+        {
+          "from": "grid9",
+          "to": "delete6",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "random3",
+          "to_input": "0"
+        },
+        {
+          "from": "random3",
+          "to": "transform3",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "convert_copy_topology",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "topology_set_from_attrib",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "topology_set_info_on_cpu",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "topology_reduce_max_prims",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 12,
+        "operator_types": {
+          "POP:grid": 3,
+          "POP:math": 1,
+          "POP:merge": 1,
+          "POP:point": 1,
+          "DAT:text": 1,
+          "POP:delete": 2,
+          "DAT:popto": 2,
+          "POP:random": 1,
+          "COMP:annotate": 5,
+          "POP:transform": 1,
+          "POP:convert": 1,
+          "POP:topology": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    }
+  ]
+}

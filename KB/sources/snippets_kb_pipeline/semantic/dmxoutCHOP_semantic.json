@@ -1,0 +1,1085 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\dmxoutCHOP_lossless.json",
+  "operator_type": "dmxoutCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lfo_red1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 1.38,
+            "channelname": "red1"
+          }
+        },
+        {
+          "name": "lfo_blue1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.89,
+            "channelname": "blue1"
+          }
+        },
+        {
+          "name": "lfo_amber1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": -0.46,
+            "channelname": "amber1"
+          }
+        },
+        {
+          "name": "lfo_green1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": -0.76,
+            "channelname": "green1"
+          }
+        },
+        {
+          "name": "lfo_white1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.42,
+            "channelname": "white1"
+          }
+        },
+        {
+          "name": "math_range",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 255
+          }
+        },
+        {
+          "name": "merge_final",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "merge_fixture2",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "dmxout_perSample",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "universe": 3,
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "constant_fixture1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "blank[1-10]",
+            "const1name": "red1",
+            "const1value": 1,
+            "const2name": "green1",
+            "const2value": 0.5,
+            "const3name": "blue1",
+            "const4name": "amber1",
+            "const4value": 1,
+            "const5name": "white1",
+            "const5value": 0.25
+          }
+        },
+        {
+          "name": "constant_five_blanks",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "blank[1-5]"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "merge_final",
+          "to": "math_range",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_fixture1",
+          "to": "merge_final",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_five_blanks",
+          "to": "merge_final",
+          "to_input": "1"
+        },
+        {
+          "from": "merge_fixture2",
+          "to": "merge_final",
+          "to_input": "2"
+        },
+        {
+          "from": "lfo_red1",
+          "to": "merge_fixture2",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo_green1",
+          "to": "merge_fixture2",
+          "to_input": "1"
+        },
+        {
+          "from": "lfo_blue1",
+          "to": "merge_fixture2",
+          "to_input": "2"
+        },
+        {
+          "from": "lfo_amber1",
+          "to": "merge_fixture2",
+          "to_input": "3"
+        },
+        {
+          "from": "lfo_white1",
+          "to": "merge_fixture2",
+          "to_input": "4"
+        },
+        {
+          "from": "math_range",
+          "to": "dmxout_perSample",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 10,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:lfo": 5,
+          "CHOP:math": 1,
+          "CHOP:merge": 2,
+          "CHOP:dmxout": 1,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "math_range1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange2": 255
+          }
+        },
+        {
+          "name": "math_range2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange2": 255
+          }
+        },
+        {
+          "name": "dmxout_routed",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "interface": "sacn",
+            "format": "packetperchan",
+            "routingtable": "dmxout_routingTable",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "pattern_sines1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "length": 512,
+            "numcycles": 2,
+            "channelname": "sine[1-4]"
+          }
+        },
+        {
+          "name": "pattern_sines2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "pageindex": 1,
+            "length": 512,
+            "numcycles": 2,
+            "channelname": "sine[1-4]"
+          }
+        },
+        {
+          "name": "dmxout_perChannel",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "universe": 21,
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "dmxout_routingTable",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 9,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern_sines1",
+          "to": "math_range1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_sines2",
+          "to": "math_range2",
+          "to_input": "0"
+        },
+        {
+          "from": "math_range2",
+          "to": "dmxout_routed",
+          "to_input": "0"
+        },
+        {
+          "from": "math_range1",
+          "to": "dmxout_perChannel",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:math": 2,
+          "CHOP:dmxout": 2,
+          "CHOP:pattern": 2,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 2,
+            "tx": 0.5,
+            "ty": 0.5,
+            "tz": 5,
+            "projection": "ortho",
+            "orthowidth": 1
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "instancing": "on",
+            "instanceop": "null_samplesForPreview",
+            "instancetx": "tx",
+            "instancety": "ty",
+            "instancetz": "tz",
+            "instancer": "r",
+            "instanceg": "g",
+            "instanceb": "b",
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp_bar",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "MAT:constant",
+          "parameters": {
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "text_SOPs",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle_led",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 0.003,
+            "rady": 0.003,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_TOPto",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_split",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto_data",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "null_raster",
+            "a": "\"\"",
+            "rgbaunit": "u256",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle_open",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 300,
+            "endangle": 359.5
+          }
+        },
+        {
+          "name": "extend_zero",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "default",
+            "right": "default"
+          }
+        },
+        {
+          "name": "null_always",
+          "type": "CHOP:null",
+          "parameters": {
+            "cooktype": "always"
+          }
+        },
+        {
+          "name": "null_raster",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "text_always",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_extend",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "null_preview",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "switch_blend",
+          "type": "TOP:switch",
+          "parameters": {
+            "blend": "on"
+          }
+        },
+        {
+          "name": "dmxout_ArtNet",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "format": "packetperchan",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "null_sampling",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "shuffle_split",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitn",
+            "nval": 510
+          }
+        },
+        {
+          "name": "text_sequence",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise_colorful",
+          "type": "TOP:noise",
+          "parameters": {
+            "period": 5,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "render_preview",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "geometry": "geo1",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "shuffle_sequence",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "sallsamples"
+          }
+        },
+        {
+          "name": "sopto_coordinates",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "null_sampling",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "rectangle_reference",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "sizex": 0.8,
+            "sizey": 0.8,
+            "tx": 0.5,
+            "ty": 0.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform_normalize",
+          "type": "SOP:transform",
+          "parameters": {
+            "pageindex": 1,
+            "postxord": "ts",
+            "posttx": "reference",
+            "postty": "reference",
+            "posttz": "reference",
+            "postscalex": "reference",
+            "postscaley": "reference",
+            "postscalez": "reference"
+          }
+        },
+        {
+          "name": "math_divideColorBy255",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "scope": "\"r g b\""
+          }
+        },
+        {
+          "name": "null_samplesForPreview",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge_getLedPosAndColor",
+          "type": "CHOP:merge",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "sopto_coordinates",
+          "to": "topto_data",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle_sequence",
+          "to": "extend_zero",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle_split",
+          "to": "null_always",
+          "to_input": "0"
+        },
+        {
+          "from": "switch_blend",
+          "to": "null_raster",
+          "to_input": "0"
+        },
+        {
+          "from": "render_preview",
+          "to": "null_preview",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp_bar",
+          "to": "switch_blend",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_colorful",
+          "to": "switch_blend",
+          "to_input": "1"
+        },
+        {
+          "from": "null_always",
+          "to": "dmxout_ArtNet",
+          "to_input": "0"
+        },
+        {
+          "from": "transform_normalize",
+          "to": "null_sampling",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_zero",
+          "to": "shuffle_split",
+          "to_input": "0"
+        },
+        {
+          "from": "topto_data",
+          "to": "shuffle_sequence",
+          "to_input": "0"
+        },
+        {
+          "from": "circle_open",
+          "to": "transform_normalize",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle_reference",
+          "to": "transform_normalize",
+          "to_input": "1"
+        },
+        {
+          "from": "merge_getLedPosAndColor",
+          "to": "math_divideColorBy255",
+          "to_input": "0"
+        },
+        {
+          "from": "math_divideColorBy255",
+          "to": "null_samplesForPreview",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto_coordinates",
+          "to": "merge_getLedPosAndColor",
+          "to_input": "0"
+        },
+        {
+          "from": "topto_data",
+          "to": "merge_getLedPosAndColor",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 32,
+        "connection_count": 17,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "DAT:text": 7,
+          "TOP:ramp": 1,
+          "MAT:constant": 1,
+          "SOP:circle": 2,
+          "DAT:table": 1,
+          "CHOP:topto": 1,
+          "CHOP:extend": 1,
+          "CHOP:null": 2,
+          "TOP:null": 2,
+          "TOP:switch": 1,
+          "CHOP:dmxout": 1,
+          "SOP:null": 1,
+          "CHOP:shuffle": 2,
+          "TOP:noise": 1,
+          "TOP:render": 1,
+          "CHOP:sopto": 1,
+          "SOP:rectangle": 1,
+          "SOP:transform": 1,
+          "CHOP:math": 1,
+          "CHOP:merge": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "hermite",
+            "rough": 0.25,
+            "constraint": "offset",
+            "constrmean": 0.5,
+            "end": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "displace1",
+            "a": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "TOP:chopto",
+          "parameters": {
+            "chop": "noise1",
+            "dataformat": "legacy"
+          }
+        },
+        {
+          "name": "dmxout1",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "format": "packetperchan",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {
+            "cyclic": "no",
+            "chanmatch": "onetomany"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "ramp",
+            "length": 512,
+            "amp": 511,
+            "channelname": "universe[1-10]"
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "sallsamples"
+          }
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "red",
+            "displaceweighty": 0.1,
+            "displaceweightz": 1,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "dmxout1_routingtable",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 11,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lookup1",
+          "to": "dmxout1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle1",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "topto1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto1",
+          "to": "displace1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:noise": 1,
+          "CHOP:topto": 1,
+          "TOP:chopto": 1,
+          "CHOP:dmxout": 1,
+          "CHOP:lookup": 1,
+          "CHOP:pattern": 1,
+          "CHOP:shuffle": 1,
+          "TOP:displace": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "in1",
+          "type": "CHOP:in",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "out1",
+          "type": "CHOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "out2",
+          "type": "CHOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "integer": "floor"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "CHOP:limit",
+          "parameters": {
+            "pageindex": 1,
+            "type": "loop",
+            "max": 256,
+            "quantvalue": "floor",
+            "vstep": 1
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "dmxout1",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "interface": "enttecusbpro",
+            "routingtable": "dmxout1_routingtable",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "dmxout2",
+          "type": "CHOP:dmxout",
+          "parameters": {
+            "interface": "enttecusbpro",
+            "format": "packetperchan",
+            "routingtable": "dmxout2_routingtable",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "randomnonrepint",
+            "torange2": 65535
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "sallsamples"
+          }
+        },
+        {
+          "name": "shuffle2",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqall"
+          }
+        },
+        {
+          "name": "shuffle3",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitn",
+            "nval": 512
+          }
+        },
+        {
+          "name": "shuffle4",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitall"
+          }
+        },
+        {
+          "name": "dmxout1_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "dmxout2_routingtable",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern1",
+          "to": "in1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle3",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle4",
+          "to": "out2",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle2",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle2",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "out1",
+          "to": "dmxout1",
+          "to_input": "0"
+        },
+        {
+          "from": "out2",
+          "to": "dmxout2",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "in1",
+          "to": "shuffle2",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle1",
+          "to": "shuffle3",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle1",
+          "to": "shuffle4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 13,
+        "operator_types": {
+          "CHOP:in": 1,
+          "CHOP:out": 2,
+          "CHOP:math": 1,
+          "CHOP:limit": 1,
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:dmxout": 2,
+          "CHOP:pattern": 1,
+          "CHOP:shuffle": 4,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 9
+      }
+    }
+  ]
+}

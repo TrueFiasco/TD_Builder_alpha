@@ -1,0 +1,202 @@
+{
+  "operator": "Profile_SOP",
+  "family": "SOP",
+  "td_create_name": "profileSOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 13,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Profile",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "extract",
+        "menuIndex": 0,
+        "menuNames": [
+          "extract",
+          "remap"
+        ],
+        "menuLabels": [
+          "Extract",
+          "Remap"
+        ]
+      },
+      "default": "extract",
+      "page": "Profile",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "parametric": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Profile",
+      "label": "Parametrically to X Y",
+      "readOnly": false,
+      "expression": null
+    },
+    "smooth": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Profile",
+      "label": "Smooth Curve",
+      "readOnly": false,
+      "expression": null
+    },
+    "sdivs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Profile",
+      "label": "Divisions per Span",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolerance": {
+      "value": {
+        "type": "float",
+        "value": 0.001
+      },
+      "default": 0.001,
+      "page": "Profile",
+      "label": "Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "order": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Profile",
+      "label": "Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "csharp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Profile",
+      "label": "Preserve Sharp Corners",
+      "readOnly": false,
+      "expression": null
+    },
+    "keepsurf": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Profile",
+      "label": "Keep Surface",
+      "readOnly": false,
+      "expression": null
+    },
+    "delprof": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Profile",
+      "label": "Delete Original Profile",
+      "readOnly": false,
+      "expression": null
+    },
+    "maptype": {
+      "value": {
+        "type": "menu",
+        "value": "unif",
+        "menuIndex": 0,
+        "menuNames": [
+          "unif",
+          "chordlen"
+        ],
+        "menuLabels": [
+          "Uniform",
+          "Chord Length"
+        ]
+      },
+      "default": "unif",
+      "page": "Profile",
+      "label": "Mapping Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Profile",
+      "label": "U Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "Profile",
+      "label": "U Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Profile",
+      "label": "V Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "Profile",
+      "label": "V Range",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

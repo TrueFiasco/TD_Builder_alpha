@@ -1,0 +1,551 @@
+{
+  "operator": "Line_POP",
+  "family": "POP",
+  "td_create_name": "linePOP",
+  "param_count": 36,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "multiplelinestrips": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Multiple Line Strips",
+      "readOnly": false,
+      "expression": null
+    },
+    "interpmethodpersegment": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Interpolation Method per Segment",
+      "readOnly": false,
+      "expression": null
+    },
+    "interpmethod": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 0,
+        "menuNames": [
+          "linear",
+          "cardinal",
+          "bspline",
+          "cubicbeziertang",
+          "cubicbezier",
+          "quadraticbezier"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Cardinal (Interpolating)",
+          "BSpline",
+          "Cubic Bezier With Tangents",
+          "Cubic Bezier",
+          "Quadratic Bezier"
+        ]
+      },
+      "default": "linear",
+      "page": "Setup",
+      "label": "Interpolation Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "tension": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Tension",
+      "readOnly": false,
+      "expression": null
+    },
+    "enableweights": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Enable Weights",
+      "readOnly": false,
+      "expression": null
+    },
+    "enabletangent": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Enable Tangents",
+      "readOnly": false,
+      "expression": null
+    },
+    "enablepointrepeat": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Enable Point Repeat",
+      "readOnly": false,
+      "expression": null
+    },
+    "closed": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "premultcolor": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Pre-Multiply RGB by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "New Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0name": {
+      "value": {
+        "type": "menu",
+        "value": "custom",
+        "menuIndex": 0,
+        "menuNames": [
+          "custom",
+          "n",
+          "color",
+          "tex",
+          "pointscale",
+          "linewidth"
+        ],
+        "menuLabels": [
+          "Custom",
+          "N",
+          "Color",
+          "Tex",
+          "PointScale",
+          "LineWidth"
+        ]
+      },
+      "default": "custom",
+      "page": "Setup",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0customname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Setup",
+      "label": "Custom Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0type": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Setup",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0numcomps": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Setup",
+      "label": "Number of Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Setup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Setup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Setup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "output": {
+      "value": {
+        "type": "menu",
+        "value": "subdivlines",
+        "menuIndex": 0,
+        "menuNames": [
+          "subdivlines",
+          "ctrlpoints"
+        ],
+        "menuLabels": [
+          "Subdivided Lines",
+          "Control Points"
+        ]
+      },
+      "default": "subdivlines",
+      "page": "Divisions",
+      "label": "Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "divmethod": {
+      "value": {
+        "type": "menu",
+        "value": "segment",
+        "menuIndex": 2,
+        "menuNames": [
+          "none",
+          "linestrip",
+          "segment",
+          "defpersegment",
+          "distseg"
+        ],
+        "menuLabels": [
+          "None",
+          "Divisions per Line Strip",
+          "Divisions per Segment",
+          "Divisions Defined per Segment",
+          "Distance between Points (per Segment)"
+        ]
+      },
+      "default": "segment",
+      "page": "Divisions",
+      "label": "Divisions Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "divs": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Divisions",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "dist": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Divisions",
+      "label": "Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "addctrlpointattr": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Divisions",
+      "label": "Add ControlPoint Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "resamplemethod": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "linestrip",
+          "dist",
+          "keyframes"
+        ],
+        "menuLabels": [
+          "None",
+          "Divisions per Line Strip",
+          "Distance between Points",
+          "Points as Keyframes"
+        ]
+      },
+      "default": "none",
+      "page": "Divisions",
+      "label": "Post-Resample Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "resampledivs": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Divisions",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "resampledist": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Divisions",
+      "label": "Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "indvarattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Divisions",
+      "label": "Independant Variable Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "indvarstep": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Divisions",
+      "label": "Independant Variable Step",
+      "readOnly": false,
+      "expression": null
+    },
+    "resamplemaxverts": {
+      "value": {
+        "type": "int",
+        "value": 1000
+      },
+      "default": 1000,
+      "page": "Divisions",
+      "label": "Maximum Number of Vertices",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxtries": {
+      "value": {
+        "type": "int",
+        "value": 100
+      },
+      "default": 100,
+      "page": "Divisions",
+      "label": "Max Tries for Binary Search",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

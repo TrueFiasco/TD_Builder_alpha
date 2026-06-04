@@ -1,0 +1,188 @@
+{
+  "operator": "Perform_DAT",
+  "family": "DAT",
+  "td_create_name": "performDAT",
+  "param_count": 24,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": true
+    },
+    "activepulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "triggermode": {
+      "type": "menu",
+      "value": "droppedframe",
+      "menuIndex": 1,
+      "menuNames": [
+        "threshold",
+        "droppedframe"
+      ],
+      "menuLabels": [
+        "When Frame Length Exceeds Threshold",
+        "When a Frame is Dropped"
+      ]
+    },
+    "triggerthreshold": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "logcook": {
+      "type": "toggle",
+      "value": false
+    },
+    "logexport": {
+      "type": "toggle",
+      "value": false
+    },
+    "logviewport": {
+      "type": "toggle",
+      "value": false
+    },
+    "logmovie": {
+      "type": "toggle",
+      "value": false
+    },
+    "logdrawchannels": {
+      "type": "toggle",
+      "value": false
+    },
+    "logobjectview": {
+      "type": "toggle",
+      "value": false
+    },
+    "logcustompanel": {
+      "type": "toggle",
+      "value": false
+    },
+    "logmidi": {
+      "type": "toggle",
+      "value": false
+    },
+    "loggraphics": {
+      "type": "toggle",
+      "value": false
+    },
+    "logframelength": {
+      "type": "toggle",
+      "value": false
+    },
+    "logmisc": {
+      "type": "toggle",
+      "value": false
+    },
+    "logscript": {
+      "type": "toggle",
+      "value": false
+    },
+    "logrender": {
+      "type": "toggle",
+      "value": false
+    },
+    "callbacks": {
+      "type": "op",
+      "value": "op_perturbed_callbacks"
+    },
+    "clear": {
+      "type": "pulse",
+      "value": null
+    },
+    "language": {
+      "type": "menu",
+      "value": "parameter",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "parameter",
+        "text",
+        "python",
+        "glsl",
+        "json",
+        "yaml",
+        "xml",
+        "tscript"
+      ],
+      "menuLabels": [
+        "From Input",
+        "From Parameter Language",
+        "Plain Text",
+        "Python",
+        "GLSL",
+        "JSON",
+        "YAML",
+        "XML / HTML",
+        "Tscript"
+      ]
+    },
+    "extension": {
+      "type": "menu",
+      "value": "customext",
+      "menuIndex": 17,
+      "menuNames": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "languageext",
+        "customext"
+      ],
+      "menuLabels": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "From Content Language",
+        "Custom Extension"
+      ]
+    },
+    "customext": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "wordwrap": {
+      "type": "menu",
+      "value": "on",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "on",
+        "off"
+      ],
+      "menuLabels": [
+        "Input",
+        "On",
+        "Off"
+      ]
+    }
+  }
+}

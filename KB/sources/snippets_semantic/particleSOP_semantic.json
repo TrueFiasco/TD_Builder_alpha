@@ -1,0 +1,673 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\particleSOP_lossless.json",
+  "operator_type": "particleSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "SOP:torus",
+          "parameters": {
+            "reverseanchors": "on",
+            "cols": 20
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "SOP:particle",
+          "parameters": {
+            "life": 2
+          }
+        },
+        {
+          "name": "particle2",
+          "type": "SOP:particle",
+          "parameters": {
+            "behave": "modify",
+            "life": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus2",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "particle2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:particle": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 2.5,
+            "sizey": 2.5,
+            "sizez": 2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "radx": 0.5,
+            "rady": 0.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "particle3",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 3,
+            "life": 12,
+            "hit": "bounce"
+          }
+        },
+        {
+          "name": "particle4",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 3,
+            "life": 12
+          }
+        },
+        {
+          "name": "particle5",
+          "type": "SOP:particle",
+          "parameters": {
+            "life": 12,
+            "hit": "stick"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "particle3",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "particle3",
+          "to_input": "1"
+        },
+        {
+          "from": "torus1",
+          "to": "particle4",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "particle4",
+          "to_input": "1"
+        },
+        {
+          "from": "torus1",
+          "to": "particle5",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "particle5",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 6,
+        "operator_types": {
+          "SOP:box": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:particle": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "particle6",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "windx": 5,
+            "life": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "particle6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:particle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere5",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "particle7",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "windx": 5,
+            "turby": 20,
+            "life": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere5",
+          "to": "particle7",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:particle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "poly",
+            "orient": "yz",
+            "sizex": 10,
+            "sizey": 10,
+            "tx": 4,
+            "reverseanchors": "on",
+            "rows": 13,
+            "cols": 12
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere6",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "particle8",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 3,
+            "windx": 5,
+            "turby": 20,
+            "life": 2,
+            "hit": "stick",
+            "splittype": "bounce",
+            "splitmin": 5,
+            "splitmax": 5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere6",
+          "to": "particle8",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "particle8",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:grid": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:particle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "force1",
+          "type": "SOP:force",
+          "parameters": {
+            "doradial": "on",
+            "radial": 12,
+            "axial": 1,
+            "spiral": 1
+          }
+        },
+        {
+          "name": "force2",
+          "type": "SOP:force",
+          "parameters": {
+            "radial": 12,
+            "doaxis": "on",
+            "dirx": 1,
+            "spiral": 10
+          }
+        },
+        {
+          "name": "force3",
+          "type": "SOP:force",
+          "parameters": {
+            "radial": 12,
+            "doaxis": "on",
+            "vortex": 10
+          }
+        },
+        {
+          "name": "force4",
+          "type": "SOP:force",
+          "parameters": {
+            "doradial": "on",
+            "radial": 12,
+            "doaxis": "on",
+            "vortex": 10,
+            "spiral": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "metaball1",
+          "type": "SOP:metaball",
+          "parameters": {
+            "radx": 4,
+            "rady": 4,
+            "radz": 4
+          }
+        },
+        {
+          "name": "particle9",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "life": 2
+          }
+        },
+        {
+          "name": "particle10",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "life": 2
+          }
+        },
+        {
+          "name": "particle11",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "life": 2
+          }
+        },
+        {
+          "name": "particle12",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "life": 2
+          }
+        },
+        {
+          "name": "particle13",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 1,
+            "life": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "metaball1",
+          "to": "force1",
+          "to_input": "0"
+        },
+        {
+          "from": "metaball1",
+          "to": "force2",
+          "to_input": "0"
+        },
+        {
+          "from": "metaball1",
+          "to": "force3",
+          "to_input": "0"
+        },
+        {
+          "from": "metaball1",
+          "to": "force4",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "particle9",
+          "to_input": "0"
+        },
+        {
+          "from": "force1",
+          "to": "particle9",
+          "to_input": "2"
+        },
+        {
+          "from": "sphere2",
+          "to": "particle10",
+          "to_input": "0"
+        },
+        {
+          "from": "box2",
+          "to": "particle11",
+          "to_input": "0"
+        },
+        {
+          "from": "force2",
+          "to": "particle11",
+          "to_input": "2"
+        },
+        {
+          "from": "box2",
+          "to": "particle12",
+          "to_input": "0"
+        },
+        {
+          "from": "force3",
+          "to": "particle12",
+          "to_input": "2"
+        },
+        {
+          "from": "box2",
+          "to": "particle13",
+          "to_input": "0"
+        },
+        {
+          "from": "force4",
+          "to": "particle13",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 13,
+        "operator_types": {
+          "SOP:box": 1,
+          "SOP:force": 4,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:metaball": 1,
+          "SOP:particle": 5
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "pointsprite1"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere3",
+          "type": "SOP:sphere",
+          "parameters": {
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "SOP:particle",
+          "parameters": {
+            "prtype": "pointsprites"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "pointsprite1",
+          "type": "MAT:pointsprite",
+          "parameters": {
+            "pointsize": 29,
+            "blending": "on",
+            "legacyalphabehavior": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "particle1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 2,
+        "operator_types": {
+          "COMP:geo": 1,
+          "TOP:null": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:particle": 1,
+          "TOP:moviefilein": 1,
+          "MAT:pointsprite": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "fastParticles",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

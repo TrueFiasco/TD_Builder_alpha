@@ -1,0 +1,110 @@
+expert_id: ui_expert
+version: 1.0.0
+created: '2024-12-23'
+description: Designs TouchDesigner UI layouts for performance and interactive applications
+
+expertise_inputs:
+  - path: meta_agentic/expertise/ui_design_patterns.yaml
+    purpose: Widget catalog, layout templates, wiring patterns
+  - path: meta_agentic/expertise/palette_expertise.yaml
+    purpose: Palette loading patterns, widget structure
+  - path: meta_agentic/expertise/palette_semantic_catalog.yaml
+    purpose: All available palette components
+  - path: meta_agentic/expertise/td_operators.yaml
+    purpose: Operator validation
+
+validation_sources:
+  - path: operator_ground_truth/operator_types.json
+    purpose: Validate operator types
+  - path: operator_ground_truth/param_catalog.json
+    purpose: Validate parameter names
+
+expertise_outputs:
+  - path: meta_agentic/expertise/ui_design_patterns.yaml
+    purpose: Update with new patterns
+  - path: meta_agentic/expertise/td_problems.yaml
+    purpose: Log UI-specific problems
+
+event_log: meta_agentic/history/expertise_events.jsonl
+event_domain: ui_design
+
+collaborators:
+  - expert_id: td_designer
+    relationship: upstream
+    receives_from: ui_delegation_request
+    handoff_format: ui_delegation_v1
+    description: Receives UI design requests from td_designer
+
+  - expert_id: creative_orchestrator
+    relationship: upstream
+    receives_from: creative_brief
+    handoff_format: creative_brief_v1
+    description: May receive UI requirements from creative workflow
+
+  - expert_id: network_builder
+    relationship: downstream
+    delegation_trigger: UI design complete
+    handoff_format: design_spec_v1
+    description: Passes completed UI spec for assembly
+
+supported_patterns:
+  - name: control_panel
+    complexity: medium
+    families: [COMP, CHOP]
+
+  - name: vj_interface
+    complexity: hard
+    families: [COMP, CHOP, TOP]
+
+  - name: show_control
+    complexity: hard
+    families: [COMP, CHOP, DAT]
+
+  - name: touch_surface
+    complexity: medium
+    families: [COMP, CHOP]
+
+  - name: midi_controller
+    complexity: medium
+    families: [COMP, CHOP]
+
+  - name: mixer_layout
+    complexity: medium
+    families: [COMP, CHOP]
+
+output_format:
+  type: yaml
+  schema: design_spec_v1
+  includes:
+    - operators
+    - hierarchy
+    - connections
+    - parameters
+    - ui_metadata
+    - output_channels
+
+validation:
+  require_widget_validation: true
+  require_palette_exists: true
+  require_output_channel_definition: true
+  flag_custom_widgets: true
+
+learning:
+  log_successes: true
+  log_failures: true
+  update_patterns_on_success: true
+  min_samples_for_pattern_update: 3
+
+# Invocation triggers
+invocation_keywords:
+  - "control panel"
+  - "control surface"
+  - "VJ interface"
+  - "performance UI"
+  - "show control"
+  - "sliders and buttons"
+  - "touch interface"
+  - "MIDI controller UI"
+  - "OSC interface"
+  - "widget"
+  - "panel layout"

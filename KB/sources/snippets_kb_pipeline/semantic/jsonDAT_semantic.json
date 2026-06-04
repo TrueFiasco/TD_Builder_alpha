@@ -1,0 +1,1437 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\jsonDAT_lossless.json",
+  "operator_type": "jsonDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "pageindex": 1,
+            "filter": "$.store",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store.book",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store.book[2]",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json5",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store.book[2].title",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json6",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.store.book[2].title",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json7",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.store.book[2].title",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json8",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$..title",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json9",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$..title",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "json"
+          }
+        },
+        {
+          "name": "json10",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$..title",
+            "expression": "me.results[2]"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json4",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json5",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json6",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json7",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json8",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json9",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json10",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 10,
+        "operator_types": {
+          "DAT:json": 10,
+          "DAT:text": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('json1').source",
+            "language": "text"
+          }
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('json2').source['store']['book'][1]['author']",
+            "language": "text"
+          }
+        },
+        {
+          "name": "eval3",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('json5').results[1]['author']",
+            "language": "text"
+          }
+        },
+        {
+          "name": "eval4",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('json7').result['author']",
+            "language": "text"
+          }
+        },
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "source",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store.book",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "\"$.store.book[?(@.price > 9.0)]\"",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json5",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"$.store.book[?(@.price > 9.0)]\"",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json6",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"$.store.book[?(@.price > 9.0)]\"",
+            "expression": "me.results[1]"
+          }
+        },
+        {
+          "name": "json7",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"$.store.book[?(@.price > 9.0)]\"",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "json9",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"$.store.book[?(@.price > 9.0)]\"",
+            "expression": "me.result['author']"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json4",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json5",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json6",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json7",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json9",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 8,
+        "operator_types": {
+          "DAT:eval": 4,
+          "DAT:json": 8,
+          "DAT:text": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"\"",
+            "expression": "me.source['menu']['header']"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$..items[?(@.id==Find)]",
+            "expression": "me.result",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"\"",
+            "expression": "me.source[\\\"menu\\\"][\\\"items\\\"][11]"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "\"\"",
+            "expression": "me.source['menu']"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "readMe1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:json": 4,
+          "DAT:text": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.divisions[?(@.officialLanguages.`len`>1)].name",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.divisions[?(type==Territory)].name",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "\"$.divisions[?(@.type==Province & @.population < 1000000)].name\"",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$..capital",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text4",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text5",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:json": 4,
+          "DAT:text": 6
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$.src",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.glossary.GlossDiv",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.GlossList['GlossEntry']",
+            "expression": "me.jsonObject['widget']['window']['name']"
+          }
+        },
+        {
+          "name": "json5",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$.widget.image",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text4",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text5",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "readMe1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "json5",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "text3",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "json3",
+          "to": "json4",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:json": 4,
+          "DAT:text": 7
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$.widget.image",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.menu.id",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.glossary.GlossDiv",
+            "expression": "me.result"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "DAT:switch",
+          "parameters": {}
+        },
+        {
+          "name": "json1_hold",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "expression",
+            "filter": "$.widget.image",
+            "expression": "me.result",
+            "holdlast": "on"
+          }
+        },
+        {
+          "name": "json2_hold",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.menu.id",
+            "expression": "me.result",
+            "holdlast": "on"
+          }
+        },
+        {
+          "name": "json3_hold",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.glossary.GlossDiv",
+            "expression": "me.result",
+            "holdlast": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "switch1",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "text3",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "switch1",
+          "to": "json1_hold",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "json2_hold",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "json3_hold",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 9,
+        "operator_types": {
+          "DAT:json": 6,
+          "DAT:text": 4,
+          "DAT:switch": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "text",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "web1",
+          "type": "DAT:web",
+          "parameters": {
+            "url": "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=300"
+          }
+        },
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.menu.popup.menuitem",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.return.CANN.sellorders",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json3",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json4",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.return.CANN.buyorders",
+            "expression": "me.results",
+            "outputformat": "table"
+          }
+        },
+        {
+          "name": "json5",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$..items[*]",
+            "expression": "me.results",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json6",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json7",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.store.book",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "text6",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "tweet",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "json10",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$..servlet",
+            "expression": "me.results",
+            "transpose": "on",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json11",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "columns": "\"servlet-name servlet-class\"",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json12",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$[0][*]",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json14",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "columns": "\"created_at text\"",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json15",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.*",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "blackBurst",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.result.records",
+            "expression": "me.results",
+            "language": "json"
+          }
+        },
+        {
+          "name": "layersJson",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "json"
+          }
+        },
+        {
+          "name": "json_pretty",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "json_pretty",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "json2",
+          "to": "json3",
+          "to_input": "0"
+        },
+        {
+          "from": "json_pretty",
+          "to": "json4",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "json5",
+          "to_input": "0"
+        },
+        {
+          "from": "json5",
+          "to": "json6",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json7",
+          "to_input": "0"
+        },
+        {
+          "from": "text6",
+          "to": "json10",
+          "to_input": "0"
+        },
+        {
+          "from": "json10",
+          "to": "json11",
+          "to_input": "0"
+        },
+        {
+          "from": "blackBurst",
+          "to": "json12",
+          "to_input": "0"
+        },
+        {
+          "from": "tweet",
+          "to": "json14",
+          "to_input": "0"
+        },
+        {
+          "from": "layersJson",
+          "to": "json15",
+          "to_input": "0"
+        },
+        {
+          "from": "web1",
+          "to": "json_pretty",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 26,
+        "connection_count": 13,
+        "operator_types": {
+          "DAT:text": 7,
+          "DAT:web": 1,
+          "DAT:json": 14,
+          "COMP:annotate": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "json7",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store['book','magazine'][0:]",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json8",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "\"$.widget[\\\"image\\\", \\\"text\\\"]\"",
+            "expression": "me.results",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json9",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "text5",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "json"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "json7book",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store['book'][0:]",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json7book1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "filter": "$.store['book']",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "json7magazine",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$.store['magazine'][0:]",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text2",
+          "to": "json7",
+          "to_input": "0"
+        },
+        {
+          "from": "text5",
+          "to": "json8",
+          "to_input": "0"
+        },
+        {
+          "from": "json8",
+          "to": "json9",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json7book",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json7book1",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "json7magazine",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:json": 6,
+          "DAT:text": 3,
+          "COMP:annotate": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "json2",
+          "type": "DAT:json",
+          "parameters": {
+            "filter": "$..chan2",
+            "expression": "me.results"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "channelname": "\"chan1 chan2 chan3\"",
+            "startunit": "samples",
+            "end": 9,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "fileout1",
+          "type": "DAT:fileout",
+          "parameters": {}
+        },
+        {
+          "name": "json_out",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "json"
+          }
+        },
+        {
+          "name": "text_chop_to_json",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "json_out",
+          "to": "json1",
+          "to_input": "0"
+        },
+        {
+          "from": "json1",
+          "to": "json2",
+          "to_input": "0"
+        },
+        {
+          "from": "json_out",
+          "to": "fileout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:json": 2,
+          "CHOP:noise": 1,
+          "DAT:text": 3,
+          "DAT:fileout": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

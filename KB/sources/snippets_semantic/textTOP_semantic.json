@@ -1,0 +1,440 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\textTOP_lossless.json",
+  "operator_type": "textTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_dat",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_reading_from_text",
+          "type": "TOP:text",
+          "parameters": {
+            "dat": "text_dat",
+            "text": "\"\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "wordwrap": "on",
+            "legacyfontselection": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table_dat",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "text_reading_from_table",
+          "type": "TOP:text",
+          "parameters": {
+            "dat": "table_dat",
+            "colindex": 1,
+            "text": "\"\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "wordwrap": "on",
+            "legacyfontselection": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "loop",
+            "max": 5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1,
+            "const1name": "chan2",
+            "const1value": 0.5,
+            "const2name": "chan3",
+            "const2value": 0.75
+          }
+        },
+        {
+          "name": "text_using_chop_value",
+          "type": "TOP:text",
+          "parameters": {
+            "text": "\"Number \\\\n%d \\\\n%03f \\\\n%03d\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "chop": "speed1",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "CHOP:constant": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_reading_font_file",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "text": "\"External OTF\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "fontfile": "Assets/SourceSansPro-Black.otf"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_font_formatting",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"Formatting font\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "bold": "on",
+            "italic": "on",
+            "fontsizex": 16,
+            "trackingx": 10,
+            "positiony": 67,
+            "linespacing": 19.6
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "colors_and_borders",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "text": "colors!",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "font": "Arial",
+            "fontautosize": "alwaysfit",
+            "fontsizex": 49,
+            "borderspace1": 5,
+            "bgalpha": 1,
+            "borderag": 0.184314,
+            "borderab": 1,
+            "leftborder": "bordera",
+            "rightborder": "borderb",
+            "rightborderi": "bordera",
+            "bottomborder": "borderb",
+            "bottomborderi": "bordera",
+            "topborder": "bordera",
+            "resolutionw": 64,
+            "resolutionh": 64
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "text",
+          "type": "TOP:text",
+          "parameters": {
+            "dat": "string",
+            "text": "\"\"",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "font": "Calibri",
+            "dispmethod": "scalable",
+            "antialias": "aa8mid",
+            "fontsizex": 16,
+            "positionx": 2,
+            "alignx": "left",
+            "aligny": "top",
+            "inputfiltertype": "mipmap",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 3,
+            "dat": "string",
+            "text": "\"\"",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "font": "Calibri",
+            "dispmethod": "scalable",
+            "antialias": "aa8mid",
+            "fontsizex": 16,
+            "positionx": 2,
+            "alignx": "left",
+            "aligny": "top",
+            "inputfiltertype": "mipmap",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "string",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "TOP:text": 2,
+          "DAT:eval": 1,
+          "DAT:text": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "specdat": "table1",
+            "legacyfontselection": "on",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 4,
+            "cols": 3,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "TOP:text": 1,
+          "DAT:text": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

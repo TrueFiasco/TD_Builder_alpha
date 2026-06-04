@@ -1,0 +1,147 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\webrenderTOP_lossless.json",
+  "operator_type": "webrenderTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "webrender2"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_html",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "xml"
+          }
+        },
+        {
+          "name": "text_html1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "xml"
+          }
+        },
+        {
+          "name": "webrender1",
+          "type": "TOP:webrender",
+          "parameters": {
+            "active": "on",
+            "source": "dat",
+            "dat": "text_html",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "webrender2",
+          "type": "TOP:webrender",
+          "parameters": {
+            "active": "on",
+            "source": "dat",
+            "dat": "substitute1",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "substitute1",
+          "type": "DAT:substitute",
+          "parameters": {
+            "pageindex": 1,
+            "before": "token1"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text_html1",
+          "to": "substitute1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:info": 1,
+          "DAT:text": 3,
+          "TOP:webrender": 2,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text_html",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "xml"
+          }
+        },
+        {
+          "name": "webrender1",
+          "type": "TOP:webrender",
+          "parameters": {
+            "active": "on",
+            "source": "dat",
+            "dat": "text_html",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "text_stylesAndContent",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 3,
+          "TOP:webrender": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

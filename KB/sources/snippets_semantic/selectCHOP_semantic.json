@@ -1,0 +1,668 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\selectCHOP_lossless.json",
+  "operator_type": "selectCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "renameto": "\"tx ty rx ry\""
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "select1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:select": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "select_chans",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "chan*"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "select_chans",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "select_rename",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "chan*",
+            "renamefrom": "chan*",
+            "renameto": "d*"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "select_rename",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "select_channel",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "constant1",
+            "channames": "v3"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "select_specific",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "constant1",
+            "channames": "\"v4 chan3\""
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "base1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "base2",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "base3",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "base*/out1",
+            "channames": "chan1"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "base*/out1",
+            "renameto": "chan[1-100]"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 3,
+          "DAT:text": 1,
+          "CHOP:select": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select5",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "constant*",
+            "channames": "chan[1-8]"
+          }
+        },
+        {
+          "name": "select6",
+          "type": "CHOP:select",
+          "parameters": {
+            "renamefrom": "*:*",
+            "renameto": "*(1):*(0)"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 5,
+            "const1name": "chan2",
+            "const1value": 6,
+            "const2name": "v3",
+            "const2value": 7,
+            "const3name": "v4",
+            "const3value": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select5",
+          "to": "select6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:select": 2,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "constant*",
+            "channames": "chan[1-8]"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "renameto": "v[41-100]"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 5,
+            "const1name": "chan2",
+            "const1value": 6,
+            "const2name": "v3",
+            "const2value": 7,
+            "const3name": "v4",
+            "const3value": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "select2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:select": 2,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select5",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "constant*",
+            "channames": "chan[1-8]"
+          }
+        },
+        {
+          "name": "select8",
+          "type": "CHOP:select",
+          "parameters": {
+            "renameto": "color[rgba]"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "chan2",
+            "const0value": 1,
+            "const1name": "chan3",
+            "const1value": 2,
+            "const2name": "v3",
+            "const2value": 3,
+            "const3name": "v4",
+            "const3value": 4
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 5,
+            "const1name": "chan2",
+            "const1value": 6,
+            "const2name": "v3",
+            "const2value": 7,
+            "const3name": "v4",
+            "const3value": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select5",
+          "to": "select8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:select": 2,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example10",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "default",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const1name": "chan2"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "select3",
+          "type": "CHOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "select4",
+          "type": "CHOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.31,
+            "const1name": "chan2",
+            "const1value": 0.47
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.93,
+            "const1name": "chan2",
+            "const1value": 0.27
+          }
+        },
+        {
+          "name": "constant4",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.54,
+            "const1name": "chan2",
+            "const1value": 0.69
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 4,
+          "CHOP:select": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example11",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 1,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

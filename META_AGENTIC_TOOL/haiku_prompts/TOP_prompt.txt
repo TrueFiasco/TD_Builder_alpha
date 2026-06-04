@@ -1,0 +1,2152 @@
+# TOP Network Descriptions
+
+Write ONLY a 1-2 sentence network_description for each example.
+Describe the DATA FLOW based on the operators and connections.
+DO NOT explain what operators do. DO NOT explain parameter values.
+
+Output format:
+```yaml
+operator_type:
+  example_name: "description..."
+```
+
+---
+
+## addTOP
+### example1
+Curator: The Add TOP can take 2 inputs and add their color values together.
+INPUT: constant1(TOP:constant), constant6(TOP:constant)
+OUTPUT: add1(TOP:add)
+FLOW: constant1->add1, constant6->add1
+TOPO: 3 ops, 2 conns, chain=2
+
+### example2
+Curator: This example performs basic transform operations on the incoming signals.
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: add2(TOP:add)
+ISOLATED: lfo1(CHOP:lfo)
+FLOW: moviefilein1->add2, moviefilein2->add2
+TOPO: 4 ops, 2 conns, chain=2
+
+### example3
+Curator: A little-known occasionally-useful feature in TOPs is the Passes parameter that repeats an operation multiple times, in this case a repeated scale/rotate on a square.You can also uses Passes to act as
+INPUT: rectangle1(TOP:rectangle)
+OUTPUT: add1(TOP:add)
+FLOW: rectangle1->add1, rectangle1->add1
+TOPO: 2 ops, 2 conns, chain=2
+
+## analyzeTOP
+### example1
+Curator: Analyze TOPs get the darkest pixel and the  brightest pixel of the muddy "source" images. This network adjusts levels so the image range is 0 to 1 with no channels over-driven.Note that Analyze by def
+INPUT: moviein1(TOP:moviefilein)
+PROCESSOR: result(TOP:null), source(TOP:null), level_muddy(TOP:level), level_balance(TOP:level)
+OUTPUT: null1(TOP:null), analyze_dark(TOP:analyze), analyze_dark2(TOP:analyze), analyze_light(TOP:analyze), analyze_light2(TOP:analyze), lumalevel_lower_contrast(TOP:lumalevel)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), topto3(CHOP:topto), topto4(CHOP:topto), moviein2(TOP:moviefilein), videoin1h(TOP:videodevin), topto1_export(DAT:table), topto3_export(DAT:table)
+FLOW: source->null1, level_balance->result, level_muddy->source, moviein1->level_muddy, source->analyze_dark, level_balance->analyze_dark2, source->analyze_light, source->level_balance
+  ...and 2 more connections
+TOPO: 19 ops, 10 conns, chain=6
+
+### example2
+Curator: These Analyze TOPs analyze each row or column and puts the results in a 1-pixel wide strip.The Resoltion TOPs are not changing the pixel resolution. They are changing only the image aspect ratio, so t
+INPUT: moviein3(TOP:moviefilein)
+PROCESSOR: analyze1(TOP:analyze), analyze2(TOP:analyze), analyze3(TOP:analyze), analyze4(TOP:analyze)
+OUTPUT: res1(TOP:res), res2(TOP:res), res3(TOP:res), res4(TOP:res)
+FLOW: analyze1->res1, analyze2->res2, analyze3->res3, analyze4->res4, moviein3->analyze1, moviein3->analyze2, moviein3->analyze3, moviein3->analyze4
+TOPO: 9 ops, 8 conns, chain=3
+
+### example3
+Curator: Analyze the maximum and minimum range of a TOP rgba channels.Note the Analyze TOPs' Analyze Channel parameter are set to RGBA Independent so the max / min are calculated separately for each channel.  
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: transform1(TOP:transform)
+ISOLATED: analyzeRange(COMP:base)
+FLOW: moviein1->transform1
+TOPO: 3 ops, 1 conns, chain=2
+
+## antialiasTOP
+### example1
+Curator: The Anti Alias TOP is used to smooth out rough edges on diagonal lines.It works by performing an edge detection (which can be manipulated by changing the Quality parameter to Custom) then it uses that
+INPUT: rectangle1(TOP:rectangle)
+OUTPUT: antialias1(TOP:antialias), antialias2(TOP:antialias)
+FLOW: rectangle1->antialias1, rectangle1->antialias2
+TOPO: 3 ops, 2 conns, chain=2
+
+## blobtrackTOP
+### example1
+Curator: The Blob Track TOP can be used to calculate positions of blobs in a texture.One practical use case would be to calculate touch point positions from an optically captured touch surface.The Info DAT is 
+INPUT: circle1(TOP:circle), circle2(TOP:circle)
+PROCESSOR: comp1(TOP:comp)
+OUTPUT: blobtrack2(TOP:blobtrack)
+ISOLATED: noise1(CHOP:noise), noise2(CHOP:noise), noise1_export(DAT:table), noise1_export1(DAT:table), blobtrack2_blobs(DAT:info), blobtrack2_callbacks(DAT:text)
+FLOW: circle1->comp1, circle2->comp1, comp1->blobtrack2
+TOPO: 10 ops, 3 conns, chain=3
+
+### example2
+Curator: Here you can see the behavior and limits of the blob tracker. The Resolution TOP scales to quarter-resolution in X and Y so the Blob Track TOP has 1/16 the number of pixels to go through.The Monochrom
+INPUT: info1(CHOP:info), info2(DAT:info), datto1(CHOP:datto), chopto1(TOP:chopto), render1(TOP:render), moviefilein1(TOP:moviefilein)
+PROCESSOR: res1(TOP:res), mono1(TOP:mono), math_u(CHOP:math), delete1(CHOP:delete), select1(DAT:select), displace1(TOP:displace), blobtrack1(TOP:blobtrack), lumalevel1(TOP:lumalevel)
+OUTPUT: over1(TOP:over), math_v(CHOP:math), trail1(CHOP:trail), transpose1(DAT:transpose)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), noise1(CHOP:noise), moviefilein2(TOP:moviefilein), readMe_convert(DAT:text), blobtrack1_blobs(DAT:info), blobtrack1_callbacks(DAT:text)
+FLOW: lumalevel1->res1, displace1->mono1, render1->over1, blobtrack1->over1, datto1->math_u, math_u->math_v, delete1->trail1, info1->delete1
+  ...and 6 more connections
+TOPO: 25 ops, 14 conns, chain=7
+
+### example3
+Curator: This uses the new time counters in the blob table that it outputs, and in the new callbacks.This handles blobs that come and go from visibility. Look at blobtrack1_blobs.Blobs can be lost for some amo
+INPUT: noise1(CHOP:noise), moviefilein1(TOP:moviefilein), blobtrack1_blobs(DAT:info)
+PROCESSOR: blur1(TOP:blur), circle1(TOP:circle), blobtrack1(TOP:blobtrack), lumalevel1(TOP:lumalevel), transform1(TOP:transform), transform2(TOP:transform)
+OUTPUT: null1(CHOP:null), null2(TOP:null), select1(DAT:select), thresh1(TOP:thresh)
+ISOLATED: comment1(COMP:annotate), lostBlobs(COMP:base), null1_export(DAT:table), blobtrack1_callbacks(DAT:text)
+FLOW: moviefilein1->blur1, noise1->null1, blobtrack1->null2, transform1->circle1, blobtrack1_blobs->select1, blobtrack1->thresh1, lumalevel1->blobtrack1, circle1->lumalevel1
+  ...and 2 more connections
+TOPO: 17 ops, 10 conns, chain=8
+
+## bloomTOP
+### example1
+Curator: It's easier to understand what each of the parameters do in isolation.Turn on the bullseye on the parameter dialog to see the pars that are not at their default values.The bloomA set illustrates a fir
+INPUT: moviefileinA(TOP:moviefilein), moviefileinB(TOP:moviefilein), moviefileinC(TOP:moviefilein), moviefileinD(TOP:moviefilein)
+PROCESSOR: bloom1(TOP:bloom), bloomC_wide(TOP:bloom), bloomC_tight(TOP:bloom)
+OUTPUT: reorder1(TOP:reorder), reorder2(TOP:reorder), reorder3(TOP:reorder), blooD_variant1(TOP:bloom), bloomA_default(TOP:bloom), bloomB_default(TOP:bloom), bloomIntensity(TOP:bloom), bloomA_overload(TOP:bloom), bloomD_variant2(TOP:bloom), bloomB_bloomWide(TOP:bloom)
+  ...and 12 more
+ISOLATED: comment1(COMP:annotate)
+FLOW: moviefileinB->bloom1, bloomC_tight->reorder1, bloomC_wide->reorder2, bloom1->reorder3, moviefileinC->bloomC_wide, moviefileinC->bloomC_tight, moviefileinD->blooD_variant1, moviefileinA->bloomA_default
+  ...and 17 more connections
+TOPO: 30 ops, 25 conns, chain=3
+
+### example2
+Curator: When high quality gain is ON, brightness gain happens in a separate pass, *before* mip levels are generated. If you have large, bright blobs in your image, you will get roughly the same bloom effect. 
+INPUT: rectangle2(TOP:rectangle), bigRectangle(TOP:rectangle), smallRectangle(TOP:rectangle)
+PROCESSOR: rectangle3(TOP:rectangle)
+OUTPUT: bloom1(TOP:bloom), bloom2(TOP:bloom), bloom3(TOP:bloom), bloom4(TOP:bloom), bloom5(TOP:bloom), bloom6(TOP:bloom), bloom7(TOP:bloom), highQualityGainOn(TOP:bloom), highQualityGainOff(TOP:bloom), highQualityGainOffSmall(TOP:bloom)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), topto3(CHOP:topto), topto4(CHOP:topto), topto5(CHOP:topto), pattern1(CHOP:pattern), pattern2(CHOP:pattern)
+FLOW: smallRectangle->bloom1, smallRectangle->bloom2, rectangle3->bloom3, rectangle3->bloom4, rectangle3->bloom5, rectangle3->bloom6, rectangle3->bloom7, rectangle2->rectangle3
+  ...and 3 more connections
+TOPO: 21 ops, 11 conns, chain=3
+
+### example3
+Curator: If you want to do your own Bloom pre-processing, isolate your signal yourself (for example, chroma1 and level1 isolate and boost the reds un-naturally).  Feed that isolated / enhanced color into Bloom
+INPUT: ramp1(TOP:ramp), moviefilein1(TOP:moviefilein)
+PROCESSOR: bloom1(TOP:bloom), bloom2(TOP:bloom), level1(TOP:level), chroma1(TOP:chroma), lookup1(TOP:lookup)
+OUTPUT: add1(TOP:add), comp1(TOP:comp), add2_processedBloom(TOP:add)
+ISOLATED: pattern1(CHOP:pattern), pattern2(CHOP:pattern), ramp1_keys(DAT:table)
+FLOW: bloom1->add1, moviefilein1->add1, bloom1->comp1, moviefilein1->comp1, level1->bloom1, moviefilein1->bloom2, chroma1->level1, moviefilein1->chroma1
+  ...and 4 more connections
+TOPO: 13 ops, 12 conns, chain=5
+
+## blurTOP
+### example1
+Curator: The simplest blur with the Filter Size parameter.
+INPUT: text2(TOP:text)
+OUTPUT: blur2(TOP:blur)
+FLOW: text2->blur2
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: A faster and more extreme blur by shrinking the image and blurring that.It internally scales it up again.
+INPUT: text1(TOP:text)
+OUTPUT: blur(TOP:blur)
+FLOW: text1->blur
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: Assume you don't know what the incoming resolution is, but you know you want to blur 10% of the width of whatever image comes in. The Filter Size parameter is expressed in pixels and will be the horiz
+INPUT: beans1280(TOP:moviefilein)
+OUTPUT: blurFraction(TOP:blur)
+ISOLATED: info1(CHOP:info), info2(CHOP:info), butterfly128(TOP:moviefilein)
+FLOW: beans1280->blurFraction
+TOPO: 5 ops, 1 conns, chain=2
+
+### example4
+Curator: The sample step controls the direction that the blur is applied.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: blur_sample_step_x(TOP:blur), blur_sample_step_y(TOP:blur)
+FLOW: moviein1->blur_sample_step_x, moviein1->blur_sample_step_y
+TOPO: 3 ops, 2 conns, chain=2
+
+### example5
+Curator: In this example the direction of the blur is rotated.
+INPUT: moviein3(TOP:moviefilein)
+OUTPUT: blur_blur_rotate(TOP:blur)
+FLOW: moviein3->blur_blur_rotate
+TOPO: 2 ops, 1 conns, chain=2
+
+### example6
+Curator: The Pre-Shrink and Filter size control the amount and quality of the blur.  Pre-shrink of 2 or 4 etc will first reduce the image resolution, then the blur is appled to the smaller image, and then it i
+INPUT: moviein4(TOP:moviefilein)
+OUTPUT: blur_pixel(TOP:blur)
+FLOW: moviein4->blur_pixel
+TOPO: 2 ops, 1 conns, chain=2
+
+### example7
+Curator: You can control  which channel the blur will affect on the Common page.
+INPUT: moviein5(TOP:moviefilein)
+OUTPUT: blur_only_red_channel(TOP:blur)
+FLOW: moviein5->blur_only_red_channel
+TOPO: 2 ops, 1 conns, chain=2
+
+### example8
+Curator: You can use a  Blur TOP  to dither an incoming signal. This is helpful when working with low quality assets where there is color banding.
+INPUT: ramp1(TOP:ramp)
+PROCESSOR: diff1(TOP:diff), ditheringInput(TOP:blur)
+OUTPUT: level1(TOP:level)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->diff1, ditheringInput->diff1, diff1->level1, ramp1->ditheringInput
+TOPO: 5 ops, 4 conns, chain=4
+
+### example9
+Curator: Generates a softened alpha channel from the alpha of the original image.blur1 determines how far to cut into the edge.Near the edge, blurred alpha is about .5, so lookup eliminates alpha outside the b
+INPUT: erode(COMP:slider), wave1(CHOP:wave), moviein2(TOP:moviefilein), shoulder(COMP:slider)
+PROCESSOR: src1(TOP:null), blur1(TOP:blur), math2(CHOP:math), math3(CHOP:math), trim1(CHOP:trim), shift1(CHOP:shift), inside1(TOP:inside), lookup1(TOP:lookup), function1(CHOP:function)
+OUTPUT: erode1(TOP:null), erode_(CHOP:select), shoulder_(CHOP:select), lookup1table(CHOP:null)
+ISOLATED: srcinfo1(CHOP:info)
+FLOW: moviein2->src1, src1->blur1, erode/out1->math2, shoulder/out1->math3, function1->trim1, inside1->erode1, math2->erode_, trim1->shift1
+  ...and 6 more connections
+TOPO: 18 ops, 14 conns, chain=6
+
+### example10
+Curator: Threhhold with a little softness.  Could use Luma Level instead with Black Level raised.Blur pre-shrink to spread out more with lower GPU cost. 16 bit on Pixel Format to avoid low-level stepping.Luma 
+INPUT: moviein2(TOP:moviefilein)
+PROCESSOR: blur1(TOP:blur), comp1(TOP:comp), thresh1(TOP:thresh), lumalevel1(TOP:lumalevel)
+OUTPUT: null1(TOP:null), lumalevel2(TOP:lumalevel)
+FLOW: thresh1->blur1, lumalevel1->comp1, moviein2->comp1, comp1->null1, moviein2->thresh1, blur1->lumalevel1, moviein2->lumalevel2
+TOPO: 7 ops, 7 conns, chain=6
+
+## cacheselectTOP
+### example1
+Curator: The Cache Select TOP allows you to extract a frame from a Cache TOP. First you need, on the Cache TOP, to turn Active on for a few seconds to fill the cache. Then the Cache TOP has enough frames to fe
+INPUT: slider1(COMP:slider), moviein1(TOP:moviefilein)
+OUTPUT: math1(CHOP:math), cache1(TOP:cache)
+ISOLATED: cacheselect1(TOP:cacheselect), cacheselect2(TOP:cacheselect)
+FLOW: slider1/out1->math1, moviein1->cache1
+TOPO: 6 ops, 2 conns, chain=2
+
+## cacheTOP
+### example1
+Curator: The Cache TOP can be used to simply delay images.Here the Cache Size is set to 11 to hold the current image and the image 10 cooks ago.The time-delay is not exact because it caches one image per timel
+INPUT: moviein4(TOP:moviefilein)
+OUTPUT: cache5(TOP:cache)
+FLOW: moviein4->cache5
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: You can pre-fill all the frames of a Movie File In TOP into a Cache TOP and then scrub through them.The prefill needs to capture one image of the movie per timeline frame. Here this is done by making 
+INPUT: slider3(COMP:slider), moviein3(TOP:moviefilein)
+PROCESSOR: math1(CHOP:math), transform_zoom(TOP:transform), shrink_to_save1(TOP:res)
+OUTPUT: null3(CHOP:null), cache1(TOP:cache)
+ISOLATED: null3_export1(DAT:table)
+FLOW: slider3/out1->math1, math1->null3, shrink_to_save1->cache1, moviein3->transform_zoom, transform_zoom->shrink_to_save1
+TOPO: 8 ops, 5 conns, chain=4
+
+### example3
+Curator: Two Cache Select TOPs selecting from one Cache TOP.You can pre-fill all the frames of a Movie File In TOP into a Cache TOP and then scrub through them using two Cache Selext TOPs.
+INPUT: moviein(TOP:moviefilein), slider1(COMP:slider), slider2(COMP:slider)
+PROCESSOR: math_range1(CHOP:math), math_range2(CHOP:math), shrink_to_save(TOP:res)
+OUTPUT: to_select1(CHOP:null), to_select2(CHOP:null), cache_pre_fill(TOP:cache)
+ISOLATED: cacheselec2(TOP:cacheselect), cacheselect1(TOP:cacheselect), null3_export(DAT:table), null4_export(DAT:table)
+FLOW: math_range1->to_select1, math_range2->to_select2, slider1/out1->math_range1, slider2/out1->math_range2, shrink_to_save->cache_pre_fill, moviein->shrink_to_save
+TOPO: 13 ops, 6 conns, chain=3
+
+### example4
+Curator: This example uses 2 Cache TOPs to create trails of the original image. By setting the Output Index, you can adjust how close to the current frame the Cache TOPs output is.
+INPUT: moviein1(TOP:moviefilein), constant1(CHOP:constant)
+PROCESSOR: speed1(CHOP:speed), transform1(TOP:transform), cache_active(TOP:cache), cache_active1(TOP:cache)
+OUTPUT: comp1(TOP:comp), null2(CHOP:null)
+ISOLATED: null2_export(DAT:table)
+FLOW: transform1->comp1, cache_active->comp1, cache_active1->comp1, speed1->null2, constant1->speed1, moviein1->transform1, transform1->cache_active, transform1->cache_active1
+TOPO: 9 ops, 8 conns, chain=4
+
+### example5
+Curator: This simply averages the last 4 frames, like a multi-exposure.Try Composite TOP Operations Maximum.This can be made more controllable by adding Level TOPs after each Cache Select TOP and adjust their 
+INPUT: moviein2(TOP:moviefilein)
+PROCESSOR: transform2(TOP:transform)
+OUTPUT: cache1(TOP:cache)
+ISOLATED: lfo1(CHOP:lfo), comp1(TOP:comp), comp2(TOP:comp), fadeDelay0(COMP:base), fadeDelay1(COMP:base), fadeDelay2(COMP:base), fadeDelay3(COMP:base), lfo1_export(DAT:table), cacheselect0(TOP:cacheselect), cacheselect1(TOP:cacheselect)
+  ...and 2 more
+FLOW: transform2->cache1, moviein2->transform2
+TOPO: 15 ops, 2 conns, chain=3
+
+### example6
+Curator: work-in-progress. pixel > 0 if surface is coming toward camera.
+INPUT: depth1(TOP:depth)
+PROCESSOR: cache2(TOP:cache)
+OUTPUT: sub1(TOP:sub)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), lfo2(CHOP:lfo), light1(COMP:light), render1(TOP:render)
+FLOW: depth1->sub1, cache2->sub1, depth1->cache2
+TOPO: 8 ops, 3 conns, chain=3
+
+## channelmixTOP
+### example1
+Curator: R = G + B G = R + B B = R + G
+INPUT: ramp5(TOP:ramp)
+OUTPUT: chanmix_all_red1(TOP:chanmix)
+ISOLATED: ramp5_keys(DAT:table)
+FLOW: ramp5->chanmix_all_red1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example2
+Curator: This example adds all the incoming RGB channels into the Red channel, (clanping at a sum of 1 if the pixels are 0-1 value, i.e. not floating point numbers that go beow 0 or above 1.)Since the green st
+INPUT: ramp1(TOP:ramp)
+OUTPUT: chanmix_allRed(TOP:chanmix), chanmix_allRed1(TOP:chanmix)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->chanmix_allRed, ramp1->chanmix_allRed1
+TOPO: 4 ops, 2 conns, chain=2
+
+### example3
+Curator: The adding of the Red and Blue channels into each others channels creates purple. Green is 0.Connect moviefilein1 to chanmix_push_green_to_redblue.
+INPUT: ramp2(TOP:ramp)
+OUTPUT: chanmix_no_green(TOP:chanmix), chanmix_push_green_to_redblue(TOP:chanmix)
+ISOLATED: ramp2_keys(DAT:table), moviefilein1(TOP:moviefilein)
+FLOW: ramp2->chanmix_no_green, ramp2->chanmix_push_green_to_redblue
+TOPO: 5 ops, 2 conns, chain=2
+
+### example4
+Curator: In this example we subtract the alpha from Green and Blue channels, leaving only Red.The Level TOP can produce similar effects, but cannot mix channels.
+INPUT: ramp3(TOP:ramp)
+OUTPUT: level1(TOP:level), chanmix_swap_green_and_blue(TOP:chanmix), chanmix_invert_green_and_blue(TOP:chanmix), chanmix_subtract_green_and_blue_alpha(TOP:chanmix)
+ISOLATED: ramp3_keys(DAT:table), moviefilein1(TOP:moviefilein)
+FLOW: ramp3->level1, ramp3->chanmix_swap_green_and_blue, ramp3->chanmix_invert_green_and_blue, ramp3->chanmix_subtract_green_and_blue_alpha
+TOPO: 7 ops, 4 conns, chain=2
+
+### example5
+Curator: In this example we subtracted white from the signal, leaving black.R = R - 1 is always <1, which clamps at black for 8-bit color.But if the pixels are floating point, they have values outside to 0-1 r
+INPUT: ramp4(TOP:ramp)
+OUTPUT: chanmix_subtract_white(TOP:chanmix), chanmix_subtract_white1(TOP:chanmix), chanmix_subtract_white2(TOP:chanmix)
+ISOLATED: ramp4_keys(DAT:table)
+FLOW: ramp4->chanmix_subtract_white, ramp4->chanmix_subtract_white1, ramp4->chanmix_subtract_white2
+TOPO: 5 ops, 3 conns, chain=2
+
+### example6
+Curator: This time the ramp is created as  floating point pixels, as you see on the Common page.That means pixels can go below zero, though they will look black when displayed on a monitor, as you see in chanm
+INPUT: ramp_floating_point(TOP:ramp)
+PROCESSOR: transform_to_8bit(TOP:transform), chanmix_subtract_white1(TOP:chanmix), chanmix_subtract_white2(TOP:chanmix)
+OUTPUT: null1(TOP:null), null2(TOP:null), analyze1(TOP:analyze), analyze2(TOP:analyze), chanmix_subtract_all_colors2(TOP:chanmix), chanmix_subtract_all_colors4(TOP:chanmix)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), ramp6_keys(DAT:table)
+FLOW: chanmix_subtract_white1->null1, chanmix_subtract_white2->null2, chanmix_subtract_white2->analyze1, chanmix_subtract_white1->analyze2, ramp_floating_point->transform_to_8bit, ramp_floating_point->chanmix_subtract_white1, transform_to_8bit->chanmix_subtract_white2, chanmix_subtract_white1->chanmix_subtract_all_colors2
+  ...and 1 more connections
+TOPO: 13 ops, 9 conns, chain=4
+
+### example7
+Curator: Here we force alpha to be 1 by adding 1 to the alpha channel.
+INPUT: moviein1(TOP:moviefilein)
+PROCESSOR: chanmix_over_constant(TOP:chanmix)
+OUTPUT: null1(TOP:null)
+FLOW: chanmix_over_constant->null1, moviein1->chanmix_over_constant
+TOPO: 3 ops, 2 conns, chain=3
+
+## choptoTOP
+### example1
+Curator: This example uses the RGBA values from topto1 to  create a pixel.
+ISOLATED: topto1(CHOP:topto), moviein2(TOP:moviefilein), chopto_single_pixel(TOP:chopto)
+TOPO: 3 ops, 0 conns, chain=1
+
+### example2
+Curator: This CHOP to creates a pixel for every sample of noise.
+INPUT: moviein1(TOP:moviefilein), chopto_values(TOP:chopto)
+OUTPUT: multiply1(TOP:multiply)
+ISOLATED: noise(CHOP:noise)
+FLOW: moviein1->multiply1, chopto_values->multiply1
+TOPO: 4 ops, 2 conns, chain=2
+
+### example3
+Curator: Just to show a variety of data formats and conversions, we go from CHOP to DAT to CHOP and then to TOPs. The CHOP to TOP has the ability to arrange the pixels in a square (not a long row), easier to m
+INPUT: chopto2(TOP:chopto)
+OUTPUT: null1(TOP:null)
+ISOLATED: geo1(COMP:geo), datto1(CHOP:datto), noise1(CHOP:noise), chopto1(DAT:chopto)
+FLOW: chopto2->null1
+TOPO: 6 ops, 1 conns, chain=2
+
+## chromakeyTOP
+### example1
+Curator: The Chroma Key TOP can be used to extract parts of an image based on Hue, Saturation, and Value.One common application is to extract people and objects from a green screen.The Soft Low and Soft High p
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), moviefilein3(TOP:moviefilein)
+PROCESSOR: chroma3(TOP:chroma)
+OUTPUT: sub1(TOP:sub), chroma1(TOP:chroma), chroma2(TOP:chroma)
+FLOW: moviefilein3->sub1, chroma3->sub1, moviefilein1->chroma1, moviefilein2->chroma2, moviefilein3->chroma3
+TOPO: 7 ops, 5 conns, chain=3
+
+## circleTOP
+### example1
+Curator: Circle as a rim and a bar.
+INPUT: circle2(TOP:circle)
+OUTPUT: transform1(TOP:transform)
+ISOLATED: circle1(TOP:circle)
+FLOW: circle2->transform1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example2
+Curator: Circle used as a triangle indicator.
+INPUT: circle3(TOP:circle), slider1(COMP:slider)
+OUTPUT: math1(CHOP:math), transform2(TOP:transform)
+ISOLATED: circle4(TOP:circle), math1_export(DAT:table)
+FLOW: slider1/out1->math1, circle3->transform2
+TOPO: 6 ops, 2 conns, chain=2
+
+## compositeTOP
+### example1
+Curator: After you look at the examples here, get the example Dialogs -> Tools called blendModes.https://docs.derivative.ca/Palette:blendModes
+TOPO: 0 ops, 0 conns, chain=1
+
+### example2
+Curator: There are many different types of compositing algorithms available. Here are a few examples.
+INPUT: count(TOP:moviefilein), person(TOP:moviefilein)
+OUTPUT: composite_divide(TOP:comp), composite_inside(TOP:comp), composite_outside(TOP:comp), composite_multiply(TOP:comp)
+FLOW: person->composite_divide, count->composite_divide, count->composite_inside, person->composite_inside, count->composite_outside, person->composite_outside, count->composite_multiply, person->composite_multiply
+TOPO: 6 ops, 8 conns, chain=2
+
+### example3
+Curator: The Composite TOP can take many inputs and composite them simultaneously.But if the operation is the same, it's better to use pattern matching.
+INPUT: image1(TOP:moviefilein), image2(TOP:moviefilein), image3(TOP:moviefilein), image4(TOP:moviefilein)
+OUTPUT: composite_multiple_inputs1(TOP:comp)
+ISOLATED: composite_multiple_inputs2(TOP:comp)
+FLOW: image1->composite_multiple_inputs1, image2->composite_multiple_inputs1, image3->composite_multiple_inputs1, image4->composite_multiple_inputs1
+TOPO: 6 ops, 4 conns, chain=2
+
+### example4
+Curator: This example  performs basic  transform operations on the incoming signals.
+INPUT: person3(TOP:moviefilein), person4(TOP:moviefilein)
+OUTPUT: composite_transforming_inputs(TOP:comp)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: person4->composite_transforming_inputs, person3->composite_transforming_inputs
+TOPO: 5 ops, 2 conns, chain=2
+
+### example5
+Curator: This example uses the Translate Step parameter to animate inputs  3 and 4.  First input is fixed/static, that is it is not translated. Also it means the output resolution is that of the first input. T
+INPUT: constant2(TOP:constant), constant3(TOP:constant), constant4(TOP:constant), constant5(TOP:constant)
+OUTPUT: comp1(TOP:comp)
+FLOW: constant2->comp1, constant3->comp1, constant4->comp1, constant5->comp1
+TOPO: 5 ops, 4 conns, chain=2
+
+### example6
+Curator: more examples
+ISOLATED: classicComposites(COMP:base)
+TOPO: 1 ops, 0 conns, chain=1
+
+## constantTOP
+### example1
+Curator: Composite  a solid color with an image, and play with the different compositing operations, like Burn Linear in this case.
+INPUT: constant1(TOP:constant), moviefilein2(TOP:moviefilein), moviefilein4(TOP:moviefilein), moviefilein5(TOP:moviefilein)
+PROCESSOR: mono1(TOP:mono)
+OUTPUT: constant2(TOP:constant), multiply1(TOP:multiply), constant_multiply(TOP:constant)
+ISOLATED: annotate1(COMP:annotate), annotate2(COMP:annotate), annotate3(COMP:annotate), moviefilein3(TOP:moviefilein)
+FLOW: moviefilein2->mono1, mono1->constant2, constant1->multiply1, moviefilein4->multiply1, moviefilein5->constant_multiply
+TOPO: 12 ops, 5 conns, chain=3
+
+## convolveTOP
+### example1
+Curator: The Convolve TOP uses a DAT table containing numeric coefficients. For each pixel, it combines its RGBA values and it's neighboring pixels' RGBA values by multiplying the values by the corresponding c
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), moviefilein3(TOP:moviefilein), moviefilein4(TOP:moviefilein), moviefilein5(TOP:moviefilein)
+OUTPUT: convolve1(TOP:convolve), convolve2(TOP:convolve), convolve3(TOP:convolve), convolve4(TOP:convolve), convolve5(TOP:convolve)
+ISOLATED: text2(DAT:text), text3(DAT:text), text4(DAT:text), text5(DAT:text), text6(DAT:text), table1(DAT:table), table2(DAT:table), table3(DAT:table), table4(DAT:table), table5(DAT:table)
+FLOW: moviefilein1->convolve1, moviefilein2->convolve2, moviefilein3->convolve3, moviefilein4->convolve4, moviefilein5->convolve5
+TOPO: 20 ops, 5 conns, chain=2
+
+## cornerpinTOP
+### example1
+Curator: The Corner Pin TOP allows you to move the corner points of an image in x and y.NOTE: First there is an Extract page that has similar  parameters, but it cuts the image out before applying the corner p
+INPUT: moviein2(TOP:moviefilein)
+OUTPUT: corner_pinning(TOP:corner)
+FLOW: moviein2->corner_pinning
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: You can apply a background color after you have corner pinned an image.
+INPUT: moviein3(TOP:moviefilein)
+OUTPUT: corner_composite_and_pin(TOP:corner)
+FLOW: moviein3->corner_composite_and_pin
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: The Extract page allows you to specify a sub-section of the image to use by moving 4 points.It is different than cropping in that it keeps the original signal's resolution.The last example forces the 
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: corner_extract(TOP:corner), corner_extract1(TOP:corner), corner_extract2(TOP:corner), corner_extract3(TOP:corner)
+ISOLATED: info1(CHOP:info), info2(CHOP:info), info3(CHOP:info)
+FLOW: moviein1->corner_extract, moviein1->corner_extract1, moviein1->corner_extract2, moviein1->corner_extract3
+TOPO: 8 ops, 4 conns, chain=2
+
+## cplusplusTOP
+### example1
+Curator: See samples in the GitHub repository:https://github.com/TouchDesigner/CustomOperatorSamples
+ISOLATED: button1(COMP:button)
+TOPO: 1 ops, 0 conns, chain=1
+
+## cropTOP
+### example1
+Curator: The Crop TOP actually crops out the pixels in an image, whereas the Corner Pin TOP's "Extract" function keeps your image size intact while isolating a specific part of the image.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: crop1(TOP:crop), crop2(TOP:crop), crop3(TOP:crop), crop4(TOP:crop)
+ISOLATED: info1(CHOP:info), info2(CHOP:info), info4(CHOP:info)
+FLOW: moviein1->crop1, moviein1->crop2, moviein1->crop3, moviein1->crop4
+TOPO: 8 ops, 4 conns, chain=2
+
+### example2
+Curator: These two examples show how to crop a region of an image.
+INPUT: moviein2(TOP:moviefilein)
+OUTPUT: crop5(TOP:crop), crop6(TOP:crop)
+ISOLATED: info3(CHOP:info)
+FLOW: moviein2->crop5, moviein2->crop6
+TOPO: 4 ops, 2 conns, chain=2
+
+### example3
+Curator: The extend conditions are used in the off-chance that pixels are added to an image after a crop operation.In these examples, the crop is outside the image 0-1 range.
+INPUT: moviein3(TOP:moviefilein)
+OUTPUT: crop7(TOP:crop), crop8(TOP:crop)
+FLOW: moviein3->crop7, moviein3->crop8
+TOPO: 3 ops, 2 conns, chain=2
+
+## crossTOP
+### example1
+Curator: The Cross TOP crossfades between its two inputs.
+INPUT: moviein1(TOP:moviefilein), moviein2(TOP:moviefilein)
+OUTPUT: cross1(TOP:cross)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: moviein1->cross1, moviein2->cross1
+TOPO: 5 ops, 2 conns, chain=2
+
+### example2
+Curator: The Transform page of the Cross TOP allows you to do basic transform operations on the inputs, thus saving you from having to use a separate Transform TOP afterwards. The Fixed Layer is Input 1 so the
+INPUT: text1(TOP:text), moviein3(TOP:moviefilein)
+OUTPUT: cross_translate(TOP:cross)
+ISOLATED: lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: moviein3->cross_translate, text1->cross_translate
+TOPO: 5 ops, 2 conns, chain=2
+
+## cubemapTOP
+### example1
+Curator: The Cube Map TOP builds a texture map in the Cube Map internal texture format. It accepts a vertical cross image, or 1 input per side of the cube. The Phong MAT can use the cube maps from the Cube Map
+INPUT: text2(TOP:text), text3(TOP:text), text4(TOP:text), text5(TOP:text), text6(TOP:text), text7(TOP:text)
+OUTPUT: cubemap1(TOP:cubemap)
+ISOLATED: geo1(COMP:geo), noise1(CHOP:noise), phong1(MAT:phong), noise1_export(DAT:table)
+FLOW: text2->cubemap1, text3->cubemap1, text4->cubemap1, text5->cubemap1, text6->cubemap1, text7->cubemap1
+TOPO: 11 ops, 6 conns, chain=2
+
+## depthTOP
+### example1
+Curator: The Depth TOP reads an image containing depth information from a scene described in a specified Render TOP. The resulting image is black (0) at pixels where the surface is at the near depth value (Cam
+INPUT: depth1(TOP:depth), render1(TOP:render)
+OUTPUT: lumablur1(TOP:lumablur)
+ISOLATED: box1(SOP:box), cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), geo3(COMP:geo), light1(COMP:light), phong1(MAT:phong), DepthOfField(DAT:text), moviefilein1(TOP:moviefilein)
+FLOW: render1->lumablur1, depth1->lumablur1
+TOPO: 12 ops, 2 conns, chain=2
+
+## differenceTOP
+### example1
+Curator: The Difference TOP computes the difference between two inputs. In this case we're looking at the difference between a Movie File In TOP and a Cache TOP that is set one frame behind the Movie File In. 
+INPUT: videodevin1(TOP:videodevin), moviefilein1(TOP:moviefilein)
+PROCESSOR: blur1(TOP:blur), diff1(TOP:diff), flip1(TOP:flip), mono1(TOP:mono), cache1(TOP:cache), switch1(TOP:switch)
+OUTPUT: null1(TOP:null)
+ISOLATED: button1(COMP:button)
+FLOW: diff1->blur1, switch1->diff1, cache1->diff1, videodevin1->flip1, flip1->mono1, blur1->null1, switch1->cache1, moviefilein1->switch1
+  ...and 1 more connections
+TOPO: 10 ops, 9 conns, chain=8
+
+## directxoutTOP
+### example1
+Curator: Note: The DirectX In/Out TOPs are only available on Windows in TouchDesigner Educational, TouchDesigner Commercial and TouchDesigner Pro. Therefore in this snippet these nodes are currently bypassed t
+INPUT: moviefilein1(TOP:moviefilein), directxout1_info(DAT:info)
+OUTPUT: touchout1(DAT:touchout), directxout1(TOP:directxout)
+ISOLATED: touchin1(DAT:touchin), annotate1(COMP:annotate), annotate2(COMP:annotate), directxin1(TOP:directxin)
+FLOW: directxout1_info->touchout1, moviefilein1->directxout1
+TOPO: 8 ops, 2 conns, chain=2
+
+## displaceTOP
+### example1
+Curator: For every output pixel, the Displace TOP fetches from nearby the corresponding pixel in the first input image.The second image is used to warp the first image. If a pixel of the second input is grey (
+INPUT: noise1(TOP:noise), circle1(TOP:circle), moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: displace1(TOP:displace), displace2(TOP:displace)
+ISOLATED: circle_red(COMP:slider), circle_blue(COMP:slider)
+FLOW: moviefilein1->displace1, circle1->displace1, moviefilein2->displace2, noise1->displace2
+TOPO: 8 ops, 4 conns, chain=2
+
+### example2
+Curator: For every output pixel, it fetches from nearby the corresponding input pixel. Changing the Displace TOPs Displace Weight allows you to control how heavily the input is displaced in each direction.Note
+INPUT: noise(CHOP:noise), moviein1(TOP:moviefilein), chop_to_top(TOP:chopto)
+PROCESSOR: analyze_max(CHOP:analyze), analyze_min(CHOP:analyze)
+OUTPUT: displace(TOP:displace), trail_max(CHOP:trail), trail_min(CHOP:trail)
+FLOW: moviein1->displace, chop_to_top->displace, analyze_max->trail_max, analyze_min->trail_min, noise->analyze_max, noise->analyze_min
+TOPO: 8 ops, 6 conns, chain=3
+
+### example3
+Curator: For every output pixel, it fetches from nearby the corresponding input pixel. Changing the Displace TOPs Displace Weight allows you to control how heavily the input is displaced in each direction.
+INPUT: ramp1(TOP:ramp), moviein2(TOP:moviefilein)
+OUTPUT: displace_weight(TOP:displace), displace_weight1(TOP:displace)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: moviein2->displace_weight, ramp1->displace_weight, moviein2->displace_weight1, ramp1->displace_weight1
+TOPO: 5 ops, 4 conns, chain=2
+
+### example4
+Curator: The pixels of smiley.tif are being displaced on the X axis by blue channel of the 2nd input noise.
+INPUT: noise1(TOP:noise), moviein3(TOP:moviefilein)
+OUTPUT: displace1(TOP:displace)
+FLOW: moviein3->displace1, noise1->displace1
+TOPO: 3 ops, 2 conns, chain=2
+
+### example5
+Curator: This example gets its pixels from random shifts in location in the input image.Red channels of the second input (the "Displace Input") determine the shift horizontally and blue channels determine the 
+INPUT: noise_displacer(TOP:noise), moviein_displacee(TOP:moviefilein)
+PROCESSOR: displace2(TOP:displace), transformer(TOP:transform)
+OUTPUT: sizzle(TOP:null)
+ISOLATED: displacer(COMP:slider)
+FLOW: displace2->sizzle, moviein_displacee->displace2, transformer->displace2, noise_displacer->transformer
+TOPO: 6 ops, 4 conns, chain=4
+
+### example6
+Curator: This example does the same thing as the previous example but the slider adjusts the contrast of the Displace image to grey, versus the previous example where the slider adjusts the Displace Weight par
+INPUT: noise_displacer1(TOP:noise), moviein_displacee1(TOP:moviefilein)
+PROCESSOR: level1(TOP:level), displace3(TOP:displace), transformer1(TOP:transform)
+OUTPUT: sizzle1(TOP:null)
+ISOLATED: displacer1(COMP:slider)
+FLOW: transformer1->level1, displace3->sizzle1, moviein_displacee1->displace3, level1->displace3, noise_displacer1->transformer1
+TOPO: 7 ops, 5 conns, chain=5
+
+## edgeTOP
+### example1
+Curator: The Edge TOP finds edges in an image and highlights them. For each pixel, it looks at the values at neighboring pixels, and where differences are greater than a threshold, the output's value is higher
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: edge1(TOP:edge)
+FLOW: moviefilein1->edge1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: If you fancy yourself a mad lad, try putting an Edge Detect TOP in a feedback loop.#facemelt
+INPUT: circle1(TOP:circle)
+PROCESSOR: edge2(TOP:edge), level1(TOP:level), feedback1(TOP:feedback)
+OUTPUT: comp1(TOP:comp)
+ISOLATED: noise1(CHOP:noise), noise1_export(DAT:table)
+FLOW: circle1->comp1, edge2->comp1, level1->edge2, feedback1->level1, circle1->feedback1
+TOPO: 7 ops, 5 conns, chain=5
+
+## embossTOP
+### example1
+Curator: The Emboss TOP creates the effect that an image is embossed in a thin sheet of metal. Edges in the image will appear raised.
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: emboss1(TOP:emboss), emboss2(TOP:emboss)
+FLOW: moviefilein1->emboss1, moviefilein2->emboss2
+TOPO: 4 ops, 2 conns, chain=2
+
+## feedbackTOP
+### example1
+Curator: A simple feedback setup that gives fake motion blur by using a fraction (x) of the current image (transform1) plus 1-x of the prior frame's image. With the Cross TOP, this has limited blending control
+INPUT: moviein1(TOP:moviefilein), feedbackAmount(COMP:slider)
+PROCESSOR: math1(CHOP:math), cross1(TOP:cross), feedback1(TOP:feedback), transform1(TOP:transform)
+OUTPUT: null1(TOP:null), null2(CHOP:null)
+ISOLATED: null2_export(DAT:table)
+FLOW: feedbackAmount/out1->math1, cross1->null1, math1->null2, transform1->cross1, feedback1->cross1, transform1->feedback1, moviein1->transform1
+TOPO: 9 ops, 7 conns, chain=5
+
+### example2
+Curator: This takes the current image combined with a fraction (reduce_opacity) of the prior image.You can try different Composite blend modes to control the mixing, and try both rectangle1 and fit1 into rotat
+INPUT: constant1(TOP:constant), moviefilein1(TOP:moviefilein)
+PROCESSOR: fit1(TOP:fit), rotate(TOP:transform), source(TOP:null), feedback1(TOP:feedback), reduceOpacity(TOP:level)
+OUTPUT: comp1(TOP:comp)
+ISOLATED: blends(DAT:text), rectangle1(TOP:rectangle)
+FLOW: moviefilein1->fit1, source->comp1, reduceOpacity->comp1, fit1->rotate, rotate->source, constant1->feedback1, feedback1->reduceOpacity
+TOPO: 10 ops, 7 conns, chain=5
+
+### example3
+Curator: Feedback with more effects. alter nodes: opacity: Opacity - fade out traillumalevel1: boost Gamma or BrightnessreduceHighRed - isolate colorshavadjust1 - Hue Offset, boost Saturationtransform1 - Scale
+INPUT: noise1(TOP:noise), moviefilein1(TOP:moviefilein)
+PROCESSOR: fit1(TOP:fit), blur1(TOP:blur), comp1(TOP:comp), edge1(TOP:edge), rotate(TOP:transform), source(TOP:null), hsvadj1(TOP:hsvadj), opacity(TOP:level), displace1(TOP:displace), feedback1(TOP:feedback)
+  ...and 4 more
+OUTPUT: level2(TOP:level)
+FLOW: moviefilein1->fit1, edge1->blur1, level_source->comp1, blur1->comp1, displace1->edge1, comp1->level2, fit1->rotate, rotate->source
+  ...and 9 more connections
+TOPO: 17 ops, 17 conns, chain=14
+
+## fitTOP
+### example1
+Curator: The Fit TOP changes the resolution and aspect ratio of an image, but does not distort the image.In the first example, the new image in fit1 shows the entire horizontal span of the input image.In fit2,
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: fit1(TOP:fit), fit2(TOP:fit)
+ISOLATED: info1(CHOP:info), info2(CHOP:info)
+FLOW: moviein1->fit1, moviein1->fit2
+TOPO: 5 ops, 2 conns, chain=2
+
+### example2
+Curator: To insure the entire image is visible, no matter what the  input and output resolutions are, use Fit Inside.Secondy, to insure the output image uses as much of of the input image as possible, without 
+INPUT: moviein2(TOP:moviefilein)
+OUTPUT: fit3(TOP:fit), fit4(TOP:fit), fit5(TOP:fit)
+ISOLATED: info3(CHOP:info), info4(CHOP:info), info5(CHOP:info)
+FLOW: moviein2->fit3, moviein2->fit4, moviein2->fit5
+TOPO: 7 ops, 3 conns, chain=2
+
+### example3
+Curator: A square image is made to fit 16x9.
+INPUT: moviein3(TOP:moviefilein)
+OUTPUT: fit6(TOP:fit)
+ISOLATED: info6(CHOP:info)
+FLOW: moviein3->fit6
+TOPO: 3 ops, 1 conns, chain=2
+
+## flipTOP
+### example1
+Curator: The Flip TOP provides an easy way to flip an image in X (horizontally) or y (vertically).Flip X and Y together is same as rotating the image 180 degrees.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: flip_x(TOP:flip), flip_y(TOP:flip), flip_x_y(TOP:flip)
+FLOW: moviein1->flip_x, moviein1->flip_y, moviein1->flip_x_y
+TOPO: 4 ops, 3 conns, chain=2
+
+### example2
+Curator: A useful feature of the Flip TOP is being able to "flop" an image. X becomes Y and Y becomes X.This differs from using a Transform TOPs rotation, which rotates the texture contained in the image or mo
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: rotate90(TOP:flip), rotate90_(TOP:flip), flop_bottomLeft(TOP:flip)
+FLOW: moviefilein1->rotate90, moviefilein1->rotate90_, moviefilein1->flop_bottomLeft
+TOPO: 4 ops, 3 conns, chain=2
+
+## flowTOP
+### example1
+INPUT: noise1(CHOP:noise), constant1(CHOP:constant)
+PROCESSOR: math1(CHOP:math), speed1(CHOP:speed)
+OUTPUT: null2(CHOP:null), null3(CHOP:null)
+ISOLATED: cam1(COMP:cam), ramp1(TOP:ramp), ramp2(TOP:ramp), topto1(CHOP:topto), nvflow1(TOP:nvflow), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null2_export(DAT:table), null3_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: noise1->math1, speed1->null2, math1->null3, constant1->speed1
+TOPO: 16 ops, 4 conns, chain=3
+
+### example2
+INPUT: null6(COMP:null), ramp2(TOP:ramp), noise1(CHOP:noise), nvflow1(TOP:nvflow), constant1(CHOP:constant), constant3(TOP:constant)
+PROCESSOR: math1(CHOP:math), speed1(CHOP:speed), hsvrgb1(TOP:hsvrgb)
+OUTPUT: cam1(COMP:cam), null1(TOP:null), null2(CHOP:null), null3(CHOP:null), cross1(TOP:cross)
+ISOLATED: ramp1(TOP:ramp), topto1(CHOP:topto), window1(COMP:window), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null2_export(DAT:table), null3_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, noise1->math1, nvflow1->null1, speed1->null2, math1->null3, constant3->cross1, hsvrgb1->cross1, constant1->speed1
+  ...and 1 more connections
+TOPO: 22 ops, 9 conns, chain=3
+
+### example3
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo), nvflow1(TOP:nvflow)
+OUTPUT: null1(TOP:null), null4(CHOP:null), null5(CHOP:null)
+ISOLATED: cam1(COMP:cam), ramp1(TOP:ramp), ramp2(TOP:ramp), topto1(CHOP:topto), window1(COMP:window), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null4_export(DAT:table), null5_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: nvflow1->null1, lfo1->null4, lfo2->null5
+TOPO: 16 ops, 3 conns, chain=2
+
+### example4
+INPUT: null6(COMP:null), nvflow1(TOP:nvflow)
+OUTPUT: cam1(COMP:cam), null1(TOP:null)
+ISOLATED: ramp2(TOP:ramp), noise1(CHOP:noise), topto1(CHOP:topto), circle1(TOP:circle), window1(COMP:window), ramp2_keys(DAT:table), noise1_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, nvflow1->null1
+TOPO: 12 ops, 2 conns, chain=2
+
+### example5
+INPUT: null6(COMP:null), nvflow1(TOP:nvflow), constant1(CHOP:constant)
+PROCESSOR: speed1(CHOP:speed)
+OUTPUT: cam1(COMP:cam), null1(TOP:null), null2(CHOP:null)
+ISOLATED: lfo2(CHOP:lfo), ramp2(TOP:ramp), topto1(CHOP:topto), circle1(TOP:circle), window1(COMP:window), ramp2_keys(DAT:table), lfo2_export(DAT:table), null2_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, nvflow1->null1, speed1->null2, constant1->speed1
+TOPO: 16 ops, 4 conns, chain=3
+
+## functionTOP
+### example1
+Curator: ramp1 is set on Common page to output 32-bit floating point numbers as Pixel Format for the RGBA channelsnull4 is same as ramp1 with its viewer set to Normalized Split, where the red (R), green (G) an
+INPUT: ramp1(TOP:ramp), pointfilein1(TOP:pointfilein)
+PROCESSOR: math1(TOP:math), null1(TOP:null), null4(TOP:null), function1(TOP:function)
+OUTPUT: null2(TOP:null), function2(TOP:function)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: null4->math1, pointfilein1->null1, function1->null2, ramp1->null4, null1->function1, math1->function2
+TOPO: 9 ops, 6 conns, chain=4
+
+## glslmultiTOP
+### example1
+Curator: The GLSL Multi TOP renders a GLSL shader into a TOP image. Its parameters and functionality are identical to the GLSL TOP, except it allows for more than 3 inputs.In this example 9 TOP inputs are read
+INPUT: text1(TOP:text), text2(TOP:text), text3(TOP:text), text4(TOP:text), text5(TOP:text), text6(TOP:text), text7(TOP:text), text8(TOP:text), text9(TOP:text)
+OUTPUT: glslmulti1(TOP:glslmulti)
+ISOLATED: glslmulti1_info(DAT:info), glslmulti1_pixel(DAT:text), glslmulti1_compute(DAT:text)
+FLOW: text1->glslmulti1, text2->glslmulti1, text3->glslmulti1, text4->glslmulti1, text5->glslmulti1, text6->glslmulti1, text7->glslmulti1, text8->glslmulti1
+  ...and 1 more connections
+TOPO: 13 ops, 9 conns, chain=2
+
+## glslTOP
+### example1
+Curator: The GLSL TOP renders a GLSL shader into a TOP image. Use the Info DAT to check for compile errors in your shaders.Refer to the Write a GLSL TOP article for more info on using this TOP.http://www.deriv
+INPUT: noise2(TOP:noise), noise3(CHOP:noise), circle1(TOP:circle), constant1(TOP:constant), moviefilein1(TOP:moviefilein)
+PROCESSOR: glsl3(TOP:glsl), over1(TOP:over), feedback1(TOP:feedback)
+OUTPUT: glsl2(TOP:glsl), glsl4(TOP:glsl), null1(TOP:null), null2(CHOP:null)
+ISOLATED: glsl1(TOP:glsl), info1(DAT:info), info2(DAT:info), info3(DAT:info), info4(DAT:info), text1(DAT:text), text3(DAT:text), glsl1_pixel(DAT:text), glsl1_pixel1(DAT:text), glsl1_compute(DAT:text)
+  ...and 1 more
+FLOW: moviefilein1->glsl2, over1->glsl3, noise2->glsl4, glsl3->null1, noise3->null2, circle1->over1, feedback1->over1, constant1->feedback1
+TOPO: 23 ops, 8 conns, chain=5
+
+## hsvadjustTOP
+### example1
+Curator: The HSV Adjust TOP adjusts color values using hue, saturation, and value controls. This snippet shows one can narrow the the range of pixels to modify, based on their hue, saturation and value. To adj
+INPUT: topto1(CHOP:topto), moviefilein2(TOP:moviefilein)
+PROCESSOR: hsvadj2(TOP:hsvadj), crop_red_drum_color(TOP:crop)
+OUTPUT: diff2(TOP:diff), analyze1(TOP:analyze), start_color(CHOP:null)
+FLOW: hsvadj2->diff2, moviefilein2->diff2, moviefilein2->hsvadj2, crop_red_drum_color->analyze1, topto1->start_color, moviefilein2->crop_red_drum_color
+TOPO: 7 ops, 6 conns, chain=3
+
+### example2
+Curator: The HSV Adjust TOP adjusts color values using hue, saturation, and value controls. This snippet shows one can narrow the the range of pixels to modify, based on their hue, saturation and value. To adj
+INPUT: topto1(CHOP:topto), moviefilein2(TOP:moviefilein)
+PROCESSOR: hsvadj2(TOP:hsvadj), crop_red_flower(TOP:crop)
+OUTPUT: diff2(TOP:diff), analyze1(TOP:analyze), start_color(CHOP:null)
+FLOW: hsvadj2->diff2, moviefilein2->diff2, moviefilein2->hsvadj2, crop_red_flower->analyze1, topto1->start_color, moviefilein2->crop_red_flower
+TOPO: 7 ops, 6 conns, chain=3
+
+## hsvtorgbTOP
+### example1
+Curator: Put hue in the first channel, saturation in the second channel, value in the third channel, and use HSV to RGB to interpret those three channels as HSV and convert the image to RGB.In this case, hue i
+INPUT: ramp1(TOP:ramp), constant1(TOP:constant), constant2(TOP:constant)
+PROCESSOR: reorder1(TOP:reorder)
+OUTPUT: hsvrgb1(TOP:hsvrgb)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: reorder1->hsvrgb1, ramp1->reorder1, constant1->reorder1, constant2->reorder1
+TOPO: 6 ops, 4 conns, chain=3
+
+## insideTOP
+### example1
+Curator: The Inside TOP places Input1 "inside" Input2. The alpha of Input2 is used to determine what parts of the Input1 image are visible.See also the blendModes component in the palette.Idzard Kwadijkkwadijk
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: inside1(TOP:inside)
+FLOW: moviefilein1->inside1, moviefilein2->inside1
+TOPO: 3 ops, 2 conns, chain=2
+
+## inTOP
+### example1
+Curator: The In TOP is used to create a TOP input in a Component. Component inputs are positioned alphanumerically on the left side of the Component.In this example, base1 COMP has a purple TOP input connector
+INPUT: base1(COMP:base)
+OUTPUT: null1(TOP:null)
+ISOLATED: moviefilein_new_input(TOP:moviefilein)
+FLOW: base1/out1->null1
+TOPO: 3 ops, 1 conns, chain=1
+
+## layoutTOP
+### example1
+Curator: These examples illustrate how to use the Layout TOP.In the 4th example, you can specify paths for TOPs on the parameter dialog without connecting them.
+INPUT: constant1(TOP:constant), constant2(TOP:constant), constant3(TOP:constant), constant4(TOP:constant), constant5(TOP:constant), constant6(TOP:constant), constant7(TOP:constant), constant8(TOP:constant), constant9(TOP:constant), constant10(TOP:constant)
+  ...and 2 more
+OUTPUT: layout_grid(TOP:layout), layout_leftToRight(TOP:layout), layout_topToBottom(TOP:layout)
+ISOLATED: constant13(TOP:constant), constant14(TOP:constant), constant15(TOP:constant), constant16(TOP:constant), layout_path(TOP:layout)
+FLOW: constant9->layout_grid, constant10->layout_grid, constant11->layout_grid, constant12->layout_grid, constant1->layout_leftToRight, constant2->layout_leftToRight, constant3->layout_leftToRight, constant4->layout_leftToRight
+  ...and 4 more connections
+TOPO: 20 ops, 12 conns, chain=2
+
+### example2
+Curator: The Layout TOP positions multiple input TOPs into rows, columns, or grids.It can either fit all the TOPs into a specific resolution (determined by the Common page, default from its first input), by sc
+INPUT: text1(TOP:text), text2(TOP:text), text3(TOP:text), text4(TOP:text)
+PROCESSOR: layout1(TOP:layout)
+OUTPUT: layout2(TOP:layout), layout3(TOP:layout), layout4(TOP:layout), layout5(TOP:layout)
+ISOLATED: info1(CHOP:info), info2(CHOP:info), info3(CHOP:info), info4(CHOP:info), info5(CHOP:info)
+FLOW: text1->layout1, text2->layout1, text3->layout1, text4->layout1, layout1->layout2, text3->layout2, text4->layout2, layout1->layout3
+  ...and 8 more connections
+TOPO: 14 ops, 16 conns, chain=3
+
+## lensdistortTOP
+### example1
+Curator: See Lens Distort TOP wiki for the meaning of the constants.lensdistort1 will distort a renderd image to match a camera. lensdistort2 will undistort a camera image as it has Invert Distortion on.lensdi
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: lensdistort1(TOP:lensdistort)
+OUTPUT: lensdistort2(TOP:lensdistort), lensdistort3(TOP:lensdistort)
+FLOW: moviefilein1->lensdistort1, moviefilein1->lensdistort2, lensdistort1->lensdistort3
+TOPO: 4 ops, 3 conns, chain=3
+
+## levelTOP
+### example1
+Curator: Black level, brightness and gamma adjustment.This operates on each red, gree, blue separately.Refer to the Luma Level TOP too, which will treat the 3 channels together as luminance adjustments, which 
+INPUT: moviein6(TOP:moviefilein)
+OUTPUT: level_black_bright_gamma(TOP:level)
+FLOW: moviein6->level_black_bright_gamma
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: This Level TOP inverts the colors of the incoming image.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: level_invert(TOP:level)
+FLOW: moviein1->level_invert
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: You can control an image's opacity with the Level TOP.
+INPUT: lfo1(CHOP:lfo), moviein4(TOP:moviefilein)
+OUTPUT: null1(CHOP:null), level_opacity(TOP:level)
+ISOLATED: null1_export(DAT:table)
+FLOW: lfo1->null1, moviein4->level_opacity
+TOPO: 5 ops, 2 conns, chain=2
+
+### example4
+Curator: Level TOP can adjust the upper-lower range of each RG and B. This is a different set of controls vs HSV Adjust TOP.
+INPUT: moviein5(TOP:moviefilein)
+OUTPUT: level_remove_blue(TOP:level), level_remove_red_increase_blue(TOP:level)
+FLOW: moviein5->level_remove_blue, moviein5->level_remove_red_increase_blue
+TOPO: 3 ops, 2 conns, chain=2
+
+### example5
+Curator: The Level TOP can modify the incoming and outgoing High and Low values of each pixel.See the Math TOP to handle data outside the 0-1 range more generally.
+INPUT: ramp1(TOP:ramp)
+OUTPUT: level_range(TOP:level), level_range1(TOP:level), level_range2(TOP:level)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->level_range, ramp1->level_range1, ramp1->level_range2
+TOPO: 5 ops, 3 conns, chain=2
+
+### example6
+Curator: The Level TOP can also perform color correction operations by controlling the Low and High values of the Red, Green, Blue, and Alpha channels independantly.
+INPUT: ramp2(TOP:ramp)
+OUTPUT: level_low_red(TOP:level), level_high_red(TOP:level), level_low_blue(TOP:level), level_high_blue(TOP:level), level_low_green(TOP:level), level_high_alpha(TOP:level), level_high_green(TOP:level)
+ISOLATED: ramp2_keys(DAT:table)
+FLOW: ramp2->level_low_red, ramp2->level_high_red, ramp2->level_low_blue, ramp2->level_high_blue, ramp2->level_low_green, ramp2->level_high_alpha, ramp2->level_high_green
+TOPO: 9 ops, 7 conns, chain=2
+
+### example7
+Curator: This shows the application of stepping to a smooth ramp.
+INPUT: ramp3(TOP:ramp)
+OUTPUT: level_stepping(TOP:level)
+ISOLATED: ramp3_keys(DAT:table)
+FLOW: ramp3->level_stepping
+TOPO: 3 ops, 1 conns, chain=2
+
+### example8
+Curator: Sometimes you want to adjust gamma first and then the brightness. Use the Post page for this.You can also clamp the colors to remain in a certain range.
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: level1(TOP:level)
+OUTPUT: level2(TOP:level)
+FLOW: moviefilein1->level1, level1->level2
+TOPO: 3 ops, 2 conns, chain=3
+
+## limitTOP
+### example1
+Curator: limit1 sets a minimum of .25 and a maximum of .7 on all channels.That includes the alpha channel, which may not be desired. limit2 affects only the red and green channel, using the Channel Mask on the
+INPUT: ramp1(TOP:ramp), ramp2(TOP:ramp)
+OUTPUT: null1(TOP:null), limit1(TOP:limit), limit2(TOP:limit), limit3(TOP:limit), limit4(TOP:limit), limit5(TOP:limit)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), topto3(CHOP:topto), topto4(CHOP:topto), topto5(CHOP:topto), ramp1_keys(DAT:table), ramp2_keys(DAT:table)
+FLOW: ramp1->null1, ramp1->limit1, ramp1->limit2, ramp1->limit3, ramp2->limit4, ramp2->limit5
+TOPO: 15 ops, 6 conns, chain=2
+
+### example2
+Curator: See RGB to HSV TOP example 2.See also the Limit CHOP.
+TOPO: 0 ops, 0 conns, chain=1
+
+## lookupTOP
+### example1
+Curator: Compose 4 CHOP channels and apply the first CHOP channel to the red TOP channel, and so on.Unbypass Quantize for a variation.
+INPUT: ramp1(TOP:ramp), patternRed(CHOP:pattern)
+PROCESSOR: lookup1(TOP:lookup), quantize(CHOP:limit), patternBlue(CHOP:pattern), patternAlpha(CHOP:pattern), patternGreen(CHOP:pattern)
+OUTPUT: reorder1(TOP:reorder), reorder2(TOP:reorder), reorder3(TOP:reorder), reorder4(TOP:reorder), toLookup(CHOP:null)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->lookup1, patternAlpha->quantize, lookup1->reorder1, lookup1->reorder2, lookup1->reorder3, lookup1->reorder4, quantize->toLookup, patternGreen->patternBlue
+  ...and 2 more connections
+TOPO: 13 ops, 10 conns, chain=6
+
+### example2
+Curator: From the "source image" (the first input), you can use different color channels (or combinations of the color channels) as an index into the color ramp.Try changing the Index Channel parameter to all 
+INPUT: ramp2(TOP:ramp), circle1(TOP:circle)
+PROCESSOR: circle2(TOP:circle), circle3(TOP:circle)
+OUTPUT: null1(TOP:null), lookup1(TOP:lookup)
+ISOLATED: topto2(CHOP:topto), ramp2_keys(DAT:table)
+FLOW: circle3->null1, circle1->circle2, circle2->circle3, circle3->lookup1, ramp2->lookup1
+TOPO: 8 ops, 5 conns, chain=4
+
+### example3
+Curator: The lookup1 image is tinted green to yellow because the Lookup CHOP needs a 1-dimensional line of pixels as a lookup, so it needs to choose what part of ramp2 to use. The Lookup TOP use its Dark UV an
+INPUT: xy(COMP:widget), ramp1(TOP:ramp), noise1(TOP:noise), select1(TOP:select), moviefilein2(TOP:moviefilein)
+PROCESSOR: mono1(TOP:mono), ramp2(TOP:ramp), lookup1(TOP:lookup), lookup2(TOP:lookup)
+OUTPUT: xy_(CHOP:null), multiply1(TOP:multiply), multiply2(TOP:multiply)
+ISOLATED: ramp2_keys(DAT:table), ramp3_keys(DAT:table), rectangle1(TOP:rectangle)
+FLOW: xy/valueOut->xy_, moviefilein2->mono1, ramp1->ramp2, mono1->lookup1, ramp2->lookup1, select1->lookup2, noise1->lookup2, mono1->multiply1
+  ...and 3 more connections
+TOPO: 15 ops, 11 conns, chain=4
+
+### example4
+Curator: plug-and-play, this does the simplest tinting based on source image luminance. You choose 2 or 3 colors. Then With 2 Bias sliders you adjust how much of each color you use.
+ISOLATED: triColorTinter(COMP:base)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example5
+Curator: Because the ramps are by default 8-bit, you may get un-desired banding in your output that can be eliminted.In circle, ramp1, lookup1, they are all 8-bit and if you zoom into topto_lookup1 you see how
+INPUT: ramp1(TOP:ramp), circle1(TOP:circle), ramp3_32bit(TOP:ramp), circle2_32bit(TOP:circle), circle3_32bit(TOP:circle)
+OUTPUT: lookup1(TOP:lookup), lookup2(TOP:lookup), lookup3(TOP:lookup)
+ISOLATED: ramp1_keys(DAT:table), ramp2_keys(DAT:table), topto_ramp1(CHOP:topto), topto_ramp3(CHOP:topto), topto_circle1(CHOP:topto), topto_circle2(CHOP:topto), topto_circle3(CHOP:topto), topto_lookup1(CHOP:topto), topto_lookup2(CHOP:topto), topto_lookup3(CHOP:topto)
+FLOW: circle1->lookup1, ramp1->lookup1, circle2_32bit->lookup2, ramp1->lookup2, circle3_32bit->lookup3, ramp3_32bit->lookup3
+TOPO: 18 ops, 6 conns, chain=2
+
+## lumablurTOP
+### example1
+Curator: These examples show the difference between using a white filter or black filter. See Black Filter Width and White Filter Width parameters.They also have different blur Types applied.
+INPUT: ramp1(TOP:ramp), moviein1(TOP:moviefilein)
+OUTPUT: lumablur_black_filter(TOP:lumablur), lumablur_white_filter(TOP:lumablur)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: moviein1->lumablur_black_filter, ramp1->lumablur_black_filter, moviein1->lumablur_white_filter, ramp1->lumablur_white_filter
+TOPO: 5 ops, 4 conns, chain=2
+
+### example2
+Curator: This example uses the black and white Count.mov to blur the grid.
+INPUT: moviein2(TOP:moviefilein), moviein3(TOP:moviefilein)
+OUTPUT: lumablur_white_filter1(TOP:lumablur)
+FLOW: moviein3->lumablur_white_filter1, moviein2->lumablur_white_filter1
+TOPO: 3 ops, 2 conns, chain=2
+
+## lumalevelTOP
+### example1
+Curator: The Luma Level TOP is useful in situations where you don't want colors getting blown out by a Level TOPs contrast parameters.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: luma_source(TOP:lumalevel), level_contrast(TOP:level), lumalevel_contrast(TOP:lumalevel), lumalevel_source_red(TOP:lumalevel)
+FLOW: moviein1->luma_source, moviein1->level_contrast, moviein1->lumalevel_contrast, moviein1->lumalevel_source_red
+TOPO: 5 ops, 4 conns, chain=2
+
+### example2
+Curator: You can apply luminance stepping using a Luma Level TOP.
+INPUT: ramp1(TOP:ramp), moviein1(TOP:moviefilein)
+OUTPUT: lumalevel_stepping(TOP:lumalevel), lumalevel_stepping1(TOP:lumalevel)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->lumalevel_stepping, moviein1->lumalevel_stepping1
+TOPO: 5 ops, 2 conns, chain=2
+
+## mathTOP
+### example1
+Curator: The Math TOP can help turn images that  have their RGB pre-multiplied by alpha into an image that does not have the RGB pre-multiplied by alpha. Essentially it divides the RGB by alpha, but it needs t
+INPUT: moviein1(TOP:moviefilein)
+PROCESSOR: inside2(TOP:inside), reorder_r_to_alpha(TOP:reorder), reorder_alpha_to_rgb(TOP:reorder), level_strip_out_low_alpha(TOP:level), math_unpremultiply_with_treatment(TOP:math)
+OUTPUT: inside_looks_ok_after_premultiplying(TOP:inside), math_unpremultiply_without_treatment(TOP:math)
+FLOW: moviein1->inside2, reorder_r_to_alpha->inside2, level_strip_out_low_alpha->reorder_r_to_alpha, moviein1->reorder_alpha_to_rgb, reorder_alpha_to_rgb->level_strip_out_low_alpha, inside2->math_unpremultiply_with_treatment, math_unpremultiply_with_treatment->inside_looks_ok_after_premultiplying, math_unpremultiply_with_treatment->inside_looks_ok_after_premultiplying
+  ...and 1 more connections
+TOPO: 8 ops, 9 conns, chain=7
+
+### example2
+Curator: Show high pixel value ranges being brought into "visible range" (0-1). Noise in set to be in range 5 to 6. Math brings 5 to 6 down to 0 to 1 for red and blue, and .3 to .7 for green.  Alpha remains un
+INPUT: noise1(TOP:noise)
+OUTPUT: math1(TOP:math), null1(TOP:null), analyze1(TOP:analyze), analyze2(TOP:analyze)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto)
+FLOW: noise1->math1, noise1->null1, noise1->analyze1, noise1->analyze2
+TOPO: 7 ops, 4 conns, chain=2
+
+### example3
+Curator: Show high pixel value ranges being brought into "visible range" (0-1).math1 sets the From Ramge max to be whatever is is in the jellybean image, and sets the To range to 0 to 1. Note the analyze_indep
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: math1(TOP:math), limit1(TOP:limit), analyze_luminance(TOP:analyze), analyze_independent(TOP:analyze)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), topto2_export(DAT:table)
+FLOW: moviefilein1->math1, moviefilein1->limit1, moviefilein1->analyze_luminance, moviefilein1->analyze_independent
+TOPO: 8 ops, 4 conns, chain=2
+
+## matteTOP
+### example1
+Curator: This image in input1 is revealed by the luminance of the image in the 3rd input.
+INPUT: moviein1(TOP:moviefilein), moviein2(TOP:moviefilein), moviein3(TOP:moviefilein), luminance(COMP:slider)
+PROCESSOR: level1(TOP:level)
+OUTPUT: cross(CHOP:null), matte1(TOP:matte)
+FLOW: luminance/out1->cross, moviein3->level1, moviein1->matte1, moviein2->matte1, level1->matte1
+TOPO: 7 ops, 5 conns, chain=3
+
+### example2
+Curator: In this case, the Alpha of Ramp1/3rd input controls the opacity of input 2. By default it uses the luminance of input 3.
+INPUT: ramp1(TOP:ramp), moviein4(TOP:moviefilein), moviein5(TOP:moviefilein)
+OUTPUT: null1(TOP:null), matte2(TOP:matte)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: ramp1->null1, moviein4->matte2, moviein5->matte2, ramp1->matte2
+TOPO: 6 ops, 4 conns, chain=2
+
+## mirrorTOP
+### example1
+Curator: Pivot and Rotate defines a line that crosses through the input image. On one side of the line the image is untouched. The other side is reflection of the untouched side.
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: mirror2(TOP:mirror)
+OUTPUT: tile1(TOP:tile), mirror1(TOP:mirror)
+ISOLATED: lfo1(CHOP:lfo), noise1(CHOP:noise), lfo1_export(DAT:table), noise1_export(DAT:table)
+FLOW: mirror2->tile1, moviefilein1->mirror1, moviefilein1->mirror2
+TOPO: 8 ops, 3 conns, chain=3
+
+### example2
+Curator: Appearance of more arbitrary sections being transformed separately.
+INPUT: moviefilein2(TOP:moviefilein)
+PROCESSOR: tile1(TOP:tile), mirror1(TOP:mirror), transform1(TOP:transform)
+OUTPUT: mirror2(TOP:mirror)
+ISOLATED: moviefilein1(TOP:moviefilein)
+FLOW: moviefilein2->tile1, transform1->mirror1, mirror1->mirror2, tile1->transform1
+TOPO: 6 ops, 4 conns, chain=5
+
+### example3
+Curator: The Mirror TOP mirrors part of an image on top of itself.
+INPUT: constant1(TOP:constant), moviefilein2(TOP:moviefilein)
+PROCESSOR: add1(TOP:add)
+OUTPUT: mirror1(TOP:mirror), mirror2(TOP:mirror), mirror3(TOP:mirror), mirror4(TOP:mirror), mirror5(TOP:mirror)
+FLOW: constant1->add1, moviefilein2->add1, add1->mirror1, add1->mirror2, add1->mirror3, add1->mirror4, add1->mirror5
+TOPO: 8 ops, 7 conns, chain=3
+
+## monochromeTOP
+### example1
+Curator: mono1 is the normal creation of monchrome images based on the response of the eye, which is a blend of .298 red + .6 green + .102 blue.In the RGB menu, which appears in a lot of operators in TOPs, Lum
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: mono_blue(TOP:mono), mono_opaque(TOP:mono), mono_luminance(TOP:mono), mono_rgbMaximum(TOP:mono)
+FLOW: moviein1->mono_blue, moviein1->mono_opaque, moviein1->mono_luminance, moviein1->mono_rgbMaximum
+TOPO: 5 ops, 4 conns, chain=2
+
+## moviefileinTOP
+### example1
+Curator: This movie's trim value will keep it looping forever. Its Extend Right parameter is set to Cycle.Extend Right refers to what the TOP will do once it reaches the end of end movie.The second movie's tri
+INPUT: cueMovie(COMP:button)
+OUTPUT: null2(CHOP:null)
+ISOLATED: movieLooping(TOP:moviefilein), null2_export(DAT:table), moviePlayOnce(TOP:moviefilein)
+FLOW: cueMovie/out1->null2
+TOPO: 5 ops, 1 conns, chain=1
+
+### example2
+Curator: Use the slider to scrub through the movie by index
+INPUT: slider_movieIndex(COMP:slider)
+PROCESSOR: math1(CHOP:math)
+OUTPUT: null3(CHOP:null)
+ISOLATED: info1(CHOP:info), null3_export(DAT:table), Movie_In_Index(TOP:moviefilein)
+FLOW: slider_movieIndex/out1->math1, math1->null3
+TOPO: 6 ops, 2 conns, chain=1
+
+### example3
+Curator: Use this button to play the movie. The button state has been exported to the Play parameter.
+INPUT: play(COMP:button)
+OUTPUT: null1(CHOP:null)
+ISOLATED: null1_export(DAT:table), Movie_In_Trim(TOP:moviefilein)
+FLOW: play/out1->null1
+TOPO: 4 ops, 1 conns, chain=1
+
+### example4
+Curator: This movie's playback is locked to the main TouchDesigner Timeline. Its Play Mode Parameter is set to Locked to Timeline.Scrub the timeline below to scrub the movie.Using the timeline to play movies i
+ISOLATED: movieTimeline(TOP:moviefilein)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example5
+Curator: Use this button to reload the movie in case it has changed on the filesystem.You can use the Folder DAT to do it automatically.
+INPUT: reloadMovie(COMP:button)
+OUTPUT: null2(CHOP:null)
+ISOLATED: movieLooping(TOP:moviefilein), null2_export(DAT:table)
+FLOW: reloadMovie/out1->null2
+TOPO: 4 ops, 1 conns, chain=1
+
+### example6
+Curator: Movie File In TOPs also support loading still images and image file sequences.For image sequences you give it the folder and it will alphanumerically-order the files in that folder.Or alternately you 
+INPUT: constant1(CHOP:constant)
+PROCESSOR: limit1(CHOP:limit), speed1(CHOP:speed)
+OUTPUT: index(CHOP:null)
+ISOLATED: info1(CHOP:info), moviefilein_sequence1(TOP:moviefilein), moviefilein_sequence2(TOP:moviefilein), moviefilein_stillImage(TOP:moviefilein)
+FLOW: limit1->index, speed1->limit1, constant1->speed1
+TOPO: 8 ops, 3 conns, chain=4
+
+### example7
+Curator: Try the moviePlayer COMP in the palette for a more full-functioned player and read its Help wiki page.Also it can spit out movieEngine, which is moviePlayer without a UI.
+TOPO: 0 ops, 0 conns, chain=1
+
+### example8
+Curator: The movieLoader is an example implementation of using the Movie File In TOP's preload and unload feature with a Timer CHOP.The setup consists of two timers where one is responsible for preloading and 
+INPUT: lfo1(CHOP:lfo), table1(DAT:table), folder1(DAT:folder), movieLoader(COMP:base)
+PROCESSOR: count1(CHOP:count), logic1(CHOP:logic), select1(DAT:select), select2(DAT:select), null_export(CHOP:null)
+OUTPUT: trail1(CHOP:trail), null_movieTop(DAT:null), null_movieFile(DAT:null), null_switchTop(CHOP:null), null_switchMovie(CHOP:null)
+ISOLATED: annotate1(COMP:annotate), annotate2(COMP:annotate), annotate3(COMP:annotate), moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), null3_export(DAT:table), null4_export(DAT:table), folder1_callbacks(DAT:text)
+FLOW: lfo1->count1, lfo1->logic1, null_export->trail1, folder1->select1, table1->select2, movieLoader/out2->null_export, select2->null_movieTop, select1->null_movieFile
+  ...and 2 more connections
+TOPO: 22 ops, 10 conns, chain=3
+
+### example9
+Curator: This crossfades and switches a list of movies without a frame drop. It randomizes the order of movies every cycle through all movies.You give it a list of movie paths in a DAT, choose a crossfade time
+INPUT: folder2(DAT:folder), perform1(CHOP:perform), movieEngine1(COMP:container), movieEngine2(COMP:container)
+PROCESSOR: mvlist(DAT:null), sort_random(DAT:sort)
+OUTPUT: comp1(TOP:comp), curmv(DAT:select), trail1(CHOP:trail)
+ISOLATED: spec(CHOP:constant), mvspec1(COMP:container), mvspec2(COMP:container), engine_callbacks(DAT:text), folder2_callbacks(DAT:text)
+FLOW: movieEngine1/out1->comp1, movieEngine2/out1->comp1, mvlist->curmv, sort_random->mvlist, perform1->trail1, folder2->sort_random
+TOPO: 14 ops, 6 conns, chain=4
+
+## moviefileoutTOP
+### example1
+Curator: This is a typical Movie Out setup with audio recording synced to an audio track.The Record Movie button turns Record on and off, as well as triggers a counter to give each new recording a unique name.
+INPUT: moviein1(TOP:moviefilein), recordMovie(COMP:button), audiofilein1(CHOP:audiofilein)
+PROCESSOR: transform1(TOP:transform)
+OUTPUT: toMovieout(CHOP:null), moviefileout1(TOP:moviefileout), incrementFilename(CHOP:count)
+ISOLATED: Pause_movie(COMP:button), count1_export(DAT:table)
+FLOW: audiofilein1->toMovieout, moviein1->transform1, transform1->moviefileout1, recordMovie/out1->incrementFilename
+TOPO: 9 ops, 4 conns, chain=3
+
+### example2
+Curator: This creates a sequence of files, one file per frame.The Record Movie button turns Record on and off, as well as triggers a counter to give each new recording sequence a unique name.In the File parame
+INPUT: moviein1(TOP:moviefilein), recordMovie(COMP:button)
+PROCESSOR: transform1(TOP:transform)
+OUTPUT: moviefileout1(TOP:moviefileout), incrementFilename(CHOP:count)
+ISOLATED: count1_export(DAT:table)
+FLOW: moviein1->transform1, transform1->moviefileout1, recordMovie/out1->incrementFilename
+TOPO: 6 ops, 3 conns, chain=3
+
+### example3
+Curator: The Movie Out TOP can also output still images in a similar manner as video  files.
+INPUT: moviein2(TOP:moviefilein), Record_still(COMP:button)
+PROCESSOR: transform2(TOP:transform)
+OUTPUT: incremental_filename(CHOP:count), movie_out_record_image(TOP:moviefileout)
+ISOLATED: count2_export(DAT:table)
+FLOW: moviein2->transform2, Record_still/out1->incremental_filename, transform2->movie_out_record_image
+TOPO: 6 ops, 3 conns, chain=3
+
+### example4
+Curator: If you turn on Unique Suffix, each time you click Record on and off you get a uniquely-named file.
+INPUT: moviein2(TOP:moviefilein)
+PROCESSOR: transform2(TOP:transform)
+OUTPUT: moviefileout1(TOP:moviefileout)
+ISOLATED: button1(COMP:button), folder1(DAT:folder), comment1(COMP:annotate), folder1_callbacks(DAT:text)
+FLOW: moviein2->transform2, transform2->moviefileout1
+TOPO: 7 ops, 2 conns, chain=3
+
+## multiplyTOP
+### example1
+Curator: The multiply TOP performs a multiply operation:input1.rgba * input2.rgbaIn multiply1 it is set to use to output the resolution of the first input. By default it outputs the resolution of the second in
+INPUT: ramp1(TOP:ramp), noise1(TOP:noise), moviein1(TOP:moviefilein), moviein2(TOP:moviefilein)
+OUTPUT: multiply1(TOP:multiply), multiply2(TOP:multiply), multiply3(TOP:multiply)
+ISOLATED: ramp1_keys(DAT:table)
+FLOW: moviein1->multiply1, ramp1->multiply1, ramp1->multiply2, noise1->multiply2, noise1->multiply3, moviein2->multiply3
+TOPO: 8 ops, 6 conns, chain=2
+
+## ndioutTOP
+### example1
+Curator: NDI frames can also carry metadata. If you pause the timeline you can see the NDI receiver gets the metata guarantueed synced to that same frame.
+INPUT: table1(DAT:table), table2(DAT:table), moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+PROCESSOR: eval1(DAT:eval), eval2(DAT:eval)
+OUTPUT: ndiout1(TOP:ndiout), ndiout2(TOP:ndiout), metadata(DAT:null), metadata1(DAT:null)
+ISOLATED: info1(DAT:info), info2(DAT:info), ndiin1(TOP:ndiin), ndiin2(TOP:ndiin), annotate1(COMP:annotate), annotate2(COMP:annotate), ndiin1_grouptable(DAT:table), ndiin2_grouptable(DAT:table), ndiout1_grouptable(DAT:table), ndiout2_grouptable(DAT:table)
+FLOW: table1->eval1, table2->eval2, moviefilein1->ndiout1, moviefilein2->ndiout2, eval1->metadata, eval2->metadata1
+TOPO: 20 ops, 6 conns, chain=3
+
+### example2
+Curator: NDI can send & receive audio, drag the CHOP containing audio to the Audio CHOP parameter of the NDI Out.You can extract audio from the NDI In TOP using the NDI Audio CHOP
+INPUT: audiomovie1(CHOP:audiomovie), moviefilein1(TOP:moviefilein)
+OUTPUT: audio(CHOP:null), ndiout1(TOP:ndiout)
+ISOLATED: ndiin1(TOP:ndiin), audiondi1(CHOP:audiondi), ndiin1_grouptable(DAT:table), ndiout1_grouptable(DAT:table)
+FLOW: audiomovie1->audio, moviefilein1->ndiout1
+TOPO: 8 ops, 2 conns, chain=2
+
+## noiseTOP
+### example1
+Curator: The Noise TOP's Seed parameter is an easy way to create animated noise. The two images are multiplied together in the Composite TOP.The Noise TOP is scaled to fit the jellybeans, so you would have to 
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), noise_animated(TOP:noise)
+OUTPUT: comp1(TOP:comp), noise2(TOP:noise)
+ISOLATED: lfo1(CHOP:lfo), lfo2(CHOP:lfo), lfo1_export(DAT:table), lfo2_export(DAT:table)
+FLOW: noise_animated->comp1, moviefilein1->comp1, moviefilein2->noise2
+TOPO: 9 ops, 3 conns, chain=2
+
+### example2
+Curator: You can get very different types of noise, from Random to Perlin, by changing the  Type parameter.
+ISOLATED: noise_perlin(TOP:noise), noise_random(TOP:noise)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example3
+Curator: Shifts a random pattern around to give an apparent randomness every frame. Not perfect but may be good enough for many purposes. Much faster than generating perfectly random pixels every frame.Second 
+INPUT: noise1(TOP:noise)
+PROCESSOR: transform1(TOP:transform), transform2(TOP:transform)
+OUTPUT: fastrandom1(TOP:null), fastrandom2(TOP:null)
+FLOW: noise1->transform1, noise1->transform2, transform1->fastrandom1, transform2->fastrandom2
+TOPO: 5 ops, 4 conns, chain=3
+
+### example4
+Curator: The Noise TOP takes its input, interprets each pixel RGB value as an XYZ point, and for each point, outputs a pixel whose RGB values are the values of the noise space at that point in space.In the fir
+INPUT: ramp1(TOP:ramp), ramp2(TOP:ramp), ramp3(TOP:constant), chopto1(TOP:chopto), circle1(SOP:circle)
+PROCESSOR: math1(TOP:math), reorder1(TOP:reorder), transform1(SOP:transform)
+OUTPUT: noise2(TOP:noise), noise3(TOP:noise), chopto2(SOP:chopto)
+ISOLATED: sopto1(CHOP:sopto), topto1(CHOP:topto), sliderx(COMP:slider), slidery(COMP:slider), sliderz(COMP:slider), ramp1_keys(DAT:table), ramp1_keys1(DAT:table), ramp1_keys2(DAT:table)
+FLOW: reorder1->math1, math1->noise2, chopto1->noise3, transform1->chopto2, ramp1->reorder1, ramp2->reorder1, ramp3->reorder1, circle1->transform1
+TOPO: 19 ops, 8 conns, chain=4
+
+### example5
+Curator: Try the "noise" component in the palette for more choices of noise types.
+TOPO: 0 ops, 0 conns, chain=1
+
+## normalmapTOP
+### example1
+Curator: Matthew Ragan  8/11/14We can use the Normal Map TOP to help enhace the appearance of dimension in our textures by "faking" some of the lightingof bumps in a texture.Here we create a normal map from ou
+INPUT: lfo1(CHOP:lfo), moviein1(TOP:moviefilein)
+PROCESSOR: math1(CHOP:math), level1(TOP:level)
+OUTPUT: null1(CHOP:null), normal1(TOP:normal)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), button1(COMP:button), render1(TOP:render), panelexec1(DAT:panelexec)
+FLOW: lfo1->math1, math1->null1, moviein1->level1, level1->normal1
+TOPO: 13 ops, 4 conns, chain=3
+
+## nvidiabackgroundTOP
+### example1
+Curator: The NVIDIA Background TOP generates a white key over a black background... usually a person, but may be anything... It uses the NVIDIA background removal ML algortithm on their ML-enabled GPUs like th
+INPUT: videodevin1(TOP:videodevin), moviefilein1(TOP:moviefilein)
+PROCESSOR: blur1(TOP:blur), cache1(TOP:cache), lookup1(TOP:lookup), res_half(TOP:res), nvbackground1(TOP:nvbackground)
+OUTPUT: matte1(TOP:matte)
+ISOLATED: scurve1(CHOP:scurve)
+FLOW: nvbackground1->blur1, videodevin1->cache1, cache1->matte1, moviefilein1->matte1, lookup1->matte1, blur1->lookup1, videodevin1->res_half, res_half->nvbackground1
+TOPO: 9 ops, 8 conns, chain=6
+
+## nvidiaflowTOP
+### example1
+Curator: In this example ramp1 is used to indicate where the emission of fuel comes from.  The ramp position is randomized with noise.  This animated ramp is used as the Shape OP in the flow emitter. This mean
+INPUT: noise1(CHOP:noise), constant1(CHOP:constant)
+PROCESSOR: math1(CHOP:math), speed1(CHOP:speed)
+OUTPUT: null2(CHOP:null), null3(CHOP:null)
+ISOLATED: cam1(COMP:cam), ramp1(TOP:ramp), ramp2(TOP:ramp), topto1(CHOP:topto), nvflow1(TOP:nvflow), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null2_export(DAT:table), null3_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: noise1->math1, speed1->null2, math1->null3, constant1->speed1
+TOPO: 16 ops, 4 conns, chain=3
+
+### example2
+Curator: Use the cross1 TOP to cross fade in an RGB spectrum to see how color is mapped to the temperature of the flow.Mem Usage parameter is reduced from .1 to .07 to run a bit faster.
+INPUT: null6(COMP:null), ramp2(TOP:ramp), noise1(CHOP:noise), nvflow1(TOP:nvflow), constant1(CHOP:constant), constant3(TOP:constant)
+PROCESSOR: math1(CHOP:math), speed1(CHOP:speed), hsvrgb1(TOP:hsvrgb)
+OUTPUT: cam1(COMP:cam), null1(TOP:null), null2(CHOP:null), null3(CHOP:null), cross1(TOP:cross)
+ISOLATED: ramp1(TOP:ramp), topto1(CHOP:topto), window1(COMP:window), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null2_export(DAT:table), null3_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, noise1->math1, nvflow1->null1, speed1->null2, math1->null3, constant3->cross1, hsvrgb1->cross1, constant1->speed1
+  ...and 1 more connections
+TOPO: 22 ops, 9 conns, chain=3
+
+### example3
+Curator:  Reduce Speed par to ge more billowy effect.
+INPUT: lfo1(CHOP:lfo), lfo2(CHOP:lfo), nvflow1(TOP:nvflow)
+OUTPUT: null1(TOP:null), null4(CHOP:null), null5(CHOP:null)
+ISOLATED: cam1(COMP:cam), ramp1(TOP:ramp), ramp2(TOP:ramp), topto1(CHOP:topto), window1(COMP:window), ramp1_keys(DAT:table), ramp2_keys(DAT:table), null4_export(DAT:table), null5_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: nvflow1->null1, lfo1->null4, lfo2->null5
+TOPO: 16 ops, 3 conns, chain=2
+
+### example4
+Curator: Is this example linear velocity is animated to push the fuel source left and right.
+INPUT: null6(COMP:null), nvflow1(TOP:nvflow)
+OUTPUT: cam1(COMP:cam), null1(TOP:null)
+ISOLATED: ramp2(TOP:ramp), noise1(CHOP:noise), topto1(CHOP:topto), circle1(TOP:circle), window1(COMP:window), ramp2_keys(DAT:table), noise1_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, nvflow1->null1
+TOPO: 12 ops, 2 conns, chain=2
+
+### example5
+Curator: Is this example a more intense use of linear velocity is used to create a flame thrower effect.
+INPUT: null6(COMP:null), nvflow1(TOP:nvflow), constant1(CHOP:constant)
+PROCESSOR: speed1(CHOP:speed)
+OUTPUT: cam1(COMP:cam), null1(TOP:null), null2(CHOP:null)
+ISOLATED: lfo2(CHOP:lfo), ramp2(TOP:ramp), topto1(CHOP:topto), circle1(TOP:circle), window1(COMP:window), ramp2_keys(DAT:table), lfo2_export(DAT:table), null2_export(DAT:table), nvflowemitter1(COMP:nvflowemitter)
+FLOW: null6->cam1, nvflow1->null1, speed1->null2, constant1->speed1
+TOPO: 16 ops, 4 conns, chain=3
+
+## opencolorioTOP
+### example1
+Curator: You can use the CDL transform and Output page to colorgradeany image.
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: ocio1(TOP:ocio)
+FLOW: moviefilein1->ocio1
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: openColorIO can be used for numerous color correction operations for various output display devices. In this case the OpenColorIO TOP node (sRGBRamp) is used to simulate the conversion of a linear ram
+INPUT: linearRamp(TOP:ramp), realMidGrey(TOP:constant), fakedMidGrey(TOP:glsl)
+PROCESSOR: crop2(TOP:crop), sRGBRamp(TOP:ocio)
+OUTPUT: crop1(TOP:crop), compareWithsRGB(TOP:over), compareWithLinear(TOP:over)
+ISOLATED: glsl1_info(DAT:info), ramp3_keys(DAT:table), glsl1_pixel(DAT:text), glsl1_compute(DAT:text), linearMidGrey(TOP:constant)
+FLOW: fakedMidGrey->crop1, realMidGrey->crop2, linearRamp->sRGBRamp, crop2->compareWithsRGB, sRGBRamp->compareWithsRGB, crop2->compareWithLinear, linearRamp->compareWithLinear
+TOPO: 13 ops, 7 conns, chain=3
+
+### example3
+Curator: OpenColorIO is a toolkit for working with different color spaces and gamma settings for image files. Different cameras and display devices have different methods to store and display color. OpenColorI
+INPUT: moviefilein_ocioTest(TOP:moviefilein)
+PROCESSOR: lumalevel1(TOP:lumalevel)
+OUTPUT: ocio1(TOP:ocio), ocio2(TOP:ocio), ocio3(TOP:ocio), ocio4(TOP:ocio)
+ISOLATED: text1(DAT:text)
+FLOW: lumalevel1->ocio1, lumalevel1->ocio2, lumalevel1->ocio3, lumalevel1->ocio4, moviefilein_ocioTest->lumalevel1
+TOPO: 7 ops, 5 conns, chain=3
+
+## opticalflowTOP
+### example1
+Curator: This draws velocity flow vectors based on the Optical Flow TOP.Give it a live video feed. opticalflow1 outputs two 32-bit floating point channels (red and green).  The red channel is the horizontal mo
+INPUT: grid1(SOP:grid), topto1(CHOP:topto), videodevin1(TOP:videodevin)
+PROCESSOR: source(TOP:null), opticalflow1(TOP:opticalflow)
+OUTPUT: res1(TOP:res), chopto1(SOP:chopto), filter1(CHOP:filter)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), comp1(TOP:comp), info1(CHOP:info), line1(MAT:line), sopto1(DAT:sopto), render1(TOP:render), settings(COMP:base)
+FLOW: opticalflow1->res1, videodevin1->source, grid1->chopto1, topto1->filter1, source->opticalflow1
+TOPO: 16 ops, 5 conns, chain=4
+
+## opviewerTOP
+### example1
+Curator: The OP Viewer TOP allows you to produce a texture out of any operator. Here we can see a display being rendered from a CHOP, SOP, and DAT. This example multiples the node height and width by 4 - this 
+ISOLATED: noise1(CHOP:noise), table1(DAT:table), opview1(TOP:opview), opview2(TOP:opview), opview3(TOP:opview), sphere1(SOP:sphere)
+TOPO: 6 ops, 0 conns, chain=1
+
+## outsideTOP
+### example1
+Curator: The Outside TOP places Input1 "outside" Input2. The alpha of Input2 is used to determine what parts of the Input1 image are visible.
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: outside1(TOP:outside)
+FLOW: moviefilein1->outside1, moviefilein2->outside1
+TOPO: 3 ops, 2 conns, chain=2
+
+### example2
+Curator: The Outside TOP places Input1 'outside' Input2. Input1 is visible in the output wherever Input2's alpha is <1. This is the opposite operation to the Inside TOP.See also the Composite TOP and the blend
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein)
+OUTPUT: outside1(TOP:outside)
+FLOW: moviefilein1->outside1, moviefilein2->outside1
+TOPO: 3 ops, 2 conns, chain=2
+
+## overTOP
+### example1
+Curator: The Pre Fit parameters give you various options to how the compositing will occur.
+INPUT: moviein1(TOP:moviefilein), moviein2(TOP:moviefilein)
+OUTPUT: over_fit_best(TOP:over), over_manual_position_scale_rotate(TOP:over)
+FLOW: moviein1->over_fit_best, moviein2->over_fit_best, moviein1->over_manual_position_scale_rotate, moviein2->over_manual_position_scale_rotate
+TOPO: 4 ops, 4 conns, chain=2
+
+### example2
+Curator: A handy trick to scale content to a  specific resolution is to use an Over TOP. But you can more easily feed the Movie File In TOP to a Constant TOP, or mroe easily yet, use a Fit TOP.
+INPUT: moviein4(TOP:moviefilein), constant1(TOP:constant)
+PROCESSOR: overForceResolution(TOP:over)
+OUTPUT: but_that_was_not_the_easiest(TOP:null)
+FLOW: moviein4->overForceResolution, constant1->overForceResolution, overForceResolution->but_that_was_not_the_easiest
+TOPO: 4 ops, 3 conns, chain=3
+
+### example3
+Curator: Fit Outside is useful in situations where you'd like to overlay one image onto another completely, and removes the chance of any edges being missed.Better yet, see the Fit TOP.
+INPUT: moviein3(TOP:moviefilein), constant2(TOP:constant)
+PROCESSOR: overFitOutside(TOP:over)
+OUTPUT: but_that_was_not_the_easiest_either(TOP:null)
+FLOW: moviein3->overFitOutside, constant2->overFitOutside, overFitOutside->but_that_was_not_the_easiest_either
+TOPO: 4 ops, 3 conns, chain=3
+
+## packTOP
+### example1
+Curator: Pack is used to put 32-bit RGBA floating point images into quadruple-wide 8-bit fixed point image to make them more transportable through lossless file formats that are just 8-bit, or 8-bit protocols 
+INPUT: jellybeans_32BitFloatRGBA(TOP:moviefilein), jellybeans_32BitFloatRGBA1(TOP:moviefilein)
+PROCESSOR: pack_8BitMono(TOP:pack), pack_pack8BitRGBA(TOP:pack), reorder_32BitBlueOnly(TOP:reorder), pack_unpackto32BitFloatMono(TOP:pack)
+OUTPUT: pack_unpackTo32BitFloatRGBA(TOP:pack), reorder_MonoToFloatingPointRGBA(TOP:reorder)
+FLOW: reorder_32BitBlueOnly->pack_8BitMono, jellybeans_32BitFloatRGBA->pack_pack8BitRGBA, jellybeans_32BitFloatRGBA1->reorder_32BitBlueOnly, pack_pack8BitRGBA->pack_unpackTo32BitFloatRGBA, pack_8BitMono->pack_unpackto32BitFloatMono, pack_unpackto32BitFloatMono->reorder_MonoToFloatingPointRGBA
+TOPO: 8 ops, 6 conns, chain=5
+
+### example2
+Curator: ramp1 is normal RGBA 8-bit.ramp2 is 1-channel 8-bit.ramp3 is 1-channel 32-bit float. You can see its better precision in the ramp.ramp3 is in a similar format that you would have for a depth map or a 
+INPUT: ramp3(TOP:ramp)
+PROCESSOR: pack1(TOP:pack)
+OUTPUT: pack2(TOP:pack)
+ISOLATED: ramp1(TOP:ramp), ramp2(TOP:ramp), topto1(CHOP:topto), topto2(CHOP:topto), topto3(CHOP:topto), topto4(CHOP:topto), topto5(CHOP:topto), ramp1_keys(DAT:table), ramp1_keys1(DAT:table), ramp1_keys2(DAT:table)
+FLOW: ramp3->pack1, pack1->pack2
+TOPO: 13 ops, 2 conns, chain=3
+
+## pointfileinTOP
+### example1
+Curator: Point File In TOP reads a .ply point cloud file.info1 shows that it has 10 channels including point colors in 'red', 'green' and 'blue' channels.info2 shows number of points.Most TOPs can only hold up
+INPUT: pointfilein1(TOP:pointfilein), pointfileselect1(TOP:pointfileselect)
+OUTPUT: math1(TOP:math), null1(TOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), info1(DAT:info), info2(CHOP:info), line1(MAT:line), light1(COMP:light), render1(TOP:render)
+FLOW: pointfileselect1->math1, pointfilein1->null1
+TOPO: 11 ops, 2 conns, chain=2
+
+### example2
+Curator: The resolution is reduced via the Output Resolution menu on the Common page to 1/4 by 1/4 = 1/16 the number of points in the file. This is shown in info2 and the eval1, eval2 expressions.
+INPUT: pointfilein1(TOP:pointfilein)
+OUTPUT: analyze1(TOP:analyze)
+ISOLATED: eval1(DAT:eval), eval2(DAT:eval), eval3(DAT:eval), info1(CHOP:info)
+FLOW: pointfilein1->analyze1
+TOPO: 6 ops, 1 conns, chain=2
+
+## pointtransformTOP
+### example1
+Curator: for points, x is in the red color channel, y is in green, z is in blue.pointtransform1 moves the banana to a randon location, angle and scale.pointtransform2 lines it up on the Align page: in X, the b
+INPUT: pointfilein1(TOP:pointfilein)
+PROCESSOR: null1(TOP:null), pointtransform1(TOP:pointtransform), pointtransform2(TOP:pointtransform), pointtransform3(TOP:pointtransform)
+OUTPUT: null2(TOP:null), null3(TOP:null)
+ISOLATED: info1(DAT:info)
+FLOW: pointfilein1->null1, pointtransform2->null2, pointtransform3->null3, null1->pointtransform1, pointtransform1->pointtransform2, pointtransform1->pointtransform3
+TOPO: 8 ops, 6 conns, chain=5
+
+### example2
+Curator: pointtransform1 moves the banana to a new position, angle and scale.pointtransform_invert moves it right back to its original position, rotation and scale, using the same parameter values as pointtran
+INPUT: pointfilein1(TOP:pointfilein)
+PROCESSOR: null1(TOP:null), comp_subtract(TOP:comp), pointtransform1(TOP:pointtransform), pointtransform_invert(TOP:pointtransform)
+OUTPUT: null2(TOP:null)
+FLOW: pointfilein1->null1, comp_subtract->null2, pointtransform_invert->comp_subtract, null1->comp_subtract, null1->pointtransform1, pointtransform1->pointtransform_invert
+TOPO: 6 ops, 6 conns, chain=6
+
+### example3
+Curator: You can get transform values from a CHOP, as long as you have the right channel names. The transform CHOP outputs channels as tx ty tz rx ry rz etc, and giving that to the Transform CHOP parameter wor
+INPUT: transform1(CHOP:transform), pointfilein1(TOP:pointfilein)
+PROCESSOR: null1(TOP:null)
+OUTPUT: transform2(CHOP:transform), pointtransform1(TOP:pointtransform), pointtransform2(TOP:pointtransform)
+FLOW: pointfilein1->null1, transform1->transform2, null1->pointtransform1, null1->pointtransform2
+TOPO: 6 ops, 4 conns, chain=3
+
+### example4
+Curator: This rotates the point data to make its z-axis point at a 3D object. Here we assume the point data is at 0, 0, 0. geo1 is at 0, 0, 2, which is along the positive z-axis pointing toward you. and it's o
+INPUT: pointfilein1(TOP:pointfilein)
+PROCESSOR: null1(TOP:null)
+OUTPUT: pointtransform3(TOP:pointtransform)
+ISOLATED: geo1(COMP:geo), lfo1(CHOP:lfo), lfo1_export(DAT:table)
+FLOW: pointfilein1->null1, null1->pointtransform3
+TOPO: 6 ops, 2 conns, chain=3
+
+## poptoTOP
+### example1
+Curator: Fit to Square guarantees every point gets a pixel.You can convert any attribute combination into the 4 channels.You can put all points into one row of teh texture up to the hardware limit (32,768 comm
+INPUT: torus1(POP:torus), popto_fit_to_square(TOP:popto), popto_use_pop_dimension(TOP:popto)
+PROCESSOR: copy1(POP:copy)
+OUTPUT: analyze_dimensions(POP:analyze), null_view_separate_channels(TOP:null), null_display_separate_ranges(TOP:null)
+ISOLATED: comment1(COMP:annotate), popto_one_row(TOP:popto), popto_dimensions(DAT:popto), popto_fit_to_square_normals(TOP:popto), popto_fit_to_square_normals1(TOP:popto), popto_wrap_to_res_on_common_page(TOP:popto), popto_use_pop_dimension_3d_texture(TOP:popto)
+FLOW: torus1->copy1, copy1->analyze_dimensions, popto_use_pop_dimension->null_view_separate_channels, popto_fit_to_square->null_display_separate_ranges
+TOPO: 14 ops, 4 conns, chain=3
+
+### example2
+INPUT: grid1(POP:grid), torus1(POP:torus)
+OUTPUT: ray1(POP:ray), field1(POP:field), normalize1(POP:normalize)
+ISOLATED: popto1(TOP:popto), popto2(TOP:popto), popto3(TOP:popto), comment1(COMP:annotate), annotate1(COMP:annotate), popViewer(COMP:container), popViewer1(COMP:container)
+FLOW: grid1->ray1, torus1->ray1, grid1->field1, grid1->normalize1
+TOPO: 12 ops, 4 conns, chain=2
+
+## projectionTOP
+### example1
+Curator: cubeMap is a 6-camera-in-one rendering created with the Render TOP.It renders the entire view around the camera.projection1 need the Projection Type parameter to be set to the input's type, and its ou
+INPUT: renderCubeMap(COMP:base)
+PROCESSOR: cubeMap(TOP:null), cubemap1(TOP:cubemap), projection1(TOP:projection)
+OUTPUT: projection2(TOP:projection), projection3(TOP:projection), projection4(TOP:projection), projection7(TOP:projection)
+FLOW: renderCubeMap/out1->cubeMap, cubemap->cubemap1, cubeMap->projection1, projection1->projection2, cubeMap->projection3, cubeMap->projection4, cubemap1->projection7
+TOPO: 8 ops, 7 conns, chain=1
+
+### example2
+Curator: This converts from an existing equirectangular image.projection3 has its resolution and aspect ratio changed on the Common page.projection4 is rotated to be looking down-up along the horizontal center
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: projection2(TOP:projection), projection3(TOP:projection)
+OUTPUT: projection1(TOP:projection), projection4(TOP:projection), projection5(TOP:projection)
+FLOW: moviefilein1->projection1, moviefilein1->projection2, projection2->projection3, projection2->projection4, projection3->projection5
+TOPO: 6 ops, 5 conns, chain=4
+
+### example3
+Curator: here the Cartesian-to-Polar conversionThe Projection TOP needs it input flipped first to get the ramp to go clockwise. Bypass it to make it go counter-clockwise.
+INPUT: lfo1(CHOP:lfo), ramp1(TOP:ramp), ramp2(TOP:ramp), rectangle1(TOP:rectangle)
+PROCESSOR: blur1(TOP:blur), blur2(TOP:blur), comp1(TOP:comp), multiply1(TOP:multiply), transform1(TOP:transform), projection8(TOP:projection), projection10(TOP:projection), flip_optionalClockwise(TOP:flip), flip_optionalClockwise1(TOP:flip)
+OUTPUT: null2(CHOP:null), transform2(TOP:transform), cartesianToPolar1(TOP:null), projection6_default(TOP:projection)
+ISOLATED: ramp1_keys(DAT:table), ramp2_keys(DAT:table), null2_export(DAT:table)
+FLOW: multiply1->blur1, comp1->blur2, ramp1->comp1, ramp2->comp1, lfo1->null2, rectangle1->multiply1, ramp1->multiply1, projection8->transform1
+  ...and 7 more connections
+TOPO: 20 ops, 15 conns, chain=7
+
+## rampTOP
+### example1
+Curator: Ramp TOPs can be used to create circles.Extend Left parameter is set to Zero and Interpolate Notches is set to Step.But now we have the Circle TOP!
+ISOLATED: ramp1_keys(DAT:table), ramp_circle(TOP:ramp)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example2
+Curator: You can edit the individual values of the ramp via its docked table. Try changing the R G or B values in the table.
+ISOLATED: ramp2_keys(DAT:table), ramp_editing_table(TOP:ramp)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example3
+Curator: You can animate a ramp's phase
+INPUT: constant1(CHOP:constant)
+PROCESSOR: speed1(CHOP:speed)
+OUTPUT: null1(CHOP:null)
+ISOLATED: stepping(DAT:text), ramp3_keys(DAT:table), ramp4_keys(DAT:table), null1_export(DAT:table), ramp_animated(TOP:ramp), ramp_step_interpolation(TOP:ramp)
+FLOW: speed1->null1, constant1->speed1
+TOPO: 9 ops, 2 conns, chain=3
+
+### example4
+Curator: hsvrgb1 treats its input as the hue being in the red channel, saturation in the green channel, and value in the blue channel.In this case, hue is a ramp from 0 to 1 giving hte full rainbow spectrum. I
+INPUT: ramp1(TOP:ramp)
+OUTPUT: null1(TOP:null), hsvrgb1(TOP:hsvrgb)
+ISOLATED: ramp2_keys(DAT:table)
+FLOW: ramp1->null1, ramp1->hsvrgb1
+TOPO: 4 ops, 2 conns, chain=2
+
+### example5
+Curator: You can generate ramp tables using the Script DAT. Move the slider on constant1 to alter the mid-point of ramp table using the script1 DAT.
+ISOLATED: ramp2(TOP:ramp), script1(DAT:script), constant1(CHOP:constant), script1_callbacks(DAT:text)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example6
+Curator: Click/drag in bicolor. You can procedurally generate tables for ramps. In this case the panel "bicolor" u and v define an inner and outer hue, which is generated with an  expression for the red channe
+INPUT: ramp1(TOP:ramp), ramp1_keys2(DAT:table)
+OUTPUT: eval1(DAT:eval), hsvrgb1(TOP:hsvrgb)
+ISOLATED: bicolor(COMP:container)
+FLOW: ramp1_keys2->eval1, ramp1->hsvrgb1
+TOPO: 5 ops, 2 conns, chain=2
+
+### example7
+Curator: Click/drag blendModeIndex. Ramp TOP and several other generators can composite itself with its input using the full set of Composite TOP's blend modes. This lets you flip through all the choices when 
+INPUT: moviefilein1(TOP:moviefilein), blendModeIndex(COMP:slider)
+OUTPUT: ramp1(TOP:ramp), ramp1_swapOrder(TOP:ramp), math_blendModeIndex(CHOP:math)
+ISOLATED: ramp1_keys(DAT:table), ramp2_keys(DAT:table), math1_export(DAT:table)
+FLOW: moviefilein1->ramp1, moviefilein1->ramp1_swapOrder, blendModeIndex/out1->math_blendModeIndex
+TOPO: 8 ops, 3 conns, chain=2
+
+### example8
+Curator: Adding the red of the first with the green of the second ramp.32-bit float pixels for greater accuracy.Concept useful for building maps for displacement.
+INPUT: ramp_red(TOP:ramp)
+PROCESSOR: ramp_green(TOP:ramp)
+OUTPUT: null_info(TOP:null)
+ISOLATED: ramp3_keys(DAT:table), ramp4_keys(DAT:table)
+FLOW: ramp_green->null_info, ramp_red->ramp_green
+TOPO: 5 ops, 2 conns, chain=3
+
+### example9
+Curator: This is a skin on top of the Ramp TOP where you create and set keyframes on rampA and rampB using blocks of sequential parameters (on the Keys page), where each block is a keyframe color/position.Insi
+ISOLATED: rampA(COMP:base), rampB(COMP:base)
+TOPO: 2 ops, 0 conns, chain=1
+
+## rectangleTOP
+### example1
+Curator: rectangle1 with top-left justification, quarter size rectangle (res is 100x100) offset quarter right and 10% down.By default you are expressing the rectangle as fractions of the image width and height
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), rectangle1(TOP:rectangle), rectangle_inPixels(TOP:rectangle), rectangle_softness1(TOP:rectangle), rectangle_softness2(TOP:rectangle), rectangle_inPixels_DisplayPixelValues(TOP:rectangle), rectangle_inPixels_ViewSmoothness_Nearest(TOP:rectangle)
+TOPO: 8 ops, 0 conns, chain=1
+
+### example2
+Curator: With the rectangle fill color set to transparant, the rectangle's border can be used to create a 16:9 letterbox effect within a square TOP.
+INPUT: rectangle1(TOP:rectangle), moviefilein1(TOP:moviefilein)
+OUTPUT: under1(TOP:under)
+FLOW: moviefilein1->under1, rectangle1->under1
+TOPO: 3 ops, 2 conns, chain=2
+
+### example3
+Curator: Use the Corner Radius parameter to give a rectangle round corners. Also each rectangle TOP is composited over its predecessor using a Difference operation (see the 'Output' tab in their parameter wind
+INPUT: rectangle1(TOP:rectangle)
+PROCESSOR: rectangle2(TOP:rectangle), rectangle3(TOP:rectangle)
+OUTPUT: rectangle4(TOP:rectangle)
+FLOW: rectangle3->rectangle2, rectangle1->rectangle3, rectangle2->rectangle4
+TOPO: 4 ops, 3 conns, chain=4
+
+### example4
+Curator: The parameters of a Rectangle TOP can be animated by using CHOP channels as input. In this example the rotation is controlled via an LFO signal from lfo1.That same LFO signal (which is -1 to 1) is the
+INPUT: lfo1(CHOP:lfo), pattern1(CHOP:pattern)
+PROCESSOR: math1(CHOP:math), math2(CHOP:math), lookup1(CHOP:lookup)
+OUTPUT: null_scale(CHOP:null), null_rotate(CHOP:null)
+ISOLATED: rectangle1(TOP:rectangle)
+FLOW: lfo1->math1, lfo1->math2, math2->lookup1, pattern1->lookup1, lookup1->null_scale, math1->null_rotate
+TOPO: 8 ops, 6 conns, chain=4
+
+## remapTOP
+### example1
+Curator: For each pixel in the second input, it uses the value in the red channel as the u (horizontal, 0 being left-most) coordinate, and the value in the green channel as the v (vertial) coordinate to fetch 
+INPUT: ramp1(TOP:ramp), ramp2(TOP:ramp), moviefilein1(TOP:moviefilein)
+PROCESSOR: res1(TOP:res), null2(TOP:null), reorder2(TOP:reorder), transform1(TOP:transform)
+OUTPUT: add1(TOP:add), null3(TOP:null), remap1(TOP:remap), inspect(TOP:crop)
+ISOLATED: info1(CHOP:info), topto1(CHOP:topto), annotate1(COMP:annotate), ramp1_keys(DAT:table), ramp2_keys(DAT:table), info1_export(DAT:table)
+FLOW: ramp1->add1, ramp2->add1, moviefilein1->res1, res1->null2, transform1->null3, null2->remap1, transform1->remap1, transform1->inspect
+  ...and 3 more connections
+TOPO: 17 ops, 11 conns, chain=4
+
+### example2
+Curator: With some source ramps you get or make, you may notice undesired sparkles around the edge of remap1. This is because the transform1 image is created anti-aliased with Input Smoothness set to Interpola
+INPUT: ramp1(TOP:ramp), ramp2(TOP:ramp), moviefilein1(TOP:moviefilein)
+PROCESSOR: res1(TOP:res), comp1(TOP:comp), null2(TOP:null), remap1(TOP:remap), inside1(TOP:inside), reorder1(TOP:reorder), reorder2(TOP:reorder), transform1(TOP:transform)
+OUTPUT: add1(TOP:add), null1(TOP:null), null3(TOP:null), level1(TOP:level), inspect(TOP:crop)
+ISOLATED: info1(CHOP:info), topto1(CHOP:topto), annotate1(COMP:annotate), ramp1_keys(DAT:table), ramp2_keys(DAT:table), info1_export(DAT:table)
+FLOW: ramp1->add1, ramp2->add1, moviefilein1->res1, transform1->comp1, reorder1->comp1, inside1->null1, res1->null2, transform1->null3
+  ...and 10 more connections
+TOPO: 22 ops, 18 conns, chain=8
+
+### example3
+Curator: resolution from second input.   Start with a red ramp in X, add a green ramp in Y.
+INPUT: ramp3(TOP:ramp), moviefilein2(TOP:moviefilein)
+PROCESSOR: math1(TOP:math), ramp4(TOP:ramp), remap2(TOP:remap)
+OUTPUT: null1(TOP:null), null_info(TOP:null), null_info1(TOP:null)
+ISOLATED: ramp3_keys(DAT:table), ramp4_keys(DAT:table)
+FLOW: ramp4->math1, remap2->null1, ramp3->ramp4, moviefilein2->remap2, math1->remap2, math1->null_info, ramp4->null_info1
+TOPO: 10 ops, 7 conns, chain=5
+
+## renderpassTOP
+### example1
+Curator: The Render Pass TOP can be used to render additional geometry into the same buffer. You can optionally turn on clearing the depth or color buffers depending on if you want to add more geometry to the 
+INPUT: render1(TOP:render), render2(TOP:render), render3(TOP:render)
+OUTPUT: clearColorBuffer(TOP:renderpass), clearDepthBuffer(TOP:renderpass), preserveDepthBuffer(TOP:renderpass)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), light1(COMP:light)
+FLOW: render3->clearColorBuffer, render2->clearDepthBuffer, render1->preserveDepthBuffer
+TOPO: 10 ops, 3 conns, chain=2
+
+## renderselectTOP
+### example1
+Curator: The Render TOP is able to render multiple cameras (more quickly than separately) in a single node.You specify multiple cameras in one Camera parameter of the Render TOP, and use the Render Select TOP 
+ISOLATED: cam1(COMP:cam), cam2(COMP:cam), cam3(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), render1(TOP:render), renderselect1(TOP:renderselect), renderselect2(TOP:renderselect)
+TOPO: 9 ops, 0 conns, chain=1
+
+### example2
+Curator: The Render Select TOP can pull data from either a Render TOP, GLSL TOP or a CPlusPlus TOP.In this example the GLSL TOP outputs RGB to three different color buffers. The Render Select TOP is used to pu
+ISOLATED: glsl1(TOP:glsl), glsl1_info(DAT:info), glsl1_pixel(DAT:text), glsl1_compute(DAT:text), renderselect1(TOP:renderselect), renderselect2(TOP:renderselect)
+TOPO: 6 ops, 0 conns, chain=1
+
+## rendersimpleTOP
+### example1
+ISOLATED: phong1(MAT:phong), torus1(POP:torus), torus2(POP:torus), torus3(POP:torus), torus4(POP:torus), moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), rendersimple1(TOP:rendersimple), rendersimple2(TOP:rendersimple), rendersimple3(TOP:rendersimple)
+  ...and 1 more
+TOPO: 11 ops, 0 conns, chain=1
+
+## renderTOP
+### example1
+Curator: The Render TOP renders a 3D scene with a camera and lights into a 2D texture. A standard render setup includes a geometry object, a camera, light, and a material.You can wire a SOP to the input of geo
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), render1(TOP:render)
+TOPO: 5 ops, 0 conns, chain=1
+
+### example2
+Curator: This setup is being rendered in a number of different ways to demonstrate some  of the functionality of the Render TOP
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), render(TOP:render), moviein1(TOP:moviefilein), render_cropping(TOP:render), render_cull_back_faces(TOP:render), render_display_overdraw(TOP:render), render_setting_resolution(TOP:render)
+TOPO: 10 ops, 0 conns, chain=1
+
+### example3
+Curator: Notice that the lights are using a lookat to point at the geometry. This is nessesary to create a proper shadow map, which is rendered from the light's point of view. You then also want to adjust the 
+ISOLATED: cam2(COMP:cam), geo2(COMP:geo), floor(COMP:geo), shadows(TOP:render), hardShadowLight(COMP:light), softShadowLight(COMP:light)
+TOPO: 6 ops, 0 conns, chain=1
+
+### example4
+Curator: You can use the Depth TOP to get the depth buffer for both a Render TOP, as well as the shadow map from a light that is doing shadowing. Usually a Depth map will look mostly white, with much of the in
+INPUT: depth2(TOP:depth)
+OUTPUT: null2(TOP:null)
+ISOLATED: depth3(TOP:depth), depth4(TOP:depth), render(COMP:base)
+FLOW: depth2->null2
+TOPO: 5 ops, 1 conns, chain=2
+
+### example5
+Curator: The Render TOP renders a 3D scene as a cube map, which is 6 renders-in-one, using the Render Mode parameter.In this case the camera and light are at 0, 0, 0 and the geometry is around it in all direct
+ISOLATED: cam1(COMP:cam), stuff(COMP:geo), light1(COMP:light), render1(TOP:render)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example6
+Curator: To render transparent objects correctly all polygons must be sorted from closest to furthest away from the camera before being passed along to the render pipeline. The polygons that are furthest way m
+INPUT: torus1(SOP:torus), render1(TOP:render), sphere1(SOP:sphere), sphere2(SOP:sphere)
+PROCESSOR: sort1(SOP:sort), switch1(SOP:switch), convert1(SOP:convert), transform1(SOP:transform)
+OUTPUT: sort2(SOP:sort), level1(TOP:level)
+ISOLATED: cam1(COMP:cam), geoFar(COMP:geo), geoMid(COMP:geo), phong1(MAT:phong), geoNear(COMP:geo), moviefilein2(TOP:moviefilein)
+FLOW: transform1->sort1, sort1->sort2, render1->level1, sphere2->switch1, convert1->switch1, sphere1->switch1, torus1->switch1, sphere2->convert1
+  ...and 1 more connections
+TOPO: 16 ops, 9 conns, chain=6
+
+### example7
+Curator: In this example there is a bgMat midMat and fgMat materials textured onto 3 quads - The background object is textured with a checkerboard. The mid ground object is textured with a spectrum that has a 
+INPUT: null4(COMP:null), ramp1(TOP:ramp), ramp2(TOP:ramp), text1(TOP:text), table1(DAT:table), circle1(TOP:circle), render1(TOP:render), pattern1(CHOP:pattern), constant1(CHOP:constant)
+PROCESSOR: comp1(TOP:comp), eval1(DAT:eval), flip1(TOP:flip), null5(CHOP:null), over1(TOP:over), level2(TOP:level), level3(TOP:level), level6(TOP:level), speed1(CHOP:speed), hsvrgb1(TOP:hsvrgb)
+  ...and 3 more
+OUTPUT: cam1(COMP:cam), math1(CHOP:math), null1(TOP:null), null2(TOP:null), null3(TOP:null), null6(CHOP:null), convert1(DAT:convert), transform2(TOP:transform)
+ISOLATED: bg(COMP:geo), fg(COMP:geo), bg1(COMP:geo), fg1(COMP:geo), mid(COMP:geo), lfo1(CHOP:lfo), mid1(COMP:geo), bgMat(MAT:phong), fgMat(MAT:phong), midMat(MAT:phong)
+  ...and 8 more
+FLOW: null4->cam1, flip1->comp1, ramp1->comp1, table1->eval1, ramp1->flip1, lookup1->math1, multiply1->null1, level2->null2
+  ...and 17 more connections
+TOPO: 48 ops, 25 conns, chain=5
+
+### example8
+Curator: This example shows how to create a procedural noise texture on a sphere and addresses transparency as well.A RGB texture and Alpha texture is created and mapped to pbr1. Its important to note that alt
+INPUT: render1(TOP:render), proceduralSphereTextures(COMP:base)
+OUTPUT: base(TOP:null), emit(TOP:null), alpha(TOP:null), null3(TOP:null)
+ISOLATED: cam2(COMP:cam), geo2(COMP:geo), pbr1(MAT:pbr), sphere2(SOP:sphere), environmentLight(COMP:environment)
+FLOW: proceduralSphereTextures/out1->base, proceduralSphereTextures/out2->emit, proceduralSphereTextures/out3->alpha, render1->null3
+TOPO: 11 ops, 4 conns, chain=2
+
+### example9
+Curator: This example fetches a biplane USDZ asset from the Apple Augmented Reality 3D models website. (See https://developer.apple.com/augmented-reality/quick-look/ for other examples.)A biplane 3D asset is u
+INPUT: render1(TOP:render)
+OUTPUT: reorder1(TOP:reorder)
+ISOLATED: cam1(COMP:cam), info1(CHOP:info), toy_biplane(COMP:usd), environmentLight(COMP:environment), toy_biplane_callbacks(DAT:text)
+FLOW: render1->reorder1
+TOPO: 7 ops, 1 conns, chain=2
+
+### example10
+Curator: As with conventional stereo rendering, you will need two cameras.  The main difference between conventional stereo and omnidirectional stereo (ODS) in terms of setup is that both cameras have the same
+INPUT: render1(TOP:render), scene_geo(SOP:alembic), renderselect1(TOP:renderselect)
+PROCESSOR: facet1(SOP:facet), left_eye_ods(TOP:projection), right_eye_ods(TOP:projection)
+OUTPUT: disparity(TOP:diff), attribcreate1(SOP:attribcreate)
+ISOLATED: geo1(COMP:geo), light1(COMP:light), cam_left(COMP:cam), annotate1(COMP:annotate), annotate2(COMP:annotate), cam_right(COMP:cam)
+FLOW: scene_geo->facet1, right_eye_ods->disparity, left_eye_ods->disparity, render1->left_eye_ods, facet1->attribcreate1, renderselect1->right_eye_ods
+TOPO: 14 ops, 6 conns, chain=3
+
+## reorderTOP
+### example1
+Curator: This is a simple example of how to assign incoming RGBA channels to outgoing RGBA channels.In the example, the output Red channel is the 2nd input's Red channel, the output Green channel is the 3rd in
+INPUT: moviein1(TOP:moviefilein), moviein2(TOP:moviefilein), moviein3(TOP:moviefilein)
+PROCESSOR: math1(TOP:math), reorder(TOP:reorder), transform1(TOP:transform)
+OUTPUT: null1(TOP:null)
+FLOW: reorder->math1, math1->null1, moviein2->reorder, transform1->reorder, moviein1->reorder, moviein3->reorder, moviein1->transform1
+TOPO: 7 ops, 7 conns, chain=5
+
+### example2
+Curator: Reorder is helpful for creating alpha masks by using the input's alpha channel as all the output channels.
+INPUT: moviein4(TOP:moviefilein)
+OUTPUT: reorder_creating_a_matte(TOP:reorder)
+FLOW: moviein4->reorder_creating_a_matte
+TOPO: 2 ops, 1 conns, chain=2
+
+### example3
+Curator: Reorder can pull individual channels.In the first case it preserves the red channel, and sets the green and blue channels to 0. It also sets the alpha to 1 making the resulting image opaque.In the sec
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: reorder_pullRed(TOP:reorder), reorder_pullRedOneChannel(TOP:reorder), reorder_pull_greenOneChannel(TOP:reorder)
+FLOW: moviefilein1->reorder_pullRed, moviefilein1->reorder_pullRedOneChannel, moviefilein1->reorder_pull_greenOneChannel
+TOPO: 4 ops, 3 conns, chain=2
+
+### example4
+Curator: This puts into the alpha channel the maximum value for R G or B. Therefore all pixels have legal values for compositing with transparency because images must be pre-multiplied by alpha, and thus the v
+INPUT: moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), moviefilein3(TOP:moviefilein), moviefilein4(TOP:moviefilein)
+PROCESSOR: level1(TOP:level), reorder1(TOP:reorder), reorder_illegalAlpha(TOP:reorder), reorder_fixIllegalAlpha(TOP:reorder)
+OUTPUT: null1(TOP:null), null2(TOP:null), over1(TOP:over), null_illegalAlpha(TOP:null)
+FLOW: reorder1->null1, reorder_fixIllegalAlpha->null2, level1->over1, moviefilein1->over1, reorder1->level1, moviefilein2->reorder1, reorder_illegalAlpha->null_illegalAlpha, moviefilein3->reorder_illegalAlpha
+  ...and 2 more connections
+TOPO: 12 ops, 10 conns, chain=4
+
+### example5
+Curator: Fill background with black by putting One in the Alpha channel of the Reorder TOP.  But there are at least eight other ways to do it!
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: math1(TOP:math), ramp1(TOP:ramp), text1(TOP:text), level1(TOP:level), chanmix1(TOP:chanmix), constant1(TOP:constant), function1(TOP:function), transform1(TOP:transform), reorder_fillBlack(TOP:reorder)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), ramp1_keys(DAT:table)
+FLOW: moviefilein1->math1, moviefilein1->ramp1, moviefilein1->text1, moviefilein1->level1, moviefilein1->chanmix1, moviefilein1->constant1, moviefilein1->function1, moviefilein1->transform1
+  ...and 1 more connections
+TOPO: 13 ops, 9 conns, chain=2
+
+## resolutionTOP
+### example1
+Curator: This example brings the resolution down to 1/4 of it's original value.
+INPUT: moviein1(TOP:moviefilein)
+OUTPUT: resolution1(TOP:res)
+ISOLATED: info1(CHOP:info), info2(CHOP:info)
+FLOW: moviein1->resolution1
+TOPO: 4 ops, 1 conns, chain=2
+
+### example2
+Curator: You can use the Resolution TOP to change the input smoothness settings.
+INPUT: moviein2(TOP:moviefilein)
+OUTPUT: resolution_input_smoothness1(TOP:res), resolution_input_smoothness2(TOP:res), resolution_input_smoothness3(TOP:res)
+FLOW: moviein2->resolution_input_smoothness1, moviein2->resolution_input_smoothness2, moviein2->resolution_input_smoothness3
+TOPO: 4 ops, 3 conns, chain=2
+
+### example3
+Curator: The two images are the same.It is only the viewers that are set differently. The second TOP has its Viewer Smoothness set to Mip Map, which makes images look better when you zoom back from them.The Vi
+INPUT: moviein3(TOP:moviefilein), moviein4(TOP:moviefilein)
+PROCESSOR: diff1(TOP:diff)
+OUTPUT: analyze1(TOP:analyze)
+ISOLATED: topto1(CHOP:topto)
+FLOW: moviein3->diff1, moviein4->diff1, diff1->analyze1
+TOPO: 5 ops, 3 conns, chain=3
+
+## rgbkeyTOP
+### example1
+Curator: The RGB Key TOP "pulls a key" from the image using the Red, Green, and Blue channel settings. If a pixel value is between the Min and Max parameters for all three settings, then its alpha is set to 1.
+INPUT: ramp1(TOP:ramp)
+OUTPUT: rgbkey1(TOP:rgbkey), rgbkey2(TOP:rgbkey), rgbkey3(TOP:rgbkey), rgbkey3_invert(TOP:rgbkey)
+ISOLATED: ramp4_keys(DAT:table)
+FLOW: ramp1->rgbkey1, ramp1->rgbkey2, ramp1->rgbkey3, ramp1->rgbkey3_invert
+TOPO: 6 ops, 4 conns, chain=2
+
+## rgbtohsvTOP
+### example1
+Curator: rgbhsv TOP converts pixels so that the hue is in  the red channel, the saturation is in the green channel, and the value (brightness) is in  the blue channel.After converting to hsv,level_increase_sat
+INPUT: moviein1(TOP:moviefilein)
+PROCESSOR: rgbhsv2(TOP:rgbhsv), blur_hue(TOP:blur), blur_brightness(TOP:blur), level_narrow_color(TOP:level), level_increase_saturation(TOP:level), level_quantize_hue_and_value(TOP:level)
+OUTPUT: hsvrgb1(TOP:hsvrgb), hsvrgb2(TOP:hsvrgb), hsvrgb3(TOP:hsvrgb), hsvrgb4(TOP:hsvrgb), hsvrgb5(TOP:hsvrgb)
+FLOW: level_increase_saturation->hsvrgb1, level_narrow_color->hsvrgb2, level_quantize_hue_and_value->hsvrgb3, blur_brightness->hsvrgb4, blur_hue->hsvrgb5, moviein1->rgbhsv2, rgbhsv2->blur_hue, rgbhsv2->blur_brightness
+  ...and 3 more connections
+TOPO: 12 ops, 11 conns, chain=4
+
+### example2
+Curator: This is a useful trick to squeeze the range of colors in an image down to a smaller range (artificial of course). Like all colors fit into the yellow-to-green range.Drag-drop the Movie File In TOPs to
+INPUT: select1(TOP:select)
+PROCESSOR: blur1(TOP:blur), limit1(TOP:limit), hsvrgb2(TOP:hsvrgb), rgbhsv1(TOP:rgbhsv)
+OUTPUT: out1(TOP:out), original(TOP:null)
+ISOLATED: hueControls(COMP:base), moviefilein1(TOP:moviefilein), moviefilein2(TOP:moviefilein), moviefilein3(TOP:moviefilein), moviefilein4(TOP:moviefilein)
+FLOW: hsvrgb2->out1, limit1->blur1, rgbhsv1->limit1, blur1->hsvrgb2, select1->rgbhsv1, select1->original
+TOPO: 12 ops, 6 conns, chain=6
+
+## screengrabTOP
+### example1
+Curator: A Color Picker can be made using a Screengrab TOP that grabs a single pixel from anywhere on the desktop, even outside the TouchDesigner windows.Hold Shift key down and move your mouse anywhere.Inside
+INPUT: colorPicker(COMP:container)
+OUTPUT: null1(CHOP:null), null2(TOP:null)
+FLOW: colorPicker/out1->null1, colorPicker/out2->null2
+TOPO: 3 ops, 2 conns, chain=1
+
+## scriptTOP
+### example1
+Curator: The script TOP's method .copyNumpyArray() takes as an argument a numpy array that holds all color information for the texture that is output for the TOP. The numpy array is defined by a size and type 
+ISOLATED: script1_callbacks(DAT:text), script_basicControls(TOP:script)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example2
+Curator: Every TOP's content can be converted to a numpy array by using the .numpyArray() Method. The returned numpy array can then be used as an argument to the Script TOP's .copyNumpyArray() to display it.It
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: script_copyInput(TOP:script)
+ISOLATED: script2_callbacks(DAT:text)
+FLOW: moviefilein1->script_copyInput
+TOPO: 3 ops, 1 conns, chain=2
+
+### example3
+Curator: Every TOP's content can be converted to a numpy array by using the .numpyArray() Method. By default this Method will download the texture on the same frame and with the download from GPU to CPU being 
+INPUT: moviefilein3(TOP:moviefilein)
+OUTPUT: script_copyInputDelayed(TOP:script)
+ISOLATED: script4_callbacks(DAT:text)
+FLOW: moviefilein3->script_copyInputDelayed
+TOPO: 3 ops, 1 conns, chain=2
+
+### example4
+INPUT: moviefilein2(TOP:moviefilein)
+OUTPUT: script_openCV(TOP:script)
+ISOLATED: script3_callbacks(DAT:text)
+FLOW: moviefilein2->script_openCV
+TOPO: 3 ops, 1 conns, chain=2
+
+### xxexample5
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: script1(TOP:script)
+ISOLATED: base1(COMP:base), eval1(DAT:eval), info1(DAT:info), info2(CHOP:info), tcpip1(DAT:tcpip), tcpip2(DAT:tcpip), moviefilein2(TOP:moviefilein), tcpip2_script(DAT:text), tcpip4_script(DAT:text), script3_callbacks(DAT:text)
+FLOW: moviefilein1->script1
+TOPO: 12 ops, 1 conns, chain=2
+
+## selectTOP
+### example1
+Curator: Select TOPs allow you to select any TOP in any network.It is good practice to use a renamed Null TOP to capture adjustments/additional nodes you may add later.
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: null1(TOP:null)
+ISOLATED: select(TOP:select)
+FLOW: moviefilein1->null1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example2
+Curator: Select TOPs allow you to select any TOP in any network.It is good practice to use a renamed Null TOP to capture adjustments/additional nodes you may add later.
+ISOLATED: level_1(COMP:container), select1_from_level_1(TOP:select), select1_from_level_2(TOP:select)
+TOPO: 3 ops, 0 conns, chain=1
+
+### example3
+Curator: Select TOPs allow you to select any TOP in any network.It is good practice to use a renamed Null TOP to capture adjustments/additional nodes you may add later.
+INPUT: lfo1(CHOP:lfo), moviein1(TOP:moviefilein), moviein2(TOP:moviefilein)
+OUTPUT: banana(TOP:null), smiley(TOP:null), selector(CHOP:null)
+ISOLATED: select1(TOP:select)
+FLOW: moviein2->banana, moviein1->smiley, lfo1->selector
+TOPO: 7 ops, 3 conns, chain=2
+
+## slopeTOP
+### example1
+Curator: THe Slope TOP shows where the luminance in an image rises or falls relative to its neighboring pixel(s) (immediately left-right and below-above pixels).The Slope TOPs are set by default to put the hor
+INPUT: ramp1(TOP:ramp), rectangle1(TOP:rectangle), moviefilein1(TOP:moviefilein)
+OUTPUT: slope1(TOP:slope), slope2(TOP:slope), slope3(TOP:slope), slope4(TOP:slope), slope5(TOP:slope)
+ISOLATED: topto1(CHOP:topto), topto2(CHOP:topto), ramp1_keys(DAT:table), topto1_verticalCenterLine(CHOP:topto), topto2_verticalCenterLine(CHOP:topto), topto1_horizontalCenterLine(CHOP:topto), topto2_horizontalCenterLine(CHOP:topto)
+FLOW: rectangle1->slope1, rectangle1->slope2, moviefilein1->slope3, moviefilein1->slope4, ramp1->slope5
+TOPO: 15 ops, 5 conns, chain=2
+
+## spectrumTOP
+### example1
+Curator: The Spectrum TOP does a "Discrete Fourier Transform" on an image. It's based on the idea that any image can be represented as a bunch of horizontal sine waves superimposed, and a bunch of vertical wav
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: circle2(TOP:circle), spectrum1(TOP:spectrum), spectrum2(TOP:spectrum), spectrum3(TOP:spectrum), spectrum1_inverse(TOP:spectrum), spectrum2_inverse(TOP:spectrum), spectrum3_inverse(TOP:spectrum)
+OUTPUT: reorder1(TOP:reorder)
+FLOW: spectrum1->circle2, spectrum1_inverse->reorder1, spectrum2_inverse->reorder1, spectrum3_inverse->reorder1, moviefilein1->spectrum1, moviefilein1->spectrum2, moviefilein1->spectrum3, circle2->spectrum1_inverse
+  ...and 2 more connections
+TOPO: 9 ops, 10 conns, chain=5
+
+### example2
+Curator: Making small changes in the Transform TOP, which is masked (Common page, Channel Mask parameter)  to only affect the red (amplitude) channel makes radical changes to the image.pick all 3 Transform TOP
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: spectrum2(TOP:spectrum), spectrum3(TOP:spectrum), spectrum4(TOP:spectrum), spectrum5(TOP:spectrum), spectrum6(TOP:spectrum), spectrum7(TOP:spectrum), transform1(TOP:transform), transform2(TOP:transform), transform3(TOP:transform)
+OUTPUT: reorder1(TOP:reorder)
+FLOW: spectrum3->reorder1, spectrum5->reorder1, spectrum7->reorder1, moviefilein1->spectrum2, transform1->spectrum3, moviefilein1->spectrum4, transform2->spectrum5, moviefilein1->spectrum6
+  ...and 4 more connections
+TOPO: 11 ops, 12 conns, chain=5
+
+### example3
+Curator: This uses the Inverse DFT. Here we synthesize an image from placing non-white pixels in a black image, and letting the Spectrum CHOP generate an image from the spectrum image feeding spectrum1.rectang
+INPUT: lfo1(CHOP:lfo), rectangle1(TOP:rectangle)
+PROCESSOR: math1(CHOP:math), circle1(TOP:circle), rectangle2(TOP:rectangle)
+OUTPUT: null1(CHOP:null), spectrum1(TOP:spectrum)
+FLOW: lfo1->math1, math1->null1, rectangle2->circle1, circle1->spectrum1, rectangle1->rectangle2
+TOPO: 7 ops, 5 conns, chain=4
+
+### example4
+Curator: spectrum1 to spectrum3, show the image converted to different arrangements of pixels in the DFT image.They differ in the Coordinate System menu and the Transorm Rows flag.Parameters in spectrum*_inver
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: spectrum1(TOP:spectrum), spectrum2(TOP:spectrum), spectrum3(TOP:spectrum)
+OUTPUT: spectrum1_inverse(TOP:spectrum), spectrum2_inverse(TOP:spectrum), spectrum3_inverse(TOP:spectrum)
+FLOW: moviefilein1->spectrum1, moviefilein1->spectrum2, moviefilein1->spectrum3, spectrum1->spectrum1_inverse, spectrum2->spectrum2_inverse, spectrum3->spectrum3_inverse
+TOPO: 7 ops, 6 conns, chain=3
+
+### example5
+Curator: A test bed for playing around with re-synthesis.Pick all 3 Rectangle tOPs and change their parameters together (or change them separately but you will quickly get messed up).Play around with Rotate.Th
+INPUT: moviefilein3(TOP:moviefilein)
+PROCESSOR: null1(TOP:null), spectrum4(TOP:spectrum), spectrum5(TOP:spectrum), spectrum6(TOP:spectrum), rectangle1(TOP:rectangle), rectangle2(TOP:rectangle), rectangle3(TOP:rectangle), spectrum1_inverse1(TOP:spectrum), spectrum2_inverse1(TOP:spectrum), spectrum3_inverse1(TOP:spectrum)
+OUTPUT: reorder1(TOP:reorder), reorder2(TOP:reorder)
+ISOLATED: moviefilein2(TOP:moviefilein)
+FLOW: moviefilein3->null1, spectrum6->reorder1, spectrum1_inverse1->reorder2, spectrum2_inverse1->reorder2, spectrum3_inverse1->reorder2, null1->spectrum4, null1->spectrum5, null1->spectrum6
+  ...and 6 more connections
+TOPO: 14 ops, 14 conns, chain=6
+
+## ssaoTOP
+### example1
+Curator: The SSAO TOP performs Screen Space Ambient Occlusion on the output of a Render TOP or Render Pass TOP. To properly see the effect in the example scene, right-click the "view_output" node and select 'V
+INPUT: render1(TOP:render), null_envmap_locked(TOP:null)
+PROCESSOR: ssao1(TOP:ssao), ssao2(TOP:ssao)
+OUTPUT: multiply1(TOP:multiply), view_output(TOP:null), prefiltermap1(TOP:prefiltermap)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), light2(COMP:light), environment1(COMP:environment)
+FLOW: render1->ssao1, render1->ssao2, render1->multiply1, ssao2->multiply1, ssao1->view_output, null_envmap_locked->prefiltermap1
+TOPO: 12 ops, 6 conns, chain=3
+
+## switchTOP
+### example1
+Curator: This example snaps between inputs.
+INPUT: lfo1(CHOP:lfo), moviein1(TOP:moviefilein), moviein2(TOP:moviefilein), moviein3(TOP:moviefilein), moviein4(TOP:moviefilein)
+PROCESSOR: count1(CHOP:count), switch_no_blend(TOP:switch)
+OUTPUT: null2(CHOP:null), null3(TOP:null)
+ISOLATED: null2_export(DAT:table)
+FLOW: count1->null2, switch_no_blend->null3, lfo1->count1, moviein1->switch_no_blend, moviein2->switch_no_blend, moviein3->switch_no_blend, moviein4->switch_no_blend
+TOPO: 10 ops, 7 conns, chain=3
+
+### example2
+Curator: This example blends between inputs smoothly in a cycle of 4 images. It uses tricky technique to handle the case of going from the last image back to the first image without passing through the other 2
+INPUT: lfo2(CHOP:lfo), moviein5(TOP:moviefilein), moviein6(TOP:moviefilein), moviein7(TOP:moviefilein), moviein8(TOP:moviefilein)
+PROCESSOR: count2(CHOP:count), filter2(CHOP:filter), equals_four(CHOP:express), switch_blend(TOP:switch)
+OUTPUT: null1(CHOP:null), null2(CHOP:null), null4(TOP:null)
+ISOLATED: note(DAT:text), chopexec1(DAT:chopexec), null1_export(DAT:table)
+FLOW: filter2->null1, equals_four->null2, switch_blend->null4, lfo2->count2, count2->filter2, filter2->equals_four, moviein5->switch_blend, moviein6->switch_blend
+  ...and 3 more connections
+TOPO: 15 ops, 11 conns, chain=5
+
+### example3
+Curator: This is a better way to blend without using the expression and Execute DAT.Note the expression in count1 to calculat ethe number of inputs to the Switch TOP. matt r
+INPUT: lfo3(CHOP:lfo), moviein9(TOP:moviefilein), moviein10(TOP:moviefilein), moviein11(TOP:moviefilein), moviein12(TOP:moviefilein)
+PROCESSOR: lag1(CHOP:lag), count3(CHOP:count), switch_blend(TOP:switch)
+OUTPUT: null5(CHOP:null), null6(TOP:null)
+ISOLATED: autoLoop(DAT:text), lagNotFilter(DAT:text), null3_export(DAT:table)
+FLOW: count3->lag1, lag1->null5, switch_blend->null6, lfo3->count3, moviein9->switch_blend, moviein10->switch_blend, moviein11->switch_blend, moviein12->switch_blend
+  ...and 1 more connections
+TOPO: 13 ops, 9 conns, chain=4
+
+## textTOP
+### example1
+Curator: This is helpful for rending information held in DATs, which can then be composited into your final output.
+ISOLATED: text_dat(DAT:text), text_reading_from_text(TOP:text)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example2
+Curator: This example reads directly from a specific cell in a table using the DAT Row and DAT Col parameters
+ISOLATED: table_dat(DAT:table), text_reading_from_table(TOP:text)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example3
+Curator: This example renders information directly from a CHOP
+INPUT: constant1(CHOP:constant)
+OUTPUT: speed1(CHOP:speed)
+ISOLATED: text_using_chop_value(TOP:text)
+FLOW: constant1->speed1
+TOPO: 3 ops, 1 conns, chain=2
+
+### example4
+Curator: TouchDesigner supports loading of external font files. This is useful if you're moving the project to different computers and you're unsure if the selected font is available on all computers. (font fi
+ISOLATED: text_reading_font_file(TOP:text)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example5
+Curator: You can format various aspects of the text.
+ISOLATED: text_font_formatting(TOP:text)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example6
+Curator: You can change text, background and border colors.Border A and B are single-pixel wide.
+ISOLATED: colors_and_borders(TOP:text)
+TOPO: 1 ops, 0 conns, chain=1
+
+### example7
+Curator: If you want to minumize memory when rendering multi-line text, use op('text1').textHeight, which pre-computes the expected height of the text based on width, font, spacing etc.(If that gives a warning
+ISOLATED: text(TOP:text), eval1(DAT:eval), text1(TOP:text), string(DAT:text)
+TOPO: 4 ops, 0 conns, chain=1
+
+### example8
+Curator: You can position text using a table with x, y and text columns.
+ISOLATED: text1(TOP:text), table1(DAT:table)
+TOPO: 2 ops, 0 conns, chain=1
+
+## texture3dTOP
+### example1
+Curator: To create a 3D texture, you need to fill the Texture 3D TOP with a sequence of 2D images, in this case 6 of them.To create the 3D teture: You "pre-fill" tex3d1 by turning on Pre Fill or pulsing Pre Fi
+INPUT: image1(TOP:moviefilein), image2(TOP:moviefilein), image3(TOP:moviefilein), image4(TOP:moviefilein), image5(TOP:moviefilein), image6(TOP:moviefilein), sopto1(CHOP:sopto)
+PROCESSOR: limit1(CHOP:limit), merge1(CHOP:merge), switch1(TOP:switch), pattern1(CHOP:pattern)
+OUTPUT: tex3d1(TOP:tex3d), instancer(CHOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), note(DAT:text), phong1(MAT:phong), chopto1(DAT:chopto), circle1(SOP:circle), render1(TOP:render)
+FLOW: pattern1->limit1, sopto1->merge1, limit1->merge1, switch1->tex3d1, image1->switch1, image2->switch1, image3->switch1, image4->switch1
+  ...and 4 more connections
+TOPO: 20 ops, 12 conns, chain=5
+
+### example2
+Curator: To create a 3D texture, you need to fill it with a sequence of 2D images, in this case 32 of them.The way it's done now is to imagine it's building the 32 images by going to frame 1 on the timeline,co
+INPUT: moviefilein1(TOP:moviefilein)
+PROCESSOR: level1(TOP:level), hsvadj1(TOP:hsvadj)
+OUTPUT: tex3d1(TOP:tex3d), tex3d2(TOP:tex3d)
+FLOW: moviefilein1->level1, hsvadj1->tex3d1, hsvadj1->tex3d2, level1->hsvadj1
+TOPO: 5 ops, 4 conns, chain=4
+
+## thresholdTOP
+### example1
+Curator: The Threshold TOP creates a matte with pixel values set to 0 for pixels below the threshold value, and 1 for pixels greater than or equal to the threshold value. Operator 'thresh2_greater' has its com
+INPUT: noise1(TOP:noise)
+PROCESSOR: thresh2_greater(TOP:thresh), thresh2_greater1(TOP:thresh)
+OUTPUT: null1(TOP:null), null2(TOP:null), thresh1_less(TOP:thresh)
+FLOW: thresh2_greater->null1, thresh2_greater1->null2, noise1->thresh1_less, noise1->thresh2_greater, noise1->thresh2_greater1
+TOPO: 6 ops, 5 conns, chain=3
+
+## tileTOP
+### example1
+Curator: The main purpose of the Tile TOP is to produce seamless texture maps from most images.Once you are happy with its look as a 2x2 tile, you can switch it to a 1x1 to get the most out of your memory, and
+INPUT: moviein2(TOP:moviefilein)
+OUTPUT: tile5(TOP:tile)
+FLOW: moviein2->tile5
+TOPO: 2 ops, 1 conns, chain=2
+
+### example2
+Curator: The Tile TOP, like its name suggests, will create a tiled image. This can make for some interesting kaleidoscopic effects. Here you can see four examples of how you might use the tile effect to create
+INPUT: ramp1(TOP:ramp), moviein1(TOP:moviefilein)
+PROCESSOR: switch1(TOP:switch), transform1(TOP:transform)
+OUTPUT: tile1(TOP:tile), tile2(TOP:tile), tile3(TOP:tile), tile4(TOP:tile)
+ISOLATED: bypass(COMP:button), ramp1_keys(DAT:table), inputSelect(COMP:container)
+FLOW: transform1->tile1, transform1->tile2, transform1->tile3, transform1->tile4, moviein1->switch1, ramp1->switch1, switch1->transform1
+TOPO: 11 ops, 7 conns, chain=4
+
+## timemachineTOP
+### example1
+Curator: The Time Machine TOP is always used with the Texture 3D TOP. (See the snippets for Texture 3D TOP.)The 3D texture is loaded (via Pre Fill, which runs the timeline from frame 1 to frame (cache size * s
+INPUT: ramp1(TOP:ramp), ramp2(TOP:ramp), range_low(COMP:slider), range_high(COMP:slider)
+PROCESSOR: text1(TOP:text), level1(TOP:level), level2(TOP:level), tex3d1(TOP:tex3d), hsvadj1(TOP:hsvadj)
+OUTPUT: null1(CHOP:null), null2(CHOP:null), tima1(TOP:tima), analyze1(TOP:analyze), analyze2(TOP:analyze)
+ISOLATED: lfo1(CHOP:lfo), lowest(CHOP:topto), highest(CHOP:topto), ramp1_keys(DAT:table), ramp2_keys(DAT:table), lfo1_export(DAT:table), null1_export(DAT:table), null2_export(DAT:table)
+FLOW: range_low/out1->null1, range_high/out1->null2, ramp2->text1, tex3d1->tima1, level2->tima1, text1->level1, ramp1->level2, hsvadj1->tex3d1
+  ...and 3 more connections
+TOPO: 22 ops, 11 conns, chain=6
+
+## transformTOP
+### example1
+Curator: The Transform's Pivot paramter controls where in the image the rotation is centered.
+INPUT: moviein1(TOP:moviefilein), constant1(CHOP:constant)
+PROCESSOR: speed1(CHOP:speed)
+OUTPUT: null2(CHOP:null), transform_pivot1(TOP:transform), transform_pivot2(TOP:transform)
+ISOLATED: null2_export(DAT:table)
+FLOW: speed1->null2, constant1->speed1, moviein1->transform_pivot1, moviein1->transform_pivot2
+TOPO: 7 ops, 4 conns, chain=3
+
+### example2
+Curator: The transform order is crucial for assigning the order of the Transform TOP's operations.transform1 (deafault) rotates first then translates.  transform2 (via Transform Order menu) translates first an
+INPUT: moviefilein1(TOP:moviefilein)
+OUTPUT: transform1(TOP:transform), transform2(TOP:transform), transform_order1(TOP:transform), transform_order2(TOP:transform)
+FLOW: moviefilein1->transform1, moviefilein1->transform2, moviefilein1->transform_order1, moviefilein1->transform_order2
+TOPO: 5 ops, 4 conns, chain=2
+
+### example3
+Curator: You can fill backgrounds with the Background parameters.
+INPUT: moviein4(TOP:moviefilein)
+OUTPUT: transform_compositing(TOP:transform), transform_compositing1(TOP:transform)
+FLOW: moviein4->transform_compositing, moviein4->transform_compositing1
+TOPO: 3 ops, 2 conns, chain=2
+
+### example4
+Curator: You can perform simple scaling  in a Transform TOP
+INPUT: moviein5(TOP:moviefilein), constant2(CHOP:constant)
+PROCESSOR: speed2(CHOP:speed)
+OUTPUT: null1(CHOP:null), transform_scaling(TOP:transform)
+ISOLATED: null1_export(DAT:table)
+FLOW: speed2->null1, constant2->speed2, moviein5->transform_scaling
+TOPO: 6 ops, 3 conns, chain=3
+
+### example5
+Curator: The extend conditions are used whenever you create blank space using the Transform TOP.When you want seamless repeating textures, use the Tile TOP.
+INPUT: moviein3(TOP:moviefilein), constant1(CHOP:constant)
+PROCESSOR: tile1(TOP:tile), speed1(CHOP:speed)
+OUTPUT: null1(CHOP:null), transform_mirror(TOP:transform), transform_repeat(TOP:transform), transform_mirror1(TOP:transform)
+ISOLATED: null1_export(DAT:table)
+FLOW: speed1->null1, moviein3->tile1, constant1->speed1, moviein3->transform_mirror, moviein3->transform_repeat, tile1->transform_mirror1
+TOPO: 9 ops, 6 conns, chain=3
+
+### example6
+Curator: Each Transform TOP is setting the resolution down to 1/16 the original resolution (80 pixels in x).To see the indiviual pixels more clearly, on the Common page on transform1, Viewer Smoothness is set 
+INPUT: moviein3(TOP:moviefilein)
+OUTPUT: transform1(TOP:transform), transform2(TOP:transform), transform3(TOP:transform), transform4(TOP:transform), transform_mipmap(TOP:transform), transform_noMipmap(TOP:transform)
+FLOW: moviein3->transform1, moviein3->transform2, moviein3->transform3, moviein3->transform4, moviein3->transform_mipmap, moviein3->transform_noMipmap
+TOPO: 7 ops, 6 conns, chain=2
+
+## videodeviceinTOP
+### example1
+Curator: Assuming you have a camera on this computer,Select a device and set Active to On.Then click on Options to adjust your camera's settings.
+ISOLATED: videoin1(TOP:videodevin)
+TOPO: 1 ops, 0 conns, chain=1
+
+## videostreamoutTOP
+### example1
+Curator: unbypass everything.In this example for SRT the sending operator uses the ipaddress 0.0.0.0 and it uses a port that has been forwarded using the router's firewall settings. In particular the port numb
+INPUT: audiostrin1(CHOP:audiostrin), audiofilein1(CHOP:audiofilein), moviefilein1(TOP:moviefilein)
+OUTPUT: null1(CHOP:null), trail1(CHOP:trail), videostreamout1(TOP:videostreamout)
+ISOLATED: eval1(DAT:eval), info1(DAT:info), videostreamin1(TOP:videostreamin)
+FLOW: audiofilein1->null1, audiostrin1->trail1, moviefilein1->videostreamout1
+TOPO: 9 ops, 3 conns, chain=2
+
+## webrenderTOP
+### example1
+Curator: By switching the Source parameter to 'DAT', HTML formated text can be displayed with the web Render TOP.The second example generates the HTML dynamically using a Substitute DAT.
+INPUT: text_html1(DAT:text)
+OUTPUT: substitute1(DAT:substitute)
+ISOLATED: info1(CHOP:info), text_html(DAT:text), webrender1(TOP:webrender), webrender2(TOP:webrender)
+FLOW: text_html1->substitute1
+TOPO: 6 ops, 1 conns, chain=2
+
+### example2
+Curator: This is an example on how to use Javascript to dynamically change the content of what is being displayed via the webrenderTOP.All of this is done with the webrenderTOP's executeJavaScript() method.For
+ISOLATED: text_html(DAT:text), webrender1(TOP:webrender), text_stylesAndContent(DAT:text)
+TOPO: 3 ops, 0 conns, chain=1

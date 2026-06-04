@@ -1,0 +1,54 @@
+# TouchDesigner Python Callbacks - Semantic Descriptions
+# High value: These are the most common extension/callback patterns
+
+onInitRow:
+  description: "Customizes individual row appearance in a List COMP during initialization. Use to style headers, set background colors, or format rows by index."
+  signature: "onInitRow(comp, row, attribs)"
+
+onValueChange:
+  description: "Executes when a Panel's value changes for reactive UI updates. Use to synchronize UI changes with text displays, data, or parameters."
+  signature: "onValueChange(panelValue, prevValue)"
+
+onCook:
+  description: "Runs every cook cycle in Script CHOP to generate channel data dynamically. Use to create procedural channels or compute values."
+  signature: "onCook(scriptOp)"
+
+onOffToOn:
+  description: "Triggers when CHOP channel transitions from 0 to 1 for edge detection. Use to respond to button presses or pulses that should fire once per transition."
+  signature: "onOffToOn(channel, sampleIndex, val, prev)"
+
+onReceive:
+  description: "Fires when TCP/UDP DAT receives network data. Use to parse incoming messages and update tables or trigger behaviors."
+  signature: "onReceive(dat, rowIndex, message, bytes, peer)"
+
+onCreate:
+  description: "Executes once when component is created, before cooking. Use to initialize storage, set defaults, and prepare instance variables."
+  signature: "onCreate(comp)"
+
+onStart:
+  description: "Runs once when Script CHOP starts. Use to set initial channel values and runtime variables."
+  signature: "onStart(scriptOp)"
+
+onPulse:
+  description: "Executes when pulse parameter is triggered. Use for button clicks, resets, or one-time actions."
+  signature: "onPulse(par)"
+
+onParValueChange:
+  description: "Fires when Extension parameter changes. Use to propagate changes to operators or trigger conditional logic."
+  signature: "onParValueChange(par, prev)"
+
+onTableChange:
+  description: "Executes when DAT table data changes. Use to trigger downstream operations or refresh dependent components."
+  signature: "onTableChange(dat)"
+
+onDestroy:
+  description: "Runs when component is deleted. Use for cleanup, releasing resources, or saving state."
+  signature: "onDestroy(comp)"
+
+onFrameStart:
+  description: "Executes at start of each frame before cooking. Use for per-frame initialization."
+  signature: "onFrameStart(frame)"
+
+onFrameEnd:
+  description: "Executes at end of each frame after cooking. Use for per-frame cleanup or state updates."
+  signature: "onFrameEnd(frame)"

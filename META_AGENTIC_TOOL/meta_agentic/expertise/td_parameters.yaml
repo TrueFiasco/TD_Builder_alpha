@@ -1,0 +1,261 @@
+# TD Parameter Expertise
+# Parameter usage patterns learned from examples
+# Source of truth: Parameter values in semantic/*.json files
+
+schema_version: "1.0"
+last_updated: "2025-12-15T12:00:00Z"
+update_count: 1
+validated_against: "data/snippets/semantic/*.json"
+seeded_from: ["TEMPLATE_B_Operator.md", "TEMPLATE_C_Network_Biography.md"]
+
+# Per-operator parameter patterns
+# Organized by family -> operator -> parameter
+parameters:
+  CHOP:
+    analyze:
+      function:
+        type: "menu"
+        description: "What statistical measure to extract from the signal"
+        observed_values:
+          Peak:
+            count: 8
+            contexts: ["beat detection", "transient detection"]
+          RMS:
+            count: 5
+            contexts: ["audio energy", "power measurement"]
+          Average:
+            count: 12
+            contexts: ["signal smoothing", "general monitoring"]
+          Maximum:
+            count: 3
+            contexts: ["peak tracking", "range finding"]
+          Minimum:
+            count: 2
+            contexts: ["floor detection", "range finding"]
+        default: "average"
+        default_override_reason: "Default 'Average' often not suitable for beat detection - use 'Peak' instead"
+        source: "TEMPLATE_B_Operator.md"
+
+      threshold:
+        type: "float"
+        description: "Minimum level to register (0-1)"
+        observed_range: [0.0, 1.0]
+        common_values:
+          0.3:
+            count: 3
+            context: "Sensitive detection - catches subtle signals"
+          0.5:
+            count: 6
+            context: "Balanced threshold - default"
+          0.7:
+            count: 2
+            context: "Strong signals only - reduces noise"
+        source: "TEMPLATE_B_Operator.md"
+
+      timeslice:
+        type: "toggle"
+        description: "Analyze at audio rate (1) or frame rate (0)"
+        observed_values:
+          1:
+            count: 8
+            contexts: ["audio analysis at 44.1kHz"]
+          0:
+            count: 12
+            contexts: ["control signals at frame rate"]
+        default: 0
+        default_override_reason: "For audio analysis, must set to 1 or fast transients will be missed"
+        source: "TEMPLATE_B_Operator.md"
+
+    noise:
+      roughness:
+        type: "float"
+        description: "Noise roughness/frequency"
+        observed_range: [0.0, 5.0]
+        common_values: {}
+
+      amplitude:
+        type: "float"
+        description: "Output amplitude"
+        observed_range: [0.0, 10.0]
+        common_values: {}
+
+    math:
+      gain:
+        type: "float"
+        description: "Multiply input by this value"
+        observed_range: [0.0, 100.0]
+        common_values: {}
+
+      offset:
+        type: "float"
+        description: "Add this value to input"
+        observed_range: [-100.0, 100.0]
+        common_values: {}
+
+    filter:
+      filter:
+        type: "menu"
+        description: "Filter type"
+        observed_values: {}
+        default: "Lowpass"
+
+      cutofflog:
+        type: "float"
+        description: "Filter cutoff frequency (log)"
+        observed_range: [-4.0, 4.0]
+        common_values: {}
+
+  TOP:
+    noise:
+      type:
+        type: "menu"
+        description: "Noise algorithm"
+        observed_values: {}
+        default: "Sparse"
+
+      resolution:
+        type: "menu/int"
+        description: "Output resolution"
+        observed_values: {}
+        common_presets: ["256x256", "512x512", "1080x1080", "1920x1080"]
+
+    feedback:
+      top:
+        type: "operator"
+        description: "TOP to feed back"
+        usage_notes: "Usually points to composite/over that includes this feedback"
+
+    level:
+      opacity:
+        type: "float"
+        description: "Overall opacity/fade"
+        observed_range: [0.0, 1.0]
+        common_values: {}
+        typical_use: "Fade feedback over time"
+
+    composite:
+      operation:
+        type: "menu"
+        description: "Blend mode"
+        observed_values: {}
+        common_modes: ["Add", "Over", "Multiply", "Screen"]
+
+  SOP:
+    grid:
+      rows:
+        type: "int"
+        description: "Number of rows"
+        observed_range: [2, 1000]
+        common_values: {}
+
+      cols:
+        type: "int"
+        description: "Number of columns"
+        observed_range: [2, 1000]
+        common_values: {}
+
+      sizex:
+        type: "float"
+        description: "Width of grid"
+        observed_range: [0.1, 100.0]
+        common_values: {}
+
+    transform:
+      tx:
+        type: "float"
+        description: "Translate X"
+        often_expression: true
+        common_expressions: ["me.inputCHOP['tx']", "absTime.seconds"]
+
+      rx:
+        type: "float"
+        description: "Rotate X (degrees)"
+        often_expression: true
+
+      sx:
+        type: "float"
+        description: "Scale X"
+        observed_range: [0.0, 10.0]
+        common_values: {}
+
+# Parameter co-occurrence (parameters that should be set together)
+parameter_sets:
+  - name: "Audio analysis setup"
+    operators: ["analyze"]
+    parameters:
+      - param: "function"
+        value: "Peak"
+      - param: "timeslice"
+        value: "On"
+    reason: "Audio-rate analysis requires timeslice"
+    confidence: 0.90
+    validated: false
+
+  - name: "Feedback fade setup"
+    operators: ["level"]
+    parameters:
+      - param: "opacity"
+        value: "0.95-0.99"
+    reason: "Slight fade prevents accumulation to white"
+    confidence: 0.85
+    validated: false
+
+# Expression patterns (common parameter expressions)
+expression_patterns:
+  - pattern: "absTime.seconds"
+    use_case: "Time-based animation"
+    common_in: ["tx", "ty", "tz", "rx", "ry", "rz"]
+
+  - pattern: "me.inputCHOP['{channel}']"
+    use_case: "CHOP-driven parameter"
+    common_in: ["any numeric parameter"]
+
+  - pattern: "op('{path}')['{param}']"
+    use_case: "Reference another operator's parameter"
+    common_in: ["any parameter"]
+
+  - pattern: "math.sin(absTime.seconds * {speed})"
+    use_case: "Oscillating value"
+    common_in: ["tx", "ty", "scale", "rotation"]
+
+# Parameter classification for filtering (from TEMPLATE_C_Network_Biography.md)
+parameter_classification:
+  noisy_params:
+    description: "Parameters that add noise to summaries/embeddings - typically defaults or UI settings"
+    params:
+      - "defaultreadencoding"
+      - "language"
+      - "wordwrap"
+      - "pageindex"
+      - "w"  # dimensions without context
+      - "h"
+      - "mousewheel"
+      - "uvbuttonsleft"
+      - "uvbuttonsmiddle"
+      - "uvbuttonsright"
+      - "topsmoothness"
+    source: "TEMPLATE_C_Network_Biography.md"
+
+  important_params:
+    description: "Parameters that are always meaningful for understanding operator purpose"
+    params:
+      - "function"      # operation mode
+      - "threshold"     # level/sensitivity
+      - "decay"         # timing
+      - "attack"        # timing
+      - "gain"          # control
+      - "speed"         # control
+      - "frequency"     # control
+      - "resolutionw"   # meaningful dimensions
+      - "resolutionh"   # meaningful dimensions
+      - "tx"            # transforms
+      - "ty"
+      - "tz"
+      - "rx"
+      - "ry"
+      - "rz"
+      - "scale"
+      - "scalex"
+      - "scaley"
+      - "scalez"
+    source: "TEMPLATE_C_Network_Biography.md"

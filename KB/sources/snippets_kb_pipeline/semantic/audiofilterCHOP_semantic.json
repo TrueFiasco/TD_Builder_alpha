@@ -1,0 +1,462 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiofilterCHOP_lossless.json",
+  "operator_type": "audiofilterCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 4.5,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "cutoff",
+            "value0": 0.515152,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "merge_opp1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "merge_opp2",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "audiodevout2",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "audiofilter_low",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "cutofffrequency": 208.058,
+            "rolloff": 24,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilter_band",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "filter": "bandpass",
+            "cutofffrequency": 208.057,
+            "rolloff": 24,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilter_high",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "filter": "highpass",
+            "cutofffrequency": 208.057,
+            "rolloff": 24,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilter_notch",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "filter": "bandreject",
+            "cutofffrequency": 181.97,
+            "rolloff": 24,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider1/out1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter_low",
+          "to": "merge_opp1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter_high",
+          "to": "merge_opp1",
+          "to_input": "1"
+        },
+        {
+          "from": "audiofilter_band",
+          "to": "merge_opp2",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter_notch",
+          "to": "merge_opp2",
+          "to_input": "1"
+        },
+        {
+          "from": "merge_opp1",
+          "to": "audiodevout2",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiofilter_low",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiofilter_band",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiofilter_high",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiofilter_notch",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:math": 1,
+          "DAT:text": 1,
+          "COMP:slider": 1,
+          "CHOP:merge": 2,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1,
+          "DAT:table": 1,
+          "CHOP:audiofilter": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "channelname": "cutofffrequency",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -1,
+            "torange2": 3.301
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 3,
+            "exporttable": "math3_export"
+          }
+        },
+        {
+          "name": "math4",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 0.3
+          }
+        },
+        {
+          "name": "math5",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 3
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "limit1",
+          "type": "SOP:limit",
+          "parameters": {
+            "pageindex": 1,
+            "chop": "merge1",
+            "chanx": "chan1",
+            "chany": "chan2",
+            "chanz": "cutofffrequency",
+            "output": "tubes",
+            "divisions": 3,
+            "rad": 0.007
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "function1",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "pow10",
+            "exporttable": "function1_export"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein2",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilter1",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "filter": "bandpass",
+            "cutofflog": 2.02,
+            "cutofffrequency": 104.713,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "audioosci_sine",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "amp": 0.43,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audioosci_noise",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "wavetype": "whitenoise",
+            "amp": 0.43,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "function1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "slider_amplitude",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "amplitude",
+            "value0": 0.140449,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "slider_frequency",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "frequency",
+            "value0": 0.897778,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider_frequency/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider_amplitude/out1",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math4",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter1",
+          "to": "math5",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein2",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "math5",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "math4",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "math1",
+          "to": "function1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "audiofilter1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "audiofilter1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 19,
+        "connection_count": 12,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:math": 4,
+          "CHOP:null": 1,
+          "SOP:limit": 1,
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:function": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1,
+          "CHOP:audiofilter": 1,
+          "DAT:table": 2,
+          "CHOP:audioosci": 2,
+          "COMP:slider": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

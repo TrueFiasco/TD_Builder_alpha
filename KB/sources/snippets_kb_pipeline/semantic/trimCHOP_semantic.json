@@ -1,0 +1,183 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\trimCHOP_lossless.json",
+  "operator_type": "trimCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "trim1",
+          "type": "CHOP:trim",
+          "parameters": {
+            "start": 2,
+            "startunit": "seconds",
+            "end": -5,
+            "endunit": "seconds",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shift1",
+          "type": "CHOP:shift",
+          "parameters": {
+            "start": -2,
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "scrollunit": "seconds"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave1",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "trim1",
+          "to": "shift1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:trim": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:shift": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "hog1",
+          "type": "CHOP:hog",
+          "parameters": {
+            "cookalways": "off",
+            "delay": 0.06
+          }
+        },
+        {
+          "name": "beat1",
+          "type": "CHOP:beat",
+          "parameters": {
+            "playmode": "locked",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "null1",
+            "iscope": "\"length time_slice start\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "trim2",
+            "iscope": "\"length time_slice start\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "trim2",
+          "type": "CHOP:trim",
+          "parameters": {
+            "relative": "cur",
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "null1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "chopto2",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "trim2",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "beat1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "trim2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:hog": 1,
+          "CHOP:beat": 1,
+          "CHOP:info": 2,
+          "CHOP:null": 1,
+          "CHOP:trim": 1,
+          "DAT:text": 1,
+          "DAT:chopto": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

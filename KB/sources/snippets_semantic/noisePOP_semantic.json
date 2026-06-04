@@ -1,0 +1,1880 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\noisePOP_lossless.json",
+  "operator_type": "noisePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noise": "on",
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "noise2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "POP:grid": 1,
+          "POP:noise": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "type": "perlin3d",
+            "noisesize": 1,
+            "period": 0.52,
+            "harmon": 3,
+            "spread": 1.8,
+            "gain": 0.727,
+            "parsize": 2,
+            "noise": "on",
+            "noiseoutputattrscope": "NoiseA"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "ramp1",
+            "lookupindexattr0": "NoiseA",
+            "lookupindexattr1": "\"\"",
+            "inputextend0": "hold",
+            "inputextend1": "hold",
+            "inputextend2": "hold",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 2,
+        "operator_types": {
+          "POP:grid": 1,
+          "TOP:ramp": 1,
+          "POP:noise": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 3,
+          "POP:lookuptex": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "NoiseA",
+            "mintype0": "clamp"
+          }
+        },
+        {
+          "name": "limit2",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "NoiseB",
+            "mintype0": "clamp",
+            "positive0": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "period": 1.42,
+            "harmon": 4,
+            "spread": 2.2,
+            "gain": 0.585,
+            "noise": "on",
+            "noiseoutputattrscope": "NoiseA",
+            "combineattrscope": "N"
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "period": 0.74,
+            "gain": 0.585,
+            "amp0": 11,
+            "exp0": 0.93,
+            "noise": "on",
+            "noiseoutputattrscope": "NoiseB",
+            "combineattrscope": "N"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "NoiseA",
+            "comb0scopeb": "in1_NoiseB",
+            "comb0result": "noiseC",
+            "input1pop": "\"\"",
+            "comb1oper": "add",
+            "comb1scopea": "P.z",
+            "comb1scopeb": "noiseC",
+            "comb1scopec": "\"\"",
+            "comb1result": "P.z"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "ramp1",
+            "lookupindexattr0": "P.z",
+            "lookupindexattr1": "\"\"",
+            "inputextend0": "hold",
+            "inputextend1": "hold",
+            "inputextend2": "hold",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise2",
+          "to": "limit2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "noise2",
+          "to_input": "0"
+        },
+        {
+          "from": "lookuptex1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit2",
+          "to": "mathmix1",
+          "to_input": "1"
+        },
+        {
+          "from": "mathmix1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 8,
+        "operator_types": {
+          "POP:grid": 1,
+          "TOP:ramp": 1,
+          "POP:limit": 2,
+          "POP:noise": 2,
+          "DAT:text": 1,
+          "POP:normal": 1,
+          "COMP:annotate": 2,
+          "POP:mathmix": 1,
+          "POP:lookuptex": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "NoiseC",
+            "fromhigh0": 0.2,
+            "outputattrscope": "lookupU"
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 2,
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "NoiseA",
+            "mintype0": "clamp",
+            "maxtype0": "clamp",
+            "max0": 0.2
+          }
+        },
+        {
+          "name": "limit2",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "NoiseB",
+            "mintype0": "clamp",
+            "maxtype0": "clamp"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "noiselookupattrib": "N",
+            "noisesize": 1,
+            "period": 0.77,
+            "harmon": 1,
+            "spread": 1.6,
+            "amp0": 0.616,
+            "exp0": 1.65,
+            "noise": "on",
+            "noiseoutputattrscope": "NoiseA",
+            "combineattrscope": "\"\""
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "POP:noise",
+          "parameters": {
+            "noiselookupattrib": "N",
+            "noisesize": 1,
+            "seed": 4.28,
+            "period": 0.83,
+            "spread": 6.4,
+            "amp0": 2,
+            "noise": "on",
+            "noiseoutputattrscope": "NoiseB",
+            "combineattrscope": "\"\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 100
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "NoiseA",
+            "comb0scopeb": "in1_NoiseB",
+            "comb0result": "NoiseC",
+            "input1pop": "\"\"",
+            "comb1oper": "mult",
+            "comb1scopea": "N",
+            "comb1scopeb": "NoiseC",
+            "comb1scopec": "\"\"",
+            "comb1result": "newN",
+            "comb2oper": "add",
+            "comb2scopea": "newN",
+            "comb2scopeb": "P",
+            "comb2scopec": "\"\"",
+            "comb2result": "P"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "ramp1",
+            "lookupindexattr0": "lookupU",
+            "lookupindexattr1": "\"\"",
+            "inputextend0": "hold",
+            "inputextend1": "hold",
+            "inputextend2": "hold",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "normal1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise2",
+          "to": "limit2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise2",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "limit2",
+          "to": "mathmix1",
+          "to_input": "1"
+        },
+        {
+          "from": "math1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 9,
+        "operator_types": {
+          "POP:math": 1,
+          "TOP:ramp": 1,
+          "POP:limit": 2,
+          "POP:noise": 2,
+          "DAT:text": 1,
+          "POP:normal": 1,
+          "POP:sphere": 1,
+          "COMP:annotate": 2,
+          "POP:mathmix": 1,
+          "POP:lookuptex": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "copy3",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "tx": 1.2,
+            "copyid": "point",
+            "templateid": "point"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 71,
+            "rows": 69
+          }
+        },
+        {
+          "name": "grid2",
+          "type": "POP:grid",
+          "parameters": {
+            "sizex": 1.8,
+            "sizey": 1.6,
+            "sizez": 1,
+            "cols": 100,
+            "rows": 100,
+            "rx": -90
+          }
+        },
+        {
+          "name": "grid3",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 100,
+            "rows": 100
+          }
+        },
+        {
+          "name": "grid4",
+          "type": "POP:grid",
+          "parameters": {
+            "sizex": 2,
+            "sizey": 2,
+            "sizez": 2,
+            "cols": 40,
+            "rows": 40
+          }
+        },
+        {
+          "name": "grid5",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "grid6",
+          "type": "POP:grid",
+          "parameters": {
+            "sizex": 2.7,
+            "sizey": 2.7,
+            "sizez": 2.7,
+            "cols": 3,
+            "rows": 3
+          }
+        },
+        {
+          "name": "line2",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 8
+          }
+        },
+        {
+          "name": "null3",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "curve2",
+          "type": "POP:curve",
+          "parameters": {
+            "seg0type": "constant",
+            "seg0u": 0.5,
+            "lookupindexattr": "P(1)",
+            "fromlow": -1.71,
+            "lookup0outputattrscope": "P(1)",
+            "seg1type": "easeinout",
+            "seg1u": 1,
+            "seg1specstartval": "on",
+            "seg1alpha": 0.645,
+            "seg1beta": -0.608
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "POP:noise",
+          "parameters": {
+            "amp0": 0.4,
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "POP:noise",
+          "parameters": {
+            "amp0": 0.4,
+            "combineop": "translatealongnormal",
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "noise4",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "gain": 0.8,
+            "parsize": 3,
+            "combineattrscope": "P(1)"
+          }
+        },
+        {
+          "name": "noise5",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "seed": 3.65,
+            "period": 2,
+            "parsize": 3,
+            "px": -0.5,
+            "gradient": "on",
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "noise6",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "seed": 3.96,
+            "period": 3.8,
+            "harmon": 3,
+            "spread": 2.16,
+            "parsize": 3,
+            "combineattrscope": "P(1)"
+          }
+        },
+        {
+          "name": "noise7",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "seed": 3.96,
+            "period": 2.34,
+            "spread": 2.16,
+            "amp0": 0.686,
+            "exp0": 1.1,
+            "offset0": 0.056,
+            "tx": -1.339,
+            "combineattrscope": "P(1)"
+          }
+        },
+        {
+          "name": "noise8",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noisesize": 1,
+            "period": 0.25,
+            "amp0": 0.5,
+            "offset0": 0.5,
+            "noise": "on"
+          }
+        },
+        {
+          "name": "noise9",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise5",
+            "transpose": "on",
+            "thinrandom": 0.948
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise9",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise10",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise12",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise11",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "noise13",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "null3",
+            "downloadtype": "immediate",
+            "nameformat": "basic",
+            "attribscope": "Amp"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "lookupatt3",
+            "downloadtype": "immediate",
+            "nameformat": "basic",
+            "attribscope": "\"Amp Exp HGain HSpread Offset Period\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise10",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noise": "on"
+          }
+        },
+        {
+          "name": "noise11",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noisesize": 2,
+            "noise": "on",
+            "gradient": "on",
+            "curl2d": "on"
+          }
+        },
+        {
+          "name": "noise12",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "noisesize": 1,
+            "noise": "on",
+            "gradient": "on",
+            "curl2d": "on"
+          }
+        },
+        {
+          "name": "noise13",
+          "type": "POP:noise",
+          "parameters": {
+            "parsize": 3,
+            "noise": "on",
+            "gradient": "on",
+            "curl3d": "on",
+            "curl2d": "on"
+          }
+        },
+        {
+          "name": "noise14",
+          "type": "POP:noise",
+          "parameters": {
+            "combineop": "translatealongnormal",
+            "computenormals": "on",
+            "map0element": "Period",
+            "map0parm": "period",
+            "map1op": "\"\"",
+            "map1element": "HSpread",
+            "map1parm": "spread",
+            "map1combineop": "set",
+            "map2op": "\"\"",
+            "map2element": "HGain",
+            "map2parm": "gain",
+            "map2combineop": "set",
+            "map3op": "\"\"",
+            "map3element": "Amp",
+            "map3parm": "amp",
+            "map3combineop": "set",
+            "map4op": "\"\"",
+            "map4element": "Exp",
+            "map4parm": "exp",
+            "map4combineop": "set",
+            "map5op": "\"\"",
+            "map5element": "Offset",
+            "map5parm": "offset",
+            "map5combineop": "set"
+          }
+        },
+        {
+          "name": "noise15",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "harmon": 5,
+            "combineattrscope": "P(2)",
+            "computenormals": "on",
+            "map0element": "Normalize(0)",
+            "map0parm": "amp",
+            "map0combineop": "mult",
+            "map1op": "\"\"",
+            "map1element": "Normalize(1)",
+            "map1parm": "gain",
+            "map1combineop": "set"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "random6"
+          }
+        },
+        {
+          "name": "popto11",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "normalize1",
+            "downloadtype": "immediate",
+            "attribscope": "Normalize"
+          }
+        },
+        {
+          "name": "popto12",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "random1",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "valueb0": 0.1,
+            "combineop": "set",
+            "outputattrscope": "Amp"
+          }
+        },
+        {
+          "name": "random2",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 3.18,
+            "combineop": "set",
+            "outputattrscope": "Exp"
+          }
+        },
+        {
+          "name": "random3",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 2.93,
+            "combineop": "set",
+            "outputattrscope": "Offset"
+          }
+        },
+        {
+          "name": "random4",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 6.53,
+            "combineop": "set",
+            "outputattrscope": "HSpread"
+          }
+        },
+        {
+          "name": "random5",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 1.22,
+            "combineop": "set",
+            "outputattrscope": "HGain"
+          }
+        },
+        {
+          "name": "random6",
+          "type": "POP:random",
+          "parameters": {
+            "randomsize": 1,
+            "seed": 5.74,
+            "combineop": "set",
+            "outputattrscope": "Period"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 7
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "inputattrs": "Normalize",
+            "appendattrname": "on",
+            "min": "on",
+            "max": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix2",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mix",
+            "comb0scopea": "P(1)",
+            "comb0scopeb": "in1_P(1)",
+            "comb0scopec": "in2_P(1)",
+            "input1pop": "\"\"",
+            "input2pop": "\"\"",
+            "comb1oper": "mix",
+            "comb1scopea": "Color",
+            "comb1scopeb": "in1_Color",
+            "comb1scopec": "in2_P(1)",
+            "comb1result": "\"\""
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment10",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "curlNoise",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "color",
+            "attr0value0": 0.9,
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "attribute2",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "color",
+            "attr0value2": 1,
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "lookupatt1",
+          "type": "POP:lookupatt",
+          "parameters": {
+            "lookupindexattr": "P(1)",
+            "indexfromlow": -0.83,
+            "indexfromhigh": 0.89,
+            "lookup0valueattr": "Curve",
+            "lookup0outputattrscope": "P(1)"
+          }
+        },
+        {
+          "name": "lookupatt3",
+          "type": "POP:lookupatt",
+          "parameters": {
+            "lookupindexattr": "TemplateId",
+            "indexunit": "pointindex",
+            "lookup0valueattr": "Amp",
+            "lookup0outputattrscope": "Amp",
+            "lookup1valueattr": "Exp",
+            "lookup1fromhigh": 1,
+            "lookup1tohigh": 1,
+            "lookup1outputattrscope": "Exp",
+            "lookup2valueattr": "Offset",
+            "lookup2fromhigh": 1,
+            "lookup2tohigh": 1,
+            "lookup2outputattrscope": "Offset",
+            "lookup3valueattr": "HGain",
+            "lookup3fromhigh": 1,
+            "lookup3tohigh": 1,
+            "lookup3outputattrscope": "HGain",
+            "lookup4valueattr": "HSpread",
+            "lookup4fromhigh": 1,
+            "lookup4tohigh": 1,
+            "lookup4outputattrscope": "HSpread",
+            "lookup5valueattr": "Period",
+            "lookup5fromhigh": 1,
+            "lookup5tohigh": 1,
+            "lookup5outputattrscope": "Period"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "ramp1",
+            "lookupindexattr0": "Noise",
+            "lookupindexattr1": "\"\"",
+            "inputextend0": "hold",
+            "inputextend1": "hold",
+            "inputextend2": "hold",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "boxx",
+            "mode1": "boxy",
+            "mode2": "zero",
+            "exp0": 1,
+            "exp1": 1.27,
+            "exp2": 1,
+            "tolow1": 0.11,
+            "tohigh0": 1.67,
+            "tohigh1": 0.47,
+            "tohigh2": 1,
+            "outputattrscope": "Normalize"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid5",
+          "to": "copy3",
+          "to_input": "0"
+        },
+        {
+          "from": "grid6",
+          "to": "copy3",
+          "to_input": "1"
+        },
+        {
+          "from": "random6",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise3",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "noise4",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "noise5",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "noise6",
+          "to_input": "0"
+        },
+        {
+          "from": "grid2",
+          "to": "noise7",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "noise8",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "noise9",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "noise10",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "noise11",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "noise12",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "noise13",
+          "to_input": "0"
+        },
+        {
+          "from": "lookupatt3",
+          "to": "noise14",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "noise15",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix2",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "line2",
+          "to": "random1",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "random2",
+          "to_input": "0"
+        },
+        {
+          "from": "random2",
+          "to": "random3",
+          "to_input": "0"
+        },
+        {
+          "from": "random3",
+          "to": "random4",
+          "to_input": "0"
+        },
+        {
+          "from": "random4",
+          "to": "random5",
+          "to_input": "0"
+        },
+        {
+          "from": "random5",
+          "to": "random6",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise4",
+          "to": "mathmix2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise6",
+          "to": "mathmix2",
+          "to_input": "1"
+        },
+        {
+          "from": "lookupatt1",
+          "to": "mathmix2",
+          "to_input": "2"
+        },
+        {
+          "from": "grid2",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid2",
+          "to": "attribute2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise7",
+          "to": "lookupatt1",
+          "to_input": "0"
+        },
+        {
+          "from": "curve2",
+          "to": "lookupatt1",
+          "to_input": "1"
+        },
+        {
+          "from": "copy3",
+          "to": "lookupatt3",
+          "to_input": "0"
+        },
+        {
+          "from": "null3",
+          "to": "lookupatt3",
+          "to_input": "1"
+        },
+        {
+          "from": "noise8",
+          "to": "lookuptex1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy3",
+          "to": "normalize1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 72,
+        "connection_count": 37,
+        "operator_types": {
+          "POP:copy": 1,
+          "POP:grid": 6,
+          "POP:line": 1,
+          "POP:null": 1,
+          "TOP:ramp": 1,
+          "POP:curve": 1,
+          "POP:noise": 15,
+          "DAT:popto": 8,
+          "CHOP:popto": 3,
+          "DAT:text": 1,
+          "POP:normal": 1,
+          "POP:random": 6,
+          "POP:sphere": 1,
+          "POP:analyze": 1,
+          "COMP:annotate": 16,
+          "POP:mathmix": 1,
+          "COMP:base": 1,
+          "POP:attribute": 2,
+          "POP:lookupatt": 2,
+          "POP:lookuptex": 1,
+          "POP:normalize": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 10
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "line1",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 1000
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 2,
+            "period": 0.1,
+            "amp0": 0.001,
+            "combineentity": "curl2d"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "math_move",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "P.y",
+            "preadd0": 0.001,
+            "outputattrscope": "P.y"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "POP:particle",
+          "parameters": {
+            "targetpop": "null_particleEnd",
+            "maxparticles": 10000,
+            "birthrate": 1000,
+            "life": 100,
+            "usedeathattr": "on"
+          }
+        },
+        {
+          "name": "mathmix_die",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "gt",
+            "comb0scopea": "P.y",
+            "comb0scopeb": 0.5,
+            "comb0result": "PartDeath"
+          }
+        },
+        {
+          "name": "null_particleEnd",
+          "type": "POP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "math_move",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "particle1",
+          "to": "math_move",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "mathmix_die",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix_die",
+          "to": "null_particleEnd",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 5,
+        "operator_types": {
+          "POP:line": 1,
+          "POP:noise": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 4,
+          "POP:math": 1,
+          "POP:particle": 1,
+          "POP:mathmix": 1,
+          "POP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 7,
+            "rows": 7,
+            "ty": -0.5,
+            "rx": 90
+          }
+        },
+        {
+          "name": "line1",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 1000
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "math_move",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "P.y",
+            "preadd0": 0.001,
+            "outputattrscope": "P.y"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "POP:particle",
+          "parameters": {
+            "targetpop": "null_particleEnd",
+            "maxparticles": 10000,
+            "birthrate": 1000,
+            "life": 100,
+            "usedeathattr": "on"
+          }
+        },
+        {
+          "name": "noise_curl",
+          "type": "POP:noise",
+          "parameters": {
+            "pageindex": 2,
+            "period": 0.1,
+            "amp0": 0.001,
+            "combineentity": "curl3d"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "mathmix_die",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "gt",
+            "comb0scopea": "P.y",
+            "comb0scopeb": 0.5,
+            "comb0result": "PartDeath"
+          }
+        },
+        {
+          "name": "null_particleEnd",
+          "type": "POP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "particle1",
+          "to": "math_move",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_move",
+          "to": "noise_curl",
+          "to_input": "0"
+        },
+        {
+          "from": "null_particleEnd",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_curl",
+          "to": "mathmix_die",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix_die",
+          "to": "null_particleEnd",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 6,
+        "operator_types": {
+          "POP:grid": 1,
+          "POP:line": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 4,
+          "POP:math": 1,
+          "POP:particle": 1,
+          "POP:noise": 1,
+          "POP:transform": 1,
+          "POP:mathmix": 1,
+          "POP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    }
+  ]
+}

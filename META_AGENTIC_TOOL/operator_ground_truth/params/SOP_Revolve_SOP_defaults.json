@@ -1,0 +1,223 @@
+{
+  "operator": "Revolve_SOP",
+  "family": "SOP",
+  "td_create_name": "revolveSOP",
+  "param_count": 17,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Revolve",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 4,
+        "menuNames": [
+          "rows",
+          "cols",
+          "rowcol",
+          "triangles",
+          "quads",
+          "alttriangles"
+        ],
+        "menuLabels": [
+          "Rows",
+          "Columns",
+          "Rows and Columns",
+          "Triangles",
+          "Quadrilaterals",
+          "Alternating Triangles"
+        ]
+      },
+      "default": "quads",
+      "page": "Revolve",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "originx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Revolve",
+      "label": "Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "originy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Revolve",
+      "label": "Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "originz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Revolve",
+      "label": "Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Revolve",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "diry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Revolve",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Revolve",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "polys": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Revolve",
+      "label": "Convert Mesh to Polygons",
+      "readOnly": false,
+      "expression": null
+    },
+    "imperfect": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Revolve",
+      "label": "Imperfect",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "menu",
+        "value": "closed",
+        "menuIndex": 0,
+        "menuNames": [
+          "closed",
+          "openarc",
+          "closedarc"
+        ],
+        "menuLabels": [
+          "Closed",
+          "Open Arc",
+          "Closed Arc"
+        ]
+      },
+      "default": "closed",
+      "page": "Detail",
+      "label": "Revolve Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "beginangle": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Detail",
+      "label": "Start End Angles",
+      "readOnly": false,
+      "expression": null
+    },
+    "endangle": {
+      "value": {
+        "type": "float",
+        "value": 360.0
+      },
+      "default": 360.0,
+      "page": "Detail",
+      "label": "Start End Angles",
+      "readOnly": false,
+      "expression": null
+    },
+    "divs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Detail",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "order": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Detail",
+      "label": "Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "cap": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Detail",
+      "label": "End Caps",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "operator": "Convert_SOP",
+  "family": "SOP",
+  "td_create_name": "convertSOP",
+  "param_count": 17,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 16,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Convert",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromtype": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "sphere",
+          "tube",
+          "part",
+          "metaball",
+          "poly",
+          "mesh",
+          "bezcurve",
+          "bezsurf",
+          "nurbcurve",
+          "nurbsurf",
+          "circle",
+          "tristrip",
+          "trifan"
+        ],
+        "menuLabels": [
+          "All Types",
+          "Sphere",
+          "Tube",
+          "Particles",
+          "Meta-ball",
+          "Polygon",
+          "Mesh",
+          "Bezier Curve",
+          "Bezier Surface",
+          "NURBS Curve",
+          "NURBS Surface",
+          "Circle",
+          "Triangle Strip",
+          "Triangle Fan"
+        ]
+      },
+      "default": "all",
+      "page": "Convert",
+      "label": "From Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "totype": {
+      "value": {
+        "type": "menu",
+        "value": "poly",
+        "menuIndex": 0,
+        "menuNames": [
+          "poly",
+          "mesh",
+          "bezcurve",
+          "bezsurf",
+          "nurbcurve",
+          "nurbsurf",
+          "circle",
+          "trimbezsurf",
+          "trimnurbsurf",
+          "part",
+          "particlesperpoint"
+        ],
+        "menuLabels": [
+          "Polygon",
+          "Mesh",
+          "Bezier Curve",
+          "Bezier Surface",
+          "NURBS Curve",
+          "NURBS Surface",
+          "Circle",
+          "Trimmed Bezier Surface",
+          "Trimmed NURBS  Surface",
+          "Particles Per Vertex",
+          "Particles Per Point"
+        ]
+      },
+      "default": "poly",
+      "page": "Convert",
+      "label": "Convert to",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 4,
+        "menuNames": [
+          "rows",
+          "cols",
+          "rowcol",
+          "triangles",
+          "quads",
+          "alttriangles"
+        ],
+        "menuLabels": [
+          "Rows",
+          "Columns",
+          "Rows and Columns",
+          "Triangles",
+          "Quadrilaterals",
+          "Alternating Triangles"
+        ]
+      },
+      "default": "quads",
+      "page": "Convert",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "detail",
+        "menuIndex": 0,
+        "menuNames": [
+          "detail",
+          "divisions"
+        ],
+        "menuLabels": [
+          "Level of Detail",
+          "Divisions per Span"
+        ]
+      },
+      "default": "detail",
+      "page": "Convert",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "lodu": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Convert",
+      "label": "U",
+      "readOnly": false,
+      "expression": null
+    },
+    "lodv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Convert",
+      "label": "V",
+      "readOnly": false,
+      "expression": null
+    },
+    "lodtrim": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Convert",
+      "label": "Trim-Curve",
+      "readOnly": false,
+      "expression": null
+    },
+    "divu": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Convert",
+      "label": "U",
+      "readOnly": false,
+      "expression": null
+    },
+    "divv": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Convert",
+      "label": "V",
+      "readOnly": false,
+      "expression": null
+    },
+    "divtrim": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Convert",
+      "label": "Trim-Curve",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderu": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Convert",
+      "label": "U Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderv": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Convert",
+      "label": "V Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "new": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Convert",
+      "label": "Preserve Original",
+      "readOnly": false,
+      "expression": null
+    },
+    "interphull": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Convert",
+      "label": "Interpolate Through Hulls",
+      "readOnly": false,
+      "expression": null
+    },
+    "prtype": {
+      "value": {
+        "type": "menu",
+        "value": "lines",
+        "menuIndex": 0,
+        "menuNames": [
+          "lines",
+          "pointsprites"
+        ],
+        "menuLabels": [
+          "Render as Lines",
+          "Render as Point Sprites"
+        ]
+      },
+      "default": "lines",
+      "page": "Convert",
+      "label": "Particle Type",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

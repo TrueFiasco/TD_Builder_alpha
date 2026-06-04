@@ -1,0 +1,395 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\substituteDAT_lossless.json",
+  "operator_type": "substituteDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "substitute_anywhere",
+          "type": "DAT:substitute",
+          "parameters": {
+            "before": "~",
+            "after": "TouchDesigner"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "substitute_anywhere",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "substitute_anywhere",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:null": 1,
+          "DAT:text": 2,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "substitute_numbers",
+          "type": "DAT:substitute",
+          "parameters": {
+            "before": "\"1 2 3\"",
+            "after": "\"3 4 5\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "substitute_numbers",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "substitute_numbers",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:null": 1,
+          "DAT:text": 2,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null3",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "substitute_in_table_by_index",
+          "type": "DAT:substitute",
+          "parameters": {
+            "before": "a",
+            "after": "e",
+            "extractrows": "byindex",
+            "rowindexstart": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "substitute_in_table_by_index",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "substitute_in_table_by_index",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:null": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null4",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "null5",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "substitute_case_sensitive",
+          "type": "DAT:substitute",
+          "parameters": {
+            "before": "A",
+            "after": "e",
+            "match": "start",
+            "rowindexstart": 1
+          }
+        },
+        {
+          "name": "substitute_case_sensitive1",
+          "type": "DAT:substitute",
+          "parameters": {
+            "before": "A",
+            "after": "e",
+            "match": "start",
+            "rowindexstart": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "substitute_case_sensitive",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "substitute_case_sensitive1",
+          "to": "null5",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "substitute_case_sensitive",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "substitute_case_sensitive1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:null": 2,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:substitute": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "folder1",
+          "type": "DAT:folder",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "substitute1",
+          "type": "DAT:substitute",
+          "parameters": {
+            "pageindex": 1,
+            "before": "C*/",
+            "after": "/drive3/",
+            "extractcols": "byindex",
+            "colindexstart": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "folder1",
+          "to": "substitute1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:folder": 1,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "fill": "setsize",
+            "rows": 5,
+            "cols": 1,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "substitute2",
+          "type": "DAT:substitute",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "table3",
+          "to": "substitute2",
+          "to_input": "0"
+        },
+        {
+          "from": "table4",
+          "to": "substitute2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 2,
+          "DAT:substitute": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

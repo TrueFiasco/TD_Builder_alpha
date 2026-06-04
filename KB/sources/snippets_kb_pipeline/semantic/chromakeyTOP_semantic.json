@@ -1,0 +1,111 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\chromakeyTOP_lossless.json",
+  "operator_type": "chromakeyTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "sub1",
+          "type": "TOP:sub",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chroma1",
+          "type": "TOP:chroma",
+          "parameters": {
+            "pageindex": 2,
+            "valmin": 0.482,
+            "vsoftlow": 0.137
+          }
+        },
+        {
+          "name": "chroma2",
+          "type": "TOP:chroma",
+          "parameters": {
+            "huemin": 22,
+            "huemax": 280
+          }
+        },
+        {
+          "name": "chroma3",
+          "type": "TOP:chroma",
+          "parameters": {
+            "pageindex": 1,
+            "huemax": 720,
+            "satmin": 0.36,
+            "ssoftlow": 0.076
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein3",
+          "to": "sub1",
+          "to_input": "0"
+        },
+        {
+          "from": "chroma3",
+          "to": "sub1",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "chroma1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "chroma2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein3",
+          "to": "chroma3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:sub": 1,
+          "DAT:text": 1,
+          "TOP:chroma": 3,
+          "TOP:moviefilein": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

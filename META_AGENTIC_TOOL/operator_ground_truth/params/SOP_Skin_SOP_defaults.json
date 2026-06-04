@@ -1,0 +1,179 @@
+{
+  "operator": "Skin_SOP",
+  "family": "SOP",
+  "td_create_name": "skinSOP",
+  "param_count": 12,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "uprims": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Skin",
+      "label": "U Cross Sections",
+      "readOnly": false,
+      "expression": null
+    },
+    "vprims": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Skin",
+      "label": "V Cross Sections",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 4,
+        "menuNames": [
+          "rows",
+          "cols",
+          "rowcol",
+          "triangles",
+          "quads",
+          "alttriangles"
+        ],
+        "menuLabels": [
+          "Rows",
+          "Columns",
+          "Rows and Columns",
+          "Triangles",
+          "Quadrilaterals",
+          "Alternating Triangles"
+        ]
+      },
+      "default": "quads",
+      "page": "Skin",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "keepshape": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Skin",
+      "label": "Preserve Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "closev": {
+      "value": {
+        "type": "menu",
+        "value": "nonewv",
+        "menuIndex": 0,
+        "menuNames": [
+          "nonewv",
+          "wv",
+          "ifprimwv"
+        ],
+        "menuLabels": [
+          "Off",
+          "On",
+          "If Primitive does"
+        ]
+      },
+      "default": "nonewv",
+      "page": "Skin",
+      "label": "V Wrap",
+      "readOnly": false,
+      "expression": null
+    },
+    "force": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Skin",
+      "label": "Use V Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderv": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Skin",
+      "label": "V Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "skinops": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "group",
+          "skip"
+        ],
+        "menuLabels": [
+          "All Primitives",
+          "Groups of N Primitives",
+          "Skip Every Nth Primitive"
+        ]
+      },
+      "default": "all",
+      "page": "Skin",
+      "label": "Skin",
+      "readOnly": false,
+      "expression": null
+    },
+    "inc": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Skin",
+      "label": "N",
+      "readOnly": false,
+      "expression": null
+    },
+    "prim": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Skin",
+      "label": "Keep Primitives",
+      "readOnly": false,
+      "expression": null
+    },
+    "polys": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Skin",
+      "label": "Output Polygons",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

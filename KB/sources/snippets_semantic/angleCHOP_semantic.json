@@ -1,0 +1,233 @@
+{
+  "source_file": "td_builder_workspace\\output\\lossless\\angleCHOP_lossless.json",
+  "operator_type": "angleCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "pi",
+            "const0value": 3.14159
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "pi",
+            "const0value": -180
+          }
+        },
+        {
+          "name": "angle_degrees_to_rad",
+          "type": "CHOP:angle",
+          "parameters": {
+            "outunit": "radians"
+          }
+        },
+        {
+          "name": "angle_rad_to_degrees",
+          "type": "CHOP:angle",
+          "parameters": {
+            "inunit": "radians"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant2",
+          "to": "angle_degrees_to_rad",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "angle_rad_to_degrees",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 2,
+          "CHOP:angle": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "x",
+            "const0value": 1,
+            "const1name": "y",
+            "const2name": "z",
+            "const2value": 0.5,
+            "const3name": "w"
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "rx",
+            "const0value": -180,
+            "const1name": "ry",
+            "const1value": -90,
+            "const2name": "rz"
+          }
+        },
+        {
+          "name": "angle_quat_to_deg",
+          "type": "CHOP:angle",
+          "parameters": {
+            "inunit": "quaternions"
+          }
+        },
+        {
+          "name": "angle_degrees_to_quat",
+          "type": "CHOP:angle",
+          "parameters": {
+            "outunit": "quaternions"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "angle_quat_to_deg",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "angle_degrees_to_quat",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 2,
+          "CHOP:angle": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "rightX",
+            "const0value": 1,
+            "const1name": "rightY",
+            "const2name": "rightZ",
+            "const3name": "upX",
+            "const4name": "upY",
+            "const4value": 0.7071,
+            "const5name": "upZ",
+            "const5value": 0.7071
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "rx",
+            "const1name": "ry",
+            "const1value": 90,
+            "const2name": "rz"
+          }
+        },
+        {
+          "name": "angle_2vec_to_angles",
+          "type": "CHOP:angle",
+          "parameters": {
+            "inunit": "twovectors"
+          }
+        },
+        {
+          "name": "angle_angles_to_2vec",
+          "type": "CHOP:angle",
+          "parameters": {
+            "pageindex": 1,
+            "outunit": "twovectors"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "angle_2vec_to_angles",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "angle_angles_to_2vec",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 2,
+          "CHOP:angle": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

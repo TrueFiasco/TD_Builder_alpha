@@ -1,0 +1,97 @@
+{
+  "operator": "Delay_CHOP",
+  "family": "CHOP",
+  "td_create_name": "delayCHOP",
+  "param_count": 13,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "delay": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "delayunit": {
+      "type": "menu",
+      "value": "fraction",
+      "menuIndex": 3,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "reset": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

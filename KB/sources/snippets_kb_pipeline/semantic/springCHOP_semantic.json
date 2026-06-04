@@ -1,0 +1,465 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\springCHOP_lossless.json",
+  "operator_type": "springCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 3,
+            "tx": -0.595591,
+            "ty": -5.47341,
+            "tz": 23.6854,
+            "px": 1.19118,
+            "py": 10.9468,
+            "pz": -47.3707,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "out1",
+          "type": "TOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 2,
+            "torange2": 6
+          }
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 2,
+            "tx": -7.34225,
+            "ty": -7.61476,
+            "tz": 3.59118,
+            "rx": -53.7035,
+            "ry": 39.091,
+            "rz": 6.77347e-05,
+            "px": 7.8306,
+            "py": 9.22806,
+            "pz": -14.6342,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "geometry": "geo_springGenerator",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "spring1",
+          "type": "CHOP:spring",
+          "parameters": {
+            "springk": 800,
+            "mass": 3,
+            "dampingk": 8,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "geo_springGenerator",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "render1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "spring1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "button1/out1",
+          "to": "spring1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 4,
+        "operator_types": {
+          "COMP:cam": 1,
+          "TOP:out": 1,
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "COMP:light": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "TOP:render": 1,
+          "CHOP:spring": 1,
+          "COMP:annotate": 2,
+          "COMP:geo": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 3,
+            "tx": -1.03879,
+            "ty": -5.39308,
+            "tz": 23.6854,
+            "px": 2.07757,
+            "py": 10.7862,
+            "pz": -47.3708,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 4,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "out1",
+          "type": "TOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange2": 0.3,
+            "torange1": 2,
+            "torange2": 12
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 100
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 2,
+            "tx": -7.34225,
+            "ty": -7.61476,
+            "tz": 3.59118,
+            "rx": -53.7035,
+            "ry": 39.091,
+            "rz": 6.77347e-05,
+            "px": 7.8306,
+            "py": 9.22806,
+            "pz": -14.6342,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button2",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Hold to pull\"",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "geometry": "geo_springGenerator",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "spring2",
+          "type": "CHOP:spring",
+          "parameters": {
+            "springk": 400,
+            "dampingk": 4,
+            "method": "force",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "geo_springGenerator",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "math3",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "render1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "spring2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "button2/out1",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "lag1",
+          "to": "spring2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 6,
+        "operator_types": {
+          "COMP:cam": 1,
+          "CHOP:lag": 1,
+          "TOP:out": 1,
+          "CHOP:math": 2,
+          "CHOP:null": 1,
+          "COMP:light": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "TOP:render": 1,
+          "CHOP:spring": 1,
+          "COMP:annotate": 2,
+          "COMP:geo": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "spring1",
+          "type": "CHOP:spring",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "spring2",
+          "type": "CHOP:spring",
+          "parameters": {
+            "dampingk": 3,
+            "springsamples": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "spring3",
+          "type": "CHOP:spring",
+          "parameters": {
+            "method": "force",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "square",
+            "length": 20
+          }
+        },
+        {
+          "name": "spring_forces",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "spring1",
+            "const0value": 14.541,
+            "const1name": "spring2",
+            "const2name": "spring3",
+            "const2value": 0.623
+          }
+        },
+        {
+          "name": "spring_positions",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "spring1",
+            "const0value": 0.541,
+            "const1name": "spring2",
+            "const1value": 0.364,
+            "const2name": "spring3",
+            "const2value": 0.623
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "spring_positions",
+          "to": "spring1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "spring2",
+          "to_input": "0"
+        },
+        {
+          "from": "spring_forces",
+          "to": "spring3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:spring": 3,
+          "CHOP:pattern": 1,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

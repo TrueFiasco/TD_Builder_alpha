@@ -1,0 +1,140 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\latticeSOP_lossless.json",
+  "operator_type": "latticeSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 3,
+            "sizey": 1,
+            "sizez": 0.7,
+            "reverseanchors": "on",
+            "dodivs": "on"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.25,
+            "amp": 4,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "fontsizex": 0.7,
+            "text": "TEST",
+            "legacyparsing": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "SOP:twist",
+          "parameters": {
+            "px": -2,
+            "roll": 3
+          }
+        },
+        {
+          "name": "lattice1",
+          "type": "SOP:lattice",
+          "parameters": {}
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -0.4,
+            "ty": 1.4,
+            "rz": 20,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -1.22,
+            "ty": -0.2,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box1",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "lattice1",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "lattice1",
+          "to_input": "1"
+        },
+        {
+          "from": "transform1",
+          "to": "lattice1",
+          "to_input": "2"
+        },
+        {
+          "from": "twist1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "transform2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 6,
+        "operator_types": {
+          "SOP:box": 1,
+          "CHOP:lfo": 1,
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:twist": 1,
+          "SOP:lattice": 1,
+          "SOP:transform": 2,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

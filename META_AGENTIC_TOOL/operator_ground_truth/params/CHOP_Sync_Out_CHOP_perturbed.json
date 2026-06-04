@@ -1,0 +1,138 @@
+{
+  "operator": "Sync_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "syncoutCHOP",
+  "param_count": 21,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "multicastaddress": {
+      "type": "string",
+      "value": "239.255.0.1_perturbed"
+    },
+    "port": {
+      "type": "int",
+      "value": 15001
+    },
+    "localaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "localportmode": {
+      "type": "menu",
+      "value": "manual",
+      "menuIndex": 1,
+      "menuNames": [
+        "automatic",
+        "manual"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "Manual"
+      ]
+    },
+    "localport": {
+      "type": "int",
+      "value": 7778
+    },
+    "timeout": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "timeoutunit": {
+      "type": "menu",
+      "value": "seconds",
+      "menuIndex": 2,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "milliseconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "ms"
+      ]
+    },
+    "clienttimeouts": {
+      "type": "int",
+      "value": 6
+    },
+    "banclients": {
+      "type": "toggle",
+      "value": true
+    },
+    "banclienttimeouts": {
+      "type": "int",
+      "value": 101
+    },
+    "clearstats": {
+      "type": "pulse",
+      "value": null
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

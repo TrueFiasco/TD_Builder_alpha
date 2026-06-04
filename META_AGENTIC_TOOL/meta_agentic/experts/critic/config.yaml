@@ -1,0 +1,138 @@
+# Critic Expert Configuration
+# Validates creative and technical specifications, enforces quality gates
+
+expert_id: "critic"
+version: "1.0.0"
+created: "2025-12-16"
+description: "Validates creative and technical specifications against quality criteria, enforces approval gates before handoff"
+
+# Expertise files this expert reads
+expertise_inputs:
+  - path: "meta_agentic/expertise/critique_patterns.yaml"
+    purpose: "Quality criteria, scoring rubrics, feedback templates"
+  - path: "meta_agentic/expertise/creative_vision.yaml"
+    purpose: "Validate mood/aesthetic choices against vocabulary"
+  - path: "meta_agentic/expertise/cg_concepts.yaml"
+    purpose: "Validate algorithm choices and feasibility"
+
+# No source of truth - critic validates against expertise files
+validation_sources: []
+
+# Expertise files this expert writes (limited)
+expertise_outputs:
+  - path: "meta_agentic/expertise/critique_patterns.yaml"
+    purpose: "Update common_issues when new patterns discovered"
+    sections: ["common_issues"]
+
+# Event logging
+event_log: "meta_agentic/history/expertise_events.jsonl"
+event_domain: "critique"
+
+# Upstream/downstream collaborators
+collaborators:
+  upstream:
+    - expert_id: "creative_expert"
+      receives_from: "creative_spec"
+      review_type: "creative_review"
+
+    - expert_id: "cg_expert"
+      receives_from: "technical_approach"
+      review_type: "technical_review"
+
+  downstream:
+    - expert_id: "creative_expert"
+      sends_to: "revision_request"
+      when: "creative_review fails"
+
+    - expert_id: "cg_expert"
+      sends_to: "revision_request"
+      when: "technical_review fails"
+
+    - expert_id: "creative_orchestrator"
+      sends_to: "approval_status"
+      when: "review complete"
+
+# Review types and thresholds
+review_types:
+  creative_review:
+    description: "Review of artistic vision from creative_expert"
+    criteria:
+      - name: "artistic_coherence"
+        weight: 0.4
+        threshold: 0.6
+      - name: "creative_alignment"
+        weight: 0.4
+        threshold: 0.7
+      - name: "innovation_appropriateness"
+        weight: 0.2
+        threshold: 0.5
+    overall_threshold: 0.65
+    blocking_issues:
+      - "vague_mood"
+      - "color_mood_conflict"
+      - "motion_mood_conflict"
+
+  technical_review:
+    description: "Review of CG translation from cg_expert"
+    criteria:
+      - name: "technical_feasibility"
+        weight: 0.4
+        threshold: 0.7
+      - name: "implementation_clarity"
+        weight: 0.4
+        threshold: 0.6
+      - name: "innovation_appropriateness"
+        weight: 0.2
+        threshold: 0.5
+    overall_threshold: 0.65
+    blocking_issues:
+      - "algorithm_mismatch"
+      - "performance_unrealistic"
+      - "missing_data_flow"
+
+  final_approval:
+    description: "Final review before handoff to td_designer"
+    criteria:
+      - name: "artistic_coherence"
+        weight: 0.25
+        threshold: 0.6
+      - name: "technical_feasibility"
+        weight: 0.25
+        threshold: 0.6
+      - name: "implementation_clarity"
+        weight: 0.25
+        threshold: 0.6
+      - name: "creative_alignment"
+        weight: 0.25
+        threshold: 0.6
+    overall_threshold: 0.65
+    blocking_issues:
+      - "algorithm_mismatch"
+      - "performance_unrealistic"
+      - "missing_data_flow"
+      - "vague_mood"
+
+# Output format
+output_format:
+  type: "yaml"
+  schema: "review_result_v1"
+  includes:
+    - review_type
+    - criteria_scores
+    - overall_score
+    - issues_found
+    - feedback
+    - decision
+
+# Revision policy
+revision_policy:
+  max_cycles: 3
+  on_exceed: "fail_and_escalate"
+  escalation_target: "human"
+
+# Anti-hallucination settings
+validation:
+  require_all_criteria_scored: true
+  require_issue_documentation: true
+  require_structured_feedback: true
+  use_rubrics_for_scoring: true

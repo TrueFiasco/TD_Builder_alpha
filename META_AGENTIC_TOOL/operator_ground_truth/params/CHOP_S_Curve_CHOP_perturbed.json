@@ -1,0 +1,181 @@
+{
+  "operator": "S_Curve_CHOP",
+  "family": "CHOP",
+  "td_create_name": "scurveCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "type": {
+      "type": "menu",
+      "value": "log",
+      "menuIndex": 1,
+      "menuNames": [
+        "halfcosine",
+        "log",
+        "atan"
+      ],
+      "menuLabels": [
+        "Half Cosine",
+        "Logistic",
+        "Arctangent"
+      ]
+    },
+    "length": {
+      "type": "int",
+      "value": 1001
+    },
+    "prepend": {
+      "type": "int",
+      "value": 1
+    },
+    "append": {
+      "type": "int",
+      "value": 1
+    },
+    "enableremaplength": {
+      "type": "toggle",
+      "value": true
+    },
+    "remaplength": {
+      "type": "int",
+      "value": 1001
+    },
+    "steepness": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "linearize": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bias": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "fromrange1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "fromrange2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "torange1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "torange2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "channelname": {
+      "type": "string",
+      "value": "chan1_perturbed"
+    },
+    "rate": {
+      "type": "float",
+      "value": 60.12345
+    },
+    "left": {
+      "type": "menu",
+      "value": "slope",
+      "menuIndex": 1,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "right": {
+      "type": "menu",
+      "value": "slope",
+      "menuIndex": 1,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "defval": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

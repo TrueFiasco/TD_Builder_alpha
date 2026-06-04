@@ -1,0 +1,146 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\convertDAT_lossless.json",
+  "operator_type": "convertDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "convert_to_table_at_tab",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert_to_table_at_space",
+          "type": "DAT:convert",
+          "parameters": {
+            "delimiters": "\" \""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text2",
+          "to": "convert_to_table_at_tab",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "convert_to_table_at_space",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:convert": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "convert_to_text",
+          "type": "DAT:convert",
+          "parameters": {
+            "how": "text",
+            "spacers": "\" \""
+          }
+        },
+        {
+          "name": "convert_to_text_with_ellipses",
+          "type": "DAT:convert",
+          "parameters": {
+            "how": "text",
+            "removeblank": "on",
+            "spacers": "..."
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "convert_to_text",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "convert_to_text_with_ellipses",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 2,
+          "DAT:convert": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "description": "TouchDesigner-specific GLSL knowledge for shader development",
+  "version": "GLSL 4.60 (Vulkan)",
+
+  "built_in_functions": {
+    "output": {
+      "TDOutputSwizzle": {
+        "signature": "vec4 TDOutputSwizzle(vec4 c)",
+        "description": "Ensures correct color channel mapping for cross-platform support. Always use when writing color to output.",
+        "required": true
+      }
+    },
+    "noise": {
+      "TDPerlinNoise": {
+        "signatures": ["float TDPerlinNoise(vec2 v)", "float TDPerlinNoise(vec3 v)", "float TDPerlinNoise(vec4 v)"],
+        "description": "Returns Perlin noise value between -1 and 1. Deterministic for same input.",
+        "note": "Can be slow, use sparingly"
+      },
+      "TDSimplexNoise": {
+        "signatures": ["float TDSimplexNoise(vec2 v)", "float TDSimplexNoise(vec3 v)", "float TDSimplexNoise(vec4 v)"],
+        "description": "Returns Simplex noise value between -1 and 1. Faster than Perlin.",
+        "note": "Can be slow, use sparingly"
+      }
+    },
+    "color": {
+      "TDHSVToRGB": {
+        "signature": "vec3 TDHSVToRGB(vec3 c)",
+        "description": "Convert HSV color to RGB"
+      },
+      "TDRGBToHSV": {
+        "signature": "vec3 TDRGBToHSV(vec3 c)",
+        "description": "Convert RGB color to HSV"
+      },
+      "TDDither": {
+        "signature": "vec4 TDDither(vec4 color)",
+        "description": "Apply dithering to reduce color banding artifacts"
+      }
+    },
+    "matrix": {
+      "TDTranslate": {
+        "signature": "mat4 TDTranslate(float x, float y, float z)",
+        "description": "Create translation matrix"
+      },
+      "TDRotateX": {"signature": "mat3 TDRotateX(float radians)", "description": "Rotate around X axis"},
+      "TDRotateY": {"signature": "mat3 TDRotateY(float radians)", "description": "Rotate around Y axis"},
+      "TDRotateZ": {"signature": "mat3 TDRotateZ(float radians)", "description": "Rotate around Z axis"},
+      "TDRotateOnAxis": {
+        "signature": "mat3 TDRotateOnAxis(float radians, vec3 axis)",
+        "description": "Rotate around arbitrary axis (axis must be normalized)"
+      },
+      "TDScale": {"signature": "mat3 TDScale(float x, float y, float z)", "description": "Create scale matrix"},
+      "TDRotateToVector": {
+        "signature": "mat3 TDRotateToVector(vec3 forward, vec3 up)",
+        "description": "Create rotation from +Z to forward direction"
+      }
+    },
+    "compute_shader": {
+      "TDImageStoreOutput": {
+        "signatures": ["void TDImageStoreOutput(uint index, ivec3 coord, vec4 color)", "void TDImageStoreOutput(uint index, uvec3 coord, vec4 color)"],
+        "description": "Write color to compute shader output. Handles sRGB automatically. No TDOutputSwizzle needed."
+      },
+      "TDImageLoadOutput": {
+        "signatures": ["vec4 TDImageLoadOutput(uint index, ivec3 coord)", "vec4 TDImageLoadOutput(uint index, uvec3 coord)"],
+        "description": "Read from compute shader output texture"
+      }
+    }
+  },
+
+  "built_in_uniforms": {
+    "texture_info": {
+      "TDTexInfo": {
+        "type": "struct",
+        "definition": "struct TDTexInfo { vec4 res; vec4 depth; }",
+        "members": {
+          "res": "vec4(1.0/width, 1.0/height, width, height)",
+          "depth": "vec4(1.0/depth, depth, depthOffset, undefined)"
+        }
+      },
+      "uTD2DInfos": "uniform TDTexInfo uTD2DInfos[TD_NUM_2D_INPUTS]",
+      "uTD3DInfos": "uniform TDTexInfo uTD3DInfos[TD_NUM_3D_INPUTS]",
+      "uTD2DArrayInfos": "uniform TDTexInfo uTD2DArrayInfos[TD_NUM_2D_ARRAY_INPUTS]",
+      "uTDCubeInfos": "uniform TDTexInfo uTDCubeInfos[TD_NUM_CUBE_INPUTS]",
+      "uTDOutputInfo": "uniform TDTexInfo uTDOutputInfo - output texture resolution"
+    },
+    "rendering_state": {
+      "uTDCurrentDepth": "uniform int - current slice index when rendering 3D/2DArray",
+      "uTDPass": "uniform int - current render pass (starts at 0)"
+    }
+  },
+
+  "built_in_samplers": {
+    "inputs": {
+      "sTD2DInputs": "sampler2D array - 2D texture inputs",
+      "sTD3DInputs": "sampler3D array - 3D texture inputs",
+      "sTD2DArrayInputs": "sampler2DArray array - 2D array texture inputs",
+      "sTDCubeInputs": "samplerCube array - cube map inputs"
+    },
+    "utility": {
+      "sTDNoiseMap": "sampler2D - 256x256 random noise texture",
+      "sTDSineLookup": "sampler1D - sine wave lookup texture"
+    }
+  },
+
+  "built_in_constants": {
+    "TD_NUM_2D_INPUTS": "Number of 2D texture inputs connected",
+    "TD_NUM_3D_INPUTS": "Number of 3D texture inputs connected",
+    "TD_NUM_2D_ARRAY_INPUTS": "Number of 2D array inputs connected",
+    "TD_NUM_CUBE_INPUTS": "Number of cube map inputs connected"
+  },
+
+  "built_in_variables": {
+    "vUV": {
+      "type": "vec3",
+      "description": "Texture coordinates for current pixel (pixel shader only). vUV.st for 2D coords.",
+      "note": "Only available if not using custom vertex shader"
+    },
+    "gl_GlobalInvocationID": {
+      "type": "uvec3",
+      "description": "Pixel coordinates in compute shader"
+    }
+  },
+
+  "patterns": {
+    "basic_pixel_shader": {
+      "description": "Minimal GLSL TOP pixel shader",
+      "code": "layout(location = 0) out vec4 fragColor;\nvoid main() {\n    vec4 color = texture(sTD2DInputs[0], vUV.st);\n    fragColor = TDOutputSwizzle(color);\n}"
+    },
+    "basic_compute_shader": {
+      "description": "Minimal GLSL TOP compute shader",
+      "code": "void main() {\n    vec4 color = vec4(1, 0, 0, 1);\n    TDImageStoreOutput(0, ivec3(gl_GlobalInvocationID.xy, 0), color);\n}"
+    },
+    "get_input_resolution": {
+      "description": "Get width/height of first 2D input",
+      "code": "float width = uTD2DInfos[0].res.z;\nfloat height = uTD2DInfos[0].res.w;"
+    },
+    "sample_neighbor_pixels": {
+      "description": "Sample adjacent pixels for effects like blur",
+      "code": "vec2 texelSize = uTD2DInfos[0].res.xy; // 1/width, 1/height\nvec4 left = texture(sTD2DInputs[0], vUV.st + vec2(-texelSize.x, 0));\nvec4 right = texture(sTD2DInputs[0], vUV.st + vec2(texelSize.x, 0));"
+    }
+  },
+
+  "use_cases": [
+    "Custom image processing effects",
+    "Procedural texture generation",
+    "Real-time color grading",
+    "GPU-accelerated pixel math",
+    "Multi-pass rendering effects",
+    "Compute shader for parallel processing"
+  ]
+}

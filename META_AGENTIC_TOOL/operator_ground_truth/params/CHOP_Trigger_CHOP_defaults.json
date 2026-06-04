@@ -1,0 +1,758 @@
+{
+  "operator": "Trigger_CHOP",
+  "family": "CHOP",
+  "td_create_name": "triggerCHOP",
+  "param_count": 49,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 17,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "threshold": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Trigger",
+      "label": "Release = Trigger Threshold",
+      "readOnly": false,
+      "expression": null
+    },
+    "threshup": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trigger",
+      "label": "Trigger Threshold",
+      "readOnly": false,
+      "expression": null
+    },
+    "threshdown": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trigger",
+      "label": "Release Threshold",
+      "readOnly": false,
+      "expression": null
+    },
+    "retrigger": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trigger",
+      "label": "Re-Trigger Delay",
+      "readOnly": false,
+      "expression": null
+    },
+    "retriggerunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Trigger",
+      "label": "Re-Trigger Delay Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "mintrigger": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trigger",
+      "label": "Min Trigger Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "mintriggerunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Trigger",
+      "label": "Min Trigger Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "triggeron": {
+      "value": {
+        "type": "menu",
+        "value": "increase",
+        "menuIndex": 0,
+        "menuNames": [
+          "increase",
+          "decrease"
+        ],
+        "menuLabels": [
+          "Increasing Values",
+          "Decreasing Values"
+        ]
+      },
+      "default": "increase",
+      "page": "Trigger",
+      "label": "Trigger On",
+      "readOnly": false,
+      "expression": null
+    },
+    "multitrigger": {
+      "value": {
+        "type": "menu",
+        "value": "ignore",
+        "menuIndex": 0,
+        "menuNames": [
+          "ignore",
+          "add",
+          "restart"
+        ],
+        "menuLabels": [
+          "Ignore During Attack",
+          "Add",
+          "Restart Envelope"
+        ]
+      },
+      "default": "ignore",
+      "page": "Trigger",
+      "label": "Multi Trigger",
+      "readOnly": false,
+      "expression": null
+    },
+    "clamppeak": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Trigger",
+      "label": "Clamp at Peak Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "updateonce": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Trigger",
+      "label": "Update Once per Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "complete": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Trigger",
+      "label": "Complete Envelope",
+      "readOnly": false,
+      "expression": null
+    },
+    "remainder": {
+      "value": {
+        "type": "menu",
+        "value": "extend",
+        "menuIndex": 1,
+        "menuNames": [
+          "crop",
+          "extend",
+          "mix"
+        ],
+        "menuLabels": [
+          "Discard Remainder",
+          "Make Output Longer",
+          "Mix Remainder with Beginning"
+        ]
+      },
+      "default": "extend",
+      "page": "Trigger",
+      "label": "Remainder",
+      "readOnly": false,
+      "expression": null
+    },
+    "trigger": {
+      "value": {
+        "type": "unknown",
+        "value": "False"
+      },
+      "default": false,
+      "page": "Trigger",
+      "label": "Trigger",
+      "readOnly": false,
+      "expression": null
+    },
+    "releasepulse": {
+      "value": {
+        "type": "unknown",
+        "value": "False"
+      },
+      "default": false,
+      "page": "Trigger",
+      "label": "Release",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Trigger",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Trigger",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "delay": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attack",
+      "label": "Delay Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "delayunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Attack",
+      "label": "Delay Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "attack": {
+      "value": {
+        "type": "float",
+        "value": 0.2
+      },
+      "default": 0.2,
+      "page": "Attack",
+      "label": "Attack Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "attackunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Attack",
+      "label": "Attack Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "ashape": {
+      "value": {
+        "type": "menu",
+        "value": "halfcos",
+        "menuIndex": 3,
+        "menuNames": [
+          "linear",
+          "easein",
+          "easeout",
+          "halfcos"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease In",
+          "Ease Out",
+          "Ease in Ease out"
+        ]
+      },
+      "default": "halfcos",
+      "page": "Attack",
+      "label": "Attack Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "peak": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Attack",
+      "label": "Peak Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "peaklen": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Attack",
+      "label": "Peak Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "peaklenunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Attack",
+      "label": "Peak Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "decay": {
+      "value": {
+        "type": "float",
+        "value": 0.2
+      },
+      "default": 0.2,
+      "page": "Sustain",
+      "label": "Decay Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "decayunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Sustain",
+      "label": "Decay Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "dshape": {
+      "value": {
+        "type": "menu",
+        "value": "halfcos",
+        "menuIndex": 3,
+        "menuNames": [
+          "linear",
+          "easein",
+          "easeout",
+          "halfcos"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease In",
+          "Ease Out",
+          "Ease in Ease out"
+        ]
+      },
+      "default": "halfcos",
+      "page": "Sustain",
+      "label": "Decay Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "sustain": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Sustain",
+      "label": "Sustain Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "minsustain": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Sustain",
+      "label": "Min Sustain Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "minsustainunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Sustain",
+      "label": "Min Sustain Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "release": {
+      "value": {
+        "type": "float",
+        "value": 0.3
+      },
+      "default": 0.3,
+      "page": "Sustain",
+      "label": "Release Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "releaseunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Sustain",
+      "label": "Release Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "rshape": {
+      "value": {
+        "type": "menu",
+        "value": "halfcos",
+        "menuIndex": 3,
+        "menuNames": [
+          "linear",
+          "easein",
+          "easeout",
+          "halfcos"
+        ],
+        "menuLabels": [
+          "Linear",
+          "Ease In",
+          "Ease Out",
+          "Ease in Ease out"
+        ]
+      },
+      "default": "halfcos",
+      "page": "Sustain",
+      "label": "Release Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "channame": {
+      "value": {
+        "type": "string",
+        "value": "chan1"
+      },
+      "default": "chan1",
+      "page": "Chan",
+      "label": "Channel Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "specifyrate": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Chan",
+      "label": "Specify Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Chan",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "enableremaplength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Chan",
+      "label": "Enable Remap Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "remaplength": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Chan",
+      "label": "Remap Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "remaplengthunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "seconds",
+      "page": "Chan",
+      "label": "Remap Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

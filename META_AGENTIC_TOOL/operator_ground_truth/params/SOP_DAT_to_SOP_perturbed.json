@@ -1,0 +1,134 @@
+{
+  "operator": "DAT_to_SOP",
+  "family": "SOP",
+  "td_create_name": "dattoSOP",
+  "param_count": 15,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "pointsdat": {
+      "type": "op",
+      "value": ""
+    },
+    "verticesdat": {
+      "type": "op",
+      "value": ""
+    },
+    "primsdat": {
+      "type": "op",
+      "value": ""
+    },
+    "detaildat": {
+      "type": "op",
+      "value": ""
+    },
+    "merge": {
+      "type": "menu",
+      "value": "vertices",
+      "menuIndex": 1,
+      "menuNames": [
+        "points",
+        "vertices",
+        "primitives",
+        "detail"
+      ],
+      "menuLabels": [
+        "Points",
+        "Vertices",
+        "Primitives",
+        "Detail"
+      ]
+    },
+    "float": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "int": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "string": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "build": {
+      "type": "menu",
+      "value": "all",
+      "menuIndex": 1,
+      "menuNames": [
+        "dat",
+        "all",
+        "pts2",
+        "pts3",
+        "pts4",
+        "ptsn",
+        "polyrow",
+        "polycol",
+        "meshrow",
+        "meshcol",
+        "particleall"
+      ],
+      "menuLabels": [
+        "Use Primitive DAT",
+        "Connect All Points",
+        "Connect Every 2 Points",
+        "Connect Every 3 Points",
+        "Connect Every 4 Points",
+        "Connect Every N Points",
+        "Polygon with N Rows",
+        "Polygon with N Columns",
+        "Mesh with N Rows",
+        "Mesh with N Columns",
+        "Particle System using All Points"
+      ]
+    },
+    "n": {
+      "type": "int",
+      "value": 6
+    },
+    "closed": {
+      "type": "toggle",
+      "value": false
+    },
+    "closedv": {
+      "type": "toggle",
+      "value": false
+    },
+    "connect": {
+      "type": "menu",
+      "value": "alttriangles",
+      "menuIndex": 5,
+      "menuNames": [
+        "rows",
+        "cols",
+        "rowcol",
+        "triangles",
+        "quads",
+        "alttriangles"
+      ],
+      "menuLabels": [
+        "Rows",
+        "Columns",
+        "Rows and Columns",
+        "Triangles",
+        "Quadrilaterals",
+        "Alternating Triangles"
+      ]
+    },
+    "prtype": {
+      "type": "menu",
+      "value": "pointsprites",
+      "menuIndex": 1,
+      "menuNames": [
+        "lines",
+        "pointsprites"
+      ],
+      "menuLabels": [
+        "Render as Lines",
+        "Render as Point Sprites"
+      ]
+    }
+  }
+}

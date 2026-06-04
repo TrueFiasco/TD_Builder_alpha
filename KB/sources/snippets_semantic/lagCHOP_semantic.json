@@ -1,0 +1,837 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\lagCHOP_lossless.json",
+  "operator_type": "lagCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "button4",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "lag_value",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 2,
+            "lag2": 2,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "button4/out1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "null2",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "lag_value",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "null3",
+          "to": "lag_value",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:null": 3,
+          "DAT:text": 1,
+          "CHOP:trail": 2,
+          "COMP:button": 2,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "lag_up",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 3,
+            "lag2": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "lag_up",
+          "to_input": "0"
+        },
+        {
+          "from": "lag_up",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:lag": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "COMP:button": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "lag_overshoot",
+          "type": "CHOP:lag",
+          "parameters": {
+            "overshoot1": 1,
+            "overshoot2": 1,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "lag_overshoot",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "lag_overshoot",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "COMP:button": 1,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 4,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail4",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail5",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lag_smooth_noise",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 2,
+            "lag2": 2,
+            "overshoot1": 1,
+            "overshoot2": 1,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lag_smooth_noise",
+          "to": "trail4",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "trail5",
+          "to_input": "0"
+        },
+        {
+          "from": "trail5",
+          "to": "lag_smooth_noise",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 2,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise2",
+          "type": "CHOP:noise",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lag_non_timeslice",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 3,
+            "lag2": 3
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise2",
+          "to": "lag_non_timeslice",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null4_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "button3",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Reset",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "lag_reset",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 20,
+            "lag2": 20,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null4_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "button3/out1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "lag_reset",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "COMP:button": 2,
+          "CHOP:lag": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "clamp": "on",
+            "slope1": 0.5,
+            "slope2": 0.25,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null5",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail7",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 6,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "input",
+            "value0": 0.373737,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "null5",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider1/out1",
+          "to": "null5",
+          "to_input": "0"
+        },
+        {
+          "from": "lag1",
+          "to": "trail7",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lag": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "pulse",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "output": "loop",
+            "limitmax": 100,
+            "timeslice": "on",
+            "exporttable": "count1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise_random",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "end": 1
+          }
+        },
+        {
+          "name": "count1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "lag_per_sample",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lagsamples": "on",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_random",
+          "to": "lag_per_sample",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:count": 1,
+          "DAT:text": 1,
+          "CHOP:noise": 1,
+          "DAT:table": 1,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 0.6,
+            "lag2": 0.6,
+            "overshoot1": 0.5,
+            "overshoot2": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "pulse",
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "hold1",
+          "type": "CHOP:hold",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "hold1",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "hold1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "hold1",
+          "to_input": "1"
+        },
+        {
+          "from": "hold1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "lag1",
+          "to": "trail1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:lag": 1,
+          "CHOP:lfo": 1,
+          "CHOP:hold": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example10",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lag_max",
+          "type": "CHOP:lag",
+          "parameters": {
+            "clamp": "on",
+            "slope1": 10000,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "val"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "lag_max",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:lag": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

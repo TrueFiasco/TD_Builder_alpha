@@ -1,0 +1,70 @@
+{
+  "operator": "Raster_SOP",
+  "family": "SOP",
+  "td_create_name": "rasterSOP",
+  "param_count": 4,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "top": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Raster",
+      "label": "TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "direction": {
+      "value": {
+        "type": "menu",
+        "value": "horizontal",
+        "menuIndex": 0,
+        "menuNames": [
+          "horizontal",
+          "vertical"
+        ],
+        "menuLabels": [
+          "Horizontal",
+          "Vertical"
+        ]
+      },
+      "default": "horizontal",
+      "page": "Raster",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "downloadtype": {
+      "value": {
+        "type": "menu",
+        "value": "nextframe",
+        "menuIndex": 1,
+        "menuNames": [
+          "immediate",
+          "nextframe"
+        ],
+        "menuLabels": [
+          "Immediate (Slow)",
+          "Next frame (Fast)"
+        ]
+      },
+      "default": "nextframe",
+      "page": "Raster",
+      "label": "Download Type",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

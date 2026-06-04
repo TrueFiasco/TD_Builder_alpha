@@ -1,0 +1,128 @@
+{
+  "operator": "Convert_DAT",
+  "family": "DAT",
+  "td_create_name": "convertDAT",
+  "param_count": 9,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "how": {
+      "type": "menu",
+      "value": "text",
+      "menuIndex": 0,
+      "menuNames": [
+        "text",
+        "table"
+      ],
+      "menuLabels": [
+        "To Text",
+        "To Table"
+      ]
+    },
+    "removeblank": {
+      "type": "toggle",
+      "value": true
+    },
+    "delimiters": {
+      "type": "string",
+      "value": "\\t_perturbed"
+    },
+    "spacers": {
+      "type": "string",
+      "value": "\\t_perturbed"
+    },
+    "language": {
+      "type": "menu",
+      "value": "parameter",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "parameter",
+        "text",
+        "python",
+        "glsl",
+        "json",
+        "yaml",
+        "xml",
+        "tscript"
+      ],
+      "menuLabels": [
+        "From Input",
+        "From Parameter Language",
+        "Plain Text",
+        "Python",
+        "GLSL",
+        "JSON",
+        "YAML",
+        "XML / HTML",
+        "Tscript"
+      ]
+    },
+    "extension": {
+      "type": "menu",
+      "value": "customext",
+      "menuIndex": 17,
+      "menuNames": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "languageext",
+        "customext"
+      ],
+      "menuLabels": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "From Content Language",
+        "Custom Extension"
+      ]
+    },
+    "customext": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "wordwrap": {
+      "type": "menu",
+      "value": "on",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "on",
+        "off"
+      ],
+      "menuLabels": [
+        "Input",
+        "On",
+        "Off"
+      ]
+    }
+  }
+}

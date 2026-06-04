@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "project_name": "top_vector_param",
+    "mode": "tox",
+    "root_comp": "project1"
+  },
+  "operators": [
+    {
+      "path": "/project1/shader",
+      "family": "DAT",
+      "type": "text",
+      "name": "shader",
+      "flags": {
+        "bypass": false,
+        "display": false,
+        "render": false,
+        "lock": false
+      }
+    },
+    {
+      "path": "/project1/glsl1",
+      "family": "TOP",
+      "type": "glsl",
+      "name": "glsl1",
+      "flags": {
+        "bypass": false,
+        "display": false,
+        "render": false,
+        "lock": false
+      },
+      "params": {
+        "pixeldat": "/project1/shader",
+        "vec0name": "uTint"
+      }
+    },
+    {
+      "path": "/project1/out1",
+      "family": "TOP",
+      "type": "null",
+      "name": "out1",
+      "flags": {
+        "bypass": false,
+        "display": false,
+        "render": false,
+        "lock": false
+      },
+      "inputs": [
+        {
+          "index": 0,
+          "src": "glsl1"
+        }
+      ]
+    }
+  ]
+}

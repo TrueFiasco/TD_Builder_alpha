@@ -1,0 +1,480 @@
+# Prebuilt Solution Expert
+# Workflow for discovering and proposing palette/snippet solutions before custom builds
+# Version: 1.0
+
+version: "1.0"
+domain: "prebuilt_solutions"
+confidence: 0.90
+
+# =============================================================================
+# OVERVIEW
+# =============================================================================
+
+description: |
+  This expert enables intelligent discovery and proposal of prebuilt TouchDesigner
+  components before investing effort in custom solutions. The workflow ensures:
+
+  1. Palette components and op_snippets are searched for existing solutions
+  2. TD Designer presents prebuilt AND custom options to stakeholders
+  3. Creative/CG Expert reviews technical fit and artistic alignment
+  4. Critic approves final approach before TD Builder begins work
+
+  This saves development time and leverages battle-tested components.
+
+# =============================================================================
+# RESOURCE LOCATIONS
+# =============================================================================
+
+resources:
+  palette:
+    catalog: "expertise/palette_semantic_catalog.yaml"
+    tox_dir: "C:/Program Files/Derivative/TouchDesigner/Samples/Palette"
+    expanded_dir: "C:/TD_Projects/Learn/Palette"
+    categories:
+      - Generators       # Procedural patterns (noise, fractals, shapes)
+      - ImageFilters     # Post-processing effects (bloom, blur, color)
+      - Mapping          # Projection mapping, multi-display
+      - Tools            # Utility components (audio analysis, camera, etc.)
+      - UI               # User interface widgets
+      - TDAbleton        # Ableton Live integration
+      - TDBitwig         # Bitwig Studio integration
+      - TDVR             # Virtual reality
+      - Techniques       # Advanced rendering techniques
+      - POPs             # Particle/point cloud
+      - WebRTC           # WebRTC streaming
+    component_count: 278
+
+  op_snippets:
+    index: "data/snippets/index.tsv"
+    expanded_dir: "data/snippets/expanded_pop"
+    semantic_dir: "data/snippets/semantic"
+    example_count: 1370
+    families:
+      - CHOP   # Channel operators
+      - TOP    # Texture operators
+      - SOP    # Surface operators
+      - DAT    # Data operators
+      - COMP   # Component operators
+      - MAT    # Material operators
+
+# =============================================================================
+# SEARCH STRATEGIES
+# =============================================================================
+
+search_strategies:
+  semantic_search:
+    description: "Search by meaning/intent, not just keywords"
+    method: |
+      1. Parse user request for intent (what they want to achieve)
+      2. Map intent to palette categories
+      3. Search palette_semantic_catalog.yaml by:
+         - purpose field
+         - summary field
+         - use_cases list
+         - category
+      4. Rank by relevance and confidence
+    examples:
+      - query: "audio reactive visuals"
+        matches: ["audioAnalysis", "audioSet", "audioSpectrum"]
+      - query: "blend two videos"
+        matches: ["blendModes", "composite techniques"]
+      - query: "projection mapping"
+        matches: ["kantanMapper", "projectorBlend", "stoner"]
+
+  keyword_search:
+    description: "Direct keyword matching for specific operators/effects"
+    method: |
+      1. Extract keywords from request
+      2. Search component names and summaries
+      3. Search op_snippets index by label, topic, text
+    examples:
+      - keywords: ["blur", "gaussian"]
+        palette_matches: ["hsvBlur", "rgbaBlur", "radialBlur"]
+        snippet_matches: ["TOP/blurTOP/example*"]
+      - keywords: ["noise", "perlin"]
+        palette_matches: ["noise"]
+        snippet_matches: ["TOP/noiseTOP/example*"]
+
+  category_browse:
+    description: "Browse by functional category"
+    use_when: "User needs inspiration or doesn't know what's available"
+    categories:
+      audio: ["audioAnalysis", "audioSet", "audioSpectrum", "TDAbleton/*", "TDBitwig/*"]
+      visual_effects: ["bloom", "feedback", "feedbackEdge", "blur filters"]
+      generators: ["noise", "julia", "mandelbrot", "checker", "mesh", "superFormula"]
+      ui_controls: ["UI/Basic Widgets/*", "slider2D", "buttonRadio", "buttonMomentary"]
+      mapping: ["kantanMapper", "projectorBlend", "stoner", "quadReproject"]
+      3d_camera: ["arcBallCamera", "arcBallGeometry", "camera", "cameraViewport"]
+
+# =============================================================================
+# EVALUATION CRITERIA
+# =============================================================================
+
+evaluation_criteria:
+  prebuilt_advantages:
+    - label: "Battle-tested"
+      weight: 0.25
+      description: "Component has been used in production projects"
+    - label: "Documentation"
+      weight: 0.15
+      description: "Wiki documentation and examples available"
+    - label: "Maintenance"
+      weight: 0.15
+      description: "Updated with TD versions, community supported"
+    - label: "Time savings"
+      weight: 0.25
+      description: "Hours/days saved vs custom implementation"
+    - label: "Feature completeness"
+      weight: 0.20
+      description: "Has all required features out of the box"
+
+  custom_advantages:
+    - label: "Exact fit"
+      weight: 0.30
+      description: "Precisely matches requirements with no excess"
+    - label: "Performance"
+      weight: 0.25
+      description: "Can be optimized for specific use case"
+    - label: "Integration"
+      weight: 0.20
+      description: "Designed to fit existing project architecture"
+    - label: "Maintainability"
+      weight: 0.15
+      description: "Full understanding of internals for future changes"
+    - label: "IP ownership"
+      weight: 0.10
+      description: "Complete control over implementation"
+
+  decision_matrix:
+    prefer_prebuilt_when:
+      - "Prebuilt component covers 80%+ of requirements"
+      - "Time is limited"
+      - "Standard functionality (audio analysis, UI widgets, etc.)"
+      - "Team unfamiliar with implementation domain"
+
+    prefer_custom_when:
+      - "Prebuilt only covers <60% of requirements"
+      - "Performance is critical"
+      - "Unique artistic vision requires novel approach"
+      - "Prebuilt would need significant modification"
+      - "Integration complexity outweighs prebuilt benefits"
+
+# =============================================================================
+# COLLABORATIVE DISCUSSION PATTERNS
+# =============================================================================
+
+collaborative_discussion:
+  description: |
+    Prebuilt vs custom decisions should emerge through expert dialogue,
+    not unilateral proposals. TD Designer brings options to the table
+    for collaborative exploration.
+
+  initiating_discussion:
+    template: |
+      TD Designer: "For {feature}, I've found some relevant options.
+                    The palette has '{component}' which does {capability}.
+                    We could also build custom. Let me share what I know,
+                    then I'd love to hear everyone's thoughts."
+
+  discussion_flow:
+    1_present_options:
+      td_designer: "Here's what exists and what custom would involve..."
+      palette_expert: "Adding context about that component..."
+
+    2_creative_evaluation:
+      creative: "Does the prebuilt match our aesthetic goals?"
+      td_designer: "It {does/doesn't} because..."
+      creative: "What if we modified {aspect}?"
+
+    3_technical_evaluation:
+      cg_expert: "What's the performance like? Algorithm quality?"
+      td_designer: "The prebuilt uses {approach}. Custom could..."
+      cg_expert: "I'd be concerned about {issue} / That sounds solid."
+
+    4_practical_concerns:
+      critic: "What about maintenance? Integration complexity?"
+      td_designer: "Good questions. The tradeoffs are..."
+
+    5_build_consensus:
+      orchestrator: "It sounds like we're leaning toward {option}.
+                     Any remaining concerns before we commit?"
+
+  example_dialogue: |
+    TD Designer: "For audio reactivity, we have options. The palette's
+                  audioAnalysis component gives us Low/Mid/High bands,
+                  kick/snare detection, and spectral analysis. Very full-featured."
+
+    Palette Expert: "It's been solid across TD versions. Well-documented too.
+                     But it's a black box - you can't easily tweak the algorithms."
+
+    Creative: "Do we need to tweak them? What's the visual goal here?"
+
+    CG Expert: "Good question. If we want standard beat-reactive, audioAnalysis
+                is perfect. If we need custom frequency bands or unusual
+                detection, we'd want control."
+
+    Creative: "For this project, I want the bass to drive particle size and
+                the highs to drive color intensity. Pretty standard mapping."
+
+    TD Designer: "audioAnalysis can definitely do that. It outputs exactly
+                  those channels. We'd just wire Low to particle scale and
+                  High to color intensity through some math CHOPs."
+
+    Critic: "So the prebuilt covers our needs without modification?"
+
+    TD Designer: "Looks like it. Only customization is the parameter mapping
+                  downstream, which we'd need anyway with custom."
+
+    Creative: "I'm comfortable with prebuilt then. Let's not reinvent the wheel."
+
+    CG Expert: "Agreed. Save the custom work for where we actually need it."
+
+    Critic: "Consensus on audioAnalysis. TD Designer, any integration concerns?"
+
+    TD Designer: "None. It's a clean CHOP in, CHOP out. Easy to wire."
+
+    Orchestrator: "Great. We'll use audioAnalysis for audio reactivity.
+                   TD Builder, add that to the component list."
+
+  decision_factors_discussion:
+    prefer_prebuilt_discussion: |
+      TD Designer: "The prebuilt covers about 90% of what we need."
+      Creative: "And the remaining 10%?"
+      TD Designer: "Minor - we can work around it with downstream processing."
+      CG Expert: "That's a good trade. 90% done is worth a lot."
+      Critic: "Sounds like prebuilt is the right call here."
+
+    prefer_custom_discussion: |
+      TD Designer: "The prebuilt only does about 40% of what we need."
+      Creative: "That's not enough. What's missing?"
+      TD Designer: "{list of missing features}"
+      CG Expert: "We'd spend more time working around limitations than
+                   building custom. I vote custom."
+      Critic: "Agreed. Let's design what we actually need."
+
+    hybrid_discussion: |
+      TD Designer: "Interesting case - the prebuilt does the core well,
+                    but we need a custom wrapper for our specific control needs."
+      Creative: "So we'd use it as a building block?"
+      TD Designer: "Exactly. Embed audioAnalysis, wrap with custom parameters
+                    that map to our specific visual vocabulary."
+      CG Expert: "Best of both worlds - tested core, custom interface."
+      Critic: "That's elegant. Let's do hybrid."
+
+# =============================================================================
+# CREATIVE/CG EXPERT REVIEW
+# =============================================================================
+
+creative_cg_review:
+  role: "Evaluate technical fit and artistic alignment"
+
+  review_criteria:
+    technical_fit:
+      - "Does solution meet performance requirements?"
+      - "Does it integrate cleanly with existing architecture?"
+      - "Is the I/O compatible with project data flow?"
+
+    artistic_alignment:
+      - "Does visual quality match creative vision?"
+      - "Is there sufficient control over appearance?"
+      - "Can it achieve the desired aesthetic?"
+
+    practical_concerns:
+      - "Timeline considerations"
+      - "Team expertise with the approach"
+      - "Future maintenance burden"
+
+  output:
+    approve: "Proceed to Critic with recommendation"
+    request_changes: "Ask TD Designer for alternatives or modifications"
+    reject: "Fundamental mismatch, restart with new approach"
+
+# =============================================================================
+# CRITIC APPROVAL
+# =============================================================================
+
+critic_approval:
+  role: "Final quality gate before implementation"
+
+  review_focus:
+    quality_standards:
+      - "Solution maintains high quality bar"
+      - "No shortcuts that compromise long-term maintainability"
+      - "Aligns with project standards and patterns"
+
+    risk_assessment:
+      - "Identify potential failure points"
+      - "Ensure fallback options exist"
+      - "Verify testing strategy is adequate"
+
+    approval_decision:
+      approved: "TD Builder proceeds with implementation"
+      conditional: "Approved with specific conditions/modifications"
+      blocked: "Cannot proceed - return to design phase"
+
+  approval_record:
+    template: |
+      ## Critic Approval Record
+
+      **Task:** {task_name}
+      **Decision:** {approved|conditional|blocked}
+      **Approach:** {prebuilt|custom|hybrid}
+      **Date:** {timestamp}
+
+      **Rationale:**
+      {approval_rationale}
+
+      **Conditions (if any):**
+      {conditions}
+
+      **Risks acknowledged:**
+      {identified_risks}
+
+# =============================================================================
+# TD BUILDER EXECUTION
+# =============================================================================
+
+td_builder_execution:
+  prebuilt_integration:
+    steps:
+      - "Load palette component via loadTox() or direct embed"
+      - "Configure parameters per requirements"
+      - "Wire inputs/outputs to project network"
+      - "Apply any approved modifications"
+      - "Test and validate"
+
+    integration_methods:
+      runtime_load:
+        code: |
+          # Load at runtime
+          comp = parent().loadTox('{palette_path}/{component}.tox')
+          comp.name = '{instance_name}'
+          comp.nodeX = {x}
+          comp.nodeY = {y}
+          # Configure parameters
+          comp.par.{param1} = {value1}
+
+      static_embed:
+        description: "Copy component into project structure"
+        steps:
+          - "Copy .tox.dir into project"
+          - "Update TOC references"
+          - "Modify as needed"
+
+  custom_build:
+    steps:
+      - "Generate build script per TD Builder patterns"
+      - "Create operators and connections"
+      - "Set parameters and expressions"
+      - "Add any custom scripts"
+      - "Test and iterate"
+
+# =============================================================================
+# COMMON PREBUILT SOLUTIONS BY USE CASE
+# =============================================================================
+
+common_solutions:
+  audio_reactive:
+    primary: "audioAnalysis"
+    summary: "Full audio analysis with Low/Mid/High, Kick/Snare detection"
+    alternatives:
+      - "audioSet: Simpler audio level monitoring"
+      - "custom FFT chain: Maximum performance/control"
+
+  video_mixing:
+    primary: "blendModes"
+    summary: "45+ blend modes with crossfader"
+    alternatives:
+      - "custom Composite TOP chain"
+      - "feedbackEdge for specific effects"
+
+  ui_controls:
+    primary: "UI/Basic Widgets/*"
+    summary: "Sliders, buttons, radio groups, etc."
+    options:
+      - "slider2D: XY control"
+      - "buttonRadio: Exclusive selection"
+      - "buttonMomentary: Momentary press"
+      - "sliderVert/sliderHorz: Single axis"
+
+  glow_effects:
+    primary: "bloom"
+    summary: "Configurable bloom/glow effect"
+    alternatives:
+      - "custom Blur+Level chain"
+      - "GLSL glow shader"
+
+  visual_feedback:
+    primary: "feedback"
+    summary: "Frame buffer feedback/trails"
+    alternatives:
+      - "feedbackEdge: Edge-enhanced feedback"
+      - "custom Feedback TOP chain"
+
+  noise_patterns:
+    primary: "noise"
+    summary: "25+ noise algorithms (Perlin, Simplex, Cellular, etc.)"
+    alternatives:
+      - "Noise TOP: Built-in, less variety"
+      - "custom GLSL noise shader"
+
+  projection_mapping:
+    primary: "kantanMapper"
+    summary: "Advanced projection mapping with warping"
+    alternatives:
+      - "projectorBlend: Multi-projector edge blending"
+      - "stoner: Simple surface mapping"
+
+# =============================================================================
+# INTEGRATION WITH EXISTING EXPERTS
+# =============================================================================
+
+expert_integration:
+  palette_expert:
+    file: "expertise/palette_expertise.yaml"
+    provides:
+      - "Build requirements"
+      - "Component paths"
+      - "Wiring patterns"
+      - "UI layouts"
+
+  semantic_catalog:
+    file: "expertise/palette_semantic_catalog.yaml"
+    provides:
+      - "Component descriptions"
+      - "I/O specifications"
+      - "Use cases"
+      - "Wiki URLs"
+
+  td_network_building:
+    file: "expertise/td_network_building.yaml"
+    provides:
+      - "Operator patterns"
+      - "Connection strategies"
+      - "Build scripts"
+
+  creative_vision:
+    file: "expertise/creative_vision.yaml"
+    provides:
+      - "Artistic evaluation criteria"
+      - "Visual quality standards"
+
+# =============================================================================
+# LEARNING AND IMPROVEMENT
+# =============================================================================
+
+learning_triggers:
+  - event: "prebuilt_solution_approved"
+    action: "Increase confidence in that solution for similar requests"
+
+  - event: "prebuilt_rejected_for_custom"
+    action: "Record limitation patterns for future filtering"
+
+  - event: "new_palette_component_discovered"
+    action: "Add to semantic catalog with analysis"
+
+  - event: "custom_solution_could_have_been_prebuilt"
+    action: "Flag potential catalog gap for review"
+
+  - event: "integration_difficulty_encountered"
+    action: "Update integration_methods with lessons learned"

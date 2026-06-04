@@ -1,0 +1,223 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audioparaeqCHOP_lossless.json",
+  "operator_type": "audioparaeqCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -24,
+            "torange2": 10,
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -24,
+            "torange2": 10,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -24,
+            "torange2": 10,
+            "exporttable": "math3_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiopara1",
+          "type": "CHOP:audiopara",
+          "parameters": {
+            "frequencyhz1": 63.0958,
+            "bandwidth1": 4.64,
+            "enableeq2": "on",
+            "frequencyhz2": 562.343,
+            "enableeq3": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "slider_low",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "low",
+            "value0": 0.778571,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "slider_med",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "med",
+            "value0": 0.735714,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "slider_high",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "high",
+            "value0": 0.642857,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "audiodevout2",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "math3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider_low/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider_med/out1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "slider_high/out1",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiopara1",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiopara1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiopara1",
+          "to": "audiodevout2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:math": 3,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:audiopara": 1,
+          "COMP:slider": 3,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1,
+          "DAT:table": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

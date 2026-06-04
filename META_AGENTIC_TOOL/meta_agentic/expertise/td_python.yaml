@@ -1,0 +1,410 @@
+# TD Python Expertise
+# Python scripting, expressions, and referencing patterns for TouchDesigner
+
+schema_version: "1.0"
+last_updated: "2025-12-16T16:00:00Z"
+update_count: 0
+validated_against: "docs.derivative.ca; td_universal_parsed.json"
+
+overview:
+  scope: "Python expressions, callbacks, extensions, and operator referencing in TouchDesigner"
+  python_version: "3.11 (embedded in TD 2023.x)"
+  key_modules:
+    - td: "TouchDesigner-specific module"
+    - tdu: "TouchDesigner utilities"
+    - op: "Operator access function"
+    - me: "Current operator reference"
+
+# Operator Referencing
+referencing:
+  # op() function - primary way to reference operators
+  op_function:
+    syntax: "op('path')"
+    returns: "OP object or None if not found"
+    examples:
+      - code: "op('noise1')"
+        description: "Reference sibling operator"
+      - code: "op('../noise1')"
+        description: "Reference operator in parent"
+      - code: "op('./container1/noise1')"
+        description: "Reference operator in child container"
+      - code: "op('/project1/base1/noise1')"
+        description: "Absolute path from root"
+
+  # Relative path syntax
+  relative_paths:
+    - pattern: "op('name')"
+      scope: "Sibling (same container)"
+    - pattern: "op('../name')"
+      scope: "Parent's sibling"
+    - pattern: "op('../../name')"
+      scope: "Grandparent's sibling"
+    - pattern: "op('./child/name')"
+      scope: "Child of child"
+    - pattern: "op('../sibling/child')"
+      scope: "Cousin (sibling's child)"
+
+  # Special references
+  special:
+    - name: "me"
+      description: "Current operator"
+      example: "me.par.tx"
+
+    - name: "me.parent()"
+      description: "Parent container"
+      example: "me.parent().par.w"
+
+    - name: "me.parent(n)"
+      description: "Nth ancestor (2=grandparent)"
+      example: "me.parent(2).path"
+
+    - name: "parent.Name"
+      description: "Named parent shortcut (set in COMP Parent parameter)"
+      example: "parent.Control.par.speed"
+
+    - name: "root"
+      description: "Root operator (/)"
+      example: "root.par.fps"
+
+    - name: "iop"
+      description: "Internal operator (in extensions)"
+      example: "iop.myInternalOp"
+
+  # Common mistakes
+  common_errors:
+    - error: "op() returns None"
+      cause: "Path doesn't exist or typo in name"
+      fix: "Verify path with print(op('name'))"
+
+    - error: "AttributeError on OP"
+      cause: "Accessing parameter that doesn't exist"
+      fix: "Check op.pars() for available parameters"
+
+    - error: "Circular reference error"
+      cause: "A references B which references A in same cook"
+      fix: "Use time-delayed reference or restructure"
+
+    # BUG-E FIX: Container CHOP expression pattern
+    - error: "TypeError: 'td.containerCOMP' object is not subscriptable"
+      cause: "Using op('container')['channel'] - containers are COMPs, not CHOPs"
+      wrong_syntax: "op('../show_controls')['speed']"
+      correct_syntax: "op('../show_controls/controls_out')['speed']"
+      fix: "Reference the specific CHOP inside the container, not the container itself"
+      example_patterns:
+        - wrong: "op('container')['channel']"
+          right: "op('container/chopName')['channel']"
+        - wrong: "op('../my_comp')['value']"
+          right: "op('../my_comp/null_out')['value']"
+        - alternative: "op('container').op('chopName')['channel']"
+
+# Parameter Access
+parameters:
+  # Reading values
+  reading:
+    - syntax: "op('name')['channel']"
+      use: "Read CHOP channel value (float)"
+      example: "op('noise1')['chan1']"
+
+    - syntax: "op('name').par.paramname"
+      use: "Access parameter object"
+      example: "op('noise1').par.amp"
+
+    - syntax: "op('name').par.paramname.val"
+      use: "Get parameter value"
+      example: "op('noise1').par.amp.val"
+
+    - syntax: "op('name').par.paramname.eval()"
+      use: "Evaluate parameter expression"
+      example: "op('noise1').par.amp.eval()"
+
+  # Setting values (in scripts only, not expressions)
+  writing:
+    - syntax: "op('name').par.paramname = value"
+      use: "Set parameter value"
+      example: "op('noise1').par.amp = 2.5"
+
+    - syntax: "op('name').par.paramname.expr = 'expression'"
+      use: "Set parameter expression"
+      example: "op('noise1').par.amp.expr = 'me.time.frame'"
+
+  # DAT access
+  dat_access:
+    - syntax: "op('table')[row, col]"
+      use: "Access table cell"
+      example: "op('table1')[0, 'name']"
+
+    - syntax: "op('text').text"
+      use: "Get text DAT content"
+      example: "op('script1').text"
+
+    - syntax: "op('table').rows()"
+      use: "Iterate table rows"
+      example: "for row in op('table1').rows():"
+
+# Expression Patterns
+expressions:
+  # Common expression patterns for parameters
+  patterns:
+    - name: "CHOP to parameter"
+      expression: "op('chop1')['channel']"
+      use: "Drive parameter from CHOP value"
+
+    - name: "Frame-based animation"
+      expression: "me.time.frame * 0.1"
+      use: "Animate based on frame number"
+
+    - name: "Seconds-based animation"
+      expression: "me.time.seconds"
+      use: "Animate based on elapsed time"
+
+    - name: "Sine oscillation"
+      expression: "math.sin(me.time.seconds * 2 * 3.14159)"
+      use: "Smooth oscillation between -1 and 1"
+
+    - name: "Random per-frame"
+      expression: "tdu.rand(me.time.frame)"
+      use: "Deterministic random per frame"
+
+    - name: "Conditional"
+      expression: "1 if op('button1')['state'] else 0"
+      use: "Switch based on condition"
+
+    - name: "Clamp value"
+      expression: "max(0, min(1, op('slider1')['v1']))"
+      use: "Constrain value to range"
+
+    - name: "Remap range"
+      expression: "tdu.remap(op('noise1')['chan1'], -1, 1, 0, 100)"
+      use: "Map value from one range to another"
+
+  # Built-in variables in expressions
+  builtins:
+    - name: "me.time.frame"
+      type: "int"
+      description: "Current frame number"
+
+    - name: "me.time.seconds"
+      type: "float"
+      description: "Elapsed time in seconds"
+
+    - name: "me.time.absFrame"
+      type: "int"
+      description: "Absolute frame (doesn't reset)"
+
+    - name: "absTime.frame"
+      type: "int"
+      description: "Global absolute frame"
+
+    - name: "absTime.seconds"
+      type: "float"
+      description: "Global absolute time"
+
+  # BUG-H FIX: Math function syntax (Python requires math. prefix)
+  math_functions:
+    CRITICAL_NOTE: "Python requires math module prefix - bare sin()/cos() do NOT work"
+    common_errors:
+      - wrong: "sin(absTime.seconds)"
+        error: "NameError: name 'sin' is not defined"
+        right: "math.sin(absTime.seconds)"
+      - wrong: "cos(x) * 2"
+        error: "NameError: name 'cos' is not defined"
+        right: "math.cos(x) * 2"
+      - wrong: "sqrt(a*a + b*b)"
+        right: "math.sqrt(a*a + b*b)"
+      - wrong: "pi * 2"
+        right: "math.pi * 2"
+    trigonometry:
+      - "math.sin(radians)"
+      - "math.cos(radians)"
+      - "math.tan(radians)"
+      - "math.atan2(y, x)"
+      - "math.radians(degrees)"
+      - "math.degrees(radians)"
+    arithmetic:
+      - "math.sqrt(x)"
+      - "math.pow(x, y)"
+      - "math.exp(x)"
+      - "math.log(x)"
+      - "math.log10(x)"
+    rounding:
+      - "math.floor(x)"
+      - "math.ceil(x)"
+      - "math.trunc(x)"
+    constants:
+      - "math.pi"
+      - "math.e"
+      - "math.tau"
+    no_prefix_needed:
+      note: "Python builtins work without prefix"
+      functions:
+        - "abs(x)"
+        - "min(a, b)"
+        - "max(a, b)"
+        - "round(x)"
+        - "int(x)"
+        - "float(x)"
+    tdu_alternatives:
+      note: "TD utilities often more convenient than math module"
+      functions:
+        - syntax: "tdu.rand(seed)"
+          use: "Deterministic random [0,1]"
+        - syntax: "tdu.remap(val, fromMin, fromMax, toMin, toMax)"
+          use: "Map between ranges"
+        - syntax: "tdu.clamp(val, min, max)"
+          use: "Constrain to range"
+
+# Callbacks
+callbacks:
+  # Execute DAT types
+  execute_dats:
+    - type: "CHOP Execute"
+      triggers: ["valueChange", "onOffToOn", "whileOn", "onOnToOff", "whileOff"]
+      signature: "def onValueChange(channel, sampleIndex, val, prev):"
+      use: "React to CHOP value changes"
+
+    - type: "DAT Execute"
+      triggers: ["tableChange", "rowChange", "colChange", "cellChange"]
+      signature: "def onTableChange(dat):"
+      use: "React to DAT content changes"
+
+    - type: "Panel Execute"
+      triggers: ["onSelect", "onRollover", "onPick", "onMouse", "onKey"]
+      signature: "def onSelect(panelValue):"
+      use: "Handle panel/UI interactions"
+
+    - type: "Parameter Execute"
+      triggers: ["onValueChange", "onPulse"]
+      signature: "def onValueChange(par, prev):"
+      use: "React to parameter changes"
+
+  # Common callback patterns
+  patterns:
+    - name: "Toggle state"
+      code: |
+        def onOffToOn(channel, sampleIndex, val, prev):
+            op('toggle1').par.value0 = 1 - op('toggle1').par.value0
+
+    - name: "Trigger animation"
+      code: |
+        def onPulse(par):
+            op('timer1').par.start.pulse()
+
+    - name: "Update table from value"
+      code: |
+        def onValueChange(channel, sampleIndex, val, prev):
+            op('table1')[0, 'value'] = str(val)
+
+# Extensions
+extensions:
+  # Basic extension pattern
+  basic_pattern:
+    description: "Add custom methods and properties to COMP"
+    template: |
+      class MyExtension:
+          def __init__(self, ownerComp):
+              self.ownerComp = ownerComp
+
+          @property
+          def MyProperty(self):
+              return self.ownerComp.par.custom1.eval()
+
+          def MyMethod(self, arg1):
+              # Custom logic
+              return arg1 * 2
+
+  # Promoted extension
+  promotion:
+    description: "Access extension via parent.Ext.method()"
+    setup:
+      - "Set Extension Object to 'op.MyClass'"
+      - "Set Promote Extension to On"
+      - "Access via parent.Ext.MyMethod()"
+
+  # Common extension patterns
+  patterns:
+    - name: "State management"
+      description: "Store and manage component state"
+      code: |
+        def __init__(self, ownerComp):
+            self.ownerComp = ownerComp
+            self._state = {}
+
+        def SetState(self, key, value):
+            self._state[key] = value
+
+        def GetState(self, key, default=None):
+            return self._state.get(key, default)
+
+    - name: "Event broadcasting"
+      description: "Notify other components of events"
+      code: |
+        def Broadcast(self, eventName, data):
+            for listener in self.ownerComp.findChildren(tags=['listener']):
+                if hasattr(listener.ext, 'OnEvent'):
+                    listener.ext.OnEvent(eventName, data)
+
+# TouchDesigner Utilities (tdu module)
+tdu_utilities:
+  functions:
+    - name: "tdu.rand(seed)"
+      description: "Deterministic random 0-1"
+      example: "tdu.rand(me.time.frame + me.digits)"
+
+    - name: "tdu.remap(value, fromMin, fromMax, toMin, toMax)"
+      description: "Map value between ranges"
+      example: "tdu.remap(val, 0, 1, -10, 10)"
+
+    - name: "tdu.clamp(value, min, max)"
+      description: "Constrain value to range"
+      example: "tdu.clamp(val, 0, 100)"
+
+    - name: "tdu.base(name)"
+      description: "Get base name without digits"
+      example: "tdu.base('noise1')  # returns 'noise'"
+
+    - name: "tdu.digits(name)"
+      description: "Get trailing digits"
+      example: "tdu.digits('noise123')  # returns 123"
+
+# Export Types
+exports:
+  chop_export:
+    description: "Continuous value binding from CHOP to parameter"
+    setup:
+      - "Select CHOP channels"
+      - "RMB > Export CHOP"
+      - "Select target parameters"
+    pros: ["Real-time", "Cook-efficient"]
+    cons: ["One-way only", "Can be hard to debug"]
+
+  parameter_reference:
+    description: "Expression-based binding"
+    setup:
+      - "Type expression in parameter field"
+      - "e.g., op('slider1')['v1']"
+    pros: ["Visible in parameter", "Easy to edit"]
+    cons: ["Evaluated each cook", "Slightly less efficient"]
+
+  bind_chop:
+    description: "Bidirectional binding between parameters"
+    setup:
+      - "Create Bind CHOP"
+      - "Set Parameter path"
+      - "Enable Export"
+    pros: ["Bidirectional", "Multiple targets"]
+    cons: ["Requires CHOP operator"]
+
+problems:
+  known:
+    - id: "PYTHON-COOK-ORDER"
+      description: "Expression evaluated before referenced op cooks"
+      fix: "Use time-delayed reference or Cook dependency"
+      status: "documented"
+
+    - id: "PYTHON-NONE-REFERENCE"
+      description: "op() returns None for non-existent path"
+      fix: "Always check: if op('name') is not None:"
+      status: "documented"
+
+refreshed_from_state: null
+state_checksum: null

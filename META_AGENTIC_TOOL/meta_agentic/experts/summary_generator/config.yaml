@@ -1,0 +1,103 @@
+# Summary Generator Configuration
+# Generates human-readable summaries of TouchDesigner networks
+
+expert_id: "summary_generator"
+version: "1.0.0"
+created: "2025-12-18"
+description: "Generates comprehensive summaries of TouchDesigner networks including purpose, structure, parameters, and usage guidance"
+
+# Expertise files this expert reads
+expertise_inputs:
+  - path: "meta_agentic/expertise/td_operators.yaml"
+    purpose: "Operator descriptions and common use cases"
+  - path: "meta_agentic/expertise/td_network_patterns.yaml"
+    purpose: "Recognize network patterns and workflows"
+  - path: "meta_agentic/expertise/palette_semantic_catalog.yaml"
+    purpose: "Identify and describe palette components"
+  - path: "meta_agentic/expertise/creative_vision.yaml"
+    purpose: "Map technical patterns to creative descriptions"
+
+# External source of truth for operator validation
+validation_sources:
+  - path: "operator_param_schemas.json"
+    purpose: "Validate operator and parameter references"
+
+# Expertise files this expert writes
+expertise_outputs:
+  - path: "meta_agentic/expertise/td_network_patterns.yaml"
+    purpose: "Document new network patterns discovered during summarization"
+    sections: ["workflows"]
+
+# Event logging
+event_log: "meta_agentic/history/expertise_events.jsonl"
+event_domain: "summary"
+
+# Upstream/downstream collaborators
+collaborators:
+  upstream:
+    - expert_id: "network_builder"
+      receives_from: "built_network"
+      handoff_format: "toe_file_path"
+
+    - expert_id: "td_designer"
+      receives_from: "network_design"
+      handoff_format: "network_json"
+
+  downstream:
+    - expert_id: "user"
+      sends_to: "documentation"
+      handoff_format: "network_summary"
+
+# Output format
+output_format:
+  type: "markdown"
+  schema: "network_summary_v1"
+  includes:
+    - purpose_description
+    - network_structure
+    - key_operators
+    - parameters_exposed
+    - usage_instructions
+    - performance_notes
+
+# Summary components
+summary_components:
+  purpose:
+    description: "What does this network do?"
+    sources: ["creative_brief", "network_name", "operator_analysis"]
+
+  structure:
+    description: "How is the network organized?"
+    sources: ["container_hierarchy", "signal_flow", "connection_analysis"]
+
+  parameters:
+    description: "What can the user control?"
+    sources: ["custom_parameters", "exposed_controls", "parameter_ranges"]
+
+  usage:
+    description: "How do you use this network?"
+    sources: ["input_requirements", "output_format", "integration_notes"]
+
+# Python module for network analysis
+python_module:
+  path: "meta_agentic/experts/summary_generator/network_summarizer.py"
+  entry_function: "summarize_network"
+  capabilities:
+    - "parse_toc_file"
+    - "analyze_connections"
+    - "extract_parameters"
+    - "identify_patterns"
+
+# Anti-hallucination settings
+validation:
+  require_operator_verification: true
+  require_parameter_verification: true
+  cite_sources_for_descriptions: true
+  flag_unrecognized_patterns: true
+
+# Learning settings
+learning:
+  log_new_patterns: true
+  log_unrecognized_operators: true
+  update_patterns_on_discovery: true
+  min_samples_for_update: 2

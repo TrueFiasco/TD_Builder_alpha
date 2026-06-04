@@ -1,0 +1,79 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\rerangePOP_lossless.json",
+  "operator_type": "rerangePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "plane1",
+          "type": "POP:plane",
+          "parameters": {
+            "surftype": "rowcol"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "random1",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "Color.rgb"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "rerange1",
+          "type": "POP:rerange",
+          "parameters": {
+            "inputattrscope": "Color.rgb",
+            "parsize": 3
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "plane1",
+          "to": "random1",
+          "to_input": "0"
+        },
+        {
+          "from": "random1",
+          "to": "rerange1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "POP:plane": 1,
+          "DAT:text": 1,
+          "POP:random": 1,
+          "COMP:annotate": 1,
+          "POP:rerange": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

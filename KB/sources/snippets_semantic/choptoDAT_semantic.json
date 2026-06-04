@@ -1,0 +1,111 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\choptoDAT_lossless.json",
+  "operator_type": "choptoDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 8,
+            "const1name": "chan2",
+            "const1value": 0.2,
+            "const2name": "chan3",
+            "const2value": 80
+          }
+        },
+        {
+          "name": "chopto_names_col_per_channel",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "constant1",
+            "names": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "chopto_names_row_per_channel",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "constant1",
+            "names": "on",
+            "output": "rowperchan",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "DAT:chopto": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "channelname": "chan[1-5]",
+            "startunit": "samples",
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto_multi_channel_and_multi_sample",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "noise1",
+            "names": "on",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "DAT:chopto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

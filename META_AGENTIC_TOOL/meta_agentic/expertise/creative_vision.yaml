@@ -1,0 +1,525 @@
+# Creative Vision Expertise
+# Domain: Artistic vision, mood, aesthetics for generative art
+# Used by: creative_expert agent
+
+schema_version: "1.0"
+created: "2025-12-16"
+last_updated: "2025-12-16"
+update_count: 1
+validated_against: "creative_expert domain knowledge"
+
+# Mood vocabulary - emotional qualities that drive visual decisions
+moods:
+  ethereal:
+    description: "Light, airy, transcendent quality with soft transitions"
+    visual_markers:
+      colors: ["soft pastels", "white", "pale blue", "silver"]
+      motion: "slow, floating, drifting"
+      contrast: "low"
+      saturation: "low to medium"
+    technical_hints:
+      blur: "high"
+      opacity: "variable, layered"
+      particle_speed: "slow"
+    example_works: ["ambient music visualization", "meditation apps", "dream sequences"]
+    confidence: 0.85
+
+  aggressive:
+    description: "High energy, sharp, intense visual impact"
+    visual_markers:
+      colors: ["red", "black", "orange", "electric blue"]
+      motion: "fast, sharp, staccato"
+      contrast: "high"
+      saturation: "high"
+    technical_hints:
+      blur: "minimal or motion blur"
+      edges: "sharp"
+      particle_speed: "fast"
+      effects: ["strobe", "glitch", "distortion"]
+    example_works: ["metal/EDM visuals", "action sequences", "impact moments"]
+    confidence: 0.85
+
+  contemplative:
+    description: "Thoughtful, slow-moving, introspective"
+    visual_markers:
+      colors: ["deep blue", "purple", "earth tones", "muted"]
+      motion: "very slow, deliberate"
+      contrast: "medium"
+      saturation: "medium-low"
+    technical_hints:
+      fade_times: "long"
+      particle_density: "sparse"
+      camera_movement: "subtle drift"
+    example_works: ["documentary intros", "philosophical content", "mindfulness"]
+    confidence: 0.8
+
+  chaotic:
+    description: "Unpredictable, overwhelming, maximalist"
+    visual_markers:
+      colors: ["full spectrum", "clashing", "neon"]
+      motion: "erratic, multi-directional"
+      contrast: "variable"
+      saturation: "extreme"
+    technical_hints:
+      randomness: "high"
+      layer_count: "many"
+      effects: ["noise", "glitch", "feedback"]
+    example_works: ["experimental art", "cyberpunk", "sensory overload"]
+    confidence: 0.8
+
+  organic:
+    description: "Natural, flowing, growth-like movement"
+    visual_markers:
+      colors: ["greens", "browns", "water blues", "sunset oranges"]
+      motion: "flowing, branching, growing"
+      contrast: "natural range"
+      saturation: "natural"
+    technical_hints:
+      algorithms: ["perlin noise", "reaction-diffusion", "L-systems"]
+      curves: "bezier, smooth"
+      symmetry: "bilateral or radial"
+    example_works: ["nature documentaries", "bio-art", "growth simulations"]
+    confidence: 0.85
+
+  minimal:
+    description: "Sparse, clean, focused on essential elements"
+    visual_markers:
+      colors: ["monochrome", "limited palette (2-3 colors)"]
+      motion: "precise, intentional"
+      contrast: "high"
+      saturation: "varies"
+    technical_hints:
+      element_count: "few"
+      negative_space: "prominent"
+      animations: "subtle"
+    example_works: ["corporate presentations", "luxury branding", "art installations"]
+    confidence: 0.85
+
+  psychedelic:
+    description: "Mind-bending, warped, kaleidoscopic"
+    visual_markers:
+      colors: ["rainbow", "shifting hues", "complementary clashes"]
+      motion: "swirling, morphing, breathing"
+      contrast: "variable"
+      saturation: "high"
+    technical_hints:
+      effects: ["kaleidoscope", "feedback", "color cycling"]
+      distortion: "heavy"
+      symmetry: "radial, mandala"
+    example_works: ["music festivals", "VJ sets", "altered states"]
+    confidence: 0.85
+
+# Aesthetic styles - visual approaches and techniques
+aesthetics:
+  glitch:
+    description: "Digital artifacts, data corruption aesthetic"
+    techniques:
+      - "data bending"
+      - "scan line displacement"
+      - "RGB channel separation"
+      - "block artifacts"
+      - "temporal glitching"
+    color_tendencies: ["RGB primary splits", "digital noise", "high contrast"]
+    motion_qualities: "jerky, discontinuous, stuttering"
+    td_relevance:
+      operators: ["displace", "composite", "feedback", "glsl"]
+      patterns: ["feedback_loop", "glsl_integration"]
+    confidence: 0.9
+
+  organic:
+    description: "Natural, biological, growth-inspired forms"
+    techniques:
+      - "reaction-diffusion"
+      - "perlin noise"
+      - "flocking/boids"
+      - "L-systems"
+      - "cellular automata"
+    color_tendencies: ["earth tones", "natural gradients", "bioluminescence"]
+    motion_qualities: "flowing, growing, breathing"
+    td_relevance:
+      operators: ["noise", "glsl", "particle systems"]
+      patterns: ["particle_system", "glsl_particle_swarm"]
+    confidence: 0.9
+
+  geometric:
+    description: "Sharp shapes, mathematical precision"
+    techniques:
+      - "sacred geometry"
+      - "tessellation"
+      - "vector graphics"
+      - "wireframes"
+      - "constructivist"
+    color_tendencies: ["bold primaries", "monochrome", "neon on dark"]
+    motion_qualities: "precise, rotational, transformational"
+    td_relevance:
+      operators: ["circle", "rectangle", "line", "instancing"]
+      patterns: ["instancing_workflow", "render_pipeline"]
+    confidence: 0.9
+
+  cinematic:
+    description: "Film-like quality, professional look"
+    techniques:
+      - "depth of field"
+      - "lens flares"
+      - "film grain"
+      - "color grading"
+      - "letterboxing"
+    color_tendencies: ["color graded", "teal-orange", "desaturated"]
+    motion_qualities: "smooth camera moves, rack focus, slow motion"
+    td_relevance:
+      operators: ["render", "blur", "level", "composite"]
+      patterns: ["render_pipeline", "feedback_loop"]
+    confidence: 0.85
+
+  retro:
+    description: "Nostalgic, vintage technology aesthetics"
+    techniques:
+      - "CRT effects"
+      - "VHS degradation"
+      - "low resolution"
+      - "limited color palette"
+      - "pixel art"
+    color_tendencies: ["8-bit palettes", "neon", "amber CRT"]
+    motion_qualities: "frame rate limitations, interlacing"
+    td_relevance:
+      operators: ["resolution", "quantize", "composite", "glsl"]
+      patterns: ["feedback_loop", "glsl_integration"]
+    confidence: 0.85
+
+  abstract:
+    description: "Non-representational, form and color focused"
+    techniques:
+      - "color fields"
+      - "procedural generation"
+      - "mathematical visualization"
+      - "audio-reactive abstraction"
+    color_tendencies: ["varied, often bold or experimental"]
+    motion_qualities: "varied, often rhythm-driven"
+    td_relevance:
+      operators: ["noise", "math", "composite", "glsl"]
+      patterns: ["audio_reactive", "glsl_particle_swarm"]
+    confidence: 0.85
+
+# Color palette strategies
+color_palettes:
+  monochromatic:
+    description: "Single hue with value variations"
+    construction: "One hue, vary saturation and brightness"
+    mood_associations: ["elegant", "focused", "minimal"]
+    example_values:
+      base: [0.6, 0.8, 0.9]  # HSV
+      variations: ["lighter", "darker", "desaturated"]
+
+  complementary:
+    description: "Two colors opposite on color wheel"
+    construction: "180 degree separation on hue wheel"
+    mood_associations: ["dynamic", "contrasting", "energetic"]
+    warning: "Can be jarring if not balanced"
+
+  analogous:
+    description: "Adjacent colors on wheel"
+    construction: "30-60 degree separation on hue wheel"
+    mood_associations: ["harmonious", "natural", "calm"]
+
+  triadic:
+    description: "Three colors equally spaced on wheel"
+    construction: "120 degree separation"
+    mood_associations: ["vibrant", "balanced", "playful"]
+
+  split_complementary:
+    description: "Base color + two colors adjacent to complement"
+    construction: "Base + colors 150/210 degrees away"
+    mood_associations: ["dynamic but less tension than complementary"]
+
+  warm:
+    description: "Red, orange, yellow spectrum"
+    colors: ["red", "orange", "yellow", "gold"]
+    mood_associations: ["energy", "passion", "warmth", "urgency"]
+
+  cool:
+    description: "Blue, green, purple spectrum"
+    colors: ["blue", "cyan", "green", "purple"]
+    mood_associations: ["calm", "professional", "technology", "depth"]
+
+  neon:
+    description: "High saturation electric colors"
+    colors: ["electric blue", "hot pink", "lime green", "cyan"]
+    mood_associations: ["cyberpunk", "nightlife", "futuristic"]
+    technical_notes: "Often requires HDR or bloom for full effect"
+
+# Motion qualities vocabulary
+motion_qualities:
+  fluid:
+    description: "Smooth, continuous movement like water"
+    parameters:
+      interpolation: "bezier/ease"
+      speed_variation: "gradual"
+      direction_changes: "curved"
+    implementation_hints:
+      filter_lag: "high"
+      noise_frequency: "low"
+
+  sharp:
+    description: "Quick, precise movements with clear start/stop"
+    parameters:
+      interpolation: "linear or step"
+      speed_variation: "sudden"
+      direction_changes: "angular"
+    implementation_hints:
+      filter_lag: "none"
+      trigger_response: "immediate"
+
+  pulsing:
+    description: "Rhythmic expansion/contraction"
+    parameters:
+      wave_type: "sine"
+      period: "regular"
+      amplitude: "varies by intensity"
+    implementation_hints:
+      audio_link: "beat detection"
+      operators: ["wave", "beat", "trigger"]
+
+  drifting:
+    description: "Slow, aimless wandering"
+    parameters:
+      speed: "very slow"
+      direction: "random with momentum"
+      persistence: "high"
+    implementation_hints:
+      noise_type: "perlin"
+      noise_evolution: "slow"
+
+  explosive:
+    description: "Rapid outward expansion from center"
+    parameters:
+      initial_velocity: "high"
+      deceleration: "exponential"
+      spread: "radial"
+    implementation_hints:
+      particle_system: true
+      force_field: "radial outward"
+
+  oscillating:
+    description: "Regular back-and-forth movement"
+    parameters:
+      wave_type: "sine or triangle"
+      frequency: "regular"
+      phase_offsets: "for visual interest"
+    implementation_hints:
+      operators: ["wave", "math", "lag"]
+
+# Emotional to visual mapping (for AI translation)
+emotional_mappings:
+  calm:
+    motion: "slow, drifting"
+    color_saturation: "low to medium"
+    contrast: "low"
+    complexity: "sparse"
+    suggested_moods: ["contemplative", "minimal", "ethereal"]
+
+  excitement:
+    motion: "fast, sharp"
+    color_saturation: "high"
+    contrast: "high"
+    complexity: "dense"
+    suggested_moods: ["aggressive", "chaotic", "psychedelic"]
+
+  wonder:
+    motion: "slow reveals, expanding"
+    color_saturation: "medium-high"
+    contrast: "medium"
+    complexity: "building"
+    suggested_moods: ["ethereal", "organic", "psychedelic"]
+
+  tension:
+    motion: "building, constrained"
+    color_saturation: "varies"
+    contrast: "increasing"
+    complexity: "building"
+    suggested_moods: ["minimal becoming aggressive", "contemplative"]
+
+  joy:
+    motion: "bouncy, playful"
+    color_saturation: "high"
+    contrast: "medium"
+    complexity: "medium"
+    suggested_moods: ["chaotic light", "organic"]
+
+  melancholy:
+    motion: "slow, heavy"
+    color_saturation: "low"
+    contrast: "low"
+    complexity: "sparse"
+    suggested_moods: ["contemplative", "minimal"]
+
+# Creative domains covered
+domains:
+  generative_art:
+    description: "Algorithmic and procedural visual art"
+    key_techniques:
+      - particle_systems
+      - flocking_boids
+      - emergence
+      - noise_fields
+      - fractals
+      - L_systems
+      - cellular_automata
+      - reaction_diffusion
+    confidence: 0.9
+
+  audio_visual:
+    description: "Music visualization and audio-reactive systems"
+    key_techniques:
+      - beat_detection
+      - frequency_analysis
+      - spectrum_mapping
+      - envelope_following
+      - audio_driven_parameters
+    confidence: 0.9
+
+  installation_art:
+    description: "Immersive and interactive installations"
+    key_techniques:
+      - projection_mapping
+      - sensor_input
+      - spatial_audio
+      - multi_screen
+      - interactive_systems
+      - environmental_response
+    confidence: 0.85
+
+  vj_performance:
+    description: "Live visual performance for music events"
+    key_techniques:
+      - beat_sync
+      - clip_triggering
+      - live_mixing
+      - layer_compositing
+      - effect_chains
+    confidence: 0.85
+
+  data_visualization:
+    description: "Visual representation of data"
+    key_techniques:
+      - mapping_to_geometry
+      - color_encoding
+      - temporal_animation
+      - interactive_exploration
+    confidence: 0.8
+
+# Composition principles
+composition:
+  rule_of_thirds:
+    description: "Divide frame into 3x3 grid, place interest at intersections"
+    application: "Position key elements at grid intersections"
+
+  golden_ratio:
+    description: "1.618:1 proportion for visual harmony"
+    application: "Size and placement relationships"
+
+  symmetry:
+    types: ["bilateral", "radial", "rotational"]
+    application: "Create balance and focus"
+
+  asymmetry:
+    description: "Intentional imbalance for dynamic tension"
+    application: "Create movement and interest"
+
+  depth_layers:
+    description: "Foreground, midground, background separation"
+    application: "Create depth and visual hierarchy"
+
+  negative_space:
+    description: "Empty areas that define positive shapes"
+    application: "Focus attention, create breathing room"
+
+# =============================================================================
+# PREBUILT SOLUTION REVIEW (Creative/CG Expert Role)
+# =============================================================================
+
+prebuilt_solution_review:
+  description: |
+    When TD Designer proposes prebuilt vs custom solutions, Creative/CG Expert
+    evaluates from artistic and technical perspectives before passing to Critic.
+
+  artistic_evaluation:
+    questions:
+      - "Does the prebuilt component's aesthetic match our creative vision?"
+      - "Can it achieve the desired mood and visual quality?"
+      - "Is there sufficient control over appearance parameters?"
+      - "Will modifications compromise artistic integrity?"
+
+    accept_prebuilt_when:
+      - "Visual output matches or exceeds requirements"
+      - "Parameters provide adequate artistic control"
+      - "Component has proven track record for similar use cases"
+      - "Time saved can be invested in other creative elements"
+
+    prefer_custom_when:
+      - "Prebuilt aesthetic is too generic or recognizable"
+      - "Creative vision requires unique visual signature"
+      - "Fine control over specific behaviors is essential"
+      - "Project is showcase piece requiring originality"
+
+  technical_evaluation:
+    questions:
+      - "Does the prebuilt integrate cleanly with our architecture?"
+      - "Are performance characteristics acceptable?"
+      - "Is the I/O compatible with our data flow?"
+      - "Can we maintain/debug it if issues arise?"
+
+    integration_concerns:
+      - "Input/output type compatibility"
+      - "Parameter binding and expressions"
+      - "Cook dependency implications"
+      - "Memory and GPU resource usage"
+
+  recommendation_template: |
+    ## Creative/CG Review: {task_name}
+
+    ### Artistic Assessment
+    - Vision Alignment: {high|medium|low}
+    - Aesthetic Quality: {meets|exceeds|insufficient}
+    - Control Adequacy: {sufficient|limited|insufficient}
+
+    ### Technical Assessment
+    - Integration Complexity: {simple|moderate|complex}
+    - Performance Impact: {negligible|acceptable|concerning}
+    - Maintainability: {high|medium|low}
+
+    ### Recommendation
+    {APPROVE_PREBUILT | APPROVE_CUSTOM | REQUEST_ALTERNATIVES}
+
+    ### Rationale
+    {detailed_reasoning}
+
+    ### Conditions (if approving prebuilt)
+    {any_required_modifications}
+
+  palette_categories_by_domain:
+    generative_art:
+      recommended: ["noise", "julia", "mandelbrot", "superFormula", "mesh"]
+      use_for: "Procedural textures, patterns, organic forms"
+
+    audio_visual:
+      recommended: ["audioAnalysis", "audioSet", "audioSpectrum"]
+      use_for: "Beat detection, frequency analysis, audio reactivity"
+
+    installation_art:
+      recommended: ["kantanMapper", "projectorBlend", "stoner", "multiTouch"]
+      use_for: "Projection mapping, multi-display, interactive"
+
+    vj_performance:
+      recommended: ["blendModes", "feedback", "bloom", "TDAbleton/*"]
+      use_for: "Live mixing, effects, DAW integration"
+
+    ui_systems:
+      recommended: ["UI/Basic Widgets/*", "slider2D", "buttonRadio"]
+      use_for: "Control interfaces, parameter adjustment"
+
+# Confidence and validation
+validation:
+  require_mood_mapping: true
+  require_color_palette: true
+  min_technical_hints: 2
+  confidence_threshold: 0.6

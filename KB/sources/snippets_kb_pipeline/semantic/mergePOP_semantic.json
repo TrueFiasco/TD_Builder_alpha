@@ -1,0 +1,295 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\mergePOP_lossless.json",
+  "operator_type": "mergePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "sizex": 2.5,
+            "sizey": 1,
+            "sizez": 1
+          }
+        },
+        {
+          "name": "tube1",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 0.8,
+            "rady": 0.5
+          }
+        },
+        {
+          "name": "group1",
+          "type": "POP:group",
+          "parameters": {
+            "grname": "cone",
+            "entity": "primitive"
+          }
+        },
+        {
+          "name": "group2",
+          "type": "POP:group",
+          "parameters": {
+            "grname": "ring",
+            "entity": "primitive"
+          }
+        },
+        {
+          "name": "group3",
+          "type": "POP:group",
+          "parameters": {
+            "grname": "rect",
+            "entity": "primitive"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\""
+          }
+        },
+        {
+          "name": "merge2",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\""
+          }
+        },
+        {
+          "name": "merge3",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\"",
+            "input2pop": "\"\"",
+            "input2groupentity": "point",
+            "input2group": "\"\""
+          }
+        },
+        {
+          "name": "merge4",
+          "type": "POP:merge",
+          "parameters": {
+            "uniquegroupname": "on",
+            "input0group": "ring",
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "rect"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.1
+          }
+        },
+        {
+          "name": "xopto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "group3",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "POP:delete",
+          "parameters": {}
+        },
+        {
+          "name": "switch1",
+          "type": "POP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "minindex": "on",
+            "maxindex": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "color",
+            "attr0value1": 1,
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "attribute2",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "color",
+            "attr0value2": 1,
+            "attr0value3": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube1",
+          "to": "group1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "group2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "group3",
+          "to_input": "0"
+        },
+        {
+          "from": "group3",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "group1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "group1",
+          "to": "merge2",
+          "to_input": "0"
+        },
+        {
+          "from": "group2",
+          "to": "merge2",
+          "to_input": "1"
+        },
+        {
+          "from": "group1",
+          "to": "merge3",
+          "to_input": "0"
+        },
+        {
+          "from": "group2",
+          "to": "merge3",
+          "to_input": "1"
+        },
+        {
+          "from": "group3",
+          "to": "merge3",
+          "to_input": "2"
+        },
+        {
+          "from": "attribute1",
+          "to": "merge4",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "merge4",
+          "to_input": "1"
+        },
+        {
+          "from": "group3",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "group1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "group2",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "group3",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "merge3",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge2",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "attribute2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 19,
+        "operator_types": {
+          "DAT:eval": 1,
+          "POP:grid": 1,
+          "POP:tube": 1,
+          "POP:group": 3,
+          "POP:merge": 4,
+          "DAT:popto": 2,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:delete": 1,
+          "POP:switch": 1,
+          "POP:analyze": 1,
+          "COMP:annotate": 1,
+          "POP:attribute": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "operator": "Reorder_DAT",
+  "family": "DAT",
+  "td_create_name": "reorderDAT",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "reorder": {
+      "value": {
+        "type": "menu",
+        "value": "col",
+        "menuIndex": 1,
+        "menuNames": [
+          "row",
+          "col"
+        ],
+        "menuLabels": [
+          "Rows",
+          "Columns"
+        ]
+      },
+      "default": "col",
+      "page": "Reorder",
+      "label": "Reorder",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "replaceindices",
+        "menuIndex": 2,
+        "menuNames": [
+          "reverse",
+          "replacenames",
+          "replaceindices",
+          "swapnames",
+          "swapindices",
+          "specifyname",
+          "specifyindex"
+        ],
+        "menuLabels": [
+          "Reverse",
+          "Replace by Names",
+          "Replace by Indices",
+          "Swap by Names",
+          "Swap by Indices",
+          "In Specified Order by Name",
+          "In Specified Order by Index"
+        ]
+      },
+      "default": "replaceindices",
+      "page": "Reorder",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "before": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Reorder",
+      "label": "Before",
+      "readOnly": false,
+      "expression": null
+    },
+    "after": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Reorder",
+      "label": "After",
+      "readOnly": false,
+      "expression": null
+    },
+    "order": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Reorder",
+      "label": "Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "delete": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Reorder",
+      "label": "Delete Unspecified",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

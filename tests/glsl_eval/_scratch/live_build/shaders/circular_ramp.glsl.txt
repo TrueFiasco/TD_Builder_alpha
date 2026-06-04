@@ -1,0 +1,10 @@
+uniform vec3 uTint;
+// circular ramp, uTint source-declared
+out vec4 fragColor;
+void main(){
+    vec2 uv = vUV.st;
+    float r = length(uv - 0.5);
+    float ramp = 0.5 + 0.5*sin(40.0*r);
+    vec3 c = uTint*ramp + 0.2*uv.x;
+    fragColor = TDOutputSwizzle(vec4(c, 1.0));
+}

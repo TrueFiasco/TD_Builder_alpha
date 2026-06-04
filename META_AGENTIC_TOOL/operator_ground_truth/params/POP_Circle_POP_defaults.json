@@ -1,0 +1,444 @@
+{
+  "operator": "Circle_POP",
+  "family": "POP",
+  "td_create_name": "circlePOP",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 17,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "connectivity": {
+      "value": {
+        "type": "menu",
+        "value": "linestrip",
+        "menuIndex": 3,
+        "menuNames": [
+          "none",
+          "points",
+          "surface",
+          "linestrip",
+          "lines"
+        ],
+        "menuLabels": [
+          "None",
+          "Point Primitives",
+          "Surface",
+          "Line Strip",
+          "Lines"
+        ]
+      },
+      "default": "linestrip",
+      "page": "Circle",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "orient": {
+      "value": {
+        "type": "menu",
+        "value": "xy",
+        "menuIndex": 0,
+        "menuNames": [
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "menuLabels": [
+          "XY Plane",
+          "YZ Plane",
+          "ZX Plane"
+        ]
+      },
+      "default": "xy",
+      "page": "Circle",
+      "label": "Orientation",
+      "readOnly": false,
+      "expression": null
+    },
+    "modifybounds": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Circle",
+      "label": "Modify Bounds",
+      "readOnly": false,
+      "expression": null
+    },
+    "radx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Circle",
+      "label": "Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "rady": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Circle",
+      "label": "Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "divs": {
+      "value": {
+        "type": "int",
+        "value": 40
+      },
+      "default": 40,
+      "page": "Circle",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "closed": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Circle",
+      "label": "Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "beginangle": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Arc Angles",
+      "readOnly": false,
+      "expression": null
+    },
+    "endangle": {
+      "value": {
+        "type": "float",
+        "value": 330.0
+      },
+      "default": 330.0,
+      "page": "Circle",
+      "label": "Arc Angles",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchoru": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Circle",
+      "label": "Anchor U",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Circle",
+      "label": "Anchor V",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Circle",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Circle",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "menu",
+        "value": "pointNormals",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "pointNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point"
+        ]
+      },
+      "default": "pointNormals",
+      "page": "Circle",
+      "label": "Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "normaldirection": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "radial",
+          "tangent"
+        ],
+        "menuLabels": [
+          "Default",
+          "Radial",
+          "Tangent"
+        ]
+      },
+      "default": "default",
+      "page": "Circle",
+      "label": "Normal Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "tangent": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "pointNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point"
+        ]
+      },
+      "default": "none",
+      "page": "Circle",
+      "label": "Tangent",
+      "readOnly": false,
+      "expression": null
+    },
+    "tangentdirection": {
+      "value": {
+        "type": "menu",
+        "value": "radial",
+        "menuIndex": 0,
+        "menuNames": [
+          "radial",
+          "Tangent"
+        ],
+        "menuLabels": [
+          "Radial",
+          "Tangent"
+        ]
+      },
+      "default": "radial",
+      "page": "Circle",
+      "label": "Tangent Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "menu",
+        "value": "pointNormals",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex"
+        ]
+      },
+      "default": "pointNormals",
+      "page": "Circle",
+      "label": "Texture Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

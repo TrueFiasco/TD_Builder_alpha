@@ -1,0 +1,292 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiodeviceoutCHOP_lossless.json",
+  "operator_type": "audiodeviceoutCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 3,
+            "chopop": "mul"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "audioosci1",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timeslice1",
+          "type": "CHOP:timeslice",
+          "parameters": {
+            "method": "linear",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "adjustSlider",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.15
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "note_audiodevout",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audioosci1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "timeslice1",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "adjustSlider",
+          "to": "timeslice1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:math": 1,
+          "DAT:text": 2,
+          "CHOP:audioosci": 1,
+          "CHOP:timeslice": 1,
+          "CHOP:constant": 1,
+          "CHOP:audiodevout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiodevout3",
+            "iscope": "total_cooks",
+            "passive": "on",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "null5",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "volume",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 7,
+            "label": "volume",
+            "value0": 0.3333,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Active",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "volume_",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "volume__export"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null5",
+            "offtoon": "on",
+            "ontooff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "audioosci5",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "wavetype": "tri",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audioosci6",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "wavetype": "tri",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "active_onoff",
+          "type": "CHOP:logic",
+          "parameters": {
+            "timeslice": "on",
+            "exporttable": "active_onoff_export"
+          }
+        },
+        {
+          "name": "audiodevout2",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "bufferlength": 0.25,
+            "volume": 0.182,
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout3",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "bufferlength": 0.25,
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "volume__export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 1,
+            "language": "text"
+          }
+        },
+        {
+          "name": "active_onoff_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null5",
+          "to_input": "0"
+        },
+        {
+          "from": "volume/out1",
+          "to": "volume_",
+          "to_input": "0"
+        },
+        {
+          "from": "volume_",
+          "to": "active_onoff",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci5",
+          "to": "audiodevout2",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci6",
+          "to": "audiodevout3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:info": 1,
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "COMP:slider": 1,
+          "COMP:button": 1,
+          "DAT:chopexec": 1,
+          "CHOP:audioosci": 2,
+          "CHOP:logic": 1,
+          "CHOP:audiodevout": 2,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

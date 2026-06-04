@@ -1,0 +1,525 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\phaserPOP_lossless.json",
+  "operator_type": "phaserPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "offset": 0.5,
+            "amp": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "copy2",
+          "type": "POP:copy",
+          "parameters": {
+            "dotemplatescale": "on",
+            "scaleattrib": "Phase"
+          }
+        },
+        {
+          "name": "line2",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "line3",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "phaser3"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "phaser3",
+          "type": "POP:phaser",
+          "parameters": {
+            "phaseattrscope": "P.x",
+            "fromhigh0": 10
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "line3",
+          "to": "copy2",
+          "to_input": "0"
+        },
+        {
+          "from": "phaser3",
+          "to": "copy2",
+          "to_input": "1"
+        },
+        {
+          "from": "line2",
+          "to": "phaser3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "POP:copy": 1,
+          "POP:line": 2,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "POP:phaser": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "tri",
+            "offset": 0.5,
+            "amp": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "copy2",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "dotemplatescale": "on",
+            "scaleattrib": "Phase"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "rx": 90
+          }
+        },
+        {
+          "name": "line3",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "type": "circular",
+            "extendleft": "hold",
+            "interpspace": "perceptual",
+            "interpnotches": "hermite",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "phaser3",
+            "attribscope": "Phase"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "phaser3",
+          "type": "POP:phaser",
+          "parameters": {
+            "phaseattrscope": "Shape",
+            "edge0": 0.5,
+            "smoothstep0": "on",
+            "castto": "float"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "ramp1",
+            "lookupindexattr0": "Tex(0)",
+            "lookupindexattr1": "Tex(1)",
+            "channelmask": 1,
+            "outputattrscope": "Shape"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "line3",
+          "to": "copy2",
+          "to_input": "0"
+        },
+        {
+          "from": "phaser3",
+          "to": "copy2",
+          "to_input": "1"
+        },
+        {
+          "from": "lookuptex1",
+          "to": "phaser3",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "POP:copy": 1,
+          "POP:grid": 1,
+          "POP:line": 1,
+          "TOP:ramp": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:phaser": 1,
+          "POP:lookuptex": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "POP:box",
+          "parameters": {
+            "sizex": 0.03,
+            "sizey": 0.03,
+            "sizez": 0.03
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "tri",
+            "offset": 0.5,
+            "amp": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "copy2",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "dotemplaterotate": "on",
+            "scaleattrib": "Phase"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "rx": 90
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "extendleft": "hold",
+            "extendright": "hold",
+            "interpspace": "linear",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "extendleft": "hold",
+            "extendright": "hold",
+            "interpspace": "linear",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "ramp3",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp3_keys",
+            "extendleft": "hold",
+            "extendright": "hold",
+            "interpspace": "linear",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "ramp4",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp4_keys",
+            "extendleft": "hold",
+            "extendright": "hold",
+            "interpspace": "linear",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "threshup": 0.01,
+            "triggeron": "decrease",
+            "output": "loop",
+            "limitmax": 3,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "phaser3",
+          "type": "POP:phaser",
+          "parameters": {
+            "phaseattrscope": "Shape",
+            "edge0": 0.25,
+            "castto": "float"
+          }
+        },
+        {
+          "name": "readMe1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "Phase",
+            "comb0scopeb": 180,
+            "comb0result": "Rot.x",
+            "comb1oper": "mult",
+            "comb1scopea": "Phase",
+            "comb1scopeb": 90,
+            "comb1scopec": "\"\"",
+            "comb1result": "Rot.z"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0customname": "Rot",
+            "attr0numcomps": 3
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "switch1",
+            "lookupindexattr0": "Tex(0)",
+            "lookupindexattr1": "Tex(1)",
+            "inputextend0": "hold",
+            "inputextend1": "hold",
+            "inputextend2": "hold",
+            "channelmask": 1,
+            "outputattrscope": "Shape"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "Color.rgb"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp4_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "normalize1",
+          "to": "copy2",
+          "to_input": "0"
+        },
+        {
+          "from": "mathmix1",
+          "to": "copy2",
+          "to_input": "1"
+        },
+        {
+          "from": "count1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookuptex1",
+          "to": "phaser3",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "ramp4",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "ramp3",
+          "to": "switch1",
+          "to_input": "3"
+        },
+        {
+          "from": "attribute1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "phaser3",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "normalize1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 13,
+        "operator_types": {
+          "POP:box": 1,
+          "CHOP:lfo": 1,
+          "POP:copy": 1,
+          "POP:grid": 1,
+          "CHOP:null": 1,
+          "TOP:ramp": 4,
+          "CHOP:count": 1,
+          "DAT:text": 2,
+          "POP:phaser": 1,
+          "TOP:switch": 1,
+          "POP:mathmix": 1,
+          "POP:attribute": 1,
+          "POP:lookuptex": 1,
+          "POP:normalize": 1,
+          "DAT:table": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    }
+  ]
+}

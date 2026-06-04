@@ -1,0 +1,250 @@
+{
+  "operator": "Spring_CHOP",
+  "family": "CHOP",
+  "td_create_name": "springCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "springk": {
+      "value": {
+        "type": "float",
+        "value": 100.0
+      },
+      "default": 100.0,
+      "page": "Spring",
+      "label": "Spring Constant",
+      "readOnly": false,
+      "expression": null
+    },
+    "mass": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Spring",
+      "label": "Mass",
+      "readOnly": false,
+      "expression": null
+    },
+    "dampingk": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Spring",
+      "label": "Damping Constant",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "disp",
+        "menuIndex": 0,
+        "menuNames": [
+          "disp",
+          "force"
+        ],
+        "menuLabels": [
+          "Position",
+          "Force"
+        ]
+      },
+      "default": "disp",
+      "page": "Spring",
+      "label": "Input Effect",
+      "readOnly": false,
+      "expression": null
+    },
+    "condfromchan": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Spring",
+      "label": "Intial Conditions from Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "initpos": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Spring",
+      "label": "Initial Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "initspeed": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Spring",
+      "label": "Initial Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "springsamples": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Spring",
+      "label": "Spring per Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Spring",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Spring",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

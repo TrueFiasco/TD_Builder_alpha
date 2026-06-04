@@ -1,0 +1,135 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\rectangleSOP_lossless.json",
+  "operator_type": "rectangleSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rectangle_xy",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "rectangle_yz",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "orient": "yz",
+            "tx": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "rectangle_zx",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "orient": "zx",
+            "ty": -1,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "rectangle_xy",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle_yz",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "rectangle_zx",
+          "to": "merge1",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:rectangle": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -1.37208e-07,
+            "ty": 3.95386e-08,
+            "tz": 5,
+            "rx": 350.52,
+            "ry": 509.319,
+            "rz": -22.0785,
+            "px": 1.73925e-07,
+            "py": -6.95909e-09,
+            "pz": -1.06467e-07,
+            "orthowidth": 1,
+            "aperture": 44.1,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rectangle_fill_camera",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "orient": "cam",
+            "camera": "cam1",
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:cam": 1,
+          "DAT:text": 1,
+          "SOP:rectangle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

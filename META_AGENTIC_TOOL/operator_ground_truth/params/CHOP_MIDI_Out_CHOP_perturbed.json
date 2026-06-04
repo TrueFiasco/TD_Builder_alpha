@@ -1,0 +1,229 @@
+{
+  "operator": "MIDI_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "midioutCHOP",
+  "param_count": 36,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "destination": {
+      "type": "menu",
+      "value": "file",
+      "menuIndex": 1,
+      "menuNames": [
+        "device",
+        "file"
+      ],
+      "menuLabels": [
+        "Device",
+        "File"
+      ]
+    },
+    "device": {
+      "type": "op",
+      "value": "/local/midi/device"
+    },
+    "id": {
+      "type": "string",
+      "value": "1_perturbed"
+    },
+    "onebased": {
+      "type": "toggle",
+      "value": false
+    },
+    "file": {
+      "type": "string",
+      "value": "untitled.midi_perturbed"
+    },
+    "writefile": {
+      "type": "pulse",
+      "value": null
+    },
+    "prefix": {
+      "type": "string",
+      "value": "ch_perturbed"
+    },
+    "cookalways": {
+      "type": "toggle",
+      "value": false
+    },
+    "autonoteoff": {
+      "type": "menu",
+      "value": "both",
+      "menuIndex": 3,
+      "menuNames": [
+        "none",
+        "start",
+        "end",
+        "both"
+      ],
+      "menuLabels": [
+        "None",
+        "At Playback Start",
+        "At Playback End",
+        "At Playback Start and End"
+      ]
+    },
+    "reset": {
+      "type": "pulse",
+      "value": null
+    },
+    "volumeoff": {
+      "type": "pulse",
+      "value": null
+    },
+    "volumeon": {
+      "type": "pulse",
+      "value": null
+    },
+    "startstop": {
+      "type": "toggle",
+      "value": true
+    },
+    "sendmtc": {
+      "type": "toggle",
+      "value": true
+    },
+    "timecodeop": {
+      "type": "op",
+      "value": ""
+    },
+    "notename": {
+      "type": "string",
+      "value": "n_perturbed"
+    },
+    "aftername": {
+      "type": "string",
+      "value": "a_perturbed"
+    },
+    "pressname": {
+      "type": "string",
+      "value": "pr_perturbed"
+    },
+    "notenorm": {
+      "type": "menu",
+      "value": "off",
+      "menuIndex": 0,
+      "menuNames": [
+        "off",
+        "0to1"
+      ],
+      "menuLabels": [
+        "None",
+        "0 to 1"
+      ]
+    },
+    "pitchname": {
+      "type": "string",
+      "value": "pw_perturbed"
+    },
+    "controlname": {
+      "type": "string",
+      "value": "c_perturbed"
+    },
+    "controlformat": {
+      "type": "menu",
+      "value": "14bit",
+      "menuIndex": 1,
+      "menuNames": [
+        "7bit",
+        "14bit"
+      ],
+      "menuLabels": [
+        "7 bit Controllers",
+        "14 bit Controllers"
+      ]
+    },
+    "controlnorm": {
+      "type": "menu",
+      "value": "-1to1",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "0to1",
+        "-1to1",
+        "onoff"
+      ],
+      "menuLabels": [
+        "None",
+        "0 to 1",
+        "-1 to 1",
+        "On/Off"
+      ]
+    },
+    "progname": {
+      "type": "string",
+      "value": "pc_perturbed"
+    },
+    "barname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "barticks": {
+      "type": "int",
+      "value": 97
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

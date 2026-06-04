@@ -1,0 +1,476 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDVR\\World Objects\\environmentLight.tox.dir",
+    "build_version": "099",
+    "build_date": "Mon Jul 22 21:31:47 2019",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2019.17400"
+  },
+  "operators": {
+    "/environmentLight": {
+      "name": "environmentLight",
+      "path": "/environmentLight",
+      "op_type": "COMP:environment",
+      "family": "COMP",
+      "specific_type": "environment",
+      "viewport_pos": [
+        879.353,
+        630.403,
+        1.46201
+      ],
+      "tile_pos": [
+        400,
+        -1000,
+        160,
+        130
+      ],
+      "color": [
+        0.0,
+        0.453333,
+        0.68
+      ],
+      "flags": {
+        "picked": "on",
+        "render": "on",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 4,
+        "envlightmap": "./envMap",
+        "parentshortcut": "Env",
+        "Skydome": {
+          "64": "on"
+        }
+      },
+      "parent": null,
+      "children": [
+        "out1",
+        "envMap",
+        "phong1",
+        "skyGeo",
+        "hsvadj1",
+        "sphere1",
+        "moviefilein1",
+        "attribcreate1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Settings\n772804867 Skydome Skydome 1 1 0 0 1 1 1 0 0 \"\" Settings 0\n?\n",
+          "is_binary": false
+        },
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/environmentLight/out1": {
+      "name": "out1",
+      "path": "/environmentLight/out1",
+      "op_type": "SOP:out",
+      "family": "SOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {
+        "0": "attribcreate1"
+      },
+      "extra_files": {}
+    },
+    "/environmentLight/envMap": {
+      "name": "envMap",
+      "path": "/environmentLight/envMap",
+      "op_type": "TOP:null",
+      "family": "TOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {
+        "0": "hsvadj1"
+      },
+      "extra_files": {}
+    },
+    "/environmentLight/phong1": {
+      "name": "phong1",
+      "path": "/environmentLight/phong1",
+      "op_type": "MAT:phong",
+      "family": "MAT",
+      "specific_type": "phong",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "ambdiff": "off",
+        "diffr": 0,
+        "diffg": 0,
+        "diffb": 0,
+        "ambr": 0,
+        "ambg": 0,
+        "ambb": 0,
+        "specr": 0,
+        "specg": 0,
+        "specb": 0,
+        "constantr": 1,
+        "constantg": 1,
+        "constantb": 1,
+        "colormap": "envMap",
+        "skelrootpath": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/environmentLight/skyGeo": {
+      "name": "skyGeo",
+      "path": "/environmentLight/skyGeo",
+      "op_type": "COMP:geo",
+      "family": "COMP",
+      "specific_type": "geo",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "render": "on",
+        "display": "on",
+        "pickable": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 4,
+        "rx": {
+          "49": "0 parent().par.envlightmaprotatex"
+        },
+        "ry": {
+          "49": "0 parent().par.envlightmaprotatey"
+        },
+        "rz": {
+          "49": "0 parent().par.envlightmaprotatez"
+        },
+        "scale": 10000,
+        "material": "phong1",
+        "render": {
+          "49": "on parent.Env.par.Skydome"
+        }
+      },
+      "parent": "/environmentLight",
+      "children": [
+        "in1",
+        "out1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \tout1\n\tin1\n\tSOP\n}\nend\n",
+          "is_binary": false
+        },
+        "gnode": {
+          "content": "1\nUT_DMatrix4 10000 0 0 0 0 10000 0 0 0 0 10000 0 0 0 0 1\nUT_DMatrix4 10000 0 0 0 0 10000 0 0 0 0 10000 0 0 0 0 1\nUT_DMatrix4 10000 0 0 0 0 10000 0 0 0 0 10000 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/environmentLight/skyGeo/in1": {
+      "name": "in1",
+      "path": "/environmentLight/skyGeo/in1",
+      "op_type": "SOP:in",
+      "family": "SOP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "16": "0 me.name"
+        }
+      },
+      "parent": "/environmentLight/skyGeo",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/environmentLight/skyGeo/out1": {
+      "name": "out1",
+      "path": "/environmentLight/skyGeo/out1",
+      "op_type": "SOP:out",
+      "family": "SOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        195,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "render": "on",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/environmentLight/skyGeo",
+      "children": [],
+      "inputs": {
+        "0": "in1"
+      },
+      "extra_files": {}
+    },
+    "/environmentLight/hsvadj1": {
+      "name": "hsvadj1",
+      "path": "/environmentLight/hsvadj1",
+      "op_type": "TOP:hsvadj",
+      "family": "TOP",
+      "specific_type": "hsvadj",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {
+        "0": "moviefilein1"
+      },
+      "extra_files": {}
+    },
+    "/environmentLight/sphere1": {
+      "name": "sphere1",
+      "path": "/environmentLight/sphere1",
+      "op_type": "SOP:sphere",
+      "family": "SOP",
+      "specific_type": "sphere",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "type": "poly",
+        "freq": 10
+      },
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/environmentLight/moviefilein1": {
+      "name": "moviefilein1",
+      "path": "/environmentLight/moviefilein1",
+      "op_type": "TOP:moviefilein",
+      "family": "TOP",
+      "specific_type": "moviefilein",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "49": "app.samplesFolder+'/Map/Banana.tif' \"app.samplesFolder + '/Map/CloudyOcean_2Kx1K_8bit.tif'\""
+        }
+      },
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/environmentLight/attribcreate1": {
+      "name": "attribcreate1",
+      "path": "/environmentLight/attribcreate1",
+      "op_type": "SOP:attribcreate",
+      "family": "SOP",
+      "specific_type": "attribcreate",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "compnml": "on",
+        "comptang": "on"
+      },
+      "parent": "/environmentLight",
+      "children": [],
+      "inputs": {
+        "0": "sphere1"
+      },
+      "extra_files": {}
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2019.17400\ntime Mon Jul 22 21:31:47 2019\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "environmentLight.n",
+    "environmentLight.cparm",
+    "environmentLight.parm",
+    "environmentLight.gnode",
+    "environmentLight/out1.n",
+    "environmentLight/envMap.n",
+    "environmentLight/phong1.n",
+    "environmentLight/phong1.parm",
+    "environmentLight/skyGeo.n",
+    "environmentLight/skyGeo.parm",
+    "environmentLight/skyGeo.network",
+    "environmentLight/skyGeo.gnode",
+    "environmentLight/skyGeo/in1.n",
+    "environmentLight/skyGeo/in1.parm",
+    "environmentLight/skyGeo/out1.n",
+    "environmentLight/hsvadj1.n",
+    "environmentLight/sphere1.n",
+    "environmentLight/sphere1.parm",
+    "environmentLight/moviefilein1.n",
+    "environmentLight/moviefilein1.parm",
+    "environmentLight/attribcreate1.n",
+    "environmentLight/attribcreate1.parm"
+  ],
+  "connections": [
+    {
+      "from": "attribcreate1",
+      "to": "/environmentLight/out1",
+      "to_input": 0
+    },
+    {
+      "from": "hsvadj1",
+      "to": "/environmentLight/envMap",
+      "to_input": 0
+    },
+    {
+      "from": "in1",
+      "to": "/environmentLight/skyGeo/out1",
+      "to_input": 0
+    },
+    {
+      "from": "moviefilein1",
+      "to": "/environmentLight/hsvadj1",
+      "to_input": 0
+    },
+    {
+      "from": "sphere1",
+      "to": "/environmentLight/attribcreate1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 11,
+    "total_connections": 5,
+    "total_raw_files": 1,
+    "total_extra_files": 4,
+    "total_files_captured": 24,
+    "by_family": {
+      "COMP": 2,
+      "SOP": 5,
+      "TOP": 3,
+      "MAT": 1
+    },
+    "by_type": {
+      "COMP:environment": 1,
+      "SOP:out": 2,
+      "TOP:null": 1,
+      "MAT:phong": 1,
+      "COMP:geo": 1,
+      "SOP:in": 1,
+      "TOP:hsvadj": 1,
+      "SOP:sphere": 1,
+      "TOP:moviefilein": 1,
+      "SOP:attribcreate": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 32
+  }
+}

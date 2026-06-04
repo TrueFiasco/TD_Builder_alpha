@@ -1,0 +1,936 @@
+{
+  "operator": "Pattern_POP",
+  "family": "POP",
+  "td_create_name": "patternPOP",
+  "param_count": 62,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 29,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "numpoints": {
+      "value": {
+        "type": "int",
+        "value": 100
+      },
+      "default": 100,
+      "page": "Pattern",
+      "label": "Number of Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "cyclic": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Cyclic",
+      "readOnly": false,
+      "expression": null
+    },
+    "connectivity": {
+      "value": {
+        "type": "menu",
+        "value": "linestrip",
+        "menuIndex": 2,
+        "menuNames": [
+          "none",
+          "points",
+          "linestrip",
+          "lines"
+        ],
+        "menuLabels": [
+          "None",
+          "Point Primitives",
+          "Line Strip",
+          "Lines"
+        ]
+      },
+      "default": "linestrip",
+      "page": "Pattern",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "parsize": {
+      "value": {
+        "type": "menu",
+        "value": "3",
+        "menuIndex": 2,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "3",
+      "page": "Pattern",
+      "label": "Parameter Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "type0": {
+      "value": {
+        "type": "menu",
+        "value": "ramp",
+        "menuIndex": 2,
+        "menuNames": [
+          "zero",
+          "one",
+          "ramp",
+          "rampupdown",
+          "easein",
+          "easeout",
+          "easeinout",
+          "easeupdown",
+          "sin",
+          "cos",
+          "tri",
+          "square",
+          "pulse",
+          "random",
+          "randomcycle",
+          "index"
+        ],
+        "menuLabels": [
+          "Zero",
+          "One",
+          "Ramp",
+          "Ramp Up Down",
+          "Ease In",
+          "Ease Out",
+          "Ease In Ease Out",
+          "Ease Up Ease Down",
+          "Sine",
+          "Cosine",
+          "Triangle",
+          "Square",
+          "Pulse",
+          "Random",
+          "Random Step per Cycle",
+          "Index"
+        ]
+      },
+      "default": "ramp",
+      "page": "Pattern",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "type1": {
+      "value": {
+        "type": "menu",
+        "value": "sin",
+        "menuIndex": 8,
+        "menuNames": [
+          "zero",
+          "one",
+          "ramp",
+          "rampupdown",
+          "easein",
+          "easeout",
+          "easeinout",
+          "easeupdown",
+          "sin",
+          "cos",
+          "tri",
+          "square",
+          "pulse",
+          "random",
+          "randomcycle",
+          "index"
+        ],
+        "menuLabels": [
+          "Zero",
+          "One",
+          "Ramp",
+          "Ramp Up Down",
+          "Ease In",
+          "Ease Out",
+          "Ease In Ease Out",
+          "Ease Up Ease Down",
+          "Sine",
+          "Cosine",
+          "Triangle",
+          "Square",
+          "Pulse",
+          "Random",
+          "Random Step per Cycle",
+          "Index"
+        ]
+      },
+      "default": "sin",
+      "page": "Pattern",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "type2": {
+      "value": {
+        "type": "menu",
+        "value": "zero",
+        "menuIndex": 0,
+        "menuNames": [
+          "zero",
+          "one",
+          "ramp",
+          "rampupdown",
+          "easein",
+          "easeout",
+          "easeinout",
+          "easeupdown",
+          "sin",
+          "cos",
+          "tri",
+          "square",
+          "pulse",
+          "random",
+          "randomcycle",
+          "index"
+        ],
+        "menuLabels": [
+          "Zero",
+          "One",
+          "Ramp",
+          "Ramp Up Down",
+          "Ease In",
+          "Ease Out",
+          "Ease In Ease Out",
+          "Ease Up Ease Down",
+          "Sine",
+          "Cosine",
+          "Triangle",
+          "Square",
+          "Pulse",
+          "Random",
+          "Random Step per Cycle",
+          "Index"
+        ]
+      },
+      "default": "zero",
+      "page": "Pattern",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "numcycles0": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Number of Cycles",
+      "readOnly": false,
+      "expression": null
+    },
+    "numcycles1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Number of Cycles",
+      "readOnly": false,
+      "expression": null
+    },
+    "numcycles2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Number of Cycles",
+      "readOnly": false,
+      "expression": null
+    },
+    "steppercycle0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Step per Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "steppercycle1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Step per Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "steppercycle2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Step per Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "exp0": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Exponent",
+      "readOnly": false,
+      "expression": null
+    },
+    "exp1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Exponent",
+      "readOnly": false,
+      "expression": null
+    },
+    "exp2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Exponent",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromlow0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map from Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromlow1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map from Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromlow2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map from Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromhigh0": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map from High",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromhigh1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map from High",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromhigh2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map from High",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolow0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map to Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolow1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map to Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolow2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Map to Low",
+      "readOnly": false,
+      "expression": null
+    },
+    "tohigh0": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map to High",
+      "readOnly": false,
+      "expression": null
+    },
+    "tohigh1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map to High",
+      "readOnly": false,
+      "expression": null
+    },
+    "tohigh2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Map to High",
+      "readOnly": false,
+      "expression": null
+    },
+    "reverse0": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Reverse",
+      "readOnly": false,
+      "expression": null
+    },
+    "reverse1": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Reverse",
+      "readOnly": false,
+      "expression": null
+    },
+    "reverse2": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Reverse",
+      "readOnly": false,
+      "expression": null
+    },
+    "linebreakcycle0": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Line Break Each Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "linebreakcycle1": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Line Break Each Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "linebreakcycle2": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Line Break Each Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "closed": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputlinebreakattr": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Output Line Break Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "menu",
+        "value": "rampstartend",
+        "menuIndex": 1,
+        "menuNames": [
+          "off",
+          "rampstartend",
+          "ramppercycle"
+        ],
+        "menuLabels": [
+          "Off",
+          "Ramp Start to End",
+          "Ramp Per Cycle"
+        ]
+      },
+      "default": "rampstartend",
+      "page": "Pattern",
+      "label": "Texture Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "combineop": {
+      "value": {
+        "type": "menu",
+        "value": "set",
+        "menuIndex": 0,
+        "menuNames": [
+          "set",
+          "add",
+          "mult"
+        ],
+        "menuLabels": [
+          "Set",
+          "Add",
+          "Multiply"
+        ]
+      },
+      "default": "set",
+      "page": "Pattern",
+      "label": "Combine Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "combineattrscope": {
+      "value": {
+        "type": "string",
+        "value": "P"
+      },
+      "default": "P",
+      "page": "Pattern",
+      "label": "Combine Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputattrscope": {
+      "value": {
+        "type": "string",
+        "value": "P"
+      },
+      "default": "P",
+      "page": "Pattern",
+      "label": "Output Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "overrideautoattr": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Override Automatic Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrtype": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Pattern",
+      "label": "Attribute Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrnumcomps": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 2,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Pattern",
+      "label": "Components",
+      "readOnly": false,
+      "expression": "me.par.vecsize"
+    },
+    "attrdefaultval0": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Pattern",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultval1": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Pattern",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultval2": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Pattern",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultval3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Pattern",
+      "label": "Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Pattern",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

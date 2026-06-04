@@ -1,0 +1,178 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\twistSOP_lossless.json",
+  "operator_type": "twistSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "tube1",
+          "type": "SOP:tube",
+          "parameters": {
+            "pageindex": 1,
+            "reverseanchors": "on",
+            "rows": 40
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "twist_x",
+          "type": "SOP:twist",
+          "parameters": {
+            "strength": 67
+          }
+        },
+        {
+          "name": "twist_rolloff",
+          "type": "SOP:twist",
+          "parameters": {
+            "paxis": "z",
+            "strength": 65,
+            "roll": 22.4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube1",
+          "to": "twist_x",
+          "to_input": "0"
+        },
+        {
+          "from": "tube1",
+          "to": "twist_rolloff",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:tube": 1,
+          "DAT:text": 1,
+          "SOP:twist": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "legacyparsing": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "twist_bend",
+          "type": "SOP:twist",
+          "parameters": {
+            "op": "bend",
+            "paxis": "y",
+            "saxis": "x",
+            "strength": 60
+          }
+        },
+        {
+          "name": "twist_shear",
+          "type": "SOP:twist",
+          "parameters": {
+            "op": "shear"
+          }
+        },
+        {
+          "name": "twist_taper",
+          "type": "SOP:twist",
+          "parameters": {
+            "op": "taper",
+            "paxis": "y",
+            "saxis": "x",
+            "strength": 1.5
+          }
+        },
+        {
+          "name": "twist_linear_taper",
+          "type": "SOP:twist",
+          "parameters": {
+            "op": "ltaper",
+            "paxis": "y",
+            "saxis": "x",
+            "strength": 6
+          }
+        },
+        {
+          "name": "twist_squash_and_stretch",
+          "type": "SOP:twist",
+          "parameters": {
+            "op": "squash",
+            "paxis": "y",
+            "saxis": "x",
+            "strength": 1.5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "twist_bend",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "twist_shear",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "twist_taper",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "twist_linear_taper",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "twist_squash_and_stretch",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:twist": 5
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

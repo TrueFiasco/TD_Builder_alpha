@@ -1,0 +1,3797 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\_conceptsPOP_lossless.json",
+  "operator_type": "_conceptsPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 4,
+            "rows": 3
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle5",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle6",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "circle4",
+            "nameformat": "basic",
+            "attribscope": "*",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "convert1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attconvert1"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attconvert1",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "grid1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 12,
+            "beginangle": 10,
+            "endangle": 300,
+            "normaldirection": "radial"
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10
+          }
+        },
+        {
+          "name": "circle4",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "divs": 9,
+            "texture": "vertNormals"
+          }
+        },
+        {
+          "name": "circle5",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "points"
+          }
+        },
+        {
+          "name": "circle6",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "lines"
+          }
+        },
+        {
+          "name": "circle7",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "divs": 17
+          }
+        },
+        {
+          "name": "circle8",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 12,
+            "normaldirection": "radial"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "POP:convert",
+          "parameters": {
+            "convert": "tolinestrips"
+          }
+        },
+        {
+          "name": "comment10",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "popViewer",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 6,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attrclass": "primitive",
+            "attr0customname": "Thing",
+            "attr0value0": 0.5,
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "attconvert1",
+          "type": "POP:attconvert",
+          "parameters": {
+            "convertop": "pointtovert",
+            "inputattrs": "N",
+            "newattrs": "N"
+          }
+        },
+        {
+          "name": "popto_points",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle2"
+          }
+        },
+        {
+          "name": "popto_points1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle4"
+          }
+        },
+        {
+          "name": "popto_vertices",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle2",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto_vertices1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle4",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto_primitives",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle2",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto_primitives1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle4",
+            "extract": "primitives"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle7",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle8",
+          "to": "attconvert1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 38,
+        "connection_count": 3,
+        "operator_types": {
+          "POP:grid": 1,
+          "DAT:popto": 13,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:circle": 8,
+          "COMP:annotate": 10,
+          "POP:convert": 1,
+          "COMP:container": 1,
+          "POP:attribute": 1,
+          "POP:attconvert": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('attribute1').pointAttributes"
+          }
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "mult0": 0.1,
+            "outputattrscope": "PScaled"
+          }
+        },
+        {
+          "name": "tube1",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 0.3,
+            "rady": 0.3,
+            "cols": 22,
+            "rows": 5
+          }
+        },
+        {
+          "name": "tube2",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 0.3,
+            "rady": 0.3,
+            "cols": 22,
+            "rows": 5
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute_Color",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "math1",
+            "nameformat": "basic",
+            "attribscope": "\"P PScaled\"",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "pattern1"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "sphere1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "normalize1"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "pattern1",
+            "nameformat": "basic",
+            "attribscope": "*"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute2",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attconvert1",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.8,
+            "cols": 30,
+            "rows": 15
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 16
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "circle3"
+          }
+        },
+        {
+          "name": "popto11",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attconvert2"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 2
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "POP:pattern",
+          "parameters": {
+            "parsize": 1,
+            "outputattrscope": "rampupdown"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0customname": "Age",
+            "attr0value0": 10,
+            "attr0value3": 1,
+            "matattr0numrows": 3,
+            "matattr0numcols": 3,
+            "matattr0arraysize": 5,
+            "matattr0qualifier": "transformMatrix",
+            "deletepoint": "N",
+            "attr1name": "custom",
+            "attr1customname": "Bearing",
+            "attr1type": "float",
+            "attr1numcomps": 3,
+            "attr1arraysize": 1,
+            "attr1value1": 0.3,
+            "attr1value3": 1,
+            "attr2name": "custom",
+            "attr2customname": "GameZone",
+            "attr2type": "uint",
+            "attr2numcomps": 2,
+            "attr2arraysize": 1,
+            "attr2value0": 6,
+            "attr2value1": 5,
+            "attr2value3": 1,
+            "attr3name": "custom",
+            "attr3customname": "Multi",
+            "attr3type": "float",
+            "attr3numcomps": 2,
+            "attr3isarray": "on",
+            "attr3arraysize": 5,
+            "attr3value3": 1,
+            "attr4name": "pointscale",
+            "attr4customname": "\"\"",
+            "attr4type": "float",
+            "attr4numcomps": 1,
+            "attr4arraysize": 1,
+            "attr4value3": 1
+          }
+        },
+        {
+          "name": "attribute2",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 1,
+            "matattr0name": "Orient",
+            "matattr0numrows": 3,
+            "matattr0numcols": 3
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "aspectcorrect": "on",
+            "mode0": "radiusxy",
+            "mode1": "zero",
+            "mode2": "zero",
+            "outputattrscope": "Color.rgb"
+          }
+        },
+        {
+          "name": "attconvert1",
+          "type": "POP:attconvert",
+          "parameters": {
+            "convertop": "pointtovert",
+            "inputattrs": "Tex"
+          }
+        },
+        {
+          "name": "attconvert2",
+          "type": "POP:attconvert",
+          "parameters": {
+            "convertop": "verttopoint",
+            "inputattrs": "Tex"
+          }
+        },
+        {
+          "name": "attribute_Color",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "color",
+            "attr0value0": 0.9,
+            "attr0value1": 0.6,
+            "attr0value3": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube2",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "pattern1",
+          "to_input": "0"
+        },
+        {
+          "from": "tube1",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "attribute2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "attconvert1",
+          "to_input": "0"
+        },
+        {
+          "from": "attconvert1",
+          "to": "attconvert2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "attribute_Color",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 38,
+        "connection_count": 8,
+        "operator_types": {
+          "DAT:eval": 2,
+          "POP:math": 1,
+          "POP:tube": 2,
+          "DAT:popto": 9,
+          "CHOP:popto": 2,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:circle": 3,
+          "POP:sphere": 1,
+          "COMP:annotate": 9,
+          "POP:pattern": 1,
+          "POP:attribute": 3,
+          "POP:normalize": 1,
+          "POP:attconvert": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "POP:box",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "Color",
+            "mult0": 0.5
+          }
+        },
+        {
+          "name": "math2",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1) Color(2)\"",
+            "parsize": 3
+          }
+        },
+        {
+          "name": "math3",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1) Color(2)\"",
+            "parsize": 4
+          }
+        },
+        {
+          "name": "math4",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"P(1) P(0) P(2)\"",
+            "outputattrscope": "P"
+          }
+        },
+        {
+          "name": "math5",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1) Color(2)\"",
+            "parsize": 2
+          }
+        },
+        {
+          "name": "math6",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1)\"",
+            "parsize": 4
+          }
+        },
+        {
+          "name": "math7",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1)\"",
+            "parsize": 4,
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "math8",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1)\"",
+            "parsize": 3,
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "math9",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"Color(0) Color(1) Color(2)\"",
+            "mult0": 0.5
+          }
+        },
+        {
+          "name": "math10",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "\"PointScale PointScale PointScale\"",
+            "outputattrscope": "NewThing"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix10"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix7"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "mathmix7",
+            "nameformat": "basic",
+            "attribscope": "XStuff"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus5",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle7",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10,
+            "normaldirection": "tangent"
+          }
+        },
+        {
+          "name": "normal3",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix7",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"P(0) N(0) Tex(0)\"",
+            "comb0result": "XStuff"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix10",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"0 PointScale 0\"",
+            "comb0result": "NewThing"
+          }
+        },
+        {
+          "name": "annotate11",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0name": "pointscale",
+            "attr0value0": 0.3,
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "mathcombine1",
+          "type": "POP:mathcombine",
+          "parameters": {
+            "pageindex": 4,
+            "comb0oper": "copya",
+            "comb0scopea": "\".8 .5 .2\"",
+            "comb0result": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "mathmix_flip",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"P(1) P(0) P(2)\"",
+            "comb0result": "P"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "mathcombine1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus5",
+          "to": "math4",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math5",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math6",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math7",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math8",
+          "to_input": "0"
+        },
+        {
+          "from": "mathcombine1",
+          "to": "math9",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "math10",
+          "to_input": "0"
+        },
+        {
+          "from": "math4",
+          "to": "normal3",
+          "to_input": "0"
+        },
+        {
+          "from": "circle7",
+          "to": "mathmix7",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "mathmix10",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "mathcombine1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus5",
+          "to": "mathmix_flip",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 37,
+        "connection_count": 16,
+        "operator_types": {
+          "POP:box": 1,
+          "POP:math": 10,
+          "DAT:popto": 2,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:circle": 2,
+          "POP:normal": 1,
+          "COMP:annotate": 13,
+          "POP:mathmix": 3,
+          "POP:attribute": 1,
+          "POP:mathcombine": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math_xyzNotation",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "random_swizzleAnyAttribute"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10
+          }
+        },
+        {
+          "name": "math_br",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "Color.br",
+            "tohigh0": 0.01,
+            "outputattrscope": "New"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "popto_br",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math_br",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "math_Color",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "Color.brgr",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "popto_Color",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math_Color",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "math_Color_rgba",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "Color.brgr",
+            "outputattrscope": "Color.rgba"
+          }
+        },
+        {
+          "name": "math_xyzNotation",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "P.x",
+            "tohigh0": 0.5
+          }
+        },
+        {
+          "name": "popto_Color_rgba",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math_Color_rgba",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "random_standardNaming",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "random_swizzleColor_rgb",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "Color.rgb"
+          }
+        },
+        {
+          "name": "random_alternateUsingList",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "Color(0,1,2)"
+          }
+        },
+        {
+          "name": "random_swizzleAnyAttribute",
+          "type": "POP:random",
+          "parameters": {
+            "combineop": "set",
+            "outputattrscope": "Color.i012"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "random_swizzleColor_rgb",
+          "to": "math_br",
+          "to_input": "0"
+        },
+        {
+          "from": "random_swizzleColor_rgb",
+          "to": "math_Color",
+          "to_input": "0"
+        },
+        {
+          "from": "random_swizzleColor_rgb",
+          "to": "math_Color_rgba",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "math_xyzNotation",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "random_standardNaming",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "random_swizzleColor_rgb",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "random_alternateUsingList",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "random_swizzleAnyAttribute",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 21,
+        "connection_count": 8,
+        "operator_types": {
+          "DAT:popto": 5,
+          "DAT:text": 1,
+          "POP:circle": 1,
+          "POP:math": 4,
+          "COMP:annotate": 6,
+          "POP:random": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {
+            "nml": "remove"
+          }
+        },
+        {
+          "name": "normal2",
+          "type": "POP:normal",
+          "parameters": {
+            "nml": "remove"
+          }
+        },
+        {
+          "name": "normal3",
+          "type": "POP:normal",
+          "parameters": {
+            "nml": "remove"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize2",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize3",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {
+            "rz": -90
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {
+            "rz": -90
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "POP:transform",
+          "parameters": {
+            "rz": -90
+          }
+        },
+        {
+          "name": "attcombine1",
+          "type": "POP:attcombine",
+          "parameters": {
+            "input0attrs": "Tex",
+            "input1pop": "\"\"",
+            "input1attrs": "Color",
+            "input1renameto": "\"\"",
+            "input2pop": "\"\"",
+            "input2attrs": "P",
+            "input2renameto": "\"\""
+          }
+        },
+        {
+          "name": "mathcombine1",
+          "type": "POP:mathcombine",
+          "parameters": {
+            "input0pop": "normal3",
+            "comb0oper": "avg",
+            "comb0scopea": "P",
+            "comb0scopeb": "Protated",
+            "delnewattrs": "on",
+            "input1pop": "normalize3",
+            "input1attrs": "Color",
+            "input1renameto": "\"\"",
+            "input2pop": "transform3",
+            "input2attrs": "P",
+            "input2renameto": "Protated",
+            "comb1oper": "asubb",
+            "comb1scopea": "\"1 1 1 0\"",
+            "comb1scopeb": "Color",
+            "comb1scopec": "\"\"",
+            "comb1result": "Color"
+          }
+        },
+        {
+          "name": "mathcombine2",
+          "type": "POP:mathcombine",
+          "parameters": {
+            "input0attrs": "\"P Tex\"",
+            "comb0oper": "mix",
+            "comb0scopea": "P",
+            "comb0scopeb": "Protated",
+            "comb0scopec": 0.5,
+            "input1pop": "\"\"",
+            "input1attrs": "Color",
+            "input1renameto": "\"\"",
+            "input2pop": "\"\"",
+            "input2attrs": "P",
+            "input2renameto": "Protated"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "normal2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "normal3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "normalize2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "normalize3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "transform3",
+          "to_input": "0"
+        },
+        {
+          "from": "normal1",
+          "to": "attcombine1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "attcombine1",
+          "to_input": "1"
+        },
+        {
+          "from": "transform1",
+          "to": "attcombine1",
+          "to_input": "2"
+        },
+        {
+          "from": "normal2",
+          "to": "mathcombine2",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize2",
+          "to": "mathcombine2",
+          "to_input": "1"
+        },
+        {
+          "from": "transform2",
+          "to": "mathcombine2",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 15,
+        "operator_types": {
+          "DAT:text": 1,
+          "POP:torus": 3,
+          "POP:normal": 3,
+          "COMP:annotate": 1,
+          "POP:normalize": 3,
+          "POP:transform": 3,
+          "POP:attcombine": 1,
+          "POP:mathcombine": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "N",
+            "delinputattrs": "on"
+          }
+        },
+        {
+          "name": "point1",
+          "type": "POP:point",
+          "parameters": {
+            "pageindex": 1,
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute1"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "select1"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attcombine1"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "pattern1",
+            "nameformat": "basic",
+            "attribscope": "*"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math1"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point1"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 6,
+            "rows": 8,
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 16,
+            "rows": 8,
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 16,
+            "rows": 8,
+            "texture": "pointNormals"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "POP:select",
+          "parameters": {
+            "pop": "torus1",
+            "pointattrscope": "Tex",
+            "primattrscope": "\"\"",
+            "vertattrscope": "\"\""
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "POP:pattern",
+          "parameters": {
+            "parsize": 2,
+            "outputattrscope": "signal",
+            "overrideautoattr": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 4,
+            "deletepoint": "P"
+          }
+        },
+        {
+          "name": "attcombine1",
+          "type": "POP:attcombine",
+          "parameters": {
+            "input0attrs": "N"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus3",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "attcombine1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 3,
+        "operator_types": {
+          "POP:math": 1,
+          "POP:point": 1,
+          "DAT:popto": 6,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:torus": 3,
+          "POP:select": 1,
+          "COMP:annotate": 3,
+          "POP:pattern": 1,
+          "POP:attribute": 1,
+          "POP:attcombine": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "tube1",
+          "type": "POP:tube",
+          "parameters": {
+            "cols": 480,
+            "rows": 25
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "POP:twist",
+          "parameters": {
+            "weightattr": "Normalize(0)",
+            "strength": 205
+          }
+        },
+        {
+          "name": "twist2",
+          "type": "POP:twist",
+          "parameters": {
+            "weightattr": "Normalize(0)",
+            "op": "bend",
+            "strength": 83
+          }
+        },
+        {
+          "name": "normal2",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "radx": 3,
+            "rady": 1,
+            "radz": 1,
+            "freq": 6,
+            "ty": 1.1
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "popViewer",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "boxx",
+            "mode1": "boxx",
+            "mode2": "boxz",
+            "lookupcurve1": "easeupdown",
+            "outputattrscope": "Normalize"
+          }
+        },
+        {
+          "name": "normalize6",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "Normalize",
+            "attrnumcomps": 3
+          }
+        },
+        {
+          "name": "popViewer7",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {
+            "weightattr": "Normalize(0)",
+            "rx": 261
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "POP:transform",
+          "parameters": {
+            "sx": 1.9,
+            "sy": 0.5,
+            "sz": 1
+          }
+        },
+        {
+          "name": "transform_bbox_x",
+          "type": "POP:transform",
+          "parameters": {
+            "weightattr": "Normalize(0)",
+            "ty": -0.4,
+            "rz": -85,
+            "sx": 1,
+            "sy": 0.8,
+            "sz": 1
+          }
+        },
+        {
+          "name": "transform__twistz",
+          "type": "POP:transform",
+          "parameters": {
+            "weightattr": "Normalize(1)",
+            "ty": -0.4,
+            "rz": -55,
+            "sx": 1,
+            "sy": 0.8,
+            "sz": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "normalize6",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize6",
+          "to": "twist2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "normal2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform3",
+          "to": "normalize6",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize6",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "tube1",
+          "to": "transform3",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "transform_bbox_x",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "transform__twistz",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 9,
+        "operator_types": {
+          "POP:tube": 1,
+          "DAT:text": 1,
+          "POP:twist": 2,
+          "POP:normal": 1,
+          "POP:sphere": 1,
+          "COMP:annotate": 2,
+          "COMP:container": 2,
+          "POP:normalize": 2,
+          "POP:transform": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "copy1",
+          "type": "POP:copy",
+          "parameters": {
+            "ncy": 2,
+            "tx": 2
+          }
+        },
+        {
+          "name": "copy2",
+          "type": "POP:copy",
+          "parameters": {}
+        },
+        {
+          "name": "copy4",
+          "type": "POP:copy",
+          "parameters": {
+            "ncy": 4,
+            "tx": 3.29
+          }
+        },
+        {
+          "name": "copy5",
+          "type": "POP:copy",
+          "parameters": {
+            "ty": 1.5
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "points",
+            "cols": 9,
+            "rows": 7,
+            "slices": 5
+          }
+        },
+        {
+          "name": "line1",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 3
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "cirle4",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 13
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze2",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze3",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix2",
+            "attrib": "DimI*"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix2",
+            "attrib": "DimU*"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix2",
+            "attrib": "DimCy*"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix3",
+            "attrib": "DimI*"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix3",
+            "attrib": "DimU*"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix3",
+            "attrib": "DimCy*"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "ramp1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 3
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "orient": "zx",
+            "divs": 8,
+            "scale": 2.7
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "scale": 0.172
+          }
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "type": "grid"
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "dimension": "on"
+          }
+        },
+        {
+          "name": "analyze2",
+          "type": "POP:analyze",
+          "parameters": {
+            "dimension": "on"
+          }
+        },
+        {
+          "name": "analyze3",
+          "type": "POP:analyze",
+          "parameters": {
+            "dimension": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"_DimU[0] 0 0\"",
+            "comb0result": "Color.rgb"
+          }
+        },
+        {
+          "name": "mathmix2",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_DimI[0]",
+            "comb0result": "DimI0",
+            "comb1oper": "copya",
+            "comb1scopea": "_DimU[0]",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "DimU0",
+            "comb2oper": "copya",
+            "comb2scopea": "_DimCy[0]",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "DimCy0",
+            "comb3oper": "copya",
+            "comb3scopea": "_DimI[1]",
+            "comb3scopeb": "\"\"",
+            "comb3scopec": "\"\"",
+            "comb3result": "DimI1",
+            "comb4oper": "copya",
+            "comb4scopea": "_DimU[1]",
+            "comb4scopeb": "\"\"",
+            "comb4scopec": "\"\"",
+            "comb4result": "DimU1",
+            "comb5oper": "copya",
+            "comb5scopea": "_DimCy[1]",
+            "comb5scopeb": "\"\"",
+            "comb5scopec": "\"\"",
+            "comb5result": "DimCy1"
+          }
+        },
+        {
+          "name": "mathmix3",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_DimI[0]",
+            "comb0result": "DimI0",
+            "comb1oper": "copya",
+            "comb1scopea": "_DimU[0]",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "DimU0",
+            "comb2oper": "copya",
+            "comb2scopea": "_DimCy[0]",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "DimCy0",
+            "comb3oper": "copya",
+            "comb3scopea": "_DimI[1]",
+            "comb3scopeb": "\"\"",
+            "comb3scopec": "\"\"",
+            "comb3result": "DimI1",
+            "comb4oper": "copya",
+            "comb4scopea": "_DimU[1]",
+            "comb4scopeb": "\"\"",
+            "comb4scopec": "\"\"",
+            "comb4result": "DimU1",
+            "comb5oper": "copya",
+            "comb5scopea": "_DimCy[1]",
+            "comb5scopeb": "\"\"",
+            "comb5scopec": "\"\"",
+            "comb5result": "DimCy1",
+            "comb6oper": "copya",
+            "comb6scopea": "_DimI[2]",
+            "comb6scopeb": "\"\"",
+            "comb6scopec": "\"\"",
+            "comb6result": "DimI2",
+            "comb7oper": "copya",
+            "comb7scopea": "_DimU[2]",
+            "comb7scopeb": "\"\"",
+            "comb7scopec": "\"\"",
+            "comb7result": "DimU2",
+            "comb8oper": "copya",
+            "comb8scopea": "_DimCy[2]",
+            "comb8scopeb": "\"\"",
+            "comb8scopec": "\"\"",
+            "comb8result": "DimCy2"
+          }
+        },
+        {
+          "name": "mathmix4",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"0 _DimU[1] 0\"",
+            "comb0result": "Color.rgb"
+          }
+        },
+        {
+          "name": "mathmix5",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"0 0 _DimU[2]\"",
+            "comb0result": "Color.rgb"
+          }
+        },
+        {
+          "name": "mathmix6",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"_DimU[0] _DimU[1] _DimU[2]\"",
+            "comb0result": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "mathmix7",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"_DimU[0] 0 0\"",
+            "comb0result": "Color.rgb"
+          }
+        },
+        {
+          "name": "mathmix8",
+          "type": "POP:mathmix",
+          "parameters": {
+            "comb0oper": "copya",
+            "comb0scopea": "\"0 _DimU[1] 0\"",
+            "comb0result": "Color.rgb"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "lookupchan1",
+          "type": "POP:lookupchan",
+          "parameters": {
+            "chop": "topto1",
+            "lookupindexattr": "_DimU[0]",
+            "lookup0outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "lookupchan2",
+          "type": "POP:lookupchan",
+          "parameters": {
+            "chop": "topto1",
+            "lookupindexattr": "_DimU[1]",
+            "lookup0outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "lookupchan3",
+          "type": "POP:lookupchan",
+          "parameters": {
+            "chop": "topto1",
+            "lookupindexattr": "_DimU[3]",
+            "lookup0outputattrscope": "Color"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy1",
+          "to": "copy2",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "copy2",
+          "to_input": "1"
+        },
+        {
+          "from": "circle3",
+          "to": "copy4",
+          "to_input": "0"
+        },
+        {
+          "from": "cirle4",
+          "to": "copy4",
+          "to_input": "1"
+        },
+        {
+          "from": "grid1",
+          "to": "copy5",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "copy5",
+          "to_input": "1"
+        },
+        {
+          "from": "copy1",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy5",
+          "to": "analyze2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "analyze3",
+          "to_input": "0"
+        },
+        {
+          "from": "copy4",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy1",
+          "to": "mathmix2",
+          "to_input": "0"
+        },
+        {
+          "from": "copy2",
+          "to": "mathmix3",
+          "to_input": "0"
+        },
+        {
+          "from": "copy4",
+          "to": "mathmix4",
+          "to_input": "0"
+        },
+        {
+          "from": "copy4",
+          "to": "mathmix5",
+          "to_input": "0"
+        },
+        {
+          "from": "copy4",
+          "to": "mathmix6",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "mathmix7",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "mathmix8",
+          "to_input": "0"
+        },
+        {
+          "from": "copy5",
+          "to": "lookupchan1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy5",
+          "to": "lookupchan2",
+          "to_input": "0"
+        },
+        {
+          "from": "copy5",
+          "to": "lookupchan3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 52,
+        "connection_count": 21,
+        "operator_types": {
+          "POP:copy": 4,
+          "POP:grid": 1,
+          "POP:line": 1,
+          "TOP:ramp": 1,
+          "DAT:text": 2,
+          "POP:circle": 4,
+          "DAT:popto": 9,
+          "CHOP:topto": 1,
+          "POP:sphere": 1,
+          "POP:analyze": 3,
+          "COMP:annotate": 13,
+          "POP:mathmix": 8,
+          "DAT:table": 1,
+          "POP:lookupchan": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "point1",
+          "type": "POP:point",
+          "parameters": {}
+        },
+        {
+          "name": "point2",
+          "type": "POP:point",
+          "parameters": {}
+        },
+        {
+          "name": "point3",
+          "type": "POP:point",
+          "parameters": {
+            "attr0name": "color"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive1"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive1",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive2"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive2",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive2",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive3"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive3",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive3",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 16
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "divs": 16,
+            "tx": 0.2,
+            "ty": 0.2
+          }
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive8",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto11",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive_oneLongLinestrip",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto12",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive6",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto13",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point1"
+          }
+        },
+        {
+          "name": "popto14",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto15",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point2"
+          }
+        },
+        {
+          "name": "popto16",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point2",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto17",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point3"
+          }
+        },
+        {
+          "name": "popto18",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point3",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto19",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive_open",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto20",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive_closed",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto21",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "primitive_openLinestrip",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 4,
+            "deletepoint": "\"N Tex\""
+          }
+        },
+        {
+          "name": "attribute2",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 4,
+            "deletepoint": "\"N Tex\""
+          }
+        },
+        {
+          "name": "primitive1",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 1,
+            "addpts": "on",
+            "attr0customname": "K",
+            "attr0value0": 0.2,
+            "attr0value3": 1,
+            "method": "set",
+            "attr1name": "color",
+            "attr1customname": "\"\"",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1value3": 1
+          }
+        },
+        {
+          "name": "primitive2",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 1,
+            "addpts": "on",
+            "attr0customname": "K",
+            "attr0value0": 0.2,
+            "attr0value3": 1,
+            "method": "set",
+            "setprimtype": "closedlinestrip",
+            "attr1name": "color",
+            "attr1customname": "\"\"",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1value3": 1
+          }
+        },
+        {
+          "name": "primitive3",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 4,
+            "addpts": "on",
+            "attr0customname": "K",
+            "attr0value0": 0.2,
+            "attr0value3": 1,
+            "method": "pattern",
+            "prim0type": "closedlinestrip",
+            "prim0pattern": "\"2 4 3 1 0\"",
+            "attr1name": "color",
+            "attr1customname": "\"\"",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1value3": 1,
+            "prim1type": "triangles",
+            "prim1pattern": "*"
+          }
+        },
+        {
+          "name": "primitive5",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "set"
+          }
+        },
+        {
+          "name": "primitive6",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "set",
+            "setprimtype": "quads"
+          }
+        },
+        {
+          "name": "primitive8",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "pattern",
+            "setprimtype": "linestrip",
+            "prim0pattern": "\"0 1 2 0 3 4 0 5 6 0 7 10\""
+          }
+        },
+        {
+          "name": "primitive_open",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "pattern",
+            "setprimtype": "linestrip",
+            "prim0type": "linestrip",
+            "prim0pattern": "[2-12]"
+          }
+        },
+        {
+          "name": "primitive_closed",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "pattern",
+            "setprimtype": "linestrip",
+            "prim0type": "linestrip",
+            "prim0pattern": "\"[2-12] 2\""
+          }
+        },
+        {
+          "name": "primitive_openLinestrip",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "set",
+            "setprimtype": "linestrip"
+          }
+        },
+        {
+          "name": "primitive_oneLongLinestrip",
+          "type": "POP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "keep": "on",
+            "method": "pattern",
+            "setprimtype": "linestrip",
+            "prim0type": "linestrip",
+            "prim0pattern": "\"0 [2-7] 0 [8-11] 0\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "attribute2",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive5",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive6",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive8",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive_open",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive_closed",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive_openLinestrip",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "primitive_oneLongLinestrip",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 46,
+        "connection_count": 9,
+        "operator_types": {
+          "POP:point": 3,
+          "DAT:popto": 21,
+          "DAT:text": 1,
+          "POP:circle": 2,
+          "COMP:annotate": 7,
+          "POP:attribute": 2,
+          "POP:primitive": 10
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example10",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "none",
+            "cols": 100,
+            "rows": 100
+          }
+        },
+        {
+          "name": "grid2",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "points",
+            "cols": 100,
+            "rows": 100
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "grid1",
+            "attrib": "P",
+            "thinoutrange": "on",
+            "thinrangestart": 3900,
+            "thinrangelength": 500,
+            "thinstep": 10,
+            "thinrandom": 0.18
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 0.7,
+            "rady": 0.96,
+            "tx": 0.005,
+            "ty": -0.005,
+            "tz": -0.03
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 2,
+            "thinenabled": "on",
+            "thinstep": 5
+          }
+        },
+        {
+          "name": "delete2",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 2,
+            "thinenabled": "on",
+            "thinstep": 3,
+            "thinrandom": 0.114,
+            "thinrandomseed": 1.95
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "centroid": "on",
+            "numpointsvertsprims": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pointfilein1",
+          "type": "POP:pointfilein",
+          "parameters": {}
+        },
+        {
+          "name": "pointfilein2",
+          "type": "POP:pointfilein",
+          "parameters": {
+            "pageindex": 1,
+            "thinrangelength": 1000,
+            "thinstep": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pointfilein1",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid2",
+          "to": "delete2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "analyze1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 3,
+        "operator_types": {
+          "POP:grid": 2,
+          "DAT:popto": 2,
+          "DAT:text": 1,
+          "POP:circle": 1,
+          "POP:delete": 2,
+          "POP:analyze": 1,
+          "COMP:annotate": 2,
+          "POP:pointfilein": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example11",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "randomSpeed",
+            "postoper": "sin",
+            "tohigh0": 41,
+            "outputattrscope": "randomAngle"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "math1",
+            "nameformat": "basic",
+            "attribscope": "randomAngle"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {}
+        },
+        {
+          "name": "pattern3",
+          "type": "POP:pattern",
+          "parameters": {
+            "type0": "random",
+            "type1": "sin",
+            "type2": "zero",
+            "tolow0": -60,
+            "tohigh0": 60,
+            "tohigh1": 1,
+            "tohigh2": 1,
+            "outputattrscope": "randomSpeed"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "primitive1",
+          "type": "POP:primitive",
+          "parameters": {
+            "keep": "on",
+            "unusedpointsop": "pointprims"
+          }
+        },
+        {
+          "name": "transform_Map_page",
+          "type": "POP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "ry": -0.4,
+            "rz": -0.2,
+            "map0element": "randomAngle",
+            "map0parm": "rz"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "primitive1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "pattern3",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern3",
+          "to": "primitive1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "transform_Map_page",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "POP:math": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:sphere": 1,
+          "POP:pattern": 1,
+          "COMP:annotate": 1,
+          "POP:primitive": 1,
+          "POP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example12",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {}
+        },
+        {
+          "name": "grid2",
+          "type": "POP:grid",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "tx": 4.7,
+            "ty": 10,
+            "tz": 6.2
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle4",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle5",
+          "type": "POP:circle",
+          "parameters": {
+            "normaldirection": "radial"
+          }
+        },
+        {
+          "name": "circle6",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle7",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 15
+          }
+        },
+        {
+          "name": "circle8",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 15
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 0,
+        "operator_types": {
+          "POP:grid": 2,
+          "DAT:text": 1,
+          "POP:torus": 2,
+          "POP:circle": 8
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example13",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:annotate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example14",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid3",
+          "type": "SOP:grid",
+          "parameters": {}
+        },
+        {
+          "name": "grid4",
+          "type": "POP:grid",
+          "parameters": {}
+        },
+        {
+          "name": "null1",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "python"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "python"
+          }
+        },
+        {
+          "name": "field1",
+          "type": "POP:field",
+          "parameters": {}
+        },
+        {
+          "name": "point1",
+          "type": "SOP:point",
+          "parameters": {
+            "doclr": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "fills0names": "name"
+          }
+        },
+        {
+          "name": "xopto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "null2"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribcreate1",
+          "type": "SOP:attribcreate",
+          "parameters": {
+            "comptang": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "point1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "field1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid4",
+          "to": "field1",
+          "to_input": "0"
+        },
+        {
+          "from": "attribcreate1",
+          "to": "point1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "attribcreate1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 5,
+        "operator_types": {
+          "SOP:grid": 1,
+          "POP:grid": 1,
+          "SOP:null": 1,
+          "POP:null": 1,
+          "DAT:text": 3,
+          "POP:field": 1,
+          "SOP:point": 1,
+          "DAT:table": 1,
+          "DAT:popto": 1,
+          "COMP:annotate": 1,
+          "SOP:attribcreate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

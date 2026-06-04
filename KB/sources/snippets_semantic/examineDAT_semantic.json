@@ -1,0 +1,354 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\examineDAT_lossless.json",
+  "operator_type": "examineDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "base1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "ext0object": "me.mod.utilities.MyClass()"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine1",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base1",
+            "source": "extensions",
+            "expandclasses": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "examine1a",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base1",
+            "source": "extensions",
+            "expandclasses": "on",
+            "format": "table",
+            "outputtype": "off",
+            "language": "text"
+          }
+        },
+        {
+          "name": "utilities",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 1,
+          "DAT:text": 2,
+          "DAT:examine": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "base2",
+          "type": "COMP:base",
+          "parameters": {
+            "ext0object": "op('./utilities').module.MyClass()"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine2",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base2",
+            "source": "extensions",
+            "expandclasses": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "examine2a",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base2",
+            "source": "extensions",
+            "expandclasses": "on",
+            "format": "table",
+            "outputtype": "off",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 1,
+          "DAT:text": 1,
+          "DAT:examine": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "base7",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine_storage",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base7",
+            "expression": "sys.modules",
+            "maxlevels": 1,
+            "format": "table",
+            "language": "text"
+          }
+        },
+        {
+          "name": "run_set_storage",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "examine_storage_all",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base7",
+            "expression": "sys.modules",
+            "expandclasses": "on",
+            "maxlevels": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "examine_storage_D_array",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "base7",
+            "subkey": "D",
+            "expression": "sys.modules",
+            "format": "table",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 1,
+          "DAT:text": 2,
+          "DAT:examine": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine_locals",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "test_examine_locals",
+            "source": "locals",
+            "expression": "sys.modules",
+            "expandclasses": "on",
+            "maxlevels": 4,
+            "language": "python"
+          }
+        },
+        {
+          "name": "examine_locals_a",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "test_examine_locals",
+            "source": "locals",
+            "subkey": "a",
+            "format": "table",
+            "language": "text"
+          }
+        },
+        {
+          "name": "examine_locals_s",
+          "type": "DAT:examine",
+          "parameters": {
+            "op": "test_examine_locals",
+            "source": "locals",
+            "key": "s",
+            "format": "table",
+            "language": "text"
+          }
+        },
+        {
+          "name": "test_examine_locals",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:examine": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine_dir_io",
+          "type": "DAT:examine",
+          "parameters": {
+            "source": "expression",
+            "expression": "dir(sys.modules[\\\"io\\\"])",
+            "language": "text"
+          }
+        },
+        {
+          "name": "examine_dir_io1",
+          "type": "DAT:examine",
+          "parameters": {
+            "source": "expression",
+            "expression": "dir(sys.modules[\\\"io\\\"])",
+            "format": "table",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:examine": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "examine_sys_modules",
+          "type": "DAT:examine",
+          "parameters": {
+            "source": "expression",
+            "expression": "sys.modules",
+            "language": "glsl"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:examine": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

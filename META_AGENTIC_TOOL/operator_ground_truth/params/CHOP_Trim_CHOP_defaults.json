@@ -1,0 +1,256 @@
+{
+  "operator": "Trim_CHOP",
+  "family": "CHOP",
+  "td_create_name": "trimCHOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "relative": {
+      "value": {
+        "type": "menu",
+        "value": "rel",
+        "menuIndex": 1,
+        "menuNames": [
+          "abs",
+          "rel",
+          "cur",
+          "slice"
+        ],
+        "menuLabels": [
+          "Absolute",
+          "Relative to Start/End",
+          "Relative to Current Frame",
+          "Current Time Slice"
+        ]
+      },
+      "default": "rel",
+      "page": "Trim",
+      "label": "Unit Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trim",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "startunit": {
+      "value": {
+        "type": "menu",
+        "value": "samples",
+        "menuIndex": 0,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "samples",
+      "page": "Trim",
+      "label": "Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "end": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Trim",
+      "label": "End",
+      "readOnly": false,
+      "expression": null
+    },
+    "endunit": {
+      "value": {
+        "type": "menu",
+        "value": "samples",
+        "menuIndex": 0,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "samples",
+      "page": "Trim",
+      "label": "End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "discard": {
+      "value": {
+        "type": "menu",
+        "value": "exterior",
+        "menuIndex": 0,
+        "menuNames": [
+          "exterior",
+          "interior"
+        ],
+        "menuLabels": [
+          "Exterior",
+          "Interior"
+        ]
+      },
+      "default": "exterior",
+      "page": "Trim",
+      "label": "Discard",
+      "readOnly": false,
+      "expression": null
+    },
+    "shiftstart": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Trim",
+      "label": "Shift Start to 0",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,602 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\pantiltCHOP_lossless.json",
+  "operator_type": "pantiltCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo3",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "normal",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null7",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null8",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null6_export"
+          }
+        },
+        {
+          "name": "null9",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto3",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "null7",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "SOP:circle",
+          "parameters": {
+            "arc": "openarc",
+            "beginangle": -20,
+            "endangle": 200
+          }
+        },
+        {
+          "name": "lookup3",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "object3",
+          "type": "CHOP:object",
+          "parameters": {
+            "target": "null_target1",
+            "reference": "geo_light1/null_light",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renamefrom": "r*_*",
+            "renameto": "*(1)*(0)"
+          }
+        },
+        {
+          "name": "pantilt1",
+          "type": "CHOP:pantilt",
+          "parameters": {
+            "clamppan": "on",
+            "panrangemin": -270,
+            "panrangemax": 270,
+            "clamptilt": "on",
+            "tiltrangemin": -135,
+            "tiltrangemax": 135
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqname"
+          }
+        },
+        {
+          "name": "geo_light1",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "SOP:transform",
+          "parameters": {
+            "rx": 40,
+            "ry": -49
+          }
+        },
+        {
+          "name": "null_target1",
+          "type": "COMP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform3",
+          "to": "null7",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup3",
+          "to": "null8",
+          "to_input": "0"
+        },
+        {
+          "from": "pantilt1",
+          "to": "null9",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo3",
+          "to": "lookup3",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto3",
+          "to": "lookup3",
+          "to_input": "1"
+        },
+        {
+          "from": "object3",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle1",
+          "to": "pantilt1",
+          "to_input": "0"
+        },
+        {
+          "from": "rename1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "transform3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 9,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "SOP:null": 1,
+          "CHOP:null": 2,
+          "DAT:text": 1,
+          "CHOP:sopto": 1,
+          "SOP:circle": 1,
+          "CHOP:lookup": 1,
+          "CHOP:object": 1,
+          "CHOP:rename": 1,
+          "CHOP:pantilt": 1,
+          "CHOP:shuffle": 1,
+          "COMP:geo": 1,
+          "SOP:transform": 1,
+          "COMP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "clamp": "on",
+            "slope1": 240,
+            "slope2": 240,
+            "lagsamples": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "normal",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.01,
+            "amp": 90,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null4",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "transform1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "pageindex": 1,
+            "fill": "fillbycol",
+            "cols": 2,
+            "includenames": "off",
+            "fills0expr": "target",
+            "fills1names": "\"\""
+          }
+        },
+        {
+          "name": "target",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "orient": "zx",
+            "divs": 10
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 2,
+            "rady": 2,
+            "divs": 400,
+            "arc": "openarc",
+            "endangle": 180
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "object1",
+          "type": "CHOP:object",
+          "parameters": {
+            "dat": "null4",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renamefrom": "r*_*",
+            "renameto": "*(1)*(0)"
+          }
+        },
+        {
+          "name": "switch2",
+          "type": "CHOP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "pantilt1",
+          "type": "CHOP:pantilt",
+          "parameters": {
+            "clamppan": "on",
+            "panrangemin": -270,
+            "panrangemax": 270,
+            "clamptilt": "on",
+            "tiltrangemin": -135,
+            "tiltrangemax": 135,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "const",
+            "phasestep": 0.3,
+            "channelname": "\"pan tilt\""
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqname"
+          }
+        },
+        {
+          "name": "geo_light1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 8,
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light2",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light3",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light4",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light5",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light6",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light7",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light8",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "geo_light9",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "geo_light10",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 0.1,
+            "pathsop": "null_fixPos",
+            "parentshortcut": "Movinghead",
+            "clone": "geo_light1"
+          }
+        },
+        {
+          "name": "null_fixPos",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "replicator1",
+          "type": "COMP:replicator",
+          "parameters": {
+            "method": "bynum",
+            "opprefix": "geo_light",
+            "master": "geo_light1",
+            "callbacks": "replicator1_callbacks"
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "replicator1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "switch2",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "lag1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "object1",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "pantilt1",
+          "to": "switch2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "switch2",
+          "to_input": "1"
+        },
+        {
+          "from": "shuffle1",
+          "to": "pantilt1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "pantilt1",
+          "to_input": "1"
+        },
+        {
+          "from": "rename1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "null_fixPos",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 35,
+        "connection_count": 15,
+        "operator_types": {
+          "CHOP:lag": 1,
+          "CHOP:lfo": 2,
+          "CHOP:null": 3,
+          "DAT:null": 1,
+          "DAT:text": 2,
+          "CHOP:sopto": 1,
+          "DAT:table": 2,
+          "COMP:geo": 11,
+          "SOP:circle": 2,
+          "CHOP:lookup": 1,
+          "CHOP:object": 1,
+          "CHOP:rename": 1,
+          "CHOP:switch": 1,
+          "CHOP:pantilt": 1,
+          "CHOP:pattern": 1,
+          "CHOP:shuffle": 1,
+          "SOP:transform": 1,
+          "SOP:null": 1,
+          "COMP:replicator": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    }
+  ]
+}

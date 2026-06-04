@@ -1,0 +1,305 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\spherePOP_lossless.json",
+  "operator_type": "spherePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "type": "grid",
+            "surftype": "rows"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {
+            "cols": 200,
+            "rows": 100
+          }
+        },
+        {
+          "name": "sphere3",
+          "type": "POP:sphere",
+          "parameters": {
+            "type": "grid",
+            "cols": 55,
+            "rows": 16,
+            "beginangleu": 32,
+            "endangleu": 113.5,
+            "beginanglev": 63,
+            "endanglev": 123
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "POP:sphere": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "fov0",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "fov1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "pageindex": 1,
+            "frequency": 0.5,
+            "channelname": "fov",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 160,
+            "torange2": 220
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "circular"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "sphere1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "TOP:select",
+          "parameters": {
+            "top": "moviefilein2"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "type": "sharedpoles",
+            "cols": 60,
+            "rows": 55,
+            "texmethod": "equiazimuth",
+            "texrangev": "full"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "sharedpoles",
+            "cols": 60,
+            "rows": 55,
+            "texmethod": "equiazimuth",
+            "texrangev": "full"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {
+            "index": 0.18,
+            "blend": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "fov",
+            "const0value": 180
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "fov",
+            "const0value": 220
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "projection1",
+          "type": "TOP:projection",
+          "parameters": {
+            "input": "equirectangular",
+            "output": "fisheye",
+            "rx": 90,
+            "outputresolution": "custom",
+            "resolutionw": 2048,
+            "resolutionh": 2048,
+            "outputaspect": "custom"
+          }
+        },
+        {
+          "name": "projection2",
+          "type": "TOP:projection",
+          "parameters": {
+            "input": "equirectangular",
+            "output": "fisheye",
+            "rx": 90,
+            "outputresolution": "custom",
+            "resolutionw": 2048,
+            "resolutionh": 2048,
+            "outputaspect": "custom"
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "rendersimple2",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "sphere1",
+            "georx": 30,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "rendersimple3",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "sphere2",
+            "georx": 30,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "fov0",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "fov1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "projection1",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "projection1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "projection2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 8,
+        "operator_types": {
+          "CHOP:null": 2,
+          "CHOP:lfo": 1,
+          "CHOP:math": 1,
+          "TOP:null": 1,
+          "TOP:ramp": 1,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "TOP:select": 1,
+          "POP:sphere": 2,
+          "TOP:switch": 1,
+          "CHOP:constant": 2,
+          "DAT:table": 1,
+          "TOP:projection": 2,
+          "TOP:moviefilein": 1,
+          "TOP:rendersimple": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

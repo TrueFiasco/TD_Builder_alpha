@@ -1,0 +1,225 @@
+{
+  "operator": "DMX_Fixture_POP",
+  "family": "POP",
+  "td_create_name": "dmxfixturePOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "autolayout": {
+      "type": "toggle",
+      "value": false
+    },
+    "routingtable": {
+      "type": "op",
+      "value": "op_perturbed_routingtable"
+    },
+    "net": {
+      "type": "int",
+      "value": 1
+    },
+    "subnet": {
+      "type": "int",
+      "value": 1
+    },
+    "universe": {
+      "type": "int",
+      "value": 1
+    },
+    "channel": {
+      "type": "int",
+      "value": 2
+    },
+    "changap": {
+      "type": "int",
+      "value": 1
+    },
+    "quantizeuni": {
+      "type": "menu",
+      "value": "off",
+      "menuIndex": 0,
+      "menuNames": [
+        "off",
+        "fixture",
+        "comp"
+      ],
+      "menuLabels": [
+        "Off",
+        "By Fixture",
+        "By Components"
+      ]
+    },
+    "dmxchan": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "dmxchan0name": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "dmxchan0valuetype": {
+      "type": "menu",
+      "value": "primitive",
+      "menuIndex": 1,
+      "menuNames": [
+        "point",
+        "primitive"
+      ],
+      "menuLabels": [
+        "Point",
+        "Primitive"
+      ]
+    },
+    "dmxchan0valuesource": {
+      "type": "menu",
+      "value": "constant",
+      "menuIndex": 0,
+      "menuNames": [
+        "constant",
+        "attribute"
+      ],
+      "menuLabels": [
+        "Constant",
+        "Attribute"
+      ]
+    },
+    "dmxchan0group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "dmxchan0numcomps": {
+      "type": "menu",
+      "value": "2",
+      "menuIndex": 1,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "dmxchan0value0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dmxchan0value1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dmxchan0value2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dmxchan0value3": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dmxchan0attr": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "dmxchan0valueres": {
+      "type": "menu",
+      "value": "b16",
+      "menuIndex": 1,
+      "menuNames": [
+        "b8",
+        "b16",
+        "b24",
+        "b32"
+      ],
+      "menuLabels": [
+        "8-bit",
+        "16-bit",
+        "24-bit",
+        "32-bit"
+      ]
+    },
+    "dmxchan0normalized": {
+      "type": "toggle",
+      "value": false
+    },
+    "dmxchan0merge": {
+      "type": "toggle",
+      "value": true
+    },
+    "dmxchan0interleavebytes": {
+      "type": "toggle",
+      "value": true
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

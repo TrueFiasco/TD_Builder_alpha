@@ -1,0 +1,564 @@
+# Collaborative Workflow - Iterative Expert Discussion System
+# Multi-agent dialogue for continuous improvement of TD projects
+# Version: 1.0
+
+description: |
+  This defines a collaborative, iterative workflow where experts engage in
+  ongoing discussion to refine and improve every aspect of a TouchDesigner
+  project. Unlike linear approval chains, this system encourages:
+
+  - Back-and-forth dialogue between experts
+  - Continuous refinement through multiple iterations
+  - Cross-pollination of ideas between creative and technical domains
+  - Escalation only when genuine impasses occur
+  - Building consensus through discussion, not just approval/rejection
+
+# =============================================================================
+# ROLES AND RESPONSIBILITIES
+# =============================================================================
+
+roles:
+  user:
+    description: "Human initiating the project request"
+    responsibilities:
+      - "Provide initial vision and requirements"
+      - "Answer clarifying questions"
+      - "Make final decisions when experts disagree"
+      - "Approve completed work"
+
+  orchestrator:
+    description: "Coordinates discussion flow between expert teams"
+    responsibilities:
+      - "Route conversations to appropriate experts"
+      - "Ensure all perspectives are heard"
+      - "Identify when discussion is productive vs stuck"
+      - "Escalate unresolved conflicts to user"
+      - "Track project state and progress"
+      - "Summarize discussions for context"
+
+    coordination_patterns:
+      parallel_consultation:
+        description: "Ask multiple experts simultaneously"
+        when: "Need diverse perspectives on same question"
+        example: "Ask Creative AND CG about visual approach"
+
+      sequential_refinement:
+        description: "Pass output from one expert to another for improvement"
+        when: "Building on previous expert's work"
+        example: "Creative vision → CG translation → TD design"
+
+      round_table:
+        description: "All relevant experts discuss together"
+        when: "Complex decision requiring multiple viewpoints"
+        example: "Choosing between prebuilt vs custom approach"
+
+      targeted_critique:
+        description: "Route specific aspect to expert for feedback"
+        when: "Need specialist evaluation"
+        example: "Send shader code to CG expert for review"
+
+  # Vision Team
+  creative_expert:
+    description: "Artistic vision, mood, aesthetics"
+    expertise:
+      - "Emotional impact and mood"
+      - "Color palettes and visual harmony"
+      - "Motion qualities and timing"
+      - "Artistic coherence"
+      - "Reference works and inspirations"
+
+    discussion_style:
+      asks_about:
+        - "What emotion should viewers feel?"
+        - "What's the artistic intention?"
+        - "How does this serve the creative vision?"
+      pushes_back_on:
+        - "Technical compromises that harm aesthetics"
+        - "Generic solutions lacking character"
+        - "Over-engineering that obscures artistry"
+
+  cg_expert:
+    description: "Computer graphics algorithms and techniques"
+    expertise:
+      - "Rendering algorithms"
+      - "Shader programming"
+      - "Particle systems"
+      - "Procedural generation"
+      - "Performance optimization"
+
+    discussion_style:
+      asks_about:
+        - "What algorithm achieves this effect?"
+        - "What are the performance implications?"
+        - "Is there a more elegant mathematical approach?"
+      pushes_back_on:
+        - "Impossible performance requirements"
+        - "Wrong algorithm for the visual goal"
+        - "Overcomplicated solutions"
+
+  critic:
+    description: "Quality assurance and integration"
+    expertise:
+      - "Evaluating completeness"
+      - "Identifying gaps and inconsistencies"
+      - "Ensuring alignment with original request"
+      - "Spotting potential issues"
+      - "Mediating disagreements"
+
+    discussion_style:
+      asks_about:
+        - "Does this actually solve the user's problem?"
+        - "What could go wrong?"
+        - "Are we missing anything important?"
+        - "Is everyone aligned?"
+      pushes_back_on:
+        - "Scope creep beyond user needs"
+        - "Unaddressed edge cases"
+        - "Unresolved disagreements being glossed over"
+
+  # Implementation Team
+  td_designer:
+    description: "TouchDesigner architecture and patterns"
+    expertise:
+      - "Operator selection and networks"
+      - "Data flow design"
+      - "Palette component knowledge"
+      - "Parameter structures"
+      - "Performance patterns"
+
+    discussion_style:
+      asks_about:
+        - "Is there a palette component for this?"
+        - "What's the most efficient operator chain?"
+        - "How should data flow through the network?"
+      proposes:
+        - "Prebuilt vs custom approaches"
+        - "Network architecture options"
+        - "Integration strategies"
+
+  td_builder:
+    description: "Generates actual TD build scripts and code"
+    expertise:
+      - "Build script generation"
+      - "Operator instantiation"
+      - "Parameter setting"
+      - "Connection wiring"
+      - "File format specifics"
+
+    discussion_style:
+      asks_about:
+        - "What are the exact parameter values?"
+        - "How should operators be named?"
+        - "What's the execution order?"
+      reports:
+        - "Build progress and issues"
+        - "Validation results"
+        - "What worked vs what failed"
+
+  palette_expert:
+    description: "Knowledge of prebuilt palette and snippet components"
+    expertise:
+      - "278 palette components across 17 categories"
+      - "1,370 operator snippets"
+      - "Component capabilities and limitations"
+      - "Integration patterns"
+
+    discussion_style:
+      proposes:
+        - "Relevant prebuilt solutions"
+        - "Component combinations"
+        - "Modification strategies"
+      warns_about:
+        - "Component limitations"
+        - "Version compatibility"
+        - "Hidden complexity"
+
+# =============================================================================
+# DISCUSSION PHASES
+# =============================================================================
+
+phases:
+  1_vision_exploration:
+    description: "Understand and refine the creative vision"
+    participants: [orchestrator, creative_expert, user]
+    optional: [cg_expert]
+
+    goals:
+      - "Clarify what user wants to achieve"
+      - "Establish mood, aesthetics, emotional impact"
+      - "Identify reference works and inspirations"
+      - "Define success criteria"
+
+    discussion_pattern: |
+      Creative: "What feeling do you want to evoke?"
+      User: "Something ethereal and contemplative..."
+      Creative: "I'm thinking soft pastels, slow motion, maybe particle systems
+                 that drift like dust in sunlight. Does that resonate?"
+      User: "Yes, but with occasional moments of energy"
+      Creative: "So we need contrast - long peaceful sections punctuated by
+                 brighter, faster moments. Like breathing. CG, what techniques
+                 could achieve this dual nature?"
+      CG: "Particle systems with variable speed curves, color palette that
+          shifts from cool pastels to warmer tones during energy moments..."
+
+    exit_criteria:
+      - "Clear mood/aesthetic established"
+      - "User confirms alignment"
+      - "Technical direction emerging"
+
+  2_technical_translation:
+    description: "Convert vision into technical approach"
+    participants: [orchestrator, cg_expert, td_designer, palette_expert]
+    consults: [creative_expert]
+
+    goals:
+      - "Identify algorithms and techniques"
+      - "Explore prebuilt vs custom options"
+      - "Establish performance requirements"
+      - "Design data flow architecture"
+
+    discussion_pattern: |
+      CG: "For the drifting particle effect, we could use Perlin noise with
+           a low frequency for position, and a separate noise for color shift."
+      TD Designer: "The palette has a 'noise' component with 25+ noise types.
+                    Could be a good starting point."
+      Palette Expert: "Yes, but for particles specifically, we might want
+                       popViewer combined with custom noise. The palette noise
+                       is TOP-based, not particle-based."
+      CG: "Good point. What about the energy bursts?"
+      TD Designer: "We could use trigger CHOPs driving particle emission rate
+                    and color intensity. audioAnalysis palette component would
+                    work if it's music-driven, or we could use LFO patterns."
+      Creative: [consulted] "The energy should feel organic, not mechanical.
+                            Can we avoid rigid LFO patterns?"
+      CG: "We could use filtered noise for the trigger timing instead of LFO.
+           Gives that organic randomness while still having rhythmic structure."
+
+    exit_criteria:
+      - "Technical approach defined"
+      - "Component choices made (prebuilt/custom)"
+      - "Creative expert confirms technical serves vision"
+
+  3_design_refinement:
+    description: "Iterate on design through expert dialogue"
+    participants: [all]
+
+    goals:
+      - "Refine every aspect through discussion"
+      - "Address concerns and edge cases"
+      - "Optimize the approach"
+      - "Build consensus"
+
+    discussion_pattern: |
+      Critic: "I have a concern - we're using both the noise palette component
+               AND custom particle noise. Is there redundancy?"
+      TD Designer: "Good catch. The palette noise was for the background texture,
+                    particles have their own system. But we should clarify this."
+      CG: "Actually, could we use the particle positions to sample the background
+           noise? That would create visual coherence between layers."
+      Creative: "I love that idea - the particles would feel like they're part
+                 of the same fabric as the background, not floating on top."
+      TD Designer: "Implementation-wise, we'd feed particle positions into
+                    the noise TOP's transform. Very doable."
+      Critic: "That addresses my redundancy concern and improves coherence.
+               But what about performance with many particles?"
+      CG: "We should set a particle budget. Creative, what's the visual
+           density you're imagining?"
+      Creative: "Sparse, contemplative... maybe 1000-5000 particles?"
+      CG: "That's very manageable. TD Designer, any concerns?"
+      TD Designer: "None at all. We could go to 50k without issues."
+
+    iteration_triggers:
+      - "New concern raised"
+      - "Better approach suggested"
+      - "Creative requests change"
+      - "Technical limitation discovered"
+
+    exit_criteria:
+      - "All experts satisfied"
+      - "No unresolved concerns"
+      - "Clear implementation path"
+
+  4_implementation:
+    description: "TD Builder creates with ongoing expert feedback"
+    participants: [orchestrator, td_builder, td_designer]
+    reviews: [critic, cg_expert, creative_expert]
+
+    goals:
+      - "Generate build scripts"
+      - "Validate as we build"
+      - "Course-correct based on feedback"
+
+    discussion_pattern: |
+      TD Builder: "I've created the base particle system. Here's what I have:
+                   - noise1 (TOP, Perlin 3D)
+                   - particleGeo1 (SOP)
+                   - popNetwork1 (COMP)
+                   Wiring positions to noise transform."
+      TD Designer: "Looks good. Make sure to set the noise frequency low -
+                    we want that slow drift."
+      TD Builder: "Setting S parameter to [0.1, 0.1, 0.1]. Also added:
+                   - lag1 CHOP for smoothing
+                   - level1 TOP for color grading"
+      Critic: "What about the energy bursts we discussed? I don't see
+               trigger logic yet."
+      TD Builder: "Next phase. Let me finish the calm state first, then
+                   we'll layer the energy system on top."
+      Creative: [reviewing] "The drift speed feels right. Can we see
+                             a test render?"
+      TD Builder: "Running test... Here's the output."
+      Creative: "Beautiful! The particle density is perfect. Color is
+                 a bit too saturated for 'contemplative' though."
+      TD Builder: "Adjusting level1 saturation from 1.0 to 0.7..."
+      Creative: "Better! Let's proceed with the energy burst system."
+
+    feedback_loops:
+      - "Build → Review → Adjust → Build"
+      - "Any expert can request changes"
+      - "Builder explains tradeoffs"
+
+  5_critique_and_polish:
+    description: "Final refinement and quality assurance"
+    participants: [orchestrator, critic, creative_expert]
+    consults: [all]
+
+    goals:
+      - "Ensure completeness"
+      - "Verify alignment with original vision"
+      - "Polish rough edges"
+      - "Document any compromises"
+
+    discussion_pattern: |
+      Critic: "Let me walk through the final implementation against
+               our original goals:
+
+               ✓ Ethereal/contemplative mood - achieved
+               ✓ Soft pastels with particle drift - achieved
+               ✓ Energy burst moments - achieved
+               ? Organic feel for triggers - need to verify
+
+               Creative, does the trigger timing feel organic enough?"
+      Creative: "Let me review... Yes, the filtered noise timing works well.
+                 It's unpredictable but still has rhythm."
+      Critic: "CG, any performance concerns with the final build?"
+      CG: "Running at 60fps with headroom. No concerns."
+      Critic: "TD Designer, anything we should document for future maintenance?"
+      TD Designer: "The noise sampling from particle positions is a bit
+                    non-obvious. We should add a comment explaining that
+                    design decision."
+      Critic: "Good. Let me summarize for the user..."
+
+    exit_criteria:
+      - "All original requirements met"
+      - "All experts sign off"
+      - "Ready for user review"
+
+# =============================================================================
+# DISCUSSION DYNAMICS
+# =============================================================================
+
+discussion_dynamics:
+  constructive_disagreement:
+    description: "How experts should handle differing opinions"
+    guidelines:
+      - "State your concern clearly with reasoning"
+      - "Acknowledge the other expert's perspective"
+      - "Propose alternatives, don't just reject"
+      - "Seek synthesis, not victory"
+      - "Escalate only after good-faith attempts to resolve"
+
+    example: |
+      CG: "I'm concerned about using feedback TOPs here - they can be
+           unpredictable and hard to control."
+      TD Designer: "I hear that concern. The unpredictability is actually
+                    part of the aesthetic goal though. Creative?"
+      Creative: "Yes, we want some chaos, but controlled chaos."
+      CG: "What if we use feedback but with a reset trigger that keeps
+           it from getting too wild? Best of both worlds."
+      TD Designer: "That's a great compromise. We could pulse reset
+                    on the energy burst moments."
+
+  building_on_ideas:
+    description: "How to develop ideas collaboratively"
+    pattern: |
+      Expert A: [Initial idea]
+      Expert B: "Building on that, what if we also..."
+      Expert C: "And we could combine that with..."
+      Expert A: "Oh, that makes it even better because..."
+
+  asking_for_help:
+    description: "Experts can request input from others"
+    pattern: |
+      TD Designer: "I'm not sure about the best algorithm for this.
+                    CG, what would you recommend?"
+      CG: "For that kind of motion, I'd suggest..."
+
+      CG: "This works technically, but Creative, does it serve
+           the artistic vision?"
+      Creative: "Let me think about that..."
+
+  raising_concerns:
+    description: "How to flag potential issues"
+    pattern: |
+      Critic: "I want to raise a concern about X..."
+      [Relevant expert]: "That's a valid point. Here's how we could
+                          address it..."
+      Critic: "That resolves my concern." / "I'm still worried because..."
+
+# =============================================================================
+# ESCALATION PATTERNS
+# =============================================================================
+
+escalation:
+  to_critic:
+    when:
+      - "Two experts disagree and can't find synthesis"
+      - "Technical constraint conflicts with creative goal"
+      - "Scope/complexity concern"
+
+    critic_role: |
+      1. Hear both perspectives
+      2. Ask clarifying questions
+      3. Identify the core tension
+      4. Propose resolution or compromise
+      5. If still stuck, escalate to orchestrator
+
+  to_orchestrator:
+    when:
+      - "Critic can't resolve disagreement"
+      - "Need to involve user in decision"
+      - "Discussion is going in circles"
+      - "Fundamental approach change needed"
+
+    orchestrator_role: |
+      1. Summarize the impasse clearly
+      2. Present options to user
+      3. Get user decision
+      4. Communicate decision back to experts
+      5. Ensure team aligns with decision
+
+  to_user:
+    when:
+      - "Experts need creative direction"
+      - "Tradeoff requires user input"
+      - "Original requirements need clarification"
+      - "Budget/scope decision needed"
+
+    presentation_format: |
+      "We've reached a decision point:
+
+       Option A: [description]
+       - Pros: [list]
+       - Cons: [list]
+       - [Expert] recommends because: [reason]
+
+       Option B: [description]
+       - Pros: [list]
+       - Cons: [list]
+       - [Expert] recommends because: [reason]
+
+       Which direction would you like us to take?"
+
+# =============================================================================
+# ITERATION TRACKING
+# =============================================================================
+
+iteration_tracking:
+  version_notation:
+    format: "v{major}.{minor}"
+    major_increment: "Fundamental approach change"
+    minor_increment: "Refinement within approach"
+
+  change_log:
+    template: |
+      ## Version {version}
+
+      ### Changes
+      - {change_description} ({proposing_expert})
+
+      ### Rationale
+      {why_this_change}
+
+      ### Expert Consensus
+      - Creative: {agree/concern}
+      - CG: {agree/concern}
+      - TD Designer: {agree/concern}
+      - Critic: {agree/concern}
+
+  progress_markers:
+    vision_locked: "Creative vision established and confirmed"
+    approach_selected: "Technical approach chosen (prebuilt/custom/hybrid)"
+    design_complete: "All experts satisfied with design"
+    build_started: "TD Builder generating code"
+    build_complete: "Implementation finished"
+    polish_complete: "Final refinements done"
+    user_approved: "User has accepted deliverable"
+
+# =============================================================================
+# INTEGRATION WITH PREBUILT SOLUTIONS
+# =============================================================================
+
+prebuilt_discussion:
+  when_to_discuss:
+    - "TD Designer identifies relevant palette component"
+    - "User asks about existing solutions"
+    - "CG suggests algorithm that exists in palette"
+
+  discussion_template: |
+    TD Designer: "The palette has '{component}' which does {capability}.
+                  Should we use it or build custom?"
+
+    Palette Expert: "That component {details}. It {strengths} but {limitations}."
+
+    Creative: "Does it match our aesthetic goals?"
+
+    CG: "What's the performance like? Can we modify it?"
+
+    Critic: "What's the maintenance story? TD version compatibility?"
+
+    [Discussion continues until consensus or escalation]
+
+  decision_factors:
+    prefer_prebuilt:
+      - "Saves significant development time"
+      - "Well-tested and maintained"
+      - "Aesthetic is acceptable or customizable"
+      - "Performance is adequate"
+
+    prefer_custom:
+      - "Prebuilt doesn't match creative vision"
+      - "Need specific behavior not supported"
+      - "Performance requirements exceed prebuilt"
+      - "Learning opportunity for team"
+
+    hybrid_approach:
+      - "Use prebuilt as starting point"
+      - "Modify specific aspects"
+      - "Wrap prebuilt with custom control layer"
+
+# =============================================================================
+# CONVERSATION STARTERS
+# =============================================================================
+
+conversation_starters:
+  beginning_project:
+    creative: "Tell me about the feeling you want this to evoke."
+    cg: "What visual techniques are you drawn to?"
+    td_designer: "What's the context - installation, VJ, web, etc.?"
+
+  stuck_on_approach:
+    critic: "Let's step back - what's the core problem we're solving?"
+    creative: "What's the most important aspect to preserve?"
+    cg: "What constraints are actually fixed vs flexible?"
+
+  evaluating_options:
+    critic: "What are the tradeoffs between these approaches?"
+    creative: "Which option best serves the artistic vision?"
+    cg: "Which option has the best performance characteristics?"
+    td_designer: "Which option is most maintainable?"
+
+  refining_implementation:
+    creative: "Can we push this further aesthetically?"
+    cg: "Is there room for optimization?"
+    td_designer: "Are there edge cases we haven't considered?"
+    critic: "Does this fully address the original request?"

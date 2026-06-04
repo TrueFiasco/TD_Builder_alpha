@@ -1,0 +1,368 @@
+{
+  "operator": "XML_DAT",
+  "family": "DAT",
+  "td_create_name": "xmlDAT",
+  "param_count": 23,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "sgml": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Format",
+      "label": "Parse SGML/HTML",
+      "readOnly": false,
+      "expression": null
+    },
+    "merge": {
+      "value": {
+        "type": "menu",
+        "value": "before",
+        "menuIndex": 0,
+        "menuNames": [
+          "before",
+          "after",
+          "inside",
+          "replace"
+        ],
+        "menuLabels": [
+          "Before Element",
+          "After Element",
+          "Inside Element",
+          "Replace Element"
+        ]
+      },
+      "default": "before",
+      "page": "Format",
+      "label": "Merge",
+      "readOnly": false,
+      "expression": null
+    },
+    "mlabel": {
+      "value": {
+        "type": "string",
+        "value": "n1"
+      },
+      "default": "n1",
+      "page": "Format",
+      "label": "Label",
+      "readOnly": false,
+      "expression": null
+    },
+    "label": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Label",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "text": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Text",
+      "readOnly": false,
+      "expression": null
+    },
+    "name": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "value": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "plabel": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Parent Label",
+      "readOnly": false,
+      "expression": null
+    },
+    "ptype": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Parent Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "ptext": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Parent Text",
+      "readOnly": false,
+      "expression": null
+    },
+    "pname": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Parent Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "pvalue": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Element Scope",
+      "label": "Parent Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "oaname": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Output",
+      "label": "Name Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "oavalue": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Output",
+      "label": "Value Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "oclabel": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Output",
+      "label": "Children Labels",
+      "readOnly": false,
+      "expression": null
+    },
+    "show": {
+      "value": {
+        "type": "menu",
+        "value": "sumtable",
+        "menuIndex": 0,
+        "menuNames": [
+          "sumtable",
+          "sumtree",
+          "xml",
+          "attribs",
+          "attribscol",
+          "children",
+          "text"
+        ],
+        "menuLabels": [
+          "Summary Table",
+          "Summary Tree",
+          "XML",
+          "Attributes per Row",
+          "Attributes per Column",
+          "Children",
+          "Text"
+        ]
+      },
+      "default": "sumtable",
+      "page": "Output",
+      "label": "Show",
+      "readOnly": false,
+      "expression": null
+    },
+    "lprefix": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Output",
+      "label": "Label Prefix",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

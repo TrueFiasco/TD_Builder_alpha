@@ -1,0 +1,1192 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\trailPOP_lossless.json",
+  "operator_type": "trailPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "out1",
+          "type": "POP:out",
+          "parameters": {}
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "normalize_color"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "trail1",
+            "nameformat": "basic",
+            "attribscope": "\"P Age\"",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "POP:trail",
+          "parameters": {
+            "length": 2,
+            "ageattr": "seconds",
+            "tz": -0.09
+          }
+        },
+        {
+          "name": "chopto2",
+          "type": "POP:chopto",
+          "parameters": {
+            "chop": "audiospect1",
+            "startposx": -2,
+            "endposx": 2,
+            "chanscope": "chan1",
+            "attrscope": "P(1)",
+            "attr1chanscope": "\"\"",
+            "attr1name": "custom",
+            "attr1customname": "\"\"",
+            "attr1type": "float",
+            "attr1numcomps": 1,
+            "attr1defaultval0": 0.5,
+            "attr1defaultval1": 0.5,
+            "attr1defaultval2": 0.5,
+            "attr1defaultval3": 1
+          }
+        },
+        {
+          "name": "heatMap",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "inputattrscope": "P(0)",
+            "parsize": 1,
+            "outputattrscope": "U"
+          }
+        },
+        {
+          "name": "audiospect1",
+          "type": "CHOP:audiospect",
+          "parameters": {}
+        },
+        {
+          "name": "linesmooth1",
+          "type": "POP:linesmooth",
+          "parameters": {
+            "pageindex": 1,
+            "filterdist": 0.055
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "mono": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lineresample1",
+          "type": "POP:lineresample",
+          "parameters": {
+            "resamplemethod": "keyframes"
+          }
+        },
+        {
+          "name": "lineresample2",
+          "type": "POP:lineresample",
+          "parameters": {
+            "resamplemethod": "linestrip",
+            "resampledivs": 799
+          }
+        },
+        {
+          "name": "normalize_color",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "trail1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize_color",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "linesmooth1",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audiospect1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto2",
+          "to": "linesmooth1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "lineresample1",
+          "to_input": "0"
+        },
+        {
+          "from": "linesmooth1",
+          "to": "lineresample2",
+          "to_input": "0"
+        },
+        {
+          "from": "lineresample2",
+          "to": "normalize_color",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 8,
+        "operator_types": {
+          "POP:out": 1,
+          "DAT:popto": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:trail": 1,
+          "POP:chopto": 1,
+          "COMP:base": 1,
+          "COMP:annotate": 3,
+          "POP:normalize": 2,
+          "CHOP:audiospect": 1,
+          "POP:linesmooth": 1,
+          "CHOP:audiofilein": 1,
+          "POP:lineresample": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "line1"
+          }
+        },
+        {
+          "name": "hog1",
+          "type": "CHOP:hog",
+          "parameters": {
+            "delay": 0.05
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "pageindex": 2,
+            "widthnear": 6,
+            "widthfar": 3,
+            "linestartcaptype": "arrow",
+            "arrowwidth": 2.23,
+            "arrowheight": 5,
+            "startcappullback": 1,
+            "endcappullback": 1
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 2
+          }
+        },
+        {
+          "name": "math2",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "DistNext",
+            "fromhigh0": 0.04,
+            "tolow0": 1.6,
+            "tohigh0": 0.3,
+            "outputattrscope": "LineWidth"
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "LineWidth",
+            "mintype0": "clamp",
+            "maxtype0": "clamp",
+            "min0": 0.2,
+            "max0": 1.5
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "trail1",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "linemetrics1"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "linedivide1",
+            "nameformat": "basic",
+            "attribscope": "DispNext",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "linedivide1",
+            "nameformat": "basic",
+            "attribscope": "DispNext",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "math2",
+            "nameformat": "basic",
+            "attribscope": "LineWidth"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "delete1",
+            "nameformat": "basic",
+            "attribscope": "DispNext",
+            "renscope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "trail1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "POP:trail",
+          "parameters": {
+            "length": 0.7,
+            "ageattr": "seconds",
+            "fillmissedframes": "on"
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 2,
+            "entity": "primitive",
+            "pattern0invert": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "mousein1",
+          "type": "CHOP:mousein",
+          "parameters": {
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pointgen1",
+          "type": "POP:pointgen",
+          "parameters": {
+            "numpoints": 10
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "linedivide1",
+          "type": "POP:linedivide",
+          "parameters": {
+            "divs": 8,
+            "maxdist": 0.02,
+            "interpmethod": "cardinal",
+            "weightattr": "\"\"",
+            "resampledivs": 40,
+            "resamplemaxdist": 0.02,
+            "indvarattr": "Age",
+            "indvarstep": 0.01,
+            "resamplemaxverts": 2000,
+            "maxtries": 98
+          }
+        },
+        {
+          "name": "linedivide2",
+          "type": "POP:linedivide",
+          "parameters": {
+            "divs": 8,
+            "maxdist": 0.02,
+            "interpmethod": "cardinal",
+            "weightattr": "\"\"",
+            "resamplemethod": "keyframes",
+            "resampledivs": 40,
+            "resamplemaxdist": 0.02,
+            "indvarattr": "Age",
+            "indvarstep": 0.02,
+            "resamplemaxverts": 2000,
+            "maxtries": 98
+          }
+        },
+        {
+          "name": "linedivide3",
+          "type": "POP:linedivide",
+          "parameters": {
+            "divs": 8,
+            "maxdist": 0.02,
+            "interpmethod": "cardinal",
+            "weightattr": "\"\"",
+            "resamplemethod": "linestrip",
+            "resampledivs": 40,
+            "resamplemaxdist": 0.02,
+            "indvarattr": "Age",
+            "indvarstep": 0.02,
+            "resamplemaxverts": 2000,
+            "maxtries": 98
+          }
+        },
+        {
+          "name": "linedivide4",
+          "type": "POP:linedivide",
+          "parameters": {
+            "divs": 8,
+            "maxdist": 0.02,
+            "interpmethod": "cardinal",
+            "weightattr": "\"\"",
+            "resamplemethod": "dist",
+            "resampledivs": 40,
+            "resamplemaxdist": 0.02,
+            "indvarattr": "Age",
+            "indvarstep": 0.01,
+            "resamplemaxverts": 2000,
+            "maxtries": 98
+          }
+        },
+        {
+          "name": "linemetrics1",
+          "type": "POP:linemetrics",
+          "parameters": {
+            "dispnext": "on",
+            "distnext": "on",
+            "dirnext": "on",
+            "continuousdir": "on",
+            "maxneighbors": 5,
+            "diststart": "on",
+            "primlen": "on",
+            "linestripindex": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "filter1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "mousein1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "pointgen1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics1",
+          "to": "linedivide1",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics1",
+          "to": "linedivide2",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics1",
+          "to": "linedivide3",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics1",
+          "to": "linedivide4",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "linemetrics1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 27,
+        "connection_count": 12,
+        "operator_types": {
+          "COMP:geo": 1,
+          "CHOP:hog": 1,
+          "MAT:line": 1,
+          "CHOP:math": 1,
+          "POP:math": 1,
+          "POP:limit": 1,
+          "DAT:popto": 3,
+          "CHOP:popto": 4,
+          "DAT:text": 1,
+          "POP:trail": 1,
+          "POP:delete": 1,
+          "CHOP:filter": 1,
+          "CHOP:mousein": 1,
+          "COMP:annotate": 2,
+          "POP:pointgen": 1,
+          "POP:transform": 1,
+          "POP:linedivide": 4,
+          "POP:linemetrics": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "hog1",
+          "type": "CHOP:hog",
+          "parameters": {
+            "delay": 0.1
+          }
+        },
+        {
+          "name": "math5",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add"
+          }
+        },
+        {
+          "name": "null8",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "limit2",
+          "type": "POP:limit",
+          "parameters": {
+            "inputattrscope": "PartId",
+            "mintype0": "loop",
+            "maxtype0": "loop",
+            "max0": 4095
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "limit2",
+            "attrib": "id"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute2"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "particle1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 12,
+            "ondone": "restart",
+            "callbacks": "timer1_callbacks",
+            "outdonepulse": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "POP:trail",
+          "parameters": {
+            "length": 48,
+            "attrmatch": "on",
+            "attrname": "PartId"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40,
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "done_pulse"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "POP:particle",
+          "parameters": {
+            "targetpop": "particleloop"
+          }
+        },
+        {
+          "name": "pointgen1",
+          "type": "POP:pointgen",
+          "parameters": {
+            "numpoints": 160
+          }
+        },
+        {
+          "name": "resetChop",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "attribute2",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 4,
+            "deletepoint": "\"pstate life N v\""
+          }
+        },
+        {
+          "name": "particleloop",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "noise_add_PartForce",
+          "type": "POP:noise",
+          "parameters": {
+            "period": 10,
+            "harmon": 4,
+            "amp0": 60,
+            "noise": "on",
+            "noiseoutputattrscope": "PartForce"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "math5",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "math5",
+          "to_input": "1"
+        },
+        {
+          "from": "trail1",
+          "to": "null8",
+          "to_input": "0"
+        },
+        {
+          "from": "particleloop",
+          "to": "limit2",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute2",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "timer1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "pointgen1",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "math5",
+          "to": "resetChop",
+          "to_input": "0"
+        },
+        {
+          "from": "limit2",
+          "to": "attribute2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_add_PartForce",
+          "to": "particleloop",
+          "to_input": "0"
+        },
+        {
+          "from": "particle1",
+          "to": "noise_add_PartForce",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 11,
+        "operator_types": {
+          "CHOP:hog": 1,
+          "CHOP:math": 1,
+          "POP:null": 2,
+          "POP:limit": 1,
+          "DAT:popto": 3,
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "POP:trail": 1,
+          "COMP:button": 1,
+          "CHOP:select": 1,
+          "COMP:annotate": 1,
+          "POP:particle": 1,
+          "POP:pointgen": 1,
+          "CHOP:null": 1,
+          "POP:attribute": 1,
+          "POP:noise": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 8
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 10,
+            "amp": 200,
+            "channelname": "\"rx ry rz\"",
+            "timeslice": "on",
+            "exporttable": "noise1_export"
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 10,
+            "amp": 200,
+            "channelname": "\"rx ry rz\"",
+            "timeslice": "on",
+            "exporttable": "noise2_export"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix1"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "trail1",
+            "nameformat": "basic"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "delete1",
+            "nameformat": "basic",
+            "attribscope": "\"P DispNext\""
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix2"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "trail2",
+            "nameformat": "basic"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "delete2",
+            "nameformat": "basic",
+            "attribscope": "\"P DispNext\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.4,
+            "cols": 11,
+            "rows": 8,
+            "rx": 30
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.4,
+            "cols": 11,
+            "rows": 8,
+            "rx": 30
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "POP:trail",
+          "parameters": {
+            "alwayscook": "on",
+            "length": 0.2,
+            "ageattr": "seconds",
+            "fillmissedframes": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "POP:trail",
+          "parameters": {
+            "alwayscook": "on",
+            "length": 0.2,
+            "ageattr": "seconds",
+            "fillmissedframes": "on"
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 1,
+            "attr0inattr": "Age",
+            "attr0func": "ne"
+          }
+        },
+        {
+          "name": "delete2",
+          "type": "POP:delete",
+          "parameters": {
+            "pageindex": 1,
+            "attr0inattr": "Age",
+            "attr0func": "ne"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "DispNext",
+            "comb0result": "Velocity",
+            "comb1oper": "mult",
+            "comb1scopea": "Velocity",
+            "comb1scopeb": -0.8,
+            "comb1scopec": "\"\"",
+            "comb1result": "\"\""
+          }
+        },
+        {
+          "name": "mathmix2",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "DispNext",
+            "comb0result": "Velocity",
+            "comb1oper": "mult",
+            "comb1scopea": "Velocity",
+            "comb1scopeb": -0.8,
+            "comb1scopec": "\"\"",
+            "comb1result": "\"\""
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "popViewer1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 9,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "popViewer2",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 9,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "linemetrics1",
+          "type": "POP:linemetrics",
+          "parameters": {
+            "dispnext": "on"
+          }
+        },
+        {
+          "name": "linemetrics2",
+          "type": "POP:linemetrics",
+          "parameters": {
+            "dispnext": "on"
+          }
+        },
+        {
+          "name": "noise1_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "noise2_export",
+          "type": "DAT:table",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics1",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "linemetrics2",
+          "to": "delete2",
+          "to_input": "0"
+        },
+        {
+          "from": "delete1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "delete2",
+          "to": "mathmix2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "linemetrics1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail2",
+          "to": "linemetrics2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 30,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:noise": 2,
+          "DAT:popto": 2,
+          "CHOP:popto": 4,
+          "DAT:text": 1,
+          "POP:torus": 2,
+          "POP:trail": 2,
+          "POP:delete": 2,
+          "COMP:annotate": 5,
+          "POP:mathmix": 2,
+          "COMP:container": 2,
+          "POP:transform": 2,
+          "POP:linemetrics": 2,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    }
+  ]
+}

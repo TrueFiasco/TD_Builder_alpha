@@ -1,0 +1,102 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\directxoutTOP_lossless.json",
+  "operator_type": "directxoutTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "touchin1",
+          "type": "DAT:touchin",
+          "parameters": {}
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "touchout1",
+          "type": "DAT:touchout",
+          "parameters": {}
+        },
+        {
+          "name": "directxin1",
+          "type": "TOP:directxin",
+          "parameters": {}
+        },
+        {
+          "name": "directxout1",
+          "type": "TOP:directxout",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "directxout1_info",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "directxout1",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "directxout1_info",
+          "to": "touchout1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "directxout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:touchin": 1,
+          "COMP:annotate": 2,
+          "DAT:touchout": 1,
+          "TOP:directxin": 1,
+          "TOP:directxout": 1,
+          "TOP:moviefilein": 1,
+          "DAT:info": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

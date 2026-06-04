@@ -1,0 +1,469 @@
+{
+  "operator": "TOP_to_POP",
+  "family": "POP",
+  "td_create_name": "toptoPOP",
+  "param_count": 67,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "rgba": {
+      "type": "menu",
+      "value": "pactive",
+      "menuIndex": 1,
+      "menuNames": [
+        "color",
+        "pactive",
+        "pos",
+        "depth",
+        "height",
+        "custom"
+      ],
+      "menuLabels": [
+        "Color (RGBA)",
+        "Position and Active (RGBA)",
+        "Position (RGB)",
+        "Depth",
+        "Height (R)",
+        "Custom"
+      ]
+    },
+    "maxpointsenable": {
+      "type": "toggle",
+      "value": true
+    },
+    "maxpoints": {
+      "type": "int",
+      "value": 1001
+    },
+    "input": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "input0top": {
+      "type": "op",
+      "value": ""
+    },
+    "input0chanscope": {
+      "type": "string",
+      "value": "r g b a_perturbed"
+    },
+    "input0attrscope": {
+      "type": "string",
+      "value": "Color_perturbed"
+    },
+    "input0filter": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 1,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "highquality"
+      ],
+      "menuLabels": [
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "High Quality Resize"
+      ]
+    },
+    "attr": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "attr0name": {
+      "type": "menu",
+      "value": "n",
+      "menuIndex": 1,
+      "menuNames": [
+        "custom",
+        "n",
+        "color",
+        "tex",
+        "pointscale",
+        "linewidth"
+      ],
+      "menuLabels": [
+        "Custom",
+        "N",
+        "Color",
+        "Tex",
+        "PointScale",
+        "LineWidth"
+      ]
+    },
+    "attr0customname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "attr0type": {
+      "type": "menu",
+      "value": "double",
+      "menuIndex": 1,
+      "menuNames": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "color",
+        "dcolor",
+        "dir",
+        "ddir"
+      ],
+      "menuLabels": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "Color",
+        "Color (double)",
+        "Direction",
+        "Direction (double)"
+      ]
+    },
+    "attr0numcomps": {
+      "type": "menu",
+      "value": "2",
+      "menuIndex": 1,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "attr0defaultval0": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval1": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval2": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval3": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "surftype": {
+      "type": "menu",
+      "value": "lines",
+      "menuIndex": 2,
+      "menuNames": [
+        "none",
+        "points",
+        "lines",
+        "linestrips",
+        "triangles",
+        "alttriangles",
+        "quads"
+      ],
+      "menuLabels": [
+        "None",
+        "Point Primitives",
+        "Lines",
+        "Line Strips",
+        "Triangles",
+        "Alternating Triangles",
+        "Quadrilaterals"
+      ]
+    },
+    "linex": {
+      "type": "toggle",
+      "value": false
+    },
+    "liney": {
+      "type": "toggle",
+      "value": false
+    },
+    "linez": {
+      "type": "toggle",
+      "value": true
+    },
+    "planex": {
+      "type": "toggle",
+      "value": false
+    },
+    "planey": {
+      "type": "toggle",
+      "value": true
+    },
+    "planez": {
+      "type": "toggle",
+      "value": true
+    },
+    "uniquepoints": {
+      "type": "toggle",
+      "value": true
+    },
+    "tx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ty": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "overridesizex": {
+      "type": "toggle",
+      "value": true
+    },
+    "overridesizey": {
+      "type": "toggle",
+      "value": true
+    },
+    "overridesizez": {
+      "type": "toggle",
+      "value": true
+    },
+    "sizex": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizey": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizez": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "overrideresx": {
+      "type": "toggle",
+      "value": true
+    },
+    "overrideresy": {
+      "type": "toggle",
+      "value": true
+    },
+    "overrideresz": {
+      "type": "toggle",
+      "value": true
+    },
+    "resx": {
+      "type": "int",
+      "value": 101
+    },
+    "resy": {
+      "type": "int",
+      "value": 101
+    },
+    "resz": {
+      "type": "int",
+      "value": 2
+    },
+    "pixelsamplingloc": {
+      "type": "menu",
+      "value": "edgetoedge",
+      "menuIndex": 0,
+      "menuNames": [
+        "edgetoedge",
+        "pixelcentered"
+      ],
+      "menuLabels": [
+        "Edge to Edge",
+        "Pixel Centered"
+      ]
+    },
+    "texture": {
+      "type": "menu",
+      "value": "point",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "point",
+        "vert"
+      ],
+      "menuLabels": [
+        "None",
+        "Point",
+        "Vertex"
+      ]
+    },
+    "dimension": {
+      "type": "menu",
+      "value": "rowscolsslicesalways",
+      "menuIndex": 2,
+      "menuNames": [
+        "morethanone",
+        "rowscolsalways",
+        "rowscolsslicesalways"
+      ],
+      "menuLabels": [
+        "When Rows Cols Slices > 1",
+        "Always for Rows Cols",
+        "Always for Rows Cols Slices"
+      ]
+    },
+    "rerangefromlow": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rerangefromhigh": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "rerangetolow": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rerangetohigh": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "camera": {
+      "type": "op",
+      "value": ""
+    },
+    "overridecamera": {
+      "type": "toggle",
+      "value": true
+    },
+    "viewanglemethod": {
+      "type": "menu",
+      "value": "vertfov",
+      "menuIndex": 1,
+      "menuNames": [
+        "horfov",
+        "vertfov",
+        "focallengths"
+      ],
+      "menuLabels": [
+        "Horizontal FOV",
+        "Vertical FOV",
+        "Focal Lengths"
+      ]
+    },
+    "fov": {
+      "type": "float",
+      "value": 45.12345
+    },
+    "focallengthsx": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "focallengthsy": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "centerx": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "centery": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "deletenear": {
+      "type": "toggle",
+      "value": true
+    },
+    "depthnear": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "deletefar": {
+      "type": "toggle",
+      "value": true
+    },
+    "depthfar": {
+      "type": "float",
+      "value": 999.12345
+    },
+    "linestripbehavior": {
+      "type": "menu",
+      "value": "splitlinestrip",
+      "menuIndex": 1,
+      "menuNames": [
+        "delpointoflinestrip",
+        "splitlinestrip",
+        "dellinestrip"
+      ],
+      "menuLabels": [
+        "Delete Point of Line Strip",
+        "Split Line Strip",
+        "Delete Line Strip"
+      ]
+    },
+    "dispscale": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

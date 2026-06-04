@@ -1,0 +1,255 @@
+{
+  "operator": "Audio_Device_In_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiodeviceinCHOP",
+  "param_count": 41,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "driver": {
+      "type": "menu",
+      "value": "asio",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "asio",
+        "datapath",
+        "blackmagic",
+        "aja",
+        "deltacast"
+      ],
+      "menuLabels": [
+        "default (DirectSound/CoreAudio)",
+        "ASIO",
+        "DataPath (RGBEASY)",
+        "Blackmagic",
+        "AJA",
+        "Deltacast"
+      ]
+    },
+    "device": {
+      "type": "string",
+      "value": "default_perturbed"
+    },
+    "refresh": {
+      "type": "pulse",
+      "value": null
+    },
+    "errormissing": {
+      "type": "toggle",
+      "value": true
+    },
+    "inputselect": {
+      "type": "menu",
+      "value": "byindex",
+      "menuIndex": 1,
+      "menuNames": [
+        "byname",
+        "byindex"
+      ],
+      "menuLabels": [
+        "By Name",
+        "By Index"
+      ]
+    },
+    "inputnames": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "inputindices": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "format": {
+      "type": "menu",
+      "value": "stereo",
+      "menuIndex": 1,
+      "menuNames": [
+        "mono",
+        "stereo",
+        "multichannel"
+      ],
+      "menuLabels": [
+        "Mono",
+        "Stereo",
+        "Multi-Channel"
+      ]
+    },
+    "ratemode": {
+      "type": "menu",
+      "value": "auto",
+      "menuIndex": 1,
+      "menuNames": [
+        "manual",
+        "auto",
+        "resample"
+      ],
+      "menuLabels": [
+        "Manual",
+        "Automatic",
+        "Resample"
+      ]
+    },
+    "rate": {
+      "type": "float",
+      "value": 44100.12345
+    },
+    "bufferlength": {
+      "type": "float",
+      "value": 0.22345000149011612
+    },
+    "bufflenunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "numchan": {
+      "type": "int",
+      "value": 3
+    },
+    "frontleft": {
+      "type": "toggle",
+      "value": false
+    },
+    "frontright": {
+      "type": "toggle",
+      "value": false
+    },
+    "frontcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "lowfrequency": {
+      "type": "toggle",
+      "value": true
+    },
+    "backleft": {
+      "type": "toggle",
+      "value": true
+    },
+    "backright": {
+      "type": "toggle",
+      "value": true
+    },
+    "frontleftcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "frontrightcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "backcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "sideleft": {
+      "type": "toggle",
+      "value": true
+    },
+    "sideright": {
+      "type": "toggle",
+      "value": true
+    },
+    "topcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "topfrontleft": {
+      "type": "toggle",
+      "value": true
+    },
+    "topfrontcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "topfrontright": {
+      "type": "toggle",
+      "value": true
+    },
+    "topbackleft": {
+      "type": "toggle",
+      "value": true
+    },
+    "topbackcenter": {
+      "type": "toggle",
+      "value": true
+    },
+    "topbackright": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

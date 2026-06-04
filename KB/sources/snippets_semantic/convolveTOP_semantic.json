@@ -1,0 +1,222 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\convolveTOP_lossless.json",
+  "operator_type": "convolveTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text4",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text5",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "text6",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table5",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "convolve1",
+          "type": "TOP:convolve",
+          "parameters": {
+            "dat": "table1",
+            "normalize": "on"
+          }
+        },
+        {
+          "name": "convolve2",
+          "type": "TOP:convolve",
+          "parameters": {
+            "dat": "table2",
+            "normalize": "on"
+          }
+        },
+        {
+          "name": "convolve3",
+          "type": "TOP:convolve",
+          "parameters": {
+            "dat": "table3",
+            "normalize": "on"
+          }
+        },
+        {
+          "name": "convolve4",
+          "type": "TOP:convolve",
+          "parameters": {
+            "dat": "table4",
+            "normalize": "on"
+          }
+        },
+        {
+          "name": "convolve5",
+          "type": "TOP:convolve",
+          "parameters": {
+            "dat": "table5",
+            "normalize": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein5",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "convolve1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "convolve2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein3",
+          "to": "convolve3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein4",
+          "to": "convolve4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein5",
+          "to": "convolve5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 21,
+        "connection_count": 5,
+        "operator_types": {
+          "DAT:text": 6,
+          "DAT:table": 5,
+          "TOP:convolve": 5,
+          "TOP:moviefilein": 5
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

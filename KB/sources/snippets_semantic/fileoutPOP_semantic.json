@@ -1,0 +1,285 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\fileoutPOP_lossless.json",
+  "operator_type": "fileoutPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "cache1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "SOP:text",
+          "parameters": {}
+        },
+        {
+          "name": "cache1",
+          "type": "POP:cache",
+          "parameters": {
+            "cachesize": 100
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "pointfilein4",
+            "transpose": "on",
+            "thinoutrange": "on",
+            "thinrangelength": 1
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "filein5",
+            "transpose": "on",
+            "thinoutrange": "on",
+            "thinrangelength": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "POP:sopto",
+          "parameters": {
+            "sop": "text2"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "length": 100,
+            "lengthunits": "frames",
+            "callbacks": "timer1_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "length": 100,
+            "lengthunits": "frames",
+            "speed": 0.24,
+            "callbacks": "timer2_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "filein1",
+          "type": "POP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "filein2",
+          "type": "POP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "filein5",
+          "type": "POP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "fileout1",
+          "type": "POP:fileout",
+          "parameters": {}
+        },
+        {
+          "name": "fileout2",
+          "type": "POP:fileout",
+          "parameters": {
+            "type": "filesequence",
+            "limitlength": "on",
+            "length": 100
+          }
+        },
+        {
+          "name": "fileout4",
+          "type": "POP:fileout",
+          "parameters": {
+            "objectfiletype": "exr",
+            "attr1name": "Color",
+            "attr1fields": "[rgba]",
+            "attr2name": "N",
+            "attr2fields": "n[xyz]"
+          }
+        },
+        {
+          "name": "fileout5",
+          "type": "POP:fileout",
+          "parameters": {
+            "objectfiletype": "ply",
+            "attr1name": "N",
+            "attr1fields": "n[xyz]"
+          }
+        },
+        {
+          "name": "parexec1",
+          "type": "DAT:parexec",
+          "parameters": {
+            "op": "filein2",
+            "pars": "file",
+            "language": "python"
+          }
+        },
+        {
+          "name": "filein_out1",
+          "type": "POP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "filein_out4",
+          "type": "POP:pointfilein",
+          "parameters": {}
+        },
+        {
+          "name": "filein_out5",
+          "type": "POP:pointfilein",
+          "parameters": {}
+        },
+        {
+          "name": "cacheselect1",
+          "type": "POP:cacheselect",
+          "parameters": {
+            "cachepop": "cache1",
+            "cacheindexunit": "indices"
+          }
+        },
+        {
+          "name": "pointfilein4",
+          "type": "POP:pointfilein",
+          "parameters": {}
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "filein2",
+          "to": "cache1",
+          "to_input": "0"
+        },
+        {
+          "from": "filein1",
+          "to": "fileout1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto2",
+          "to": "fileout2",
+          "to_input": "0"
+        },
+        {
+          "from": "pointfilein4",
+          "to": "fileout4",
+          "to_input": "0"
+        },
+        {
+          "from": "filein5",
+          "to": "fileout5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 29,
+        "connection_count": 5,
+        "operator_types": {
+          "DAT:info": 1,
+          "SOP:text": 1,
+          "POP:cache": 1,
+          "DAT:popto": 2,
+          "DAT:text": 3,
+          "POP:sopto": 1,
+          "CHOP:timer": 2,
+          "POP:filein": 4,
+          "COMP:annotate": 5,
+          "POP:fileout": 4,
+          "DAT:parexec": 1,
+          "POP:pointfilein": 3,
+          "POP:cacheselect": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

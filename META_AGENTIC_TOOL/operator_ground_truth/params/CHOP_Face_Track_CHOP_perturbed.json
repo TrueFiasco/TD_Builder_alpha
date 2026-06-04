@@ -1,0 +1,119 @@
+{
+  "operator": "Face_Track_CHOP",
+  "family": "CHOP",
+  "td_create_name": "facetrackCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "meshfile": {
+      "type": "string",
+      "value": "C:/Program Files/NVIDIA Corporation/NVIDIA AR SDK/models/face_model2.nvf_perturbed"
+    },
+    "top": {
+      "type": "op",
+      "value": ""
+    },
+    "bbox": {
+      "type": "toggle",
+      "value": false
+    },
+    "bboxconfidence": {
+      "type": "toggle",
+      "value": true
+    },
+    "rotations": {
+      "type": "toggle",
+      "value": true
+    },
+    "landmarks": {
+      "type": "menu",
+      "value": "num68",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "num68",
+        "num126"
+      ],
+      "menuLabels": [
+        "None",
+        "68 (Multi-PIE Mark-ups)",
+        "126"
+      ]
+    },
+    "landmarkconfidence": {
+      "type": "toggle",
+      "value": true
+    },
+    "meshtransform": {
+      "type": "toggle",
+      "value": true
+    },
+    "aspectcorrectuv": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

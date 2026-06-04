@@ -1,0 +1,133 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\ltcinCHOP_lossless.json",
+  "operator_type": "ltcinCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('ltcin1').timecode"
+          }
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('ltcin2').timecode"
+          }
+        },
+        {
+          "name": "ltcin1",
+          "type": "CHOP:ltcin",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "ltcin2",
+          "type": "CHOP:ltcin",
+          "parameters": {
+            "inputrate": 60,
+            "userfields": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer1_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "ltcout1",
+          "type": "CHOP:ltcout",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "ltcout2",
+          "type": "CHOP:ltcout",
+          "parameters": {
+            "playmode": "timecodeop",
+            "user3": 2,
+            "user5": 5,
+            "user8": 8,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevin1",
+          "type": "CHOP:audiodevin",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ltcout1",
+          "to": "ltcin1",
+          "to_input": "0"
+        },
+        {
+          "from": "ltcout2",
+          "to": "ltcin2",
+          "to_input": "0"
+        },
+        {
+          "from": "ltcout1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:eval": 2,
+          "CHOP:ltcin": 2,
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:ltcout": 2,
+          "CHOP:audiodevin": 1,
+          "CHOP:audiodevout": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

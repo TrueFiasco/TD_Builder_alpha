@@ -1,0 +1,827 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\OPSnippets\\Snippets\\POP\\convertPOP.tox.dir",
+    "build_version": "099",
+    "build_date": "Sat Nov 15 10:04:52 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.31700"
+  },
+  "operators": {
+    "/convertPOP": {
+      "name": "convertPOP",
+      "path": "/convertPOP",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        1080,
+        -155,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "enableexternaltox": "off",
+        "savebackup": "off"
+      },
+      "parent": null,
+      "children": [
+        "example1"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1": {
+      "name": "example1",
+      "path": "/convertPOP/example1",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        50,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"multiple conversions affecting primitives\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "convertPOP"
+        }
+      },
+      "parent": "/convertPOP",
+      "children": [
+        "copy1",
+        "null1",
+        "popto1",
+        "popto2",
+        "popto3",
+        "popto4",
+        "readMe",
+        "torus1",
+        "circle1",
+        "convert1",
+        "convert2",
+        "convert3",
+        "convert4",
+        "convert5",
+        "convert6",
+        "convert7",
+        "convert9",
+        "linedivide1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/convertPOP/example1/copy1": {
+      "name": "copy1",
+      "path": "/convertPOP/example1/copy1",
+      "op_type": "POP:copy",
+      "family": "POP",
+      "specific_type": "copy",
+      "viewport_pos": null,
+      "tile_pos": [
+        235,
+        -465,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "ncy": 2,
+        "tx": 2.1,
+        "ty": 0,
+        "tz": 0
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "circle1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/null1": {
+      "name": "null1",
+      "path": "/convertPOP/example1/null1",
+      "op_type": "POP:null",
+      "family": "POP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        205,
+        -155,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "torus1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/popto1": {
+      "name": "popto1",
+      "path": "/convertPOP/example1/popto1",
+      "op_type": "DAT:popto",
+      "family": "DAT",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        235,
+        -540,
+        130,
+        40
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "copy1",
+        "extract": "primitives"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/popto2": {
+      "name": "popto2",
+      "path": "/convertPOP/example1/popto2",
+      "op_type": "DAT:popto",
+      "family": "DAT",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        465,
+        -543,
+        130,
+        46
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "convert4",
+        "extract": "primitives"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/popto3": {
+      "name": "popto3",
+      "path": "/convertPOP/example1/popto3",
+      "op_type": "DAT:popto",
+      "family": "DAT",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        375,
+        221,
+        130,
+        58
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "convert1",
+        "extract": "primitives"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/popto4": {
+      "name": "popto4",
+      "path": "/convertPOP/example1/popto4",
+      "op_type": "DAT:popto",
+      "family": "DAT",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        375,
+        111,
+        130,
+        58
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "convert2",
+        "extract": "primitives"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/readMe": {
+      "name": "readMe",
+      "path": "/convertPOP/example1/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000",
+          "is_binary": false
+        }
+      }
+    },
+    "/convertPOP/example1/torus1": {
+      "name": "torus1",
+      "path": "/convertPOP/example1/torus1",
+      "op_type": "POP:torus",
+      "family": "POP",
+      "specific_type": "torus",
+      "viewport_pos": null,
+      "tile_pos": [
+        35,
+        95,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cols": 30,
+        "rows": 14
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/circle1": {
+      "name": "circle1",
+      "path": "/convertPOP/example1/circle1",
+      "op_type": "POP:circle",
+      "family": "POP",
+      "specific_type": "circle",
+      "viewport_pos": null,
+      "tile_pos": [
+        35,
+        -295,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "divs": 6
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert1": {
+      "name": "convert1",
+      "path": "/convertPOP/example1/convert1",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        215,
+        205,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "deleteprims"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "torus1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert2": {
+      "name": "convert2",
+      "path": "/convertPOP/example1/convert2",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        215,
+        95,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "topointprims"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "torus1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert3": {
+      "name": "convert3",
+      "path": "/convertPOP/example1/convert3",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        215,
+        -15,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "tolinestrips"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "torus1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert4": {
+      "name": "convert4",
+      "path": "/convertPOP/example1/convert4",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        455,
+        -465,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "reversevertorder"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "copy1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert5": {
+      "name": "convert5",
+      "path": "/convertPOP/example1/convert5",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        355,
+        -155,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "quadstotriangles"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "null1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert6": {
+      "name": "convert6",
+      "path": "/convertPOP/example1/convert6",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        215,
+        -295,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "openlinestrips"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "circle1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert7": {
+      "name": "convert7",
+      "path": "/convertPOP/example1/convert7",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        405,
+        -295,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "closelinestrips"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "convert6"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/convert9": {
+      "name": "convert9",
+      "path": "/convertPOP/example1/convert9",
+      "op_type": "POP:convert",
+      "family": "POP",
+      "specific_type": "convert",
+      "viewport_pos": null,
+      "tile_pos": [
+        525,
+        -5,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "convert": "uniquereorderpoints"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "linedivide1"
+      },
+      "extra_files": {}
+    },
+    "/convertPOP/example1/linedivide1": {
+      "name": "linedivide1",
+      "path": "/convertPOP/example1/linedivide1",
+      "op_type": "POP:linedivide",
+      "family": "POP",
+      "specific_type": "linedivide",
+      "viewport_pos": null,
+      "tile_pos": [
+        375,
+        -15,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "interpmethod": "bspline"
+      },
+      "parent": "/convertPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "convert3"
+      },
+      "extra_files": {}
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.31700\ntime Sat Nov 15 10:04:52 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "convertPOP.n",
+    "convertPOP.parm",
+    "convertPOP/example1.n",
+    "convertPOP/example1.cparm",
+    "convertPOP/example1.parm",
+    "convertPOP/example1/copy1.n",
+    "convertPOP/example1/copy1.parm",
+    "convertPOP/example1/null1.n",
+    "convertPOP/example1/popto1.n",
+    "convertPOP/example1/popto1.parm",
+    "convertPOP/example1/popto2.n",
+    "convertPOP/example1/popto2.parm",
+    "convertPOP/example1/popto3.n",
+    "convertPOP/example1/popto3.parm",
+    "convertPOP/example1/popto4.n",
+    "convertPOP/example1/popto4.parm",
+    "convertPOP/example1/readMe.n",
+    "convertPOP/example1/readMe.parm",
+    "convertPOP/example1/readMe.text",
+    "convertPOP/example1/torus1.n",
+    "convertPOP/example1/torus1.parm",
+    "convertPOP/example1/circle1.n",
+    "convertPOP/example1/circle1.parm",
+    "convertPOP/example1/convert1.n",
+    "convertPOP/example1/convert1.parm",
+    "convertPOP/example1/convert2.n",
+    "convertPOP/example1/convert2.parm",
+    "convertPOP/example1/convert3.n",
+    "convertPOP/example1/convert3.parm",
+    "convertPOP/example1/convert4.n",
+    "convertPOP/example1/convert4.parm",
+    "convertPOP/example1/convert5.n",
+    "convertPOP/example1/convert5.parm",
+    "convertPOP/example1/convert6.n",
+    "convertPOP/example1/convert6.parm",
+    "convertPOP/example1/convert7.n",
+    "convertPOP/example1/convert7.parm",
+    "convertPOP/example1/convert9.n",
+    "convertPOP/example1/convert9.parm",
+    "convertPOP/example1/linedivide1.n",
+    "convertPOP/example1/linedivide1.parm"
+  ],
+  "connections": [
+    {
+      "from": "circle1",
+      "to": "/convertPOP/example1/copy1",
+      "to_input": 0
+    },
+    {
+      "from": "torus1",
+      "to": "/convertPOP/example1/null1",
+      "to_input": 0
+    },
+    {
+      "from": "torus1",
+      "to": "/convertPOP/example1/convert1",
+      "to_input": 0
+    },
+    {
+      "from": "torus1",
+      "to": "/convertPOP/example1/convert2",
+      "to_input": 0
+    },
+    {
+      "from": "torus1",
+      "to": "/convertPOP/example1/convert3",
+      "to_input": 0
+    },
+    {
+      "from": "copy1",
+      "to": "/convertPOP/example1/convert4",
+      "to_input": 0
+    },
+    {
+      "from": "null1",
+      "to": "/convertPOP/example1/convert5",
+      "to_input": 0
+    },
+    {
+      "from": "circle1",
+      "to": "/convertPOP/example1/convert6",
+      "to_input": 0
+    },
+    {
+      "from": "convert6",
+      "to": "/convertPOP/example1/convert7",
+      "to_input": 0
+    },
+    {
+      "from": "linedivide1",
+      "to": "/convertPOP/example1/convert9",
+      "to_input": 0
+    },
+    {
+      "from": "convert3",
+      "to": "/convertPOP/example1/linedivide1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 20,
+    "total_connections": 11,
+    "total_raw_files": 1,
+    "total_extra_files": 2,
+    "total_files_captured": 43,
+    "by_family": {
+      "COMP": 2,
+      "POP": 13,
+      "DAT": 5
+    },
+    "by_type": {
+      "COMP:base": 2,
+      "POP:copy": 1,
+      "POP:null": 1,
+      "DAT:popto": 4,
+      "DAT:text": 1,
+      "POP:torus": 1,
+      "POP:circle": 1,
+      "POP:convert": 8,
+      "POP:linedivide": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 35
+  }
+}

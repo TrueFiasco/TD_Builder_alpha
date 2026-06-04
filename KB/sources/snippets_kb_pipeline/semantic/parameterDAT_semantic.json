@@ -1,0 +1,87 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\parameterDAT_lossless.json",
+  "operator_type": "parameterDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "exporttable": "constant1_export"
+          }
+        },
+        {
+          "name": "parameter1",
+          "type": "DAT:parameter",
+          "parameters": {
+            "pageindex": 2,
+            "ops": "moviefilein1",
+            "builtin": "on",
+            "label": "on",
+            "eval": "on",
+            "constant": "on",
+            "expression": "on",
+            "export": "on",
+            "mode": "on",
+            "style": "on",
+            "tupletname": "on",
+            "size": "on",
+            "path": "on",
+            "menuindex": "on",
+            "minmax": "on",
+            "clampminmax": "on",
+            "normminmax": "on",
+            "default": "on",
+            "enabled": "on",
+            "readonly": "on",
+            "section": "on",
+            "menunames": "on",
+            "menulabels": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "DAT:parameter": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

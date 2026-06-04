@@ -1,0 +1,157 @@
+{
+  "operator": "Twist_SOP",
+  "family": "SOP",
+  "td_create_name": "twistSOP",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Twist",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "op": {
+      "value": {
+        "type": "menu",
+        "value": "twist",
+        "menuIndex": 0,
+        "menuNames": [
+          "twist",
+          "bend",
+          "shear",
+          "taper",
+          "ltaper",
+          "squash"
+        ],
+        "menuLabels": [
+          "Twist",
+          "Bend",
+          "Shear",
+          "Taper",
+          "Linear Taper",
+          "Squash & Stretch"
+        ]
+      },
+      "default": "twist",
+      "page": "Twist",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "paxis": {
+      "value": {
+        "type": "menu",
+        "value": "x",
+        "menuIndex": 0,
+        "menuNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "menuLabels": [
+          "X Axis",
+          "Y Axis",
+          "Z Axis"
+        ]
+      },
+      "default": "x",
+      "page": "Twist",
+      "label": "Primary Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "saxis": {
+      "value": {
+        "type": "menu",
+        "value": "y",
+        "menuIndex": 1,
+        "menuNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "menuLabels": [
+          "X Axis",
+          "Y Axis",
+          "Z Axis"
+        ]
+      },
+      "default": "y",
+      "page": "Twist",
+      "label": "Secondary Axis",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Twist",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Twist",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Twist",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "strength": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Twist",
+      "label": "Strength",
+      "readOnly": false,
+      "expression": null
+    },
+    "roll": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Twist",
+      "label": "Rolloff",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

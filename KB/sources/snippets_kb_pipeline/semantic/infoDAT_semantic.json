@@ -1,0 +1,156 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\infoDAT_lossless.json",
+  "operator_type": "infoDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "directxout1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "directxin1",
+          "type": "TOP:directxin",
+          "parameters": {}
+        },
+        {
+          "name": "directxout1",
+          "type": "TOP:directxout",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "directxout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:directxin": 1,
+          "TOP:directxout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "videoin1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "videoin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||\\\\\\\\?\\\\usb#vid_13d3&pid_5279&mi_00#6&f7bbb15&1&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global|||4|||0|||Integrated Camera\"",
+            "precedence": "even",
+            "signalformat": "f640x480p-30.00hz"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 1,
+          "TOP:videodevin": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "info4",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "field1/text",
+            "language": "text"
+          }
+        },
+        {
+          "name": "field1",
+          "type": "COMP:field",
+          "parameters": {
+            "w": 100,
+            "h": 20,
+            "top": "./text",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 1,
+          "COMP:field": 1,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

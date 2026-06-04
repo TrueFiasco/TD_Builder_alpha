@@ -1,0 +1,786 @@
+{
+  "operator": "Math_Combine_POP",
+  "family": "POP",
+  "td_create_name": "mathcombinePOP",
+  "param_count": 66,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "4"
+    },
+    "attrclass": {
+      "type": "menu",
+      "value": "vertex",
+      "menuIndex": 1,
+      "menuNames": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "menuLabels": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ]
+    },
+    "lengthmismatchnotif": {
+      "type": "menu",
+      "value": "error",
+      "menuIndex": 2,
+      "menuNames": [
+        "ignore",
+        "warning",
+        "error"
+      ],
+      "menuLabels": [
+        "Ignore",
+        "Warning",
+        "Error"
+      ]
+    },
+    "lengthmismatchaction": {
+      "type": "menu",
+      "value": "zero",
+      "menuIndex": 2,
+      "menuNames": [
+        "hold",
+        "repeat",
+        "zero",
+        "one",
+        "none"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Repeat",
+        "Zero",
+        "One",
+        "None"
+      ]
+    },
+    "group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "angleunit": {
+      "type": "menu",
+      "value": "rad",
+      "menuIndex": 1,
+      "menuNames": [
+        "deg",
+        "rad",
+        "cycle"
+      ],
+      "menuLabels": [
+        "Degrees",
+        "Radians",
+        "Cycles"
+      ]
+    },
+    "input": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "input0pop": {
+      "type": "op",
+      "value": ""
+    },
+    "input0attrs": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "input0renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "vec": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "vec0name": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "vec0type": {
+      "type": "menu",
+      "value": "float2",
+      "menuIndex": 1,
+      "menuNames": [
+        "float",
+        "float2",
+        "float3",
+        "float4",
+        "double",
+        "double2",
+        "double3",
+        "double4",
+        "int",
+        "int2",
+        "int3",
+        "int4",
+        "uint",
+        "uint2",
+        "uint3",
+        "uint4"
+      ],
+      "menuLabels": [
+        "float",
+        "float2",
+        "float3",
+        "float4",
+        "double",
+        "double2",
+        "double3",
+        "double4",
+        "int",
+        "int2",
+        "int3",
+        "int4",
+        "uint",
+        "uint2",
+        "uint3",
+        "uint4"
+      ]
+    },
+    "vec0value0": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "vec0value1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "vec0value2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "vec0value3": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "premultcolor": {
+      "type": "toggle",
+      "value": false
+    },
+    "color": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "color0name": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "color0rgbr": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "color0rgbg": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "color0rgbb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "color0alpha": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "attr": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "attr0name": {
+      "type": "menu",
+      "value": "n",
+      "menuIndex": 1,
+      "menuNames": [
+        "custom",
+        "n",
+        "color",
+        "tex",
+        "pointscale",
+        "linewidth"
+      ],
+      "menuLabels": [
+        "Custom",
+        "N",
+        "Color",
+        "Tex",
+        "PointScale",
+        "LineWidth"
+      ]
+    },
+    "attr0customname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "attr0type": {
+      "type": "menu",
+      "value": "double",
+      "menuIndex": 1,
+      "menuNames": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "color",
+        "dcolor",
+        "dir",
+        "ddir"
+      ],
+      "menuLabels": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "Color",
+        "Color (double)",
+        "Direction",
+        "Direction (double)"
+      ]
+    },
+    "attr0numcomps": {
+      "type": "menu",
+      "value": "2",
+      "menuIndex": 1,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "attr0defaultval0": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval1": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval2": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attr0defaultval3": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "pre": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "pre0scope": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "pre0parsize": {
+      "type": "menu",
+      "value": "2",
+      "menuIndex": 1,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "pre0order": {
+      "type": "menu",
+      "value": "addmultop",
+      "menuIndex": 1,
+      "menuNames": [
+        "multaddop",
+        "addmultop",
+        "opmultadd",
+        "opaddmult"
+      ],
+      "menuLabels": [
+        "Multiply, Add, Operation",
+        "Add, Multiply, Operation",
+        "Operation, Multiply, Add",
+        "Operation, Add, Multiply"
+      ]
+    },
+    "pre0mult0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "pre0add0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pre0oper0": {
+      "type": "menu",
+      "value": "abs",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "abs",
+        "sign",
+        "sqrt",
+        "square",
+        "inverse",
+        "floor",
+        "round",
+        "ceil",
+        "int",
+        "fract",
+        "normalize",
+        "exp10",
+        "exp2",
+        "exp",
+        "log10",
+        "log2",
+        "ln",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "degrees",
+        "radians",
+        "dbtopow",
+        "powtodb",
+        "dbtoamp",
+        "amptodb"
+      ],
+      "menuLabels": [
+        "None",
+        "abs(A)",
+        "sign(A)",
+        "sqrt(A)",
+        "A * A",
+        "1 / A",
+        "floor(A)",
+        "round(A)",
+        "ceil(A)",
+        "int(A)",
+        "fract(A)",
+        "normalize(A)",
+        "exp10(A)",
+        "exp2(A)",
+        "exp(A)",
+        "log10(A)",
+        "log2(A)",
+        "ln(A)",
+        "sin(A)",
+        "cos(A)",
+        "tan(A)",
+        "asin(A)",
+        "acos(A)",
+        "atan(A)",
+        "degrees(A)",
+        "radians(A)",
+        "dbtopow(A)",
+        "powtodb(A)",
+        "dbtoamp(A)",
+        "amptodb(A)"
+      ]
+    },
+    "pre0quantize0": {
+      "type": "menu",
+      "value": "floor",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "floor",
+        "round",
+        "ceiling",
+        "gt0",
+        "gteq0",
+        "eq0",
+        "neq0",
+        "lteq0",
+        "lt0"
+      ],
+      "menuLabels": [
+        "Off",
+        "floor(A)",
+        "round(A)",
+        "ceil(A)",
+        "A > 0",
+        "A >= 0",
+        "A == 0",
+        "A != 0",
+        "A <= 0",
+        "A < 0"
+      ]
+    },
+    "pre0resultscope": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "comb": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "comb0oper": {
+      "type": "menu",
+      "value": "copya",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "copya",
+        "negatea",
+        "abs",
+        "sign",
+        "sqrt",
+        "square",
+        "inverse",
+        "floor",
+        "round",
+        "ceil",
+        "int",
+        "fract",
+        "normalize",
+        "exp10",
+        "exp2",
+        "exp",
+        "log10",
+        "log2",
+        "ln",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "degrees",
+        "radians",
+        "dbtopow",
+        "powtodb",
+        "dbtoamp",
+        "amptodb",
+        "length",
+        "compadd",
+        "compsub",
+        "compmult",
+        "compdiv",
+        "compavg",
+        "compmin",
+        "compmax",
+        "rgbtohsv",
+        "hsvtorgb",
+        "add",
+        "asubb",
+        "bsuba",
+        "mult",
+        "adivb",
+        "bdiva",
+        "apowerb",
+        "logba",
+        "avg",
+        "min",
+        "max",
+        "mod",
+        "intadivb",
+        "gt",
+        "gte",
+        "lt",
+        "lte",
+        "eq",
+        "ne",
+        "atan2",
+        "dot",
+        "angle",
+        "cross",
+        "reflect",
+        "aaddbmultc",
+        "amultbaddc",
+        "aaddbaddc",
+        "amultbmultc",
+        "rangefrom",
+        "rangeto",
+        "mix",
+        "ifelse",
+        "loop",
+        "zigzag",
+        "clamp",
+        "smoothstep",
+        "bltealtc",
+        "bltaltec",
+        "bltaltec",
+        "bltaltec",
+        "refract"
+      ],
+      "menuLabels": [
+        "None",
+        "A",
+        "-A",
+        "abs(A)",
+        "sign(A)",
+        "sqrt(A)",
+        "A * A",
+        "1 / A",
+        "floor(A)",
+        "round(A)",
+        "ceil(A)",
+        "int(A)",
+        "fract(A)",
+        "normalize(A)",
+        "exp10(A)",
+        "exp2(A)",
+        "exp(A)",
+        "log10(A)",
+        "log2(A)",
+        "ln(A)",
+        "sin(A)",
+        "cos(A)",
+        "tan(A)",
+        "asin(A)",
+        "acos(A)",
+        "atan(A)",
+        "degrees(A)",
+        "radians(A)",
+        "dbtopow(A)",
+        "powtodb(A)",
+        "dbtoamp(A)",
+        "amptodb(A)",
+        "length(A)",
+        "compadd(A)",
+        "compsub(A)",
+        "compmult(A)",
+        "compdiv(A)",
+        "compavg(A)",
+        "compmin(A)",
+        "compmax(A)",
+        "RGBtoHSV(A)",
+        "HSVtoRGB(A)",
+        "A + B",
+        "A - B",
+        "B - A",
+        "A * B",
+        "A / B",
+        "B / A",
+        "A ** B",
+        "logB(A)",
+        "avg(A, B)",
+        "min(A, B)",
+        "max(A, B)",
+        "mod(A, B)",
+        "int(A / B)",
+        "A > B",
+        "A >= B",
+        "A < B",
+        "A <= B",
+        "A == B",
+        "A != B",
+        "atan2(A, B)",
+        "dot(A, B)",
+        "angle(A, B)",
+        "cross(A, B)",
+        "reflect(A, B)",
+        "A + B * C",
+        "A * B + C",
+        "A + B + C",
+        "A * B * C",
+        "rangefrom(A, B, C)",
+        "rangeto(A, B, C)",
+        "mix(A, B, C)",
+        "A if C else B",
+        "loop(A, B, C)",
+        "zigzag(A, B, C)",
+        "clamp(A, B, C)",
+        "smoothstep(A, B, C)",
+        "B <= A < C",
+        "B < A <= C",
+        "B < A < C",
+        "B <= A <= C",
+        "refract(A, B, C)"
+      ]
+    },
+    "comb0scopea": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "comb0scopeb": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "comb0scopec": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "comb0result": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "post": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "post0scope": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "post0parsize": {
+      "type": "menu",
+      "value": "2",
+      "menuIndex": 1,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "post0fromlow0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "post0fromhigh0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "post0tolow0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "post0tohigh0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "post0quantize0": {
+      "type": "menu",
+      "value": "floor",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "floor",
+        "round",
+        "ceiling",
+        "gt0",
+        "gteq0",
+        "eq0",
+        "neq0",
+        "lteq0",
+        "lt0"
+      ],
+      "menuLabels": [
+        "Off",
+        "floor(A)",
+        "round(A)",
+        "ceil(A)",
+        "A > 0",
+        "A >= 0",
+        "A == 0",
+        "A != 0",
+        "A <= 0",
+        "A < 0"
+      ]
+    },
+    "post0castto": {
+      "type": "menu",
+      "value": "float",
+      "menuIndex": 1,
+      "menuNames": [
+        "auto",
+        "float",
+        "int"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "Float",
+        "Int"
+      ]
+    },
+    "post0result": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "delattrs": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "delnewattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "outputsecondary": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

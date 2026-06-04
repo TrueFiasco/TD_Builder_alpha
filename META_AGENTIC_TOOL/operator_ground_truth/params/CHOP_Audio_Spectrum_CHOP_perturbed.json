@@ -1,0 +1,135 @@
+{
+  "operator": "Audio_Spectrum_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiospectrumCHOP",
+  "param_count": 15,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "mode": {
+      "type": "menu",
+      "value": "timetoraw",
+      "menuIndex": 1,
+      "menuNames": [
+        "visual",
+        "timetoraw",
+        "rawtotime"
+      ],
+      "menuLabels": [
+        "Visualization",
+        "Time to Magnitude and Phase",
+        "Magnitude and Phase to Time"
+      ]
+    },
+    "fftsize": {
+      "type": "menu",
+      "value": "16384",
+      "menuIndex": 8,
+      "menuNames": [
+        "64",
+        "128",
+        "256",
+        "512",
+        "1024",
+        "2048",
+        "4096",
+        "8192",
+        "16384"
+      ],
+      "menuLabels": [
+        "64",
+        "128",
+        "256",
+        "512",
+        "1024",
+        "2048",
+        "4096",
+        "8192",
+        "16384"
+      ]
+    },
+    "frequencylog": {
+      "type": "float",
+      "value": 1.0
+    },
+    "highfreqboost": {
+      "type": "float",
+      "value": 0.8734500000000001
+    },
+    "outputmenu": {
+      "type": "menu",
+      "value": "setmanually",
+      "menuIndex": 1,
+      "menuNames": [
+        "matchtofrequency",
+        "setmanually"
+      ],
+      "menuLabels": [
+        "Match Length To Frequency",
+        "Set Length Manually"
+      ]
+    },
+    "outlength": {
+      "type": "int",
+      "value": 2049
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

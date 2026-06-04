@@ -1,0 +1,2051 @@
+{
+  "family": "CHOP",
+  "total": 154,
+  "with_unique_content": 33,
+  "classes": [
+    {
+      "class_name": "AudiobandeqCHOP_Class",
+      "operator": "AudiobandeqCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudiodynamicsCHOP_Class",
+      "operator": "AudiodynamicsCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudiofileinCHOP_Class",
+      "operator": "AudiofileinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a dictionary containing all the metadata.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "metadata",
+          "signature": "metadata",
+          "return_type": "dict",
+          "description": "Get a dictionary containing all the metadata.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudiofilterCHOP_Class",
+      "operator": "AudiofilterCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudiomovieCHOP_Class",
+      "operator": "AudiomovieCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "hasAudio",
+          "signature": "hasAudio",
+          "return_type": "bool",
+          "description": "The current movie playback rate.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "playbackRate",
+          "signature": "playbackRate",
+          "return_type": "float",
+          "description": "The current movie playback rate.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudioparaeqCHOP_Class",
+      "operator": "AudioparaeqCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudioplayCHOP_Class",
+      "operator": "AudioplayCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "play",
+          "signature": "play(index, start=True, loop=False,  delaySeconds=0.0, pan=None, rolloff=None, volume=None, fadeSeconds=0.0)",
+          "return_type": "None",
+          "description": "Stop the playing of audio samples specified in an",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "index",
+            "start=True",
+            "loop=False",
+            "delaySeconds=0.0",
+            "pan=None",
+            "rolloff=None",
+            "volume=None",
+            "fadeSeconds=0.0"
+          ]
+        },
+        {
+          "name": "stop",
+          "signature": "stop(index)",
+          "return_type": "None",
+          "description": "Stop the playing of audio samples specified in an",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "index"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "AudiovstCHOP_Class",
+      "operator": "AudiovstCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "panic",
+          "signature": "panic()",
+          "return_type": "None",
+          "description": "Sends a Program Change event through the",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages, timestamp=0)",
+          "return_type": "None",
+          "description": "Send a sequence of 3 MIDI bytes through this",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*messages",
+            "timestamp=0"
+          ]
+        },
+        {
+          "name": "sendAfterTouch",
+          "signature": "sendAfterTouch(channel, note, velocity)",
+          "return_type": "None",
+          "description": "Sends an After Touch event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "note",
+            "velocity"
+          ]
+        },
+        {
+          "name": "sendAllNotesOff",
+          "signature": "sendAllNotesOff(channel)",
+          "return_type": "None",
+          "description": "Sends a All Notes Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel"
+          ]
+        },
+        {
+          "name": "sendChannelPressure",
+          "signature": "sendChannelPressure(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Channel Pressure event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendControl",
+          "signature": "sendControl(channel, index, value)",
+          "return_type": "None",
+          "description": "Sends a Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendExclusive",
+          "signature": "sendExclusive(*messages, timestamp=0)",
+          "return_type": "None",
+          "description": "Send a sequence of exclusive MIDI bytes through this",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*messages",
+            "timestamp=0"
+          ]
+        },
+        {
+          "name": "sendNoteOff",
+          "signature": "sendNoteOff(channel, note, velocity)",
+          "return_type": "None",
+          "description": "Sends a Note On event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "note",
+            "velocity"
+          ]
+        },
+        {
+          "name": "sendNoteOn",
+          "signature": "sendNoteOn(channel, note, velocity, noteOffDelay=None, noteOffVelocity=None)",
+          "return_type": "None",
+          "description": "Sends a Note On event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "note",
+            "velocity",
+            "noteOffDelay=None",
+            "noteOffVelocity=None"
+          ]
+        },
+        {
+          "name": "sendPitchBend",
+          "signature": "sendPitchBend(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Pitch Bend event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendProgram",
+          "signature": "sendProgram(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Program Change event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "ClipblenderCHOP_Class",
+      "operator": "ClipblenderCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "clipA",
+          "signature": "clipA",
+          "return_type": "OP",
+          "description": "Trigger the next clip in sequence.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "clipB",
+          "signature": "clipB",
+          "return_type": "OP",
+          "description": "The clip being blended into.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "currentClip",
+          "signature": "currentClip",
+          "return_type": "OP",
+          "description": "Clip A before the start of a transition, clip B otherwise.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "currentFrame",
+          "signature": "currentFrame",
+          "return_type": "float",
+          "description": "The frame index of the current clip output.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "currentTime",
+          "signature": "currentTime",
+          "return_type": "float",
+          "description": "The time value of the current clip output.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "endBlendTime",
+          "signature": "endBlendTime",
+          "return_type": "float",
+          "description": "The time at which the transition is complete.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "isBlending",
+          "signature": "isBlending",
+          "return_type": "bool",
+          "description": "True if the output is transitioning between clips.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "isQueued",
+          "signature": "isQueued",
+          "return_type": "bool",
+          "description": "True if transitions are delayed until current transition completes.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "isTriggerWaiting",
+          "signature": "isTriggerWaiting",
+          "return_type": "bool",
+          "description": "True if there is a pending triggered transition.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "lastClipA",
+          "signature": "lastClipA",
+          "return_type": "float",
+          "description": "Last value of clip A.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "lastClipB",
+          "signature": "lastClipB",
+          "return_type": "float",
+          "description": "Last value of clip B.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "nextClip",
+          "signature": "nextClip",
+          "return_type": "OP",
+          "description": "The next clip to be sequenced.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "startBlendTime",
+          "signature": "startBlendTime",
+          "return_type": "float",
+          "description": "The time the transition will start.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "triggerClip",
+          "signature": "triggerClip",
+          "return_type": "OP",
+          "description": "The clip .",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "trigger",
+          "signature": "trigger(clipCHOP, waitEnd=False)",
+          "return_type": "None",
+          "description": "Trigger the next clip in sequence.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "clipCHOP",
+            "waitEnd=False"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "ClockCHOP_Class",
+      "operator": "ClockCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "\"Get a Timecode object representation of the hour, minute, second, and msec components.\"",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "CopyCHOP_Class",
+      "operator": "CopyCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The current copy index, beginning at zero.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "copyIndex",
+          "signature": "copyIndex",
+          "return_type": "int",
+          "description": "The current copy index, beginning at zero.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "DattoCHOP_Class",
+      "operator": "DattoCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "inputCell",
+          "signature": "inputCell",
+          "return_type": "Cell",
+          "description": "The current input",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "inputCol",
+          "signature": "inputCol",
+          "return_type": "int",
+          "description": "The current input colunn being evaluated.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "inputRow",
+          "signature": "inputRow",
+          "return_type": "int",
+          "description": "The current input row being evaluated.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "inputTable",
+          "signature": "inputTable",
+          "return_type": "OP",
+          "description": "The current input",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "DmxinCHOP_Class",
+      "operator": "DmxinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object for the last ArtTimeCode packet received. See",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "EventCHOP_Class",
+      "operator": "EventCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "releaseEvent",
+          "signature": "releaseEvent(id)",
+          "return_type": "int",
+          "description": "Manually create an event for this",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "id"
+          ]
+        },
+        {
+          "name": "createEvent",
+          "signature": "createEvent(hold=False, samples=[], index=0, attackTime=None, attackLevel=None, decayTime=None, sustainTime=None, sustainMin=None, sustainMax=None, releaseTime=None, releaseLevel=None, speed=None)",
+          "return_type": "int",
+          "description": "Manually create an event for this",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "hold=False",
+            "samples=[]",
+            "index=0",
+            "attackTime=None",
+            "attackLevel=None",
+            "decayTime=None",
+            "sustainTime=None",
+            "sustainMin=None",
+            "sustainMax=None",
+            "releaseTime=None",
+            "releaseLevel=None",
+            "speed=None"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "FileinCHOP_Class",
+      "operator": "FileinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "sampleIndex",
+          "signature": "sampleIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "LagCHOP_Class",
+      "operator": "LagCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "LtcinCHOP_Class",
+      "operator": "LtcinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object for the timecode data representation of the LTC In",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "LtcoutCHOP_Class",
+      "operator": "LtcoutCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object for the timecode data representation of the LTC Out",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "MathCHOP_Class",
+      "operator": "MathCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "MidiinCHOP_Class",
+      "operator": "MidiinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object representation of the last set of quarter frame messages. See",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "MidioutCHOP_Class",
+      "operator": "MidioutCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "send",
+          "signature": "send(*messages)",
+          "return_type": "None",
+          "description": "Sends the timecode to the device as a full MTC message.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*messages"
+          ]
+        },
+        {
+          "name": "sendBalance",
+          "signature": "sendBalance(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Balance event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendNoteOn",
+          "signature": "sendNoteOn(channel, index, value)",
+          "return_type": "None",
+          "description": "Sends a Note On event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPolyKeyPressure",
+          "signature": "sendPolyKeyPressure(channel, index, value)",
+          "return_type": "None",
+          "description": "Sends a Polyphonic Key Pressure event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPitchBend",
+          "signature": "sendPitchBend(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Pitch Bend event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendEffectsDepth",
+          "signature": "sendEffectsDepth(channel, index,value)",
+          "return_type": "None",
+          "description": "Sends a Effects Depth event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendMonoOn",
+          "signature": "sendMonoOn(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Mono On/Poly Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "panic",
+          "signature": "panic()",
+          "return_type": "None",
+          "description": "Sends a volume off event for each channel and note off event for each note.",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "sendDamperPedal",
+          "signature": "sendDamperPedal(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Damper Pedal event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendChannelPressure",
+          "signature": "sendChannelPressure(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Channel Pressure event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendControl",
+          "signature": "sendControl(channel, index, value)",
+          "return_type": "None",
+          "description": "Sends a Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendDataDecrement",
+          "signature": "sendDataDecrement(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Data Decrement event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendAllNotesOff",
+          "signature": "sendAllNotesOff(channel,value)",
+          "return_type": "None",
+          "description": "Sends a All Notes Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendSoundController",
+          "signature": "sendSoundController(channel, index,value)",
+          "return_type": "None",
+          "description": "Sends a Sound Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendBankSelect",
+          "signature": "sendBankSelect(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Bank Select event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendMainVolume",
+          "signature": "sendMainVolume(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Main Volume event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendSoftPedal",
+          "signature": "sendSoftPedal(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Soft Pedal event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendLocalControl",
+          "signature": "sendLocalControl(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Local Control Controllers event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPolyOn",
+          "signature": "sendPolyOn(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Poly On/Mono Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPan",
+          "signature": "sendPan(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Pan event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendResetAllControllers",
+          "signature": "sendResetAllControllers(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Reset All Controllers event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendBreathController",
+          "signature": "sendBreathController(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Breath Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPortamentoTime",
+          "signature": "sendPortamentoTime(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Portamento Time event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendDataIncrement",
+          "signature": "sendDataIncrement(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Data Increment event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendFootController",
+          "signature": "sendFootController(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Foot Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendHold2",
+          "signature": "sendHold2(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Hold2 event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendSostenuto",
+          "signature": "sendSostenuto(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Sostenuto event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendOmniOff",
+          "signature": "sendOmniOff(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Omni Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendGeneralPurposeController",
+          "signature": "sendGeneralPurposeController(channel, index,value)",
+          "return_type": "None",
+          "description": "Sends a General Purpose Controller event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendNoteOff",
+          "signature": "sendNoteOff(channel, index, value)",
+          "return_type": "None",
+          "description": "Sends a Note Off event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendExclusive",
+          "signature": "sendExclusive(*messages)",
+          "return_type": "None",
+          "description": "Send a sytem exclusive message through this",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*messages"
+          ]
+        },
+        {
+          "name": "sendPortamento",
+          "signature": "sendPortamento(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Portamento event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendEffectControl",
+          "signature": "sendEffectControl(channel, index,value)",
+          "return_type": "None",
+          "description": "Sends a Main Volume event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "index",
+            "value"
+          ]
+        },
+        {
+          "name": "sendLegatoFootswitch",
+          "signature": "sendLegatoFootswitch(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Legato Footswitch event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendModulationWheel",
+          "signature": "sendModulationWheel(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Modulation Wheel event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendProgram",
+          "signature": "sendProgram(channel, value)",
+          "return_type": "None",
+          "description": "Sends a Program Change event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendOmniOn",
+          "signature": "sendOmniOn(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Omni On event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendPortamentoControl",
+          "signature": "sendPortamentoControl(channel,value)",
+          "return_type": "None",
+          "description": "Sends a Portamento Control event through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "channel",
+            "value"
+          ]
+        },
+        {
+          "name": "sendTimecode",
+          "signature": "sendTimecode(timecode)",
+          "return_type": "None",
+          "description": "Sends the timecode to the device as a full MTC message.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "timecode"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "NoiseCHOP_Class",
+      "operator": "NoiseCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "OakdeviceCHOP_Class",
+      "operator": "OakdeviceCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "masterFrame",
+          "signature": "masterFrame",
+          "return_type": "float",
+          "description": "Unlock the depthai device of the OAK Device",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "masterSample",
+          "signature": "masterSample",
+          "return_type": "float",
+          "description": "Get the master time index in samples.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "masterSeconds",
+          "signature": "masterSeconds",
+          "return_type": "float",
+          "description": "Get the master time index in seconds.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "masterTimecode",
+          "signature": "masterTimecode",
+          "return_type": "str",
+          "description": "Get the master time index as a timecode in the form 00:00:00.00.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningFrame",
+          "signature": "runningFrame",
+          "return_type": "float",
+          "description": "Get or set the running time index in frames.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningSample",
+          "signature": "runningSample",
+          "return_type": "float",
+          "description": "Get or set the running time index in samples.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningSeconds",
+          "signature": "runningSeconds",
+          "return_type": "float",
+          "description": "Get or set the running time index in seconds.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningTimecode",
+          "signature": "runningTimecode",
+          "return_type": "str",
+          "description": "Get or set the running time index as a timecode in the form 00:00:00.00.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the master timecode.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "lockDevice",
+          "signature": "lockDevice()",
+          "return_type": "'depthai.Device'",
+          "description": "Get the depthai",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "sendMessage",
+          "signature": "sendMessage(message, streamName: str)",
+          "return_type": "None",
+          "description": "Sends a message to a stream owned by the OAK Device",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "message",
+            "streamName: str"
+          ]
+        },
+        {
+          "name": "unlockDevice",
+          "signature": "unlockDevice()",
+          "return_type": "None",
+          "description": "Unlock the depthai device of the OAK Device",
+          "readonly": false,
+          "type": "method"
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "OakselectCHOP_Class",
+      "operator": "OakselectCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Reorder custom parameter pages.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "appendChan",
+          "signature": "appendChan(name)",
+          "return_type": "Channel",
+          "description": "Append a new channel to the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "name"
+          ]
+        },
+        {
+          "name": "appendCustomPage",
+          "signature": "appendCustomPage(name)",
+          "return_type": "Page",
+          "description": "Add a new page of custom parameters. See Page Class for more details.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "name"
+          ]
+        },
+        {
+          "name": "clear",
+          "signature": "clear()",
+          "return_type": "None",
+          "description": "Remove all channels from the",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "copy",
+          "signature": "copy(chop)",
+          "return_type": "None",
+          "description": "Match all of this CHOPs channel data to the given",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "chop"
+          ]
+        },
+        {
+          "name": "copyNumpyArray",
+          "signature": "copyNumpyArray(numpyArray, baseName='chan')",
+          "return_type": "None",
+          "description": "Copies the contents of the numpyArray into the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "numpyArray",
+            "baseName='chan'"
+          ]
+        },
+        {
+          "name": "destroyCustomPars",
+          "signature": "destroyCustomPars()",
+          "return_type": "int",
+          "description": "Remove all custom parameters from the OAK Select",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "sortCustomPages",
+          "signature": "sortCustomPages(*pages)",
+          "return_type": "None",
+          "description": "Reorder custom parameter pages.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*pages"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "OpenvrCHOP_Class",
+      "operator": "OpenvrCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": false,
+      "has_unique_methods": true,
+      "members": [],
+      "methods": [
+        {
+          "name": "triggerHapticPulse",
+          "signature": "triggerHapticPulse(controllerIndex, analogIndex, durationMilliseconds)",
+          "return_type": "None",
+          "description": "Triggers a haptic/vibration pulse on the given controller/analog index for the specified number of milliseconds.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "controllerIndex",
+            "analogIndex",
+            "durationMilliseconds"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "PatternCHOP_Class",
+      "operator": "PatternCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "sampleIndex",
+          "signature": "sampleIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "RenderpickCHOP_Class",
+      "operator": "RenderpickCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "pickedSOP",
+          "signature": "pickedSOP",
+          "return_type": "OP",
+          "description": "The",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "ScriptCHOP_Class",
+      "operator": "ScriptCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "timeSliceDefault",
+          "signature": "timeSliceDefault",
+          "return_type": "bool",
+          "description": "Append a new channel to the",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "copyNumpyArray",
+          "signature": "copyNumpyArray(numpyArray, baseName='chan')",
+          "return_type": "None",
+          "description": "Copies the contents of the numpyArray into the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "numpyArray",
+            "baseName='chan'"
+          ]
+        },
+        {
+          "name": "destroyCustomPars",
+          "signature": "destroyCustomPars()",
+          "return_type": "int",
+          "description": "Remove all custom parameters from the",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "sortCustomPages",
+          "signature": "sortCustomPages(*pages)",
+          "return_type": "None",
+          "description": "Reorder custom parameter pages.",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "*pages"
+          ]
+        },
+        {
+          "name": "clear",
+          "signature": "clear()",
+          "return_type": "None",
+          "description": "Remove all channels from the",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "appendCustomPage",
+          "signature": "appendCustomPage(name)",
+          "return_type": "Page",
+          "description": "Add a new",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "name"
+          ]
+        },
+        {
+          "name": "copy",
+          "signature": "copy(chop)",
+          "return_type": "None",
+          "description": "Match all of this CHOPs channel data to the given",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "chop"
+          ]
+        },
+        {
+          "name": "appendChan",
+          "signature": "appendChan(name)",
+          "return_type": "Channel",
+          "description": "Append a new channel to the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "name"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "SyncinCHOP_Class",
+      "operator": "SyncinCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object for the timecode data representation of the last received index. See",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "SyncoutCHOP_Class",
+      "operator": "SyncoutCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Send an auxiliary message. The message must be serializable. The message will come through the",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "send",
+          "signature": "send(message)",
+          "return_type": "None",
+          "description": "Send an auxiliary message. The message must be serializable. The message will come through the",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "message"
+          ]
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "TimelineCHOP_Class",
+      "operator": "TimelineCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get a Timecode object for the timecode data representation of the current timeline frame. See",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    },
+    {
+      "class_name": "TimerCHOP_Class",
+      "operator": "TimerCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": true,
+      "members": [
+        {
+          "name": "beginFrame",
+          "signature": "beginFrame",
+          "return_type": "list",
+          "description": "Sets the current cycle to be the last cycle of the current segment. Equivalent to pulsing the Exit at End of Cycle parameter on the Timer Page.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "beginSample",
+          "signature": "beginSample",
+          "return_type": "list",
+          "description": "Get a list of begin values in samples. 0-based.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "beginSeconds",
+          "signature": "beginSeconds",
+          "return_type": "list",
+          "description": "Get a list of begin values in seconds.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "cumulativeFrames",
+          "signature": "cumulativeFrames",
+          "return_type": "int",
+          "description": "Get the cumulative time expressed in frames. See",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "cumulativeSamples",
+          "signature": "cumulativeSamples",
+          "return_type": "int",
+          "description": "Get the cumulative time expressed in samples. See",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "cumulativeSeconds",
+          "signature": "cumulativeSeconds",
+          "return_type": "float",
+          "description": "Get the cumulative time expressed in seconds. It counts from 0 when you Start. Unlike",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "cumulativeTimecode",
+          "signature": "cumulativeTimecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the cumulative time as a Timecode",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "masterFrames",
+          "signature": "masterFrames",
+          "return_type": "int",
+          "description": "Get or set the master time expressed in frames. 0-based. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "masterSamples",
+          "signature": "masterSamples",
+          "return_type": "int",
+          "description": "Get or set the master time expressed in samples. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "masterSeconds",
+          "signature": "masterSeconds",
+          "return_type": "float",
+          "description": "Get or set the master time expressed in seconds. It counts from 0 when you Start,",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "masterFraction",
+          "signature": "masterFraction",
+          "return_type": "float",
+          "description": "Get or set the master time expressed in fractional form. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "masterTimecode",
+          "signature": "masterTimecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get or set the master time expressed as a Timecode",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "cycle",
+          "signature": "cycle",
+          "return_type": "float",
+          "description": "Get or set the cycle index of the current segment.",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "fraction",
+          "signature": "fraction",
+          "return_type": "float",
+          "description": "Get the time index in fractional form, same as the",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "playingFrames",
+          "signature": "playingFrames",
+          "return_type": "int",
+          "description": "Get the playing time expressed in frames. 0-based. See",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "playingSamples",
+          "signature": "playingSamples",
+          "return_type": "int",
+          "description": "Get the playing time expressed in samples. See",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "playingSeconds",
+          "signature": "playingSeconds",
+          "return_type": "float",
+          "description": "Get the playing time expressed in seconds. It counts from 0 when you Start. it is unaffected by the Speed parameter, but unlike",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "playingTimecode",
+          "signature": "playingTimecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the playing time as a Timecode",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningFraction",
+          "signature": "runningFraction",
+          "return_type": "float",
+          "description": "Get the running time index expressed in fractional form. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "runningFrames",
+          "signature": "runningFrames",
+          "return_type": "float",
+          "description": "Get the running time expressed in frames. 0-based. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "runningSamples",
+          "signature": "runningSamples",
+          "return_type": "float",
+          "description": "Get the running time index expressed in samples. See",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "runningSeconds",
+          "signature": "runningSeconds",
+          "return_type": "float",
+          "description": "Get the running time expressed in seconds. It keeps counting up after Start and is not affected by changing the Speed or pausing Play or scrubbing. It is basically the \"wall clock\" after pressing Start. (You normally don't set the value, use",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "runningTimecode",
+          "signature": "runningTimecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the running time index as a Timecode",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "runningLengthFrames",
+          "signature": "runningLengthFrames",
+          "return_type": "float",
+          "description": "Get the running length expressed in frames.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningLengthSamples",
+          "signature": "runningLengthSamples",
+          "return_type": "float",
+          "description": "Get the running length expressed in samples.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningLengthSeconds",
+          "signature": "runningLengthSeconds",
+          "return_type": "float",
+          "description": "Get the running length expressed in seconds.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "runningLengthTimecode",
+          "signature": "runningLengthTimecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the running length as a Timecode",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "segment",
+          "signature": "segment",
+          "return_type": "float",
+          "description": "Get or set the segment index.",
+          "readonly": false,
+          "type": "member"
+        },
+        {
+          "name": "segments",
+          "signature": "segments",
+          "return_type": "list",
+          "description": "Get the list of segments.",
+          "readonly": true,
+          "type": "member"
+        },
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "tdu.Timecode",
+          "description": "Get the master timecode. See",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [
+        {
+          "name": "goToNextSegment",
+          "signature": "goToNextSegment()",
+          "return_type": "None",
+          "description": "Jump to the next segment. Equivalent to pulsing the Go to Next Segment parameter on the Segments Page.",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "goToCycleEnd",
+          "signature": "goToCycleEnd()",
+          "return_type": "None",
+          "description": "Jump to the end of the current cycle. Equivalent to pulsing the Go to End of Cycle parameter on the Timer Page.",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "goTo",
+          "signature": "goTo(segment=0, cycle=0, endOfCycle=True, seconds=0, frame=0, sample=0,  fraction=0)",
+          "return_type": "None",
+          "description": "Allows the user to jump to a different time index based on the arguments passed in. Only one unit of time (seconds, frame, sample, fraction) can be specified when calling this method. For example, including both seconds and frame will yield an error. If there are multiple segments, and only a unit of time is specified, the method will jump to the corresponding running time index. If either a segment index or a cycle index or both are specified along with a unit of time, the method will jump to the corresponding local time index. There are fifteen different combinations of arguments that the user can pass in. An example of how this method can be called is: timerop.goTo(segment=1, cycle=2, seconds=5, endOfCycle=True).",
+          "readonly": false,
+          "type": "method",
+          "parameters": [
+            "segment=0",
+            "cycle=0",
+            "endOfCycle=True",
+            "seconds=0",
+            "frame=0",
+            "sample=0",
+            "fraction=0"
+          ]
+        },
+        {
+          "name": "goToPrevSegment",
+          "signature": "goToPrevSegment()",
+          "return_type": "None",
+          "description": "Jump to the previous segment. Equivalent to pulsing the Go to Previous Segment parameter on the Segments Page.",
+          "readonly": false,
+          "type": "method"
+        },
+        {
+          "name": "lastCycle",
+          "signature": "lastCycle()",
+          "return_type": "None",
+          "description": "Sets the current cycle to be the last cycle of the current segment. Equivalent to pulsing the Exit at End of Cycle parameter on the Timer Page.",
+          "readonly": false,
+          "type": "method"
+        }
+      ],
+      "callbacks": []
+    },
+    {
+      "class_name": "WaveCHOP_Class",
+      "operator": "WaveCHOP",
+      "is_base_class": false,
+      "family": "CHOP",
+      "inherits": "CHOP_Class",
+      "has_unique_members": true,
+      "has_unique_methods": false,
+      "members": [
+        {
+          "name": "chanIndex",
+          "signature": "chanIndex",
+          "return_type": "int",
+          "description": "The index of the current sample being evaluated.",
+          "readonly": true,
+          "type": "member"
+        }
+      ],
+      "methods": [],
+      "callbacks": []
+    }
+  ]
+}

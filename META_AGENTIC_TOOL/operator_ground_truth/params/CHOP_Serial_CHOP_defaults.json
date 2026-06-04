@@ -1,0 +1,278 @@
+{
+  "operator": "Serial_CHOP",
+  "family": "CHOP",
+  "td_create_name": "serialCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Port",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "state": {
+      "value": {
+        "type": "menu",
+        "value": "offtoon",
+        "menuIndex": 0,
+        "menuNames": [
+          "offtoon",
+          "on",
+          "ontooff",
+          "off",
+          "valuechange"
+        ],
+        "menuLabels": [
+          "Off to On",
+          "While On",
+          "On to Off",
+          "While Off",
+          "Value Change"
+        ]
+      },
+      "default": "offtoon",
+      "page": "Port",
+      "label": "State",
+      "readOnly": false,
+      "expression": null
+    },
+    "port": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Port",
+      "label": "Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "baudrate": {
+      "value": {
+        "type": "int",
+        "value": 9600
+      },
+      "default": 9600,
+      "page": "Port",
+      "label": "Baud Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "databits": {
+      "value": {
+        "type": "menu",
+        "value": "8",
+        "menuIndex": 2,
+        "menuNames": [
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "menuLabels": [
+          "6",
+          "7",
+          "8",
+          "9"
+        ]
+      },
+      "default": "8",
+      "page": "Port",
+      "label": "Data Bits",
+      "readOnly": false,
+      "expression": null
+    },
+    "parity": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 2,
+        "menuNames": [
+          "even",
+          "odd",
+          "none"
+        ],
+        "menuLabels": [
+          "Even",
+          "Odd",
+          "None"
+        ]
+      },
+      "default": "none",
+      "page": "Port",
+      "label": "Parity",
+      "readOnly": false,
+      "expression": null
+    },
+    "stopbits": {
+      "value": {
+        "type": "menu",
+        "value": "2",
+        "menuIndex": 1,
+        "menuNames": [
+          "1",
+          "2"
+        ],
+        "menuLabels": [
+          "1",
+          "2"
+        ]
+      },
+      "default": "2",
+      "page": "Port",
+      "label": "Stop Bits",
+      "readOnly": false,
+      "expression": null
+    },
+    "script": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Scripts",
+      "label": "Script",
+      "readOnly": false,
+      "expression": null
+    },
+    "script0callback": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Scripts",
+      "label": "Callback",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

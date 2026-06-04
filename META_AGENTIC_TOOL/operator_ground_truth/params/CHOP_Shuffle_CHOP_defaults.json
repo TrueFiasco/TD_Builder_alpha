@@ -1,0 +1,193 @@
+{
+  "operator": "Shuffle_CHOP",
+  "family": "CHOP",
+  "td_create_name": "shuffleCHOP",
+  "param_count": 12,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "swap",
+          "seqname",
+          "seqall",
+          "seqn",
+          "seqeveryn",
+          "sallsamples",
+          "sallname",
+          "salleveryn",
+          "splitall",
+          "splitn",
+          "spliteveryn"
+        ],
+        "menuLabels": [
+          "Off",
+          "Swap Channels and Samples",
+          "Sequence Channels by Name",
+          "Sequence All Channels",
+          "Sequence N Channels",
+          "Sequence Every Nth Channel",
+          "Sequence All Samples",
+          "Sequence All Samples By Name",
+          "Sequence All Samples Every Nth Channel",
+          "Split All Samples",
+          "Split N Samples",
+          "Split Every Nth Sample"
+        ]
+      },
+      "default": "off",
+      "page": "Shuffle",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "nval": {
+      "value": {
+        "type": "int",
+        "value": 3
+      },
+      "default": 3,
+      "page": "Shuffle",
+      "label": "N Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "firstsample": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Shuffle",
+      "label": "Use First Sample Only",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

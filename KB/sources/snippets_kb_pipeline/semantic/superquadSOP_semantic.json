@@ -1,0 +1,66 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\superquadSOP_lossless.json",
+  "operator_type": "superquadSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "superquad1",
+          "type": "SOP:superquad",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "superquad2",
+          "type": "SOP:superquad",
+          "parameters": {
+            "radx": 1,
+            "rady": 1,
+            "radz": 0.5,
+            "reverseanchors": "on",
+            "cols": 30,
+            "expxy": 0.32,
+            "expz": 0.05
+          }
+        },
+        {
+          "name": "superquad3",
+          "type": "SOP:superquad",
+          "parameters": {
+            "type": "poly",
+            "surftype": "cols",
+            "reverseanchors": "on",
+            "rows": 19,
+            "cols": 38,
+            "expxy": 4.17,
+            "expz": 0.78
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:superquad": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

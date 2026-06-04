@@ -1,0 +1,1958 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\OPSnippets\\Snippets\\POP\\phaserPOP.tox.dir",
+    "build_version": "099",
+    "build_date": "Sat Nov 15 10:04:52 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.31700"
+  },
+  "operators": {
+    "/phaserPOP": {
+      "name": "phaserPOP",
+      "path": "/phaserPOP",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        560,
+        -1305,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "enableexternaltox": "off",
+        "savebackup": "off"
+      },
+      "parent": null,
+      "children": [
+        "example1",
+        "example2",
+        "example3"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example1": {
+      "name": "example1",
+      "path": "/phaserPOP/example1",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        50,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"phaser 1\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "phaserPOP"
+        }
+      },
+      "parent": "/phaserPOP",
+      "children": [
+        "lfo2",
+        "copy2",
+        "line2",
+        "line3",
+        "popto2",
+        "readMe",
+        "phaser3"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example1/lfo2": {
+      "name": "lfo2",
+      "path": "/phaserPOP/example1/lfo2",
+      "op_type": "CHOP:lfo",
+      "family": "CHOP",
+      "specific_type": "lfo",
+      "viewport_pos": null,
+      "tile_pos": [
+        175,
+        205,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "offset": 0.5,
+        "amp": 0.5,
+        "timeslice": "on"
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n1\n473\n471\n0\n0\n1\n1\n0\n472\n473\n0\n60\nchan1\n0.566667\n0\n1\n{\n   rate = 60\n   start = 472\n   tracklength = 2\n   tracks = 1\n   {\n      name = chan1\n      data_rle = 0.34549 0.29663 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example1/copy2": {
+      "name": "copy2",
+      "path": "/phaserPOP/example1/copy2",
+      "op_type": "POP:copy",
+      "family": "POP",
+      "specific_type": "copy",
+      "viewport_pos": null,
+      "tile_pos": [
+        545,
+        155,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dotemplatescale": "on",
+        "scaleattrib": "Phase"
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "line3",
+        "1": "phaser3"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example1/line2": {
+      "name": "line2",
+      "path": "/phaserPOP/example1/line2",
+      "op_type": "POP:line",
+      "family": "POP",
+      "specific_type": "line",
+      "viewport_pos": null,
+      "tile_pos": [
+        45,
+        55,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "pt1posx": {
+          "67108928": 10
+        },
+        "pt1posy": {
+          "67108928": 0
+        },
+        "pt1posz": {
+          "67108928": 0
+        }
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Points\n202379544 pt Point Points 0\n235942657 pt:pt0pos Position 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Points 1\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example1/line3": {
+      "name": "line3",
+      "path": "/phaserPOP/example1/line3",
+      "op_type": "POP:line",
+      "family": "POP",
+      "specific_type": "line",
+      "viewport_pos": null,
+      "tile_pos": [
+        345,
+        255,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "pt1posx": {
+          "67108928": 0
+        },
+        "pt1posy": {
+          "67108928": 1
+        },
+        "pt1posz": {
+          "67108928": 0
+        }
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Points\n202379544 pt Point Points 0\n235942657 pt:pt0pos Position 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Points 1\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example1/popto2": {
+      "name": "popto2",
+      "path": "/phaserPOP/example1/popto2",
+      "op_type": "DAT:popto",
+      "family": "DAT",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        170,
+        -95,
+        280,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "phaser3"
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example1/readMe": {
+      "name": "readMe",
+      "path": "/phaserPOP/example1/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAADeVGhlIFBoYXNlciBQT1AgZG9lcyBzdGFnZ2VyZWQgKHRpbWUtb2Zmc2V0KSAzRCBhbmltYXRpb24gaW50ZXJwb2xhdGlvbi4gUGhhc2VyIFBPUCBvdXRwdXRzIHBvaW50IGF0dHJpYnV0ZXMgdGhhdCBhbmltYXRlIGZyb20gb25lIDNEIHBvc2l0aW9uL3N0YXRlIHRvIGFub3RoZXIgb3ZlciBhIGN5Y2xlLCB3aXRoIGVhY2ggcG9pbnQgdHJhbnNpdGlvbmluZyBhdCBkaWZmZXJlbnQgdGltZXMu",
+          "is_binary": true
+        }
+      }
+    },
+    "/phaserPOP/example1/phaser3": {
+      "name": "phaser3",
+      "path": "/phaserPOP/example1/phaser3",
+      "op_type": "POP:phaser",
+      "family": "POP",
+      "specific_type": "phaser",
+      "viewport_pos": null,
+      "tile_pos": [
+        245,
+        55,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "phaseattrscope": "P.x",
+        "fract": {
+          "17": "1 op('lfo2')['chan1']"
+        },
+        "fromhigh0": 10
+      },
+      "parent": "/phaserPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "line2"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example2": {
+      "name": "example2",
+      "path": "/phaserPOP/example2",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        270,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"phaser 2\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "phaserPOP"
+        }
+      },
+      "parent": "/phaserPOP",
+      "children": [
+        "lfo2",
+        "copy2",
+        "grid1",
+        "line3",
+        "ramp1",
+        "popto1",
+        "readMe",
+        "phaser3",
+        "lookuptex1",
+        "ramp2_keys"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example2/lfo2": {
+      "name": "lfo2",
+      "path": "/phaserPOP/example2/lfo2",
+      "op_type": "CHOP:lfo",
+      "family": "CHOP",
+      "specific_type": "lfo",
+      "viewport_pos": null,
+      "tile_pos": [
+        435,
+        -155,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "wavetype": "tri",
+        "frequency": {
+          "32": 0.25
+        },
+        "offset": 0.5,
+        "amp": 0.5,
+        "timeslice": "on"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n1\n125\n123\n0\n0\n1\n1\n0\n124\n125\n0\n60\nchan1\n0.0566667\n0\n1\n{\n   rate = 60\n   start = 124\n   tracklength = 2\n   tracks = 1\n   {\n      name = chan1\n      data_rle = 0.895 0.886667 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example2/copy2": {
+      "name": "copy2",
+      "path": "/phaserPOP/example2/copy2",
+      "op_type": "POP:copy",
+      "family": "POP",
+      "specific_type": "copy",
+      "viewport_pos": null,
+      "tile_pos": [
+        635,
+        145,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "dotemplatescale": "on",
+        "scaleattrib": "Phase"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "line3",
+        "1": "phaser3"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/grid1": {
+      "name": "grid1",
+      "path": "/phaserPOP/example2/grid1",
+      "op_type": "POP:grid",
+      "family": "POP",
+      "specific_type": "grid",
+      "viewport_pos": null,
+      "tile_pos": [
+        35,
+        45,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "rx": 90,
+        "ry": 0,
+        "rz": 0
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/line3": {
+      "name": "line3",
+      "path": "/phaserPOP/example2/line3",
+      "op_type": "POP:line",
+      "family": "POP",
+      "specific_type": "line",
+      "viewport_pos": null,
+      "tile_pos": [
+        435,
+        245,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "pt1posx": {
+          "67108928": 0
+        },
+        "pt1posy": {
+          "67108928": 1
+        },
+        "pt1posz": {
+          "67108928": 0
+        }
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Points\n202379544 pt Point Points 0\n235942657 pt:pt0pos Position 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Points 1\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example2/ramp1": {
+      "name": "ramp1",
+      "path": "/phaserPOP/example2/ramp1",
+      "op_type": "TOP:ramp",
+      "family": "TOP",
+      "specific_type": "ramp",
+      "viewport_pos": null,
+      "tile_pos": [
+        195,
+        315,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "ramp2_keys",
+        "type": "circular",
+        "extendleft": "hold",
+        "interpspace": "perceptual",
+        "interpnotches": "hermite",
+        "resolutionw": {
+          "49": "256 op('grid1').par.rows"
+        },
+        "resolutionh": {
+          "49": "256 op('grid1').par.cols"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/popto1": {
+      "name": "popto1",
+      "path": "/phaserPOP/example2/popto1",
+      "op_type": "CHOP:popto",
+      "family": "CHOP",
+      "specific_type": "popto",
+      "viewport_pos": null,
+      "tile_pos": [
+        615,
+        -25,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pop": "phaser3",
+        "attribscope": "Phase"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/readMe": {
+      "name": "readMe",
+      "path": "/phaserPOP/example2/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000PThis example shows how the phaser can quickly generate animation over a 3D grid.",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example2/phaser3": {
+      "name": "phaser3",
+      "path": "/phaserPOP/example2/phaser3",
+      "op_type": "POP:phaser",
+      "family": "POP",
+      "specific_type": "phaser",
+      "viewport_pos": null,
+      "tile_pos": [
+        435,
+        45,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "phaseattrscope": "Shape",
+        "fract": {
+          "49": "0.205 op('lfo2')['chan1']"
+        },
+        "edge0": 0.5,
+        "smoothstep0": "on",
+        "castto": "float"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "lookuptex1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/lookuptex1": {
+      "name": "lookuptex1",
+      "path": "/phaserPOP/example2/lookuptex1",
+      "op_type": "POP:lookuptex",
+      "family": "POP",
+      "specific_type": "lookuptex",
+      "viewport_pos": null,
+      "tile_pos": [
+        235,
+        45,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": "ramp1",
+        "lookupindexattr0": "Tex(0)",
+        "lookupindexattr1": "Tex(1)",
+        "channelmask": 1,
+        "outputattrscope": "Shape"
+      },
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "grid1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example2/ramp2_keys": {
+      "name": "ramp2_keys",
+      "path": "/phaserPOP/example2/ramp2_keys",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        195,
+        195,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0003pos\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001r\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001g\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001b\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001a\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.017\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.017\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.017\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.995\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.995\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00050.995\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3": {
+      "name": "example3",
+      "path": "/phaserPOP/example3",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        500,
+        55,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"phaser 3\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "phaserPOP"
+        }
+      },
+      "parent": "/phaserPOP",
+      "children": [
+        "box1",
+        "lfo2",
+        "copy2",
+        "grid1",
+        "null1",
+        "ramp1",
+        "ramp2",
+        "ramp3",
+        "ramp4",
+        "count1",
+        "readMe",
+        "phaser3",
+        "readMe1",
+        "switch1",
+        "mathmix1",
+        "attribute1",
+        "lookuptex1",
+        "normalize1",
+        "ramp1_keys",
+        "ramp2_keys",
+        "ramp3_keys",
+        "ramp4_keys"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/box1": {
+      "name": "box1",
+      "path": "/phaserPOP/example3/box1",
+      "op_type": "POP:box",
+      "family": "POP",
+      "specific_type": "box",
+      "viewport_pos": null,
+      "tile_pos": [
+        875,
+        15,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "sizex": 0.03,
+        "sizey": 0.03,
+        "sizez": 0.03
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/lfo2": {
+      "name": "lfo2",
+      "path": "/phaserPOP/example3/lfo2",
+      "op_type": "CHOP:lfo",
+      "family": "CHOP",
+      "specific_type": "lfo",
+      "viewport_pos": null,
+      "tile_pos": [
+        675,
+        -385,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "wavetype": "tri",
+        "frequency": {
+          "32": 0.25
+        },
+        "offset": 0.5,
+        "amp": 0.5,
+        "timeslice": "on"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n1\n533\n533\n0\n0\n1\n1\n0\n533\n533\n0\n60\nchan1\n0.63586\n0\n1\n{\n   rate = 60\n   start = 533\n   tracklength = 1\n   tracks = 1\n   {\n      name = chan1\n      data_rle = 0.271719 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/copy2": {
+      "name": "copy2",
+      "path": "/phaserPOP/example3/copy2",
+      "op_type": "POP:copy",
+      "family": "POP",
+      "specific_type": "copy",
+      "viewport_pos": null,
+      "tile_pos": [
+        1275,
+        -85,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "dotemplaterotate": "on",
+        "scaleattrib": "Phase"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "normalize1",
+        "1": "mathmix1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/grid1": {
+      "name": "grid1",
+      "path": "/phaserPOP/example3/grid1",
+      "op_type": "POP:grid",
+      "family": "POP",
+      "specific_type": "grid",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        -185,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "rx": 90,
+        "ry": 0,
+        "rz": 0
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/null1": {
+      "name": "null1",
+      "path": "/phaserPOP/example3/null1",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1075,
+        -385,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "count1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/ramp1": {
+      "name": "ramp1",
+      "path": "/phaserPOP/example3/ramp1",
+      "op_type": "TOP:ramp",
+      "family": "TOP",
+      "specific_type": "ramp",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        415,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "ramp1_keys",
+        "type": {
+          "32": "circular"
+        },
+        "extendleft": "hold",
+        "extendright": "hold",
+        "interpspace": "linear",
+        "resolutionw": {
+          "49": "256 op('grid1').par.rows"
+        },
+        "resolutionh": {
+          "49": "256 op('grid1').par.cols"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/ramp2": {
+      "name": "ramp2",
+      "path": "/phaserPOP/example3/ramp2",
+      "op_type": "TOP:ramp",
+      "family": "TOP",
+      "specific_type": "ramp",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        315,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "ramp2_keys",
+        "type": {
+          "32": "vertical"
+        },
+        "extendleft": "hold",
+        "extendright": "hold",
+        "interpspace": "linear",
+        "resolutionw": {
+          "49": "256 op('grid1').par.rows"
+        },
+        "resolutionh": {
+          "49": "256 op('grid1').par.cols"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/ramp3": {
+      "name": "ramp3",
+      "path": "/phaserPOP/example3/ramp3",
+      "op_type": "TOP:ramp",
+      "family": "TOP",
+      "specific_type": "ramp",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        115,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "ramp3_keys",
+        "type": {
+          "32": "radial"
+        },
+        "extendleft": "hold",
+        "extendright": "hold",
+        "interpspace": "linear",
+        "resolutionw": {
+          "49": "256 op('grid1').par.rows"
+        },
+        "resolutionh": {
+          "49": "256 op('grid1').par.cols"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/ramp4": {
+      "name": "ramp4",
+      "path": "/phaserPOP/example3/ramp4",
+      "op_type": "TOP:ramp",
+      "family": "TOP",
+      "specific_type": "ramp",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        215,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "ramp4_keys",
+        "extendleft": "hold",
+        "extendright": "hold",
+        "interpspace": "linear",
+        "resolutionw": {
+          "49": "256 op('grid1').par.rows"
+        },
+        "resolutionh": {
+          "49": "256 op('grid1').par.cols"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/count1": {
+      "name": "count1",
+      "path": "/phaserPOP/example3/count1",
+      "op_type": "CHOP:count",
+      "family": "CHOP",
+      "specific_type": "count",
+      "viewport_pos": null,
+      "tile_pos": [
+        875,
+        -385,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "threshup": 0.01,
+        "triggeron": "decrease",
+        "output": "loop",
+        "limitmax": 3,
+        "timeslice": "on"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "lfo2"
+      },
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n1\n533\n533\n0\n0\n1\n1\n0\n533\n533\n21\n60\nchan1\n0.271719\n3\n0\n34\n{\n   rate = 60\n   start = 533\n   tracklength = 1\n   tracks = 1\n   {\n      name = chan1\n      data_rle = 3 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/readMe": {
+      "name": "readMe",
+      "path": "/phaserPOP/example3/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0001XThis example shows how the using the phaser attribute in the math mix we can convert the phase into rotation values for more complex animations.\n\nAs well the ramp TOP is used to generate differnt transition patterns. As long as the transition patterns are switched when the phase fraction parameter is at 0 the animation transition is seemless.",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/phaser3": {
+      "name": "phaser3",
+      "path": "/phaserPOP/example3/phaser3",
+      "op_type": "POP:phaser",
+      "family": "POP",
+      "specific_type": "phaser",
+      "viewport_pos": null,
+      "tile_pos": [
+        675,
+        -185,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "phaseattrscope": "Shape",
+        "fract": {
+          "49": "0.205 op('lfo2')['chan1']"
+        },
+        "edge0": 0.25,
+        "castto": "float"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "lookuptex1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/readMe1": {
+      "name": "readMe1",
+      "path": "/phaserPOP/example3/readMe1",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        45,
+        -165,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0001XThis example shows how the using the phaser attribute in the math mix we can convert the phase into rotation values for more complex animations.\n\nAs well the ramp TOP is used to generate differnt transition patterns. As long as the transition patterns are switched when the phase fraction parameter is at 0 the animation transition is seemless.",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/switch1": {
+      "name": "switch1",
+      "path": "/phaserPOP/example3/switch1",
+      "op_type": "TOP:switch",
+      "family": "TOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        445,
+        265,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index": {
+          "17": "0 op('null1')['chan1']"
+        },
+        "filtertype": "nearest"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "ramp1",
+        "1": "ramp2",
+        "2": "ramp4",
+        "3": "ramp3"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/mathmix1": {
+      "name": "mathmix1",
+      "path": "/phaserPOP/example3/mathmix1",
+      "op_type": "POP:mathmix",
+      "family": "POP",
+      "specific_type": "mathmix",
+      "viewport_pos": null,
+      "tile_pos": [
+        1075,
+        -185,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 2,
+        "comb0oper": "mult",
+        "comb0scopea": "Phase",
+        "comb0scopeb": 180,
+        "comb0result": "Rot.x",
+        "comb1oper": "mult",
+        "comb1scopea": "Phase",
+        "comb1scopeb": 90,
+        "comb1scopec": "\"\"",
+        "comb1result": "Rot.z"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "attribute1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/attribute1": {
+      "name": "attribute1",
+      "path": "/phaserPOP/example3/attribute1",
+      "op_type": "POP:attribute",
+      "family": "POP",
+      "specific_type": "attribute",
+      "viewport_pos": null,
+      "tile_pos": [
+        875,
+        -185,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "attr0customname": "Rot",
+        "attr0numcomps": 3
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "phaser3"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/lookuptex1": {
+      "name": "lookuptex1",
+      "path": "/phaserPOP/example3/lookuptex1",
+      "op_type": "POP:lookuptex",
+      "family": "POP",
+      "specific_type": "lookuptex",
+      "viewport_pos": null,
+      "tile_pos": [
+        475,
+        -185,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": "switch1",
+        "lookupindexattr0": "Tex(0)",
+        "lookupindexattr1": "Tex(1)",
+        "inputextend0": "hold",
+        "inputextend1": "hold",
+        "inputextend2": "hold",
+        "channelmask": 1,
+        "outputattrscope": "Shape"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "grid1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/normalize1": {
+      "name": "normalize1",
+      "path": "/phaserPOP/example3/normalize1",
+      "op_type": "POP:normalize",
+      "family": "POP",
+      "specific_type": "normalize",
+      "viewport_pos": null,
+      "tile_pos": [
+        1075,
+        15,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "outputattrscope": "Color.rgb"
+      },
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {
+        "0": "box1"
+      },
+      "extra_files": {}
+    },
+    "/phaserPOP/example3/ramp1_keys": {
+      "name": "ramp1_keys",
+      "path": "/phaserPOP/example3/ramp1_keys",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        295,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0003pos\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001r\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001g\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001b\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001a\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/ramp2_keys": {
+      "name": "ramp2_keys",
+      "path": "/phaserPOP/example3/ramp2_keys",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        195,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0003pos\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001r\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001g\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001b\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001a\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/ramp3_keys": {
+      "name": "ramp3_keys",
+      "path": "/phaserPOP/example3/ramp3_keys",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        -5,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0003pos\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001r\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001g\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001b\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001a\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011",
+          "is_binary": false
+        }
+      }
+    },
+    "/phaserPOP/example3/ramp4_keys": {
+      "name": "ramp4_keys",
+      "path": "/phaserPOP/example3/ramp4_keys",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        275,
+        95,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/phaserPOP/example3",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0003pos\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001r\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001g\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001b\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0001a\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00010\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u00011",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.31700\ntime Sat Nov 15 10:04:52 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "phaserPOP.n",
+    "phaserPOP.parm",
+    "phaserPOP/example1.n",
+    "phaserPOP/example1.cparm",
+    "phaserPOP/example1.parm",
+    "phaserPOP/example1/lfo2.n",
+    "phaserPOP/example1/lfo2.parm",
+    "phaserPOP/example1/lfo2.chop",
+    "phaserPOP/example1/lfo2.ts",
+    "phaserPOP/example1/copy2.n",
+    "phaserPOP/example1/copy2.parm",
+    "phaserPOP/example1/line2.n",
+    "phaserPOP/example1/line2.cparm",
+    "phaserPOP/example1/line2.parm",
+    "phaserPOP/example1/line3.n",
+    "phaserPOP/example1/line3.cparm",
+    "phaserPOP/example1/line3.parm",
+    "phaserPOP/example1/popto2.n",
+    "phaserPOP/example1/popto2.parm",
+    "phaserPOP/example1/readMe.n",
+    "phaserPOP/example1/readMe.parm",
+    "phaserPOP/example1/readMe.text",
+    "phaserPOP/example1/phaser3.n",
+    "phaserPOP/example1/phaser3.parm",
+    "phaserPOP/example2.n",
+    "phaserPOP/example2.cparm",
+    "phaserPOP/example2.parm",
+    "phaserPOP/example2/lfo2.n",
+    "phaserPOP/example2/lfo2.parm",
+    "phaserPOP/example2/lfo2.chop",
+    "phaserPOP/example2/lfo2.ts",
+    "phaserPOP/example2/copy2.n",
+    "phaserPOP/example2/copy2.parm",
+    "phaserPOP/example2/grid1.n",
+    "phaserPOP/example2/grid1.parm",
+    "phaserPOP/example2/line3.n",
+    "phaserPOP/example2/line3.cparm",
+    "phaserPOP/example2/line3.parm",
+    "phaserPOP/example2/ramp1.n",
+    "phaserPOP/example2/ramp1.parm",
+    "phaserPOP/example2/popto1.n",
+    "phaserPOP/example2/popto1.parm",
+    "phaserPOP/example2/readMe.n",
+    "phaserPOP/example2/readMe.parm",
+    "phaserPOP/example2/readMe.text",
+    "phaserPOP/example2/phaser3.n",
+    "phaserPOP/example2/phaser3.parm",
+    "phaserPOP/example2/lookuptex1.n",
+    "phaserPOP/example2/lookuptex1.parm",
+    "phaserPOP/example2/ramp2_keys.n",
+    "phaserPOP/example2/ramp2_keys.table",
+    "phaserPOP/example3.n",
+    "phaserPOP/example3.cparm",
+    "phaserPOP/example3.parm",
+    "phaserPOP/example3/box1.n",
+    "phaserPOP/example3/box1.parm",
+    "phaserPOP/example3/lfo2.n",
+    "phaserPOP/example3/lfo2.parm",
+    "phaserPOP/example3/lfo2.chop",
+    "phaserPOP/example3/lfo2.ts",
+    "phaserPOP/example3/copy2.n",
+    "phaserPOP/example3/copy2.parm",
+    "phaserPOP/example3/grid1.n",
+    "phaserPOP/example3/grid1.parm",
+    "phaserPOP/example3/null1.n",
+    "phaserPOP/example3/ramp1.n",
+    "phaserPOP/example3/ramp1.parm",
+    "phaserPOP/example3/ramp2.n",
+    "phaserPOP/example3/ramp2.parm",
+    "phaserPOP/example3/ramp3.n",
+    "phaserPOP/example3/ramp3.parm",
+    "phaserPOP/example3/ramp4.n",
+    "phaserPOP/example3/ramp4.parm",
+    "phaserPOP/example3/count1.n",
+    "phaserPOP/example3/count1.parm",
+    "phaserPOP/example3/count1.chop",
+    "phaserPOP/example3/count1.ts",
+    "phaserPOP/example3/readMe.n",
+    "phaserPOP/example3/readMe.parm",
+    "phaserPOP/example3/readMe.text",
+    "phaserPOP/example3/phaser3.n",
+    "phaserPOP/example3/phaser3.parm",
+    "phaserPOP/example3/readMe1.n",
+    "phaserPOP/example3/readMe1.parm",
+    "phaserPOP/example3/readMe1.text",
+    "phaserPOP/example3/switch1.n",
+    "phaserPOP/example3/switch1.parm",
+    "phaserPOP/example3/mathmix1.n",
+    "phaserPOP/example3/mathmix1.parm",
+    "phaserPOP/example3/attribute1.n",
+    "phaserPOP/example3/attribute1.parm",
+    "phaserPOP/example3/lookuptex1.n",
+    "phaserPOP/example3/lookuptex1.parm",
+    "phaserPOP/example3/normalize1.n",
+    "phaserPOP/example3/normalize1.parm",
+    "phaserPOP/example3/ramp1_keys.n",
+    "phaserPOP/example3/ramp1_keys.table",
+    "phaserPOP/example3/ramp2_keys.n",
+    "phaserPOP/example3/ramp2_keys.table",
+    "phaserPOP/example3/ramp3_keys.n",
+    "phaserPOP/example3/ramp3_keys.table",
+    "phaserPOP/example3/ramp4_keys.n",
+    "phaserPOP/example3/ramp4_keys.table"
+  ],
+  "connections": [
+    {
+      "from": "line3",
+      "to": "/phaserPOP/example1/copy2",
+      "to_input": 0
+    },
+    {
+      "from": "phaser3",
+      "to": "/phaserPOP/example1/copy2",
+      "to_input": 1
+    },
+    {
+      "from": "line2",
+      "to": "/phaserPOP/example1/phaser3",
+      "to_input": 0
+    },
+    {
+      "from": "line3",
+      "to": "/phaserPOP/example2/copy2",
+      "to_input": 0
+    },
+    {
+      "from": "phaser3",
+      "to": "/phaserPOP/example2/copy2",
+      "to_input": 1
+    },
+    {
+      "from": "lookuptex1",
+      "to": "/phaserPOP/example2/phaser3",
+      "to_input": 0
+    },
+    {
+      "from": "grid1",
+      "to": "/phaserPOP/example2/lookuptex1",
+      "to_input": 0
+    },
+    {
+      "from": "normalize1",
+      "to": "/phaserPOP/example3/copy2",
+      "to_input": 0
+    },
+    {
+      "from": "mathmix1",
+      "to": "/phaserPOP/example3/copy2",
+      "to_input": 1
+    },
+    {
+      "from": "count1",
+      "to": "/phaserPOP/example3/null1",
+      "to_input": 0
+    },
+    {
+      "from": "lfo2",
+      "to": "/phaserPOP/example3/count1",
+      "to_input": 0
+    },
+    {
+      "from": "lookuptex1",
+      "to": "/phaserPOP/example3/phaser3",
+      "to_input": 0
+    },
+    {
+      "from": "ramp1",
+      "to": "/phaserPOP/example3/switch1",
+      "to_input": 0
+    },
+    {
+      "from": "ramp2",
+      "to": "/phaserPOP/example3/switch1",
+      "to_input": 1
+    },
+    {
+      "from": "ramp4",
+      "to": "/phaserPOP/example3/switch1",
+      "to_input": 2
+    },
+    {
+      "from": "ramp3",
+      "to": "/phaserPOP/example3/switch1",
+      "to_input": 3
+    },
+    {
+      "from": "attribute1",
+      "to": "/phaserPOP/example3/mathmix1",
+      "to_input": 0
+    },
+    {
+      "from": "phaser3",
+      "to": "/phaserPOP/example3/attribute1",
+      "to_input": 0
+    },
+    {
+      "from": "grid1",
+      "to": "/phaserPOP/example3/lookuptex1",
+      "to_input": 0
+    },
+    {
+      "from": "box1",
+      "to": "/phaserPOP/example3/normalize1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 43,
+    "total_connections": 20,
+    "total_raw_files": 1,
+    "total_extra_files": 23,
+    "total_files_captured": 105,
+    "by_family": {
+      "COMP": 4,
+      "CHOP": 6,
+      "POP": 17,
+      "DAT": 10,
+      "TOP": 6
+    },
+    "by_type": {
+      "COMP:base": 4,
+      "CHOP:lfo": 3,
+      "POP:copy": 3,
+      "POP:line": 3,
+      "DAT:popto": 1,
+      "DAT:text": 4,
+      "POP:phaser": 3,
+      "POP:grid": 2,
+      "TOP:ramp": 5,
+      "CHOP:popto": 1,
+      "POP:lookuptex": 2,
+      "DAT:table": 5,
+      "POP:box": 1,
+      "CHOP:null": 1,
+      "CHOP:count": 1,
+      "TOP:switch": 1,
+      "POP:mathmix": 1,
+      "POP:attribute": 1,
+      "POP:normalize": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 161
+  }
+}

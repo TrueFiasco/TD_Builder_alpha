@@ -1,0 +1,16 @@
+name: basic_03_movie_file_in_top
+tier: basic
+prompt: |
+  Display a video file in TouchDesigner. Use the Movie File In TOP to load the
+  file and pass it to a Null TOP for downstream chaining.
+expected_operators:
+  - TOP:moviefilein
+  - TOP:null
+expected_connections:
+  - [moviefilein1, null1]
+tolerance:
+  min_operator_recall: 1.0
+  min_connection_recall: 0.5
+notes: |
+  Tests basic media-input pattern. Note 'moviefilein' (one word) — the registry
+  is the source of truth for the canonical type token.

@@ -1,0 +1,146 @@
+schema_version: '1.0'
+last_compacted: '2026-05-16T17:25:44.291289'
+event_count: 5
+checksum: 014052ab31f34b46
+operators:
+  operators:
+    CHOP:
+      constant:
+        param_extensions:
+        - const1name
+        - const1value
+        - const2name
+        - const2value
+        - const3name
+        - const3value
+        - const4name
+        - const4value
+        - const5name
+        - const5value
+        - const6name
+        - const6value
+        - const7name
+        - const7value
+        - const8name
+        - const8value
+        - const9name
+        - const9value
+    _last_updated: '2025-12-16T14:05:00Z'
+    _updated_by: codex
+    _confidence: 0.9
+patterns: {}
+parameters: {}
+problems: {}
+recipes: {}
+file_formats:
+  tox_builder:
+    status: validated
+    capabilities:
+      operator_coverage: 0/0 operators (100%)
+      parameter_types:
+      - bool
+      - int
+      - float
+      - string
+      - menu
+      - multi_param
+      network_topologies:
+      - empty
+      - single
+      - chain
+      - branch
+      - diamond
+      - mesh
+      - large
+      max_network_size: 500
+      roundtrip_validation: 10/10 tests passed
+    file_formats:
+      .tox:
+        build: true
+        expand: true
+        roundtrip: true
+      .n:
+        format: FAMILY:type\ntile x y w h\nflags = ...\ninputs\n{\n0\top_name\n}\ncolor
+          r g b\nend
+        inputs_block: curly braces with index tab op_name
+      .parm:
+        format: ?\nparam_name mode value [expression]\n?
+        modes:
+          '0': constant
+          '16': expression
+        bool_values: on/off (not 1/0)
+    _last_updated: '2025-12-16T15:50:57.234665'
+    _updated_by: claude-opus
+    _confidence: 0.95
+  discovery:
+    format: BINARY not TEXT
+    structure:
+      header: 'b''2
+
+        *'' (3 bytes)'
+      metadata: 5 x 4-byte big-endian [1,1,1,1,2]
+      length: 4-byte big-endian content length
+      content: UTF-8 encoded text
+    python_code: 'header = b''2
+
+      *''; metadata = struct.pack(''>5I'', 1, 1, 1, 1, 2); length = struct.pack(''>I'',
+      len(content)); data = header + metadata + length + content'
+    _last_updated: '2025-12-17T11:00:00Z'
+    _updated_by: claude-opus
+    _confidence: 0.98
+  files_fixed:
+  - tox_builder/builder.py
+  validated_with:
+  - thermal_crystalline.tox
+  - fluid_typography.tox
+  - data_organism.tox
+  - recursive_dreamscape.tox
+  custom_params_discovery:
+    critical_insight: Custom params NOT in .parm files - created via Python init scripts
+    init_script_location: sample_component/init_script.text
+    python_api:
+    - appendCustomPage
+    - appendFloat
+    - appendXY
+    - appendInt
+    - appendMenu
+    reference_syntax: parent().par.ParamName
+    _last_updated: '2025-12-17T14:34:01.095893Z'
+    _updated_by: claude-opus
+    _confidence: 0.9
+  artistic_learnings:
+    parameter_control: Use normalized params for SPEED/RATE not direct values
+    poi_influence: Multiply by 2.0-5.0 for noticeable effect
+    control_connectivity: Every control must visibly affect output
+    _last_updated: '2025-12-17T14:34:01.095893Z'
+    _updated_by: claude-opus
+    _confidence: 0.9
+  shader_fix:
+    file: recursive_dreamscape/pixel_shader.text
+    error: fbm(p.xz) - vec2 passed to vec3 function
+    fix: fbm(vec3(p.xz * 0.5 + time * 0.02, time * 0.01))
+    _last_updated: '2025-12-17T14:34:01.095893Z'
+    _updated_by: claude-opus
+    _confidence: 0.9
+  validated_example: fluid_typography - clear param effects, interactive POI
+network_building: {}
+td_glsl: {}
+creative: {}
+cg: {}
+critique: {}
+orchestration: {}
+glsl:
+  td_glsl:
+    glsl_top:
+      templates:
+      - pass_through
+      - mask_multiply
+    glsl_mat:
+      templates:
+      - textured_mat
+    glsl_pop:
+      templates:
+      - ping_pong_update
+    _last_updated: '2025-12-16T15:05:00Z'
+    _updated_by: codex
+    _confidence: 0.85

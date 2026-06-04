@@ -1,0 +1,351 @@
+{
+  "0": {
+    "count": 17757,
+    "meaning": "constant",
+    "has_expressions": true,
+    "examples": [
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "active",
+        "value": "off",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "enable",
+        "value": "on",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "startstopsync",
+        "value": "on",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "signature1",
+        "value": 5,
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "signature2",
+        "value": 5,
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "callbacks",
+        "value": "op_perturbed_callbacks",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "status",
+        "value": "off",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "ramp",
+        "value": "off",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "pulse",
+        "value": "on",
+        "expression": null
+      },
+      {
+        "op": "CHOP:Ableton_Link_CHOP",
+        "param": "sine",
+        "value": "on",
+        "expression": null
+      }
+    ]
+  },
+  "16": {
+    "count": 171,
+    "meaning": "expression",
+    "has_expressions": true,
+    "examples": [
+      {
+        "op": "CHOP:Audio_File_In_CHOP",
+        "param": "file",
+        "value": "$TT/Audio/JeremyCaulfield_www.dumb-unit.com.mp3_perturbed",
+        "expression": "app.samplesFolder+'/Audio/JeremyCaulfield_www.dumb-unit.com.mp3'"
+      },
+      {
+        "op": "CHOP:Audio_File_In_CHOP",
+        "param": "index",
+        "value": 0.12345,
+        "expression": "\"me.time.frame / root.time.rate\""
+      },
+      {
+        "op": "CHOP:Audio_File_Out_CHOP",
+        "param": "file",
+        "value": "TDAudio.wav_perturbed",
+        "expression": "\"'TDAudio' + me.fileSuffix\""
+      },
+      {
+        "op": "CHOP:Audio_Play_CHOP",
+        "param": "file",
+        "value": "$TFS/Config/Audio/Notify.aiff_perturbed",
+        "expression": "app.configFolder+'/Audio/Notify.aiff'"
+      },
+      {
+        "op": "CHOP:Audio_VST_CHOP",
+        "param": "file",
+        "value": "\"C:/Program",
+        "expression": "Files/Common Files/VST3_perturbed\" \"'C:/Program Files/Common Files/VST3'\""
+      },
+      {
+        "op": "CHOP:BlackTrax_CHOP",
+        "param": "samplerate",
+        "value": 1,
+        "expression": "root.time.rate"
+      },
+      {
+        "op": "CHOP:Bullet_Solver_CHOP",
+        "param": "rate",
+        "value": 60.1234,
+        "expression": "me.time.rate"
+      },
+      {
+        "op": "CHOP:Constant_CHOP",
+        "param": "rate",
+        "value": 60.1234,
+        "expression": "me.time.rate"
+      },
+      {
+        "op": "CHOP:DAT_to_CHOP",
+        "param": "rowindexend",
+        "value": 1,
+        "expression": "\"me.inputTable.numRows - 1\""
+      },
+      {
+        "op": "CHOP:DAT_to_CHOP",
+        "param": "rowexpr",
+        "value": "strmatch(\\\"*\\\",$V)_perturbed",
+        "expression": "\"re.match('.*',me.inputCell.val) != None\""
+      }
+    ]
+  },
+  "256": {
+    "count": 2,
+    "meaning": "unknown",
+    "has_expressions": false,
+    "examples": [
+      {
+        "op": "COMP:FBX_COMP",
+        "param": "parentshortcut",
+        "value": "FBX",
+        "expression": null
+      },
+      {
+        "op": "COMP:USD_COMP",
+        "param": "parentshortcut",
+        "value": "USD",
+        "expression": null
+      }
+    ]
+  },
+  "1024": {
+    "count": 2,
+    "meaning": "unknown",
+    "has_expressions": false,
+    "examples": [
+      {
+        "op": "DAT:WebRTC_DAT",
+        "param": "password",
+        "value": "_perturbed",
+        "expression": null
+      },
+      {
+        "op": "DAT:Web_Server_DAT",
+        "param": "password",
+        "value": "_perturbed",
+        "expression": null
+      }
+    ]
+  },
+  "524288": {
+    "count": 74,
+    "meaning": "unknown",
+    "has_expressions": false,
+    "examples": [
+      {
+        "op": "POP:Curve_POP",
+        "param": "seg0startval0",
+        "value": 0.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Curve_POP",
+        "param": "seg0startval1",
+        "value": 0.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Curve_POP",
+        "param": "seg0endval0",
+        "value": 1.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Curve_POP",
+        "param": "seg0endval1",
+        "value": 1.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "mintype0",
+        "value": "clamp",
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "mintype1",
+        "value": "off",
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "maxtype0",
+        "value": "clamp",
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "maxtype1",
+        "value": "off",
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "min0",
+        "value": -0.87655,
+        "expression": null
+      },
+      {
+        "op": "POP:Limit_POP",
+        "param": "min1",
+        "value": -1,
+        "expression": null
+      }
+    ]
+  },
+  "1048576": {
+    "count": 72,
+    "meaning": "unknown",
+    "has_expressions": false,
+    "examples": [
+      {
+        "op": "POP:Normalize_POP",
+        "param": "mode0",
+        "value": "boxy",
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "mode1",
+        "value": "boxz",
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "mode2",
+        "value": "boxw",
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "mode3",
+        "value": "boxw",
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "bias0",
+        "value": 0.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "bias1",
+        "value": 0.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "bias2",
+        "value": 0.12345,
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "bias3",
+        "value": 0,
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "lookupcurve0",
+        "value": "easein",
+        "expression": null
+      },
+      {
+        "op": "POP:Normalize_POP",
+        "param": "lookupcurve1",
+        "value": "easein",
+        "expression": null
+      }
+    ]
+  },
+  "67108928": {
+    "count": 6,
+    "meaning": "unknown",
+    "has_expressions": false,
+    "examples": [
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "mode",
+        "value": "sdrtohdr",
+        "expression": null
+      },
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "superresquality",
+        "value": "high",
+        "expression": null
+      },
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "hdrcontrast",
+        "value": 1.12345,
+        "expression": null
+      },
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "hdrsaturation",
+        "value": 1.12345,
+        "expression": null
+      },
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "hdrmiddlegray",
+        "value": 0.62345,
+        "expression": null
+      },
+      {
+        "op": "TOP:NVIDIA_RTX_Video_TOP",
+        "param": "hdrmaxluminance",
+        "value": 1.12345,
+        "expression": null
+      }
+    ]
+  }
+}

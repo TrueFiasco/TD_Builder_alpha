@@ -1,0 +1,272 @@
+{
+  "operator": "Timecode_CHOP",
+  "family": "CHOP",
+  "td_create_name": "timecodeCHOP",
+  "param_count": 42,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "smpte": {
+      "type": "toggle",
+      "value": false
+    },
+    "mode": {
+      "type": "menu",
+      "value": "timecodeobj",
+      "menuIndex": 5,
+      "menuNames": [
+        "lockedtotimeline",
+        "specifyindex",
+        "timecodestr",
+        "timecodepar",
+        "sequential",
+        "timecodeobj",
+        "chop",
+        "op"
+      ],
+      "menuLabels": [
+        "Locked to Timeline",
+        "Specify Index",
+        "Timecode String",
+        "Hour, Minute, Second, Frame Parameters",
+        "Sequential",
+        "Timecode Object",
+        "CHOP Channels",
+        "OP Reference"
+      ]
+    },
+    "rate": {
+      "type": "float",
+      "value": 60.12345
+    },
+    "dropframe": {
+      "type": "toggle",
+      "value": false
+    },
+    "index": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "indexunit": {
+      "type": "menu",
+      "value": "seconds",
+      "menuIndex": 2,
+      "menuNames": [
+        "indices",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "timecodestr": {
+      "type": "string",
+      "value": "00:00:00:00_perturbed"
+    },
+    "frame": {
+      "type": "int",
+      "value": 1
+    },
+    "second": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "minute": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "hour": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "init": {
+      "type": "pulse",
+      "value": null
+    },
+    "start": {
+      "type": "pulse",
+      "value": null
+    },
+    "play": {
+      "type": "toggle",
+      "value": false
+    },
+    "timecodeobj": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "chop": {
+      "type": "op",
+      "value": ""
+    },
+    "op": {
+      "type": "op",
+      "value": ""
+    },
+    "customlength": {
+      "type": "menu",
+      "value": "value",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "value",
+        "timecodeobj"
+      ],
+      "menuLabels": [
+        "Off",
+        "By Value",
+        "By Timecode Object"
+      ]
+    },
+    "length": {
+      "type": "float",
+      "value": 10.12345
+    },
+    "lengthunits": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "lengthtimecodeobj": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "extendleft": {
+      "type": "menu",
+      "value": "hold",
+      "menuIndex": 0,
+      "menuNames": [
+        "hold",
+        "cycle"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Cycle"
+      ]
+    },
+    "extendright": {
+      "type": "menu",
+      "value": "hold",
+      "menuIndex": 0,
+      "menuNames": [
+        "hold",
+        "cycle"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Cycle"
+      ]
+    },
+    "negativechan": {
+      "type": "toggle",
+      "value": false
+    },
+    "framechan": {
+      "type": "toggle",
+      "value": false
+    },
+    "secondchan": {
+      "type": "toggle",
+      "value": false
+    },
+    "minutechan": {
+      "type": "toggle",
+      "value": false
+    },
+    "hourchan": {
+      "type": "toggle",
+      "value": false
+    },
+    "totalseconds": {
+      "type": "toggle",
+      "value": true
+    },
+    "totalframes": {
+      "type": "toggle",
+      "value": true
+    },
+    "dropframechan": {
+      "type": "toggle",
+      "value": true
+    },
+    "fpschan": {
+      "type": "toggle",
+      "value": true
+    },
+    "countdown": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,349 @@
+# UI Design Patterns for TouchDesigner
+# Widget catalog, layout templates, wiring patterns
+# Version: 1.0.0
+# Created: 2024-12-23
+
+version: "1.0"
+domain: "ui_design"
+confidence: 0.85
+
+# =============================================================================
+# WIDGET CATALOG
+# =============================================================================
+# All widgets available via palette embedding
+
+widget_catalog:
+  # --- SLIDERS ---
+  sliderVert:
+    palette_name: "sliderVert"
+    category: "slider"
+    outputs:
+      - channel: "v1"
+        range: [0, 1]
+        description: "Vertical position"
+    default_size: [60, 200]
+    use_case: "Faders, levels, single-axis control"
+
+  sliderHorz:
+    palette_name: "sliderHorz"
+    category: "slider"
+    outputs:
+      - channel: "u"
+        range: [0, 1]
+        description: "Horizontal position"
+    default_size: [200, 40]
+    use_case: "Crossfaders, horizontal controls"
+
+  slider2D:
+    palette_name: "slider2D"
+    category: "slider"
+    outputs:
+      - channel: "u"
+        range: [0, 1]
+        description: "Horizontal position"
+      - channel: "v"
+        range: [0, 1]
+        description: "Vertical position"
+    default_size: [150, 150]
+    use_case: "XY pads, 2-axis control"
+
+  # --- BUTTONS ---
+  buttonToggle:
+    palette_name: "buttonToggle"
+    category: "button"
+    outputs:
+      - channel: "v1"
+        range: [0, 1]
+        description: "Toggle state (0=off, 1=on)"
+    default_size: [60, 60]
+    use_case: "On/off toggles, scene triggers"
+
+  buttonMomentary:
+    palette_name: "buttonMomentary"
+    category: "button"
+    outputs:
+      - channel: "v1"
+        range: [0, 1]
+        description: "Pressed state (1 while held)"
+    default_size: [60, 60]
+    use_case: "Tap triggers, momentary effects"
+
+  buttonRadio:
+    palette_name: "buttonRadio"
+    category: "button"
+    outputs:
+      - channel: "Value0"
+        range: [0, "n-1"]
+        description: "Selected index (integer)"
+    default_size: [200, 40]
+    use_case: "Exclusive selection, mode switching"
+
+  buttonCheckbox:
+    palette_name: "buttonCheckbox"
+    category: "button"
+    outputs:
+      - channel: "v1"
+        range: [0, 1]
+        description: "Checked state"
+    default_size: [30, 30]
+    use_case: "Boolean options, feature toggles"
+
+  # --- KNOBS ---
+  knobFixed:
+    palette_name: "knobFixed"
+    category: "knob"
+    outputs:
+      - channel: "v1"
+        range: [0, 1]
+        description: "Rotation position"
+    default_size: [80, 80]
+    use_case: "Pan, rotation, limited range control"
+
+  knobEndless:
+    palette_name: "knobEndless"
+    category: "knob"
+    outputs:
+      - channel: "v1"
+        range: "cumulative"
+        description: "Cumulative rotation value"
+    default_size: [80, 80]
+    use_case: "Scrolling, infinite adjustment"
+
+  # --- NUMERIC ---
+  float1:
+    palette_name: "float1"
+    category: "numeric"
+    outputs:
+      - channel: "v1"
+        range: "any"
+        description: "Float value"
+    default_size: [100, 30]
+    use_case: "Direct number entry"
+
+  float2:
+    palette_name: "float2"
+    category: "numeric"
+    outputs:
+      - channel: "v1"
+        range: "any"
+      - channel: "v2"
+        range: "any"
+    default_size: [200, 30]
+    use_case: "XY coordinate entry"
+
+  float3:
+    palette_name: "float3"
+    category: "numeric"
+    outputs:
+      - channel: "v1"
+      - channel: "v2"
+      - channel: "v3"
+    default_size: [300, 30]
+    use_case: "XYZ, RGB values"
+
+  float4:
+    palette_name: "float4"
+    category: "numeric"
+    outputs:
+      - channel: "v1"
+      - channel: "v2"
+      - channel: "v3"
+      - channel: "v4"
+    default_size: [400, 30]
+    use_case: "RGBA, quaternion values"
+
+  # --- MENUS ---
+  dropDownMenu:
+    palette_name: "dropDownMenu"
+    category: "menu"
+    outputs:
+      - channel: "menuIndex"
+        range: [0, "n-1"]
+        description: "Selected menu index"
+    default_size: [150, 30]
+    use_case: "Option selection, preset switching"
+
+  # --- COMPLEX ---
+  lister:
+    palette_name: "lister"
+    category: "complex"
+    outputs:
+      - channel: "selectedRow"
+        description: "Currently selected row index"
+    default_size: [300, 400]
+    use_case: "Cue lists, file browsers, data display"
+
+# =============================================================================
+# LAYOUT TEMPLATES
+# =============================================================================
+
+layout_templates:
+  grid_layout:
+    description: "Evenly spaced controls in rows/columns"
+    use_case: "Mixer-style interfaces, parameter banks"
+    structure:
+      rows: "variable"
+      columns: "variable"
+      cell_spacing: 20
+      margin: 20
+    example:
+      4x2_mixer:
+        widgets: 8
+        positions: "calculated from grid"
+
+  vertical_stack:
+    description: "Controls stacked top-to-bottom"
+    use_case: "Sidebar controls, parameter lists"
+    structure:
+      direction: "vertical"
+      spacing: 10
+      alignment: "left|center|right"
+
+  horizontal_bar:
+    description: "Controls in horizontal row"
+    use_case: "Transport controls, toolbars"
+    structure:
+      direction: "horizontal"
+      spacing: 10
+      height: 40
+
+  dashboard:
+    description: "Mixed layout with header, sidebar, main, footer"
+    use_case: "Full show control interfaces"
+    regions:
+      header: {height: 50, position: "top"}
+      sidebar: {width: 200, position: "left"}
+      main: {fill: true}
+      footer: {height: 30, position: "bottom"}
+
+  vj_interface:
+    description: "Two-deck VJ control surface"
+    use_case: "VJ performance, live visuals"
+    regions:
+      transport: {height: 60, position: "top"}
+      deck_a: {width: "33%", position: "left"}
+      mixer: {width: "33%", position: "center"}
+      deck_b: {width: "33%", position: "right"}
+      cue_bank: {height: 150, position: "bottom"}
+
+# =============================================================================
+# WIRING PATTERNS
+# =============================================================================
+
+wiring_patterns:
+  basic_merge:
+    description: "Combine multiple widget outputs"
+    chain: ["widget", "selectCHOP", "mergeCHOP", "outCHOP"]
+    notes: "Use renameCHOP if channel names need changing"
+
+  named_outputs:
+    description: "Rename widget outputs to meaningful names"
+    chain: ["widget", "selectCHOP", "renameCHOP", "mergeCHOP", "outCHOP"]
+    example:
+      rename_params:
+        renamefrom: "v1 v1 v1"
+        renameto: "brightness contrast saturation"
+
+  midi_integration:
+    description: "Combine UI with MIDI input"
+    components:
+      - midiinCHOP: "Receive MIDI"
+      - mathCHOP: "Scale 0-127 to 0-1"
+      - selectCHOP: "Pick channels"
+      - mergeCHOP: "Combine with UI"
+    bidirectional: true
+    notes: "Use midioutCHOP for feedback to controller"
+
+  osc_integration:
+    description: "Combine UI with OSC input"
+    components:
+      - oscinCHOP: "Receive OSC"
+      - renameCHOP: "Rename to match UI"
+      - mergeCHOP: "Combine with UI"
+    address_format: "/control/{name}"
+
+# =============================================================================
+# COLOR THEMES
+# =============================================================================
+
+color_themes:
+  dark_vj:
+    name: "Dark VJ"
+    description: "Dark theme for performance use"
+    colors:
+      background: [0.08, 0.08, 0.1]
+      widget_bg: [0.15, 0.15, 0.18]
+      accent: [0.0, 0.8, 1.0]
+      text: [0.9, 0.9, 0.9]
+      highlight: [1.0, 0.3, 0.1]
+
+  light_install:
+    name: "Light Installation"
+    description: "Light theme for installations"
+    colors:
+      background: [0.95, 0.95, 0.95]
+      widget_bg: [1.0, 1.0, 1.0]
+      accent: [0.2, 0.4, 0.8]
+      text: [0.1, 0.1, 0.1]
+      highlight: [0.9, 0.2, 0.2]
+
+  minimal:
+    name: "Minimal"
+    description: "Subtle, minimal design"
+    colors:
+      background: [0.12, 0.12, 0.12]
+      widget_bg: [0.18, 0.18, 0.18]
+      accent: [0.4, 0.4, 0.4]
+      text: [0.7, 0.7, 0.7]
+
+# =============================================================================
+# COMMON LAYOUTS (PRE-BUILT)
+# =============================================================================
+
+preset_layouts:
+  4_channel_mixer:
+    description: "4 vertical faders with labels"
+    widgets:
+      - {name: "ch1", palette: "sliderVert", position: [50, 50]}
+      - {name: "ch2", palette: "sliderVert", position: [130, 50]}
+      - {name: "ch3", palette: "sliderVert", position: [210, 50]}
+      - {name: "ch4", palette: "sliderVert", position: [290, 50]}
+    output_channels: ["ch1", "ch2", "ch3", "ch4"]
+
+  8_scene_buttons:
+    description: "Row of 8 toggle buttons"
+    widgets:
+      - {name: "scene1", palette: "buttonToggle", position: [50, 50]}
+      - {name: "scene2", palette: "buttonToggle", position: [120, 50]}
+      - {name: "scene3", palette: "buttonToggle", position: [190, 50]}
+      - {name: "scene4", palette: "buttonToggle", position: [260, 50]}
+      - {name: "scene5", palette: "buttonToggle", position: [330, 50]}
+      - {name: "scene6", palette: "buttonToggle", position: [400, 50]}
+      - {name: "scene7", palette: "buttonToggle", position: [470, 50]}
+      - {name: "scene8", palette: "buttonToggle", position: [540, 50]}
+    output_channels: ["scene1", "scene2", "scene3", "scene4", "scene5", "scene6", "scene7", "scene8"]
+
+  xy_pad_with_sliders:
+    description: "2D pad with X and Y sliders"
+    widgets:
+      - {name: "xy_pad", palette: "slider2D", position: [50, 50]}
+      - {name: "x_fine", palette: "sliderHorz", position: [50, 220]}
+      - {name: "y_fine", palette: "sliderVert", position: [220, 50]}
+    output_channels: ["x", "y"]
+
+# =============================================================================
+# LEARNING HOOKS
+# =============================================================================
+
+learning_triggers:
+  - event: "layout_success"
+    action: "Increment layout confidence"
+
+  - event: "widget_load_failure"
+    action: "Log missing widget, check palette availability"
+
+  - event: "user_correction"
+    action: "Update widget outputs or layout"
+
+  - event: "new_theme_validated"
+    action: "Add to color_themes"

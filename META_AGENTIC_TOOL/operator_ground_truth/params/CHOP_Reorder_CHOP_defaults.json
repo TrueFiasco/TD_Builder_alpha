@@ -1,0 +1,282 @@
+{
+  "operator": "Reorder_CHOP",
+  "family": "CHOP",
+  "td_create_name": "reorderCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 9,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "numeric",
+        "menuIndex": 0,
+        "menuNames": [
+          "numeric",
+          "character",
+          "basename",
+          "numsuffix",
+          "chanvalueup",
+          "chanvaluedown",
+          "reverse",
+          "random",
+          "group",
+          "split"
+        ],
+        "menuLabels": [
+          "Numeric Pattern",
+          "Character Pattern",
+          "Base Name Sort",
+          "Numeric Suffix Sort",
+          "Channel Value Up",
+          "Channel Value Down",
+          "Reverse",
+          "Random",
+          "Merge N Groups",
+          "Every Nth Channel"
+        ]
+      },
+      "default": "numeric",
+      "page": "Reorder",
+      "label": "Channel Reorder Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderref": {
+      "value": {
+        "type": "menu",
+        "value": "byname",
+        "menuIndex": 0,
+        "menuNames": [
+          "byname",
+          "byindex"
+        ],
+        "menuLabels": [
+          "By Name",
+          "By Index"
+        ]
+      },
+      "default": "byname",
+      "page": "Reorder",
+      "label": "Order Reference",
+      "readOnly": false,
+      "expression": null
+    },
+    "numpattern": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Reorder",
+      "label": "Numeric Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "charpattern": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Reorder",
+      "label": "Character Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "legacypattern": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Reorder",
+      "label": "Legacy Pattern Matching",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Reorder",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "nvalue": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Reorder",
+      "label": "N Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "rempos": {
+      "value": {
+        "type": "menu",
+        "value": "end",
+        "menuIndex": 1,
+        "menuNames": [
+          "begin",
+          "end"
+        ],
+        "menuLabels": [
+          "At Beginning",
+          "At Ending"
+        ]
+      },
+      "default": "end",
+      "page": "Reorder",
+      "label": "Remaining Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "remorder": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "alpha"
+        ],
+        "menuLabels": [
+          "Same as Input",
+          "AlphaNumeric"
+        ]
+      },
+      "default": "input",
+      "page": "Reorder",
+      "label": "Remaining Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

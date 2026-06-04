@@ -1,0 +1,679 @@
+﻿<!DOCTYPE html>
+<html class="client-nojs" lang="en-CA" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>COMP - TouchDesigner Documentation</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"dc866d0097ce58bbf6fbabb2","wgCSPNonce":false,"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Palette:projectorBlend","wgTitle":"Palette:projectorBlend","wgCurRevisionId":22537,"wgRevisionId":22537,"wgArticleId":2217,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Palette"],"wgPageContentLanguage":"en-ca","wgPageContentModel":"wikitext","wgRelevantPageName":"Palette:projectorBlend","wgRelevantArticleId":2217,"wgIsProbablyEditable":false,"wgRelevantPageIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgCargoDefaultQueryLimit":100,
+"wgCargoMapClusteringMinimum":80,"wgCargoMonthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"wgCargoMonthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgCargoWeekDays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"wgCargoWeekDaysShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"wgPageFormsTargetName":null,"wgPageFormsAutocompleteValues":[],"wgPageFormsAutocompleteOnAllChars":false,"wgPageFormsFieldProperties":[],"wgPageFormsCargoFields":[],"wgPageFormsDependentFields":[],"wgPageFormsCalendarValues":[],"wgPageFormsCalendarParams":[],"wgPageFormsCalendarHTML":null,"wgPageFormsGridValues":[],"wgPageFormsGridParams":[],"wgPageFormsContLangYes":null,"wgPageFormsContLangNo":null,"wgPageFormsContLangMonths":[],"wgPageFormsHeightForMinimizingInstances":800,"wgPageFormsShowOnSelect":[],"wgPageFormsScriptPath":"/extensions/PageForms","edgValues":{"title"
+:["Palette","Palette:arcBallCamera","Palette:arcBallGeometry","Palette:audioAnalysis","Palette:audioSet","Palette:autoMediaPlayer","Palette:battery","Palette:bitwigClip","Palette:bitwigClipSlot","Palette:bitwigDeviceRemotes","Palette:bitwigMain","Palette:bitwigNote","Palette:bitwigProjectRemotes","Palette:bitwigRemotesDevice","Palette:bitwigRemotesProject","Palette:bitwigRemotesTrack","Palette:bitwigSelect","Palette:bitwigSong","Palette:bitwigTrack","Palette:bitwigTrackRemotes","Palette:blendModes","Palette:bloom","Palette:camera","Palette:cameraBrowser","Palette:cameraViewport","Palette:camSchnappr","Palette:changeColor","Palette:changeToColor","Palette:checker","Palette:chromaKey","Palette:colorThreshold","Palette:compareComp","Palette:convolve","Palette:cornerPinPOP","Palette:cornerPinSOP","Palette:cppParsTemplateGen","Palette:customAttributes","Palette:debugControl","Palette:dent","Palette:depthExtract","Palette:depthProjection","Palette:dilate","Palette:domeViewer",
+"Palette:encoder","Palette:equalizer","Palette:feedback","Palette:feedbackEdge","Palette:firmata","Palette:gal","Palette:geoPanel","Palette:gestureCapture","Palette:graphPlot","Palette:histogram","Palette:hsvBlur","Palette:imageSearch","Palette:julia","Palette:kantanMapper","Palette:kinectCalibration","Palette:kinectPointcloud","Palette:leapPaint","Palette:lightTunnel","Palette:logger","Palette:mandelbrot","Palette:materialDesignIcons","Palette:mesh","Palette:monochrome","Palette:motionSense","Palette:movieEngine","Palette:moviePlayer","Palette:moviePlaylist","Palette:multiLevel","Palette:multiMix","Palette:noise","Palette:onScreenKeyboard","Palette:operatorPath","Palette:opticalFlow","Palette:particlesGpu","Palette:pixelate","Palette:pixelRelocator","Palette:pointGenerator","Palette:pointillize","Palette:pointMerge","Palette:pointRender","Palette:pointRepack","Palette:pointTransform","Palette:pointWeight","Palette:popDialog","Palette:probe","Palette:projectorBlend","Palette:pushPins",
+"Palette:puzzle","Palette:quadReproject","Palette:radialBlur","Palette:recorder","Palette:remotePanel","Palette:rgbaBlur","Palette:rgbaDelay","Palette:rgbContrast","Palette:sceneChanger","Palette:search","Palette:searchReplace","Palette:sharpen","Palette:sickEngine","Palette:signalingClient","Palette:signalingServer","Palette:softenAlpha","Palette:solarize","Palette:sopRender","Palette:splitter","Palette:stitcher","Palette:stoner","Palette:superFormula","Palette:SVG","Palette:sweetSpot","Palette:sweetSpotPreviz","Palette:synchroCache","Palette:synchroClient","Palette:synchroFrameIn","Palette:synchroFrameOut","Palette:synchroNDIIn","Palette:synchroSDIIn","Palette:synchroVideoOut","Palette:tdBitwigPackage","Palette:tdPyEnvManager","Palette:TDVR","Palette:testGrid","Palette:threadManagerClient","Palette:threadsMonitor","Palette:transitMap","Palette:twirl","Palette:vectorScope","Palette:virtualFile","Palette:waveformMonitor","Palette:webBrowser","Palette:webRTC","Palette:webRTCPanel",
+"Palette:webRTCPanelRcv","Palette:xyScope","Thread Manager"]},"wgPageFormsEDSettings":null,"wgAmericanDates":false,"wgVector2022PreviewPages":[]};RLSTATE={"site.styles":"ready","user.styles":"ready","user":"ready","user.options":"loading","ext.Lingo.styles":"ready","skins.vector.styles.legacy":"ready","jquery.makeCollapsible.styles":"ready"};RLPAGEMODULES=["ext.UiTag","ext.Lingo","site","mediawiki.page.ready","jquery.makeCollapsible","mediawiki.toc","skins.vector.legacy.js"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});});});</script>
+<link rel="stylesheet" href="./load_25.css">
+<script async="" src="/load.php?lang=en-ca&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./load_2.css">
+<meta name="generator" content="MediaWiki 1.39.0">
+<meta name="format-detection" content="telephone=no">
+<meta name="keywords" content="TouchDesigner, , COMP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=1000">
+<link rel="icon" href="./favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="./opensearch_desc.php" title="Derivative (en-ca)">
+<link rel="EditURI" type="application/rsd+xml" href="./api.php">
+<link rel="alternate" type="application/atom+xml" title="Derivative Atom feed" href="/index.php?title=Special:RecentChanges&amp;feed=atom">
+<!-- Begin Extension:CSS --><link rel="stylesheet" href="./index_38.css"><!-- End Extension:CSS -->
+
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-3123499-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-3123499-6');
+</script>
+<meta property="og:title" content="COMP - TouchDesigner Documentation">
+<meta property="og:site_name" content="Derivative">
+<meta property="og:url" content="https://docs.derivative.ca/Palette:projectorBlend">
+<meta property="og:image" content="https://docs.derivative.ca/resources/assets/logo.png">
+<meta property="article:tag" content="TouchDesigner, , COMP">
+<meta property="article:modified_time" content="2021-06-10T07:41:47Z">
+<meta property="article:published_time" content="2021-06-10T07:41:47Z">
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Article","name":"COMP - TouchDesigner Documentation","headline":"COMP - TouchDesigner Documentation","mainEntityOfPage":"<span class=\"mw-page-title-main\">Palette:projectorBlend<\/span>","identifier":"https:\/\/docs.derivative.ca\/Palette:projectorBlend","url":"https:\/\/docs.derivative.ca\/Palette:projectorBlend","keywords":"TouchDesigner, , COMP","dateModified":"2021-06-10T07:41:47Z","datePublished":"2021-06-10T07:41:47Z","image":{"@type":"ImageObject","url":"./resources/assets/logo.png"},"author":{"@type":"Organization","name":"Derivative","url":"./index.htm","logo":{"@type":"ImageObject","url":"./resources/assets/logo.png","caption":"Derivative"}},"publisher":{"@type":"Organization","name":"Derivative","url":"./index.htm","logo":{"@type":"ImageObject","url":"./resources/assets/logo.png","caption":"Derivative"}},"potentialAction":{"@type":"SearchAction","target":"https:\/\/docs.derivative.ca\/index.php?title=Special:Search&search={search_term}","query-input":"required name=search_term"}}</script>
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Palette_projectorBlend rootpage-Palette_projectorBlend skin-vector action-view skin-vector-legacy vector-feature-language-in-header-enabled vector-feature-language-in-main-page-header-disabled vector-feature-language-alert-in-sidebar-disabled vector-feature-sticky-header-disabled vector-feature-sticky-header-edit-disabled vector-feature-table-of-contents-disabled vector-feature-visual-enhancement-next-disabled"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	<div id="siteNotice"></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading"><span class="mw-page-title-main">Palette:projectorBlend</span></h1>
+	<div id="bodyContent" class="vector-body">
+		<div id="siteSub" class="noprint">From Derivative</div>
+		<div id="contentSub"></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content mw-content-ltr" lang="en-CA" dir="ltr"><div class="mw-parser-output"><div class="mw-parser-output"><h2><span class="mw-headline" id="Summary"><div class="sectionBarCOMP">Summary</div></span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/index.php?title=Template:Summary&amp;action=edit&amp;section=T-1" title="Edit section: Summary">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p><a href="/File:ProjectorBlend.png" class="image"><img alt="ProjectorBlend.png" src="./images/thumb/9/9d/ProjectorBlend.png/640px-ProjectorBlend.png" decoding="async" width="640" height="263" srcset="/images/thumb/9/9d/ProjectorBlend.png/960px-ProjectorBlend.png 1.5x, /images/thumb/9/9d/ProjectorBlend.png/1280px-ProjectorBlend.png 2x"></a>
+</p><p>ProjectorBlend is a tool to smoothly blend projector arrays based on the ofxProjectorBlend add-on by Jeffrey Crouse (<a rel="nofollow" class="external text" href="https://github.com/Flightphase/ofxProjectorBlend">ofxProjectorBlend on GitHub</a>)
+</p><p>On a technical level it incorporates Paul Bourkes <a rel="nofollow" class="external text" href="http://paulbourke.net/texture_colour/edgeblend/">Edge blending using commodity projectors</a> paper.
+</p><p>See also <a href="./Projection_Mapping.htm" title="Projection Mapping">Projection Mapping</a>, <a href="./Vioso.htm" title="Vioso">Vioso</a>, <a href="./Scalable_Display_TOP.htm" title="Scalable Display TOP">Scalable Displays</a>, <a href="./Palette-kantanMapper.htm" title="Palette:kantanMapper">kantanMapper</a>, <a href="./Palette-camSchnappr.htm" title="Palette:camSchnappr">camSchnappr</a>.
+</p>
+<h2><span class="mw-headline" id="Usage">Usage</span></h2>
+<p>ProjectorBlend will take any input and stretch it to the projector array size. The output is blended but -  depending on your hardware setup - might need to be rearranged for output to the projectors.
+</p><p>The parameters on the Projector Blend page are used for setting up a general environment, how many projectors are being used and what each projectors resolution is (all projectors need to be the same resolution). Also an overall blankout area around the projection can be specified.
+</p><p>Separate parameters per projector can be set on the Projector Parameter pages. Here the blend-area can be specified as well as the parameters dictating the blends general behavior. If necessary there is the option to switch to a "per side control" which enables non-straight blending areas and separate color control of each projector edge.
+</p>
+<h3><span class="mw-headline" id="Parameters_-_Projector_Blend_Page">Parameters - Projector Blend Page</span></h3>
+<p>Projector Array <code>Projectorarray1 / Projectorarray2</code> - Specify the size of your projector array in x and y. A 1x2 array would mean you have 2 projectors aligned vertically.
+Changing this parameter will add or remove additional parameter pages for all projectors.
+</p><p>Projector <span class="mw-lingo-term" data-lingo-term-id="b5a4b64b2aa505bd7c11f79b8a9f458d">Resolution</span> <code>Projectorres1 / Projectorres2</code> - Specify the individual projector resolution in pixels.
+</p><p>Blankout Edges <code>Blankout1 / Blankout2 / Blankout3 / Blankout4</code> - Specify the size of the blank-out on all sides of the projection area in pixels.
+</p><p>Solid Edge <code>Solidedge</code> - Draws the blend area as a solid color.
+</p><p>Solid Edge Color <code>Solidedgecolorr / Solidedgecolorg / Solidedgecolorb</code> - Specify the Solid Edge Color.
+</p>
+<h3><span id="Parameters_-_Projector.5B1-x.5D_Page"></span><span class="mw-headline" id="Parameters_-_Projector[1-x]_Page">Parameters - Projector[1-x] Page</span></h3>
+<p>Blankout <code>Projector[1-x]blankout1 / Projector[1-x]blankout2 / Projector[1-x]blankout3 / Projector[1-x]blankout4</code> - Specify the Left, Right, Bottom and Top blank-out area of the projector in pixels.
+</p><p>Overlap <code>Projector[1-x]overlap1 / Projector[1-x]overlap2 / Projector[1-x]overlap3 / Projector[1-x]overlap4</code> - Specify the Left, Right, Bottom and Top blend area of the projector in pixels.
+</p><p>Blend <code>Projector[1-x]blend</code> - Adjust the blend stength.
+</p><p>Luminance <code>Projector[1-x]luminance</code> - Adjust the luminance of the blend area.
+</p><p>Gamma <code>Projector[1-x]gamma1 / Projector[1-x]gamma2 / Projector[1-x]gamma3</code> - Adjust the RGB gamma levels of the blend area.
+</p><p>Hue Adjust RGB <code>Projector[1-x]hue1 / Projector[1-x]hue2 / Projector[1-x]hue3</code> - Adjust the hue of the projector.
+</p><p>Saturation Adjust RGB <code>Projector[1-x]sat1 / Projector[1-x]sat2 / Projector[1-x]sat3</code> - Adjust the saturation of the projector.
+</p><p>Value Adjust RGB <code>Projector[1-x]val1 / Projector[1-x]val2 / Projector[1-x]val3</code> - Adjust the value of the projector.
+</p><p>Per Side Control <code>Projector[1-x]perside</code> - Enable separate blending controls for individual projector sides.
+</p><p>Blankout Left / Right / Top / Bottom <code>Projector[1-x]pos[0-3]c01 / Projector[1-x]pos[0-3]c02</code> - Set the size of the blank-out area per projector side. There are 2 parameters you can adjust for not fully horizontal or vertical blending areas.
+</p><p>Overlap Left / Right / Top / Bottom <code>Projector[1-x]pos[0-3]c11 / Projector[1-x]pos[0-3]c12</code> - Set the size of the blend area per projector side. There are 2 parameters you can adjust for not fully horizontal or vertical blending areas.
+</p><p>Blend Left / Right / Top / Bottom <code>Projector[1-x]blends[0-3]</code> - Adjust the blend strength per projector side.
+</p><p>Luminance Left / Right / Top / Bottom <code>Projector[1-x]luminance[0-3]</code> - Adjust the luminance level of the blend area per projector side.
+</p><p>Gamma Left / Right / Top / Bottom <code>Projector[1-x]gammas[0-3]1 / Projector[1-x]gammas[0-3]2 / Projector[1-x]gammas[0-3]3</code> - Adjust the RGB gamma levels of the blend area per projector side.
+</p>
+<h2><span class="mw-headline" id="Creating_Blend_Masks_for_single_Projectors">Creating Blend Masks for single Projectors</span></h2>
+<p>If it is desired to just create blending masks which can be multiplied with single parts of the output to projectors, set the Projector Array parameter to 1x1 and enable the Per Side Control parameter on the Projector1 page.
+</p><p>This will allow to set each side of the blend mask individually. The output can be saved or locked to prevent any further cooking of the projectorBlend component.
+</p><p><a href="/File:PythonIcon.png" class="image"><img alt="PythonIcon.png" src="./images/c/c2/PythonIcon.png" decoding="async" width="20" height="20"></a><a href="/index.php?title=Palette:projectorBlend_Ext&amp;action=edit&amp;redlink=1" class="new" title="Palette:projectorBlend Ext (page does not exist)">Palette:projectorBlend Ext</a>
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none"><div class="toctitle" lang="en-CA" dir="ltr"><h2 id="mw-toc-heading">Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul><li class="toclevel-1"><a href="#Summary"><span class="tocnumber">1</span> <span class="toctext">Summary</span></a></li>
+<li class="toclevel-1"><a href="#Usage"><span class="tocnumber">2</span> <span class="toctext">Usage</span></a>
+<ul><li class="toclevel-2"><a href="#Parameters_-_Projector_Blend_Page"><span class="tocnumber">2.1</span> <span class="toctext">Parameters - Projector Blend Page</span></a></li>
+<li class="toclevel-2"><a href="#Parameters_-_Projector%5B1-x%5D_Page"><span class="tocnumber">2.2</span> <span class="toctext">Parameters - Projector[1-x] Page</span></a></li>
+</ul></li>
+<li class="toclevel-1"><a href="#Creating_Blend_Masks_for_single_Projectors"><span class="tocnumber">3</span> <span class="toctext">Creating Blend Masks for single Projectors</span></a></li>
+<li class="toclevel-1"><a href="#Parameters_-_Projector_Blend_Page_2"><span class="tocnumber">4</span> <span class="toctext">Parameters - Projector Blend Page</span></a></li>
+<li class="toclevel-1"><a href="#Parameters_-_Projector1_Page"><span class="tocnumber">5</span> <span class="toctext">Parameters - Projector1 Page</span></a></li>
+<li class="toclevel-1"><a href="#Parameters_-_Projector2_Page"><span class="tocnumber">6</span> <span class="toctext">Parameters - Projector2 Page</span></a></li>
+<li class="toclevel-1"><a href="#Operator_Inputs"><span class="tocnumber">7</span> <span class="toctext">Operator Inputs</span></a></li>
+<li class="toclevel-1"><a href="#Operator_Outputs"><span class="tocnumber">8</span> <span class="toctext">Operator Outputs</span></a></li>
+</ul></div>
+
+<p><br></p>
+<h2><span class="mw-headline" id="Parameters_-_Projector_Blend_Page_2"><div class="sectionBarCOMP">Parameters - Projector Blend Page</div></span></h2>
+<div id="Help" style=""><span class="parName">Help</span>  <code>Help</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Version" style=""><span class="parName">Version</span>  <code>Version</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projectorarray" style=""><span class="parName">Projector Array</span>  <code>Projectorarray</code> - <span class="mw-customtoggle-Projectorarray">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projectorarray">
+<ul><li><span class="parName">Projector Array</span> <code>Projectorarray1</code> -</li></ul><ul><li><span class="parName">Projector Array</span> <code>Projectorarray2</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projectorres" style=""><span class="parName">Projector <span class="mw-lingo-term" data-lingo-term-id="b5a4b64b2aa505bd7c11f79b8a9f458d">Resolution</span></span>  <code>Projectorres</code> - <span class="mw-customtoggle-Projectorres">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projectorres">
+<ul><li><span class="parName">Projector <span class="mw-lingo-term" data-lingo-term-id="b5a4b64b2aa505bd7c11f79b8a9f458d">Resolution</span></span> <code>Projectorres1</code> -</li></ul><ul><li><span class="parName">Projector <span class="mw-lingo-term" data-lingo-term-id="b5a4b64b2aa505bd7c11f79b8a9f458d">Resolution</span></span> <code>Projectorres2</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Blankout" style=""><span class="parName">Blankout Edges</span>  <code>Blankout</code> - <span class="mw-customtoggle-Blankout">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Blankout">
+<ul><li><span class="parName">Blankout Edges</span> <code>Blankout1</code> -</li></ul><ul><li><span class="parName">Blankout Edges</span> <code>Blankout2</code> -</li></ul><ul><li><span class="parName">Blankout Edges</span> <code>Blankout3</code> -</li></ul><ul><li><span class="parName">Blankout Edges</span> <code>Blankout4</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Solidedge" style=""><span class="parName">Solid Edge</span>  <code>Solidedge</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Solidedgecolor" style=""><span class="parName">Solid Edge Color</span>  <code>Solidedgecolor</code> - <span class="mw-customtoggle-Solidedgecolor">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Solidedgecolor">
+<ul><li><span class="parName">Solid Edge Color</span> <code>Solidedgecolorr</code> -</li></ul><ul><li><span class="parName">Solid Edge Color</span> <code>Solidedgecolorg</code> -</li></ul><ul><li><span class="parName">Solid Edge Color</span> <code>Solidedgecolorb</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<p><br></p>
+<h2><span class="mw-headline" id="Parameters_-_Projector1_Page"><div class="sectionBarCOMP">Parameters - Projector1 Page</div></span></h2>
+<div id="Projector1blankout" style=""><span class="parName">Blankout</span>  <code>Projector1blankout</code> - <span class="mw-customtoggle-Projector1blankout">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1blankout">
+<ul><li><span class="parName">Blankout</span> <code>Projector1blankout1</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector1blankout2</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector1blankout3</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector1blankout4</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1overlap" style=""><span class="parName">Overlap</span>  <code>Projector1overlap</code> - <span class="mw-customtoggle-Projector1overlap">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1overlap">
+<ul><li><span class="parName">Overlap</span> <code>Projector1overlap1</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector1overlap2</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector1overlap3</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector1overlap4</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1blend" style=""><span class="parName">Blend</span>  <code>Projector1blend</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1luminance" style=""><span class="parName">Luminance</span>  <code>Projector1luminance</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1gamma" style=""><span class="parName">Gamma</span>  <code>Projector1gamma</code> - <span class="mw-customtoggle-Projector1gamma">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1gamma">
+<ul><li><span class="parName">Gamma</span> <code>Projector1gamma1</code> -</li></ul><ul><li><span class="parName">Gamma</span> <code>Projector1gamma2</code> -</li></ul><ul><li><span class="parName">Gamma</span> <code>Projector1gamma3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1hue" style=""><span class="parName">Hue Adjust RGB</span>  <code>Projector1hue</code> - <span class="mw-customtoggle-Projector1hue">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1hue">
+<ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector1hue1</code> -</li></ul><ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector1hue2</code> -</li></ul><ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector1hue3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1sat" style=""><span class="parName">Saturation Adjust RGB</span>  <code>Projector1sat</code> - <span class="mw-customtoggle-Projector1sat">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1sat">
+<ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector1sat1</code> -</li></ul><ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector1sat2</code> -</li></ul><ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector1sat3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1val" style=""><span class="parName">Value Adjust RGB</span>  <code>Projector1val</code> - <span class="mw-customtoggle-Projector1val">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1val">
+<ul><li><span class="parName">Value Adjust RGB</span> <code>Projector1val1</code> -</li></ul><ul><li><span class="parName">Value Adjust RGB</span> <code>Projector1val2</code> -</li></ul><ul><li><span class="parName">Value Adjust RGB</span> <code>Projector1val3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1perside" style=""><span class="parName">Per Side Control</span>  <code>Projector1perside</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos0c0" style=""><span class="parName">Blankout Left</span>  <code>Projector1pos0c0</code> - <span class="mw-customtoggle-Projector1pos0c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos0c0">
+<ul><li><span class="parName">Blankout Left</span> <code>Projector1pos0c01</code> -</li></ul><ul><li><span class="parName">Blankout Left</span> <code>Projector1pos0c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos0c1" style=""><span class="parName">Overlap Left</span>  <code>Projector1pos0c1</code> - <span class="mw-customtoggle-Projector1pos0c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos0c1">
+<ul><li><span class="parName">Overlap Left</span> <code>Projector1pos0c11</code> -</li></ul><ul><li><span class="parName">Overlap Left</span> <code>Projector1pos0c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1blends0" style=""><span class="parName">Blend Left</span>  <code>Projector1blends0</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1luminances0" style=""><span class="parName">Luminance Left</span>  <code>Projector1luminances0</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1gammas0" style=""><span class="parName">Gamma Left</span>  <code>Projector1gammas0</code> - <span class="mw-customtoggle-Projector1gammas0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1gammas0">
+<ul><li><span class="parName">Gamma Left</span> <code>Projector1gammas01</code> -</li></ul><ul><li><span class="parName">Gamma Left</span> <code>Projector1gammas02</code> -</li></ul><ul><li><span class="parName">Gamma Left</span> <code>Projector1gammas03</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos1c0" style=""><span class="parName">Blankout Right</span>  <code>Projector1pos1c0</code> - <span class="mw-customtoggle-Projector1pos1c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos1c0">
+<ul><li><span class="parName">Blankout Right</span> <code>Projector1pos1c01</code> -</li></ul><ul><li><span class="parName">Blankout Right</span> <code>Projector1pos1c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos1c1" style=""><span class="parName">Overlap Right</span>  <code>Projector1pos1c1</code> - <span class="mw-customtoggle-Projector1pos1c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos1c1">
+<ul><li><span class="parName">Overlap Right</span> <code>Projector1pos1c11</code> -</li></ul><ul><li><span class="parName">Overlap Right</span> <code>Projector1pos1c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1blends1" style=""><span class="parName">Blend Right</span>  <code>Projector1blends1</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1luminances1" style=""><span class="parName">Luminance Right</span>  <code>Projector1luminances1</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1gammas1" style=""><span class="parName">Gamma Right</span>  <code>Projector1gammas1</code> - <span class="mw-customtoggle-Projector1gammas1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1gammas1">
+<ul><li><span class="parName">Gamma Right</span> <code>Projector1gammas11</code> -</li></ul><ul><li><span class="parName">Gamma Right</span> <code>Projector1gammas12</code> -</li></ul><ul><li><span class="parName">Gamma Right</span> <code>Projector1gammas13</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos2c0" style=""><span class="parName">Blankout Top</span>  <code>Projector1pos2c0</code> - <span class="mw-customtoggle-Projector1pos2c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos2c0">
+<ul><li><span class="parName">Blankout Top</span> <code>Projector1pos2c01</code> -</li></ul><ul><li><span class="parName">Blankout Top</span> <code>Projector1pos2c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos2c1" style=""><span class="parName">Overlap Top</span>  <code>Projector1pos2c1</code> - <span class="mw-customtoggle-Projector1pos2c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos2c1">
+<ul><li><span class="parName">Overlap Top</span> <code>Projector1pos2c11</code> -</li></ul><ul><li><span class="parName">Overlap Top</span> <code>Projector1pos2c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1blends2" style=""><span class="parName">Blend Top</span>  <code>Projector1blends2</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1luminances2" style=""><span class="parName">Luminance Top</span>  <code>Projector1luminances2</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1gammas2" style=""><span class="parName">Gamma Top</span>  <code>Projector1gammas2</code> - <span class="mw-customtoggle-Projector1gammas2">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1gammas2">
+<ul><li><span class="parName">Gamma Top</span> <code>Projector1gammas21</code> -</li></ul><ul><li><span class="parName">Gamma Top</span> <code>Projector1gammas22</code> -</li></ul><ul><li><span class="parName">Gamma Top</span> <code>Projector1gammas23</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos3c0" style=""><span class="parName">Blankout Bottom</span>  <code>Projector1pos3c0</code> - <span class="mw-customtoggle-Projector1pos3c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos3c0">
+<ul><li><span class="parName">Blankout Bottom</span> <code>Projector1pos3c01</code> -</li></ul><ul><li><span class="parName">Blankout Bottom</span> <code>Projector1pos3c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1pos3c1" style=""><span class="parName">Overlap Bottom</span>  <code>Projector1pos3c1</code> - <span class="mw-customtoggle-Projector1pos3c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1pos3c1">
+<ul><li><span class="parName">Overlap Bottom</span> <code>Projector1pos3c11</code> -</li></ul><ul><li><span class="parName">Overlap Bottom</span> <code>Projector1pos3c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector1blends3" style=""><span class="parName">Blend Bottom</span>  <code>Projector1blends3</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1luminances3" style=""><span class="parName">Luminance Bottom</span>  <code>Projector1luminances3</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector1gammas3" style=""><span class="parName">Gamma Bottom</span>  <code>Projector1gammas3</code> - <span class="mw-customtoggle-Projector1gammas3">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector1gammas3">
+<ul><li><span class="parName">Gamma Bottom</span> <code>Projector1gammas31</code> -</li></ul><ul><li><span class="parName">Gamma Bottom</span> <code>Projector1gammas32</code> -</li></ul><ul><li><span class="parName">Gamma Bottom</span> <code>Projector1gammas33</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<p><br></p>
+<h2><span class="mw-headline" id="Parameters_-_Projector2_Page"><div class="sectionBarCOMP">Parameters - Projector2 Page</div></span></h2>
+<div id="Projector2blankout" style=""><span class="parName">Blankout</span>  <code>Projector2blankout</code> - <span class="mw-customtoggle-Projector2blankout">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2blankout">
+<ul><li><span class="parName">Blankout</span> <code>Projector2blankout1</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector2blankout2</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector2blankout3</code> -</li></ul><ul><li><span class="parName">Blankout</span> <code>Projector2blankout4</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2overlap" style=""><span class="parName">Overlap</span>  <code>Projector2overlap</code> - <span class="mw-customtoggle-Projector2overlap">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2overlap">
+<ul><li><span class="parName">Overlap</span> <code>Projector2overlap1</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector2overlap2</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector2overlap3</code> -</li></ul><ul><li><span class="parName">Overlap</span> <code>Projector2overlap4</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2blend" style=""><span class="parName">Blend</span>  <code>Projector2blend</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2luminance" style=""><span class="parName">Luminance</span>  <code>Projector2luminance</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2gamma" style=""><span class="parName">Gamma</span>  <code>Projector2gamma</code> - <span class="mw-customtoggle-Projector2gamma">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2gamma">
+<ul><li><span class="parName">Gamma</span> <code>Projector2gamma1</code> -</li></ul><ul><li><span class="parName">Gamma</span> <code>Projector2gamma2</code> -</li></ul><ul><li><span class="parName">Gamma</span> <code>Projector2gamma3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2hue" style=""><span class="parName">Hue Adjust RGB</span>  <code>Projector2hue</code> - <span class="mw-customtoggle-Projector2hue">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2hue">
+<ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector2hue1</code> -</li></ul><ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector2hue2</code> -</li></ul><ul><li><span class="parName">Hue Adjust RGB</span> <code>Projector2hue3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2sat" style=""><span class="parName">Saturation Adjust RGB</span>  <code>Projector2sat</code> - <span class="mw-customtoggle-Projector2sat">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2sat">
+<ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector2sat1</code> -</li></ul><ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector2sat2</code> -</li></ul><ul><li><span class="parName">Saturation Adjust RGB</span> <code>Projector2sat3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2val" style=""><span class="parName">Value Adjust RGB</span>  <code>Projector2val</code> - <span class="mw-customtoggle-Projector2val">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2val">
+<ul><li><span class="parName">Value Adjust RGB</span> <code>Projector2val1</code> -</li></ul><ul><li><span class="parName">Value Adjust RGB</span> <code>Projector2val2</code> -</li></ul><ul><li><span class="parName">Value Adjust RGB</span> <code>Projector2val3</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2perside" style=""><span class="parName">Per Side Control</span>  <code>Projector2perside</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos0c0" style=""><span class="parName">Blankout Left</span>  <code>Projector2pos0c0</code> - <span class="mw-customtoggle-Projector2pos0c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos0c0">
+<ul><li><span class="parName">Blankout Left</span> <code>Projector2pos0c01</code> -</li></ul><ul><li><span class="parName">Blankout Left</span> <code>Projector2pos0c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos0c1" style=""><span class="parName">Overlap Left</span>  <code>Projector2pos0c1</code> - <span class="mw-customtoggle-Projector2pos0c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos0c1">
+<ul><li><span class="parName">Overlap Left</span> <code>Projector2pos0c11</code> -</li></ul><ul><li><span class="parName">Overlap Left</span> <code>Projector2pos0c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2blends0" style=""><span class="parName">Blend Left</span>  <code>Projector2blends0</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2luminances0" style=""><span class="parName">Luminance Left</span>  <code>Projector2luminances0</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2gammas0" style=""><span class="parName">Gamma Left</span>  <code>Projector2gammas0</code> - <span class="mw-customtoggle-Projector2gammas0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2gammas0">
+<ul><li><span class="parName">Gamma Left</span> <code>Projector2gammas01</code> -</li></ul><ul><li><span class="parName">Gamma Left</span> <code>Projector2gammas02</code> -</li></ul><ul><li><span class="parName">Gamma Left</span> <code>Projector2gammas03</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos1c0" style=""><span class="parName">Blankout Right</span>  <code>Projector2pos1c0</code> - <span class="mw-customtoggle-Projector2pos1c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos1c0">
+<ul><li><span class="parName">Blankout Right</span> <code>Projector2pos1c01</code> -</li></ul><ul><li><span class="parName">Blankout Right</span> <code>Projector2pos1c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos1c1" style=""><span class="parName">Overlap Right</span>  <code>Projector2pos1c1</code> - <span class="mw-customtoggle-Projector2pos1c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos1c1">
+<ul><li><span class="parName">Overlap Right</span> <code>Projector2pos1c11</code> -</li></ul><ul><li><span class="parName">Overlap Right</span> <code>Projector2pos1c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2blends1" style=""><span class="parName">Blend Right</span>  <code>Projector2blends1</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2luminances1" style=""><span class="parName">Luminance Right</span>  <code>Projector2luminances1</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2gammas1" style=""><span class="parName">Gamma Right</span>  <code>Projector2gammas1</code> - <span class="mw-customtoggle-Projector2gammas1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2gammas1">
+<ul><li><span class="parName">Gamma Right</span> <code>Projector2gammas11</code> -</li></ul><ul><li><span class="parName">Gamma Right</span> <code>Projector2gammas12</code> -</li></ul><ul><li><span class="parName">Gamma Right</span> <code>Projector2gammas13</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos2c0" style=""><span class="parName">Blankout Top</span>  <code>Projector2pos2c0</code> - <span class="mw-customtoggle-Projector2pos2c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos2c0">
+<ul><li><span class="parName">Blankout Top</span> <code>Projector2pos2c01</code> -</li></ul><ul><li><span class="parName">Blankout Top</span> <code>Projector2pos2c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos2c1" style=""><span class="parName">Overlap Top</span>  <code>Projector2pos2c1</code> - <span class="mw-customtoggle-Projector2pos2c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos2c1">
+<ul><li><span class="parName">Overlap Top</span> <code>Projector2pos2c11</code> -</li></ul><ul><li><span class="parName">Overlap Top</span> <code>Projector2pos2c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2blends2" style=""><span class="parName">Blend Top</span>  <code>Projector2blends2</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2luminances2" style=""><span class="parName">Luminance Top</span>  <code>Projector2luminances2</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2gammas2" style=""><span class="parName">Gamma Top</span>  <code>Projector2gammas2</code> - <span class="mw-customtoggle-Projector2gammas2">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2gammas2">
+<ul><li><span class="parName">Gamma Top</span> <code>Projector2gammas21</code> -</li></ul><ul><li><span class="parName">Gamma Top</span> <code>Projector2gammas22</code> -</li></ul><ul><li><span class="parName">Gamma Top</span> <code>Projector2gammas23</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos3c0" style=""><span class="parName">Blankout Bottom</span>  <code>Projector2pos3c0</code> - <span class="mw-customtoggle-Projector2pos3c0">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos3c0">
+<ul><li><span class="parName">Blankout Bottom</span> <code>Projector2pos3c01</code> -</li></ul><ul><li><span class="parName">Blankout Bottom</span> <code>Projector2pos3c02</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2pos3c1" style=""><span class="parName">Overlap Bottom</span>  <code>Projector2pos3c1</code> - <span class="mw-customtoggle-Projector2pos3c1">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2pos3c1">
+<ul><li><span class="parName">Overlap Bottom</span> <code>Projector2pos3c11</code> -</li></ul><ul><li><span class="parName">Overlap Bottom</span> <code>Projector2pos3c12</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<div id="Projector2blends3" style=""><span class="parName">Blend Bottom</span>  <code>Projector2blends3</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2luminances3" style=""><span class="parName">Luminance Bottom</span>  <code>Projector2luminances3</code> -
+<p><i></i>
+</p>
+</div>
+<div id="Projector2gammas3" style=""><span class="parName">Gamma Bottom</span>  <code>Projector2gammas3</code> - <span class="mw-customtoggle-Projector2gammas3">⊞</span> - 
+<div class="mw-collapsible mw-collapsed" id="mw-customcollapsible-Projector2gammas3">
+<ul><li><span class="parName">Gamma Bottom</span> <code>Projector2gammas31</code> -</li></ul><ul><li><span class="parName">Gamma Bottom</span> <code>Projector2gammas32</code> -</li></ul><ul><li><span class="parName">Gamma Bottom</span> <code>Projector2gammas33</code> -</li></ul></div>
+<p><i></i>
+</p>
+</div>
+<p><br></p>
+<h2><span class="mw-headline" id="Operator_Inputs"><div class="sectionBarCOMP">Operator Inputs</div></span></h2>
+<ul><li><span class="parNameTOP">Input 0: in1</span> -</li></ul><p><br></p>
+<h2><span class="mw-headline" id="Operator_Outputs"><div class="sectionBarCOMP">Operator Outputs</div></span></h2>
+<ul><li><span class="parNameTOP">Output 0</span> -</li></ul><p>TouchDesigner Build: <select onchange="location=this.value;"><option value="https://docs.derivative.ca/Palette:projectorBlend">Latest\n<option value="https://docs.derivative.ca/Palette:projectorBlend?oldid=22537">2021.10000<option value="https://docs.derivative.ca/Palette:projectorBlend?oldid=18027">2018.28070</select></p>
+<table><tbody><tr><th class="navBox"><span class="mw-lingo-term" data-lingo-term-id="278f9a3d3077c522e71022e302b9e0e4">Palette</span>
+</th></tr><tr><td><span class="catList navigation-not-searchable"><a href="./Palette.htm" title="Palette">Palette </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-arcBallCamera.htm" title="Palette:arcBallCamera">Palette:arcBallCamera </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-arcBallGeometry.htm" title="Palette:arcBallGeometry">Palette:arcBallGeometry </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-audioAnalysis.htm" title="Palette:audioAnalysis">Palette:audioAnalysis </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-audioSet.htm" title="Palette:audioSet">Palette:audioSet </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-autoMediaPlayer.htm" title="Palette:autoMediaPlayer">Palette:autoMediaPlayer </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-battery.htm" title="Palette:battery">Palette:battery </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigClip.htm" title="Palette:bitwigClip">Palette:bitwigClip </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigClipSlot.htm" title="Palette:bitwigClipSlot">Palette:bitwigClipSlot </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigDeviceRemotes.htm" title="Palette:bitwigDeviceRemotes">Palette:bitwigDeviceRemotes </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigMain.htm" title="Palette:bitwigMain">Palette:bitwigMain </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigNote.htm" title="Palette:bitwigNote">Palette:bitwigNote </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigProjectRemotes.htm" title="Palette:bitwigProjectRemotes">Palette:bitwigProjectRemotes </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigRemotesDevice.htm" title="Palette:bitwigRemotesDevice">Palette:bitwigRemotesDevice </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigRemotesProject.htm" title="Palette:bitwigRemotesProject">Palette:bitwigRemotesProject </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigRemotesTrack.htm" title="Palette:bitwigRemotesTrack">Palette:bitwigRemotesTrack </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigSelect.htm" title="Palette:bitwigSelect">Palette:bitwigSelect </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigSong.htm" title="Palette:bitwigSong">Palette:bitwigSong </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigTrack.htm" title="Palette:bitwigTrack">Palette:bitwigTrack </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bitwigTrackRemotes.htm" title="Palette:bitwigTrackRemotes">Palette:bitwigTrackRemotes </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-blendModes.htm" title="Palette:blendModes">Palette:blendModes </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-bloom.htm" title="Palette:bloom">Palette:bloom </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-camera.htm" title="Palette:camera">Palette:camera </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-cameraBrowser.htm" title="Palette:cameraBrowser">Palette:cameraBrowser </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-cameraViewport.htm" title="Palette:cameraViewport">Palette:cameraViewport </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-camSchnappr.htm" title="Palette:camSchnappr">Palette:camSchnappr </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-changeColor.htm" title="Palette:changeColor">Palette:changeColor </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-changeToColor.htm" title="Palette:changeToColor">Palette:changeToColor </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-checker.htm" title="Palette:checker">Palette:checker </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-chromaKey.htm" title="Palette:chromaKey">Palette:chromaKey </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-colorThreshold.htm" title="Palette:colorThreshold">Palette:colorThreshold </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-compareComp.htm" title="Palette:compareComp">Palette:compareComp </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-convolve.htm" title="Palette:convolve">Palette:convolve </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-cornerPinPOP.htm" title="Palette:cornerPinPOP">Palette:cornerPinPOP </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-cornerPinSOP.htm" title="Palette:cornerPinSOP">Palette:cornerPinSOP </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-cppParsTemplateGen.htm" title="Palette:cppParsTemplateGen">Palette:cppParsTemplateGen </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-customAttributes.htm" title="Palette:customAttributes">Palette:customAttributes </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-debugControl.htm" title="Palette:debugControl">Palette:debugControl </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-dent.htm" title="Palette:dent">Palette:dent </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-depthExtract.htm" title="Palette:depthExtract">Palette:depthExtract </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-depthProjection.htm" title="Palette:depthProjection">Palette:depthProjection </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-dilate.htm" title="Palette:dilate">Palette:dilate </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-domeViewer.htm" title="Palette:domeViewer">Palette:domeViewer </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-encoder.htm" title="Palette:encoder">Palette:encoder </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-equalizer.htm" title="Palette:equalizer">Palette:equalizer </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-feedback.htm" title="Palette:feedback">Palette:feedback </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-feedbackEdge.htm" title="Palette:feedbackEdge">Palette:feedbackEdge </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-firmata.htm" title="Palette:firmata">Palette:firmata </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-gal.htm" title="Palette:gal">Palette:gal </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-geoPanel.htm" title="Palette:geoPanel">Palette:geoPanel </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-gestureCapture.htm" title="Palette:gestureCapture">Palette:gestureCapture </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-graphPlot.htm" title="Palette:graphPlot">Palette:graphPlot </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-histogram.htm" title="Palette:histogram">Palette:histogram </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-hsvBlur.htm" title="Palette:hsvBlur">Palette:hsvBlur </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-imageSearch.htm" title="Palette:imageSearch">Palette:imageSearch </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-julia.htm" title="Palette:julia">Palette:julia </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-kantanMapper.htm" title="Palette:kantanMapper">Palette:kantanMapper </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-kinectCalibration.htm" title="Palette:kinectCalibration">Palette:kinectCalibration </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-kinectPointcloud.htm" title="Palette:kinectPointcloud">Palette:kinectPointcloud </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-leapPaint.htm" title="Palette:leapPaint">Palette:leapPaint </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-lightTunnel.htm" title="Palette:lightTunnel">Palette:lightTunnel </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-logger.htm" title="Palette:logger">Palette:logger </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-mandelbrot.htm" title="Palette:mandelbrot">Palette:mandelbrot </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-materialDesignIcons.htm" title="Palette:materialDesignIcons">Palette:materialDesignIcons </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-mesh.htm" title="Palette:mesh">Palette:mesh </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-monochrome.htm" title="Palette:monochrome">Palette:monochrome </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-motionSense.htm" title="Palette:motionSense">Palette:motionSense </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-movieEngine.htm" title="Palette:movieEngine">Palette:movieEngine </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-moviePlayer.htm" title="Palette:moviePlayer">Palette:moviePlayer </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-moviePlaylist.htm" title="Palette:moviePlaylist">Palette:moviePlaylist </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-multiLevel.htm" title="Palette:multiLevel">Palette:multiLevel </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-multiMix.htm" title="Palette:multiMix">Palette:multiMix </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-noise.htm" title="Palette:noise">Palette:noise </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-onScreenKeyboard.htm" title="Palette:onScreenKeyboard">Palette:onScreenKeyboard </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-operatorPath.htm" title="Palette:operatorPath">Palette:operatorPath </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-opticalFlow.htm" title="Palette:opticalFlow">Palette:opticalFlow </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-particlesGpu.htm" title="Palette:particlesGpu">Palette:particlesGpu </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pixelate.htm" title="Palette:pixelate">Palette:pixelate </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pixelRelocator.htm" title="Palette:pixelRelocator">Palette:pixelRelocator </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointGenerator.htm" title="Palette:pointGenerator">Palette:pointGenerator </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointillize.htm" title="Palette:pointillize">Palette:pointillize </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointMerge.htm" title="Palette:pointMerge">Palette:pointMerge </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointRender.htm" title="Palette:pointRender">Palette:pointRender </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointRepack.htm" title="Palette:pointRepack">Palette:pointRepack </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointTransform.htm" title="Palette:pointTransform">Palette:pointTransform </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pointWeight.htm" title="Palette:pointWeight">Palette:pointWeight </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-popDialog.htm" title="Palette:popDialog">Palette:popDialog </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-probe.htm" title="Palette:probe">Palette:probe </a></span>• <span class="catList navigation-not-searchable"><a class="mw-selflink selflink">Palette:projectorBlend </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-pushPins.htm" title="Palette:pushPins">Palette:pushPins </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-puzzle.htm" title="Palette:puzzle">Palette:puzzle </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-quadReproject.htm" title="Palette:quadReproject">Palette:quadReproject </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-radialBlur.htm" title="Palette:radialBlur">Palette:radialBlur </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-recorder.htm" title="Palette:recorder">Palette:recorder </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-remotePanel.htm" title="Palette:remotePanel">Palette:remotePanel </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-rgbaBlur.htm" title="Palette:rgbaBlur">Palette:rgbaBlur </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-rgbaDelay.htm" title="Palette:rgbaDelay">Palette:rgbaDelay </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-rgbContrast.htm" title="Palette:rgbContrast">Palette:rgbContrast </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sceneChanger.htm" title="Palette:sceneChanger">Palette:sceneChanger </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-search.htm" title="Palette:search">Palette:search </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-searchReplace.htm" title="Palette:searchReplace">Palette:searchReplace </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sharpen.htm" title="Palette:sharpen">Palette:sharpen </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sickEngine.htm" title="Palette:sickEngine">Palette:sickEngine </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-signalingClient.htm" title="Palette:signalingClient">Palette:signalingClient </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-signalingServer.htm" title="Palette:signalingServer">Palette:signalingServer </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-softenAlpha.htm" title="Palette:softenAlpha">Palette:softenAlpha </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-solarize.htm" title="Palette:solarize">Palette:solarize </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sopRender.htm" title="Palette:sopRender">Palette:sopRender </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-splitter.htm" title="Palette:splitter">Palette:splitter </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-stitcher.htm" title="Palette:stitcher">Palette:stitcher </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-stoner.htm" title="Palette:stoner">Palette:stoner </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-superFormula.htm" title="Palette:superFormula">Palette:superFormula </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-SVG.htm" title="Palette:SVG">Palette:SVG </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sweetSpot.htm" title="Palette:sweetSpot">Palette:sweetSpot </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-sweetSpotPreviz.htm" title="Palette:sweetSpotPreviz">Palette:sweetSpotPreviz </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroCache.htm" title="Palette:synchroCache">Palette:synchroCache </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroClient.htm" title="Palette:synchroClient">Palette:synchroClient </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroFrameIn.htm" title="Palette:synchroFrameIn">Palette:synchroFrameIn </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroFrameOut.htm" title="Palette:synchroFrameOut">Palette:synchroFrameOut </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroNDIIn.htm" title="Palette:synchroNDIIn">Palette:synchroNDIIn </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroSDIIn.htm" title="Palette:synchroSDIIn">Palette:synchroSDIIn </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-synchroVideoOut.htm" title="Palette:synchroVideoOut">Palette:synchroVideoOut </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-tdBitwigPackage.htm" title="Palette:tdBitwigPackage">Palette:tdBitwigPackage </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-tdPyEnvManager.htm" title="Palette:tdPyEnvManager">Palette:tdPyEnvManager </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-TDVR.htm" title="Palette:TDVR">Palette:TDVR </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-testGrid.htm" title="Palette:testGrid">Palette:testGrid </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-threadManagerClient.htm" title="Palette:threadManagerClient">Palette:threadManagerClient </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-threadsMonitor.htm" title="Palette:threadsMonitor">Palette:threadsMonitor </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-transitMap.htm" title="Palette:transitMap">Palette:transitMap </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-twirl.htm" title="Palette:twirl">Palette:twirl </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-vectorScope.htm" title="Palette:vectorScope">Palette:vectorScope </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-virtualFile.htm" title="Palette:virtualFile">Palette:virtualFile </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-waveformMonitor.htm" title="Palette:waveformMonitor">Palette:waveformMonitor </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-webBrowser.htm" title="Palette:webBrowser">Palette:webBrowser </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-webRTC.htm" title="Palette:webRTC">Palette:webRTC </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-webRTCPanel.htm" title="Palette:webRTCPanel">Palette:webRTCPanel </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-webRTCPanelRcv.htm" title="Palette:webRTCPanelRcv">Palette:webRTCPanelRcv </a></span>• <span class="catList navigation-not-searchable"><a href="./Palette-xyScope.htm" title="Palette:xyScope">Palette:xyScope </a></span>• <span class="catList navigation-not-searchable"><a href="./Thread_Manager.htm" title="Thread Manager">Thread Manager </a></span>
+</td></tr></tbody></table></div><div class="mw-lingo-tooltip" id="b5a4b64b2aa505bd7c11f79b8a9f458d"><div class="mw-lingo-definition navigation-not-searchable"><div class="mw-lingo-definition-text">
+<p>The width and height of an image in pixels. Most TOPs, like the  can set the image resolution. See  for the width/height ratio of an image, taking into account non-square pixels.
+</p>
+</div></div>
+</div><div class="mw-lingo-tooltip" id="278f9a3d3077c522e71022e302b9e0e4"><div class="mw-lingo-definition navigation-not-searchable"><div class="mw-lingo-definition-text">
+<p>A built-in panel in TouchDesigner that contains a library of components and media that can be dragged-dropped into a TouchDesigner network.
+</p>
+</div></div>
+</div>
+<!-- 
+NewPP limit report
+Cached time: 20251029031725
+Cache expiry: 60
+Reduced expiry: true
+Complications: [show‐toc]
+CPU time usage: 0.836 seconds
+Real time usage: 1.929 seconds
+Preprocessor visited node count: 10190/1000000
+Post‐expand include size: 149998/2097152 bytes
+Template argument size: 73550/2097152 bytes
+Highest expansion depth: 10/100
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 350/5000000 bytes
+Lua time usage: 1.200/5 seconds
+Lua virtual size: 9240576/104857600 bytes
+Lua estimated memory usage: 0 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00% 1780.953      1 -total
+ 88.05% 1568.142      1 Template:CategoryNavBox
+ 86.62% 1542.652    139 Template:CatList
+ 11.19%  199.296      3 Template:ParameterPage
+ 10.63%  189.392     65 Template:Parameter
+  1.35%   23.968    107 Template:ParameterItem
+  0.38%    6.764      1 Template:Summary
+  0.13%    2.329      1 Template:InputsPage
+  0.11%    2.047      1 Template:OutputsPage
+  0.09%    1.665      1 Template:History
+-->
+
+<!-- Saved in parser cache with key wiki:pcache:idhash:2217-0!canonical and timestamp 20251029031723 and revision id 22537.
+ -->
+</div>
+<div class="printfooter" data-nosnippet="">Retrieved from "<a dir="ltr" href="https://docs.derivative.ca/index.php?title=Palette:projectorBlend&amp;oldid=22537">https://docs.derivative.ca/index.php?title=Palette:projectorBlend&amp;oldid=22537</a>"</div></div>
+		<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="./Category-Palette.htm" title="Category:Palette">Palette</a></li></ul></div></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		
+
+<nav id="p-personal" class="vector-menu mw-portlet mw-portlet-personal vector-user-menu-legacy" aria-labelledby="p-personal-label" role="navigation">
+	<h3 id="p-personal-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Personal tools</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="pt-login" class="mw-list-item"><a href="/index.php?title=Special:UserLogin&amp;returnto=Palette%3AprojectorBlend" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o"><span>Log in</span></a></li></ul>
+		
+	</div>
+</nav>
+
+		<div id="left-navigation">
+			
+
+<nav id="p-namespaces" class="vector-menu mw-portlet mw-portlet-namespaces vector-menu-tabs vector-menu-tabs-legacy" aria-labelledby="p-namespaces-label" role="navigation">
+	<h3 id="p-namespaces-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Namespaces</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="ca-nstab-main" class="selected mw-list-item"><a href="./Palette-projectorBlend.htm" title="View the content page [c]" accesskey="c"><span>Page</span></a></li><li id="ca-talk" class="new mw-list-item"><a href="/index.php?title=Talk:Palette:projectorBlend&amp;action=edit&amp;redlink=1" rel="discussion" title="Discussion about the content page (page does not exist) [t]" accesskey="t"><span>Discussion</span></a></li><li id="ca-Experimental" class="new mw-list-item"><a href="/index.php?title=Experimental:Palette:projectorBlend&amp;action=edit&amp;redlink=1" title=" (page does not exist)"><span>Experimental</span></a></li></ul>
+		
+	</div>
+</nav>
+
+			
+
+<nav id="p-variants" class="vector-menu mw-portlet mw-portlet-variants emptyPortlet vector-menu-dropdown" aria-labelledby="p-variants-label" role="navigation">
+	<input type="checkbox" id="p-variants-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-p-variants" class="vector-menu-checkbox" aria-labelledby="p-variants-label">
+	<label id="p-variants-label" aria-label="Change language variant" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Canadian English</span>
+	</label>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+		</div>
+		<div id="right-navigation">
+			
+
+<nav id="p-views" class="vector-menu mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy" aria-labelledby="p-views-label" role="navigation">
+	<h3 id="p-views-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="ca-view" class="selected mw-list-item"><a href="./Palette-projectorBlend.htm"><span>Read</span></a></li><li id="ca-viewsource" class="mw-list-item"><a href="/index.php?title=Palette:projectorBlend&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e"><span>View source</span></a></li></ul>
+		
+	</div>
+</nav>
+
+			
+
+<nav id="p-cactions" class="vector-menu mw-portlet mw-portlet-cactions emptyPortlet vector-menu-dropdown" aria-labelledby="p-cactions-label" role="navigation" title="More options">
+	<input type="checkbox" id="p-cactions-checkbox" role="button" aria-haspopup="true" data-event-name="ui.dropdown-p-cactions" class="vector-menu-checkbox" aria-labelledby="p-cactions-label">
+	<label id="p-cactions-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">More</span>
+	</label>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+			
+<div id="p-search" role="search" class="vector-search-box-vue  vector-search-box-show-thumbnail vector-search-box-auto-expand-width vector-search-box">
+	<div>
+			<h3>
+				<label for="searchInput">Search</label>
+			</h3>
+		<form action="/index.php" id="searchform" class="vector-search-box-form">
+			<div id="simpleSearch" class="vector-search-box-inner" data-search-loc="header-navigation">
+				<input class="vector-search-box-input" type="search" name="search" placeholder="Search Derivative" aria-label="Search Derivative" autocapitalize="sentences" title="Search Derivative [f]" accesskey="f" id="searchInput">
+				<input type="hidden" name="title" value="Special:Search">
+				<input id="mw-searchButton" class="searchButton mw-fallbackSearchButton" type="submit" name="fulltext" title="Search the pages for this text" value="Search">
+				<input id="searchButton" class="searchButton" type="submit" name="go" title="Go to a page with this exact name if it exists" value="Go">
+			</div>
+		</form>
+	</div>
+</div>
+
+		</div>
+	</div>
+	
+
+<div id="mw-panel">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="./Main_Page.htm" title="Visit the main page"></a>
+	</div>
+	
+
+<nav id="p-TouchDesigner" class="vector-menu mw-portlet mw-portlet-TouchDesigner vector-menu-portal portal" aria-labelledby="p-TouchDesigner-label" role="navigation">
+	<h3 id="p-TouchDesigner-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">TouchDesigner</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="n-Main-Page" class="mw-list-item"><a href="./Main_Page.htm"><span>Main Page</span></a></li><li id="n-Categories" class="mw-list-item"><a href="/Special:Categories"><span>Categories</span></a></li><li id="n-Learn-TouchDesigner" class="mw-list-item"><a href="./Learn_TouchDesigner.htm"><span>Learn TouchDesigner</span></a></li><li id="n-Tutorials" class="mw-list-item"><a href="./Tutorials.htm"><span>Tutorials</span></a></li><li id="n-Interoperability" class="mw-list-item"><a href="./Interoperability.htm"><span>Interoperability</span></a></li><li id="n-Glossary" class="mw-list-item"><a href="./TouchDesigner_Glossary.htm"><span>Glossary</span></a></li><li id="n-Operators" class="mw-list-item"><a href="./Operator.htm"><span>Operators</span></a></li><li id="n-Python" class="mw-list-item"><a href="./Python.htm"><span>Python</span></a></li><li id="n-Python-Class-Reference" class="mw-list-item"><a href="./TouchDesigner_Python_Classes.htm"><span>Python Class Reference</span></a></li><li id="n-Palette" class="mw-list-item"><a href="./Category-Palette.htm"><span>Palette</span></a></li><li id="n-FAQ" class="mw-list-item"><a href="./Frequently_Asked_Questions.htm"><span>FAQ</span></a></li><li id="n-Recent-Doc-Edits" class="mw-list-item"><a href="/Special:RecentChanges"><span>Recent Doc Edits</span></a></li><li id="n-Release-Notes" class="mw-list-item"><a href="./Release_Notes.htm"><span>Release Notes</span></a></li></ul>
+		
+	</div>
+</nav>
+
+	
+
+<nav id="p-Downloads" class="vector-menu mw-portlet mw-portlet-Downloads vector-menu-portal portal" aria-labelledby="p-Downloads-label" role="navigation">
+	<h3 id="p-Downloads-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Downloads</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="n-TouchDesigner" class="mw-list-item"><a href="https://www.derivative.ca/download" rel="nofollow"><span>TouchDesigner</span></a></li><li id="n-Shared-Examples" class="mw-list-item"><a href="http://www.derivative.ca/Forum/viewforum.php?f=22" rel="nofollow"><span>Shared Examples</span></a></li></ul>
+		
+	</div>
+</nav>
+
+
+<nav id="p-tb" class="vector-menu mw-portlet mw-portlet-tb vector-menu-portal portal" aria-labelledby="p-tb-label" role="navigation">
+	<h3 id="p-tb-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Tools</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list"><li id="t-whatlinkshere" class="mw-list-item"><a href="/Special:WhatLinksHere/Palette:projectorBlend" title="A list of all wiki pages that link here [j]" accesskey="j"><span>What links here</span></a></li><li id="t-recentchangeslinked" class="mw-list-item"><a href="/Special:RecentChangesLinked/Palette:projectorBlend" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k"><span>Related changes</span></a></li><li id="t-specialpages" class="mw-list-item"><a href="/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q"><span>Special pages</span></a></li><li id="t-print" class="mw-list-item"><a href="javascript:print();" rel="alternate" title="Printable version of this page [p]" accesskey="p"><span>Printable version</span></a></li><li id="t-permalink" class="mw-list-item"><a href="/index.php?title=Palette:projectorBlend&amp;oldid=22537" title="Permanent link to this revision of this page"><span>Permanent link</span></a></li><li id="t-info" class="mw-list-item"><a href="/index.php?title=Palette:projectorBlend&amp;action=info" title="More information about this page"><span>Page information</span></a></li><li id="t-cargopagevalueslink" class="mw-list-item"><a href="/index.php?title=Palette:projectorBlend&amp;action=pagevalues" rel="cargo-pagevalues"><span>Page values</span></a></li></ul>
+		
+	</div>
+</nav>
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer" role="contentinfo">
+	<ul id="footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on 10 June 2021, at 02:41.</li>
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/Derivative:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/Derivative:About">About Derivative</a></li>
+	<li id="footer-places-disclaimer"><a href="/Derivative:General_disclaimer">Disclaimers</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/"><img src="./resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" loading="lazy"></a></li>
+</ul>
+
+</footer>
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.836","walltime":"1.929","ppvisitednodes":{"value":10190,"limit":1000000},"postexpandincludesize":{"value":149998,"limit":2097152},"templateargumentsize":{"value":73550,"limit":2097152},"expansiondepth":{"value":10,"limit":100},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":350,"limit":5000000},"timingprofile":["100.00% 1780.953      1 -total"," 88.05% 1568.142      1 Template:CategoryNavBox"," 86.62% 1542.652    139 Template:CatList"," 11.19%  199.296      3 Template:ParameterPage"," 10.63%  189.392     65 Template:Parameter","  1.35%   23.968    107 Template:ParameterItem","  0.38%    6.764      1 Template:Summary","  0.13%    2.329      1 Template:InputsPage","  0.11%    2.047      1 Template:OutputsPage","  0.09%    1.665      1 Template:History"]},"scribunto":{"limitreport-timeusage":{"value":"1.200","limit":"5"},"limitreport-virtmemusage":{"value":9240576,"limit":104857600},"limitreport-estmemusage":0},"cachereport":{"timestamp":"20251029031725","ttl":60,"transientcontent":true}}});mw.config.set({"wgBackendResponseTime":2119});});</script>
+</body>
+<!-- Cached 20251029031726 -->
+</html>

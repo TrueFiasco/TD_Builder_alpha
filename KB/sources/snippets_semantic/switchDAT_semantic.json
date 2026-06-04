@@ -1,0 +1,153 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\switchDAT_lossless.json",
+  "operator_type": "switchDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "loop",
+            "limitmax": 4,
+            "timeslice": "on",
+            "exporttable": "count1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "DAT:switch",
+          "parameters": {}
+        },
+        {
+          "name": "count1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "switch1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "text3",
+          "to": "switch1",
+          "to_input": "2"
+        },
+        {
+          "from": "table1",
+          "to": "switch1",
+          "to_input": "3"
+        },
+        {
+          "from": "table2",
+          "to": "switch1",
+          "to_input": "4"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "DAT:null": 1,
+          "DAT:text": 4,
+          "CHOP:count": 1,
+          "DAT:table": 3,
+          "DAT:switch": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

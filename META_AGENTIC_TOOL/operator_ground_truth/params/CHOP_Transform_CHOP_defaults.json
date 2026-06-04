@@ -1,0 +1,843 @@
+{
+  "operator": "Transform_CHOP",
+  "family": "CHOP",
+  "td_create_name": "transformCHOP",
+  "param_count": 53,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "custinputorders": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Input",
+      "label": "Custom Input Orders",
+      "readOnly": false,
+      "expression": null
+    },
+    "inxord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Input",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "inrord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Input",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0preop": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "invert",
+          "transpose",
+          "inverttranspose"
+        ],
+        "menuLabels": [
+          "None",
+          "Invert",
+          "Transpose",
+          "Invert Transpose"
+        ]
+      },
+      "default": "none",
+      "page": "Input",
+      "label": "Input 0 Pre Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "input1preop": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "invert",
+          "transpose",
+          "inverttranspose"
+        ],
+        "menuLabels": [
+          "None",
+          "Invert",
+          "Transpose",
+          "Invert Transpose"
+        ]
+      },
+      "default": "none",
+      "page": "Input",
+      "label": "Input 1 Pre Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputoperation": {
+      "value": {
+        "type": "menu",
+        "value": "input0input1",
+        "menuIndex": 0,
+        "menuNames": [
+          "input0input1",
+          "input1input0",
+          "quatlerp",
+          "quatslerp"
+        ],
+        "menuLabels": [
+          "Input 0, then Input 1",
+          "Input 1, then Input 0",
+          "Quaternion Lerp",
+          "Quaternion Slerp"
+        ]
+      },
+      "default": "input0input1",
+      "page": "Input",
+      "label": "Input Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputweight": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Input",
+      "label": "Input Weight",
+      "readOnly": false,
+      "expression": null
+    },
+    "xord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Transform",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Transform",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "sx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "trspreop": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "invert"
+        ],
+        "menuLabels": [
+          "None",
+          "Invert"
+        ]
+      },
+      "default": "none",
+      "page": "Transform",
+      "label": "TRS Pre Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "xformmatrixop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Transform",
+      "label": "Xform Matrix/CHOP/DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Transform",
+      "label": "Look At",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectory": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "forwarddir": {
+      "value": {
+        "type": "menu",
+        "value": "negz",
+        "menuIndex": 5,
+        "menuNames": [
+          "posx",
+          "negx",
+          "posy",
+          "negy",
+          "posz",
+          "negz"
+        ],
+        "menuLabels": [
+          "+X",
+          "-X",
+          "+Y",
+          "-Y",
+          "+Z",
+          "-Z"
+        ]
+      },
+      "default": "negz",
+      "page": "Transform",
+      "label": "Forward Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "xformpagepreop": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "invert"
+        ],
+        "menuLabels": [
+          "None",
+          "Invert"
+        ]
+      },
+      "default": "none",
+      "page": "Transform",
+      "label": "Page Pre Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "operation": {
+      "value": {
+        "type": "menu",
+        "value": "inputxformpage",
+        "menuIndex": 0,
+        "menuNames": [
+          "inputxformpage",
+          "xformpageinput",
+          "quatlerp",
+          "quatslerp"
+        ],
+        "menuLabels": [
+          "Input, then Transform Page",
+          "Transform Page, then Input",
+          "Quaternion Lerp",
+          "Quaternion Slerp"
+        ]
+      },
+      "default": "inputxformpage",
+      "page": "Transform",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "weight": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Transform",
+      "label": "Weight",
+      "readOnly": false,
+      "expression": null
+    },
+    "postop": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "invert",
+          "transpose",
+          "inverttranspose"
+        ],
+        "menuLabels": [
+          "None",
+          "Invert",
+          "Transpose",
+          "Invert Transpose"
+        ]
+      },
+      "default": "none",
+      "page": "Output",
+      "label": "Post Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "output": {
+      "value": {
+        "type": "menu",
+        "value": "transform",
+        "menuIndex": 0,
+        "menuNames": [
+          "transform",
+          "transformquat",
+          "mat",
+          "mat3",
+          "position"
+        ],
+        "menuLabels": [
+          "Transform (Euler)",
+          "Transform (Quaternion)",
+          "4x4 Matrix",
+          "3x3 Matrix",
+          "Position"
+        ]
+      },
+      "default": "transform",
+      "page": "Output",
+      "label": "Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "determ": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Determinant",
+      "readOnly": false,
+      "expression": null
+    },
+    "unmatchedchans": {
+      "value": {
+        "type": "menu",
+        "value": "warn",
+        "menuIndex": 0,
+        "menuNames": [
+          "warn",
+          "ignore",
+          "delete"
+        ],
+        "menuLabels": [
+          "Warn",
+          "Ignore",
+          "Delete"
+        ]
+      },
+      "default": "warn",
+      "page": "Output",
+      "label": "Un-matched Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "custoutputorders": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Custom Output Orders",
+      "readOnly": false,
+      "expression": null
+    },
+    "outxord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Output",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "outrord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Output",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "includeorderchans": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Output",
+      "label": "Include Order Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "continuousrotations": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Continuous Rotations",
+      "readOnly": false,
+      "expression": null
+    },
+    "usehint": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Use Rotation Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "hintx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "hinty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "hintz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

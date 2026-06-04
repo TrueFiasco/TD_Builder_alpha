@@ -1,0 +1,102 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiodeviceinCHOP_lossless.json",
+  "operator_type": "audiodeviceinCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null5",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Active",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null5",
+            "offtoon": "on",
+            "whileoff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevicein1",
+          "type": "CHOP:audiodevin",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "note_audiodevout1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null5",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodevicein1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "DAT:chopexec": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiodevin": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

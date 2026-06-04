@@ -1,0 +1,471 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\rectangleTOP_lossless.json",
+  "operator_type": "rectangleTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "rectangle_softness1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "rectangle_softness2",
+            "vstart": 0.51,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "sizex": 0.25,
+            "sizey": 0.25,
+            "centerx": 0.25,
+            "centery": -0.1,
+            "justifyh": "left",
+            "justifyv": "top",
+            "combineinput": "res",
+            "resolutionw": 100,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "rectangle_inPixels",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "sizex": 25,
+            "sizey": 25,
+            "sizeunit": "pixels",
+            "centerx": 25,
+            "centery": -10,
+            "centerunit": "pixels",
+            "justifyh": "left",
+            "justifyv": "top",
+            "borderwidth": 2,
+            "borderwidthunit": "pixels",
+            "softnessunit": "pixels",
+            "combineinput": "res",
+            "resolutionw": 100,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "rectangle_softness1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "borderr": 0.4,
+            "borderwidth": 0.0681,
+            "cornerradius": 62.4,
+            "combineinput": "res",
+            "resolutionw": 500,
+            "resolutionh": 500
+          }
+        },
+        {
+          "name": "rectangle_softness2",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "borderr": 0.5,
+            "borderwidth": 0.1011,
+            "cornerradius": 62.4,
+            "softness": 0.1196,
+            "combineinput": "res",
+            "resolutionw": 500,
+            "resolutionh": 500
+          }
+        },
+        {
+          "name": "rectangle_inPixels_DisplayPixelValues",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "sizex": 25,
+            "sizey": 25,
+            "sizeunit": "pixels",
+            "centerx": 25,
+            "centery": -10,
+            "centerunit": "pixels",
+            "justifyh": "left",
+            "justifyv": "top",
+            "borderwidth": 2,
+            "borderwidthunit": "pixels",
+            "softnessunit": "pixels",
+            "combineinput": "res",
+            "resolutionw": 100,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "rectangle_inPixels_ViewSmoothness_Nearest",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 2,
+            "sizex": 25,
+            "sizey": 25,
+            "sizeunit": "pixels",
+            "centerx": 25,
+            "centery": -10,
+            "centerunit": "pixels",
+            "justifyh": "left",
+            "justifyv": "top",
+            "borderwidth": 2,
+            "borderwidthunit": "pixels",
+            "softnessunit": "pixels",
+            "combineinput": "res",
+            "resolutionw": 100,
+            "resolutionh": 100,
+            "filtertype": "nearest"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:topto": 2,
+          "TOP:rectangle": 6
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "under1",
+          "type": "TOP:under",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 2,
+            "sizey": 1,
+            "sizeunit": "fraction",
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "under1",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle1",
+          "to": "under1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:under": 1,
+          "TOP:rectangle": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 0.9,
+            "sizey": 0.3,
+            "borderr": 0.9,
+            "borderg": 0.9,
+            "borderb": 0.9,
+            "borderwidth": 0.018,
+            "cornerradius": 78.9,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "rectangle2",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 1,
+            "sizex": 0.9,
+            "sizey": 0.3,
+            "rotate": 90,
+            "borderr": 0.9,
+            "borderg": 0.9,
+            "borderb": 0.9,
+            "borderwidth": 0.018,
+            "cornerradius": 78.9,
+            "operand": "difference",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "rectangle3",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 1,
+            "sizex": 0.9,
+            "sizey": 0.3,
+            "rotate": 45,
+            "borderr": 0.9,
+            "borderg": 0.9,
+            "borderb": 0.9,
+            "borderwidth": 0.018,
+            "cornerradius": 78.9,
+            "operand": "difference",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "rectangle4",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 1,
+            "sizex": 0.9,
+            "sizey": 0.3,
+            "rotate": 135,
+            "borderr": 0.9,
+            "borderg": 0.9,
+            "borderb": 0.9,
+            "borderwidth": 0.018,
+            "cornerradius": 78.9,
+            "operand": "difference",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "rectangle3",
+          "to": "rectangle2",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle1",
+          "to": "rectangle3",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle2",
+          "to": "rectangle4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:rectangle": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.6,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -45,
+            "torange2": 135
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "cos",
+            "phase": -0.5,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange2": 0.6,
+            "channelname": "size"
+          }
+        },
+        {
+          "name": "null_scale",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "borderg": 0.733333,
+            "borderb": 1,
+            "borderwidth": 0.0341,
+            "softness": 0.087,
+            "combineinput": "res",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "null_rotate",
+          "type": "CHOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "lookup1",
+          "to": "null_scale",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null_rotate",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:math": 2,
+          "DAT:text": 1,
+          "CHOP:lookup": 1,
+          "CHOP:pattern": 1,
+          "CHOP:null": 2,
+          "TOP:rectangle": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

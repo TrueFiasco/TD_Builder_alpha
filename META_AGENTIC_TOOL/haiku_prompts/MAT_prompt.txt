@@ -1,0 +1,188 @@
+# MAT Network Descriptions
+
+Write ONLY a 1-2 sentence network_description for each example.
+Describe the DATA FLOW based on the operators and connections.
+DO NOT explain what operators do. DO NOT explain parameter values.
+
+Output format:
+```yaml
+operator_type:
+  example_name: "description..."
+```
+
+---
+
+## depthMAT
+### example1
+Curator: The Depth Only MAT can be used to prevent objects from being drawn by making an invisible barrier in Z. To see the effect, change the index parameter of the "switchMaterial" node to 0. This will apply
+INPUT: lfo1(CHOP:lfo), line1(SOP:line), depth1(MAT:depth), render1(TOP:render), wireframe1(MAT:wireframe)
+PROCESSOR: math1(CHOP:math), switchMaterial(MAT:switch)
+OUTPUT: null(MAT:null), null1(TOP:null), position(CHOP:null), positions(SOP:null)
+ISOLATED: box1(SOP:box), cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), grid1(SOP:grid), light1(COMP:light), phong1(MAT:phong), comment1(COMP:annotate), annotate1(COMP:annotate)
+FLOW: switchMaterial->null, lfo1->math1, render1->null1, math1->position, line1->positions, depth1->switchMaterial, wireframe1->switchMaterial
+TOPO: 20 ops, 7 conns, chain=3
+
+## glslMAT
+### example1
+Curator: A basic GLSL shader can be created by setting up a Phong or PBR material, and outputting the equivalen shader by pulsing the Output Shader... parameter.
+ISOLATED: pbr1(MAT:pbr), phong1(MAT:phong), pbr1GLSL(MAT:glsl), phong1GLSL(MAT:glsl), moviefilein1(TOP:moviefilein), pbr1GLSLInfo(DAT:info), pbr1GLSLPixel(DAT:text), pbr1GLSLVertex(DAT:text), phong1GLSLInfo(DAT:info), phong1GLSLPixel(DAT:text)
+  ...and 1 more
+TOPO: 11 ops, 0 conns, chain=1
+
+### example2
+Curator: This randomly chooses from a set of textures rendered on an instanced rectangle.1. The textures stay in their original format (2D), less memory, less work than building a 3D texture first.2. The textu
+INPUT: positions(TOP:noise)
+OUTPUT: positionsFinal(TOP:null)
+ISOLATED: cam2(COMP:cam), glsl1(MAT:glsl), light2(COMP:light), render2(TOP:render), textures(COMP:base), glsl1_info(DAT:info), instances1(COMP:geo), rectangle1(SOP:rectangle), glsl1_pixel(DAT:text), glsl1_vertex(DAT:text)
+FLOW: positions->positionsFinal
+TOPO: 12 ops, 1 conns, chain=2
+
+### example3
+Curator: texturing:1. The textures stay in their original format (2D), less memory, less work to build the 3D texture2. The textures can be different resolutions3. The textures can be changing (such as be movi
+ISOLATED: phong1GLSL(MAT:glsl), phong1GLSLInfo(DAT:info), phong1GLSLPixel(DAT:text), phong1GLSLVertex(DAT:text), phong1GLSLGeometry(DAT:text)
+TOPO: 5 ops, 0 conns, chain=1
+
+### example4
+Curator: include code from other DATs
+ISOLATED: glsl1(TOP:glsl), utils(DAT:text), shaders(COMP:base), glsl1_info(DAT:info), glsl1_pixel(DAT:text), glsl1_compute(DAT:text)
+TOPO: 6 ops, 0 conns, chain=1
+
+## lineMAT
+### example1
+Curator: Line MAT gives solid line rendering. This is a basic render setup.Play with the Line MAT parameters on Setup and Line pages, like width near/far, colors, cap types,  Translate geo1 in Z for depth effe
+INPUT: box1(SOP:box), circle1(SOP:circle)
+PROCESSOR: copy1(SOP:copy), merge1(SOP:merge)
+OUTPUT: toGeo(SOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), line2(MAT:line), render1(TOP:render)
+FLOW: circle1->copy1, merge1->toGeo, box1->merge1, copy1->merge1
+TOPO: 9 ops, 4 conns, chain=4
+
+### example2
+Curator: Orientation-independent line widths, with endcap and joint controls.Several SOP types rendered with the Line Material and displayed with sopRender from the Palette to tumble/zoom.Drag-drop SOPs to toR
+INPUT: grid3(SOP:grid), noise1(CHOP:noise), circle1(SOP:circle), toRender(SOP:select), sopRender(COMP:container), grid_quads(SOP:grid), grid_rowsCols(SOP:grid)
+PROCESSOR: null6(TOP:null), noise3(SOP:noise)
+OUTPUT: copy1(SOP:copy), level1(TOP:level), twist1(SOP:twist), delete1(SOP:delete), pattern1(CHOP:pattern), null_normals(SOP:null), facet_normals(SOP:facet)
+ISOLATED: line1(MAT:line), line2(MAT:line), torus(SOP:torus), noise2(CHOP:noise), sopto3(DAT:sopto), chopto1(SOP:chopto), chopto2(SOP:chopto), chopto4(SOP:chopto), circle2(SOP:circle), circle3(SOP:circle)
+  ...and 5 more
+FLOW: circle1->copy1, sopRender/out1->null6, null6->level1, grid3->noise3, grid_quads->twist1, toRender->delete1, noise1->pattern1, noise3->null_normals
+  ...and 1 more connections
+TOPO: 31 ops, 9 conns, chain=3
+
+### example3
+Curator: SOP has 'width' attribute, animated.Play with Line Width Bias, Steepness, Linarize, and Near-Far distances.Turn the Points on.
+INPUT: grid1(SOP:grid), sopto1(CHOP:sopto), sopRender(COMP:container)
+PROCESSOR: math_width(CHOP:math), noise_width(CHOP:noise)
+OUTPUT: null6(TOP:null), merge1(CHOP:merge), chopto3(SOP:chopto)
+ISOLATED: line1(MAT:line), toRender(SOP:select)
+FLOW: sopRender/out1->null6, sopto1->merge1, math_width->merge1, grid1->chopto3, noise_width->math_width, sopto1->noise_width
+TOPO: 10 ops, 6 conns, chain=4
+
+### example4
+Curator: A few hundred thousand samples are created in CHOPs, then passed to the Geometry COMP for instancing.geo1 has convert2 for display, a SOP with one point, and one Particle primitive containing the poin
+INPUT: sopto1(CHOP:sopto)
+PROCESSOR: pattern_radius(CHOP:pattern), pattern_densityY(CHOP:pattern), pattern_vertical(CHOP:pattern), pattern_densityXZ(CHOP:pattern)
+OUTPUT: toGeo(CHOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), line1(MAT:line), text1(DAT:text), circle1(SOP:circle), render1(TOP:render), controls(COMP:base)
+FLOW: pattern_densityXZ->toGeo, sopto1->pattern_radius, pattern_vertical->pattern_densityY, pattern_radius->pattern_vertical, pattern_densityY->pattern_densityXZ
+TOPO: 13 ops, 5 conns, chain=6
+
+### example5
+Curator: Lines are defined in a DAT. passed to Add SOP where points are specified into a polygon. geo1 is Line Mat, geo2 is same geometty, but with default Phone MAT.geo1 is at z = -.1 to make sure it gets ren
+ISOLATED: add1(SOP:add), cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), line1(MAT:line), phong1(MAT:phong), table1(DAT:table), render1(TOP:render)
+TOPO: 8 ops, 0 conns, chain=1
+
+### example6
+Curator: Line MAT example drawing vectors.Vectors are defined in TOPs feeding geo_vector.level1 adding alpha by setting Low A to 1.level1 looks smoother than render1 because Viewer Smoothness menu set to Mipma
+INPUT: ramp_x(TOP:ramp), ramp_z(TOP:ramp), noise_y(TOP:noise), render1(TOP:render), geo_vector(COMP:geo), noise_vector(TOP:noise)
+PROCESSOR: reorder1(TOP:reorder), math_rerange(TOP:math), math_positive(TOP:math)
+OUTPUT: level1(TOP:level), geo_grid(COMP:geo), null_pos(TOP:null), null_color(TOP:null), null_vector(TOP:null)
+ISOLATED: cam1(COMP:cam), grid1(SOP:grid), line2(SOP:line), line_grid(MAT:line), ramp1_keys(DAT:table), ramp2_keys(DAT:table), line_vectors(MAT:line)
+FLOW: render1->level1, geo_vector->geo_grid, math_rerange->null_pos, ramp_x->reorder1, noise_y->reorder1, ramp_z->reorder1, math_positive->null_color, noise_vector->null_vector
+  ...and 2 more connections
+TOPO: 21 ops, 10 conns, chain=4
+
+### example7
+Curator: As you zoom into the point cloud object, the circle size is adjusted to give approxiimately the the same screen coverage to make it look like the points form one continuous surface.In the Line MAT it 
+ISOLATED: pointRender(COMP:container)
+TOPO: 1 ops, 0 conns, chain=1
+
+## pbrMAT
+### example1
+Curator: The individual textures are selected from the Substance TOP and added to Substance TOP parameter under the "Maps" page on the PBR MAT.pbr1 is the Material of geo1. Inside the Geometry COMP has a SOP w
+INPUT: constant1(CHOP:constant)
+OUTPUT: math1(CHOP:math)
+ISOLATED: sun(COMP:environment), cam1(COMP:cam), geo1(COMP:geo), pbr1(MAT:pbr), light1(COMP:light), render1(TOP:render), substance1(TOP:substance), math1_export(DAT:table), moviefilein1(TOP:moviefilein)
+FLOW: constant1->math1
+TOPO: 11 ops, 1 conns, chain=2
+
+### example2
+Curator: In this case the individual textures are selected from the Substance Designer package and added to the respective map parameter under the "Maps" page on the PBR MAT.basecolor is modified before being 
+INPUT: basecolor(TOP:subselect)
+PROCESSOR: level1(TOP:level)
+OUTPUT: hsvadj1(TOP:hsvadj)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), pbr1(MAT:pbr), light1(COMP:light), normal(TOP:subselect), amboccl(TOP:subselect), render1(TOP:render), metallic(TOP:subselect), roughness(TOP:subselect), substance1(TOP:substance)
+FLOW: basecolor->level1, level1->hsvadj1
+TOPO: 13 ops, 2 conns, chain=3
+
+### example3
+Curator: pbr1 is the material of geo1, and two instances are created of geo.  Substance TOP is added to Substance TOP parameter on PBR MAT (pbr1). This automatically unpacks all the textures in the package and
+INPUT: wave2(CHOP:wave), wave3(CHOP:wave), constant1(CHOP:constant), moviefilein1(TOP:moviefilein)
+PROCESSOR: merge1(CHOP:merge)
+OUTPUT: math1(CHOP:math), normal1(TOP:normal), rename1(CHOP:rename)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), geo2(COMP:geo), lfo1(CHOP:lfo), pbr1(MAT:pbr), pbr2(MAT:pbr), light1(COMP:light), light2(COMP:light), render1(TOP:render), substance1(TOP:substance)
+  ...and 7 more
+FLOW: constant1->math1, wave2->merge1, wave3->merge1, moviefilein1->normal1, merge1->rename1
+TOPO: 25 ops, 5 conns, chain=3
+
+### example4
+Curator: This example demonstrates the difference between two PBR materials, one using a height map, and one not.The sphere on the left of the render is not using a height map, while the sphere on the right is
+ISOLATED: cam1(COMP:cam), height(TOP:subselect), light1(COMP:light), normal(TOP:subselect), amboccl(TOP:subselect), render1(TOP:render), metallic(TOP:subselect), basecolor(TOP:subselect), no_height(MAT:pbr), roughness(TOP:subselect)
+  ...and 4 more
+TOPO: 14 ops, 0 conns, chain=1
+
+## phongMAT
+### example1
+Curator: Select base color and normal from a Substance TOP and add them to Color map and Normal map respectively. Change the specular lighting to be yellow instead. Add an environment map (moviefilein1) to pho
+INPUT: constant1(CHOP:constant)
+OUTPUT: math1(CHOP:math)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), phong1(MAT:phong), render1(TOP:render), subselect1(TOP:subselect), subselect2(TOP:subselect), substance1(TOP:substance), math1_export(DAT:table), moviefilein2(TOP:moviefilein)
+FLOW: constant1->math1
+TOPO: 12 ops, 1 conns, chain=2
+
+## pointspriteMAT
+### example1
+Curator: The Point Sprite MAT can be applied to particles (creatable using the Particle SOP, DAT to SOP, or Convert SOP).By default, point sprites will aways face the camera.You can apply color, a color map, c
+INPUT: sphere1(SOP:sphere), moviefilein2(TOP:moviefilein)
+OUTPUT: convert1(SOP:convert), reorder1(TOP:reorder)
+ISOLATED: geo1(COMP:geo), comment1(COMP:annotate), pointsprite1(MAT:pointsprite)
+FLOW: sphere1->convert1, moviefilein2->reorder1
+TOPO: 7 ops, 2 conns, chain=2
+
+### example2
+Curator: The Point Sprite MAT can be applied to particles (creatable using the Particle SOP, DAT to SOP, or Convert SOP). By default, point sprites will aways face the camera.You can apply color, a color map, 
+INPUT: lfo1(CHOP:lfo), grid1(SOP:grid)
+PROCESSOR: math1(CHOP:math)
+OUTPUT: null1(CHOP:null), convert1(SOP:convert)
+ISOLATED: geo1(COMP:geo), circle1(TOP:circle), pointsprite1(MAT:pointsprite)
+FLOW: lfo1->math1, math1->null1, grid1->convert1
+TOPO: 8 ops, 3 conns, chain=3
+
+### example3
+Curator: The Point Sprite MAT (or Line MAT) can also be used to easily visualize instanced point clouds, by adjusting its "Constant Point Scale" parameter.In this example we instance a single particle in the G
+INPUT: pointfilein1(TOP:pointfilein), pointfileselect1(TOP:pointfileselect)
+PROCESSOR: math1(TOP:math)
+OUTPUT: color(TOP:null), position(TOP:null)
+ISOLATED: cam1(COMP:cam), geo2(COMP:geo), render1(TOP:render), pointsprite2(MAT:pointsprite)
+FLOW: math1->color, pointfileselect1->math1, pointfilein1->position
+TOPO: 9 ops, 3 conns, chain=3
+
+## switchMAT
+### example1
+Curator: The Switch MAT allows you to switch between multiple materials.
+INPUT: lfo1(CHOP:lfo), pbr1(MAT:pbr), line1(MAT:line), phong1(MAT:phong), render1(TOP:render), constant1(MAT:constant), wireframe1(MAT:wireframe)
+PROCESSOR: count1(CHOP:count), switch1(MAT:switch)
+OUTPUT: null1(TOP:null), null2(MAT:null), null3(CHOP:null)
+ISOLATED: cam1(COMP:cam), geo1(COMP:geo), light1(COMP:light), sphere1(SOP:sphere), environment1(COMP:environment), moviefilein2(TOP:moviefilein)
+FLOW: render1->null1, switch1->null2, count1->null3, lfo1->count1, constant1->switch1, phong1->switch1, pbr1->switch1, line1->switch1
+  ...and 1 more connections
+TOPO: 18 ops, 9 conns, chain=3

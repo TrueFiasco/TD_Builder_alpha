@@ -1,0 +1,497 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\texturemapPOP_lossless.json",
+  "operator_type": "texturemapPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "POP:box",
+          "parameters": {}
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo3",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo4",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo5",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo6",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo7",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "geo8",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant2"
+          }
+        },
+        {
+          "name": "geo9",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant3"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "tri",
+            "offset": 2,
+            "amp": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo3",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.25,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "geo10",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "geo11",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "geo12",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "tube2",
+          "type": "POP:tube",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere3",
+          "type": "POP:sphere",
+          "parameters": {
+            "orient": "z",
+            "radx": 10,
+            "rady": 10,
+            "radz": 10,
+            "freq": 21
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "MAT:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant2",
+          "type": "MAT:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant3",
+          "type": "MAT:constant",
+          "parameters": {}
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "pageindex": 4,
+            "deletevert": "Tex"
+          }
+        },
+        {
+          "name": "texturemap1",
+          "type": "POP:texturemap",
+          "parameters": {}
+        },
+        {
+          "name": "texturemap2",
+          "type": "POP:texturemap",
+          "parameters": {
+            "axis": "y"
+          }
+        },
+        {
+          "name": "texturemap3",
+          "type": "POP:texturemap",
+          "parameters": {
+            "axis": "x"
+          }
+        },
+        {
+          "name": "texturemap4",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "xyzposition",
+            "axis": "x",
+            "offsetu": -0.5,
+            "offsetv": -0.5
+          }
+        },
+        {
+          "name": "texturemap5",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "cylin",
+            "axis": "y"
+          }
+        },
+        {
+          "name": "texturemap6",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "face",
+            "axis": "x",
+            "offsetu": -0.5,
+            "offsetv": -0.5
+          }
+        },
+        {
+          "name": "texturemap7",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "equirectangularin",
+            "axis": "y"
+          }
+        },
+        {
+          "name": "texturemap8",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "equirectangularout",
+            "axis": "y"
+          }
+        },
+        {
+          "name": "texturemap9",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "equiazimuth",
+            "axis": "y"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "texturemap10",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "persp",
+            "axis": "y"
+          }
+        },
+        {
+          "name": "texturemap11",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "triplanar",
+            "axis": "y"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box2",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "texturemap1",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "texturemap2",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "texturemap3",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "texturemap4",
+          "to_input": "0"
+        },
+        {
+          "from": "tube2",
+          "to": "texturemap5",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "texturemap6",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "texturemap7",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "texturemap8",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "texturemap9",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "texturemap10",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere3",
+          "to": "texturemap11",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 36,
+        "connection_count": 12,
+        "operator_types": {
+          "POP:box": 1,
+          "COMP:geo": 12,
+          "CHOP:lfo": 2,
+          "POP:tube": 1,
+          "DAT:text": 1,
+          "POP:sphere": 1,
+          "TOP:moviefilein": 3,
+          "MAT:constant": 3,
+          "POP:attribute": 1,
+          "POP:texturemap": 11
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit1",
+          "type": "TOP:fit",
+          "parameters": {
+            "fit": "fitoutside",
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "over1",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "fitbest",
+            "tx": 0.061,
+            "ty": -0.077,
+            "sx": 0.63,
+            "sy": 0.63
+          }
+        },
+        {
+          "name": "facet1",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "unique"
+          }
+        },
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "brightness1": 0.54
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "texturemap1",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 2
+          }
+        },
+        {
+          "name": "texturemap1",
+          "type": "POP:texturemap",
+          "parameters": {
+            "texmethod": "facefitoutside"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "rendersimple1",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "texturemap1",
+            "georx": 20,
+            "lighttx": 170,
+            "lightty": -80,
+            "lighttz": 100,
+            "constantr": 0.2,
+            "constantg": 0.2,
+            "constantb": 0.2,
+            "diffuser": 0.9,
+            "diffuseg": 0.9,
+            "diffuseb": 0.9,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "over1",
+          "to": "fit1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "over1",
+          "to_input": "0"
+        },
+        {
+          "from": "level1",
+          "to": "over1",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein3",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "texturemap1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:fit": 1,
+          "TOP:over": 1,
+          "POP:facet": 1,
+          "TOP:level": 1,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "POP:sphere": 1,
+          "POP:texturemap": 1,
+          "TOP:moviefilein": 2,
+          "TOP:rendersimple": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

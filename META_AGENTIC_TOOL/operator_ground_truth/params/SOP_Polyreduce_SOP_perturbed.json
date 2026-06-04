@@ -1,0 +1,83 @@
+{
+  "operator": "Polyreduce_SOP",
+  "family": "SOP",
+  "td_create_name": "polyreduceSOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "reduce": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "creases": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "method": {
+      "type": "menu",
+      "value": "number",
+      "menuIndex": 1,
+      "menuNames": [
+        "percentage",
+        "number",
+        "distance"
+      ],
+      "menuLabels": [
+        "Percentage",
+        "Number",
+        "Distance"
+      ]
+    },
+    "percentage": {
+      "type": "float",
+      "value": 100.0
+    },
+    "numpolys": {
+      "type": "int",
+      "value": 101
+    },
+    "obj": {
+      "type": "op",
+      "value": ""
+    },
+    "distance": {
+      "type": "float",
+      "value": 100.0
+    },
+    "minpercent": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "borderweight": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "creaseweight": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "lengthweight": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "meshinvert": {
+      "type": "toggle",
+      "value": false
+    },
+    "triangulate": {
+      "type": "toggle",
+      "value": false
+    },
+    "keepedges": {
+      "type": "toggle",
+      "value": true
+    },
+    "originalpoints": {
+      "type": "toggle",
+      "value": true
+    }
+  }
+}

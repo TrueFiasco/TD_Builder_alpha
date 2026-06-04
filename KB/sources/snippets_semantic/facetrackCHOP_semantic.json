@@ -1,0 +1,972 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\facetrackCHOP_lossless.json",
+  "operator_type": "facetrackCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "vid",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 2,
+            "tz": 1,
+            "orthowidth": 1,
+            "fov": 54,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "cam2",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 1,
+            "projection": "ortho",
+            "orthoorigin": "bottomleft",
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "fit1",
+          "type": "TOP:fit",
+          "parameters": {
+            "fit": "fitoutside",
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "geo3",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "instancing": "on",
+            "instanceop": "merge1",
+            "instancetx": "x",
+            "instancety": "y",
+            "instancerz": "face1:rz"
+          }
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "overlay",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "crop1",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropright": 0.48
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "preoff": -0.06,
+            "torange2": 0.89,
+            "scope": "y"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "COMP:null",
+          "parameters": {
+            "rord": "zyx"
+          }
+        },
+        {
+          "name": "over1",
+          "type": "TOP:over",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "tile1",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "overlapu": 0.143,
+            "overlapv": 0.149
+          }
+        },
+        {
+          "name": "trim1",
+          "type": "CHOP:trim",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "cache1",
+          "type": "TOP:cache",
+          "parameters": {
+            "outputindex": -6
+          }
+        },
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "opacity": 0.989
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tx": 3,
+            "ty": 3,
+            "tz": 10
+          }
+        },
+        {
+          "name": "light2",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 2,
+            "tx": 5,
+            "ty": 5,
+            "tz": 10
+          }
+        },
+        {
+          "name": "light3",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 2,
+            "tx": 5,
+            "ty": 5,
+            "tz": 10,
+            "dimmer": 1.3
+          }
+        },
+        {
+          "name": "math_x",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "preoff": -0.5,
+            "scope": "x"
+          }
+        },
+        {
+          "name": "math_y",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "scope": "y",
+            "exporttable": "math_ty_export2"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {
+            "align": "stretch1"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffr": 1,
+            "diffg": 1,
+            "diffb": 1,
+            "emitr": 0.3,
+            "emitg": 0.3,
+            "emitb": 0.3,
+            "blending": "on",
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shift1",
+          "type": "CHOP:shift",
+          "parameters": {
+            "relative": "abs"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "texture2",
+            "textureuv": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "facetrack2",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "sopto1",
+            "chanscope": "\"u v\"",
+            "attscope": "\"uv(0) uv(1)\""
+          }
+        },
+        {
+          "name": "chopto2",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "filter_oneEuro"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.3,
+            "radiusy": 0.3,
+            "bgalpha": 0.755
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "oneeuro",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "oneeuro",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter3",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "oneeuro",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math_rz",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "exporttable": "math3_export"
+          }
+        },
+        {
+          "name": "math_tx",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -0.5,
+            "torange2": 0.5,
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "math_ty",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "exporttable": "math_ty_export"
+          }
+        },
+        {
+          "name": "math_tz",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": 0.3,
+            "fromrange2": 0.6,
+            "torange1": 3,
+            "torange2": -3,
+            "exporttable": "math_tz_export"
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "\"x y\""
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "cameraViewport",
+            "geometry": "geo1",
+            "lights": "light1",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "render2",
+          "type": "TOP:render",
+          "parameters": {
+            "geometry": "geo2",
+            "lights": "light2",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "render3",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "cam2",
+            "geometry": "geo3",
+            "lights": "light3",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1/bbox:u",
+            "renameto": "tx"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1/bbox:v",
+            "renameto": "ty"
+          }
+        },
+        {
+          "name": "select3",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1/bbox:width",
+            "renameto": "tz"
+          }
+        },
+        {
+          "name": "select4",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1/pt*"
+          }
+        },
+        {
+          "name": "select5",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1:rz"
+          }
+        },
+        {
+          "name": "select6",
+          "type": "TOP:select",
+          "parameters": {
+            "top": "cache1"
+          }
+        },
+        {
+          "name": "select8",
+          "type": "TOP:select",
+          "parameters": {
+            "top": "videodevin1"
+          }
+        },
+        {
+          "name": "math_tx1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 120,
+            "torange2": -120,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "math_ty1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange2": 0.4,
+            "torange1": -11,
+            "torange2": 180,
+            "exporttable": "math_ty1_export"
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqeveryn",
+            "nval": 2,
+            "firstsample": "on"
+          }
+        },
+        {
+          "name": "texture2",
+          "type": "SOP:texture",
+          "parameters": {
+            "applyto": "point",
+            "su": 1.4,
+            "sv": 1.4,
+            "sw": 1.4
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "faceModel",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -0.5,
+            "ty": -0.37,
+            "ry": 7
+          }
+        },
+        {
+          "name": "select_rz",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "face1:rz",
+            "renameto": "rz"
+          }
+        },
+        {
+          "name": "facetrack1",
+          "type": "CHOP:facetrack",
+          "parameters": {
+            "top": "fit1",
+            "bboxconfidence": "on",
+            "rotations": "on",
+            "aspectcorrectuv": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "facetrack2",
+          "type": "SOP:facetrack",
+          "parameters": {
+            "chop": "facetrack1"
+          }
+        },
+        {
+          "name": "facetrack3",
+          "type": "CHOP:facetrack",
+          "parameters": {
+            "top": "videodevin1",
+            "bboxconfidence": "on",
+            "rotations": "on",
+            "landmarks": "num68",
+            "aspectcorrectuv": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "sizex": 0.11,
+            "sizey": 0.2,
+            "fillalpha": 0.279,
+            "borderwidth": 0.0087
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "sx": 0.2,
+            "sy": 0.2,
+            "extend": "repeat",
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "softenAlpha",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        },
+        {
+          "name": "videodevin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||\\\\\\\\?\\\\usb#vid_13d3&pid_5279&mi_00#6&f7bbb15&1&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global|||4|||0|||Integrated Camera\"",
+            "precedence": "even",
+            "signalformat": "f1280x720p-30.00hz"
+          }
+        },
+        {
+          "name": "cacheselect1",
+          "type": "TOP:cacheselect",
+          "parameters": {
+            "cachetop": "cache1",
+            "index": -2
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "math3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "attribcreate1",
+          "type": "SOP:attribcreate",
+          "parameters": {
+            "comptang": "on"
+          }
+        },
+        {
+          "name": "cameraViewport",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 7,
+            "pxform": "on",
+            "fov": 70,
+            "aperture": 44.1,
+            "far": 2000,
+            "winrollpivot": "legacy",
+            "ext0promote": "on",
+            "nodeview": "opviewer"
+          }
+        },
+        {
+          "name": "filter_oneEuro",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "oneeuro",
+            "width": 0,
+            "cutoff": 2.98,
+            "speedcoeff": 4.74,
+            "slopecutoff": 3.68,
+            "filterpersample": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math_ty_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "math_tz_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "math_ty1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "math_ty_export2",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "fit1",
+          "to": "vid",
+          "to_input": "0"
+        },
+        {
+          "from": "select8",
+          "to": "fit1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "geo1",
+          "to_input": "0"
+        },
+        {
+          "from": "cacheselect1",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "level1",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "tile1",
+          "to": "crop1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_x",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "render3",
+          "to": "over1",
+          "to_input": "0"
+        },
+        {
+          "from": "select6",
+          "to": "over1",
+          "to_input": "1"
+        },
+        {
+          "from": "circle1",
+          "to": "tile1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "vid",
+          "to": "cache1",
+          "to_input": "0"
+        },
+        {
+          "from": "softenAlpha/out1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "rename1",
+          "to": "math_x",
+          "to_input": "0"
+        },
+        {
+          "from": "math_x",
+          "to": "math_y",
+          "to_input": "0"
+        },
+        {
+          "from": "trim1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter3",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "shuffle1",
+          "to": "shift1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "chopto1",
+          "to_input": "0"
+        },
+        {
+          "from": "facetrack2",
+          "to": "chopto2",
+          "to_input": "0"
+        },
+        {
+          "from": "select4",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "facetrack1",
+          "to": "filter2",
+          "to_input": "0"
+        },
+        {
+          "from": "select5",
+          "to": "filter3",
+          "to_input": "0"
+        },
+        {
+          "from": "select_rz",
+          "to": "math_rz",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "math_tx",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "math_ty",
+          "to_input": "0"
+        },
+        {
+          "from": "select3",
+          "to": "math_tz",
+          "to_input": "0"
+        },
+        {
+          "from": "shift1",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "select2",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "select3",
+          "to_input": "0"
+        },
+        {
+          "from": "facetrack3",
+          "to": "select4",
+          "to_input": "0"
+        },
+        {
+          "from": "facetrack3",
+          "to": "select5",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "math_tx1",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "math_ty1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "faceModel",
+          "to": "texture2",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "select_rz",
+          "to_input": "0"
+        },
+        {
+          "from": "cache1",
+          "to": "rectangle1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto2",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "tile1",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto1",
+          "to": "attribcreate1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto2",
+          "to": "filter_oneEuro",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 79,
+        "connection_count": 43,
+        "operator_types": {
+          "TOP:null": 1,
+          "COMP:cam": 3,
+          "TOP:fit": 1,
+          "COMP:geo": 3,
+          "TOP:comp": 1,
+          "TOP:crop": 1,
+          "CHOP:math": 9,
+          "COMP:null": 1,
+          "TOP:over": 1,
+          "TOP:tile": 1,
+          "CHOP:trim": 1,
+          "TOP:cache": 1,
+          "TOP:level": 1,
+          "COMP:light": 3,
+          "CHOP:merge": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "CHOP:shift": 1,
+          "CHOP:sopto": 2,
+          "SOP:chopto": 2,
+          "TOP:circle": 1,
+          "CHOP:filter": 4,
+          "CHOP:rename": 1,
+          "TOP:render": 3,
+          "CHOP:select": 6,
+          "TOP:select": 2,
+          "CHOP:shuffle": 1,
+          "SOP:texture": 1,
+          "COMP:annotate": 5,
+          "SOP:transform": 2,
+          "CHOP:facetrack": 2,
+          "SOP:facetrack": 1,
+          "TOP:rectangle": 1,
+          "TOP:transform": 1,
+          "COMP:base": 1,
+          "TOP:videodevin": 1,
+          "TOP:cacheselect": 1,
+          "DAT:table": 7,
+          "TOP:moviefilein": 1,
+          "SOP:attribcreate": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 10
+      }
+    }
+  ]
+}

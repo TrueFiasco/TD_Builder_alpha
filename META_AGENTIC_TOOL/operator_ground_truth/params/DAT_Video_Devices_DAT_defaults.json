@@ -1,0 +1,226 @@
+{
+  "operator": "Video_Devices_DAT",
+  "family": "DAT",
+  "td_create_name": "videodevicesDAT",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "driver": {
+      "value": {
+        "type": "menu",
+        "value": "directshow",
+        "menuIndex": 0,
+        "menuNames": [
+          "directshow",
+          "mediafoundation",
+          "datapath",
+          "blackmagic",
+          "alliedvisiongige",
+          "idsueye",
+          "idspeak",
+          "pointgreyflycapture",
+          "flirspinnaker",
+          "avfoundation",
+          "bluefish444",
+          "aja",
+          "ximea",
+          "deltacast"
+        ],
+        "menuLabels": [
+          "DirectShow (WDM)",
+          "Media Foundation",
+          "DataPath (RGBEASY)",
+          "Blackmagic",
+          "Allied Vision (GigE)",
+          "Imaging Development Systems/IDS (uEye)",
+          "Imaging Development Systems/IDS (Peak)",
+          "FLIR / Point Grey (FlyCapture2)",
+          "FLIR / Point Grey (Spinnaker)",
+          "AVFoundation (macOS)",
+          "BlueFish444",
+          "AJA",
+          "Ximea",
+          "Deltacast"
+        ]
+      },
+      "default": "directshow",
+      "page": "Video Devices",
+      "label": "Driver",
+      "readOnly": false,
+      "expression": null
+    },
+    "alldrivers": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Video Devices",
+      "label": "All Drivers",
+      "readOnly": false,
+      "expression": null
+    },
+    "input": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Video Devices",
+      "label": "Input Devices",
+      "readOnly": false,
+      "expression": null
+    },
+    "output": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Video Devices",
+      "label": "Output Devices",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Video Devices",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

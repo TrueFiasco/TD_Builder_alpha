@@ -1,0 +1,367 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\extendCHOP_lossless.json",
+  "operator_type": "extendCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo3",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo4",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo5",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -2,
+            "torange2": 2
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -2,
+            "torange2": 3
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -2,
+            "torange2": 3
+          }
+        },
+        {
+          "name": "math4",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -2,
+            "torange2": 3
+          }
+        },
+        {
+          "name": "math5",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -2,
+            "torange2": 3
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail3",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail4",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail5",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup2",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup3",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup4",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup5",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {}
+        },
+        {
+          "name": "extend_hold",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "extend_cycle",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "cycle",
+            "right": "cycle"
+          }
+        },
+        {
+          "name": "extend_default_value_1",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "default",
+            "right": "cycle",
+            "defval": -1
+          }
+        },
+        {
+          "name": "extend_hold_left_slope_right",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "hold",
+            "right": "slope",
+            "defval": 1
+          }
+        },
+        {
+          "name": "extend_hold_left_and_mirror_right",
+          "type": "CHOP:extend",
+          "parameters": {
+            "left": "hold",
+            "right": "mirror"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo3",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo4",
+          "to": "math4",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo5",
+          "to": "math5",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup2",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup3",
+          "to": "trail3",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup4",
+          "to": "trail4",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup5",
+          "to": "trail5",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_cycle",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "math2",
+          "to": "lookup2",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_hold",
+          "to": "lookup2",
+          "to_input": "1"
+        },
+        {
+          "from": "math3",
+          "to": "lookup3",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_hold_left_and_mirror_right",
+          "to": "lookup3",
+          "to_input": "1"
+        },
+        {
+          "from": "math4",
+          "to": "lookup4",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_default_value_1",
+          "to": "lookup4",
+          "to_input": "1"
+        },
+        {
+          "from": "math5",
+          "to": "lookup5",
+          "to_input": "0"
+        },
+        {
+          "from": "extend_hold_left_slope_right",
+          "to": "lookup5",
+          "to_input": "1"
+        },
+        {
+          "from": "pattern1",
+          "to": "extend_hold",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "extend_cycle",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "extend_default_value_1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "extend_hold_left_slope_right",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "extend_hold_left_and_mirror_right",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 27,
+        "connection_count": 25,
+        "operator_types": {
+          "CHOP:lfo": 5,
+          "CHOP:math": 5,
+          "DAT:text": 1,
+          "CHOP:trail": 5,
+          "CHOP:lookup": 5,
+          "CHOP:pattern": 1,
+          "CHOP:extend": 5
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

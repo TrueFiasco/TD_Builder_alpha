@@ -1,0 +1,150 @@
+{
+  "operator": "OpenVR_CHOP",
+  "family": "CHOP",
+  "td_create_name": "openvrCHOP",
+  "param_count": 23,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "output": {
+      "type": "menu",
+      "value": "projmatrices",
+      "menuIndex": 1,
+      "menuNames": [
+        "sensor",
+        "projmatrices",
+        "trackers",
+        "frametimings",
+        "actions",
+        "skeletons"
+      ],
+      "menuLabels": [
+        "Sensor",
+        "Projection Matrices",
+        "Trackers",
+        "Frame Timings",
+        "Actions",
+        "Skeletons"
+      ]
+    },
+    "maxtrackers": {
+      "type": "int",
+      "value": 2
+    },
+    "firsttracker": {
+      "type": "int",
+      "value": 2
+    },
+    "orientation": {
+      "type": "toggle",
+      "value": false
+    },
+    "recenter": {
+      "type": "pulse",
+      "value": null
+    },
+    "generalinfo": {
+      "type": "toggle",
+      "value": false
+    },
+    "near": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "far": {
+      "type": "float",
+      "value": 1000.12345
+    },
+    "unitscale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "customactions": {
+      "type": "toggle",
+      "value": true
+    },
+    "actionmanifest": {
+      "type": "string",
+      "value": "$TT/OpenVR/BasicActions.json_perturbed"
+    },
+    "uselegacynames": {
+      "type": "toggle",
+      "value": true
+    },
+    "skeletonrange": {
+      "type": "menu",
+      "value": "withoutcontroller",
+      "menuIndex": 1,
+      "menuNames": [
+        "withcontroller",
+        "withoutcontroller"
+      ],
+      "menuLabels": [
+        "With Controller",
+        "Without Controller"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

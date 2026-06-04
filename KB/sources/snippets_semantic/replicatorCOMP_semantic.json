@@ -1,0 +1,891 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\replicatorCOMP_lossless.json",
+  "operator_type": "replicatorCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "image1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image5",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image6",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image7",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image8",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image9",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "folder1",
+          "type": "DAT:folder",
+          "parameters": {
+            "type": "files",
+            "extensions": "jpg",
+            "foldercol": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "image10",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image11",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image12",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "master1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "templateTable",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "replicatorSimple",
+          "type": "COMP:replicator",
+          "parameters": {
+            "template": "templateTable",
+            "opprefix": "image",
+            "master": "master1",
+            "layout": "horizontal"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "folder1",
+          "to": "templateTable",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:moviefilein": 13,
+          "DAT:text": 1,
+          "DAT:folder": 1,
+          "DAT:null": 1,
+          "COMP:replicator": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "spec",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "COMP:text",
+          "parameters": {
+            "callbacks": "text1_callbacks",
+            "legacyfontselection": "on"
+          }
+        },
+        {
+          "name": "button",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 40,
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "myText",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slider",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 7,
+            "value0": 0.5,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "myButton",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "mySlider",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "text1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "replicatorClones",
+          "type": "COMP:replicator",
+          "parameters": {
+            "template": "spec",
+            "namefromtable": "colbyname",
+            "opprefix": "\"\"",
+            "master": "button",
+            "callbacks": "replicatorClones_callbacks",
+            "layout": "horizontal"
+          }
+        },
+        {
+          "name": "yetAnotherButton",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "replicatorClones_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "spec",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:null": 1,
+          "COMP:text": 1,
+          "COMP:button": 5,
+          "DAT:text": 3,
+          "COMP:slider": 1,
+          "DAT:table": 1,
+          "COMP:replicator": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "sort1",
+          "type": "DAT:sort",
+          "parameters": {
+            "unique": "single"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "folder2",
+          "type": "DAT:folder",
+          "parameters": {
+            "pageindex": 1,
+            "imageextensions": "on",
+            "movieextensions": "on",
+            "namecol": "off",
+            "typecol": "on",
+            "foldercol": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "DAT:select",
+          "parameters": {
+            "extractcols": "bynames",
+            "colnames": "type"
+          }
+        },
+        {
+          "name": "BMP_File",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "JPG_File",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "PNG_File",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "TIF_File",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "TIFF_File",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "typeMaster",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "File_folder",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "templateTable2",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "replicatorSquared",
+          "type": "COMP:replicator",
+          "parameters": {
+            "template": "templateTable2",
+            "namefromtable": "colbyname",
+            "colname": "type",
+            "opprefix": "\"\"",
+            "master": "typeMaster",
+            "callbacks": "replicatorSquared_callbacks",
+            "layout": "horizontal"
+          }
+        },
+        {
+          "name": "MOV_Video_File__VLC_",
+          "type": "COMP:container",
+          "parameters": {
+            "topsmoothness": "mipmap",
+            "align": "gridrows",
+            "spacing": 10
+          }
+        },
+        {
+          "name": "replicatorSquared_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "folder2",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "sort1",
+          "to": "templateTable2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:sort": 1,
+          "DAT:text": 2,
+          "DAT:folder": 1,
+          "DAT:select": 1,
+          "COMP:container": 8,
+          "DAT:null": 1,
+          "COMP:replicator": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "item1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "clone": "masterthing1"
+          }
+        },
+        {
+          "name": "item2",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "clone": "masterthing1"
+          }
+        },
+        {
+          "name": "item3",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "clone": "masterthing1"
+          }
+        },
+        {
+          "name": "item4",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "clone": "masterthing1"
+          }
+        },
+        {
+          "name": "color1",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color2",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color3",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color4",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color5",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color6",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "replicator1",
+          "type": "COMP:replicator",
+          "parameters": {
+            "method": "bynum",
+            "numreplicants": 4,
+            "master": "masterthing1",
+            "callbacks": "replicator1_callbacks"
+          }
+        },
+        {
+          "name": "masterthing1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2,
+            "clone": "masterthing1"
+          }
+        },
+        {
+          "name": "replicator1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 5,
+          "TOP:constant": 6,
+          "DAT:text": 2,
+          "COMP:replicator": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "kiwi",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "plum",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "apple",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "item1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "item2",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "item3",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "item4",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "item5",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "item6",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "items",
+          "type": "DAT:null",
+          "parameters": {
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "lemon",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "peach",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "orange",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 1,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "cols": 1,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 1,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "insert1",
+          "type": "DAT:insert",
+          "parameters": {
+            "contents": "fruit",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "color_kiwi",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color_plum",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color_apple",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color_lemon",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "color_peach",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "replicator1",
+          "type": "COMP:replicator",
+          "parameters": {
+            "template": "items",
+            "master": "masterthing1",
+            "callbacks": "replicator1_callbacks"
+          }
+        },
+        {
+          "name": "replicator2",
+          "type": "COMP:replicator",
+          "parameters": {
+            "template": "items",
+            "namefromtable": "colbyindex",
+            "opprefix": "\"\"",
+            "master": "masterthing2",
+            "callbacks": "replicator2_callbacks"
+          }
+        },
+        {
+          "name": "switchtable",
+          "type": "DAT:switch",
+          "parameters": {
+            "index": 1,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "color_orange",
+          "type": "TOP:constant",
+          "parameters": {
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "masterthing1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "masterthing2",
+          "type": "COMP:base",
+          "parameters": {
+            "clone": "masterthing2"
+          }
+        },
+        {
+          "name": "replicator1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "replicator2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "insert1",
+          "to": "items",
+          "to_input": "0"
+        },
+        {
+          "from": "switchtable",
+          "to": "insert1",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "switchtable",
+          "to_input": "0"
+        },
+        {
+          "from": "table3",
+          "to": "switchtable",
+          "to_input": "1"
+        },
+        {
+          "from": "table4",
+          "to": "switchtable",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 31,
+        "connection_count": 5,
+        "operator_types": {
+          "COMP:base": 14,
+          "DAT:null": 1,
+          "DAT:text": 3,
+          "DAT:table": 3,
+          "DAT:insert": 1,
+          "TOP:constant": 6,
+          "COMP:replicator": 2,
+          "DAT:switch": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

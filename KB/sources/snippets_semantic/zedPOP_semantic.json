@@ -1,0 +1,76 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\zedPOP_lossless.json",
+  "operator_type": "zedPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "zed1",
+          "type": "TOP:zed",
+          "parameters": {
+            "image": "depth"
+          }
+        },
+        {
+          "name": "zed2",
+          "type": "POP:zed",
+          "parameters": {
+            "zedtop": "zed1",
+            "outputmode": "pointcloud",
+            "perspective": "right"
+          }
+        },
+        {
+          "name": "zed3",
+          "type": "POP:zed",
+          "parameters": {
+            "zedtop": "zed1",
+            "connectivity": "triangles"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "POP:topto",
+          "parameters": {
+            "input0top": "zed1"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "TOP:zed": 1,
+          "POP:zed": 2,
+          "DAT:text": 1,
+          "POP:topto": 1,
+          "COMP:annotate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

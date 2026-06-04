@@ -1,0 +1,235 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\tileTOP_lossless.json",
+  "operator_type": "tileTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "tile5",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "cropleft": 0.267,
+            "cropright": 0.752,
+            "cropbottom": 0.193,
+            "croptop": 0.807,
+            "overlapu": 0.053,
+            "overlapv": 0.152
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein2",
+          "to": "tile5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:tile": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "circular"
+          }
+        },
+        {
+          "name": "tile1",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "repeatx": 4,
+            "repeaty": 4
+          }
+        },
+        {
+          "name": "tile2",
+          "type": "TOP:tile",
+          "parameters": {
+            "cropright": 0.549,
+            "croptop": 0.556,
+            "repeatx": 4,
+            "repeaty": 4,
+            "reflectx": "on",
+            "reflecty": "on"
+          }
+        },
+        {
+          "name": "tile3",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "cropleft": 0.401,
+            "cropright": 0.586,
+            "cropbottom": 0.42,
+            "croptop": 0.55,
+            "repeaty": 4,
+            "reflectx": "on",
+            "reflecty": "on",
+            "overlapu": 0.136,
+            "overlapv": 0.247
+          }
+        },
+        {
+          "name": "tile4",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "cropleft": 0.081,
+            "cropright": 0.901,
+            "repeaty": 1,
+            "reflectx": "on",
+            "overlapu": 0.311
+          }
+        },
+        {
+          "name": "bypass",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Bypass Transform\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 70,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "inputSelect",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 102,
+            "h": 50,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform1",
+          "to": "tile1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "tile2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "tile3",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "tile4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "switch1",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "TOP:tile": 4,
+          "COMP:button": 1,
+          "DAT:text": 1,
+          "TOP:switch": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1,
+          "TOP:transform": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

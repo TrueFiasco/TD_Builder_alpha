@@ -1,0 +1,597 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\levelTOP_lossless.json",
+  "operator_type": "levelTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein6",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "level_black_bright_gamma",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp",
+            "blacklevel": 0.21,
+            "brightness1": 1.31,
+            "gamma1": 1.56
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein6",
+          "to": "level_black_bright_gamma",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "level_invert",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp",
+            "invert": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "level_invert",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "level_opacity",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein4",
+          "to": "level_opacity",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein5",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "level_remove_blue",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp"
+          }
+        },
+        {
+          "name": "level_remove_red_increase_blue",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowb": 0.364
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein5",
+          "to": "level_remove_blue",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein5",
+          "to": "level_remove_red_increase_blue",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:level": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "vertical"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "level_range",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 1,
+            "clampinput": "clamp",
+            "inlow": 0.5
+          }
+        },
+        {
+          "name": "level_range1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 1,
+            "clampinput": "clamp",
+            "inhigh": 0.5
+          }
+        },
+        {
+          "name": "level_range2",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 1,
+            "clampinput": "clamp",
+            "outlow": 0.5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "level_range",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "level_range1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "level_range2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:level": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "type": "vertical"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "level_low_red",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowr": 1
+          }
+        },
+        {
+          "name": "level_high_red",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "highr": 0.005
+          }
+        },
+        {
+          "name": "level_low_blue",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowb": 1
+          }
+        },
+        {
+          "name": "level_high_blue",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp"
+          }
+        },
+        {
+          "name": "level_low_green",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowg": 1
+          }
+        },
+        {
+          "name": "level_high_alpha",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp"
+          }
+        },
+        {
+          "name": "level_high_green",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp2",
+          "to": "level_low_red",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_high_red",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_low_blue",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_high_blue",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_low_green",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_high_alpha",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp2",
+          "to": "level_high_green",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:level": 7
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp3",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp3_keys",
+            "type": "vertical"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "level_stepping",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 3,
+            "clampinput": "clamp",
+            "stepping": "on",
+            "stepsize": 0.4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp3",
+          "to": "level_stepping",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "gamma1": 1.9,
+            "brightness2": 0.594
+          }
+        },
+        {
+          "name": "level2",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "clamp": "on",
+            "clamplow2": 0.259,
+            "clamphigh2": 0.366
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "level1",
+          "to": "level2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:level": 2,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

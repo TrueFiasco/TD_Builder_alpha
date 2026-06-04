@@ -1,0 +1,447 @@
+{
+  "operator": "Box_POP",
+  "family": "POP",
+  "td_create_name": "boxPOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 3,
+        "menuNames": [
+          "none",
+          "points",
+          "triangles",
+          "quads"
+        ],
+        "menuLabels": [
+          "None",
+          "Point Primitives",
+          "Triangles",
+          "Quadrilaterals"
+        ]
+      },
+      "default": "quads",
+      "page": "Box",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "uniquepoints": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Box",
+      "label": "Unique Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "modifybounds": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Box",
+      "label": "Modify Bounds",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Box",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizey": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Box",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Box",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "roundcorners": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Box",
+      "label": "Round Corners",
+      "readOnly": false,
+      "expression": null
+    },
+    "cornerradius": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Box",
+      "label": "Corner Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "depth": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Box",
+      "label": "Subdivisions Depth",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchoru": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Box",
+      "label": "Anchor U",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Box",
+      "label": "Anchor V",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorw": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Box",
+      "label": "Anchor W",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Box",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Box",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "menu",
+        "value": "vertNormals",
+        "menuIndex": 2,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals",
+          "primNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "vertNormals",
+      "page": "Box",
+      "label": "Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "menu",
+        "value": "vertNormals",
+        "menuIndex": 2,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex"
+        ]
+      },
+      "default": "vertNormals",
+      "page": "Box",
+      "label": "Texture Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "texmethod": {
+      "value": {
+        "type": "menu",
+        "value": "boxinside",
+        "menuIndex": 0,
+        "menuNames": [
+          "boxinside",
+          "faceinside",
+          "cubemapinside",
+          "boxoutside",
+          "faceoutside",
+          "cubemapoutside"
+        ],
+        "menuLabels": [
+          "Box Inside",
+          "Face Inside",
+          "Cube Map Inside",
+          "Box Outside",
+          "Face Outside",
+          "Cube Map Outside"
+        ]
+      },
+      "default": "boxinside",
+      "page": "Box",
+      "label": "Texture Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "extenduv": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Box",
+      "label": "Extend to Corner",
+      "readOnly": false,
+      "expression": null
+    },
+    "color": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "pointColor",
+          "vertColor",
+          "primColor"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "none",
+      "page": "Box",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

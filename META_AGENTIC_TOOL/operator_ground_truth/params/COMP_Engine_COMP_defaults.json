@@ -1,0 +1,732 @@
+{
+  "operator": "Engine_COMP",
+  "family": "COMP",
+  "td_create_name": "engineCOMP",
+  "param_count": 55,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Engine",
+      "label": "Tox File",
+      "readOnly": false,
+      "expression": null
+    },
+    "unload": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Engine",
+      "label": "Unload",
+      "readOnly": false,
+      "expression": null
+    },
+    "reload": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Engine",
+      "label": "Reload",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadoncrash": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Engine",
+      "label": "Reload on Crash",
+      "readOnly": false,
+      "expression": null
+    },
+    "assetpaths": {
+      "value": {
+        "type": "menu",
+        "value": "tox",
+        "menuIndex": 0,
+        "menuNames": [
+          "tox",
+          "toe"
+        ],
+        "menuLabels": [
+          "Relative to COMP File (.tox)",
+          "Relative to Project File (.toe)"
+        ]
+      },
+      "default": "tox",
+      "page": "Engine",
+      "label": "Asset Paths",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Engine",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "clock": {
+      "value": {
+        "type": "menu",
+        "value": "synced",
+        "menuIndex": 0,
+        "menuNames": [
+          "synced",
+          "independent"
+        ],
+        "menuLabels": [
+          "Synchronized",
+          "Independent"
+        ]
+      },
+      "default": "synced",
+      "page": "Tune",
+      "label": "Clock",
+      "readOnly": false,
+      "expression": null
+    },
+    "matchrate": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Tune",
+      "label": "Match Local Component Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "fps": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Tune",
+      "label": "Frames per Second",
+      "readOnly": false,
+      "expression": null
+    },
+    "wait": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Tune",
+      "label": "Wait for Render",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeout": {
+      "value": {
+        "type": "int",
+        "value": 100
+      },
+      "default": 100,
+      "page": "Tune",
+      "label": "Render Timeout",
+      "readOnly": false,
+      "expression": null
+    },
+    "inauto": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Tune",
+      "label": "In Buffer Auto",
+      "readOnly": false,
+      "expression": null
+    },
+    "inframes": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Tune",
+      "label": "In Buffer Frames",
+      "readOnly": false,
+      "expression": null
+    },
+    "outauto": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Tune",
+      "label": "Out Buffer Auto",
+      "readOnly": false,
+      "expression": null
+    },
+    "outframes": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Tune",
+      "label": "Out Buffer Frames",
+      "readOnly": false,
+      "expression": null
+    },
+    "preroll": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "InitStart",
+      "label": "Pre-Roll",
+      "readOnly": false,
+      "expression": null
+    },
+    "prerollunits": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 1,
+        "menuNames": [
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "InitStart",
+      "label": "Pre-Roll Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "readywhen": {
+      "value": {
+        "type": "menu",
+        "value": "loaded",
+        "menuIndex": 0,
+        "menuNames": [
+          "loaded",
+          "buffered",
+          "running"
+        ],
+        "menuLabels": [
+          "Component Loaded",
+          "Output Buffered",
+          "Component Running"
+        ]
+      },
+      "default": "loaded",
+      "page": "InitStart",
+      "label": "Ready when",
+      "readOnly": false,
+      "expression": null
+    },
+    "startoninit": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "InitStart",
+      "label": "Start when Initialized",
+      "readOnly": false,
+      "expression": null
+    },
+    "initialize": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "InitStart",
+      "label": "Initialize",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "InitStart",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "InitStart",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "gotodone": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "InitStart",
+      "label": "Go to Done",
+      "readOnly": false,
+      "expression": null
+    },
+    "ondone": {
+      "value": {
+        "type": "menu",
+        "value": "donothing",
+        "menuIndex": 0,
+        "menuNames": [
+          "donothing",
+          "pause",
+          "unload",
+          "reinit",
+          "restart",
+          "quit"
+        ],
+        "menuLabels": [
+          "Do Nothing",
+          "Pause",
+          "Unload",
+          "Re-Initialize",
+          "Re-Start",
+          "Quit Engine Process"
+        ]
+      },
+      "default": "donothing",
+      "page": "InitStart",
+      "label": "On Done",
+      "readOnly": false,
+      "expression": null
+    },
+    "oncompcreate": {
+      "value": {
+        "type": "menu",
+        "value": "initialize",
+        "menuIndex": 2,
+        "menuNames": [
+          "nothing",
+          "launch",
+          "initialize"
+        ],
+        "menuLabels": [
+          "Do Nothing",
+          "Launch Engine",
+          "Load and Initialize"
+        ]
+      },
+      "default": "initialize",
+      "page": "Advanced",
+      "label": "On Engine COMP Create",
+      "readOnly": false,
+      "expression": null
+    },
+    "launch": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Launch Engine Process",
+      "readOnly": false,
+      "expression": null
+    },
+    "quit": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Quit Engine Process",
+      "readOnly": false,
+      "expression": null
+    },
+    "allowui": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Advanced",
+      "label": "Allow UI",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Extensions",
+      "label": "Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0object": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extensions",
+      "label": "Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extensions",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0promote": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Promote",
+      "readOnly": false,
+      "expression": null
+    },
+    "reinitextensions": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Re-Init Extensions",
+      "readOnly": false,
+      "expression": null
+    },
+    "initextonstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Init Extensions on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "parentshortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Parent Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "opshortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Global OP Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Common",
+      "label": "Internal OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop0shortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop0op": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "opviewer": {
+      "value": {
+        "type": "op",
+        "value": "./out1"
+      },
+      "default": "./out1",
+      "page": "Common",
+      "label": "Operator Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "enablecloning": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Enable Cloning",
+      "readOnly": false,
+      "expression": null
+    },
+    "enablecloningpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Enable Cloning Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "clone": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Clone Master",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadondemand": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Load on Demand",
+      "readOnly": false,
+      "expression": null
+    },
+    "enableexternaltox": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Enable External .tox",
+      "readOnly": false,
+      "expression": null
+    },
+    "enableexternaltoxpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Enable External .tox Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "externaltox": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "External .tox Path",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadcustom": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Reload Custom Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadbuiltin": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Reload Built-In Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "savebackup": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Save Backup of External",
+      "readOnly": false,
+      "expression": null
+    },
+    "subcompname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Sub-Component to Load",
+      "readOnly": false,
+      "expression": null
+    },
+    "relpath": {
+      "value": {
+        "type": "menu",
+        "value": "inherit",
+        "menuIndex": 0,
+        "menuNames": [
+          "inherit",
+          "project",
+          "externaltox"
+        ],
+        "menuLabels": [
+          "Use Parent's Behavior",
+          "Relative to Project File (.toe)",
+          "Relative to External COMP File (.tox)"
+        ]
+      },
+      "default": "inherit",
+      "page": "Common",
+      "label": "Relative File Path Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,558 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\renderpickCHOP_lossless.json",
+  "operator_type": "renderpickCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 2,
+            "tz": 23,
+            "pz": -46,
+            "projection": "ortho",
+            "orthowidth": 16,
+            "aperture": 44.1,
+            "winrollpivot": "legacy",
+            "winsize": 0.457156
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "instancing": "on",
+            "instanceop": "instances_and_tex_coordinates/out1",
+            "instancetx": "p0",
+            "instancety": "p1",
+            "instancetz": "p2",
+            "instancerop": "rotation",
+            "instancery": "rotation",
+            "instancerottoforward": "posz",
+            "instancetexmode": "transform",
+            "instanceu": "tex0",
+            "instancev": "tex1",
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "rotation",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "MAT:constant",
+          "parameters": {
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "container1",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 1280,
+            "h": 720,
+            "top": "render1"
+          }
+        },
+        {
+          "name": "renderpick1",
+          "type": "CHOP:renderpick",
+          "parameters": {
+            "pageindex": 1,
+            "rendertop": "render1",
+            "callbacks": "renderpick1_callbacks",
+            "position": "no",
+            "path": "off",
+            "instanceid": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "renderpick1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "instances_and_tex_coordinates",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "renderpick_to_rotation_per_instance",
+          "type": "COMP:base",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "renderpick_to_rotation_per_instance/out1",
+          "to": "rotation",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "DAT:text": 2,
+          "TOP:render": 1,
+          "COMP:annotate": 1,
+          "CHOP:null": 1,
+          "MAT:constant": 1,
+          "COMP:container": 1,
+          "CHOP:renderpick": 1,
+          "TOP:moviefilein": 1,
+          "COMP:base": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "xord": "str",
+            "tz": 24,
+            "rx": -19,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 3,
+            "tx": -20,
+            "ty": 10,
+            "tz": 14,
+            "lookat": "geo_indicator",
+            "shadowtype": "hard2d",
+            "maxshadowsoftness": 0.303,
+            "shadowresolution1": 2048,
+            "shadowresolution2": 2048,
+            "orthowidth": 1,
+            "fov": 70,
+            "aperture": 44.1,
+            "far": 100
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "period": 12.3,
+            "harmon": 3,
+            "amp0": 1.3,
+            "combineattrscope": "P.y",
+            "computenormals": "on"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffr": 1,
+            "diffg": 1,
+            "diffb": 1
+          }
+        },
+        {
+          "name": "plane1",
+          "type": "POP:plane",
+          "parameters": {
+            "orient": "zx",
+            "sizeu": 20,
+            "sizev": 20,
+            "cols": 200,
+            "rows": 200
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "attconvert1",
+            "attribscope": "*"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0customname": "aaa",
+            "attr0value0": 0.3,
+            "attr0value3": 1,
+            "attr1name": "custom",
+            "attr1customname": "bbb",
+            "attr1type": "int",
+            "attr1numcomps": 2,
+            "attr1arraysize": 2,
+            "attr1value0": 22,
+            "attr1value1": 33,
+            "attr1value3": 1,
+            "attr2name": "custom",
+            "attr2customname": "ccc",
+            "attr2type": "float",
+            "attr2numcomps": 3,
+            "attr2isarray": "on",
+            "attr2arraysize": 3,
+            "attr2value0": 0.1,
+            "attr2value1": 0.2,
+            "attr2value2": 0.3,
+            "attr2value3": 1
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "Color.rgb"
+          }
+        },
+        {
+          "name": "attconvert1",
+          "type": "POP:attconvert",
+          "parameters": {
+            "convertop": "verttopoint",
+            "inputattrs": "Tex"
+          }
+        },
+        {
+          "name": "geo_terrain",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "renderPanel",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 1280,
+            "h": 720,
+            "top": "./bg"
+          }
+        },
+        {
+          "name": "renderpick1",
+          "type": "CHOP:renderpick",
+          "parameters": {
+            "pageindex": 1,
+            "rendertop": "render1",
+            "callbacks": "renderpick1_callbacks",
+            "position": "worldspace",
+            "normal": "sopspace",
+            "poppointattribs": "\"P Tex\"",
+            "customattrib1": "aaa",
+            "customattrib2": "bbb",
+            "customattrib2type": "int2",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "geo_indicator",
+          "type": "COMP:geo",
+          "parameters": {
+            "scale": 1.9,
+            "material": "./phong1"
+          }
+        },
+        {
+          "name": "renderpick1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "plane1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "attribute1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "attribute1",
+          "to": "attconvert1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 4,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:light": 1,
+          "POP:noise": 1,
+          "MAT:phong": 1,
+          "POP:plane": 1,
+          "CHOP:popto": 1,
+          "DAT:text": 2,
+          "TOP:render": 1,
+          "COMP:annotate": 1,
+          "POP:attribute": 1,
+          "POP:normalize": 1,
+          "POP:attconvert": 1,
+          "COMP:geo": 2,
+          "COMP:container": 1,
+          "CHOP:renderpick": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "box2",
+          "type": "POP:box",
+          "parameters": {}
+        },
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -4.08709,
+            "ty": 1.7932,
+            "tz": 2.25382,
+            "rx": 38.5064,
+            "ry": 54.8276,
+            "rz": 2.37144e-05,
+            "px": 4.08711,
+            "py": -1.79322,
+            "pz": -7.25378,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 5,
+            "instancerottoforward": "posz",
+            "material": "./phong1"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tx": -9.09632,
+            "ty": 2.56791,
+            "tz": 3.26536,
+            "rx": 38.1818,
+            "ry": 65.4546,
+            "rz": -9.45408e-05,
+            "px": 9.09632,
+            "py": -2.56791,
+            "pz": -13.2654,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "attribute1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "attribute1",
+          "type": "POP:attribute",
+          "parameters": {
+            "attr0customname": "MyCustomAttribute",
+            "attr0value3": 1
+          }
+        },
+        {
+          "name": "container1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 2,
+            "w": 1280,
+            "h": 720,
+            "top": "render1"
+          }
+        },
+        {
+          "name": "renderpick1",
+          "type": "CHOP:renderpick",
+          "parameters": {
+            "rendertop": "render1",
+            "callbacks": "renderpick1_callbacks",
+            "position": "no",
+            "path": "off",
+            "customattrib1": "MyCustomAttribute",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "renderpick1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box2",
+          "to": "attribute1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "POP:box": 1,
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "CHOP:lfo": 1,
+          "COMP:light": 1,
+          "DAT:popto": 1,
+          "DAT:text": 2,
+          "TOP:render": 1,
+          "COMP:annotate": 1,
+          "POP:attribute": 1,
+          "COMP:container": 1,
+          "CHOP:renderpick": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,511 @@
+{
+  "operator": "Import_Select_CHOP",
+  "family": "CHOP",
+  "td_create_name": "importselectCHOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "parent": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "General",
+      "label": "Import Parent",
+      "readOnly": false,
+      "expression": null
+    },
+    "taketype": {
+      "value": {
+        "type": "menu",
+        "value": "animation",
+        "menuIndex": 1,
+        "menuNames": [
+          "blendshapes",
+          "animation"
+        ],
+        "menuLabels": [
+          "Blend Shapes",
+          "Animation"
+        ]
+      },
+      "default": "animation",
+      "page": "General",
+      "label": "Take Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendshape": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "General",
+      "label": "Blend Shape",
+      "readOnly": false,
+      "expression": null
+    },
+    "reload": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "General",
+      "label": "Reload",
+      "readOnly": false,
+      "expression": null
+    },
+    "useparentanim": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Playback",
+      "label": "Use Parent Animation",
+      "readOnly": false,
+      "expression": null
+    },
+    "animation": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Playback",
+      "label": "Animation",
+      "readOnly": false,
+      "expression": null
+    },
+    "shiftanimationstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Shift Animation Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampleratemode": {
+      "value": {
+        "type": "menu",
+        "value": "filefps",
+        "menuIndex": 0,
+        "menuNames": [
+          "filefps",
+          "custom"
+        ],
+        "menuLabels": [
+          "File FPS",
+          "Custom"
+        ]
+      },
+      "default": "filefps",
+      "page": "Playback",
+      "label": "Sample Rate Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "samplerate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Playback",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "playmode": {
+      "value": {
+        "type": "menu",
+        "value": "sequential",
+        "menuIndex": 2,
+        "menuNames": [
+          "lockedtotimeline",
+          "specifyindex",
+          "sequential",
+          "outputfullrange"
+        ],
+        "menuLabels": [
+          "Locked to Timeline",
+          "Specify Index",
+          "Sequential",
+          "Output Full Range"
+        ]
+      },
+      "default": "sequential",
+      "page": "Playback",
+      "label": "Play Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Index",
+      "readOnly": false,
+      "expression": "me.time.frame"
+    },
+    "indexunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 0,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "frames",
+      "page": "Playback",
+      "label": "Index Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Playback",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "speed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Playback",
+      "label": "Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "trim": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Trim",
+      "readOnly": false,
+      "expression": null
+    },
+    "tstart": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Trim Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "tstartunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Trim Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "tend": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Playback",
+      "label": "Trim End",
+      "readOnly": false,
+      "expression": null
+    },
+    "tendunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Trim End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "cue": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Cue",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Playback",
+      "label": "Cue Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepoint": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Playback",
+      "label": "Cue Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepointunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 2,
+        "menuNames": [
+          "frames",
+          "seconds",
+          "fraction",
+          "indices"
+        ],
+        "menuLabels": [
+          "F",
+          "S",
+          "%",
+          "I"
+        ]
+      },
+      "default": "fraction",
+      "page": "Playback",
+      "label": "Cue Point Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "textendleft": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 1,
+        "menuNames": [
+          "hold",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "cycle",
+      "page": "Playback",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "textendright": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 1,
+        "menuNames": [
+          "hold",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "cycle",
+      "page": "Playback",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

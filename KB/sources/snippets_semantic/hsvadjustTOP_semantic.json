@@ -1,0 +1,230 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\hsvadjustTOP_lossless.json",
+  "operator_type": "hsvadjustTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "diff2",
+          "type": "TOP:diff",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "hsvadj2",
+          "type": "TOP:hsvadj",
+          "parameters": {
+            "huerange": 19,
+            "hueoffset": -237
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "TOP:analyze",
+          "parameters": {}
+        },
+        {
+          "name": "start_color",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "crop_red_drum_color",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.789,
+            "cropright": 0.801,
+            "cropbottom": 0.583,
+            "croptop": 0.603
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "hsvadj2",
+          "to": "diff2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "diff2",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "hsvadj2",
+          "to_input": "0"
+        },
+        {
+          "from": "crop_red_drum_color",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "start_color",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "crop_red_drum_color",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:diff": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 1,
+          "TOP:hsvadj": 1,
+          "TOP:analyze": 1,
+          "CHOP:null": 1,
+          "TOP:moviefilein": 1,
+          "TOP:crop": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "diff2",
+          "type": "TOP:diff",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "hsvadj2",
+          "type": "TOP:hsvadj",
+          "parameters": {
+            "huerange": 1,
+            "huefalloff": 65.5,
+            "saturationfalloff": 1,
+            "hueoffset": 81
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "TOP:analyze",
+          "parameters": {}
+        },
+        {
+          "name": "start_color",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "crop_red_flower",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.45,
+            "cropright": 0.51,
+            "cropbottom": 0.742,
+            "croptop": 0.795
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "hsvadj2",
+          "to": "diff2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "diff2",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "hsvadj2",
+          "to_input": "0"
+        },
+        {
+          "from": "crop_red_flower",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "start_color",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "crop_red_flower",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:diff": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 1,
+          "TOP:hsvadj": 1,
+          "TOP:analyze": 1,
+          "CHOP:null": 1,
+          "TOP:moviefilein": 1,
+          "TOP:crop": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

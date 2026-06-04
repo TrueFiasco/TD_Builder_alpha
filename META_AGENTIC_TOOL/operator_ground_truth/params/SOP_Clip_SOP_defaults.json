@@ -1,0 +1,129 @@
+{
+  "operator": "Clip_SOP",
+  "family": "SOP",
+  "td_create_name": "clipSOP",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Clip",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "clipop": {
+      "value": {
+        "type": "menu",
+        "value": "above",
+        "menuIndex": 0,
+        "menuNames": [
+          "above",
+          "below",
+          "both"
+        ],
+        "menuLabels": [
+          "Primitives Above the Plane",
+          "Primitives Below the Plane",
+          "All Primitives"
+        ]
+      },
+      "default": "above",
+      "page": "Clip",
+      "label": "Keep",
+      "readOnly": false,
+      "expression": null
+    },
+    "dist": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Clip",
+      "label": "Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Clip",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "diry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Clip",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "dirz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Clip",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "newg": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Clip",
+      "label": "Create Groups",
+      "readOnly": false,
+      "expression": null
+    },
+    "above": {
+      "value": {
+        "type": "string",
+        "value": "above_plane"
+      },
+      "default": "above_plane",
+      "page": "Clip",
+      "label": "Above Plane",
+      "readOnly": false,
+      "expression": null
+    },
+    "below": {
+      "value": {
+        "type": "string",
+        "value": "below_plane"
+      },
+      "default": "below_plane",
+      "page": "Clip",
+      "label": "Below Plane",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

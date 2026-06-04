@@ -1,0 +1,737 @@
+{
+  "operator": "Group_POP",
+  "family": "POP",
+  "td_create_name": "groupPOP",
+  "param_count": 53,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "grname": {
+      "value": {
+        "type": "string",
+        "value": "group1"
+      },
+      "default": "group1",
+      "page": "Create",
+      "label": "Group Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "entity": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 1,
+        "menuNames": [
+          "primitive",
+          "point"
+        ],
+        "menuLabels": [
+          "Primitives",
+          "Points"
+        ]
+      },
+      "default": "point",
+      "page": "Create",
+      "label": "Entity",
+      "readOnly": false,
+      "expression": null
+    },
+    "debugcolor": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Create",
+      "label": "Debug Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Attribute",
+      "label": "Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0combine": {
+      "value": {
+        "type": "menu",
+        "value": "or",
+        "menuIndex": 1,
+        "menuNames": [
+          "and",
+          "or",
+          "xor",
+          "nand",
+          "nor"
+        ],
+        "menuLabels": [
+          "And",
+          "Or",
+          "Exclusive Or",
+          "Not And",
+          "Not Or"
+        ]
+      },
+      "default": "or",
+      "page": "Attribute",
+      "label": "Combine",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0inattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attribute",
+      "label": "Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0func": {
+      "value": {
+        "type": "menu",
+        "value": "lt",
+        "menuIndex": 0,
+        "menuNames": [
+          "lt",
+          "lte",
+          "gt",
+          "gte",
+          "eq",
+          "ne"
+        ],
+        "menuLabels": [
+          "<",
+          "<=",
+          ">",
+          ">=",
+          "==",
+          "!="
+        ]
+      },
+      "default": "lt",
+      "page": "Attribute",
+      "label": "Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attribute",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0invert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Attribute",
+      "label": "Invert",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinenabled": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Thin",
+      "label": "Enabled",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinoutrange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Thin",
+      "label": "Thin Out Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinrangestart": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Thin",
+      "label": "Thin Range Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinrangelength": {
+      "value": {
+        "type": "int",
+        "value": 100
+      },
+      "default": 100,
+      "page": "Thin",
+      "label": "Thin Range Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinstep": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Thin",
+      "label": "Thin Step",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinrandom": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Thin",
+      "label": "Thin Random",
+      "readOnly": false,
+      "expression": null
+    },
+    "thinrandomseed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Thin",
+      "label": "Thin Random Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "thininvert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Thin",
+      "label": "Invert",
+      "readOnly": false,
+      "expression": null
+    },
+    "pattern": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Pattern",
+      "label": "Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "pattern0combine": {
+      "value": {
+        "type": "menu",
+        "value": "or",
+        "menuIndex": 1,
+        "menuNames": [
+          "and",
+          "or",
+          "xor",
+          "nand",
+          "nor"
+        ],
+        "menuLabels": [
+          "And",
+          "Or",
+          "Exclusive Or",
+          "Not And",
+          "Not Or"
+        ]
+      },
+      "default": "or",
+      "page": "Pattern",
+      "label": "Combine",
+      "readOnly": false,
+      "expression": null
+    },
+    "pattern0pattern": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Pattern",
+      "label": "Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "pattern0invert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Invert",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Group",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "group0combine": {
+      "value": {
+        "type": "menu",
+        "value": "or",
+        "menuIndex": 1,
+        "menuNames": [
+          "and",
+          "or",
+          "xor",
+          "nand",
+          "nor"
+        ],
+        "menuLabels": [
+          "And",
+          "Or",
+          "Exclusive Or",
+          "Not And",
+          "Not Or"
+        ]
+      },
+      "default": "or",
+      "page": "Group",
+      "label": "Combine",
+      "readOnly": false,
+      "expression": null
+    },
+    "group0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Group",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "group0invert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Group",
+      "label": "Invert",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Bounding",
+      "label": "Bound",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0enabled": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Bounding",
+      "label": "Enabled",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0combine": {
+      "value": {
+        "type": "menu",
+        "value": "or",
+        "menuIndex": 1,
+        "menuNames": [
+          "and",
+          "or",
+          "xor",
+          "nand",
+          "nor"
+        ],
+        "menuLabels": [
+          "And",
+          "Or",
+          "Exclusive Or",
+          "Not And",
+          "Not Or"
+        ]
+      },
+      "default": "or",
+      "page": "Bounding",
+      "label": "Combine",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0inattr": {
+      "value": {
+        "type": "string",
+        "value": "P"
+      },
+      "default": "P",
+      "page": "Bounding",
+      "label": "Position Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0type": {
+      "value": {
+        "type": "menu",
+        "value": "usebbox",
+        "menuIndex": 0,
+        "menuNames": [
+          "usebbox",
+          "usebsphere"
+        ],
+        "menuLabels": [
+          "Bounding Box",
+          "Bounding Sphere"
+        ]
+      },
+      "default": "usebbox",
+      "page": "Bounding",
+      "label": "Bounding Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0translatex": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0translatey": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0translatez": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0rotatex": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0rotatey": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0rotatez": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Bounding",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0scalex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0scaley": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0scalez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Bounding",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "bound0invert": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Bounding",
+      "label": "Invert",
+      "readOnly": false,
+      "expression": null
+    },
+    "cnvttype": {
+      "value": {
+        "type": "menu",
+        "value": "topoint",
+        "menuIndex": 0,
+        "menuNames": [
+          "topoint",
+          "toprim"
+        ],
+        "menuLabels": [
+          "Primitive to Point Group",
+          "Point to Primitive Group"
+        ]
+      },
+      "default": "topoint",
+      "page": "Edit",
+      "label": "Convert Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "cnvtgroup": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Edit",
+      "label": "Convert Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "cnvtname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Edit",
+      "label": "Convert Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "preserve": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Edit",
+      "label": "Preserve Original",
+      "readOnly": false,
+      "expression": null
+    },
+    "oldname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Edit",
+      "label": "Old Group Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "newname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Edit",
+      "label": "New Group Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "deletename": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Edit",
+      "label": "Delete Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

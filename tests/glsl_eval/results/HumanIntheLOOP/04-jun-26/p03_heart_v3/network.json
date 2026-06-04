@@ -1,0 +1,112 @@
+{
+  "case_id": "p03_heart_v3",
+  "build_path": "live via execute_python_script under /test/p03_heart_v3",
+  "resolution": [
+    1280,
+    1280
+  ],
+  "operators": [
+    {
+      "name": "shader_code",
+      "type": "textDAT",
+      "language": "glsl"
+    },
+    {
+      "name": "glsl1",
+      "type": "glslTOP",
+      "pixeldat": "shader_code",
+      "uniforms_vectors": [
+        {
+          "slot": 0,
+          "name": "clip_x",
+          "value": [
+            -2.0,
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 1,
+          "name": "clip_y",
+          "value": [
+            -2.0,
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 2,
+          "name": "clip_z",
+          "value": [
+            -2.0,
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 3,
+          "name": "heart_xform",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "slot": 4,
+          "name": "cam_xform",
+          "value": [
+            0.22,
+            0.62,
+            0.0,
+            40.0
+          ]
+        },
+        {
+          "slot": 5,
+          "name": "heart_phase",
+          "value": [
+            0.2533491551876068,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 6,
+          "name": "beat_amplitude",
+          "value": [
+            1.1,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "heart_phase_binding": "EXPRESSION op('lfo1')['chan1']"
+    },
+    {
+      "name": "glsl1_info",
+      "type": "infoDAT",
+      "op": "glsl1"
+    },
+    {
+      "name": "lfo1",
+      "type": "lfoCHOP",
+      "wavetype": "ramp",
+      "amp": 0.5,
+      "offset": 0.5,
+      "frequency": 1.1
+    }
+  ],
+  "perf_estimate": {
+    "res_1024_fps": 75.9,
+    "res_1280_fps": ">=40",
+    "res_1536_fps": 51.3,
+    "target_fps": 30
+  }
+}

@@ -1,0 +1,199 @@
+schema_version: '1.1'
+last_updated: '2025-12-16T16:50:21.628847'
+update_count: 12
+validated_against: td_universal_parsed.json
+note: Trimmed version - removed unused metadata fields
+operators:
+  CHOP:
+    analyze:
+      purpose: Extracts statistical features from channels (peaks, averages, RMS)
+        and outputs them as single-value channels. Converts time-varying signals into
+        summary numbers.
+      common_use_cases:
+      - Processed with trail, wave
+      - Outputs to math, trail
+      key_params:
+        function:
+        - minimum
+        - maximum
+        - rmspower
+        exportmethod:
+        - autoname
+      common_chains:
+      - CHOP:noise -> DAT:text -> CHOP:analyze
+      - CHOP:wave -> DAT:text -> CHOP:analyze
+      - CHOP:noise -> DAT:text -> CHOP:trail
+    audiofilein:
+      purpose: Loads audio from file and outputs as CHOP channels
+      common_use_cases:
+      - Audio source for reactive visuals
+    noise:
+      purpose: Generates procedural noise patterns as CHOP channels
+      common_use_cases:
+      - Various inputs
+      - Outputs to select, trail
+      key_params:
+        type:
+        - random
+        - brownian
+        timeslice:
+        - 'on'
+        startunit:
+        - samples
+        end:
+        - 9
+        endunit:
+        - samples
+        harmon:
+        - 10
+        rough:
+        - 1
+        numint:
+        - 1
+        constraint:
+        - start
+        constrstart:
+        - 5
+        constrend:
+        - 6
+        channelname:
+        - chan[1-5]
+      common_chains:
+      - DAT:text -> CHOP:select -> CHOP:select
+      - CHOP:null -> DAT:text -> CHOP:speed
+      - DAT:text -> CHOP:trail -> CHOP:noise
+    math:
+      purpose: Performs mathematical operations on CHOP channels
+      common_use_cases:
+      - Processed with constant, null
+      - Outputs to trail, math
+      key_params:
+        chopop:
+        - add
+        - mul
+        - sub
+        postop:
+        - negate
+        - root
+        preop:
+        - root
+        - square
+        - negate
+        chanop:
+        - add
+        - len
+        gain:
+        - 2
+        - 5
+        preoff:
+        - 5
+        - 1
+        postoff:
+        - 0.2
+        integer:
+        - round
+        torange1:
+        - 1
+        - 5
+        - 99
+        fromrange1:
+        - -1
+        fromrange2:
+        - 1
+        torange2:
+        - 10
+        - 6
+        - 100
+        scope:
+        - '"chan4 chan5"'
+        - chan[5-7]
+        - ty*
+      common_chains:
+      - DAT:text -> CHOP:constant -> CHOP:constant
+      - CHOP:lfo -> CHOP:math -> CHOP:null
+      - CHOP:noise -> CHOP:noise -> CHOP:noise
+    filter:
+      purpose: Smooths and filters CHOP channel values over time
+      common_use_cases:
+      - Processed with null, math
+      - Outputs to trail, math
+      key_params:
+        filter:
+        - Lowpass
+        - Highpass
+        - Bandpass
+        width:
+        - 0.5
+        - 5
+        - 0.1
+        speedcoeff:
+        - 0
+        timeslice:
+        - 'on'
+        type:
+        - box
+        - despike
+        - edge
+        filterpersample:
+        - 'on'
+        exporttable:
+        - filter1_export
+        - filter2_export
+      common_chains:
+      - CHOP:lfo -> CHOP:hold -> CHOP:merge
+      - CHOP:beat -> CHOP:math -> CHOP:noise
+      - CHOP:lfo -> CHOP:hold -> COMP:button
+  TOP:
+    noise:
+      purpose: Generates 2D procedural noise textures
+      common_use_cases:
+      - Background pattern generation
+    feedback:
+      purpose: Creates feedback loop with previous frame
+      common_use_cases:
+      - Processed with transform, constant
+      - Outputs to level, cross
+      key_params:
+        top:
+        - comp1
+        - null1
+      common_chains:
+      - CHOP:math -> TOP:null -> CHOP:null
+      - TOP:fit -> TOP:comp -> DAT:text
+      - TOP:fit -> TOP:blur -> TOP:comp
+    composite:
+      purpose: Combines multiple textures using blend modes
+      common_use_cases:
+      - Layer compositing
+  SOP:
+    grid:
+      purpose: Creates a grid of points/polygons
+      common_use_cases:
+      - Base geometry for instancing
+    sphere:
+      purpose: Creates a sphere geometry
+      common_use_cases:
+      - 3D object base
+    transform:
+      purpose: Transforms geometry (translate, rotate, scale)
+      common_use_cases:
+      - Position/orient geometry
+  DAT:
+    table:
+      purpose: Stores tabular data
+      common_use_cases:
+      - Configuration storage
+    text:
+      purpose: Stores text/code
+      common_use_cases:
+      - Python script storage
+  MAT:
+    phong:
+      purpose: Basic Phong shading material
+      common_use_cases:
+      - Standard 3D surface shading
+  COMP:
+    base:
+      purpose: Container component for organizing networks
+      common_use_cases:
+      - Modular network organization

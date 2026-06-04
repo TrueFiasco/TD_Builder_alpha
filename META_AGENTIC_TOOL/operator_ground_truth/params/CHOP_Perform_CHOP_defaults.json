@@ -1,0 +1,428 @@
+{
+  "operator": "Perform_CHOP",
+  "family": "CHOP",
+  "td_create_name": "performCHOP",
+  "param_count": 36,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 27,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "fps": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Perform",
+      "label": "Frames per Second",
+      "readOnly": false,
+      "expression": null
+    },
+    "msec": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Frame Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "cpumsec": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "CPU Frame Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "cook": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Cook",
+      "readOnly": false,
+      "expression": null
+    },
+    "droppedframes": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Dropped Frames",
+      "readOnly": false,
+      "expression": null
+    },
+    "mvreadahead": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Movie Read Ahead Misses",
+      "readOnly": false,
+      "expression": null
+    },
+    "gpumemused": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "GPU Mem Used (MB)",
+      "readOnly": false,
+      "expression": null
+    },
+    "totalgpumem": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Total GPU Mem (MB)",
+      "readOnly": false,
+      "expression": null
+    },
+    "activeops": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Total Active OPs",
+      "readOnly": false,
+      "expression": null
+    },
+    "deactivatedops": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Total Deactivated OP Calls",
+      "readOnly": false,
+      "expression": null
+    },
+    "totalops": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Total OPs",
+      "readOnly": false,
+      "expression": null
+    },
+    "cpumemused": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "CPU Mem Used (MB)",
+      "readOnly": false,
+      "expression": null
+    },
+    "cookstate": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Cook State",
+      "readOnly": false,
+      "expression": null
+    },
+    "cookrealtime": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Cook Realtime",
+      "readOnly": false,
+      "expression": null
+    },
+    "cookrate": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Cookrate",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslicestep": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Time Slice Step",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslicemsec": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Time Slice Milliseconds",
+      "readOnly": false,
+      "expression": null
+    },
+    "performmode": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Perform Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "performfocus": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Perform Window Focus",
+      "readOnly": false,
+      "expression": null
+    },
+    "gputemp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "GPU Temperature (Slow)",
+      "readOnly": false,
+      "expression": null
+    },
+    "aclinestatus": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "AC Line Status",
+      "readOnly": false,
+      "expression": null
+    },
+    "batterycharging": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Battery Charging",
+      "readOnly": false,
+      "expression": null
+    },
+    "batterylife": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Battery Life",
+      "readOnly": false,
+      "expression": null
+    },
+    "batterytime": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Battery Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "activeexpressions": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Active Expressions",
+      "readOnly": false,
+      "expression": null
+    },
+    "optimizedexpression": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Optimized Expressions",
+      "readOnly": false,
+      "expression": null
+    },
+    "cachedexpressions": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Perform",
+      "label": "Expressions Using Cache",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

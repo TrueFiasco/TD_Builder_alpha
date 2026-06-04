@@ -1,0 +1,462 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\panelCHOP_lossless.json",
+  "operator_type": "panelCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "panel_button",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"select state rollu rollv rollover\"",
+            "exporttable": "panel1_export"
+          }
+        },
+        {
+          "name": "panel1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "constant_state",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant_rollover",
+          "type": "TOP:constant",
+          "parameters": {}
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "CHOP:panel": 1,
+          "DAT:table": 1,
+          "TOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "slidertype": "slideruv",
+            "value0": 0.59596,
+            "value1": 0.575758,
+            "w": 100,
+            "h": 100,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "panel_slider",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"u v select lselect mselect rselect ctrl alt shift\"",
+            "exporttable": "panel2_export"
+          }
+        },
+        {
+          "name": "panel2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "constant_left_click",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant_right_click",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant_middle_click",
+          "type": "TOP:constant",
+          "parameters": {}
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:slider": 1,
+          "CHOP:panel": 1,
+          "DAT:table": 1,
+          "TOP:constant": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "field1",
+          "type": "COMP:field",
+          "parameters": {
+            "w": 100,
+            "h": 20,
+            "top": "./text",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "panel_field",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"focus select\"",
+            "exporttable": "panel3_export"
+          }
+        },
+        {
+          "name": "field_output",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "panel3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "constant_field_focus",
+          "type": "TOP:constant",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "field1/out1",
+          "to": "field_output",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:field": 1,
+          "DAT:text": 1,
+          "CHOP:panel": 1,
+          "DAT:null": 1,
+          "DAT:table": 1,
+          "TOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sliderXY",
+          "type": "COMP:slider",
+          "parameters": {
+            "slidertype": "slideruv",
+            "value0": 0.59596,
+            "value1": 0.575758,
+            "w": 100,
+            "h": 100,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sliderXY/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -0.5,
+            "torange2": 0.5,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "circle",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.05,
+            "radiusy": 0.05,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "panel2",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"rollu rollv\""
+          }
+        },
+        {
+          "name": "panel3",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "rollover",
+            "exporttable": "panel3_export1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "containerXY",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 100,
+            "h": 100,
+            "bgalpha": 1,
+            "top": "circle",
+            "topsmoothness": "mipmap",
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 1,
+            "cols": 5,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "panel3_export1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "rollover_indicator",
+          "type": "TOP:constant",
+          "parameters": {
+            "resolutionw": 8,
+            "resolutionh": 8
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "panel2",
+          "to": "math2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:math": 1,
+          "TOP:circle": 1,
+          "CHOP:panel": 2,
+          "DAT:text": 1,
+          "COMP:container": 1,
+          "DAT:table": 2,
+          "TOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "panel4",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"insideu insidev\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.07,
+            "radiusy": 0.07,
+            "borderr": 1,
+            "borderg": 1,
+            "borderb": 1,
+            "borderwidth": 0.0201,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic",
+            "resolutionw": 400,
+            "resolutionh": 300,
+            "outputaspect": "resolution",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "containerXY",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 2,
+            "w": 100,
+            "h": 75,
+            "bgalpha": 1,
+            "top": "circle1",
+            "topsmoothness": "mipmap",
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:panel": 1,
+          "DAT:text": 1,
+          "TOP:circle": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

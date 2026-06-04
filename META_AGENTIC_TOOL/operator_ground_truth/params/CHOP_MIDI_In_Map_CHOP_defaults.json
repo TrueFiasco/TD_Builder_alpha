@@ -1,0 +1,271 @@
+{
+  "operator": "MIDI_In_Map_CHOP",
+  "family": "CHOP",
+  "td_create_name": "midiinmapCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "device": {
+      "value": {
+        "type": "op",
+        "value": "/local/midi/device"
+      },
+      "default": "/local/midi/device",
+      "page": "MidiInMap",
+      "label": "Device Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "id": {
+      "value": {
+        "type": "string",
+        "value": "1"
+      },
+      "default": "1",
+      "page": "MidiInMap",
+      "label": "Device ID",
+      "readOnly": false,
+      "expression": null
+    },
+    "sliders": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "MidiInMap",
+      "label": "Sliders",
+      "readOnly": false,
+      "expression": null
+    },
+    "buttons": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "MidiInMap",
+      "label": "Buttons",
+      "readOnly": false,
+      "expression": null
+    },
+    "bvelocity": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "MidiInMap",
+      "label": "Include Velocity in Buttons",
+      "readOnly": false,
+      "expression": null
+    },
+    "squeue": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "MidiInMap",
+      "label": "Queue Slider Events",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Channel",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "left": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "hold",
+      "page": "Channel",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "right": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "hold",
+      "page": "Channel",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "defval": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Channel",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

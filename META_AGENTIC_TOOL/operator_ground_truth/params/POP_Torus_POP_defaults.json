@@ -1,0 +1,465 @@
+{
+  "operator": "Torus_POP",
+  "family": "POP",
+  "td_create_name": "torusPOP",
+  "param_count": 32,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 7,
+        "menuNames": [
+          "none",
+          "points",
+          "rows",
+          "cols",
+          "rowcol",
+          "triangles",
+          "alttriangles",
+          "quads"
+        ],
+        "menuLabels": [
+          "None",
+          "Point Primitives",
+          "Rows",
+          "Columns",
+          "Rows and Columns",
+          "Triangles",
+          "Alternating Triangles",
+          "Quadrilaterals"
+        ]
+      },
+      "default": "quads",
+      "page": "Torus",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "linetype": {
+      "value": {
+        "type": "menu",
+        "value": "linestrip",
+        "menuIndex": 0,
+        "menuNames": [
+          "linestrip",
+          "lines"
+        ],
+        "menuLabels": [
+          "Line Strip",
+          "Lines"
+        ]
+      },
+      "default": "linestrip",
+      "page": "Torus",
+      "label": "Line Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "orient": {
+      "value": {
+        "type": "menu",
+        "value": "y",
+        "menuIndex": 1,
+        "menuNames": [
+          "x",
+          "y",
+          "z"
+        ],
+        "menuLabels": [
+          "X Axis",
+          "Y Axis",
+          "Z Axis"
+        ]
+      },
+      "default": "y",
+      "page": "Torus",
+      "label": "Orientation",
+      "readOnly": false,
+      "expression": null
+    },
+    "modifybounds": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Torus",
+      "label": "Modify Bounds",
+      "readOnly": false,
+      "expression": null
+    },
+    "radx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Torus",
+      "label": "Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "rady": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Torus",
+      "label": "Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "cols": {
+      "value": {
+        "type": "int",
+        "value": 40
+      },
+      "default": 40,
+      "page": "Torus",
+      "label": "Columns",
+      "readOnly": false,
+      "expression": null
+    },
+    "rows": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Torus",
+      "label": "Rows",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchoru": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Torus",
+      "label": "Anchor U",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Torus",
+      "label": "Anchor V",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorw": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Torus",
+      "label": "Anchor W",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Torus",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Torus",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "menu",
+        "value": "pointNormals",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex"
+        ]
+      },
+      "default": "pointNormals",
+      "page": "Torus",
+      "label": "Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "menu",
+        "value": "vertNormals",
+        "menuIndex": 2,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex"
+        ]
+      },
+      "default": "vertNormals",
+      "page": "Torus",
+      "label": "Texture Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "closedu": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Detail",
+      "label": "U Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "closedv": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Detail",
+      "label": "V Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "beginangleu": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Detail",
+      "label": "Angle U",
+      "readOnly": false,
+      "expression": null
+    },
+    "endangleu": {
+      "value": {
+        "type": "float",
+        "value": 330.0
+      },
+      "default": 330.0,
+      "page": "Detail",
+      "label": "Angle U",
+      "readOnly": false,
+      "expression": null
+    },
+    "beginanglev": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Detail",
+      "label": "Angle V",
+      "readOnly": false,
+      "expression": null
+    },
+    "endanglev": {
+      "value": {
+        "type": "float",
+        "value": 330.0
+      },
+      "default": 330.0,
+      "page": "Detail",
+      "label": "Angle V",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

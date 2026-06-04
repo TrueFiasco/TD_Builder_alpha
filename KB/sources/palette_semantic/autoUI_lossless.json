@@ -1,0 +1,377 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\UI\\Basic Widgets\\Tools\\autoUI.tox.dir",
+    "build_version": "099",
+    "build_date": "Wed Sep 30 16:04:50 2020",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2020.42160"
+  },
+  "operators": {
+    "/autoUI": {
+      "name": "autoUI",
+      "path": "/autoUI",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        310.678,
+        302.978,
+        0.708889
+      ],
+      "tile_pos": [
+        0,
+        -200,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "extension1": "op('./AutoUIExt').module.AutoUIExt(me)",
+        "promoteextension1": "on",
+        "externaltox": "autoUI.tox",
+        "reloadtoxonstart": "off",
+        "reloadcustom": "off",
+        "reloadbuiltin": "off",
+        "Ui": {
+          "64": "ui"
+        },
+        "Package": {
+          "209": "\"\" \"op.TDUI1 if 'TDUI1' in op else ''\""
+        },
+        "Autouidat": {
+          "113": "me.WidgetKit.op(' op.TDBasicWidgets.op('autoUI')"
+        },
+        "Widgetkit": {
+          "192": "TDWidgetKit"
+        },
+        "Usewidgetpackage": {
+          "192": "off"
+        },
+        "Widgetcontainer": {
+          "113": "op.TDBasicWidgets op.TDBasicWidgets"
+        },
+        "Version": {
+          "320": "0.4.7"
+        }
+      },
+      "parent": null,
+      "children": [
+        "parexec1",
+        "AutoUIExt",
+        "docsHelper"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "timestamp": {
+          "content": "132131324781914414\n",
+          "is_binary": false
+        },
+        "cparm": {
+          "content": "?\npages 2 \"Auto UI\" Widgets\n-1374678779 Generateui \"Generate UI\" 1 1 0 0 1 1 1 0 0 \"\" \"Auto UI\" 2\n772804877 Customcomp \"Custom COMP\" 1 1 0 0 1 1 1 0 0 .. \"Auto UI\" 4\n-1374678771 Ui UI 1 1 0 0 1 1 1 0 0 \"\" \"Auto UI\" 3\n772804877 Package \"Widget Package\" 1 1 0 0 1 1 1 0 0 /TDUI1 Widgets 1\n-1374678773 Autouidat \"Auto UI DAT\" 1 1 0 0 1 1 1 0 0 \"\" Widgets 4\n1846546703 Widgetkit \"Widget Kit\" 1 1 0 0 1 1 1 0 0 \"\" Widgets 4097 1 TDWidgetKit TDWidgetKit 2 2 \"me.par.Package.eval().KitMenu if me.par.Package.eval() else me.EmptyMenu\"\n772804882 Parameterscope \"Parameter Scope\" 1 1 0 0 1 1 1 0 0 * \"Auto UI\" 1 1 * * 8\n-1374678781 Header Header 1 1 0 0 1 1 1 0 1 \"\" \"Auto UI\" 5\n772804867 Pagetabs \"Page Tabs\" 1 1 0 0 1 1 1 0 1 \"\" \"Auto UI\" 6\n-1374678781 Usewidgetpackage \"Use Widget Package\" 1 1 0 0 1 1 1 0 0 \"\" Widgets 0\n772804877 Widgetcontainer \"Widget Container\" 1 1 0 0 1 1 1 0 0 \"\" Widgets 6\n772804868 Version Version 1 1 0 0 1 1 1 0 0 \"\" \"Auto UI\" 1\n772804882 Pagescope \"Page Scope\" 1 1 0 0 1 1 1 0 0 * \"Auto UI\" 1 1 * * 7\n-1374678779 Help Help 1 1 0 0 1 1 1 0 0 \"\" \"Auto UI\" 0\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n4\nscreenw 400\nscreenh 300\nscreenwm 400\nscreenhm 300\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/autoUI/parexec1": {
+      "name": "parexec1",
+      "path": "/autoUI/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": "*",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/autoUI",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHyIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojIAojIE1ha2Ugc3VyZSB0aGUgY29ycmVzcG9uZGluZyB0b2dnbGUgaXMgZW5hYmxlZCBpbiB0aGUgUGFyYW1ldGVyIEV4ZWN1dGUgREFULgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCBwcmV2KToKCWV4dC5BdXRvVUlFeHQub25QYXJWYWx1ZUNoYW5nZShwYXIsIHByZXYpCgpkZWYgb25QdWxzZShwYXIpOgoJZXh0LkF1dG9VSUV4dC5vblBhclB1bHNlKHBhcikKCmRlZiBvbkV4cHJlc3Npb25DaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgb25FeHBvcnRDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgb25FbmFibGVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgb25Nb2RlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/autoUI/AutoUIExt": {
+      "name": "AutoUIExt",
+      "path": "/autoUI/AutoUIExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/autoUI",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000)Y\"\"\"\nHelp: search \"Extensions\" in wiki\n\"\"\"\n\nTDF = op.TDModules.mod.TDFunctions\npopDialog = op.TDResources.op('popDialog')\n\nclass AutoUIExt:\n\t\"\"\"\n\tAutoUIExt description\n\t\"\"\"\n\tdef __init__(self, ownerComp):\n\t\tself.ownerComp = ownerComp\n\t\tself.widgetTable = ownerComp.op('widgets')\n\t\tself.uiDict = None\n\t\tself.checkForUIDAT(raiseException=False)\n\n\tdef openShortcutDialog(self):\n\t\tpopDialog.OpenDefault\\\n\t\t\t\t(\"Enter a parent shortcut for \" + self.CustomComp.name,\n\t\t\t\t\t   \"Missing Parent Shortcut\",\n\t\t\t\t\t   [\"Apply\", \"Skip\", \"Cancel\"],\n\t\t\t\t\t   self.handleShortcutDialog,\n\t\t\t\t\t   textEntry = \"Tox\",\n\t\t\t\t\t   escButton=3, enterButton=1)\n\n\tdef handleShortcutDialog(self, info):\n\t\tif info['button'] == 'Cancel':\n\t\t\treturn\n\t\telif info['button'] == 'Skip':\n\t\t\tself.GenerateUI(shortcutDialog=False)\n\t\telif info['button'] == 'Apply':\n\t\t\tif not info['enteredText']:\n\t\t\t\tself.openShortcutDialog()\n\t\t\t\treturn\n\t\t\telse:\n\t\t\t\tself.CustomComp.par.parentshortcut = \\\n\t\t\t\t\t\t\t\t\t\t\ttdu.legalName(info['enteredText'])\n\t\t\t\tself.GenerateUI()\n\n\tdef GenerateUI(self, customComp=None, ui=None, shortcutDialog=True):\n\t\tself.checkForUIDAT()\n\t\tif customComp is None:\n\t\t\tcustomComp = self.CustomComp\n\t\tif not customComp or customComp == root:\n\t\t\terror = \"Invalid Auto UI custom component.\"\n\t\t\tpopDialog.OpenDefault(error, 'Invalid Component')\n\t\t\tself.ownerComp.addScriptError(error)\n\t\t\traise Exception(error)\n\n\t\tself.ownerComp.clearScriptErrors()\n\t\tself.uiDict = self.buildUIDict()\n\n\t\tif not customComp.par.parentshortcut and shortcutDialog:\n\t\t\tself.openShortcutDialog()\n\t\t\treturn\n\t\tif ui is None:\n\t\t\tui = self.ownerComp.par.Ui.eval()\n\t\tself.uiDict = self.buildUIDict()\n\t\t# if self.ownerComp.par.Ui:\n\t\t# \tself.ownerComp.par.Ui.eval().destroy()\n\t\t# \treturn\n\n\t\twidgetParInfo = {}\n\t\t# set up ui layout\n\t\tif ui:\n\t\t\tif ui == op('/ui'):\n\t\t\t\terror = \"Invalid Auto UI target: /ui\"\n\t\t\t\tself.ownerComp.addScriptError(error)\n\t\t\t\traise Exception(error)\n\t\t\t# get all widget parameters\n\t\t\tfor widget in ui.findChildren(type=widgetCOMP):\n\t\t\t\twidgetParInfo[widget.path] = TDF.getParInfo(widget)\n\t\t\t# clear out ui\n\t\t\tfor o in ui.children:\n\t\t\t\to.destroy()\n\t\telse:\n\t\t\tif self.ownerComp.par.Ui.val \\\n\t\t\t\t\t\t\tand self.ownerComp.par.Ui.mode == ParMode.CONSTANT:\n\t\t\t\tname = self.ownerComp.par.Ui.val\n\t\t\telse:\n\t\t\t\tname = 'ui'\n\t\t\ttry:\n\t\t\t\tui = customComp.copy(self.autoWidget('*Layout'), name=name)\n\t\t\t\tui.par.Widgetmode = 'interact'\n\t\t\t\tui.par.Popuphelp = ''\n\t\t\t\tui.par.stdswitcher = 8\n\t\t\texcept:\n\t\t\t\tui = customComp.create(containerCOMP, name)\n\t\t\t\tui.viewer = True\n\t\t\tself.ownerComp.par.Ui = ui\n\t\t\tui.nodeX = self.ownerComp.nodeX + 200\n\t\t\tui.nodeY = self.ownerComp.nodeY\n\t\t\tui.par.phscrollbar = 'auto'\n\t\t\tui.par.pvscrollbar = 'auto'\n\t\t\tui.par.align = 'verttb'\n\t\t\tif isinstance(customComp, PanelCOMP):\n\t\t\t\tui.par.hmode = 'fill'\n\t\t\t\tui.par.vmode = 'fill'\n\t\t\telse:\n\t\t\t\tui.par.hmode = 'fixed'\n\t\t\t\tui.par.vmode = 'fixed'\n\t\t\t\tui.par.sizefromwindow = True\n\t\t\t\tui.par.vieweraspect = 'unconstrained'\n\n\t\t# create parList - list of first par in every tuplet\n\t\tpageList = tdu.match( self.ownerComp.par.Pagescope.eval(),\n\t\t\t\t\t\t\t  [p.name for p in customComp.customPages])\n\t\tparList = customComp.pars(self.ownerComp.par.Parameterscope.eval())\n\t\t# if not self.ownerComp.par.Builtinpars:\n\n\t\t# get first par in tuplet only, and only chosen pages\n\t\tparList = [p for p in parList if p.isCustom and\n\t\t\t\t   \t\tp.name == p.tuplet[0].name and p.page in pageList]\n\n\t\t# header\n\t\tif self.ownerComp.par.Header:\n\t\t\twidget = self.addWidget('*Header', customComp=customComp, ui=ui)\n\t\t\twidget.par.Headerlabel = customComp.name\n\t\t\twidget.par.Popuphelp = ''\n\t\t\twidget.par.alignorder = -2\n\t\t\twidget.nodeX = 0\n\t\t\twidget.nodeY = 400\n\n\t\t#pages\n\t\tif self.ownerComp.par.Pagetabs and len(customComp.customPages) > 1:\n\t\t\tpageWidget = self.addWidget('*Pages', customComp=customComp, ui=ui)\n\t\t\tpages = []\n\t\t\tfor p in parList:\n\t\t\t\tif p.page not in pages:\n\t\t\t\t\tpages.append(p.page)\n\t\t\tpageWidget.par.Popuphelp = ''\n\t\t\tpageWidget.par.alignorder = -1\n\t\t\tpageWidget.par.Menunames = ''\n\t\t\tpageWidget.par.bgcolorr = pageWidget.par.bgcolorg = \\\n\t\t\t\t\t\t\t\t\t\t\t\tpageWidget.par.bgcolorb = 0.1\n\t\t\tpageWidget.nodeX = 0\n\t\t\tpageWidget.nodeY = -200\n\n\t\t\tfor page in pages:\n\t\t\t\tif isinstance(ui, widgetCOMP):\n\t\t\t\t\tpageLayout = self.addWidget('*Layout', name=page.name,\n\t\t\t\t\t\t\t\t\t\t\t\tcustomComp=customComp, ui=ui)\n\t\t\t\t\tpageLayout.par.Popuphelp = ''\n\t\t\t\telse:\n\t\t\t\t\tpageLayout = ui.create(containerCOMP, 'page1')\n\t\t\t\t\tpageLayout.viewer = True\n\t\t\t\t\tpageLayout.nodeX = 200 * (pageLayout.digits - 1)\n\t\t\t\t\tpageLayout.nodeY = 0\n\n\n\t\t\t\tpageLayout.par.hmode = 'fill'\n\t\t\t\tpageLayout.par.vmode = 'fill'\n\t\t\t\tpageLayout.par.align = 'verttb'\n\t\t\t\tpageLayout.par.phscrollbar = 'auto'\n\t\t\t\tpageLayout.par.pvscrollbar = 'auto'\n\t\t\t\tpageLayout.par.display.expr = \"op('\" + pageWidget.name + \\\n\t\t\t\t\t\t\t\"').par.Value0.eval() == me.name\"\n\t\t\t\tif pageWidget.par.Menunames:\n\t\t\t\t\tpageWidget.par.Menunames = pageWidget.par.Menunames + ' ' +\\\n\t\t\t\t\t\t\t\t\t\t\t   pageLayout.name\n\t\t\t\t\tpageWidget.par.Menulabels = pageWidget.par.Menulabels + ' '\\\n\t\t\t\t\t\t\t\t\t\t\t\t+ page.name\n\t\t\t\telse:\n\t\t\t\t\tpageWidget.par.Menunames = pageLayout.name\n\t\t\t\t\tpageWidget.par.Menulabels = page.name\n\n\t\t\t\t#pars in pages\n\t\t\t\tfor i, p in enumerate([p for p in parList if p.page == page]):\n\t\t\t\t\twidget = self.addWidget(p, p.name, pageLayout,\n\t\t\t\t\t\t\t\t\t\t\tcustomComp=customComp, ui=ui)\n\t\t\t\t\twidget.par.alignorder = i\n\t\t\t\t\twidget.nodeX = 0\n\t\t\t\t\twidget.nodeY = i * -200\n\t\telse:\n\t\t\tfor i, p in enumerate(parList):\n\t\t\t\twidget = self.addWidget(p, p.name, customComp=customComp, ui=ui)\n\t\t\t\twidget.par.alignorder = i\n\t\t\t\twidget.nodeX = 0\n\t\t\t\twidget.nodeY = i * -200\n\t\tfor widget in ui.findChildren(type=widgetCOMP):\n\t\t\tif widget.path in widgetParInfo:\n\t\t\t\tTDF.applyParInfo(widget, widgetParInfo[widget.path])\n\n\t@staticmethod\n\tdef widgetKey(par):\n\t\tif Page.styles[par.style].sizeable:\n\t\t\treturn par.style + (' ' + str(len(par.tuplet)) \\\n\t\t\t\t\t\t\t\t\t\t\t\tif len(par.tuplet) > 1 else '')\n\t\telse:\n\t\t\treturn par.style\n\n\tdef addWidget(self, parOrKey, name=None, pageLayout=None, par=None,\n\t\t\t\t  customComp=None, ui=None):\n\t\tif customComp is None:\n\t\t\tcustomComp = self.CustomComp\n\t\tif ui is None:\n\t\t\tui = self.ownerComp.par.Ui.eval()\n\t\tif ui is None:\n\t\t\traise Exception('addWidget - no UI found')\n\n\t\t# key\n\t\tif isinstance(parOrKey, str):\n\t\t\twidgetKey = parOrKey\n\t\t\tpar = None\n\t\telse:\n\t\t\twidgetKey = self.widgetKey(parOrKey)\n\t\t\tpar = parOrKey\n\n\t\t# generate widget\n\t\twidgetSource = self.autoWidget(widgetKey)\n\t\tif widgetSource is None:\n\t\t\tprint(\"addWidget error: widget not found for\", parOrKey,\n\t\t\t\t\t\t\t\t\t\t\t  \"(\" + self.ownerComp.path + \")\" )\n\t\t\treturn\n\t\tif pageLayout is not None:\n\t\t\twidget = pageLayout.copy(widgetSource, name=par.tupletName\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tif par else name)\n\t\t\tif isinstance(ui, widgetCOMP):\n\t\t\t\tpageLayout.AddWidget(widget, customComp=customComp, ui=ui)\n\t\telse:\n\t\t\twidget = ui.copy(widgetSource, name=name)\n\t\t\tif isinstance(ui, widgetCOMP):\n\t\t\t\tui.AddWidget(widget, customComp=customComp, ui=ui)\n\t\t# set up widget\n\t\twidget.par.hmode = 'fill'\n\t\twidget.par.vmode = 'constant'\n\t\twidget.par.Popuphelp = ''\n\t\tif par is not None:\n\t\t\twidget.par.Widgetlabel = par.label\n\t\t\tif par.isMenu and hasattr(widget.par, 'Menunames'):\n\t\t\t\twidget.par.Menunames.expr = 'me.par.Value0.bindMaster.menuNames'\n\t\t\tif par.isMenu and hasattr(widget.par, 'Menulabels'):\n\t\t\t\twidget.par.Menulabels.expr = \\\n\t\t\t\t\t\t\t\t\t\t'me.par.Value0.bindMaster.menuLabels'\n\t\t\tsuffixes = Page.styles[par.style].suffixes\n\t\t\tnumValues = 0\n\t\t\tfor v in range(4):\n\t\t\t\tif getattr(widget.par, 'Value' + str(v), None) is not None:\n\t\t\t\t\tnumValues += 1\n\t\t\tfor v in range(numValues):\n\t\t\t\tvaluePar = getattr(widget.par, 'Value' + str(v), None)\n\t\t\t\tif valuePar is not None:\n\t\t\t\t\tvaluePar.bindExpr = TDF.getShortcutPath(widget,\n\t\t\t\t\t\t\tcustomComp) + '.par.' + par.tuplet[v].name\n\t\t\t\t\tsetattr(widget.par, 'Valname' + str(v),\n\t\t\t\t\t\t\tpar.label + (' ' + str(v) if numValues > 1 else ''))\n\t\t\t\t\tmatchProps = ['min', 'max', 'normMin', 'normMax',\n\t\t\t\t\t\t\t\t  'clampMin', 'clampMax', 'default']\n\t\t\t\t\tfor prop in matchProps:\n\t\t\t\t\t\tsetattr(valuePar, prop, getattr(par.tuplet[v], prop))\n\t\t\tif suffixes[0] and suffixes[0] != '1':\n\t\t\t\tfor i, suffix in enumerate(suffixes):\n\t\t\t\t\tnamePar = getattr(widget.par, 'Valname' + str(i), None)\n\t\t\t\t\tif namePar is not None:\n\t\t\t\t\t\tnamePar.val = suffix.capitalize()\n\t\t\twidgetSettings = self.autoWidgetSettings(widgetKey)\n\t\t\tfor p, e in widgetSettings.items():\n\t\t\t\tgetattr(widget.par, p).val = eval(e)\n\n\t\treturn widget\n\n\t@property\n\tdef CustomComp(self):\n\t\treturn self.ownerComp.par.Customcomp.eval()\n\n\t@property\n\tdef Package(self):\n\t\treturn self.ownerComp.par.Package.eval()\n\n\t@property\n\tdef WidgetKit(self):\n\t\treturn self.ownerComp.par.Package.eval().Kit(\n\t\t\t\tTDF.getMenuLabel(self.ownerComp.par.Widgetkit))\n\n\t@property\n\tdef EmptyMenu(self):\n\t\treturn TDF.parMenu([])\n\n\n\tdef autoWidget(self, key):\n\t\tif self.uiDict is None:\n\t\t\tself.uiDict = self.buildUIDict()\n\t\treturn self.ownerComp.par.Widgetcontainer.eval().op(self.uiDict[key][0])\n\n\tdef autoWidgetSettings(self, key):\n\t\tif self.uiDict is None:\n\t\t\tself.uiDict = self.buildUIDict()\n\t\treturn self.uiDict[key][1]\n\n\tdef checkForUIDAT(self, raiseException=True):\n\t\ttry:\n\t\t\tuiDAT = self.ownerComp.par.Autouidat.eval()\n\t\texcept:\n\t\t\tuiDAT = None\n\t\tif not uiDAT:\n\t\t\tmessage = \"AutoUI requires a widget package. For \"\\\n\t\t\t\t\t\t\t\t  \"standard usage, add Palette> UI>\\n\"\\\n\t\t\t\t\t\t\t\t  \"Basic Widgets> Package> basicWidgets to \"\\\n\t\t\t\t\t\t\t\t  \"project.\"\n\t\t\tpopDialog.OpenDefault(message, \"Widget Package Required\")\n\t\t\tif raiseException:\n\t\t\t\traise Exception(message)\n\t\t\telse:\n\t\t\t\tprint(message)\n\t\treturn uiDAT\n\n\tdef buildUIDict(self):\n\t\tuiDAT = self.checkForUIDAT()\n\t\tuiDict = {}\n\t\tfor rowNum in range(1, uiDAT.numRows):\n\t\t\tparType = uiDAT[rowNum, 'Parameter Style'].val\n\t\t\tsize = uiDAT[rowNum, 'Size'].val\n\t\t\tif size:\n\t\t\t\tparType += ' ' + size\n\t\t\twidgetName = uiDAT[rowNum, 'Widget Name'].val\n\t\t\tsettings = uiDAT[rowNum, 'Settings Dict'].val\n\t\t\tif settings:\n\t\t\t\tsettings = eval(settings)\n\t\t\telse:\n\t\t\t\tsettings = {}\n\t\t\tuiDict[parType] = (widgetName, settings)\n\t\treturn uiDict\n\n\tdef onParValueChange(self, par, prev):\n\t\tif par.name == 'Usewidgetpackage':\n\t\t\tself.ownerComp.par.Package.enable = par.eval()\n\t\t\tself.ownerComp.par.Widgetkit.enable = par.eval()\n\t\t\tif par.eval():\n\t\t\t\tself.ownerComp.par.Autouidat.expr = \\\n\t\t\t\t\t\t\t\t\t\t\"me.WidgetKit.op('resources/autoUI')\"\n\t\t\t\tself.ownerComp.par.Widgetcontainer.expr = \\\n\t\t\t\t\t\t\t\t\t\t\"me.WidgetKit.op('widgets')\"\n\t\t\telse:\n\t\t\t\tself.ownerComp.par.Autouidat.expr = \\\n\t\t\t\t\t\t\t\t\t\t\t\"op.TDBasicWidgets.op('autoUI')\"\n\t\t\t\tself.ownerComp.par.Widgetcontainer.expr = \\\n\t\t\t\t\t\t\t\t\t\t\t\"op.TDBasicWidgets\"\n\n\tdef onParPulse(self, par):\n\t\tif par.name == 'Generateui':\n\t\t\tself.GenerateUI()",
+          "is_binary": false
+        }
+      }
+    },
+    "/autoUI/docsHelper": {
+      "name": "docsHelper",
+      "path": "/autoUI/docsHelper",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        1031.98,
+        87.8,
+        2.42207
+      ],
+      "tile_pos": [
+        0,
+        100,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "w": 32,
+        "h": 32,
+        "layer": 1,
+        "display": "off",
+        "extension1": "op('./DocsHelper').module.DocsHelper(me)",
+        "promoteextension1": "on",
+        "parentshortcut": "DocsHelper",
+        "clone": {
+          "49": "/sys/TDResources/docsHelper op.TDResources.op('docsHelper')"
+        },
+        "Helpcommand": {
+          "81": "ui.viewFile('http://docs.derivative.ca/index.php?title=Palette:TDResources') ext.DocsHelper.HelpCommand"
+        },
+        "Palettename": {
+          "80": "autoUI me.par.Palettecomp.eval().name"
+        },
+        "Palettecomp": {
+          "81": "/sys/TDResources parent()"
+        },
+        "Wikipage": {
+          "192": "\"\""
+        },
+        "Url": {
+          "192": "https://www.derivative.ca"
+        }
+      },
+      "parent": "/autoUI",
+      "children": [
+        "parexec1",
+        "DocsHelper",
+        "parexec_PaletteComp"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 \"Docs Helper\"\n772804868 Helpcommand \"Help Command\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 1\n772804868 Palettename \"Palette COMP Name\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 3\n772804877 Palettecomp \"Help COMP\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 0\n-1374678779 Createhelppar \"Create Help Par\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 9\n772804869 Createversionpar \"Create Version Par\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 10\n772804869 Resetpalettecompname \"Reset Palette COMP Name\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 4\n772804869 Testopenhelp \"Test Open Help\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 11\n772804867 Experimental Experimental 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 6\n-1374678769 Mode Mode 1 1 0 0 1 1 1 0 0 Palette \"Docs Helper\" 4097 3 URL URL Wiki Wiki Palette Palette 2\n772804868 Section Section 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 7\n772804868 Wikipage \"Wiki Page\" 1 1 0 0 1 1 1 0 0 \"\" \"Docs Helper\" 5\n772804868 Url URL 1 1 0 0 1 1 1 0 0 https://www.derivative.ca \"Docs Helper\" 8\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n7\nradioname sbutton\nlradioname sbutton\ndisplay 0\nscreenw 200\nscreenh 200\nscreenwm 200\nscreenhm 200\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/autoUI/docsHelper/parexec1": {
+      "name": "parexec1",
+      "path": "/autoUI/docsHelper/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": "*",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/autoUI/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000|def onValueChange(par, prev):\n\text.DocsHelper.onParValueChange(par, prev)\n\ndef onPulse(par):\n\text.DocsHelper.onParPulse(par)",
+          "is_binary": false
+        }
+      }
+    },
+    "/autoUI/docsHelper/DocsHelper": {
+      "name": "DocsHelper",
+      "path": "/autoUI/docsHelper/DocsHelper",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        200,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/autoUI/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000l\"\"\"\nGeneric docs help button and pulse par system\n\"\"\"\n\nDocsHelper = op.TDResources.mod.DocsHelper.DocsHelper",
+          "is_binary": false
+        }
+      }
+    },
+    "/autoUI/docsHelper/parexec_PaletteComp": {
+      "name": "parexec_PaletteComp",
+      "path": "/autoUI/docsHelper/parexec_PaletteComp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": {
+          "49": "/sys/TDResources parent.DocsHelper.par.Palettecomp.eval()"
+        },
+        "pars": "Help",
+        "valuechange": "off",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/autoUI/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000/def onPulse(par):\n\tparent.DocsHelper.OpenDocs()",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2020.42160\ntime Wed Sep 30 16:04:50 2020\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "autoUI.n",
+    "autoUI.timestamp",
+    "autoUI.cparm",
+    "autoUI.parm",
+    "autoUI.panel",
+    "autoUI/parexec1.n",
+    "autoUI/parexec1.parm",
+    "autoUI/parexec1.text",
+    "autoUI/AutoUIExt.n",
+    "autoUI/AutoUIExt.parm",
+    "autoUI/AutoUIExt.text",
+    "autoUI/docsHelper.n",
+    "autoUI/docsHelper.cparm",
+    "autoUI/docsHelper.parm",
+    "autoUI/docsHelper.panel",
+    "autoUI/docsHelper/parexec1.n",
+    "autoUI/docsHelper/parexec1.parm",
+    "autoUI/docsHelper/parexec1.text",
+    "autoUI/docsHelper/DocsHelper.n",
+    "autoUI/docsHelper/DocsHelper.parm",
+    "autoUI/docsHelper/DocsHelper.text",
+    "autoUI/docsHelper/parexec_PaletteComp.n",
+    "autoUI/docsHelper/parexec_PaletteComp.parm",
+    "autoUI/docsHelper/parexec_PaletteComp.text"
+  ],
+  "connections": [],
+  "statistics": {
+    "total_operators": 7,
+    "total_connections": 0,
+    "total_raw_files": 1,
+    "total_extra_files": 10,
+    "total_files_captured": 26,
+    "by_family": {
+      "COMP": 2,
+      "DAT": 5
+    },
+    "by_type": {
+      "COMP:container": 2,
+      "DAT:parexec": 3,
+      "DAT:text": 2
+    },
+    "max_depth": 3,
+    "total_parameters": 41
+  }
+}

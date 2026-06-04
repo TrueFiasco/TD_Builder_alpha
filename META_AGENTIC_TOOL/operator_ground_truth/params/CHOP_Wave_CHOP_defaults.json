@@ -1,0 +1,468 @@
+{
+  "operator": "Wave_CHOP",
+  "family": "CHOP",
+  "td_create_name": "waveCHOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "wavetype": {
+      "value": {
+        "type": "menu",
+        "value": "sin",
+        "menuIndex": 1,
+        "menuNames": [
+          "const",
+          "sin",
+          "normal",
+          "tri",
+          "ramp",
+          "square",
+          "pulse",
+          "expr"
+        ],
+        "menuLabels": [
+          "Constant",
+          "Sine",
+          "Gaussian",
+          "Triangle",
+          "Ramp",
+          "Square",
+          "Pulse",
+          "Expression"
+        ]
+      },
+      "default": "sin",
+      "page": "Wave",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "period": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wave",
+      "label": "Period",
+      "readOnly": false,
+      "expression": null
+    },
+    "periodunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Wave",
+      "label": "Period Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "offset": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "amp": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wave",
+      "label": "Amplitude",
+      "readOnly": false,
+      "expression": null
+    },
+    "decay": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Decay Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "decayunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Wave",
+      "label": "Decay Rate Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "ramp": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Ramp Slope",
+      "readOnly": false,
+      "expression": null
+    },
+    "rampunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Wave",
+      "label": "Ramp Slope Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "exprs": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Wave",
+      "label": "Expression",
+      "readOnly": false,
+      "expression": null
+    },
+    "channelname": {
+      "value": {
+        "type": "string",
+        "value": "chan1"
+      },
+      "default": "chan1",
+      "page": "Channel",
+      "label": "Channel Names",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Channel",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "startunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Channel",
+      "label": "Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "end": {
+      "value": {
+        "type": "float",
+        "value": 10.0
+      },
+      "default": 10.0,
+      "page": "Channel",
+      "label": "End",
+      "readOnly": false,
+      "expression": null
+    },
+    "endunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "Channel",
+      "label": "End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Channel",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "left": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Channel",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "right": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Channel",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "defval": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Channel",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

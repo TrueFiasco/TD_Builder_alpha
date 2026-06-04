@@ -1,0 +1,718 @@
+{
+  "operator": "Primitive_SOP",
+  "family": "SOP",
+  "td_create_name": "primitiveSOP",
+  "param_count": 50,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 2,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Primitive",
+      "label": "Source Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "templategrp": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Primitive",
+      "label": "Template Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "doxform": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Transform",
+      "label": "Do Transformation",
+      "readOnly": false,
+      "expression": null
+    },
+    "dorot": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "match"
+        ],
+        "menuLabels": [
+          "Off",
+          "On",
+          "Match Normals"
+        ]
+      },
+      "default": "off",
+      "page": "Transform",
+      "label": "Rotate to Template",
+      "readOnly": false,
+      "expression": null
+    },
+    "xord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Transform",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Transform",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "sx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": "me.inputPrim.center[0]"
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": "me.inputPrim.center[1]"
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": "me.inputPrim.center[2]"
+    },
+    "lookat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Transform",
+      "label": "Lookat Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Up-Vector",
+      "readOnly": false,
+      "expression": "me.inputPrim.normal[0]"
+    },
+    "upvectory": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Up-Vector",
+      "readOnly": false,
+      "expression": "me.inputPrim.normal[1]"
+    },
+    "upvectorz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Up-Vector",
+      "readOnly": false,
+      "expression": "me.inputPrim.normal[2]"
+    },
+    "doclr": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "remove"
+        ],
+        "menuLabels": [
+          "Keep Color",
+          "Add Color",
+          "No Color"
+        ]
+      },
+      "default": "off",
+      "page": "Attributes",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "diffr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Attributes",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[0]"
+    },
+    "diffg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Attributes",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[1]"
+    },
+    "diffb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Attributes",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[2]"
+    },
+    "alpha": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Attributes",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": "me.inputColor[3]"
+    },
+    "docrease": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "remove"
+        ],
+        "menuLabels": [
+          "Keep Crease",
+          "Add Crease",
+          "No Crease"
+        ]
+      },
+      "default": "off",
+      "page": "Attributes",
+      "label": "Crease",
+      "readOnly": false,
+      "expression": null
+    },
+    "crease": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Crease",
+      "readOnly": false,
+      "expression": "me.inputPrim.creaseweight[0]"
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Attributes",
+      "label": "Custom Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0size": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "float2",
+          "float3",
+          "float4"
+        ],
+        "menuLabels": [
+          "float",
+          "float2",
+          "float3",
+          "float4"
+        ]
+      },
+      "default": "float",
+      "page": "Attributes",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value3": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value4": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "pshapeu": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Face/Hull",
+      "label": "Preserve Shape U",
+      "readOnly": false,
+      "expression": null
+    },
+    "pshapev": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Face/Hull",
+      "label": "Preserve Shape V",
+      "readOnly": false,
+      "expression": null
+    },
+    "closeu": {
+      "value": {
+        "type": "menu",
+        "value": "sameclosure",
+        "menuIndex": 0,
+        "menuNames": [
+          "sameclosure",
+          "open",
+          "closesharp",
+          "closeround",
+          "unroll"
+        ],
+        "menuLabels": [
+          "No change",
+          "Open",
+          "Close Straight",
+          "Close Rounded",
+          "Unroll"
+        ]
+      },
+      "default": "sameclosure",
+      "page": "Face/Hull",
+      "label": "Close U",
+      "readOnly": false,
+      "expression": null
+    },
+    "closev": {
+      "value": {
+        "type": "menu",
+        "value": "sameclosure",
+        "menuIndex": 0,
+        "menuNames": [
+          "sameclosure",
+          "open",
+          "closesharp",
+          "closeround",
+          "unroll"
+        ],
+        "menuLabels": [
+          "No change",
+          "Open",
+          "Close Straight",
+          "Close Rounded",
+          "Unroll"
+        ]
+      },
+      "default": "sameclosure",
+      "page": "Face/Hull",
+      "label": "Close V",
+      "readOnly": false,
+      "expression": null
+    },
+    "clampu": {
+      "value": {
+        "type": "menu",
+        "value": "sameclamp",
+        "menuIndex": 0,
+        "menuNames": [
+          "sameclamp",
+          "clamp",
+          "unclamp"
+        ],
+        "menuLabels": [
+          "No change",
+          "Clamp",
+          "Unclamp"
+        ]
+      },
+      "default": "sameclamp",
+      "page": "Face/Hull",
+      "label": "Clamp U",
+      "readOnly": false,
+      "expression": null
+    },
+    "clampv": {
+      "value": {
+        "type": "menu",
+        "value": "sameclamp",
+        "menuIndex": 0,
+        "menuNames": [
+          "sameclamp",
+          "clamp",
+          "unclamp"
+        ],
+        "menuLabels": [
+          "No change",
+          "Clamp",
+          "Unclamp"
+        ]
+      },
+      "default": "sameclamp",
+      "page": "Face/Hull",
+      "label": "Clamp V",
+      "readOnly": false,
+      "expression": null
+    },
+    "vtxsort": {
+      "value": {
+        "type": "menu",
+        "value": "samevertex",
+        "menuIndex": 0,
+        "menuNames": [
+          "samevertex",
+          "reverse",
+          "reverseu",
+          "reversev",
+          "swapuv",
+          "shift",
+          "flipfacing"
+        ],
+        "menuLabels": [
+          "No change",
+          "Reverse",
+          "Reverse U",
+          "Reverse V",
+          "Swap U and V",
+          "Shift",
+          "Flip Face"
+        ]
+      },
+      "default": "samevertex",
+      "page": "Face/Hull",
+      "label": "Vertex",
+      "readOnly": false,
+      "expression": null
+    },
+    "vtxuoff": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Face/Hull",
+      "label": "U Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "vtxvoff": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Face/Hull",
+      "label": "V Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "metaweight": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Meta",
+      "label": "Meta-Surface Weight",
+      "readOnly": false,
+      "expression": null
+    },
+    "doweight": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Meta",
+      "label": "Weight",
+      "readOnly": false,
+      "expression": "me.inputPrim.weight"
+    },
+    "doprender": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Particles",
+      "label": "Particle Render Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "prtype": {
+      "value": {
+        "type": "menu",
+        "value": "lines",
+        "menuIndex": 0,
+        "menuNames": [
+          "lines",
+          "pointsprites"
+        ],
+        "menuLabels": [
+          "Render as Lines",
+          "Render as Point Sprites"
+        ]
+      },
+      "default": "lines",
+      "page": "Particles",
+      "label": "Particle Type",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\glslTOP_lossless.json",
+  "operator_type": "glslTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "glsl1",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pixeldat": "glsl1_pixel",
+            "computedat": "glsl1_compute"
+          }
+        },
+        {
+          "name": "glsl2",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pixeldat": "glsl1_pixel1",
+            "computedat": "glsl1_compute1"
+          }
+        },
+        {
+          "name": "glsl3",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pageindex": 1,
+            "pixeldat": "text1",
+            "dispatchsizex": 64,
+            "dispatchsizey": 1,
+            "dispatchsizez": 1,
+            "vec0name": "pixel",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "glsl4",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pageindex": 1,
+            "pixeldat": "text3",
+            "dispatchsizex": 64,
+            "dispatchsizey": 1,
+            "dispatchsizez": 1,
+            "inputextenduv": "mirror",
+            "inputextendw": "hold",
+            "vec0name": "iResolution",
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "vec1name": "iMouse",
+            "vec1valuew": 1,
+            "vec2name": "iGlobalTime"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glsl1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "pageindex": 1,
+            "op": "glsl2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glsl3",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info4",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glsl4",
+            "language": "text"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "over1",
+          "type": "TOP:over",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "TOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "period": 0.072,
+            "harmon": 1,
+            "gain": 0.787,
+            "amp": 0.579,
+            "offset": 0.529,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 4,
+            "channelname": "\"tx ty\"",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.04,
+            "radiusy": 0.04,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "feedback1",
+          "type": "TOP:feedback",
+          "parameters": {
+            "top": "null1"
+          }
+        },
+        {
+          "name": "glsl1_pixel",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "glsl1_pixel1",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "glsl1_compute",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "glsl1_compute1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "glsl2",
+          "to_input": "0"
+        },
+        {
+          "from": "over1",
+          "to": "glsl3",
+          "to_input": "0"
+        },
+        {
+          "from": "noise2",
+          "to": "glsl4",
+          "to_input": "0"
+        },
+        {
+          "from": "glsl3",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise3",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "over1",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback1",
+          "to": "over1",
+          "to_input": "1"
+        },
+        {
+          "from": "constant1",
+          "to": "feedback1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 24,
+        "connection_count": 8,
+        "operator_types": {
+          "TOP:glsl": 4,
+          "DAT:info": 4,
+          "TOP:null": 1,
+          "CHOP:null": 1,
+          "TOP:over": 1,
+          "DAT:text": 7,
+          "TOP:noise": 1,
+          "CHOP:noise": 1,
+          "TOP:circle": 1,
+          "TOP:constant": 1,
+          "TOP:feedback": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

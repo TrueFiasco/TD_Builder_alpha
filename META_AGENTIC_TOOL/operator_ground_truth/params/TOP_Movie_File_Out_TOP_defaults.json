@@ -1,0 +1,1173 @@
+{
+  "operator": "Movie_File_Out_TOP",
+  "family": "TOP",
+  "td_create_name": "moviefileoutTOP",
+  "param_count": 66,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 25,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "type": {
+      "value": {
+        "type": "menu",
+        "value": "movie",
+        "menuIndex": 0,
+        "menuNames": [
+          "movie",
+          "image",
+          "imagesequence",
+          "stopframemovie"
+        ],
+        "menuLabels": [
+          "Movie",
+          "Image",
+          "Image Sequence",
+          "Stop-Frame Movie"
+        ]
+      },
+      "default": "movie",
+      "page": "Movie Out",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "videocodec": {
+      "value": {
+        "type": "menu",
+        "value": "mjpa",
+        "menuIndex": 1,
+        "menuNames": [
+          "rle",
+          "mjpa",
+          "mpeg4",
+          "h264",
+          "cineform",
+          "hap",
+          "h265",
+          "gif",
+          "notchlc",
+          "vp8",
+          "vp9",
+          "prores",
+          "vvc",
+          "av1"
+        ],
+        "menuLabels": [
+          "Animation",
+          "Photo/Motion JPEG",
+          "MPEG 4 (Part 2)",
+          "H.264 (NVIDIA GPU)",
+          "GoPro-Cineform",
+          "Hap",
+          "H.265/HEVC (NVIDIA GPU)",
+          "GIF",
+          "NotchLC",
+          "VP8",
+          "VP9",
+          "Apple ProRes",
+          "VVC/H.266 (Slow)",
+          "AV1 (NVIDIA GPU)"
+        ]
+      },
+      "default": "jpeg",
+      "page": "Movie Out",
+      "label": "Video Codec",
+      "readOnly": false,
+      "expression": null
+    },
+    "videocodectype": {
+      "value": {
+        "type": "menu",
+        "value": "",
+        "menuIndex": null,
+        "menuNames": [],
+        "menuLabels": []
+      },
+      "default": "",
+      "page": "Movie Out",
+      "label": "Video Codec Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "imagefiletype": {
+      "value": {
+        "type": "menu",
+        "value": "tiff",
+        "menuIndex": 0,
+        "menuNames": [
+          "tiff",
+          "jpeg",
+          "bmp",
+          "exr",
+          "png",
+          "dds"
+        ],
+        "menuLabels": [
+          "TIFF",
+          "JPEG",
+          "BMP",
+          "OpenEXR",
+          "PNG",
+          "DDS"
+        ]
+      },
+      "default": "tiff",
+      "page": "Movie Out",
+      "label": "Image File Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "uniquesuff": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Movie Out",
+      "label": "Unique Suffix",
+      "readOnly": false,
+      "expression": null
+    },
+    "n": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Movie Out",
+      "label": "N",
+      "readOnly": false,
+      "expression": null
+    },
+    "leadingzerosdigits": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Movie Out",
+      "label": "Leading Zeros Digits",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "TDMovieOut$N.$SI.mov",
+      "page": "Movie Out",
+      "label": "File",
+      "readOnly": false,
+      "expression": "'TDMovieOut' + me.fileSuffix"
+    },
+    "moviecontainer": {
+      "value": {
+        "type": "menu",
+        "value": "automatic",
+        "menuIndex": 0,
+        "menuNames": [
+          "automatic",
+          "mov",
+          "mp4",
+          "mkv",
+          "webm"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "mov",
+          "mp4",
+          "mkv",
+          "webm"
+        ]
+      },
+      "default": "automatic",
+      "page": "Movie Out",
+      "label": "Movie Container",
+      "readOnly": false,
+      "expression": null
+    },
+    "videopixelformat": {
+      "value": {
+        "type": "menu",
+        "value": "yuv420",
+        "menuIndex": 0,
+        "menuNames": [
+          "yuv420",
+          "yuv422"
+        ],
+        "menuLabels": [
+          "YUV 4:2:0",
+          "YUV 4:2:2"
+        ]
+      },
+      "default": "yuv420",
+      "page": "Movie Out",
+      "label": "Video Pixel Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "rec2020st2084pq",
+          "rec2020hlg",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "acesproxy",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "Rec.2020 ST2084PQ",
+          "Rec.2020 HLG",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "ACESproxy",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Movie Out",
+      "label": "Output Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Movie Out",
+      "label": "Output Reference White",
+      "readOnly": false,
+      "expression": null
+    },
+    "audiochop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Movie Out",
+      "label": "Audio CHOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "audiocodec": {
+      "value": {
+        "type": "menu",
+        "value": "mp3",
+        "menuIndex": 1,
+        "menuNames": [
+          "alac",
+          "mp3",
+          "aac",
+          "vorbis",
+          "opus",
+          "pcm16",
+          "pcm24",
+          "pcm32"
+        ],
+        "menuLabels": [
+          "ALAC (Apple Lossless)",
+          "MP3",
+          "AAC",
+          "Vorbis",
+          "Opus",
+          "Uncompressed 16-bit (PCM)",
+          "Uncompressed 24-bit (PCM)",
+          "Uncompressed 32-bit (PCM)"
+        ]
+      },
+      "default": "mp3",
+      "page": "Movie Out",
+      "label": "Audio Codec",
+      "readOnly": false,
+      "expression": null
+    },
+    "audiobitrate": {
+      "value": {
+        "type": "menu",
+        "value": "b128",
+        "menuIndex": 1,
+        "menuNames": [
+          "b96",
+          "b128",
+          "b192",
+          "b256",
+          "b320"
+        ],
+        "menuLabels": [
+          "96 kb/s",
+          "128 kb/s",
+          "192 kb/s",
+          "256 kb/s",
+          "320 kb/s"
+        ]
+      },
+      "default": "b128",
+      "page": "Movie Out",
+      "label": "Audio Bit Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "quality": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Movie Out",
+      "label": "Quality",
+      "readOnly": false,
+      "expression": null
+    },
+    "fps": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Movie Out",
+      "label": "Movie FPS",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "limitlength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Movie Out",
+      "label": "Limit Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "length": {
+      "value": {
+        "type": "float",
+        "value": 600.0
+      },
+      "default": 600.0,
+      "page": "Movie Out",
+      "label": "Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "lengthunit": {
+      "value": {
+        "type": "menu",
+        "value": "indices",
+        "menuIndex": 0,
+        "menuNames": [
+          "indices",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "indices",
+      "page": "Movie Out",
+      "label": "Length Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "record": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Movie Out",
+      "label": "Record",
+      "readOnly": false,
+      "expression": null
+    },
+    "pause": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Movie Out",
+      "label": "Pause",
+      "readOnly": false,
+      "expression": null
+    },
+    "addframe": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Movie Out",
+      "label": "Add Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxthread": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Movie Out",
+      "label": "Max Threads",
+      "readOnly": false,
+      "expression": null
+    },
+    "headerdat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Movie Out",
+      "label": "Header Source DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcloud": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "EXR",
+      "label": "Save as Point Cloud",
+      "readOnly": false,
+      "expression": null
+    },
+    "input": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "EXR",
+      "label": "Additional Input TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0top": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "EXR",
+      "label": "TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0r": {
+      "value": {
+        "type": "string",
+        "value": "R"
+      },
+      "default": "R",
+      "page": "EXR",
+      "label": "Red",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0g": {
+      "value": {
+        "type": "string",
+        "value": "G"
+      },
+      "default": "G",
+      "page": "EXR",
+      "label": "Green",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0b": {
+      "value": {
+        "type": "string",
+        "value": "B"
+      },
+      "default": "B",
+      "page": "EXR",
+      "label": "Blue",
+      "readOnly": false,
+      "expression": null
+    },
+    "input0a": {
+      "value": {
+        "type": "string",
+        "value": "A"
+      },
+      "default": "A",
+      "page": "EXR",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "stallforopen": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Settings",
+      "label": "Stall for File Open",
+      "readOnly": false,
+      "expression": null
+    },
+    "starttimecode": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Settings",
+      "label": "Start Timecode",
+      "readOnly": false,
+      "expression": null
+    },
+    "profile": {
+      "value": {
+        "type": "menu",
+        "value": "autoselect",
+        "menuIndex": 0,
+        "menuNames": [
+          "autoselect",
+          "baseline",
+          "main",
+          "high"
+        ],
+        "menuLabels": [
+          "Auto-Select",
+          "Baseline",
+          "Main",
+          "High"
+        ]
+      },
+      "default": "autoselect",
+      "page": "Settings",
+      "label": "Profile",
+      "readOnly": false,
+      "expression": null
+    },
+    "preset": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "lossless"
+        ],
+        "menuLabels": [
+          "None",
+          "Lossless"
+        ]
+      },
+      "default": "none",
+      "page": "Settings",
+      "label": "Preset",
+      "readOnly": false,
+      "expression": null
+    },
+    "bitratemode": {
+      "value": {
+        "type": "menu",
+        "value": "variable",
+        "menuIndex": 1,
+        "menuNames": [
+          "constant",
+          "variable",
+          "constanthq",
+          "variablehq"
+        ],
+        "menuLabels": [
+          "Constant (CBR)",
+          "Variable (VBR)",
+          "Constant HQ (CBR)",
+          "Variable HQ (VBR)"
+        ]
+      },
+      "default": "variable",
+      "page": "Settings",
+      "label": "Bit Rate Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "avgbitrate": {
+      "value": {
+        "type": "float",
+        "value": 8000.0
+      },
+      "default": 8000.0,
+      "page": "Settings",
+      "label": "Average Bitrate (Kb/s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "peakbitrate": {
+      "value": {
+        "type": "float",
+        "value": 10000.0
+      },
+      "default": 10000.0,
+      "page": "Settings",
+      "label": "Peak Bitrate (Kb/s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "keyframeinterval": {
+      "value": {
+        "type": "int",
+        "value": 15
+      },
+      "default": 15,
+      "page": "Settings",
+      "label": "Keyframe Interval",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxbframes": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Settings",
+      "label": "Max B-Frames",
+      "readOnly": false,
+      "expression": null
+    },
+    "motionpredict": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "quarter",
+          "half",
+          "full"
+        ],
+        "menuLabels": [
+          "Default",
+          "Quarter",
+          "Half",
+          "Full"
+        ]
+      },
+      "default": "default",
+      "page": "Settings",
+      "label": "Motion Prediction",
+      "readOnly": false,
+      "expression": null
+    },
+    "frameslicing": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Settings",
+      "label": "Frame Slicing",
+      "readOnly": false,
+      "expression": null
+    },
+    "numslices": {
+      "value": {
+        "type": "int",
+        "value": 12
+      },
+      "default": 12,
+      "page": "Settings",
+      "label": "Num Slices",
+      "readOnly": false,
+      "expression": null
+    },
+    "entropymode": {
+      "value": {
+        "type": "menu",
+        "value": "autoselect",
+        "menuIndex": 0,
+        "menuNames": [
+          "autoselect",
+          "cabac",
+          "cavlc"
+        ],
+        "menuLabels": [
+          "Auto-Select",
+          "CABAC",
+          "CAVLC"
+        ]
+      },
+      "default": "autoselect",
+      "page": "Settings",
+      "label": "Entropy Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "stereomode": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "leftright",
+          "topbottom"
+        ],
+        "menuLabels": [
+          "Off",
+          "Left-Right",
+          "Top-Bottom"
+        ]
+      },
+      "default": "off",
+      "page": "Settings",
+      "label": "Stereo Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "sphericalmode": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "equirectangular"
+        ],
+        "menuLabels": [
+          "Off",
+          "Equirectangular"
+        ]
+      },
+      "default": "off",
+      "page": "Settings",
+      "label": "Spherical Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "secondarycompression": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Settings",
+      "label": "Secondary Compression",
+      "readOnly": false,
+      "expression": null
+    },
+    "encodetestmode": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Settings",
+      "label": "Encode Test Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "mipmaps": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Settings",
+      "label": "Include Mip Maps",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputresolution": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "eighth",
+          "quarter",
+          "half",
+          "2x",
+          "4x",
+          "8x",
+          "fit",
+          "limit",
+          "custom",
+          "parpanel"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Eighth",
+          "Quarter",
+          "Half",
+          "2X",
+          "4X",
+          "8X",
+          "Fit Resolution",
+          "Limit Resolution",
+          "Custom Resolution",
+          "Parent Panel Size"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionw": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionh": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resmult": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputaspect": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "resolution",
+          "custom"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Resolution",
+          "Custom Aspect"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Output Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputfiltertype": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Input Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "fillmode": {
+      "value": {
+        "type": "menu",
+        "value": "best",
+        "menuIndex": 4,
+        "menuNames": [
+          "useinput",
+          "fill",
+          "width",
+          "height",
+          "best",
+          "outside",
+          "nativeres"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Fill",
+          "Fit Horizontal",
+          "Fit Vertical",
+          "Fit Best",
+          "Fit Outside",
+          "Native Resolution"
+        ]
+      },
+      "default": "best",
+      "page": "Common",
+      "label": "Fill Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "filtertype": {
+      "value": {
+        "type": "menu",
+        "value": "nearest",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "npasses": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Common",
+      "label": "Passes",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanmask": {
+      "value": {
+        "type": "menu",
+        "value": "15",
+        "menuIndex": 15,
+        "menuNames": [],
+        "menuLabels": []
+      },
+      "default": "15",
+      "page": "Common",
+      "label": "Channel Mask",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "useinput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useinput",
+          "rgba8fixed",
+          "rgba16float",
+          "rgba32float",
+          "rgb10a2fixed",
+          "rgba16fixed",
+          "rgba11float",
+          "mono8fixed",
+          "mono16fixed",
+          "mono16float",
+          "mono32float",
+          "rg8fixed",
+          "rg16fixed",
+          "rg16float",
+          "rg32float",
+          "a8fixed",
+          "a16fixed",
+          "a16float",
+          "a32float",
+          "monoalpha8fixed",
+          "monoalpha16fixed",
+          "monoalpha16float",
+          "monoalpha32float"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "8-bit fixed (RGBA)",
+          "16-bit float (RGBA)",
+          "32-bit float (RGBA)",
+          "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+          "16-bit fixed (RGBA)",
+          "11-bit float (RGB), Positive Values Only",
+          "8-bit fixed (Mono)",
+          "16-bit fixed (Mono)",
+          "16-bit float (Mono)",
+          "32-bit float (Mono)",
+          "8-bit fixed (RG)",
+          "16-bit fixed (RG)",
+          "16-bit float (RG)",
+          "32-bit float (RG)",
+          "8-bit fixed (A)",
+          "16-bit fixed (A)",
+          "16-bit float (A)",
+          "32-bit float (A)",
+          "8-bit fixed (Mono+Alpha)",
+          "16-bit fixed (Mono+Alpha)",
+          "16-bit float (Mono+Alpha)",
+          "32-bit float (Mono+Alpha)"
+        ]
+      },
+      "default": "useinput",
+      "page": "Common",
+      "label": "Pixel Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

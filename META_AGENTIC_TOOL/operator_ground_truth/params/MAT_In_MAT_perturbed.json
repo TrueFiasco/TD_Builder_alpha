@@ -1,0 +1,419 @@
+{
+  "operator": "In_MAT",
+  "family": "MAT",
+  "td_create_name": "inMAT",
+  "param_count": 38,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "label": {
+      "type": "string",
+      "value": "$ON_perturbed"
+    },
+    "connectorder": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dodeform": {
+      "type": "toggle",
+      "value": true
+    },
+    "deformdata": {
+      "type": "menu",
+      "value": "mat",
+      "menuIndex": 1,
+      "menuNames": [
+        "sop",
+        "mat",
+        "deformin"
+      ],
+      "menuLabels": [
+        "From a POP/SOP",
+        "From another MAT",
+        "From a DeformIn MAT"
+      ]
+    },
+    "targetsop": {
+      "type": "op",
+      "value": ""
+    },
+    "pcaptpath": {
+      "type": "string",
+      "value": "pCaptPath0_perturbed"
+    },
+    "pcaptdata": {
+      "type": "string",
+      "value": "pCaptData0_perturbed"
+    },
+    "skelrootpath": {
+      "type": "op",
+      "value": ""
+    },
+    "mat": {
+      "type": "op",
+      "value": ""
+    },
+    "blending": {
+      "type": "toggle",
+      "value": true
+    },
+    "blendop": {
+      "type": "menu",
+      "value": "subtract",
+      "menuIndex": 1,
+      "menuNames": [
+        "add",
+        "subtract",
+        "revsubtract",
+        "minimum",
+        "maximum"
+      ],
+      "menuLabels": [
+        "Add",
+        "Subtract",
+        "Reverse Subtract",
+        "Minimum",
+        "Maximum"
+      ]
+    },
+    "srcblend": {
+      "type": "menu",
+      "value": "constantcol",
+      "menuIndex": 9,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "destblend": {
+      "type": "menu",
+      "value": "da",
+      "menuIndex": 5,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "separatealphafunc": {
+      "type": "toggle",
+      "value": true
+    },
+    "blendopa": {
+      "type": "menu",
+      "value": "subtract",
+      "menuIndex": 1,
+      "menuNames": [
+        "add",
+        "subtract",
+        "revsubtract",
+        "minimum",
+        "maximum"
+      ],
+      "menuLabels": [
+        "Add",
+        "Subtract",
+        "Reverse Subtract",
+        "Minimum",
+        "Maximum"
+      ]
+    },
+    "srcblenda": {
+      "type": "menu",
+      "value": "constantcol",
+      "menuIndex": 9,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "destblenda": {
+      "type": "menu",
+      "value": "da",
+      "menuIndex": 5,
+      "menuNames": [
+        "zero",
+        "dcol",
+        "omdcol",
+        "sa",
+        "omsa",
+        "da",
+        "omda",
+        "sas",
+        "one",
+        "constantcol",
+        "omconstantcol",
+        "constanta",
+        "omconstanta"
+      ],
+      "menuLabels": [
+        "Zero",
+        "Dest Color",
+        "One Minus Dest Color",
+        "Source Alpha",
+        "One Minus Source Alpha",
+        "Dest Alpha",
+        "One Minus Dest Alpha",
+        "Source Alpha Saturate",
+        "One",
+        "Constant Color",
+        "One Minus Constant Color",
+        "Constant Alpha",
+        "One Minus Constant Alpha"
+      ]
+    },
+    "blendconstantr": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstantg": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstantb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "blendconstanta": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "legacyalphabehavior": {
+      "type": "toggle",
+      "value": true
+    },
+    "postmultalpha": {
+      "type": "toggle",
+      "value": false
+    },
+    "pointcolorpremult": {
+      "type": "menu",
+      "value": "premultinshader",
+      "menuIndex": 1,
+      "menuNames": [
+        "alreadypremult",
+        "premultinshader"
+      ],
+      "menuLabels": [
+        "Already Pre-Multiplied By Alpha",
+        "Pre-Multiply By Alpha in Shader"
+      ]
+    },
+    "depthtest": {
+      "type": "toggle",
+      "value": false
+    },
+    "depthfunc": {
+      "type": "menu",
+      "value": "equal",
+      "menuIndex": 2,
+      "menuNames": [
+        "less",
+        "lessorequal",
+        "equal",
+        "greater",
+        "greaterorequal",
+        "notequal",
+        "always"
+      ],
+      "menuLabels": [
+        "Less Than",
+        "Less Than or Equal",
+        "Equal",
+        "Greater Than",
+        "Greater Than or Equal",
+        "Not Equal",
+        "Always"
+      ]
+    },
+    "depthwriting": {
+      "type": "toggle",
+      "value": false
+    },
+    "alphatest": {
+      "type": "toggle",
+      "value": true
+    },
+    "alphafunc": {
+      "type": "menu",
+      "value": "greaterorequal",
+      "menuIndex": 3,
+      "menuNames": [
+        "less",
+        "lessorequal",
+        "greater",
+        "greaterorequal"
+      ],
+      "menuLabels": [
+        "Less Than",
+        "Less Than or Equal",
+        "Greater Than",
+        "Greater Than or Equal"
+      ]
+    },
+    "alphathreshold": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "wireframe": {
+      "type": "menu",
+      "value": "tesselated",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "tesselated",
+        "topology"
+      ],
+      "menuLabels": [
+        "Off",
+        "GPU Tesselated Wire Frame",
+        "Topology Wire Frame"
+      ]
+    },
+    "wirewidth": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "cullface": {
+      "type": "menu",
+      "value": "neither",
+      "menuIndex": 1,
+      "menuNames": [
+        "userender",
+        "neither",
+        "backfaces",
+        "frontfaces",
+        "bothfaces"
+      ],
+      "menuLabels": [
+        "Use Render Setting",
+        "Neither",
+        "Back Faces",
+        "Front Faces",
+        "Both Faces"
+      ]
+    },
+    "polygonoffset": {
+      "type": "toggle",
+      "value": true
+    },
+    "polygonoffsetfactor": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "polygonoffsetunits": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    }
+  }
+}

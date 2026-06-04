@@ -1,0 +1,96 @@
+{
+  "operator": "LTC_In_CHOP",
+  "family": "CHOP",
+  "td_create_name": "ltcinCHOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "inputrate": {
+      "type": "float",
+      "value": 30.12345
+    },
+    "discrete": {
+      "type": "toggle",
+      "value": false
+    },
+    "totalframes": {
+      "type": "toggle",
+      "value": true
+    },
+    "totalsec": {
+      "type": "toggle",
+      "value": false
+    },
+    "upsample": {
+      "type": "toggle",
+      "value": true
+    },
+    "userfields": {
+      "type": "toggle",
+      "value": true
+    },
+    "debugchans": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "autoname",
+      "menuIndex": 2,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,416 @@
+source_file: C:\TD_Projects\kb_pipeline\data\snippets\semantic\analyzeCHOP_semantic.json
+operator_type: analyzeCHOP
+curator_text: "These examples show the different functions of the Analyze CHOP."
+
+examples:
+  - example_name: example1
+    network_description: "A wave input signal fans out to six parallel Analyze CHOPs that simultaneously extract different statistical measures and peak information."
+    operators:
+      - name: wave1
+        type: CHOP:wave
+        role: input
+        parameters:
+          decay: 0.235
+      - name: analyze_max
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: maximum
+      - name: analyze_min
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: minimum
+      - name: analyze_average
+        type: CHOP:analyze
+        role: output
+      - name: analyze_total_peeks
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: totalpeaks
+      - name: analyze_first_peak_index
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: firstpeakindex
+      - name: analyze_first_peak_value
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: firstpeakvalue
+    connections:
+      - from: wave1
+        to: analyze_max
+      - from: wave1
+        to: analyze_min
+      - from: wave1
+        to: analyze_average
+      - from: wave1
+        to: analyze_total_peeks
+      - from: wave1
+        to: analyze_first_peak_index
+      - from: wave1
+        to: analyze_first_peak_value
+    topology:
+      operator_count: 7
+      connection_count: 6
+      has_parallel_paths: true
+      max_chain_length: 2
+
+  - example_name: example2
+    network_description: "A noise input flows through an Analyze CHOP configured to detect when no peak value exists."
+    operators:
+      - name: noise1
+        type: CHOP:noise
+        role: input
+        parameters:
+          constraint: offset
+      - name: analyze_no_peak_value
+        type: CHOP:analyze
+        role: output
+        parameters:
+          function: lowestpeakvalue
+    connections:
+      - from: noise1
+        to: analyze_no_peak_value
+    topology:
+      operator_count: 2
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+
+  - example_name: example3
+    network_description: "Noise and audio inputs follow two parallel processing chains, each using trails and Analyze CHOPs to compute and compare RMS values."
+    operators:
+      - name: noise1
+        type: CHOP:noise
+        role: input
+        parameters:
+          timeslice: 'on'
+      - name: audiofilein1
+        type: CHOP:audiofilein
+        role: input
+        parameters:
+          timeslice: 'on'
+      - name: trail1
+        type: CHOP:trail
+        role: processor
+        parameters:
+          timeslice: 'on'
+      - name: analyze_rms
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: rmspower
+      - name: analyze_rms1
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: rmspower
+      - name: trail2
+        type: CHOP:trail
+        role: output
+      - name: trail3
+        type: CHOP:trail
+        role: output
+    connections:
+      - from: noise1
+        to: trail1
+      - from: trail1
+        to: analyze_rms
+      - from: analyze_rms
+        to: trail2
+      - from: audiofilein1
+        to: analyze_rms1
+      - from: analyze_rms1
+        to: trail3
+    topology:
+      operator_count: 7
+      connection_count: 5
+      has_parallel_paths: true
+      max_chain_length: 4
+
+  - example_name: example4
+    network_description: "Multiple noise sources feed through math and logic processors into Analyze CHOPs that detect sum and minimum values, with UI controls and triggers managing conditional analysis."
+    operators:
+      - name: noise3
+        type: CHOP:noise
+        role: input
+        parameters:
+          period: 5
+          timeslice: 'on'
+      - name: noise4
+        type: CHOP:noise
+        role: input
+        parameters:
+          type: hermite
+          period: 0.5
+          timeslice: 'on'
+      - name: button1
+        type: COMP:button
+        role: input
+      - name: sliderxy
+        type: COMP:slider
+        role: input
+      - name: math1
+        type: CHOP:math
+        role: processor
+        parameters:
+          chopop: add
+      - name: logic1
+        type: CHOP:logic
+        role: processor
+        parameters:
+          timeslice: 'on'
+      - name: logic2
+        type: CHOP:logic
+        role: output
+        parameters:
+          chanop: or
+      - name: filter1
+        type: CHOP:filter
+        role: processor
+        parameters:
+          type: box
+      - name: analyze1
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: sum
+      - name: analyze_minimum
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: minimum
+      - name: analyze_minimum1
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: minimum
+      - name: trigger1
+        type: CHOP:trigger
+        role: processor
+      - name: trigger2
+        type: CHOP:trigger
+        role: processor
+      - name: trail_trigger
+        type: CHOP:trail
+        role: output
+      - name: trail_trigger1
+        type: CHOP:trail
+        role: output
+    connections:
+      - from: noise3
+        to: math1
+      - from: noise4
+        to: math1
+      - from: math1
+        to: logic1
+      - from: logic1
+        to: trail4
+      - from: trail4
+        to: filter1
+      - from: filter1
+        to: analyze_minimum
+      - from: analyze_minimum
+        to: trigger1
+      - from: trigger1
+        to: trail_trigger
+      - from: button1/out1
+        to: trail5
+      - from: trail5
+        to: analyze_minimum1
+      - from: analyze_minimum1
+        to: trigger2
+      - from: trigger2
+        to: trail_trigger1
+      - from: analyze1
+        to: logic2
+    topology:
+      operator_count: 26
+      connection_count: 20
+      has_parallel_paths: true
+      max_chain_length: 8
+
+  - example_name: example5
+    network_description: "Mouse position input is decomposed into X and Y components, trailed for history, analyzed to extract min/max bounds, then offset and smoothed to generate constrained output coordinates."
+    operators:
+      - name: mousein1
+        type: CHOP:mousein
+        role: input
+        parameters:
+          timeslice: 'on'
+          exportmethod: datname
+      - name: select1
+        type: CHOP:select
+        role: processor
+        parameters:
+          channames: tx
+      - name: select2
+        type: CHOP:select
+        role: processor
+        parameters:
+          channames: ty
+      - name: trail1
+        type: CHOP:trail
+        role: processor
+        parameters:
+          wlength: 10
+          timeslice: 'on'
+      - name: trail2
+        type: CHOP:trail
+        role: processor
+        parameters:
+          wlength: 10
+          timeslice: 'on'
+      - name: analyze_xMax
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: maximum
+      - name: analyze_xMin
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: minimum
+      - name: analyze_yMAX
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: maximum
+      - name: analyze_Ymin
+        type: CHOP:analyze
+        role: processor
+        parameters:
+          function: minimum
+      - name: math_xBumpUp
+        type: CHOP:math
+        role: processor
+        parameters:
+          preoff: 0.01
+      - name: math_xBumpDown
+        type: CHOP:math
+        role: processor
+        parameters:
+          preoff: -0.01
+      - name: math_yBumpUp
+        type: CHOP:math
+        role: processor
+        parameters:
+          preoff: 0.01
+      - name: math_yBumpDown
+        type: CHOP:math
+        role: processor
+        parameters:
+          preoff: -0.01
+      - name: lag1
+        type: CHOP:lag
+        role: processor
+        parameters:
+          lag1: 0.2
+          lag2: 0.2
+          clamp: 'on'
+          slope1: 10
+          slope2: 0.1
+      - name: lag2
+        type: CHOP:lag
+        role: output
+        parameters:
+          lag1: 0.2
+          lag2: 0.2
+          clamp: 'on'
+          slope1: 0.1
+          slope2: 10
+      - name: lag3
+        type: CHOP:lag
+        role: output
+        parameters:
+          lag1: 0.2
+          lag2: 0.2
+          clamp: 'on'
+          slope1: 10
+          slope2: 0.1
+      - name: lag4
+        type: CHOP:lag
+        role: output
+        parameters:
+          lag1: 0.2
+          lag2: 0.2
+          clamp: 'on'
+          slope1: 0.1
+          slope2: 10
+      - name: math_rangeX
+        type: CHOP:math
+        role: processor
+      - name: math_rangeY
+        type: CHOP:math
+        role: processor
+      - name: limit_x
+        type: CHOP:limit
+        role: processor
+        parameters:
+          type: clamp
+      - name: limit_y
+        type: CHOP:limit
+        role: output
+        parameters:
+          type: clamp
+      - name: trail3
+        type: CHOP:trail
+        role: output
+      - name: trail4
+        type: CHOP:trail
+        role: output
+    connections:
+      - from: mousein1
+        to: select1
+      - from: mousein1
+        to: select2
+      - from: select1
+        to: trail1
+      - from: select2
+        to: trail2
+      - from: select1
+        to: math_rangeX
+      - from: select2
+        to: math_rangeY
+      - from: trail1
+        to: analyze_xMax
+      - from: trail1
+        to: analyze_xMin
+      - from: trail2
+        to: analyze_yMAX
+      - from: trail2
+        to: analyze_Ymin
+      - from: analyze_xMax
+        to: math_xBumpUp
+      - from: analyze_xMin
+        to: math_xBumpDown
+      - from: analyze_yMAX
+        to: math_yBumpUp
+      - from: analyze_Ymin
+        to: math_yBumpDown
+      - from: math_xBumpUp
+        to: lag1
+      - from: math_xBumpDown
+        to: lag2
+      - from: math_yBumpUp
+        to: lag3
+      - from: math_yBumpDown
+        to: lag4
+      - from: lag1
+        to: trail3
+      - from: math_rangeX
+        to: limit_x
+      - from: math_rangeY
+        to: limit_y
+      - from: limit_x
+        to: trail4
+      - from: math_rangeY
+        to: trail4
+    topology:
+      operator_count: 23
+      connection_count: 23
+      has_parallel_paths: true
+      max_chain_length: 7

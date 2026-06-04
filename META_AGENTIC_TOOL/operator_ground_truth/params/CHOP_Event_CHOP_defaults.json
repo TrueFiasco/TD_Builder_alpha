@@ -1,0 +1,463 @@
+{
+  "operator": "Event_CHOP",
+  "family": "CHOP",
+  "td_create_name": "eventCHOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "id": {
+      "value": {
+        "type": "string",
+        "value": "id"
+      },
+      "default": "id",
+      "page": "Channels",
+      "label": "ID",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "string",
+        "value": "index"
+      },
+      "default": "index",
+      "page": "Channels",
+      "label": "Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "string",
+        "value": "onoff"
+      },
+      "default": "onoff",
+      "page": "Channels",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "input": {
+      "value": {
+        "type": "string",
+        "value": "input"
+      },
+      "default": "input",
+      "page": "Channels",
+      "label": "Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "time": {
+      "value": {
+        "type": "string",
+        "value": "time"
+      },
+      "default": "time",
+      "page": "Channels",
+      "label": "Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "adsr": {
+      "value": {
+        "type": "string",
+        "value": "adsr"
+      },
+      "default": "adsr",
+      "page": "Channels",
+      "label": "ADSR",
+      "readOnly": false,
+      "expression": null
+    },
+    "state": {
+      "value": {
+        "type": "string",
+        "value": "state"
+      },
+      "default": "state",
+      "page": "Channels",
+      "label": "State",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetcondition": {
+      "value": {
+        "type": "menu",
+        "value": "on",
+        "menuIndex": 1,
+        "menuNames": [
+          "offtoon",
+          "on",
+          "ontooff",
+          "off"
+        ],
+        "menuLabels": [
+          "Off to On",
+          "While On",
+          "On to Off",
+          "While Off"
+        ]
+      },
+      "default": "on",
+      "page": "Channels",
+      "label": "Reset Condition",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Channels",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Channels",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "attacktime": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "ADSR",
+      "label": "Attack Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "attacktunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "ADSR",
+      "label": "Attack Time Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "attacklevel": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ADSR",
+      "label": "Attack Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "decaytime": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ADSR",
+      "label": "Decay Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "decaytunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "ADSR",
+      "label": "Decay Time Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "sustaintime": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ADSR",
+      "label": "Sustain Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "sustaintunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "ADSR",
+      "label": "Sustain Time Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "sustainmin": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "ADSR",
+      "label": "Sustain Min",
+      "readOnly": false,
+      "expression": null
+    },
+    "sustainmax": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "ADSR",
+      "label": "Sustain Max",
+      "readOnly": false,
+      "expression": null
+    },
+    "releasetime": {
+      "value": {
+        "type": "float",
+        "value": 3.0
+      },
+      "default": 3.0,
+      "page": "ADSR",
+      "label": "Release Time",
+      "readOnly": false,
+      "expression": null
+    },
+    "releasetunit": {
+      "value": {
+        "type": "menu",
+        "value": "seconds",
+        "menuIndex": 2,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S"
+        ]
+      },
+      "default": "seconds",
+      "page": "ADSR",
+      "label": "Release Time Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "releaselevel": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "ADSR",
+      "label": "Release Level",
+      "readOnly": false,
+      "expression": null
+    },
+    "speed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ADSR",
+      "label": "Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "globalspeed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ADSR",
+      "label": "Global Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

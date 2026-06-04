@@ -1,0 +1,555 @@
+{
+  "operator": "Grid_POP",
+  "family": "POP",
+  "td_create_name": "gridPOP",
+  "param_count": 41,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 21,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "surftype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 6,
+        "menuNames": [
+          "none",
+          "points",
+          "lines",
+          "linestrips",
+          "triangles",
+          "alttriangles",
+          "quads"
+        ],
+        "menuLabels": [
+          "None",
+          "Point Primitives",
+          "Lines",
+          "Line Strips",
+          "Triangles",
+          "Alternating Triangles",
+          "Quadrilaterals"
+        ]
+      },
+      "default": "quads",
+      "page": "Grid",
+      "label": "Connectivity",
+      "readOnly": false,
+      "expression": null
+    },
+    "modifybounds": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Grid",
+      "label": "Modify Bounds",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Grid",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizey": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Grid",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Grid",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "cols": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Grid",
+      "label": "Columns",
+      "readOnly": false,
+      "expression": null
+    },
+    "rows": {
+      "value": {
+        "type": "int",
+        "value": 20
+      },
+      "default": 20,
+      "page": "Grid",
+      "label": "Rows",
+      "readOnly": false,
+      "expression": null
+    },
+    "slices": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Grid",
+      "label": "Slices",
+      "readOnly": false,
+      "expression": null
+    },
+    "uniquepoints": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Grid",
+      "label": "Unique Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Grid",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomsizefitx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random Size Fit",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomsizefity": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random Size Fit",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomsizefitz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Random Size Fit",
+      "readOnly": false,
+      "expression": null
+    },
+    "linex": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Grid",
+      "label": "Line X/Y/Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "liney": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Grid",
+      "label": "Line X/Y/Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "linez": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Grid",
+      "label": "Line X/Y/Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "planex": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Grid",
+      "label": "Plane XY/YZ/ZX",
+      "readOnly": false,
+      "expression": null
+    },
+    "planey": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Grid",
+      "label": "Plane XY/YZ/ZX",
+      "readOnly": false,
+      "expression": null
+    },
+    "planez": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Grid",
+      "label": "Plane XY/YZ/ZX",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchoru": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Grid",
+      "label": "Anchor U",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Grid",
+      "label": "Anchor V",
+      "readOnly": false,
+      "expression": null
+    },
+    "anchorw": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Grid",
+      "label": "Anchor W",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Grid",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Grid",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "menu",
+        "value": "pointNormals",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "pointNormals",
+          "vertNormals",
+          "primNormals"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "pointNormals",
+      "page": "Grid",
+      "label": "Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "point",
+          "vert"
+        ],
+        "menuLabels": [
+          "None",
+          "Point",
+          "Vertex"
+        ]
+      },
+      "default": "point",
+      "page": "Grid",
+      "label": "Texture Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "dimension": {
+      "value": {
+        "type": "menu",
+        "value": "rowscolsalways",
+        "menuIndex": 1,
+        "menuNames": [
+          "morethanone",
+          "rowscolsalways",
+          "rowscolsslicesalways"
+        ],
+        "menuLabels": [
+          "When Rows Cols Slices > 1",
+          "Always for Rows Cols",
+          "Always for Rows Cols Slices"
+        ]
+      },
+      "default": "rowscolsalways",
+      "page": "Grid",
+      "label": "Append Dimension",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

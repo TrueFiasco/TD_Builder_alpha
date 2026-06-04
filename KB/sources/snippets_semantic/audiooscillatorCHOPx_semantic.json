@@ -1,0 +1,673 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiooscillatorCHOPx_lossless.json",
+  "operator_type": "audiooscillatorCHOPx",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 0.1,
+            "lag2": 0.1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "square",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "stdswitcher1": 1,
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "name0": "octave"
+          }
+        },
+        {
+          "name": "audioosci1",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "amp": 0.4,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "audioosci1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lag": 1,
+          "CHOP:lfo": 1,
+          "DAT:text": 1,
+          "CHOP:constant": 1,
+          "CHOP:audioosci": 1,
+          "CHOP:audiodevout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "stdswitcher1": 1,
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "audioosci2",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "wavetype": "whitenoise",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiospect1",
+          "type": "CHOP:audiospect",
+          "parameters": {
+            "frequencylog": 0,
+            "highfreqboost": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout3",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "volume": 0.348,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilter_pink",
+          "type": "CHOP:audiofilter",
+          "parameters": {
+            "cutofflog": 3.41,
+            "cutofffrequency": 2570.41,
+            "rolloff": 24,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audioosci2",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilter_pink",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "merge1",
+          "to": "audiospect1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "audiodevout3",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci2",
+          "to": "audiofilter_pink",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:audioosci": 1,
+          "CHOP:audiospect": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilter": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "stdswitcher1": 2,
+            "torange1": 440,
+            "torange2": 700,
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "stdswitcher1": 2,
+            "torange1": -1,
+            "torange2": 1,
+            "exporttable": "math2_export"
+          }
+        },
+        {
+          "name": "null5",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button3",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "w": 50,
+            "h": 50,
+            "top": "./bg"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null5",
+            "offtoon": "on",
+            "ontooff": "on",
+            "defaultreadencoding": "cp1252"
+          }
+        },
+        {
+          "name": "audioosci5",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "wavetype": "tri",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "slider_bias",
+          "type": "COMP:slider",
+          "parameters": {
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "bufferlength": 0.25,
+            "volume": 0.182,
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252"
+          }
+        },
+        {
+          "name": "math2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252"
+          }
+        },
+        {
+          "name": "slider_pitch",
+          "type": "COMP:slider",
+          "parameters": {
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "note_audiodevout1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider_pitch/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider_bias/out1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "button3/out1",
+          "to": "null5",
+          "to_input": "0"
+        },
+        {
+          "from": "audiodevout1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci5",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:math": 2,
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "CHOP:trail": 1,
+          "COMP:button": 1,
+          "DAT:chopexec": 1,
+          "CHOP:audioosci": 1,
+          "COMP:slider": 2,
+          "CHOP:audiodevout": 1,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "out2",
+          "type": "CHOP:out",
+          "parameters": {
+            "exporttable": "out2_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "w": 50,
+            "h": 50,
+            "top": "./bg"
+          }
+        },
+        {
+          "name": "filein1",
+          "type": "CHOP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "audioosci4",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "out2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2
+          }
+        },
+        {
+          "name": "audiodevout2",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "note_audiodevout2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "out2",
+          "to_input": "0"
+        },
+        {
+          "from": "slider1/out1",
+          "to": "audioosci4",
+          "to_input": "0"
+        },
+        {
+          "from": "filein1",
+          "to": "audioosci4",
+          "to_input": "2"
+        },
+        {
+          "from": "audioosci4",
+          "to": "audiodevout2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:out": 1,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "CHOP:filein": 1,
+          "COMP:slider": 1,
+          "CHOP:audioosci": 1,
+          "DAT:table": 1,
+          "CHOP:audiodevout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "stdswitcher1": 1,
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "attack": 0.02,
+            "channame": "envelope",
+            "multitriggeradd": "on",
+            "timeslice": "on",
+            "exporttable": "trigger1_export"
+          }
+        },
+        {
+          "name": "audioosci3",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiodevout5",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "volume": 0.5,
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trigger1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audioosci3",
+          "to": "audiodevout5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:trigger": 1,
+          "CHOP:audioosci": 1,
+          "CHOP:audiodevout": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "stdswitcher1": 1,
+            "defaultreadencoding": "cp1252",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "audioosci1",
+          "type": "CHOP:audioosci",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "frequencies",
+          "type": "CHOP:constant",
+          "parameters": {
+            "name0": "hz1",
+            "value0": 1000,
+            "name1": "hz2",
+            "value1": 547
+          }
+        },
+        {
+          "name": "audiodevout5",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "volume": 0.5,
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "rename_toOctave",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "octave[1-8]"
+          }
+        },
+        {
+          "name": "function_logBase2",
+          "type": "CHOP:function",
+          "parameters": {
+            "func": "logb"
+          }
+        },
+        {
+          "name": "math_relativeToBaseFrequecy",
+          "type": "CHOP:math",
+          "parameters": {
+            "stdswitcher1": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "function_logBase2",
+          "to": "audioosci1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioosci1",
+          "to": "audiodevout5",
+          "to_input": "0"
+        },
+        {
+          "from": "math_relativeToBaseFrequecy",
+          "to": "rename_toOctave",
+          "to_input": "0"
+        },
+        {
+          "from": "rename_toOctave",
+          "to": "function_logBase2",
+          "to_input": "0"
+        },
+        {
+          "from": "frequencies",
+          "to": "math_relativeToBaseFrequecy",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:audioosci": 1,
+          "CHOP:constant": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:rename": 1,
+          "CHOP:function": 1,
+          "CHOP:math": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    }
+  ]
+}

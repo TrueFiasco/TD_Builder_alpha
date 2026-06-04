@@ -1,0 +1,261 @@
+chopexecuteDAT:
+  example1: "A slider CHOP value triggers the DAT to execute and write the current value to a Text DAT. The data flows from slider input through a null CHOP output."
+  example2: "A constant CHOP flows through speed and math processors to a null CHOP output, with the DAT executing on CHOP value changes and writing to a Text DAT."
+  example3: "A button click triggers separate Python functions for on/off transitions, routing the signal through a null CHOP while logging state changes to Text DAT."
+  example4: "An LFO CHOP drives continuous whileOn/whileOff function execution, with the signal flowing through null CHOP and a constant counter tracking state."
+  example5: "An isolated constant CHOP provides valueChange event data to the Python functions when CHOP values are modified in the Textport."
+  example6: "A constant CHOP's value changes are captured by the DAT, which provides previous values to track the most recent differences in a table output."
+
+choptoDAT:
+  example1: "Constant CHOP names and values are extracted and organized into tables by row or column format, creating two output table representations."
+  example2: "Noise CHOP samples across all channels are converted into a table format with all values organized for easy access."
+
+convertDAT:
+  example1: "Two Text DATs flow to convert operators that split content at spaces or tabs, creating separate Table DAT outputs."
+  example2: "Two Table DATs are converted back to Text format with either spaces or ellipses as delimiters between cell values."
+
+cplusplusDAT:
+  example1: "A button component demonstrates C++ custom operator usage with no data flow connections."
+
+datexecuteDAT:
+  example1: "Changes to any part of a table trigger the DAT to write the table name to a Text DAT via an execute callback."
+  example2: "Row modifications in a table trigger the DAT to retrieve and print the changed row index to a Text DAT."
+  example3: "Column modifications in a table trigger the DAT to retrieve and print the changed column index to a Text DAT."
+  example4: "Individual cell changes trigger the DAT to query and write cell information and metadata to a Text DAT."
+  example5: "Modifications to the physical table structure trigger the DAT to write size change information to a Text DAT."
+
+errorDAT:
+  example1: "Three error DATs monitor general errors and specific nodes like Kinect, with callbacks that log error information to Text DATs."
+
+evaluateDAT:
+  example1: "A table input is processed by two evaluate DATs that multiply cells by 2 using different expression methods, with isolated standalone evaluators."
+  example2: "An opfind and table input flow through evaluate DATs that prepend or wrap strings around cell values."
+  example3: "An opfind DAT output flows to an evaluate DAT that wraps strings before and after cell values."
+  example4: "A folder DAT flows through an evaluate DAT that applies Python string manipulation to cell contents."
+  example5: "Two table inputs flow through an evaluate processor DAT to a null output, with expressions from one table applied to cells in the other."
+  example6: "Two table inputs flow through an evaluate processor DAT to a null output, with Python conditionals applied to corresponding cells."
+  example7: "A table input flows to an evaluate DAT that expands TouchDesigner's app and project global variables."
+  example8: "Two table inputs flow through an evaluate DAT that applies expressions to all rows while preserving the header row."
+  example9: "Four table inputs flow through multiple evaluate DATs with scope settings to preserve headers while transforming specific cell ranges."
+  example10: "Text and table inputs flow through an evaluate DAT that accesses metadata about input cells like row and column information."
+  example12: "A table input flows to an evaluate DAT that expands Tscript legacy scripting language global variables."
+
+examineDAT:
+  example1: "Examine DATs retrieve component extension definitions from a base component and utilities text file to analyze their structure."
+  example2: "Examine DATs inspect a component's extensions defined in an external utilities DAT to display class information."
+  example3: "Examine DATs retrieve and parse Python storage written to operators, displaying stored variables and data structures."
+  example4: "Examine DATs access local storage of a text operator to retrieve and display its local variables and storage contents."
+  example5: "Examine DATs inspect the sys module's IO storage to display system input/output information."
+  example6: "An examine DAT displays all storage kept by sys modules including paths to Python modules used in TouchDesigner."
+
+executeDAT:
+  example1: "An execute DAT runs once when the project starts and writes initialization data to a Text DAT."
+  example2: "An execute DAT runs when the node is created and writes the frame number to a Text DAT for tracking creation timing."
+  example3: "An execute DAT runs at the start of every frame and records frame timing information to a Text DAT."
+  example4: "An execute DAT runs at the end of every frame and logs frame completion events to a Text DAT."
+  example5: "An execute DAT runs at frame start and writes the absolute frame counter to a Text DAT for frame tracking."
+
+fifoDAT:
+  example1: "New rows are appended to a FIFO DAT with Python, automatically removing the oldest row, while callbacks log information to text."
+
+folderDAT:
+  example1: "A folder DAT lists directory contents and feeds the file list through a replicator to create nodes for each file and folder."
+  example2: "Two folder DATs track directory changes with asynchronous updates, flowing timing data through an info CHOP and trail processor."
+  example3: "A container component receives movie/image file selection from a folder DAT filtered for media types, routing outputs to null operators."
+
+inDAT:
+  example1: "A base component receives a table input through an In DAT on its left side, with the output flowing to a null DAT."
+
+infoDAT:
+  example1: "A moviefile TOP flows through an info DAT to get DirectX handle information needed for a directx output TOP."
+  example2: "An info DAT displays a list of available video input devices from the system."
+  example3: "An info DAT shows text field selection information for a field component."
+
+insertDAT:
+  example1: "A table input flows to an insert DAT that adds a new row at the top with filled cells."
+  example2: "A table input flows through an insert DAT processor that adds a row, with output routed to null."
+  example3: "A table input flows through an insert DAT processor that adds a column, with output routed to null."
+  example4: "A table input flows to three different insert DATs that add columns using various methods."
+  example5: "A table input flows through multiple insert DATs in sequence, adding and replacing rows/columns with annotations tracking each step."
+
+jsonDAT:
+  example1: "Multiple JSON DATs extract different elements from text input using various JSONPath query methods, with increasing specificity in filtering."
+  example2: "A text JSON input flows through multiple JSON DATs that output parsed data as either text or JSON objects for different use cases."
+  example3: "Text input flows through JSON DATs that use expressions to output specific JSON structure elements directly."
+  example4: "Text input flows through JSON DATs that apply JSONPath filter expressions to extract and filter specific data subsets."
+  example5: "Two text inputs flow through JSON DATs in sequence, with processor DATs filtering results before final outputs."
+  example6: "Three text inputs feed a switch processor DAT that routes them to JSON DATs with hold-last-value option enabled."
+  example7: "Multiple text inputs and a web DAT flow through JSON processor DATs to extract and convert JSON arrays into table format."
+  example8: "Text inputs flow through JSON DATs that find and merge multiple JSON keys into separate table outputs."
+  example9: "CHOP channels are converted to JSON text format, then flow through JSON DATs for validation and file output."
+
+keyboardinDAT:
+  example1: "A keyboard input DAT captures key events and maintains a FIFO table of key press/release events for callback processing."
+
+lookupDAT:
+  example1: "Multiple index and data tables flow through lookup DATs that retrieve and return specific rows based on index matching."
+  example2: "Index tables and data tables flow through lookup DATs that reorder and select rows by matching first column values."
+
+mergeDAT:
+  example1: "Two text DATs merge into append operations that combine content either by column or by row."
+  example2: "Two table DATs merge through collapse operations that compress rows or columns into single unified data."
+  example3: "Two table DATs merge into a single DAT that collapses all cells into one combined value."
+  example4: "Isolated table DATs are selected by expression pattern and their rows append into a single merged output table."
+
+midiinDAT:
+  example1: "MIDI controller messages flow through a mapping table to parameter changes on a pattern CHOP."
+  example2: "MIDI messages increment a constant counter, with the count flowing through slope and filter CHOPs to measure message rate."
+
+multitouchinDAT:
+  example1: "Multi-touch events from a text TOP are processed and routed to container callbacks for gesture handling."
+  example2: "Render pick instance data identifies touched geometry instances for interactive manipulation."
+
+opexecuteDAT:
+  example1: "An opexec DAT monitors box1 SOP for any changes (parameters, flags, deletion) and executes callbacks when modifications occur."
+
+opfindDAT:
+  example1: "OpFind DATs search the project for operator types (CHOP Execute DATs, Audio Device Out CHOPs) and create output tables."
+  example2: "An opfind DAT searches for Transform TOPs with non-default parameters and outputs their current values in a table."
+  example3: "An opfind DAT searches for DAT operators by name pattern matching."
+  example4: "A field component input flows to an opfind DAT that searches for text DATs matching the search string in their content."
+  example5: "An opfind DAT searches for operators with specific tags and populates a list component with found results."
+  example6: "An opfind DAT output flows through a sort DAT that reorders operators by their horizontal screen position."
+
+oscinDAT:
+  example1: "An LFO CHOP value is sent via OSC/UDP through send and receive DATs, with incoming data logged to text DATs."
+  example2: "An oscout DAT sends sample OSC formatted data to an oscin DAT for testing message reception."
+  example3: "A udpout DAT sends different message formats with various terminators to a udpin DAT."
+  example4: "A udpout DAT sends different byte formats via UDP to a udpin DAT for byte-level communication testing."
+
+oscoutDAT:
+  example1: "This operator is referenced by the oscinDAT example."
+
+panelexecuteDAT:
+  example1: "Panel mouse wheel and key events are captured by a panel execute DAT and accumulated in text and constant CHOPs."
+  example2: "A button state change triggers a panel execute DAT to write 1 or 0 values to a table tracking button history."
+  example3: "Panel container touch positions flow through a panel execute DAT callback that updates state in a table."
+  example4: "Slider panel values flow through a panel execute DAT callback that directly accesses and logs slider state to a table."
+  example5: "Panel events are logged to the Textport through a panel execute DAT callback."
+
+parameterDAT:
+  example1: "A constant CHOP's built-in parameters display in a parameter DAT with full definitions exported to a table."
+
+parameterexecuteDAT:
+  example1: "A period slider component changes a wave CHOP's period parameter through a panel execute DAT, with feedback from manual parameter changes."
+  example2: "A wiggle slider component changes box2 SOP parameters, with a parameter execute DAT detecting all parameter modifications."
+
+pargroupexecuteDAT:
+  example1: "Rectangle TOP size parameter group changes trigger a parameter group execute DAT to fire once per group modification."
+  example2: "Multiple button components change circle TOP parameter groups, with a single parameter group execute DAT combining changes per frame."
+
+poptoDAT:
+  example1: "Multiple POP geometry operators output to POP Data Out DATs which are captured by POP to DAT conversion operators."
+
+renderpickDAT:
+  example1: "User clicks on rotating geometry are captured by render pick interactions to relocate texture mapping."
+  example2: "A render TOP with multiple geometry objects flows through a render pick processor that detects object selection and processes interactions."
+
+reorderDAT:
+  example1: "A table input flows to a reorder DAT that reverses row order."
+  example2: "A table input flows to a reorder DAT that reorders rows by specified names."
+  example3: "A table input flows to a reorder DAT that reorders rows by index replacement."
+  example4: "A table input flows to a reorder DAT that reorders rows by specified index order."
+  example5: "A table input flows to a reorder DAT that repeats and reorders rows using index references."
+
+scriptDAT:
+  example1: "A table input flows through script DATs that create new tables and compose rows/columns from existing cells."
+  example2: "A table input flows to a script DAT that copies the input and iterates through rows."
+  example3: "Table inputs flow through script DATs that iterate rows or sum column values across ranges."
+  example4: "A script DAT uses a custom parameter integer slider to generate a specified number of random rows."
+  example5: "Two table inputs flow to a script DAT that replaces matching rows in one table with rows from another."
+  example6: "Two table inputs flow to script DATs that transform strings to their lengths and compare corresponding cells."
+  example7: "A table input flows to a script DAT that filters out rows containing words from a custom exclude parameter."
+  example8: "A table input flows to a script DAT that shuffles cell contents using a seed value from a custom parameter."
+
+selectDAT:
+  example1: "A text input flows through a select DAT for cell selection, with additional select DATs using parameters for alternate selection."
+  example2: "An isolated table is selected entirely by a select DAT."
+  example3: "A table input is selected by specific cell indices or index ranges through select DATs."
+  example4: "A table input is selected by row and column names using a select DAT."
+  example5: "A table input is selected by cell value matching in a select DAT."
+  example6: "A table is selected to identify non-empty cells using pattern matching across rows/columns."
+  example7: "A select DAT isolates table data for use in another network location without extra wiring."
+  example8: "A table flows through a sort processor to a select DAT that filters rows by threshold value."
+  example9: "A table flows to a select DAT that keeps every Nth row using row index modulo expressions."
+
+serialDAT:
+  example1: "Serial input data flows through a convert processor to extract individual values, routing to separate filter CHOPs for yaw and pitch."
+
+soptoDAT:
+  example1: "A sphere SOP flows through sopto DAT to extract point data, with table offset values flowing through evaluate DAT for point adjustment."
+  example2: "A circle SOP particle system flows through sopto DAT to extract point information, with life span values modified by evaluate and select DATs."
+
+sortDAT:
+  example1: "A table flows through multiple chained sort DATs that sort by different columns in sequence for multi-column sorting."
+  example2: "A table flows through insert, merge, convert and evaluate processors that combine first/last name columns before sorting."
+
+substituteDAT:
+  example1: "A text DAT flows through a substitute processor that replaces specific symbols, with output to null."
+  example2: "A text DAT flows through a substitute processor that replaces number sequences, with output to null."
+  example3: "A table DAT flows through a substitute processor limited to a single row by scope settings, with output to null."
+  example4: "A table DAT flows through two substitute processors with case sensitivity differences applied to the first column."
+  example5: "A folder DAT flows to a substitute DAT that replaces path prefixes for media relocation."
+  example6: "Two table DATs flow to a substitute DAT where the second table defines multiple substitution rules."
+
+switchDAT:
+  example1: "An LFO CHOP drives a count CHOP that controls a switch DAT selecting between multiple text/table inputs."
+
+tableDAT:
+  example1: "An isolated table DAT with manual cell entry capability."
+  example2: "An isolated table DAT with exact dimensions specified via parameters."
+  example3: "Isolated table DATs with example text scripts for clearing, appending, writing and printing operations."
+  example4: "Multiple word tables flow through insert processors that fill table with values including row/column headings."
+
+tcpipDAT:
+  example1: "A test text DAT runs to send strings with different terminators through a tcpip server that receives on the client side."
+  example2: "A test text DAT runs to send byte arrays via TCP/IP using Python struct module."
+  example3: "A base component converts to byte array format and sends through TCP/IP to recreate on remote system."
+
+textDAT:
+  example1: "Isolated text DATs contain Python and Tscript examples for execution."
+
+touchoutDAT:
+  example1: "A chopto DAT flows to a touchout DAT which sends data to a remote touchin DAT when changes occur."
+  example2: "A base component converts to byte array and flows through touchout DAT to recreate on remote touchin DAT."
+
+transposeDAT:
+  example1: "A table column flows through a transpose processor to convert it into a row output."
+  example2: "A table row flows through a transpose processor to convert it into a column output."
+  example3: "A table flows through a transpose processor that flips all rows and columns."
+
+udpinDAT:
+  example1: "This operator is referenced by the oscinDAT example."
+
+udpoutDAT:
+  example1: "This operator is referenced by the oscinDAT example."
+
+webclientDAT:
+  example1: "A webclient DAT requests source code from the Derivative website on button activation."
+  example2: "A table with URL parameters flows to a webclient DAT that passes name/value pairs as query parameters."
+  example3: "A webclient DAT fetches NASA RSS feed data, parsing headlines and image URLs through table and select processors."
+  example4: "A count CHOP and image table flow through a select DAT to a webclient that downloads and displays images."
+  example5: "A button triggers concurrent asynchronous requests from a webclient DAT to an external API endpoint."
+  example6: "A text input flows to a webclient DAT that fetches JSON data, with callbacks parsing the response to a JSON DAT."
+
+webDAT:
+  example1: "An isolated web DAT fetches Derivative website content."
+  example2: "An isolated web DAT fetches Yahoo weather data."
+  example3: "A web DAT flows through select, sort and convert processors that extract and organize image data from web content."
+  example4: "An isolated container component extracts images from web data."
+
+webserverDAT:
+  example1: "An error DAT and table DAT feed a webserver DAT that serves dynamic web content on port 9980."
+  example2: "Noise TOPs flow through displace and transform processors to a webserver DAT that generates and serves random images."
+  example3: "A webclient and webserver DAT communicate with basic authentication for secure connections."
+
+websocketDAT:
+  example1: "A websocket DAT sends messages that are echoed back from an external websocket server and logged to a fifo DAT."
+
+xmlDAT:
+  example1: "A web DAT fetches Yahoo weather data, flowing to XML DATs that parse forecast and city information into tables."
+  example2: "A text XML input flows through multiple XML and convert processors that organize book information into a merged output table."

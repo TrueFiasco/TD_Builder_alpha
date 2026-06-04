@@ -1,0 +1,730 @@
+{
+  "operator": "Animation_COMP",
+  "family": "COMP",
+  "td_create_name": "animationCOMP",
+  "param_count": 50,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeref": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": ".",
+      "page": "Animation",
+      "label": "Time Reference",
+      "readOnly": false,
+      "expression": "me"
+    },
+    "channels": {
+      "value": {
+        "type": "op",
+        "value": "./channels"
+      },
+      "default": "./channels",
+      "page": "Animation",
+      "label": "Channels DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "playmode": {
+      "value": {
+        "type": "menu",
+        "value": "locked",
+        "menuIndex": 0,
+        "menuNames": [
+          "locked",
+          "input",
+          "sequential",
+          "outputrange"
+        ],
+        "menuLabels": [
+          "Locked to Timeline",
+          "Use Input Index",
+          "Sequential",
+          "Output Full Range"
+        ]
+      },
+      "default": "locked",
+      "page": "Animation",
+      "label": "Play Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Animation",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "speed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Animation",
+      "label": "Speed",
+      "readOnly": false,
+      "expression": null
+    },
+    "cue": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Animation",
+      "label": "Cue",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Animation",
+      "label": "Cue Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepoint": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Animation",
+      "label": "Cue Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepointunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction",
+          "xunits"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%",
+          "X"
+        ]
+      },
+      "default": "frames",
+      "page": "Animation",
+      "label": "Cue Point Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputindexunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction",
+          "xunits"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%",
+          "X"
+        ]
+      },
+      "default": "frames",
+      "page": "Animation",
+      "label": "Input Index Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "cyclic": {
+      "value": {
+        "type": "menu",
+        "value": "auto",
+        "menuIndex": 0,
+        "menuNames": [
+          "auto",
+          "yes",
+          "no"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "Yes",
+          "No"
+        ]
+      },
+      "default": "auto",
+      "page": "Animation",
+      "label": "Cyclic Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "specifyedit": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Animation",
+      "label": "Specify Edit Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "editorigin": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Animation",
+      "label": "Edit Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "editrate": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Animation",
+      "label": "Edit Rate",
+      "readOnly": false,
+      "expression": "root.time.rate"
+    },
+    "editanimation": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Animation",
+      "label": "Edit Animation...",
+      "readOnly": false,
+      "expression": null
+    },
+    "rangetype": {
+      "value": {
+        "type": "menu",
+        "value": "timeline",
+        "menuIndex": 0,
+        "menuNames": [
+          "timeline",
+          "custom"
+        ],
+        "menuLabels": [
+          "Timeline",
+          "Custom"
+        ]
+      },
+      "default": "timeline",
+      "page": "Range",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Range",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "startunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "frames",
+      "page": "Range",
+      "label": "Start Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "end": {
+      "value": {
+        "type": "float",
+        "value": 600.0
+      },
+      "default": 600.0,
+      "page": "Range",
+      "label": "End",
+      "readOnly": false,
+      "expression": null
+    },
+    "endunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "frames",
+      "page": "Range",
+      "label": "End Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "tleft": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Range",
+      "label": "Trim Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "tright": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Range",
+      "label": "Trim Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "tdefault": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Range",
+      "label": "Trim Default",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Extensions",
+      "label": "Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0object": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extensions",
+      "label": "Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extensions",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "ext0promote": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Promote",
+      "readOnly": false,
+      "expression": null
+    },
+    "reinitextensions": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Re-Init Extensions",
+      "readOnly": false,
+      "expression": null
+    },
+    "initextonstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Extensions",
+      "label": "Init Extensions on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "parentshortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Parent Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "opshortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Global OP Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Common",
+      "label": "Internal OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop0shortcut": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Shortcut",
+      "readOnly": false,
+      "expression": null
+    },
+    "iop0op": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "opviewer": {
+      "value": {
+        "type": "op",
+        "value": "./out"
+      },
+      "default": "./out1",
+      "page": "Common",
+      "label": "Operator Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "enablecloning": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Enable Cloning",
+      "readOnly": false,
+      "expression": null
+    },
+    "enablecloningpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Enable Cloning Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "clone": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Clone Master",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadondemand": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Load on Demand",
+      "readOnly": false,
+      "expression": null
+    },
+    "enableexternaltox": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Enable External .tox",
+      "readOnly": false,
+      "expression": null
+    },
+    "enableexternaltoxpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Enable External .tox Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "externaltox": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "External .tox Path",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadcustom": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Reload Custom Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadbuiltin": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Reload Built-In Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "savebackup": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Save Backup of External",
+      "readOnly": false,
+      "expression": null
+    },
+    "subcompname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Sub-Component to Load",
+      "readOnly": false,
+      "expression": null
+    },
+    "relpath": {
+      "value": {
+        "type": "menu",
+        "value": "inherit",
+        "menuIndex": 0,
+        "menuNames": [
+          "inherit",
+          "project",
+          "externaltox"
+        ],
+        "menuLabels": [
+          "Use Parent's Behavior",
+          "Relative to Project File (.toe)",
+          "Relative to External COMP File (.tox)"
+        ]
+      },
+      "default": "inherit",
+      "page": "Common",
+      "label": "Relative File Path Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

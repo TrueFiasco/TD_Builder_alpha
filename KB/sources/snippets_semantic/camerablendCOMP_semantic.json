@@ -1,0 +1,107 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\camerablendCOMP_lossless.json",
+  "operator_type": "camerablendCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "tz": -11
+          }
+        },
+        {
+          "name": "ortho",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": 4,
+            "tz": 20,
+            "projection": "ortho",
+            "orthowidth": 12,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tz": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render3",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "camblend1",
+            "uvunwrapcoordattrib": "uv",
+            "allowbufblending": "on",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "camblend1",
+          "type": "COMP:camblend",
+          "parameters": {
+            "parenttype": "sequence"
+          }
+        },
+        {
+          "name": "perspective",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": 15,
+            "ty": 20,
+            "tz": 13,
+            "lookat": "geo1",
+            "winrollpivot": "legacy"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "perspective",
+          "to": "camblend1",
+          "to_input": "0"
+        },
+        {
+          "from": "ortho",
+          "to": "camblend1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 2,
+        "operator_types": {
+          "COMP:geo": 2,
+          "COMP:cam": 2,
+          "COMP:light": 1,
+          "DAT:text": 1,
+          "TOP:render": 1,
+          "COMP:camblend": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

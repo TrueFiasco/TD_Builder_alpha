@@ -1,0 +1,346 @@
+{
+  "operator": "Group_SOP",
+  "family": "SOP",
+  "td_create_name": "groupSOP",
+  "param_count": 55,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "crname": {
+      "type": "string",
+      "value": "group1_perturbed"
+    },
+    "entity": {
+      "type": "menu",
+      "value": "point",
+      "menuIndex": 1,
+      "menuNames": [
+        "primitive",
+        "point"
+      ],
+      "menuLabels": [
+        "Primitives",
+        "Points"
+      ]
+    },
+    "geotype": {
+      "type": "menu",
+      "value": "bezierc",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "bezierc",
+        "bezier",
+        "circle",
+        "mesh",
+        "meta",
+        "nurbc",
+        "nurb",
+        "part",
+        "poly",
+        "sphere",
+        "tube",
+        "tristrip",
+        "trifan"
+      ],
+      "menuLabels": [
+        "All Types",
+        "Bezier Curve",
+        "Bezier Surface",
+        "Circle",
+        "Mesh",
+        "Metaball",
+        "NURBS Curve",
+        "NURBS Surface",
+        "Particles",
+        "Polygon",
+        "Sphere",
+        "Tube",
+        "Triangle Strip",
+        "Triangle Fan"
+      ]
+    },
+    "usenumber": {
+      "type": "toggle",
+      "value": true
+    },
+    "ordered": {
+      "type": "toggle",
+      "value": true
+    },
+    "groupop": {
+      "type": "menu",
+      "value": "grprange",
+      "menuIndex": 1,
+      "menuNames": [
+        "grppattern",
+        "grprange",
+        "grpexpression"
+      ],
+      "menuLabels": [
+        "Group by Pattern",
+        "Group by Range",
+        "Group by Expression"
+      ]
+    },
+    "pattern": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "transfer": {
+      "type": "pulse",
+      "value": null
+    },
+    "rangestart": {
+      "type": "int",
+      "value": 1
+    },
+    "rangeend": {
+      "type": "int",
+      "value": 1
+    },
+    "select1": {
+      "type": "int",
+      "value": 2
+    },
+    "select2": {
+      "type": "int",
+      "value": 3
+    },
+    "filter": {
+      "type": "int",
+      "value": 2
+    },
+    "usebounds": {
+      "type": "toggle",
+      "value": true
+    },
+    "boundtype": {
+      "type": "menu",
+      "value": "usebsphere",
+      "menuIndex": 1,
+      "menuNames": [
+        "usebbox",
+        "usebsphere",
+        "usebobject"
+      ],
+      "menuLabels": [
+        "Bounding Box",
+        "Bounding Sphere",
+        "Bounding Object (points only)"
+      ]
+    },
+    "sizex": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizey": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sizez": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ty": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "usenormal": {
+      "type": "toggle",
+      "value": true
+    },
+    "dirx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "diry": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "dirz": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "angle": {
+      "type": "float",
+      "value": 180.0
+    },
+    "camera": {
+      "type": "op",
+      "value": ""
+    },
+    "useedges": {
+      "type": "toggle",
+      "value": true
+    },
+    "doangle": {
+      "type": "toggle",
+      "value": true
+    },
+    "edgeangle": {
+      "type": "float",
+      "value": 20.12345
+    },
+    "dodepth": {
+      "type": "toggle",
+      "value": true
+    },
+    "edgestep": {
+      "type": "int",
+      "value": 1
+    },
+    "point": {
+      "type": "int",
+      "value": 1
+    },
+    "unshared": {
+      "type": "toggle",
+      "value": true
+    },
+    "boundarygroups": {
+      "type": "toggle",
+      "value": true
+    },
+    "grpequal": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "not1": {
+      "type": "toggle",
+      "value": true
+    },
+    "grp1": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "op1": {
+      "type": "menu",
+      "value": "or",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "or",
+        "and",
+        "xor",
+        "sub"
+      ],
+      "menuLabels": [
+        "None",
+        "Union (Or)",
+        "Intersect (And)",
+        "Exclusive Or",
+        "Subtraction"
+      ]
+    },
+    "not2": {
+      "type": "toggle",
+      "value": true
+    },
+    "grp2": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "op2": {
+      "type": "menu",
+      "value": "or",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "or",
+        "and",
+        "xor",
+        "sub"
+      ],
+      "menuLabels": [
+        "None",
+        "Union (Or)",
+        "Intersect (And)",
+        "Exclusive Or",
+        "Subtraction"
+      ]
+    },
+    "not3": {
+      "type": "toggle",
+      "value": true
+    },
+    "grp3": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "op3": {
+      "type": "menu",
+      "value": "or",
+      "menuIndex": 1,
+      "menuNames": [
+        "none",
+        "or",
+        "and",
+        "xor",
+        "sub"
+      ],
+      "menuLabels": [
+        "None",
+        "Union (Or)",
+        "Intersect (And)",
+        "Exclusive Or",
+        "Subtraction"
+      ]
+    },
+    "not4": {
+      "type": "toggle",
+      "value": true
+    },
+    "grp4": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "cnvtype": {
+      "type": "menu",
+      "value": "topoint",
+      "menuIndex": 1,
+      "menuNames": [
+        "toprim",
+        "topoint"
+      ],
+      "menuLabels": [
+        "Primitive to Point Group",
+        "Point to Primitive Group"
+      ]
+    },
+    "convertg": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "cnvtname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "preserve": {
+      "type": "toggle",
+      "value": true
+    },
+    "oldname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "newname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "destroyname": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

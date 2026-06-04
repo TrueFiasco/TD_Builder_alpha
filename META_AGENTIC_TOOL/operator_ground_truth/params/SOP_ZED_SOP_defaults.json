@@ -1,0 +1,173 @@
+{
+  "operator": "ZED_SOP",
+  "family": "SOP",
+  "td_create_name": "zedSOP",
+  "param_count": 13,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "zedtop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "ZED",
+      "label": "ZED TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "sample": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "reset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Reset Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "preview": {
+      "value": {
+        "type": "menu",
+        "value": "limited",
+        "menuIndex": 1,
+        "menuNames": [
+          "nopreview",
+          "limited",
+          "limited"
+        ],
+        "menuLabels": [
+          "No Preview",
+          "Limited Preview",
+          "Full Preview"
+        ]
+      },
+      "default": "limited",
+      "page": "ZED",
+      "label": "Preview",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxmemory": {
+      "value": {
+        "type": "int",
+        "value": 1024
+      },
+      "default": 1024,
+      "page": "ZED",
+      "label": "Maximum Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolution": {
+      "value": {
+        "type": "float",
+        "value": 0.029999999329447746
+      },
+      "default": 0.029999999329447746,
+      "page": "ZED",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "range": {
+      "value": {
+        "type": "float",
+        "value": 5.0
+      },
+      "default": 5.0,
+      "page": "ZED",
+      "label": "Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "normals": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Normals",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Texture",
+      "readOnly": false,
+      "expression": null
+    },
+    "filter": {
+      "value": {
+        "type": "menu",
+        "value": "low",
+        "menuIndex": 0,
+        "menuNames": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "menuLabels": [
+          "Low",
+          "Medium",
+          "High"
+        ]
+      },
+      "default": "low",
+      "page": "ZED",
+      "label": "Filter",
+      "readOnly": false,
+      "expression": null
+    },
+    "consolidatepts": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Consolidate Points",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

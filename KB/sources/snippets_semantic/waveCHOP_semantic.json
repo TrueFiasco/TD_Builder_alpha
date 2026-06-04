@@ -1,0 +1,273 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\waveCHOP_lossless.json",
+  "operator_type": "waveCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 2,
+            "decay": 0.259
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "halfbox",
+            "width": 2,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "amplitude",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "amp",
+            "value0": 0.672956,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "amplitude/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "wave1",
+          "to": "lookup1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:filter": 1,
+          "CHOP:lookup": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "sine",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 10,
+            "startunit": "samples",
+            "end": 599,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "decay",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "ramp",
+            "period": 10,
+            "offset": -1,
+            "amp": -1,
+            "decay": 0.5,
+            "startunit": "samples",
+            "end": 599,
+            "endunit": "samples",
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp_hold",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "ramp",
+            "period": 10,
+            "startunit": "samples",
+            "end": 599,
+            "endunit": "samples",
+            "left": "hold",
+            "right": "hold"
+          }
+        },
+        {
+          "name": "ramp_repeat",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "wavetype": "ramp",
+            "period": 10,
+            "startunit": "samples",
+            "end": 599,
+            "endunit": "samples"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:wave": 4,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lookup2",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "lookup3",
+          "type": "CHOP:lookup",
+          "parameters": {}
+        },
+        {
+          "name": "easeinout",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "period": 20,
+            "phase": 0.25,
+            "offset": 1,
+            "amp": 0.5,
+            "startunit": "samples",
+            "end": 599,
+            "endunit": "samples",
+            "left": "hold",
+            "right": "hold"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "easeinout",
+          "to": "lookup2",
+          "to_input": "0"
+        },
+        {
+          "from": "easeinout",
+          "to": "lookup2",
+          "to_input": "1"
+        },
+        {
+          "from": "lookup2",
+          "to": "lookup3",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup2",
+          "to": "lookup3",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:lookup": 2,
+          "CHOP:wave": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

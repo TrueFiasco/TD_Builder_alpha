@@ -1,0 +1,293 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\xmlDAT_lossless.json",
+  "operator_type": "xmlDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "web2",
+          "type": "DAT:web",
+          "parameters": {
+            "url": "http://xml.weather.yahoo.com/forecastrss?p=10162",
+            "language": "xml"
+          }
+        },
+        {
+          "name": "xml1",
+          "type": "DAT:xml",
+          "parameters": {
+            "pageindex": 2,
+            "oaname": "\"day* low* high*\"",
+            "show": "attribscol"
+          }
+        },
+        {
+          "name": "xml8",
+          "type": "DAT:xml",
+          "parameters": {
+            "pageindex": 2,
+            "oaname": "city*",
+            "show": "attribscol"
+          }
+        },
+        {
+          "name": "datto1",
+          "type": "CHOP:datto",
+          "parameters": {
+            "dat": "xml1",
+            "firstrow": "ignored"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "web2",
+          "to": "xml1",
+          "to_input": "0"
+        },
+        {
+          "from": "web2",
+          "to": "xml8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:web": 1,
+          "DAT:xml": 2,
+          "CHOP:datto": 1,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "xml2",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "author",
+            "show": "text"
+          }
+        },
+        {
+          "name": "xml3",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "title",
+            "show": "text"
+          }
+        },
+        {
+          "name": "xml4",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "genre",
+            "show": "text"
+          }
+        },
+        {
+          "name": "xml5",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "price",
+            "show": "text"
+          }
+        },
+        {
+          "name": "xml6",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "publish_date",
+            "show": "text"
+          }
+        },
+        {
+          "name": "xml7",
+          "type": "DAT:xml",
+          "parameters": {
+            "ptext": "description",
+            "show": "text"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "xml"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "col"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert2",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert3",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert4",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert5",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "convert6",
+          "type": "DAT:convert",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "xml2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "xml3",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "xml4",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "xml5",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "xml6",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "xml7",
+          "to_input": "0"
+        },
+        {
+          "from": "convert6",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "convert5",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "convert4",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "convert3",
+          "to": "merge1",
+          "to_input": "3"
+        },
+        {
+          "from": "convert2",
+          "to": "merge1",
+          "to_input": "4"
+        },
+        {
+          "from": "convert1",
+          "to": "merge1",
+          "to_input": "5"
+        },
+        {
+          "from": "xml7",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "xml6",
+          "to": "convert2",
+          "to_input": "0"
+        },
+        {
+          "from": "xml5",
+          "to": "convert3",
+          "to_input": "0"
+        },
+        {
+          "from": "xml4",
+          "to": "convert4",
+          "to_input": "0"
+        },
+        {
+          "from": "xml3",
+          "to": "convert5",
+          "to_input": "0"
+        },
+        {
+          "from": "xml2",
+          "to": "convert6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 18,
+        "operator_types": {
+          "DAT:xml": 6,
+          "DAT:text": 2,
+          "DAT:merge": 1,
+          "DAT:convert": 6
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

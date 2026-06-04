@@ -1,0 +1,296 @@
+{
+  "operator": "SOP_to_CHOP",
+  "family": "CHOP",
+  "td_create_name": "soptoCHOP",
+  "param_count": 24,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "sop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "SOP to CHOP",
+      "label": "SOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "SOP to CHOP",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "position": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "SOP to CHOP",
+      "label": "Position XYZ",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorrgb": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Color RGB",
+      "readOnly": false,
+      "expression": null
+    },
+    "coloralpha": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Color Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "textureuv": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Texture UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "texturew": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Texture W",
+      "readOnly": false,
+      "expression": null
+    },
+    "custom": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Custom",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointindex": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Point Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "normpos": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "SOP to CHOP",
+      "label": "Normal Position XYZ",
+      "readOnly": false,
+      "expression": null
+    },
+    "attribscope": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "SOP to CHOP",
+      "label": "Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamescope": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "SOP to CHOP",
+      "label": "Rename Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "transobj": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "SOP to CHOP",
+      "label": "Transform Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "SOP to CHOP",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

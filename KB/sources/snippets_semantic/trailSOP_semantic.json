@@ -1,0 +1,66 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\trailSOP_lossless.json",
+  "operator_type": "trailSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "SOP:trail",
+          "parameters": {
+            "length": 10,
+            "inc": 4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:box": 1,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

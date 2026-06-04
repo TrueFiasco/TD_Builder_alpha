@@ -1,0 +1,401 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\opencolorioTOP_lossless.json",
+  "operator_type": "opencolorioTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "ocio1",
+          "type": "TOP:ocio",
+          "parameters": {
+            "pageindex": 3,
+            "cdlmode": "values",
+            "slopex": 3.4,
+            "slopey": 3.4,
+            "slopez": 4.2,
+            "offsetx": -1.2,
+            "offsety": -1.4,
+            "powerx": 1.6,
+            "powery": 1.6,
+            "powerz": 1.6,
+            "saturation": 1.94,
+            "useoutput": "on",
+            "gain": 0.91,
+            "gamma": 1.12
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "ocio1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:ocio": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "crop1",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.471,
+            "cropright": 0.502,
+            "cropbottom": 0.524,
+            "croptop": 0.731,
+            "inputfiltertype": "nearest",
+            "fillmode": "nativeres"
+          }
+        },
+        {
+          "name": "crop2",
+          "type": "TOP:crop",
+          "parameters": {
+            "cropleft": 0.471,
+            "cropright": 0.502,
+            "cropbottom": 0.524,
+            "croptop": 0.731,
+            "inputfiltertype": "nearest",
+            "fillmode": "nativeres"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sRGBRamp",
+          "type": "TOP:ocio",
+          "parameters": {
+            "pageindex": 1,
+            "useprexform": "on",
+            "preincs": "linear",
+            "preoutcs": "sRGB"
+          }
+        },
+        {
+          "name": "glsl1_info",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "fakedMidGrey",
+            "language": "text"
+          }
+        },
+        {
+          "name": "linearRamp",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 1,
+            "dat": "ramp3_keys"
+          }
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "glsl1_pixel",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "realMidGrey",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "fakedMidGrey",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pageindex": 8,
+            "pixeldat": "glsl1_pixel",
+            "computedat": "glsl1_compute",
+            "fillmode": "nativeres",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "glsl1_compute",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "linearMidGrey",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "compareWithsRGB",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "nativeres",
+            "legacyxform": "on",
+            "inputfiltertype": "nearest",
+            "fillmode": "nativeres",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "compareWithLinear",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "nativeres",
+            "legacyxform": "on",
+            "inputfiltertype": "nearest",
+            "fillmode": "nativeres",
+            "filtertype": "nearest"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "fakedMidGrey",
+          "to": "crop1",
+          "to_input": "0"
+        },
+        {
+          "from": "realMidGrey",
+          "to": "crop2",
+          "to_input": "0"
+        },
+        {
+          "from": "linearRamp",
+          "to": "sRGBRamp",
+          "to_input": "0"
+        },
+        {
+          "from": "crop2",
+          "to": "compareWithsRGB",
+          "to_input": "0"
+        },
+        {
+          "from": "sRGBRamp",
+          "to": "compareWithsRGB",
+          "to_input": "1"
+        },
+        {
+          "from": "crop2",
+          "to": "compareWithLinear",
+          "to_input": "0"
+        },
+        {
+          "from": "linearRamp",
+          "to": "compareWithLinear",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:crop": 2,
+          "DAT:text": 3,
+          "TOP:ocio": 1,
+          "DAT:info": 1,
+          "TOP:ramp": 1,
+          "DAT:table": 1,
+          "TOP:constant": 2,
+          "TOP:glsl": 1,
+          "TOP:over": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "ocio1",
+          "type": "TOP:ocio",
+          "parameters": {
+            "pageindex": 1,
+            "useprexform": "on",
+            "preincs": "SLog",
+            "preoutcs": "linear"
+          }
+        },
+        {
+          "name": "ocio2",
+          "type": "TOP:ocio",
+          "parameters": {
+            "pageindex": 1,
+            "useprexform": "on",
+            "preincs": "SLog",
+            "preoutcs": "linear",
+            "cdlmode": "values",
+            "slopex": 1.66,
+            "slopey": 1.27,
+            "slopez": 1.1,
+            "offsetx": -0.04,
+            "offsety": 0.04,
+            "offsetz": 0.1,
+            "powerx": 0.95,
+            "powery": 0.95,
+            "powerz": 0.95,
+            "saturation": 0.79
+          }
+        },
+        {
+          "name": "ocio3",
+          "type": "TOP:ocio",
+          "parameters": {
+            "useprexform": "on",
+            "preincs": "SLog",
+            "preoutcs": "linear",
+            "cdlmode": "values",
+            "slopex": 1.28,
+            "slopey": 0.69,
+            "slopez": 0.54,
+            "offsetx": -0.295,
+            "offsety": 0.03,
+            "offsetz": -0.05,
+            "powerx": 0.97,
+            "powery": 0.97,
+            "powerz": 0.97,
+            "saturation": 0.67,
+            "cdldirection": "inverse"
+          }
+        },
+        {
+          "name": "ocio4",
+          "type": "TOP:ocio",
+          "parameters": {
+            "pageindex": 4,
+            "useprexform": "on",
+            "preincs": "SLog",
+            "preoutcs": "linear",
+            "cdlmode": "values",
+            "powerx": 1.2,
+            "powery": 1.2,
+            "powerz": 1.2,
+            "saturation": 2.38,
+            "useoutput": "on",
+            "gain": 2.1,
+            "gamma": 0.34
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "lumalevel1",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "gamma1": 1.7
+          }
+        },
+        {
+          "name": "moviefilein_ocioTest",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "lumalevel1",
+          "to": "ocio1",
+          "to_input": "0"
+        },
+        {
+          "from": "lumalevel1",
+          "to": "ocio2",
+          "to_input": "0"
+        },
+        {
+          "from": "lumalevel1",
+          "to": "ocio3",
+          "to_input": "0"
+        },
+        {
+          "from": "lumalevel1",
+          "to": "ocio4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein_ocioTest",
+          "to": "lumalevel1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:ocio": 4,
+          "DAT:text": 2,
+          "TOP:lumalevel": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

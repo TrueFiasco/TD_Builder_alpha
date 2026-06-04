@@ -1,0 +1,439 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\chopexecuteDAT_lossless.json",
+  "operator_type": "chopexecuteDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null4",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "value0": 0.5,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "chopexec5",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null4",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider1/out1",
+          "to": "null4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "COMP:slider": 1,
+          "DAT:chopexec": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "integer": "ceiling"
+          }
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {
+            "cooktype": "selective"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "loop",
+            "max": 5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null3",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1
+          }
+        },
+        {
+          "name": "currentVal",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "CHOP:speed": 1,
+          "DAT:chopexec": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "click_me",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Click me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "chopexec2",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null1",
+            "offtoon": "on",
+            "ontooff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "buttonStatus",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "click_me/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "DAT:chopexec": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.71,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "cooktype": "selective"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopexec3",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null2",
+            "whileon": "on",
+            "whileoff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constantCount",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "whileOn",
+            "const0value": 6339,
+            "const1name": "whileOff",
+            "const1value": 1311
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "null2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "DAT:chopexec": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopexec4",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "constant3",
+            "freq": "onceperframe",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant3",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "a",
+            "const0value": 0.25,
+            "const1name": "b",
+            "const1value": 0.29,
+            "const2name": "c",
+            "const2value": 0.65
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:chopexec": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "datto1",
+          "type": "CHOP:datto",
+          "parameters": {
+            "dat": "tableDiff",
+            "firstcolumn": "values"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopexec6",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "constant2",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "x",
+            "const0value": 0.3,
+            "const1name": "y",
+            "const1value": 0.6,
+            "const2name": "z",
+            "const2value": 0.26
+          }
+        },
+        {
+          "name": "tableDiff",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "fill": "setsize",
+            "cols": 1,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:datto": 1,
+          "DAT:text": 1,
+          "DAT:chopexec": 1,
+          "CHOP:constant": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

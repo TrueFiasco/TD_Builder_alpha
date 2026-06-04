@@ -1,0 +1,187 @@
+{
+  "operator": "Project_SOP",
+  "family": "SOP",
+  "td_create_name": "projectSOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "facegroup": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "surfgroup": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "cycle": {
+      "type": "menu",
+      "value": "allover",
+      "menuIndex": 1,
+      "menuNames": [
+        "allseq",
+        "allover",
+        "oneeach",
+        "cycled"
+      ],
+      "menuLabels": [
+        "All on Each Surface in Sequence",
+        "All on Each Surface Overlapping",
+        "One per Surface",
+        "Cycled"
+      ]
+    },
+    "method": {
+      "type": "menu",
+      "value": "parametric",
+      "menuIndex": 1,
+      "menuNames": [
+        "vector",
+        "parametric"
+      ],
+      "menuLabels": [
+        "Along Vector",
+        "Parametrically"
+      ]
+    },
+    "axis": {
+      "type": "menu",
+      "value": "fnorm",
+      "menuIndex": 3,
+      "menuNames": [
+        "xaxis",
+        "yaxis",
+        "zaxis",
+        "fnorm",
+        "mindist",
+        "other"
+      ],
+      "menuLabels": [
+        "X",
+        "Y",
+        "Z",
+        "Face Normal",
+        "Minimum Distance",
+        "User Defined:"
+      ]
+    },
+    "vector1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "vector2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "vector3": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "projside": {
+      "type": "menu",
+      "value": "farthest",
+      "menuIndex": 1,
+      "menuNames": [
+        "closest",
+        "farthest"
+      ],
+      "menuLabels": [
+        "Closest",
+        "Farthest"
+      ]
+    },
+    "sdivs": {
+      "type": "int",
+      "value": 11
+    },
+    "rtolerance": {
+      "type": "float",
+      "value": 0.13345
+    },
+    "ftolerance": {
+      "type": "float",
+      "value": 0.12445
+    },
+    "uvgap": {
+      "type": "float",
+      "value": 0.22345000149011612
+    },
+    "order": {
+      "type": "int",
+      "value": 5
+    },
+    "csharp": {
+      "type": "toggle",
+      "value": false
+    },
+    "accurate": {
+      "type": "toggle",
+      "value": true
+    },
+    "ufrom": {
+      "type": "menu",
+      "value": "uvy",
+      "menuIndex": 1,
+      "menuNames": [
+        "uvx",
+        "uvy",
+        "uvz"
+      ],
+      "menuLabels": [
+        "X Coordinate",
+        "Y Coordinate",
+        "Z Coordinate"
+      ]
+    },
+    "vfrom": {
+      "type": "menu",
+      "value": "uvz",
+      "menuIndex": 2,
+      "menuNames": [
+        "uvx",
+        "uvy",
+        "uvz"
+      ],
+      "menuLabels": [
+        "X Coordinate",
+        "Y Coordinate",
+        "Z Coordinate"
+      ]
+    },
+    "userange": {
+      "type": "toggle",
+      "value": false
+    },
+    "urange1": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "urange2": {
+      "type": "float",
+      "value": 1.02345
+    },
+    "vrange1": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "vrange2": {
+      "type": "float",
+      "value": 1.02345
+    },
+    "maptype": {
+      "type": "menu",
+      "value": "chordlen",
+      "menuIndex": 1,
+      "menuNames": [
+        "unif",
+        "chordlen"
+      ],
+      "menuLabels": [
+        "Uniform",
+        "Chord Length"
+      ]
+    }
+  }
+}

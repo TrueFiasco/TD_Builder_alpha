@@ -1,0 +1,488 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\bindCHOP_lossless.json",
+  "operator_type": "bindCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.5,
+            "channelname": "chan[1-3]",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "bind1",
+          "type": "CHOP:bind",
+          "parameters": {
+            "pickup": "on",
+            "callbacks": "bind1_callbacks",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "final",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Play LFO\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "sliderHorz",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "w": 450,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "sliderHorz1",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "w": 450,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "sliderHorz2",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "w": 450,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "bind1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "lfo1",
+          "to_input": "1"
+        },
+        {
+          "from": "lfo1",
+          "to": "bind1",
+          "to_input": "0"
+        },
+        {
+          "from": "bind1",
+          "to": "final",
+          "to_input": "0"
+        },
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 4,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:bind": 1,
+          "CHOP:null": 2,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "COMP:widget": 3,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.33,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.66,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "bind1",
+          "type": "CHOP:bind",
+          "parameters": {
+            "pickup": "on",
+            "callbacks": "bind1_callbacks",
+            "exportmethod": "datname",
+            "exporttable": "bind1_export"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "logic1",
+          "type": "CHOP:logic",
+          "parameters": {
+            "preop": "invert",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Alternate",
+            "value0": "on",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "sliderHorz",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "w": 450,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "bind1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "bind1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "bind1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "bind1",
+          "to_input": "1"
+        },
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "logic1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "bind1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "button1/out1",
+          "to": "logic1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 2,
+          "CHOP:bind": 1,
+          "CHOP:null": 3,
+          "CHOP:logic": 1,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "COMP:widget": 1,
+          "DAT:table": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "bind1",
+          "type": "CHOP:bind",
+          "parameters": {
+            "callbacks": "bind1_callbacks",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "TOP:text",
+          "parameters": {
+            "text": "\"from button1\"",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "TOP:text",
+          "parameters": {
+            "text": "\"from buttonToggle\"",
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "buttonToggle",
+          "type": "COMP:widget",
+          "parameters": {
+            "pageindex": 7,
+            "x": 3,
+            "y": 3,
+            "w": 450,
+            "h": 26,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "bind1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "bind1",
+          "to_input": "0"
+        },
+        {
+          "from": "bind1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:bind": 1,
+          "CHOP:null": 1,
+          "TOP:text": 2,
+          "DAT:text": 2,
+          "COMP:button": 1,
+          "COMP:widget": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

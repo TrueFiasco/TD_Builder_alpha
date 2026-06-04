@@ -1,0 +1,112 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\stitchSOP_lossless.json",
+  "operator_type": "stitchSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "carve1",
+          "type": "SOP:carve",
+          "parameters": {
+            "domainu1": 0.434,
+            "secondu": "on",
+            "domainu2": 0.668,
+            "firstv": "on",
+            "domainv1": 0.467,
+            "secondv": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "nurbs",
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "stitch1",
+          "type": "SOP:stitch",
+          "parameters": {
+            "dostitch": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -1.9,
+            "ty": -3,
+            "rx": 10,
+            "ry": -470,
+            "rz": -360,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -2.2,
+            "ty": -3.1,
+            "tz": 0.4,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "carve1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "stitch1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "stitch1",
+          "to_input": "1"
+        },
+        {
+          "from": "carve1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "carve1",
+          "to": "transform2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 5,
+        "operator_types": {
+          "SOP:carve": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:stitch": 1,
+          "SOP:transform": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

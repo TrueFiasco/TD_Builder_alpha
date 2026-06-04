@@ -1,0 +1,415 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\lookuptexturePOP_lossless.json",
+  "operator_type": "lookuptexturePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "tri",
+            "frequency": 0.1,
+            "offset": 0.5,
+            "amp": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "more",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "copy1",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 2,
+            "scaleattrib": "\"\"",
+            "vecattr": "\"\"",
+            "upattr": "\"\"",
+            "templateid": "point",
+            "doattr": "on",
+            "templateattr0names": "Color"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "cols": 60,
+            "rows": 60,
+            "slices": 32,
+            "linex": "on",
+            "liney": "on",
+            "linez": "on"
+          }
+        },
+        {
+          "name": "line4",
+          "type": "POP:line",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "attrclass": "vertex",
+            "inputattrscope": "Tex",
+            "parsize": 3
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "CHOP:limit",
+          "parameters": {
+            "type": "clamp",
+            "min": 0.02
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "TOP:noise",
+          "parameters": {
+            "seed": 5181,
+            "resolutionw": 10,
+            "resolutionh": 7,
+            "inputfiltertype": "nearest",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 50,
+            "rows": 50
+          }
+        },
+        {
+          "name": "circle5",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10,
+            "endangle": 300
+          }
+        },
+        {
+          "name": "circle6",
+          "type": "POP:circle",
+          "parameters": {
+            "connectivity": "surface",
+            "radx": 0.07,
+            "rady": 0.07,
+            "divs": 4
+          }
+        },
+        {
+          "name": "phaser1",
+          "type": "POP:phaser",
+          "parameters": {
+            "phaseattrscope": "Tex(2)"
+          }
+        },
+        {
+          "name": "phaser2",
+          "type": "CHOP:phaser",
+          "parameters": {
+            "edge": 0.0001,
+            "nsamples": 36
+          }
+        },
+        {
+          "name": "xopto38",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "pattern5"
+          }
+        },
+        {
+          "name": "xopto39",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "lookuptex3"
+          }
+        },
+        {
+          "name": "xopto41",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "copy1"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern5",
+          "type": "POP:pattern",
+          "parameters": {
+            "parsize": 1,
+            "outputattrscope": "colorindex"
+          }
+        },
+        {
+          "name": "comment19",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment20",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.62
+          }
+        },
+        {
+          "name": "texture3D",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "annotate16",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate17",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "attrclass": "vertex",
+            "top": "transform5",
+            "lookupindexattr0": "Tex(0)",
+            "lookupindexattr1": "Tex(1)",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "lookuptex2",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "texture3D_",
+            "lookupindexattr0": "Tex(0)",
+            "lookupindexattr1": "Tex(1)",
+            "lookupindexattr2": "Tex(2)",
+            "pixelcentered0": "on",
+            "pixelcentered1": "on",
+            "pixelcentered2": "on",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "lookuptex3",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "noise3",
+            "lookupindexattr0": "colorindex",
+            "lookupindexattr1": "\"\"",
+            "indexunit0": "pixelindex",
+            "indexunit1": "pixelindex",
+            "indexunit2": "normalized",
+            "pixelcentered0": "on",
+            "pixelcentered1": "on",
+            "cyclic0": "on",
+            "cyclic1": "on",
+            "outputattrscope": "\"Color(0) Color(1) Color(2) Color(3)\""
+          }
+        },
+        {
+          "name": "lookuptex4",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "attrclass": "vertex",
+            "top": "transform5",
+            "lookupindexattr0": "_DimU[0]",
+            "lookupindexattr1": "_DimU[1]",
+            "lookupindexoffset1": 0.3,
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "texture3D_",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "transform4",
+          "type": "POP:transform",
+          "parameters": {
+            "weightattr": "Phase",
+            "tx": 1.2
+          }
+        },
+        {
+          "name": "transform5",
+          "type": "TOP:transform",
+          "parameters": {
+            "tx": 0.43,
+            "ty": 0.6,
+            "sx": 2.4,
+            "sy": 2.4
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "texture2DArray",
+          "type": "TOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle6",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookuptex3",
+          "to": "copy1",
+          "to_input": "1"
+        },
+        {
+          "from": "torus3",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "lookuptex2",
+          "to": "phaser1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "phaser2",
+          "to_input": "0"
+        },
+        {
+          "from": "line4",
+          "to": "pattern5",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "lookuptex2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern5",
+          "to": "lookuptex3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "lookuptex4",
+          "to_input": "0"
+        },
+        {
+          "from": "texture3D/out2",
+          "to": "texture3D_",
+          "to_input": "0"
+        },
+        {
+          "from": "phaser1",
+          "to": "transform4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "transform5",
+          "to_input": "0"
+        },
+        {
+          "from": "texture3D/out1",
+          "to": "texture2DArray",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 34,
+        "connection_count": 15,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "COMP:base": 2,
+          "POP:copy": 1,
+          "POP:grid": 1,
+          "POP:line": 1,
+          "POP:math": 1,
+          "CHOP:limit": 1,
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:circle": 2,
+          "POP:phaser": 1,
+          "CHOP:phaser": 1,
+          "DAT:popto": 3,
+          "COMP:annotate": 5,
+          "POP:pattern": 1,
+          "CHOP:constant": 1,
+          "POP:lookuptex": 4,
+          "TOP:null": 2,
+          "POP:transform": 1,
+          "TOP:transform": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

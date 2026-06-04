@@ -1,0 +1,738 @@
+{
+  "operator": "Wireframe_MAT",
+  "family": "MAT",
+  "td_create_name": "wireframeMAT",
+  "param_count": 42,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wireframe",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wireframe",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wireframe",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "alpha": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wireframe",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "wireframemode": {
+      "value": {
+        "type": "menu",
+        "value": "tesselated",
+        "menuIndex": 0,
+        "menuNames": [
+          "tesselated",
+          "topology"
+        ],
+        "menuLabels": [
+          "GPU Tesselated Wire Frame",
+          "Topology Wire Frame"
+        ]
+      },
+      "default": "tesselated",
+      "page": "Wireframe",
+      "label": "Wireframe Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "linewidth": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Wireframe",
+      "label": "Line Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "dodeform": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Deform",
+      "label": "Deform",
+      "readOnly": false,
+      "expression": null
+    },
+    "deformdata": {
+      "value": {
+        "type": "menu",
+        "value": "sop",
+        "menuIndex": 0,
+        "menuNames": [
+          "sop",
+          "mat",
+          "deformin"
+        ],
+        "menuLabels": [
+          "From a POP/SOP",
+          "From another MAT",
+          "From a DeformIn MAT"
+        ]
+      },
+      "default": "sop",
+      "page": "Deform",
+      "label": "Get Bone Data:",
+      "readOnly": false,
+      "expression": null
+    },
+    "targetsop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Deform",
+      "label": "POP/SOP with Capture Data",
+      "readOnly": false,
+      "expression": null
+    },
+    "pcaptpath": {
+      "value": {
+        "type": "string",
+        "value": "pCaptPath0"
+      },
+      "default": "pCaptPath0",
+      "page": "Deform",
+      "label": "BonePaths (pCaptPath) Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "pcaptdata": {
+      "value": {
+        "type": "string",
+        "value": "pCaptData0"
+      },
+      "default": "pCaptData0",
+      "page": "Deform",
+      "label": "BoneBindPoses (pCaptData) Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "skelrootpath": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Deform",
+      "label": "Skeleton Root Path",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "mat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Deform",
+      "label": "MAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "blending": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Blending (Transparency)",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendop": {
+      "value": {
+        "type": "menu",
+        "value": "add",
+        "menuIndex": 0,
+        "menuNames": [
+          "add",
+          "subtract",
+          "revsubtract",
+          "minimum",
+          "maximum"
+        ],
+        "menuLabels": [
+          "Add",
+          "Subtract",
+          "Reverse Subtract",
+          "Minimum",
+          "Maximum"
+        ]
+      },
+      "default": "add",
+      "page": "Common",
+      "label": "Blend Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "srcblend": {
+      "value": {
+        "type": "menu",
+        "value": "one",
+        "menuIndex": 8,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "one",
+      "page": "Common",
+      "label": "Source Color *",
+      "readOnly": false,
+      "expression": null
+    },
+    "destblend": {
+      "value": {
+        "type": "menu",
+        "value": "omsa",
+        "menuIndex": 4,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "omsa",
+      "page": "Common",
+      "label": "Destination Color *",
+      "readOnly": false,
+      "expression": null
+    },
+    "separatealphafunc": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Separate Alpha Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendopa": {
+      "value": {
+        "type": "menu",
+        "value": "add",
+        "menuIndex": 0,
+        "menuNames": [
+          "add",
+          "subtract",
+          "revsubtract",
+          "minimum",
+          "maximum"
+        ],
+        "menuLabels": [
+          "Add",
+          "Subtract",
+          "Reverse Subtract",
+          "Minimum",
+          "Maximum"
+        ]
+      },
+      "default": "add",
+      "page": "Common",
+      "label": "Alpha Blend Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "srcblenda": {
+      "value": {
+        "type": "menu",
+        "value": "one",
+        "menuIndex": 8,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "one",
+      "page": "Common",
+      "label": "Source Alpha *",
+      "readOnly": false,
+      "expression": null
+    },
+    "destblenda": {
+      "value": {
+        "type": "menu",
+        "value": "omsa",
+        "menuIndex": 4,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "omsa",
+      "page": "Common",
+      "label": "Destination Alpha *",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstanta": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "legacyalphabehavior": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Legacy Alpha Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "postmultalpha": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Post-Mult Color by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcolorpremult": {
+      "value": {
+        "type": "menu",
+        "value": "alreadypremult",
+        "menuIndex": 0,
+        "menuNames": [
+          "alreadypremult",
+          "premultinshader"
+        ],
+        "menuLabels": [
+          "Already Pre-Multiplied By Alpha",
+          "Pre-Multiply By Alpha in Shader"
+        ]
+      },
+      "default": "alreadypremult",
+      "page": "Common",
+      "label": "Point Color Pre-Multiply",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthtest": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Depth Test",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthfunc": {
+      "value": {
+        "type": "menu",
+        "value": "lessorequal",
+        "menuIndex": 1,
+        "menuNames": [
+          "less",
+          "lessorequal",
+          "equal",
+          "greater",
+          "greaterorequal",
+          "notequal",
+          "always"
+        ],
+        "menuLabels": [
+          "Less Than",
+          "Less Than or Equal",
+          "Equal",
+          "Greater Than",
+          "Greater Than or Equal",
+          "Not Equal",
+          "Always"
+        ]
+      },
+      "default": "lessorequal",
+      "page": "Common",
+      "label": "Depth Test Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthwriting": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Write Depth Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphatest": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Discard Pixels Based on Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphafunc": {
+      "value": {
+        "type": "menu",
+        "value": "greater",
+        "menuIndex": 2,
+        "menuNames": [
+          "less",
+          "lessorequal",
+          "greater",
+          "greaterorequal"
+        ],
+        "menuLabels": [
+          "Less Than",
+          "Less Than or Equal",
+          "Greater Than",
+          "Greater Than or Equal"
+        ]
+      },
+      "default": "greater",
+      "page": "Common",
+      "label": "Keep Pixels with Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphathreshold": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Common",
+      "label": "Alpha Threshold",
+      "readOnly": false,
+      "expression": null
+    },
+    "wireframe": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "tesselated",
+          "topology"
+        ],
+        "menuLabels": [
+          "Off",
+          "GPU Tesselated Wire Frame",
+          "Topology Wire Frame"
+        ]
+      },
+      "default": "off",
+      "page": "Common",
+      "label": "Wire Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "wirewidth": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Line Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "cullface": {
+      "value": {
+        "type": "menu",
+        "value": "userender",
+        "menuIndex": 0,
+        "menuNames": [
+          "userender",
+          "neither",
+          "backfaces",
+          "frontfaces",
+          "bothfaces"
+        ],
+        "menuLabels": [
+          "Use Render Setting",
+          "Neither",
+          "Back Faces",
+          "Front Faces",
+          "Both Faces"
+        ]
+      },
+      "default": "userender",
+      "page": "Common",
+      "label": "Cull Face",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Polygon Depth Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetfactor": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Offset Factor",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetunits": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Offset Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

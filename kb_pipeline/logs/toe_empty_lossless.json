@@ -1,0 +1,672 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\gpt\\empty\\Toe_empty\\toe_empty.toe.dir",
+    "build_version": "099",
+    "build_date": "Sun Dec  7 21:48:01 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.31760",
+    "clock_settings": "-f 1 -s 1 -o 0 -w 0"
+  },
+  "operators": {
+    "/project1": {
+      "name": "project1",
+      "path": "/project1",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        536.929,
+        165.595,
+        1.42342
+      ],
+      "tile_pos": [
+        200,
+        100,
+        400,
+        244
+      ],
+      "color": [
+        0.56,
+        0.56,
+        0.56
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "w": 1280,
+        "h": 720,
+        "top": "./out1",
+        "borderover": "off",
+        "parentshortcut": "Project"
+      },
+      "parent": null,
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n6\nu 0.54\nv 0.720528\ntrueu 0.54\ntruev 0.720528\nscreenw 400\nscreenh 300\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/perform": {
+      "name": "perform",
+      "path": "/perform",
+      "op_type": "COMP:window",
+      "family": "COMP",
+      "specific_type": "window",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        40,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "winop": "project1",
+        "justifyh": "center",
+        "justifyv": "center"
+      },
+      "parent": null,
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local": {
+      "name": "local",
+      "path": "/local",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        -725,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "opviewer": "./variables"
+      },
+      "parent": null,
+      "children": [
+        "maps",
+        "midi",
+        "time",
+        "shortcuts",
+        "variables",
+        "master_beat",
+        "set_variables"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/maps": {
+      "name": "maps",
+      "path": "/local/maps",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": [
+        309.531,
+        186.79,
+        0.93596
+      ],
+      "tile_pos": [
+        250,
+        -300,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "opviewer": "./id1"
+      },
+      "parent": "/local",
+      "children": [
+        "master",
+        "select1",
+        "select2",
+        "replicator1",
+        "replicator1_callbacks"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/maps/master": {
+      "name": "master",
+      "path": "/local/maps/master",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": [
+        408.5,
+        324.0,
+        1.0
+      ],
+      "tile_pos": [
+        210,
+        140,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/local/maps",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/maps/select1": {
+      "name": "select1",
+      "path": "/local/maps/select1",
+      "op_type": "DAT:select",
+      "family": "DAT",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        -300,
+        160,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "/local/midi/device",
+        "rowindexend": {
+          "17": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "extractcols": "bynames",
+        "colindexend": {
+          "17": "4 \"me.inputs[0].numCols - 1\""
+        },
+        "colnames": "\"id definition\""
+      },
+      "parent": "/local/maps",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/maps/select2": {
+      "name": "select2",
+      "path": "/local/maps/select2",
+      "op_type": "DAT:select",
+      "family": "DAT",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        -150,
+        160,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "extractrows": "bynames",
+        "rowindexend": {
+          "17": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "rownames": "?*",
+        "fromcol": 1,
+        "colindexend": {
+          "17": "1 \"me.inputs[0].numCols - 1\""
+        }
+      },
+      "parent": "/local/maps",
+      "children": [],
+      "inputs": {
+        "0": "select1"
+      },
+      "extra_files": {}
+    },
+    "/local/maps/replicator1": {
+      "name": "replicator1",
+      "path": "/local/maps/replicator1",
+      "op_type": "COMP:replicator",
+      "family": "COMP",
+      "specific_type": "replicator",
+      "viewport_pos": null,
+      "tile_pos": [
+        10,
+        140,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "repsuffixstart": 0,
+        "template": "select2",
+        "namefromtable": "colbyname",
+        "colname": "id",
+        "opprefix": "id",
+        "master": "master",
+        "destination": {
+          "17": "\"\" me.parent()"
+        },
+        "callbacks": "replicator1_callbacks"
+      },
+      "parent": "/local/maps",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "replicator": {
+          "content": "3\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/local/maps/replicator1_callbacks": {
+      "name": "replicator1_callbacks",
+      "path": "/local/maps/replicator1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        10,
+        -20,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252"
+      },
+      "parent": "/local/maps",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002\u0019# me - this DAT\n# \n# comp - the replicator component which is cooking\n# allOps - a list of all replicants, created or existing\n# newOps - the subset that were just created\n# template - table DAT specifying the replicator attributes\n# master - the master operator\n#\n\ndef replicate(comp, allOps, newOps, template, master):\n\n\tfor c in newOps:\n\t\t#c.display = True\n\t\t#c.render = True\n\t\t#c.par.display = 1\n\t\t#c.par.clone = comp.par.master\n\t\n\t\tc.par.clone.expr = \"op('../midi/device')[me.digits, 'definition'] + '/mapmaster1'\"\n\n\t\tpass\n\n\treturn\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/local/midi": {
+      "name": "midi",
+      "path": "/local/midi",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": [
+        144.459,
+        286.388,
+        0.840696
+      ],
+      "tile_pos": [
+        50,
+        -300,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "opviewer": "./device",
+        "loadondemand": "on"
+      },
+      "parent": "/local",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "lod": {
+          "content": "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dGVzLm4AREFUOnRhYmxlCnRpbGUgMCAyMDAgMTMwIDkwCmZsYWdzID0gIHZpZXdlciAxIHBhcmxhbmd1YWdlIDAKY29sb3IgMC42NyAwLjY3IDAuNjcgCmVuZAo0EAAAAERhdHRyaWJ1dGVzLnBhcm0APwpkZWZhdWx0cmVhZGVuY29kaW5nIDAgY3AxMjUyCnJlbW92ZWJsYW5rIDAgb24Kcm93cyAwIDEKY29scyAwIDIKPwo0EQAAADZhdHRyaWJ1dGVzLnRhYmxlADEKKgAAAAEAAAABAAAAAgAAAAAAAAACAAAABG5hbWUAAAACAAAAD1VzZXIgRGV2aWNlIE1hcDQNAAAAem1hcG1hc3RlcjEubgBDT01QOmJhc2UKdiA4Ni4xNTYgMzYzLjA4IDEuMjQ5NDUKdGlsZSA1MjAgMCAxNjAgMTMwCmZsYWdzID0gIGN1cnJlbnQgb24gdmlld2VyIDEgcGFybGFuZ3VhZ2UgMApjb2xvciAwLjY3IDAuNjcgMC42NyAKZW5kCjY0C21hcG1hc3RlcjEANAcAAACTb3V0MS5uAENIT1A6b3V0CnRpbGUgMjUwIDI1IDEzMCA5MApmbGFncyA9ICBjdXJyZW50IG9uIHZpZXdlciAxIHBhcmxhbmd1YWdlIDAKaW5wdXRzCnsKMCAJbWlkaWlubWFwCn0KY29sb3IgMC42NyAwLjY3IDAuNjcgCnZpZXcgLTEgMCA2IDAgMCAwIDAgMCAwIDAKZW5kCjQKAAAAPW91dDEucGFybQA/CmV4cG9ydG1ldGhvZCAwIGF1dG9uYW1lCmF1dG9leHBvcnRyb290IDE3ICIiIG1lLnBhcmVudCgpCj8KNAoAAAB3YnV0dG9ucy5uAENIT1A6bnVsbAp0aWxlIDI1MCAtMjEwIDEzMCA5MApmbGFncyA9ICB2aWV3ZXIgMSBwYXJsYW5ndWFnZSAwCmlucHV0cwp7CjAgCWNvbGxlY3RfYnV0dG9ucwp9CmNvbG9yIDAuNjcgMC42NyAwLjY3IAplbmQKNA0AAAAlYnV0dG9ucy5wYXJtAD8KYXV0b2V4cG9ydHJvb3QgMTcgIiIgbWUucGFyZW50KCkKPwo0CgAAAFxtaWRpb3V0Lm4AQ0hPUDptaWRpb3V0CnRpbGUgNTkwIC0xMDAgMTMwIDkwCmZsYWdzID0gIHZpZXdlciAxIHBhcmxhbmd1YWdlIDAKY29sb3IgMC42NyAwLjY3IDAuNjcgCmVuZAo0DQAAAExtaWRpb3V0LnBhcm0APwppZCAxNyAxIHBhcmVudCgpLmRpZ2l0cwp0aW1lc2xpY2UgMCBvbgphdXRvZXhwb3J0cm9vdCAxNyAiIiBtZS5wYXJlbnQoKQo/CjQNAAAABG1pZGlvdXQuY2hvcAA1CjEKNAsAAABpbWlkaW91dC50cwA2NTUzOAowCjQyNgo0MjUKMAowCjEKMQowCjQyNgo0MjYKMAo2MAp7CiAgIHJhdGUgPSA2MAogICBzdGFydCA9IDQyNgogICB0cmFja2xlbmd0aCA9IDEKICAgdHJhY2tzID0gMAoKfQo0CgAAAHdzbGlkZXJzLm4AQ0hPUDpudWxsCnRpbGUgMjUwIC0xMDAgMTMwIDkwCmZsYWdzID0gIHZpZXdlciAxIHBhcmxhbmd1YWdlIDAKaW5wdXRzCnsKMCAJY29sbGVjdF9zbGlkZXJzCn0KY29sb3IgMC42NyAwLjY3IDAuNjcgCmVuZAo0DQAAACVzbGlkZXJzLnBhcm0APwphdXRvZXhwb3J0cm9vdCAxNyAiIiBtZS5wYXJlbnQoKQo/CjQMAAAAg2Nob3BleGVjMS5uAERBVDpjaG9wZXhlYwp0aWxlIDQyMCAtMTAwIDEzMCA5MApmbGFncyA9ICB2aWV3ZXIgMSBwYXJsYW5ndWFnZSAwCmNvbG9yIDAuNjcgMC42NyAwLjY3IAp2aWV3IC0xIDggMCAxIDEgMSAwIDAuMzg4MTk5IDAgMCAxIDEgMAplbmQKNA8AAABTY2hvcGV4ZWMxLnBhcm0APwpmcm9tb3AgMTcgIiIgbWUucGFyZW50KCkKY2hvcCAwICJzbGlkZXJzIGJ1dHRvbnMiCmRlZmF1bHRyZWFkZW5jb2RpbmcgMCBjcDEyNTIKPwo0DwAAA2ZjaG9wZXhlYzEudGV4dAAyCioAAAABAAAAAQAAAAEAAAABAAAAAgAAA0sjIG1lIC0gdGhpcyBEQVQKIyAKIyBjaGFubmVsIC0gdGhlIENoYW5uZWwgb2JqZWN0IHdoaWNoIGhhcyBjaGFuZ2VkCiMgc2FtcGxlSW5kZXggLSB0aGUgaW5kZXggb2YgdGhlIGNoYW5nZWQgc2FtcGxlCiMgdmFsIC0gdGhlIG51bWVyaWMgdmFsdWUgb2YgdGhlIGNoYW5nZWQgc2FtcGxlCiMgcHJldiAtIHRoZSBwcmV2aW91cyBzYW1wbGUgdmFsdWUKIyAKIyBNYWtlIHN1cmUgdGhlIGNvcnJlc3BvbmRpbmcgdG9nZ2xlIGlzIGVuYWJsZWQgaW4gdGhlIENIT1AgRXhlY3V0ZSBEQVQuCgojIHVzZSB0aGUgbWV0aG9kcyBvZiBtaWRpb3V0LCBzZWUgbWlkaW91dENIT1AgQ2xhc3MgaGVscAojIEZvciBleGFtcGxlOwojIG1hcHRhYmxlID0gb3AoJy9sb2NhbC9taWRpL2RldmljZScpCiMgY2ggPSBtYXB0YWJsZVtwYXJlbnQoKS5kaWdpdHMsICdjaGFubmVsJ10KIyBvcCgnbWlkaW91dCcpLnNlbmROb3RlT24oY2gsIGluZGV4LCB2YWwpCiMgb3AoJ21pZGlvdXQnKS5zZW5kTm90ZU9mZihjaCwgaW5kZXgsIHZhbCkKIyBvcCgnbWlkaW91dCcpLnNlbmRDb250cm9sKGNoLCBpbmRleCwgdmFsKQoKCmRlZiBvZmZUb09uKGNoYW5uZWwsIHNhbXBsZUluZGV4LCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgd2hpbGVPbihjaGFubmVsLCBzYW1wbGVJbmRleCwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG9uVG9PZmYoY2hhbm5lbCwgc2FtcGxlSW5kZXgsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiB3aGlsZU9mZihjaGFubmVsLCBzYW1wbGVJbmRleCwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIHZhbHVlQ2hhbmdlKGNoYW5uZWwsIHNhbXBsZUluZGV4LCB2YWwsIHByZXYpOgoJcmV0dXJuCgk0DAAAAFttaWRpaW5tYXAubgBDSE9QOm1pZGlpbm1hcAp0aWxlIDUwIDI1IDEzMCA5MApmbGFncyA9ICB2aWV3ZXIgMSBwYXJsYW5ndWFnZSAwCmNvbG9yIDAuNjcgMC42NyAwLjY3IAplbmQKNA8AAABwbWlkaWlubWFwLnBhcm0APwppZCA0OSAkT1BEIHBhcmVudCgpLmRpZ2l0cwpyYXRlIDE2IDYwIG1lLnRpbWUucmF0ZQpleHBvcnRtZXRob2QgMCBhdXRvbmFtZQphdXRvZXhwb3J0cm9vdCAxNyAiIiBtZS5wYXJlbnQoKQo/CjQSAAAAXGNvbGxlY3RfYnV0dG9ucy5uAENIT1A6Y29uc3RhbnQKdGlsZSA1MCAtMjEwIDEzMCA5MApmbGFncyA9ICB2aWV3ZXIgMSBwYXJsYW5ndWFnZSAwCmNvbG9yIDAuNjcgMC42NyAwLjY3IAplbmQKNBUAAABVY29sbGVjdF9idXR0b25zLnBhcm0APwpyYXRlIDE2IDYwIG1lLnRpbWUucmF0ZQpleHBvcnRtZXRob2QgMCBhdXRvbmFtZQphdXRvZXhwb3J0cm9vdCAxNyAiIiBtZS5wYXJlbnQoKQo/CjQSAAAAXGNvbGxlY3Rfc2xpZGVycy5uAENIT1A6Y29uc3RhbnQKdGlsZSA1MCAtMTAwIDEzMCA5MApmbGFncyA9ICB2aWV3ZXIgMSBwYXJsYW5ndWFnZSAwCmNvbG9yIDAuNjcgMC42NyAwLjY3IAplbmQKNBUAAABVY29sbGVjdF9zbGlkZXJzLnBhcm0APwpyYXRlIDE2IDYwIG1lLnRpbWUucmF0ZQpleHBvcnRtZXRob2QgMCBhdXRvbmFtZQphdXRvZXhwb3J0cm9vdCAxNyAiIiBtZS5wYXJlbnQoKQo/CjU1NA4AAABZbWlkaV9pbnB1dHMubgBEQVQ6dGFibGUKdGlsZSAyMDAgLTI1MCAxMzAgOTAKZmxhZ3MgPSAgdmlld2VyIDEgcGFybGFuZ3VhZ2UgMApjb2xvciAwLjY3IDAuNjcgMC42NyAKZW5kCjQRAAAARG1pZGlfaW5wdXRzLnBhcm0APwpkZWZhdWx0cmVhZGVuY29kaW5nIDAgY3AxMjUyCnJlbW92ZWJsYW5rIDAgb24Kcm93cyAwIDAKY29scyAwIDAKPwo0EgAAACptaWRpX2lucHV0cy50YWJsZQAxCioAAAABAAAAAQAAAAEAAAAAAAAAAgAAAA9Ub3VjaE9TQyBCcmlkZ2U0DgAAAH51c2VyZGV2aWNlcy5uAENPTVA6YmFzZQp2IDU3OC45MDggMTgxLjg0MyAwLjQzMjE3CnRpbGUgODAwIDUwIDE2MCAxMzAKZmxhZ3MgPSAgcGlja2VkIG9uIGN1cnJlbnQgb24gcGFybGFuZ3VhZ2UgMApjb2xvciAwLjY3IDAuNjcgMC42NyAKZW5kCjQPAAAAWG1pZGlfb3V0cHV0cy5uAERBVDp0YWJsZQp0aWxlIDUwIC0yNTAgMTMwIDkwCmZsYWdzID0gIHZpZXdlciAxIHBhcmxhbmd1YWdlIDAKY29sb3IgMC42NyAwLjY3IDAuNjcgCmVuZAo0EgAAAERtaWRpX291dHB1dHMucGFybQA/CmRlZmF1bHRyZWFkZW5jb2RpbmcgMCBjcDEyNTIKcmVtb3ZlYmxhbmsgMCBvbgpyb3dzIDAgMApjb2xzIDAgMAo/CjQTAAAATm1pZGlfb3V0cHV0cy50YWJsZQAxCioAAAABAAAAAgAAAAEAAAAAAAAAAgAAABxNaWNyb3NvZnQgR1MgV2F2ZXRhYmxlIFN5bnRoAAAAAgAAAA9Ub3VjaE9TQyBCcmlkZ2U=",
+          "is_binary": true
+        }
+      }
+    },
+    "/local/time": {
+      "name": "time",
+      "path": "/local/time",
+      "op_type": "COMP:time",
+      "family": "COMP",
+      "specific_type": "time",
+      "viewport_pos": null,
+      "tile_pos": [
+        450,
+        -300,
+        160,
+        130
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "rate": {
+          "17": "60 cookRate()"
+        },
+        "clone": "/sys/local/time"
+      },
+      "parent": "/local",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/shortcuts": {
+      "name": "shortcuts",
+      "path": "/local/shortcuts",
+      "op_type": "DAT:filein",
+      "family": "DAT",
+      "specific_type": "filein",
+      "viewport_pos": null,
+      "tile_pos": [
+        325,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "17": "\"\" \"app.configFolder + '/PanelShortcuts.txt'\""
+        },
+        "converttable": "on"
+      },
+      "parent": "/local",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/local/variables": {
+      "name": "variables",
+      "path": "/local/variables",
+      "op_type": "DAT:null",
+      "family": "DAT",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        175,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/local",
+      "children": [],
+      "inputs": {
+        "0": "set_variables"
+      },
+      "extra_files": {}
+    },
+    "/local/master_beat": {
+      "name": "master_beat",
+      "path": "/local/master_beat",
+      "op_type": "CHOP:beat",
+      "family": "CHOP",
+      "specific_type": "beat",
+      "viewport_pos": null,
+      "tile_pos": [
+        50,
+        -125,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "updateglobal": "on",
+        "timeslice": "on"
+      },
+      "parent": "/local",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "beat": {
+          "content": "1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/local/set_variables": {
+      "name": "set_variables",
+      "path": "/local/set_variables",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        25,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/local",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0007TOENAME\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0010NewProject.1.toe",
+          "is_binary": false
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.31760\ntime Sun Dec  7 21:48:01 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    },
+    ".start": {
+      "content": "cookrate 60\nclock -f 1 -s 1 -o 0 -w 0\nrealtime on\nviewers off\n#expectednodes 58 31978\nresetaudioondevicechange off\n",
+      "is_binary": false
+    },
+    ".grps": {
+      "content": "-2\n0\n",
+      "is_binary": false
+    },
+    ".root": {
+      "content": "end\n",
+      "is_binary": false
+    },
+    ".parm": {
+      "content": "?\n?\n",
+      "is_binary": false
+    },
+    ".application": {
+      "content": "\n#Desk..\n# layout \ndesk -c * \ndesk -n pane1 *\n\n#pane1\ndesk -p /project1 pane1\ndesk -t neteditor pane1\ndesk -k 0 pane1\nneteditor -c 0 -e 0 -G 0.75 -o 0 -r 1 -P 0.8 -s 0 -w 0 -x 0 -t 1 -d 1 -g 0 -p pane1\n\nwinplacement ontop=0 mode=auto posx=0 posy=0 sizex=1024 sizey=768 enable=1 perform.path=/perform perform.start=0\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    ".build",
+    ".start",
+    ".grps",
+    ".root",
+    ".parm",
+    "project1.n",
+    "project1.parm",
+    "project1.panel",
+    "perform.n",
+    "perform.parm",
+    "local.n",
+    "local.parm",
+    "local/maps.n",
+    "local/maps.parm",
+    "local/maps/master.n",
+    "local/maps/select1.n",
+    "local/maps/select1.parm",
+    "local/maps/select2.n",
+    "local/maps/select2.parm",
+    "local/maps/replicator1.n",
+    "local/maps/replicator1.parm",
+    "local/maps/replicator1.replicator",
+    "local/maps/replicator1_callbacks.n",
+    "local/maps/replicator1_callbacks.parm",
+    "local/maps/replicator1_callbacks.text",
+    "local/midi.n",
+    "local/midi.parm",
+    "local/midi.lod",
+    "local/time.n",
+    "local/time.parm",
+    "local/shortcuts.n",
+    "local/shortcuts.parm",
+    "local/variables.n",
+    "local/master_beat.n",
+    "local/master_beat.parm",
+    "local/master_beat.chop",
+    "local/master_beat.beat",
+    "local/set_variables.n",
+    "local/set_variables.table",
+    ".application"
+  ],
+  "connections": [
+    {
+      "from": "select1",
+      "to": "/local/maps/select2",
+      "to_input": 0
+    },
+    {
+      "from": "set_variables",
+      "to": "/local/variables",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 15,
+    "total_connections": 2,
+    "total_raw_files": 6,
+    "total_extra_files": 7,
+    "total_files_captured": 40,
+    "by_family": {
+      "COMP": 8,
+      "DAT": 6,
+      "CHOP": 1
+    },
+    "by_type": {
+      "COMP:container": 1,
+      "COMP:window": 1,
+      "COMP:base": 4,
+      "DAT:select": 2,
+      "COMP:replicator": 1,
+      "DAT:text": 1,
+      "COMP:time": 1,
+      "DAT:filein": 1,
+      "DAT:null": 1,
+      "CHOP:beat": 1,
+      "DAT:table": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 38
+  }
+}

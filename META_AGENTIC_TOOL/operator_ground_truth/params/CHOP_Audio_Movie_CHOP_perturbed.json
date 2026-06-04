@@ -1,0 +1,130 @@
+{
+  "operator": "Audio_Movie_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiomovieCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "play": {
+      "type": "toggle",
+      "value": false
+    },
+    "moviefileintop": {
+      "type": "op",
+      "value": ""
+    },
+    "prereadlength": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "prereadlengthunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "opentimeout": {
+      "type": "int",
+      "value": 1000000
+    },
+    "syncoffset": {
+      "type": "float",
+      "value": -0.02654999999999999
+    },
+    "syncoffsetunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "index": {
+      "type": "toggle",
+      "value": true
+    },
+    "audiotrack": {
+      "type": "int",
+      "value": 1
+    },
+    "volume": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

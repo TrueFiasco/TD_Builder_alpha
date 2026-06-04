@@ -1,0 +1,98 @@
+{
+  "operator": "Curvesect_SOP",
+  "family": "SOP",
+  "td_create_name": "curvesectSOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "leftgroup": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "rightgroup": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "xsect": {
+      "type": "toggle",
+      "value": false
+    },
+    "tolerance": {
+      "type": "float",
+      "value": 0.12445
+    },
+    "method": {
+      "type": "menu",
+      "value": "extract",
+      "menuIndex": 1,
+      "menuNames": [
+        "cut",
+        "extract"
+      ],
+      "menuLabels": [
+        "Cut",
+        "Extract"
+      ]
+    },
+    "left": {
+      "type": "menu",
+      "value": "lkeepodd",
+      "menuIndex": 1,
+      "menuNames": [
+        "lkeepall",
+        "lkeepodd",
+        "lkeepeven",
+        "lkeepnone"
+      ],
+      "menuLabels": [
+        "Keep All",
+        "Keep Odd-numbered Ones",
+        "Keep Even-numbered Ones",
+        "Keep None"
+      ]
+    },
+    "right": {
+      "type": "menu",
+      "value": "rkeepall",
+      "menuIndex": 0,
+      "menuNames": [
+        "rkeepall",
+        "rkeepodd",
+        "rkeepeven",
+        "rkeepnone"
+      ],
+      "menuLabels": [
+        "Keep All",
+        "Keep Odd-numbered Ones",
+        "Keep Even-numbered Ones",
+        "Keep None"
+      ]
+    },
+    "affect": {
+      "type": "menu",
+      "value": "right",
+      "menuIndex": 1,
+      "menuNames": [
+        "left",
+        "right",
+        "both"
+      ],
+      "menuLabels": [
+        "Left Input",
+        "Right Input",
+        "Both Inputs"
+      ]
+    },
+    "extractpt": {
+      "type": "toggle",
+      "value": false
+    },
+    "keeporiginal": {
+      "type": "toggle",
+      "value": true
+    }
+  }
+}

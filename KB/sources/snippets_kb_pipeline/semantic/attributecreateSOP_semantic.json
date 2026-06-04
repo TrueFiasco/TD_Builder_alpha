@@ -1,0 +1,242 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\attributecreateSOP_lossless.json",
+  "operator_type": "attributecreateSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -1.15203,
+            "ty": -2.13286,
+            "tz": 3.99429,
+            "rx": -28.1009,
+            "ry": 14.2743,
+            "px": 1.15204,
+            "py": 2.13288,
+            "pz": -8.66662,
+            "orthowidth": 1,
+            "fov": 120,
+            "aperture": 44.1,
+            "fog": "linear",
+            "fognear": 9,
+            "fogfar": 15
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 5,
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "tx": -6.53454,
+            "ty": -6.67063,
+            "tz": 5.2508,
+            "rx": -39.499,
+            "ry": 33.0391,
+            "rz": 0.799799,
+            "px": 5.3346,
+            "py": 5.47073,
+            "pz": -16.4507,
+            "lookat": "geo1",
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "exp": 1.49,
+            "amp": 0.646,
+            "resolutionw": 1024,
+            "resolutionh": 1024,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffr": 0.905882,
+            "diffg": 1,
+            "diffb": 1,
+            "normalmap": "null3",
+            "heightmapenable": "on",
+            "heightmap": "null1",
+            "displaceverts": "on",
+            "displacemid": 1,
+            "blending": "on",
+            "legacyalphabehavior": "on",
+            "wirewidth": 1.2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "TOP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "reverseanchors": "on",
+            "freq": 14
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "scale": 3,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "compover": "on"
+          }
+        },
+        {
+          "name": "attribcreate1",
+          "type": "SOP:attribcreate",
+          "parameters": {
+            "comptang": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "normal1",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "render1",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "attribcreate1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 7,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "TOP:null": 3,
+          "COMP:light": 1,
+          "TOP:noise": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "TOP:normal": 1,
+          "TOP:render": 1,
+          "SOP:sphere": 1,
+          "SOP:transform": 1,
+          "TOP:transform": 1,
+          "SOP:attribcreate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 1,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

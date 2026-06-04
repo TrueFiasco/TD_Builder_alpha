@@ -1,0 +1,1356 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\lineMAT_lossless.json",
+  "operator_type": "lineMAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 2,
+            "sizey": 2,
+            "sizez": 2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 5,
+            "fov": 58
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "ry": 17,
+            "material": "line2"
+          }
+        },
+        {
+          "name": "copy1",
+          "type": "SOP:copy",
+          "parameters": {
+            "ncy": 2,
+            "sx": 0.6,
+            "sy": 0.6,
+            "sz": 0.6
+          }
+        },
+        {
+          "name": "line2",
+          "type": "MAT:line",
+          "parameters": {
+            "widthnear": 7,
+            "widthfar": 0.7,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "toGeo",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 0.8,
+            "rady": 0.8,
+            "reverseanchors": "on",
+            "divs": 7,
+            "arc": "openarc",
+            "beginangle": 100,
+            "endangle": 420
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "toGeo",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy1",
+          "to": "merge1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 4,
+        "operator_types": {
+          "SOP:box": 1,
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "SOP:copy": 1,
+          "MAT:line": 1,
+          "SOP:null": 1,
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "TOP:render": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "copy1",
+          "type": "SOP:copy",
+          "parameters": {
+            "ncy": 14,
+            "sx": 0.9,
+            "sy": 0.9,
+            "sz": 0.9
+          }
+        },
+        {
+          "name": "grid3",
+          "type": "SOP:grid",
+          "parameters": {
+            "sizex": 2,
+            "sizey": 2,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "inversedistanceexponent": 1.169,
+            "distancenear": 2.773,
+            "distancefar": 4.9,
+            "widthnear": 5,
+            "widthfar": 2.5,
+            "linestartcaptype": "arrow",
+            "pointtype": "sphere",
+            "pointsizemultiplier": 1.5,
+            "scale": 0.09,
+            "vecendcaptype": "arrow",
+            "vectaperstrength": 0.715,
+            "squareheight": 1.59,
+            "triangleheight": 12,
+            "arrowwidth": 3.2,
+            "arrowheight": 6.87,
+            "arrowtaillength": 1,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "line2",
+          "type": "MAT:line",
+          "parameters": {
+            "widthnear": 2,
+            "widthfar": 0.1,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "null6",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "torus",
+          "type": "SOP:torus",
+          "parameters": {
+            "type": "poly",
+            "radx": 0.9,
+            "rady": 0.15,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowa": 1
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "amp": 1.5,
+            "channelname": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 0.0001,
+            "amp": 1.5,
+            "channelname": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "SOP:noise",
+          "parameters": {
+            "attribute": "n",
+            "period": 0.3
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto3",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "null_normals",
+            "language": "text"
+          }
+        },
+        {
+          "name": "twist1",
+          "type": "SOP:twist",
+          "parameters": {
+            "strength": 27
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "noise1"
+          }
+        },
+        {
+          "name": "chopto2",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "pattern1",
+            "chanscope": "\"tx ty tz r g b\"",
+            "attscope": "\"P(0) P(1) P(2) Cd(0) Cd(1) Cd(2)\""
+          }
+        },
+        {
+          "name": "chopto4",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "noise2"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "orient": "zx",
+            "reverseanchors": "on",
+            "divs": 70,
+            "arc": "openarc",
+            "beginangle": 100,
+            "endangle": 420
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 3
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 3,
+            "arc": "openarc",
+            "endangle": 356
+          }
+        },
+        {
+          "name": "circle4",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 3,
+            "arc": "slicedarc",
+            "endangle": 356
+          }
+        },
+        {
+          "name": "circle5",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 30,
+            "arc": "slicedarc",
+            "endangle": 332
+          }
+        },
+        {
+          "name": "delete1",
+          "type": "SOP:delete",
+          "parameters": {
+            "keeppoints": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "pageindex": 2,
+            "wavetype": "random",
+            "channelname": "\"r g b\"",
+            "combine": "append"
+          }
+        },
+        {
+          "name": "toRender",
+          "type": "SOP:select",
+          "parameters": {
+            "sops": "copy1"
+          }
+        },
+        {
+          "name": "sopRender",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 8,
+            "w": 1280,
+            "uvbuttonsleft": 1,
+            "uvbuttonsmiddle": 1,
+            "uvbuttonsright": 1,
+            "topsmoothness": "mipmap",
+            "nodeview": "opviewer",
+            "chop": "sopto2",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "ext2object": "\"\"",
+            "ext2name": "\"\""
+          }
+        },
+        {
+          "name": "grid_quads",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "poly",
+            "orient": "zx",
+            "sizex": 2,
+            "sizey": 2,
+            "reverseanchors": "on",
+            "rows": 15,
+            "cols": 15
+          }
+        },
+        {
+          "name": "sopRender3",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "uvbuttonsleft": 1,
+            "uvbuttonsmiddle": 1,
+            "uvbuttonsright": 1,
+            "topsmoothness": "mipmap",
+            "nodeview": "opviewer",
+            "chop": "sopto2",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "ext2object": "\"\"",
+            "ext2name": "\"\""
+          }
+        },
+        {
+          "name": "null_normals",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "facet_normals",
+          "type": "SOP:facet",
+          "parameters": {
+            "prenml": "on"
+          }
+        },
+        {
+          "name": "grid_rowsCols",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "poly",
+            "surftype": "rowcol",
+            "orient": "zx",
+            "sizex": 2,
+            "sizey": 2,
+            "reverseanchors": "on",
+            "rows": 15,
+            "cols": 15
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopRender/out1",
+          "to": "null6",
+          "to_input": "0"
+        },
+        {
+          "from": "null6",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "noise3",
+          "to_input": "0"
+        },
+        {
+          "from": "grid_quads",
+          "to": "twist1",
+          "to_input": "0"
+        },
+        {
+          "from": "toRender",
+          "to": "delete1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "pattern1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise3",
+          "to": "null_normals",
+          "to_input": "0"
+        },
+        {
+          "from": "grid_rowsCols",
+          "to": "facet_normals",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 32,
+        "connection_count": 9,
+        "operator_types": {
+          "SOP:copy": 1,
+          "SOP:grid": 3,
+          "MAT:line": 2,
+          "TOP:null": 1,
+          "SOP:torus": 1,
+          "TOP:level": 1,
+          "CHOP:noise": 2,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "DAT:sopto": 1,
+          "SOP:twist": 1,
+          "SOP:chopto": 3,
+          "SOP:circle": 5,
+          "SOP:delete": 1,
+          "SOP:sphere": 1,
+          "COMP:annotate": 1,
+          "CHOP:pattern": 1,
+          "SOP:select": 1,
+          "COMP:container": 2,
+          "SOP:null": 1,
+          "SOP:facet": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "poly",
+            "surftype": "cols",
+            "orient": "zx",
+            "sizex": 1,
+            "sizey": 10,
+            "tz": -5,
+            "reverseanchors": "on",
+            "rows": 150,
+            "cols": 8
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "pageindex": 2,
+            "inversedistanceexponent": 1.169,
+            "distancenear": 0.7,
+            "distancefar": 5,
+            "widthnear": 6,
+            "widthfar": 1,
+            "widthbias": -0.146,
+            "drawpoints": "on",
+            "pointtype": "sphere",
+            "scale": 0.09,
+            "vecendcaptype": "round",
+            "vectaperstrength": 0.325,
+            "roundheight": 1.9,
+            "arrowwidth": 2.1,
+            "arrowheight": 4.07,
+            "arrowtaillength": 1,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "null6",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "grid1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "chopto3",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "merge1",
+            "chanscope": "\"tx ty tz width\"",
+            "attscope": "\"P(0) P(1) P(2) width\""
+          }
+        },
+        {
+          "name": "toRender",
+          "type": "SOP:select",
+          "parameters": {
+            "sops": "chopto3"
+          }
+        },
+        {
+          "name": "sopRender",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "uvbuttonsleft": 1,
+            "uvbuttonsmiddle": 1,
+            "uvbuttonsright": 1,
+            "topsmoothness": "mipmap",
+            "nodeview": "opviewer",
+            "chop": "sopto2",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "ext2object": "\"\"",
+            "ext2name": "\"\""
+          }
+        },
+        {
+          "name": "math_width",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -6,
+            "torange2": 10
+          }
+        },
+        {
+          "name": "noise_width",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "period": 1.26,
+            "sx": 1.9,
+            "sy": 1.9,
+            "sz": 1.9,
+            "channelname": "width"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sopRender/out1",
+          "to": "null6",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_width",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "grid1",
+          "to": "chopto3",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_width",
+          "to": "math_width",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "noise_width",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "SOP:grid": 1,
+          "MAT:line": 1,
+          "TOP:null": 1,
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:sopto": 1,
+          "SOP:chopto": 1,
+          "SOP:select": 1,
+          "COMP:container": 1,
+          "CHOP:math": 1,
+          "CHOP:noise": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "ty": 0.34,
+            "tz": 4
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "rord": "yxz",
+            "instancing": "on",
+            "instanceop": "toGeo",
+            "instancetx": "tx",
+            "instancety": "ty",
+            "instancetz": "tz",
+            "material": "line1"
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "widthnear": 1,
+            "widthfar": 0.5,
+            "drawpoints": "on",
+            "pointtype": "square",
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "toGeo",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "circle1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "orient": "zx",
+            "reverseanchors": "on",
+            "arc": "openarc",
+            "endangle": 3600
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1920,
+            "resolutionh": 1080,
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "controls",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        },
+        {
+          "name": "pattern_radius",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "torange1": 1,
+            "torange2": 0.1,
+            "channelname": "\"tx tz\"",
+            "combine": "multiply"
+          }
+        },
+        {
+          "name": "pattern_densityY",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "random",
+            "numcycles": 1000,
+            "bias": -0.087,
+            "seed": 8.41,
+            "channelname": "\"ty \"",
+            "combine": "add"
+          }
+        },
+        {
+          "name": "pattern_vertical",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "channelname": "ty",
+            "combine": "replace"
+          }
+        },
+        {
+          "name": "pattern_densityXZ",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "random",
+            "numcycles": 1000,
+            "bias": -0.087,
+            "channelname": "\"tx tz\"",
+            "combine": "add"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern_densityXZ",
+          "to": "toGeo",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "pattern_radius",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_vertical",
+          "to": "pattern_densityY",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_radius",
+          "to": "pattern_vertical",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern_densityY",
+          "to": "pattern_densityXZ",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 5,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "MAT:line": 1,
+          "DAT:text": 2,
+          "CHOP:null": 1,
+          "CHOP:sopto": 1,
+          "SOP:circle": 1,
+          "TOP:render": 1,
+          "COMP:base": 1,
+          "CHOP:pattern": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "add1",
+          "type": "SOP:add",
+          "parameters": {
+            "pageindex": 1,
+            "pointdat": "table1",
+            "namedattribs": "on",
+            "poly0pattern": "*",
+            "poly0closed": "on"
+          }
+        },
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 2,
+            "tz": 5,
+            "projection": "ortho",
+            "orthowidth": 8
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 4,
+            "material": "line1"
+          }
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "tz": -0.1,
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "line1",
+          "type": "MAT:line",
+          "parameters": {
+            "widthnear": 2,
+            "widthfar": 0.5,
+            "linestartcaptype": "square",
+            "lineendcaptype": "square",
+            "roundwidth": 0,
+            "roundheight": 0,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 7,
+            "language": "text"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 5,
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "SOP:add": 1,
+          "COMP:cam": 1,
+          "COMP:geo": 2,
+          "MAT:line": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:render": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "pageindex": 3,
+            "tz": 5,
+            "fogdensity": 1,
+            "fogfar": 4,
+            "fogalpha": 1
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "orient": "zx",
+            "sizex": 2,
+            "sizey": 5,
+            "tz": 1.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "line2",
+          "type": "SOP:line",
+          "parameters": {}
+        },
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 5,
+            "clampinput": "clamp",
+            "lowa": 1,
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "ramp_x",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 3,
+            "dat": "ramp1_keys",
+            "outputresolution": "custom",
+            "resolutionw": 128,
+            "resolutionh": 128,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "ramp_z",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 3,
+            "dat": "ramp2_keys",
+            "type": "vertical",
+            "outputresolution": "custom",
+            "resolutionw": 128,
+            "resolutionh": 128,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise_y",
+          "type": "TOP:noise",
+          "parameters": {
+            "amp": 0.042,
+            "resolutionw": 128,
+            "resolutionh": 128,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1920,
+            "resolutionh": 1080
+          }
+        },
+        {
+          "name": "geo_grid",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 5,
+            "material": "line_grid"
+          }
+        },
+        {
+          "name": "null_pos",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "reorder1",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputgreen": "input2",
+            "outputblue": "input3"
+          }
+        },
+        {
+          "name": "line_grid",
+          "type": "MAT:line",
+          "parameters": {
+            "distancefar": 4,
+            "widthnear": 1.05,
+            "widthfar": 0.1,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "geo_vector",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 2,
+            "ty": -0.3,
+            "instancing": "on",
+            "instancetop": "null_pos",
+            "instancetx": "r",
+            "instancety": "g",
+            "instancetz": "b",
+            "instancer": "r",
+            "instanceg": "g",
+            "instanceb": "b",
+            "instance0customop": "null_vector",
+            "instance0customx": "r",
+            "instance0customy": "g",
+            "material": "line_vectors"
+          }
+        },
+        {
+          "name": "null_color",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "null_vector",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "line_vectors",
+          "type": "MAT:line",
+          "parameters": {
+            "pageindex": 3,
+            "distancefar": 4,
+            "widthnear": 1.63,
+            "widthfar": 0.1,
+            "pointtype": "circlesprite",
+            "pointsizemultiplier": 24,
+            "drawvectors": "on",
+            "scale": 0.07,
+            "vecendcaptype": "arrow",
+            "arrowwidth": 3,
+            "arrowheight": 10,
+            "arrowtaillength": 5,
+            "vecdiratttype": "instanceattribsop",
+            "blending": "on",
+            "srcblend": "sa",
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "math_rerange",
+          "type": "TOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "toranger1": -1,
+            "toranger2": 1,
+            "torangeb1": -1,
+            "torangeb2": 4
+          }
+        },
+        {
+          "name": "noise_vector",
+          "type": "TOP:noise",
+          "parameters": {
+            "period": 3,
+            "amp": 1,
+            "outputresolution": "custom",
+            "resolutionw": 128,
+            "resolutionh": 128,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "math_positive",
+          "type": "TOP:math",
+          "parameters": {
+            "preop": "pos"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "render1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "geo_vector",
+          "to": "geo_grid",
+          "to_input": "0"
+        },
+        {
+          "from": "math_rerange",
+          "to": "null_pos",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp_x",
+          "to": "reorder1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_y",
+          "to": "reorder1",
+          "to_input": "1"
+        },
+        {
+          "from": "ramp_z",
+          "to": "reorder1",
+          "to_input": "2"
+        },
+        {
+          "from": "math_positive",
+          "to": "null_color",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_vector",
+          "to": "null_vector",
+          "to_input": "0"
+        },
+        {
+          "from": "reorder1",
+          "to": "math_rerange",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_vector",
+          "to": "math_positive",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 10,
+        "operator_types": {
+          "COMP:cam": 1,
+          "SOP:grid": 1,
+          "SOP:line": 1,
+          "TOP:level": 1,
+          "TOP:ramp": 2,
+          "DAT:text": 1,
+          "TOP:noise": 2,
+          "TOP:render": 1,
+          "COMP:geo": 2,
+          "TOP:null": 3,
+          "TOP:reorder": 1,
+          "MAT:line": 2,
+          "DAT:table": 2,
+          "TOP:math": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pointRender",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "mousewheel": "on",
+            "uvbuttonsleft": 1,
+            "uvbuttonsmiddle": 1,
+            "uvbuttonsright": 1,
+            "top": "./out1",
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

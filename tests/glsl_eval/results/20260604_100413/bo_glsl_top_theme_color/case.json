@@ -1,0 +1,20 @@
+{
+  "case_id": "bo_glsl_top_theme_color",
+  "section": "build_offline",
+  "slots": {
+    "theme": "sci-fi",
+    "driver": "lfo"
+  },
+  "prompt": "Build (offline, export .tox) a GLSL TOP that renders a procedural sci-fi-styled image, animated by lfo.",
+  "score": 1.0,
+  "metrics": {
+    "compile_clean": 1.0,
+    "renders": 1.0,
+    "mean_luma": 0.0,
+    "duration_s": 4.58
+  },
+  "detail": "compile=clean, render=ok, luma=-1.000",
+  "fixture": "bo_glsl_top_theme_color::sci-fi",
+  "expected_failure": "#version not first; empty .parm (BASIC builder)",
+  "success_criteria": "imports at /test level, compiles 0 err, renders non-black"
+}

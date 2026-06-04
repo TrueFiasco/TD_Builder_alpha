@@ -1,0 +1,367 @@
+{
+  "operator": "OP_Find_DAT",
+  "family": "DAT",
+  "td_create_name": "opfindDAT",
+  "param_count": 65,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "activecook": {
+      "type": "menu",
+      "value": "always",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "auto",
+        "always",
+        "incremental"
+      ],
+      "menuLabels": [
+        "Off",
+        "Automatic",
+        "Always",
+        "Incremental"
+      ]
+    },
+    "cookpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "component": {
+      "type": "op",
+      "value": ".."
+    },
+    "includecomponent": {
+      "type": "toggle",
+      "value": true
+    },
+    "includewired": {
+      "type": "toggle",
+      "value": true
+    },
+    "mindepth": {
+      "type": "int",
+      "value": 2
+    },
+    "limitmaxdepth": {
+      "type": "toggle",
+      "value": false
+    },
+    "maxdepth": {
+      "type": "int",
+      "value": 2
+    },
+    "limitmaxops": {
+      "type": "toggle",
+      "value": true
+    },
+    "maxops": {
+      "type": "int",
+      "value": 31
+    },
+    "objects": {
+      "type": "toggle",
+      "value": false
+    },
+    "panels": {
+      "type": "toggle",
+      "value": false
+    },
+    "other": {
+      "type": "toggle",
+      "value": false
+    },
+    "tops": {
+      "type": "toggle",
+      "value": false
+    },
+    "chops": {
+      "type": "toggle",
+      "value": false
+    },
+    "sops": {
+      "type": "toggle",
+      "value": false
+    },
+    "pops": {
+      "type": "toggle",
+      "value": false
+    },
+    "mats": {
+      "type": "toggle",
+      "value": false
+    },
+    "dats": {
+      "type": "toggle",
+      "value": false
+    },
+    "utility": {
+      "type": "toggle",
+      "value": true
+    },
+    "casesensitive": {
+      "type": "toggle",
+      "value": false
+    },
+    "combinefilters": {
+      "type": "menu",
+      "value": "any",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "any",
+        "custom"
+      ],
+      "menuLabels": [
+        "All",
+        "Any",
+        "Custom"
+      ]
+    },
+    "customcombine": {
+      "type": "string",
+      "value": "name or text_perturbed"
+    },
+    "namefilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "typefilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parentshortcutfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "opshortcutfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "pathfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parentfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "excludefilter": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "wirepathfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "commentfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "tagsfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "textfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parnamefilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parvaluefilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parexpressionfilter": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "parnondefaultonly": {
+      "type": "toggle",
+      "value": true
+    },
+    "legacycols": {
+      "type": "toggle",
+      "value": true
+    },
+    "idcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "namecol": {
+      "type": "toggle",
+      "value": false
+    },
+    "typecol": {
+      "type": "toggle",
+      "value": false
+    },
+    "parentshortcutcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "opshortcutcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "pathcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "relpathcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "parentpath": {
+      "type": "toggle",
+      "value": true
+    },
+    "wirepathcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "depthcol": {
+      "type": "toggle",
+      "value": true
+    },
+    "cooktimescol": {
+      "type": "toggle",
+      "value": true
+    },
+    "tagscol": {
+      "type": "toggle",
+      "value": true
+    },
+    "genprop": {
+      "type": "toggle",
+      "value": true
+    },
+    "cputime": {
+      "type": "toggle",
+      "value": true
+    },
+    "gputime": {
+      "type": "toggle",
+      "value": true
+    },
+    "cpumem": {
+      "type": "toggle",
+      "value": true
+    },
+    "gpumem": {
+      "type": "toggle",
+      "value": true
+    },
+    "children": {
+      "type": "toggle",
+      "value": true
+    },
+    "callbacks": {
+      "type": "op",
+      "value": "op_perturbed_callbacks"
+    },
+    "convertbool": {
+      "type": "toggle",
+      "value": false
+    },
+    "convertnone": {
+      "type": "toggle",
+      "value": false
+    },
+    "language": {
+      "type": "menu",
+      "value": "parameter",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "parameter",
+        "text",
+        "python",
+        "glsl",
+        "json",
+        "yaml",
+        "xml",
+        "tscript"
+      ],
+      "menuLabels": [
+        "From Input",
+        "From Parameter Language",
+        "Plain Text",
+        "Python",
+        "GLSL",
+        "JSON",
+        "YAML",
+        "XML / HTML",
+        "Tscript"
+      ]
+    },
+    "extension": {
+      "type": "menu",
+      "value": "customext",
+      "menuIndex": 17,
+      "menuNames": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "languageext",
+        "customext"
+      ],
+      "menuLabels": [
+        "csv",
+        "dat",
+        "frag",
+        "glsl",
+        "html",
+        "json",
+        "md",
+        "py",
+        "rtf",
+        "sdp",
+        "tsv",
+        "txt",
+        "vert",
+        "xml",
+        "yaml",
+        "yml",
+        "From Content Language",
+        "Custom Extension"
+      ]
+    },
+    "customext": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "wordwrap": {
+      "type": "menu",
+      "value": "on",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "on",
+        "off"
+      ],
+      "menuLabels": [
+        "Input",
+        "On",
+        "Off"
+      ]
+    }
+  }
+}

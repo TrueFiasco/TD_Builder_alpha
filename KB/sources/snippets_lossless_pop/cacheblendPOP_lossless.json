@@ -1,0 +1,1450 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\OPSnippets\\Snippets\\POP\\cacheblendPOP.tox.dir",
+    "build_version": "099",
+    "build_date": "Sat Nov 15 10:04:54 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.31700"
+  },
+  "operators": {
+    "/cacheblendPOP": {
+      "name": "cacheblendPOP",
+      "path": "/cacheblendPOP",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        2380,
+        75,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "enableexternaltox": "off",
+        "savebackup": "off"
+      },
+      "parent": null,
+      "children": [
+        "example1",
+        "example2"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1": {
+      "name": "example1",
+      "path": "/cacheblendPOP/example1",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        50,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"blend cache from multi snapshots\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "cacheblendPOP"
+        }
+      },
+      "parent": "/cacheblendPOP",
+      "children": [
+        "line1",
+        "null1",
+        "cache1",
+        "merge1",
+        "merge2",
+        "merge3",
+        "noise2",
+        "readMe",
+        "shuffle1",
+        "shuffle2",
+        "constant1",
+        "constant2",
+        "attribute1",
+        "attribute2",
+        "transform1",
+        "cacheblend1",
+        "cacheselect1",
+        "cacheselect2",
+        "cacheselect3",
+        "cacheselect4"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example1/line1": {
+      "name": "line1",
+      "path": "/cacheblendPOP/example1/line1",
+      "op_type": "POP:line",
+      "family": "POP",
+      "specific_type": "line",
+      "viewport_pos": null,
+      "tile_pos": [
+        85,
+        135,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "divs": 200,
+        "pt0posx": {
+          "67108928": -10
+        },
+        "pt0posy": {
+          "67108928": 0
+        },
+        "pt0posz": {
+          "67108928": 0
+        },
+        "pt1posx": {
+          "67108928": 10
+        },
+        "pt1posy": {
+          "67108928": 0
+        },
+        "pt1posz": {
+          "67108928": 0
+        }
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Points\n202379544 pt Point Points 0\n235942657 pt:pt0pos Position 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Points 1\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example1/null1": {
+      "name": "null1",
+      "path": "/cacheblendPOP/example1/null1",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        825,
+        405,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "merge3"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cache1": {
+      "name": "cache1",
+      "path": "/cacheblendPOP/example1/cache1",
+      "op_type": "POP:cache",
+      "family": "POP",
+      "specific_type": "cache",
+      "viewport_pos": null,
+      "tile_pos": [
+        435,
+        135,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachesize": 4
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "noise2"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/merge1": {
+      "name": "merge1",
+      "path": "/cacheblendPOP/example1/merge1",
+      "op_type": "POP:merge",
+      "family": "POP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        1471,
+        49,
+        278,
+        242
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "input1pop": "\"\"",
+        "input1groupentity": "point",
+        "input1group": "\"\"",
+        "input2pop": "\"\"",
+        "input2groupentity": "point",
+        "input2group": "\"\""
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "attribute1",
+        "1": "transform1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/merge2": {
+      "name": "merge2",
+      "path": "/cacheblendPOP/example1/merge2",
+      "op_type": "POP:merge",
+      "family": "POP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        895,
+        -25,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "input1pop": "\"\"",
+        "input1groupentity": "point",
+        "input1group": "\"\"",
+        "input2pop": "\"\"",
+        "input2groupentity": "point",
+        "input2group": "\"\"",
+        "input3pop": "\"\"",
+        "input3groupentity": "point",
+        "input3group": "\"\""
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "cacheselect1",
+        "1": "cacheselect2",
+        "2": "cacheselect3",
+        "3": "cacheselect4"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/merge3": {
+      "name": "merge3",
+      "path": "/cacheblendPOP/example1/merge3",
+      "op_type": "CHOP:merge",
+      "family": "CHOP",
+      "specific_type": "merge",
+      "viewport_pos": null,
+      "tile_pos": [
+        645,
+        405,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "shuffle1",
+        "1": "shuffle2"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/noise2": {
+      "name": "noise2",
+      "path": "/cacheblendPOP/example1/noise2",
+      "op_type": "POP:noise",
+      "family": "POP",
+      "specific_type": "noise",
+      "viewport_pos": null,
+      "tile_pos": [
+        245,
+        135,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 1,
+        "seed": 6.09,
+        "period": 12.4,
+        "amp0": 5.942,
+        "t4d": {
+          "49": "0 \"absTime.seconds * 2\""
+        },
+        "combineattrscope": "P.i1"
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "line1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/readMe": {
+      "name": "readMe",
+      "path": "/cacheblendPOP/example1/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example1/shuffle1": {
+      "name": "shuffle1",
+      "path": "/cacheblendPOP/example1/shuffle1",
+      "op_type": "CHOP:shuffle",
+      "family": "CHOP",
+      "specific_type": "shuffle",
+      "viewport_pos": null,
+      "tile_pos": [
+        465,
+        435,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "method": "swap"
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "constant1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/shuffle2": {
+      "name": "shuffle2",
+      "path": "/cacheblendPOP/example1/shuffle2",
+      "op_type": "CHOP:shuffle",
+      "family": "CHOP",
+      "specific_type": "shuffle",
+      "viewport_pos": null,
+      "tile_pos": [
+        465,
+        325,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "method": "swap"
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "constant2"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/constant1": {
+      "name": "constant1",
+      "path": "/cacheblendPOP/example1/constant1",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        255,
+        435,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "const1name": "chan2",
+        "const1value": -1,
+        "const2name": "chan3",
+        "const2value": -2,
+        "const3name": "chan4",
+        "const3value": -3
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/constant2": {
+      "name": "constant2",
+      "path": "/cacheblendPOP/example1/constant2",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        255,
+        325,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "const1name": "chan2",
+        "const1value": 0,
+        "const2name": "chan3",
+        "const2value": 0,
+        "const3name": "chan4",
+        "const3value": 0
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/attribute1": {
+      "name": "attribute1",
+      "path": "/cacheblendPOP/example1/attribute1",
+      "op_type": "POP:attribute",
+      "family": "POP",
+      "specific_type": "attribute",
+      "viewport_pos": null,
+      "tile_pos": [
+        1095,
+        145,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "attr0name": "color",
+        "attr0value0": 1,
+        "attr0value1": 0,
+        "attr0value2": 0,
+        "attr0value3": 1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "cacheblend1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/attribute2": {
+      "name": "attribute2",
+      "path": "/cacheblendPOP/example1/attribute2",
+      "op_type": "POP:attribute",
+      "family": "POP",
+      "specific_type": "attribute",
+      "viewport_pos": null,
+      "tile_pos": [
+        1065,
+        -25,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "attr0name": "color",
+        "attr0value0": 0.5,
+        "attr0value1": 0.5,
+        "attr0value2": 0.5,
+        "attr0value3": 1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "merge2"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/transform1": {
+      "name": "transform1",
+      "path": "/cacheblendPOP/example1/transform1",
+      "op_type": "POP:transform",
+      "family": "POP",
+      "specific_type": "transform",
+      "viewport_pos": null,
+      "tile_pos": [
+        1245,
+        -15,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "tx": 0,
+        "ty": 0,
+        "tz": -0.1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "attribute2"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cacheblend1": {
+      "name": "cacheblend1",
+      "path": "/cacheblendPOP/example1/cacheblend1",
+      "op_type": "POP:cacheblend",
+      "family": "POP",
+      "specific_type": "cacheblend",
+      "viewport_pos": null,
+      "tile_pos": [
+        905,
+        145,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1",
+        "chop": "null1",
+        "indexchan": "chan0",
+        "weightchan": "chan1",
+        "cache1index": -1,
+        "cache1indexunit": "frames",
+        "cache1weight": 1,
+        "cache2index": -2,
+        "cache2indexunit": "frames",
+        "cache2weight": 1,
+        "cache3index": -3,
+        "cache3indexunit": "frames",
+        "cache3weight": 1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cacheselect1": {
+      "name": "cacheselect1",
+      "path": "/cacheblendPOP/example1/cacheselect1",
+      "op_type": "POP:cacheselect",
+      "family": "POP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        635,
+        175,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1"
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cacheselect2": {
+      "name": "cacheselect2",
+      "path": "/cacheblendPOP/example1/cacheselect2",
+      "op_type": "POP:cacheselect",
+      "family": "POP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        645,
+        65,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1",
+        "index": -1
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cacheselect3": {
+      "name": "cacheselect3",
+      "path": "/cacheblendPOP/example1/cacheselect3",
+      "op_type": "POP:cacheselect",
+      "family": "POP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        645,
+        -35,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1",
+        "index": -2
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example1/cacheselect4": {
+      "name": "cacheselect4",
+      "path": "/cacheblendPOP/example1/cacheselect4",
+      "op_type": "POP:cacheselect",
+      "family": "POP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        645,
+        -135,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1",
+        "index": -3
+      },
+      "parent": "/cacheblendPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2": {
+      "name": "example2",
+      "path": "/cacheblendPOP/example2",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        280,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"smooth blend cache from two snapshots\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "cacheblendPOP"
+        }
+      },
+      "parent": "/cacheblendPOP",
+      "children": [
+        "fan1",
+        "lfo1",
+        "info1",
+        "null1",
+        "cache1",
+        "readMe",
+        "datexec1",
+        "pattern1",
+        "cacheblend2"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example2/fan1": {
+      "name": "fan1",
+      "path": "/cacheblendPOP/example2/fan1",
+      "op_type": "CHOP:fan",
+      "family": "CHOP",
+      "specific_type": "fan",
+      "viewport_pos": null,
+      "tile_pos": [
+        415,
+        265,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "channame": "chan[1-2]",
+        "quantize": "off"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "lfo1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2/lfo1": {
+      "name": "lfo1",
+      "path": "/cacheblendPOP/example2/lfo1",
+      "op_type": "CHOP:lfo",
+      "family": "CHOP",
+      "specific_type": "lfo",
+      "viewport_pos": null,
+      "tile_pos": [
+        255,
+        265,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "wavetype": "ramp",
+        "phase": 0.03,
+        "timeslice": "on"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n1\n533\n533\n0\n0\n1\n1\n0\n533\n533\n0\n60\nchan1\n0.783339\n0\n1\n{\n   rate = 60\n   start = 533\n   tracklength = 1\n   tracks = 1\n   {\n      name = chan1\n      data_rle = 0.813339 \n   }\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example2/info1": {
+      "name": "info1",
+      "path": "/cacheblendPOP/example2/info1",
+      "op_type": "DAT:info",
+      "family": "DAT",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        255,
+        45,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "cache1",
+        "language": "text"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2/null1": {
+      "name": "null1",
+      "path": "/cacheblendPOP/example2/null1",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        565,
+        265,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "fan1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2/cache1": {
+      "name": "cache1",
+      "path": "/cacheblendPOP/example2/cache1",
+      "op_type": "POP:cache",
+      "family": "POP",
+      "specific_type": "cache",
+      "viewport_pos": null,
+      "tile_pos": [
+        255,
+        155,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachesize": 2,
+        "stepunit": "seconds",
+        "outputindexunit": "indices"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {
+        "0": "pattern1"
+      },
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2/readMe": {
+      "name": "readMe",
+      "path": "/cacheblendPOP/example2/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0001+The step size is 1 second. 2 chaches snapshots only.\n\n Step size expressed in frames undesirable for 2 reasons: (1) someone may run it on a 50 fps project. (2) 60 indexes will be more than a second if you are dropping frames (the LFO is switching at 1 second, no matther how many dropoust there are.",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example2/datexec1": {
+      "name": "datexec1",
+      "path": "/cacheblendPOP/example2/datexec1",
+      "op_type": "DAT:datexec",
+      "family": "DAT",
+      "specific_type": "datexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        395,
+        45,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": "info1",
+        "language": "python"
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0005r# me - this DAT.\n# \n# dat - the changed DAT\n# prevDAT - the DAT containing previous contents.\n#\n# Info contains specific details on what's changed:\n#\n#\trowsChanged\t- list of row indices with different contents\n#   rowsAdded\t\t- list of added row name indices (in dat)\n#   rowsRemoved\t- list of removed row name indices (in prevDAT)\n#\n#\tcolsChanged\t- list of column indices with different contents\n#   colsAdded\t\t- list of added column name indices (in dat)\n#   colsRemoved\t- list of removed column name indices (in prevDAT)\n#\n#\tcellsChanged \t- list of cells that have changed content\n#\n#\tsizeChanged\t- bool, true if number of rows or columns changed\n# \n# Make sure the corresponding toggle is enabled in the DAT Execute DAT.\n# \n\n# This callback can be used to evaluate several change conditions simultaneously.\n\ndef onTableChange(dat, prevDAT, info):\n\top('lfo1').par.resetpulse.pulse()\n\treturn\n\n\n# These legacy callbacks can be used to track individual changes.\n# Note that if rows or columns are deleted, sizeChange will be called instead\n# of row/col/cellChange.\n\n# rows - a list of row indices\ndef onRowChange(dat, rows):\n\treturn\n\n# cols - a list of column indices\ndef onColChange(dat, cols):\n\treturn\n\n# cells - list of cells that have changed content\n# prev - list of previous string contents of the changed cells\ndef onCellChange(dat, cells, prev):\n\treturn\n\ndef onSizeChange(dat):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/cacheblendPOP/example2/pattern1": {
+      "name": "pattern1",
+      "path": "/cacheblendPOP/example2/pattern1",
+      "op_type": "POP:pattern",
+      "family": "POP",
+      "specific_type": "pattern",
+      "viewport_pos": null,
+      "tile_pos": [
+        45,
+        155,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "type0": "cos",
+        "type1": "sin",
+        "type2": "tri",
+        "numcycles0": {
+          "49": "1 (absTime.frame%45)/5"
+        },
+        "numcycles1": {
+          "32": 1
+        },
+        "numcycles2": {
+          "32": 1
+        },
+        "phase0": {
+          "32": 0
+        },
+        "phase1": {
+          "49": "0 me.time.seconds*0.08"
+        },
+        "phase2": {
+          "32": 0
+        }
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/cacheblendPOP/example2/cacheblend2": {
+      "name": "cacheblend2",
+      "path": "/cacheblendPOP/example2/cacheblend2",
+      "op_type": "POP:cacheblend",
+      "family": "POP",
+      "specific_type": "cacheblend",
+      "viewport_pos": null,
+      "tile_pos": [
+        565,
+        155,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachepop": "cache1",
+        "cache0index": -1,
+        "cache0indexunit": "indices",
+        "cache0weight": {
+          "49": "1 op('null1')['chan1']"
+        },
+        "cache1index": 0,
+        "cache1indexunit": "indices",
+        "cache1weight": {
+          "17": "1 op('null1')['chan2']"
+        }
+      },
+      "parent": "/cacheblendPOP/example2",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.31700\ntime Sat Nov 15 10:04:54 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "cacheblendPOP.n",
+    "cacheblendPOP.parm",
+    "cacheblendPOP/example1.n",
+    "cacheblendPOP/example1.cparm",
+    "cacheblendPOP/example1.parm",
+    "cacheblendPOP/example1/line1.n",
+    "cacheblendPOP/example1/line1.cparm",
+    "cacheblendPOP/example1/line1.parm",
+    "cacheblendPOP/example1/null1.n",
+    "cacheblendPOP/example1/cache1.n",
+    "cacheblendPOP/example1/cache1.parm",
+    "cacheblendPOP/example1/merge1.n",
+    "cacheblendPOP/example1/merge1.parm",
+    "cacheblendPOP/example1/merge2.n",
+    "cacheblendPOP/example1/merge2.parm",
+    "cacheblendPOP/example1/merge3.n",
+    "cacheblendPOP/example1/merge3.parm",
+    "cacheblendPOP/example1/noise2.n",
+    "cacheblendPOP/example1/noise2.parm",
+    "cacheblendPOP/example1/readMe.n",
+    "cacheblendPOP/example1/readMe.parm",
+    "cacheblendPOP/example1/readMe.text",
+    "cacheblendPOP/example1/shuffle1.n",
+    "cacheblendPOP/example1/shuffle1.parm",
+    "cacheblendPOP/example1/shuffle2.n",
+    "cacheblendPOP/example1/shuffle2.parm",
+    "cacheblendPOP/example1/constant1.n",
+    "cacheblendPOP/example1/constant1.parm",
+    "cacheblendPOP/example1/constant2.n",
+    "cacheblendPOP/example1/constant2.parm",
+    "cacheblendPOP/example1/attribute1.n",
+    "cacheblendPOP/example1/attribute1.parm",
+    "cacheblendPOP/example1/attribute2.n",
+    "cacheblendPOP/example1/attribute2.parm",
+    "cacheblendPOP/example1/transform1.n",
+    "cacheblendPOP/example1/transform1.parm",
+    "cacheblendPOP/example1/cacheblend1.n",
+    "cacheblendPOP/example1/cacheblend1.parm",
+    "cacheblendPOP/example1/cacheselect1.n",
+    "cacheblendPOP/example1/cacheselect1.parm",
+    "cacheblendPOP/example1/cacheselect2.n",
+    "cacheblendPOP/example1/cacheselect2.parm",
+    "cacheblendPOP/example1/cacheselect3.n",
+    "cacheblendPOP/example1/cacheselect3.parm",
+    "cacheblendPOP/example1/cacheselect4.n",
+    "cacheblendPOP/example1/cacheselect4.parm",
+    "cacheblendPOP/example2.n",
+    "cacheblendPOP/example2.cparm",
+    "cacheblendPOP/example2.parm",
+    "cacheblendPOP/example2/fan1.n",
+    "cacheblendPOP/example2/fan1.parm",
+    "cacheblendPOP/example2/lfo1.n",
+    "cacheblendPOP/example2/lfo1.parm",
+    "cacheblendPOP/example2/lfo1.chop",
+    "cacheblendPOP/example2/lfo1.ts",
+    "cacheblendPOP/example2/info1.n",
+    "cacheblendPOP/example2/info1.parm",
+    "cacheblendPOP/example2/null1.n",
+    "cacheblendPOP/example2/cache1.n",
+    "cacheblendPOP/example2/cache1.parm",
+    "cacheblendPOP/example2/readMe.n",
+    "cacheblendPOP/example2/readMe.parm",
+    "cacheblendPOP/example2/readMe.text",
+    "cacheblendPOP/example2/datexec1.n",
+    "cacheblendPOP/example2/datexec1.parm",
+    "cacheblendPOP/example2/datexec1.text",
+    "cacheblendPOP/example2/pattern1.n",
+    "cacheblendPOP/example2/pattern1.parm",
+    "cacheblendPOP/example2/cacheblend2.n",
+    "cacheblendPOP/example2/cacheblend2.parm"
+  ],
+  "connections": [
+    {
+      "from": "merge3",
+      "to": "/cacheblendPOP/example1/null1",
+      "to_input": 0
+    },
+    {
+      "from": "noise2",
+      "to": "/cacheblendPOP/example1/cache1",
+      "to_input": 0
+    },
+    {
+      "from": "attribute1",
+      "to": "/cacheblendPOP/example1/merge1",
+      "to_input": 0
+    },
+    {
+      "from": "transform1",
+      "to": "/cacheblendPOP/example1/merge1",
+      "to_input": 1
+    },
+    {
+      "from": "cacheselect1",
+      "to": "/cacheblendPOP/example1/merge2",
+      "to_input": 0
+    },
+    {
+      "from": "cacheselect2",
+      "to": "/cacheblendPOP/example1/merge2",
+      "to_input": 1
+    },
+    {
+      "from": "cacheselect3",
+      "to": "/cacheblendPOP/example1/merge2",
+      "to_input": 2
+    },
+    {
+      "from": "cacheselect4",
+      "to": "/cacheblendPOP/example1/merge2",
+      "to_input": 3
+    },
+    {
+      "from": "shuffle1",
+      "to": "/cacheblendPOP/example1/merge3",
+      "to_input": 0
+    },
+    {
+      "from": "shuffle2",
+      "to": "/cacheblendPOP/example1/merge3",
+      "to_input": 1
+    },
+    {
+      "from": "line1",
+      "to": "/cacheblendPOP/example1/noise2",
+      "to_input": 0
+    },
+    {
+      "from": "constant1",
+      "to": "/cacheblendPOP/example1/shuffle1",
+      "to_input": 0
+    },
+    {
+      "from": "constant2",
+      "to": "/cacheblendPOP/example1/shuffle2",
+      "to_input": 0
+    },
+    {
+      "from": "cacheblend1",
+      "to": "/cacheblendPOP/example1/attribute1",
+      "to_input": 0
+    },
+    {
+      "from": "merge2",
+      "to": "/cacheblendPOP/example1/attribute2",
+      "to_input": 0
+    },
+    {
+      "from": "attribute2",
+      "to": "/cacheblendPOP/example1/transform1",
+      "to_input": 0
+    },
+    {
+      "from": "lfo1",
+      "to": "/cacheblendPOP/example2/fan1",
+      "to_input": 0
+    },
+    {
+      "from": "fan1",
+      "to": "/cacheblendPOP/example2/null1",
+      "to_input": 0
+    },
+    {
+      "from": "pattern1",
+      "to": "/cacheblendPOP/example2/cache1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 32,
+    "total_connections": 19,
+    "total_raw_files": 1,
+    "total_extra_files": 8,
+    "total_files_captured": 72,
+    "by_family": {
+      "COMP": 3,
+      "POP": 16,
+      "CHOP": 9,
+      "DAT": 4
+    },
+    "by_type": {
+      "COMP:base": 3,
+      "POP:line": 1,
+      "CHOP:null": 2,
+      "POP:cache": 2,
+      "POP:merge": 2,
+      "CHOP:merge": 1,
+      "POP:noise": 1,
+      "DAT:text": 2,
+      "CHOP:shuffle": 2,
+      "CHOP:constant": 2,
+      "POP:attribute": 2,
+      "POP:transform": 1,
+      "POP:cacheblend": 2,
+      "POP:cacheselect": 4,
+      "CHOP:fan": 1,
+      "CHOP:lfo": 1,
+      "DAT:info": 1,
+      "DAT:datexec": 1,
+      "POP:pattern": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 126
+  }
+}

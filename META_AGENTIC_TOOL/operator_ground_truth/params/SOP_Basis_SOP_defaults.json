@@ -1,0 +1,420 @@
+{
+  "operator": "Basis_SOP",
+  "family": "SOP",
+  "td_create_name": "basisSOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 1,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Basis",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "ubasis": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "U",
+      "label": "Edit the U Basis",
+      "readOnly": false,
+      "expression": null
+    },
+    "uparmtype": {
+      "value": {
+        "type": "menu",
+        "value": "nochange",
+        "menuIndex": 0,
+        "menuNames": [
+          "nochange",
+          "uniform",
+          "chord",
+          "centripetal",
+          "manualone",
+          "manualall",
+          "slide"
+        ],
+        "menuLabels": [
+          "Unchanged",
+          "Uniform",
+          "Chord Length",
+          "Centripetal",
+          "Manual: Single",
+          "Manual: Propagated",
+          "Knotslide"
+        ]
+      },
+      "default": "nochange",
+      "page": "U",
+      "label": "Parameterization",
+      "readOnly": false,
+      "expression": null
+    },
+    "uknots": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "U",
+      "label": "Knot Sequence",
+      "readOnly": false,
+      "expression": null
+    },
+    "uread": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "U",
+      "label": "Read Basis",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "U",
+      "label": "Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "urange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "U",
+      "label": "Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "ubias": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "U",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "uconcat": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "U",
+      "label": "Concatenate",
+      "readOnly": false,
+      "expression": null
+    },
+    "udoorigin": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "U",
+      "label": "Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "uorigin": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "U",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "udolength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "U",
+      "label": "Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "ulength": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "U",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "udoscale": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "U",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "uscale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "U",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "uraise": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "U",
+      "label": "Raise to",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderu": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "U",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "vbasis": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Edit the V Basis",
+      "readOnly": false,
+      "expression": null
+    },
+    "vparmtype": {
+      "value": {
+        "type": "menu",
+        "value": "nochange",
+        "menuIndex": 0,
+        "menuNames": [
+          "nochange",
+          "uniform",
+          "chord",
+          "centripetal",
+          "manualone",
+          "manualall",
+          "slide"
+        ],
+        "menuLabels": [
+          "Unchanged",
+          "Uniform",
+          "Chord Length",
+          "Centripetal",
+          "Manual: Single",
+          "Manual: Propagated",
+          "Knotslide"
+        ]
+      },
+      "default": "nochange",
+      "page": "V",
+      "label": "Parameterization",
+      "readOnly": false,
+      "expression": null
+    },
+    "vknots": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "V",
+      "label": "Knot Sequence",
+      "readOnly": false,
+      "expression": null
+    },
+    "vread": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "V",
+      "label": "Read Basis",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange1": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "V",
+      "label": "Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vrange2": {
+      "value": {
+        "type": "float",
+        "value": 0.9
+      },
+      "default": 0.9,
+      "page": "V",
+      "label": "Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "vbias": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "V",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "vconcat": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Concatenate",
+      "readOnly": false,
+      "expression": null
+    },
+    "vdoorigin": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Origin",
+      "readOnly": false,
+      "expression": null
+    },
+    "vorigin": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "V",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "vdolength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "vlength": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "V",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "vdoscale": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "vscale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "V",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "vraise": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "V",
+      "label": "Raise to",
+      "readOnly": false,
+      "expression": null
+    },
+    "orderv": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "V",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

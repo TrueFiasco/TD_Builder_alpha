@@ -1,0 +1,250 @@
+{
+  "operator": "Delete_CHOP",
+  "family": "CHOP",
+  "td_create_name": "deleteCHOP",
+  "param_count": 33,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "delchannels": {
+      "type": "toggle",
+      "value": true
+    },
+    "discard": {
+      "type": "menu",
+      "value": "nonscoped",
+      "menuIndex": 1,
+      "menuNames": [
+        "scoped",
+        "nonscoped"
+      ],
+      "menuLabels": [
+        "Scoped Channels",
+        "Non-scoped Channels"
+      ]
+    },
+    "select": {
+      "type": "menu",
+      "value": "bynum",
+      "menuIndex": 1,
+      "menuNames": [
+        "byname",
+        "bynum"
+      ],
+      "menuLabels": [
+        "By Channel Name",
+        "By Channel Number"
+      ]
+    },
+    "delscope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "selnumbers": {
+      "type": "string",
+      "value": "[0-100:2]_perturbed"
+    },
+    "chanvalue": {
+      "type": "menu",
+      "value": "complete",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "complete",
+        "partial",
+        "outside"
+      ],
+      "menuLabels": [
+        "Off",
+        "Channel Completely Within Range",
+        "Channel Partially Within Range",
+        "Channel Completely Outside Range"
+      ]
+    },
+    "selrange1": {
+      "type": "float",
+      "value": -0.8765499999999999
+    },
+    "selrange2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "selconst": {
+      "type": "toggle",
+      "value": true
+    },
+    "legacypattern": {
+      "type": "toggle",
+      "value": true
+    },
+    "delsamples": {
+      "type": "toggle",
+      "value": true
+    },
+    "compchans": {
+      "type": "menu",
+      "value": "lastchan",
+      "menuIndex": 1,
+      "menuNames": [
+        "firstchan",
+        "lastchan",
+        "byname",
+        "bynum"
+      ],
+      "menuLabels": [
+        "Use First Channel",
+        "Use Last Channel",
+        "By Channel Name",
+        "By Channel Number"
+      ]
+    },
+    "compnames": {
+      "type": "string",
+      "value": "chan1_perturbed"
+    },
+    "compnums": {
+      "type": "string",
+      "value": "0_perturbed"
+    },
+    "compmulti": {
+      "type": "menu",
+      "value": "add",
+      "menuIndex": 2,
+      "menuNames": [
+        "any",
+        "all",
+        "add",
+        "sub",
+        "mul",
+        "div",
+        "avg",
+        "min",
+        "max",
+        "len"
+      ],
+      "menuLabels": [
+        "Any Chan in Range",
+        "All Chans in Range",
+        "Add",
+        "Subtract",
+        "Multiply",
+        "Divide",
+        "Average",
+        "Minimum",
+        "Maximum",
+        "Length"
+      ]
+    },
+    "condition": {
+      "type": "menu",
+      "value": "greater",
+      "menuIndex": 1,
+      "menuNames": [
+        "less",
+        "greater",
+        "equal",
+        "notequal",
+        "inside",
+        "outside"
+      ],
+      "menuLabels": [
+        "Less Than Value 1",
+        "Greater Than Value 1",
+        "Equal to Value 1",
+        "Not Equal to Value 1",
+        "Inside Range",
+        "Outside Range"
+      ]
+    },
+    "value1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "inclvalue1": {
+      "type": "toggle",
+      "value": false
+    },
+    "value2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "inclvalue2": {
+      "type": "toggle",
+      "value": true
+    },
+    "deletecomp": {
+      "type": "toggle",
+      "value": true
+    },
+    "uniqsamples": {
+      "type": "toggle",
+      "value": true
+    },
+    "uniqtol": {
+      "type": "float",
+      "value": 0.12445000004749746
+    },
+    "onesample": {
+      "type": "toggle",
+      "value": false
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

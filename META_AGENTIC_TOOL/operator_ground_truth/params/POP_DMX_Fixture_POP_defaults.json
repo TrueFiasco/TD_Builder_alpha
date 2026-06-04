@@ -1,0 +1,435 @@
+{
+  "operator": "DMX_Fixture_POP",
+  "family": "POP",
+  "td_create_name": "dmxfixturePOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 9,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Fixture",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "autolayout": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Fixture",
+      "label": "Auto Layout",
+      "readOnly": false,
+      "expression": null
+    },
+    "routingtable": {
+      "value": {
+        "type": "op",
+        "value": "op_default_routingtable"
+      },
+      "default": "",
+      "page": "Fixture",
+      "label": "Routing Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "net": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Fixture",
+      "label": "Net (0-127)",
+      "readOnly": false,
+      "expression": null
+    },
+    "subnet": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Fixture",
+      "label": "Subnet (0-15)",
+      "readOnly": false,
+      "expression": null
+    },
+    "universe": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Fixture",
+      "label": "Universe",
+      "readOnly": false,
+      "expression": null
+    },
+    "channel": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Fixture",
+      "label": "Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "changap": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Fixture",
+      "label": "Channel Gap",
+      "readOnly": false,
+      "expression": null
+    },
+    "quantizeuni": {
+      "value": {
+        "type": "menu",
+        "value": "comp",
+        "menuIndex": 2,
+        "menuNames": [
+          "off",
+          "fixture",
+          "comp"
+        ],
+        "menuLabels": [
+          "Off",
+          "By Fixture",
+          "By Components"
+        ]
+      },
+      "default": "comp",
+      "page": "Fixture",
+      "label": "Quantize Universe",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "DMX Profile",
+      "label": "DMX Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "DMX Profile",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0valuetype": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "DMX Profile",
+      "label": "Value Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0valuesource": {
+      "value": {
+        "type": "menu",
+        "value": "attribute",
+        "menuIndex": 1,
+        "menuNames": [
+          "constant",
+          "attribute"
+        ],
+        "menuLabels": [
+          "Constant",
+          "Attribute"
+        ]
+      },
+      "default": "attribute",
+      "page": "DMX Profile",
+      "label": "Value Source",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "DMX Profile",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0numcomps": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "DMX Profile",
+      "label": "Number of Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0value0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "DMX Profile",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0value1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "DMX Profile",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0value2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "DMX Profile",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0value3": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "DMX Profile",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0attr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "DMX Profile",
+      "label": "Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0valueres": {
+      "value": {
+        "type": "menu",
+        "value": "b8",
+        "menuIndex": 0,
+        "menuNames": [
+          "b8",
+          "b16",
+          "b24",
+          "b32"
+        ],
+        "menuLabels": [
+          "8-bit",
+          "16-bit",
+          "24-bit",
+          "32-bit"
+        ]
+      },
+      "default": "b8",
+      "page": "DMX Profile",
+      "label": "Value Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0normalized": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "DMX Profile",
+      "label": "Value is Normalized",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0merge": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DMX Profile",
+      "label": "Merge with Above Block",
+      "readOnly": false,
+      "expression": null
+    },
+    "dmxchan0interleavebytes": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DMX Profile",
+      "label": "Interleave Bytes",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

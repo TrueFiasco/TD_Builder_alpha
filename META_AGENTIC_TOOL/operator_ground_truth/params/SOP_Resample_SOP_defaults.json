@@ -1,0 +1,151 @@
+{
+  "operator": "Resample_SOP",
+  "family": "SOP",
+  "td_create_name": "resampleSOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Resample",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "lod": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Resample",
+      "label": "Level of Detail",
+      "readOnly": false,
+      "expression": null
+    },
+    "edge": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Resample",
+      "label": "Resample by Polygon Edge",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "dist",
+        "menuIndex": 0,
+        "menuNames": [
+          "dist",
+          "x",
+          "y",
+          "z"
+        ],
+        "menuLabels": [
+          "Even Length Segments",
+          "Even X Segments",
+          "Even Y Segments",
+          "Even Z Segments"
+        ]
+      },
+      "default": "dist",
+      "page": "Resample",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "measure": {
+      "value": {
+        "type": "menu",
+        "value": "arc",
+        "menuIndex": 0,
+        "menuNames": [
+          "arc",
+          "chord"
+        ],
+        "menuLabels": [
+          "Along Arc",
+          "Along Chord"
+        ]
+      },
+      "default": "arc",
+      "page": "Resample",
+      "label": "Measure",
+      "readOnly": false,
+      "expression": null
+    },
+    "dolength": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Resample",
+      "label": "Maximum Segment Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "length": {
+      "value": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "default": 0.10000000149011612,
+      "page": "Resample",
+      "label": "Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "dosegs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Resample",
+      "label": "Maximum Segments",
+      "readOnly": false,
+      "expression": null
+    },
+    "segs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Resample",
+      "label": "Segments",
+      "readOnly": false,
+      "expression": null
+    },
+    "last": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Resample",
+      "label": "Maintain Last Vertex",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

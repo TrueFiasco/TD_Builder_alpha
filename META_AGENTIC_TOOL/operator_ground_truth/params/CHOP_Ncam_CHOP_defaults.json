@@ -1,0 +1,278 @@
+{
+  "operator": "Ncam_CHOP",
+  "family": "CHOP",
+  "td_create_name": "ncamCHOP",
+  "param_count": 17,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 4,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Network",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "protocol": {
+      "value": {
+        "type": "menu",
+        "value": "tcp",
+        "menuIndex": 0,
+        "menuNames": [
+          "tcp"
+        ],
+        "menuLabels": [
+          "TCP"
+        ]
+      },
+      "default": "tcp",
+      "page": "Network",
+      "label": "Protocol",
+      "readOnly": false,
+      "expression": null
+    },
+    "netaddress": {
+      "value": {
+        "type": "string",
+        "value": "localhost"
+      },
+      "default": "localhost",
+      "page": "Network",
+      "label": "Network Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "port": {
+      "value": {
+        "type": "int",
+        "value": 38860
+      },
+      "default": 38860,
+      "page": "Network",
+      "label": "Network Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "cameraview": {
+      "value": {
+        "type": "menu",
+        "value": "trs",
+        "menuIndex": 0,
+        "menuNames": [
+          "trs",
+          "matrix",
+          "both",
+          "off"
+        ],
+        "menuLabels": [
+          "Translation & Rotation (TR)",
+          "Matrix",
+          "TR & Matrix",
+          "Off"
+        ]
+      },
+      "default": "trs",
+      "page": "Channels",
+      "label": "Camera View",
+      "readOnly": false,
+      "expression": null
+    },
+    "cameraproj": {
+      "value": {
+        "type": "menu",
+        "value": "fov",
+        "menuIndex": 0,
+        "menuNames": [
+          "fov",
+          "matrix",
+          "both",
+          "off"
+        ],
+        "menuLabels": [
+          "Field of View (FOV)",
+          "Matrix",
+          "FOV & Matrix",
+          "Off"
+        ]
+      },
+      "default": "fov",
+      "page": "Channels",
+      "label": "Camera Projection",
+      "readOnly": false,
+      "expression": null
+    },
+    "cameraprops": {
+      "value": {
+        "type": "menu",
+        "value": "normalized",
+        "menuIndex": 0,
+        "menuNames": [
+          "normalized",
+          "physical",
+          "both",
+          "off"
+        ],
+        "menuLabels": [
+          "Normalized",
+          "Physical",
+          "Both",
+          "Off"
+        ]
+      },
+      "default": "normalized",
+      "page": "Channels",
+      "label": "Camera Properties",
+      "readOnly": false,
+      "expression": null
+    },
+    "timecode": {
+      "value": {
+        "type": "menu",
+        "value": "on",
+        "menuIndex": 0,
+        "menuNames": [
+          "on",
+          "timecode",
+          "both",
+          "off"
+        ],
+        "menuLabels": [
+          "HH:MM::SS::FF",
+          "Timecode",
+          "Both",
+          "Off"
+        ]
+      },
+      "default": "on",
+      "page": "Channels",
+      "label": "Timecode",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

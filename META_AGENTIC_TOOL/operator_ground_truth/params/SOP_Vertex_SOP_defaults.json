@@ -1,0 +1,282 @@
+{
+  "operator": "Vertex_SOP",
+  "family": "SOP",
+  "td_create_name": "vertexSOP",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 8,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Vertex",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "doclr": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "remove"
+        ],
+        "menuLabels": [
+          "Keep Color",
+          "Add Color",
+          "No Color"
+        ]
+      },
+      "default": "off",
+      "page": "Vertex",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "diffr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vertex",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[0]"
+    },
+    "diffg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vertex",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[1]"
+    },
+    "diffb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vertex",
+      "label": "Color",
+      "readOnly": false,
+      "expression": "me.inputColor[2]"
+    },
+    "alpha": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vertex",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": "me.inputColor[3]"
+    },
+    "douvw": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "remove"
+        ],
+        "menuLabels": [
+          "Keep Texture",
+          "Add Texture",
+          "No Texture"
+        ]
+      },
+      "default": "off",
+      "page": "Vertex",
+      "label": "Texture",
+      "readOnly": false,
+      "expression": null
+    },
+    "mapu": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vertex",
+      "label": "Texture",
+      "readOnly": false,
+      "expression": "me.inputTexture[0]"
+    },
+    "mapv": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vertex",
+      "label": "Texture",
+      "readOnly": false,
+      "expression": "me.inputTexture[1]"
+    },
+    "mapw": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vertex",
+      "label": "Texture",
+      "readOnly": false,
+      "expression": "me.inputTexture[2]"
+    },
+    "docrease": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "remove"
+        ],
+        "menuLabels": [
+          "Keep Crease",
+          "Add Crease",
+          "No Crease"
+        ]
+      },
+      "default": "off",
+      "page": "Vertex",
+      "label": "Crease",
+      "readOnly": false,
+      "expression": null
+    },
+    "crease": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vertex",
+      "label": "Crease",
+      "readOnly": false,
+      "expression": "me.inputVertex.creaseWeight[0]"
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Attributes",
+      "label": "Custom Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0type": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "float2",
+          "float3",
+          "float4",
+          "int",
+          "int2",
+          "int3",
+          "int4"
+        ],
+        "menuLabels": [
+          "float",
+          "float2",
+          "float3",
+          "float4",
+          "int",
+          "int2",
+          "int3",
+          "int4"
+        ]
+      },
+      "default": "float",
+      "page": "Attributes",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value3": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0value4": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Attributes",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

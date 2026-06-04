@@ -1,0 +1,143 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\facetPOP_lossless.json",
+  "operator_type": "facetPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "facet1",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "unique"
+          }
+        },
+        {
+          "name": "facet2",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "conspoints"
+          }
+        },
+        {
+          "name": "facet3",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "cusp",
+            "angle": 14
+          }
+        },
+        {
+          "name": "facet4",
+          "type": "POP:facet",
+          "parameters": {
+            "operation": "cusp"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "filein1",
+          "type": "POP:filein",
+          "parameters": {}
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 3
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "POP:sphere",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3,
+            "radz": 0.3
+          }
+        },
+        {
+          "name": "evalnumPoints",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "evalnumPoints1",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "evalnumPoints2",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "null_normalVectors0",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null_normalVectors1",
+          "type": "POP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "facet2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "facet3",
+          "to_input": "0"
+        },
+        {
+          "from": "filein1",
+          "to": "facet4",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "null_normalVectors0",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "null_normalVectors1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 6,
+        "operator_types": {
+          "POP:facet": 4,
+          "DAT:text": 1,
+          "POP:filein": 1,
+          "POP:sphere": 2,
+          "DAT:eval": 3,
+          "POP:null": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

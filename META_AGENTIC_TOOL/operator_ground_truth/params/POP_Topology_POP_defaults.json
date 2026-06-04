@@ -1,0 +1,1018 @@
+{
+  "operator": "Topology_POP",
+  "family": "POP",
+  "td_create_name": "topologyPOP",
+  "param_count": 62,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "1"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpointsmode": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "custom"
+        ],
+        "menuLabels": [
+          "From Input",
+          "Custom"
+        ]
+      },
+      "default": "input",
+      "page": "Points",
+      "label": "Max Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpoints": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Points",
+      "label": "Max Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcountinfo": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "fromparams",
+          "fromattrs"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Max Points Parameter",
+          "From Attribute"
+        ]
+      },
+      "default": "input",
+      "page": "Points",
+      "label": "Point Count Info",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcountpop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Points",
+      "label": "Point Count POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcountclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Points",
+      "label": "Point Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Points",
+      "label": "Point Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "render": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Topology",
+      "label": "Render",
+      "readOnly": false,
+      "expression": null
+    },
+    "primsourcemode": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "specpop"
+        ],
+        "menuLabels": [
+          "Input",
+          "Specify POP"
+        ]
+      },
+      "default": "input",
+      "page": "Topology",
+      "label": "Primitive Source Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "primmode": {
+      "value": {
+        "type": "menu",
+        "value": "topo",
+        "menuIndex": 0,
+        "menuNames": [
+          "topo",
+          "attr"
+        ],
+        "menuLabels": [
+          "Source Topology and Topology Info",
+          "Source Attribute and Manual Topology Info"
+        ]
+      },
+      "default": "topo",
+      "page": "Topology",
+      "label": "Primitive Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "primspop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Primitives POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointindexattrclass": {
+      "value": {
+        "type": "menu",
+        "value": "vertex",
+        "menuIndex": 1,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "vertex",
+      "page": "Topology",
+      "label": "Point Index Attrib Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointindexattrname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Point Index Attrib Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "vertattrmode": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "primsource",
+          "specpop"
+        ],
+        "menuLabels": [
+          "None",
+          "Primitive Source",
+          "Specify POP"
+        ]
+      },
+      "default": "none",
+      "page": "Topology",
+      "label": "Vertex Attribute Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "vertattrpop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Vertex Attribute POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "vertattrclass": {
+      "value": {
+        "type": "menu",
+        "value": "vertex",
+        "menuIndex": 1,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "vertex",
+      "page": "Topology",
+      "label": "Vertex Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "primattrmode": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "primsource",
+          "specpop"
+        ],
+        "menuLabels": [
+          "None",
+          "Primitive Source",
+          "Specify POP"
+        ]
+      },
+      "default": "none",
+      "page": "Topology",
+      "label": "Prim Attribute Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "primattrpop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Prim Attribute POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "primattrclass": {
+      "value": {
+        "type": "menu",
+        "value": "vertex",
+        "menuIndex": 1,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "vertex",
+      "page": "Topology",
+      "label": "Prim Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "topology": {
+      "value": {
+        "type": "menu",
+        "value": "ref",
+        "menuIndex": 0,
+        "menuNames": [
+          "ref",
+          "copy"
+        ],
+        "menuLabels": [
+          "Source Topology Reference",
+          "Source Topology Copy"
+        ]
+      },
+      "default": "ref",
+      "page": "Topology",
+      "label": "Topology",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxtrianglesmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Triangles",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxtriangles": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Triangles",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxquadsmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Quads",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxquads": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Quads",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlinestripsmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Line Strips",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlinestrips": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Line Strips",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlsvertsmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Line Strip Verts",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlsverts": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Line Strip Verts",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlinesmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Lines",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlines": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Lines",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpointprimsmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "custom"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Custom"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Max Point Prims",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpointprims": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Point Prims",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsinfofromprimsource": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Topology",
+      "label": "Line Strip Info from Prim Source",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsinfoupdate": {
+      "value": {
+        "type": "menu",
+        "value": "auto",
+        "menuIndex": 0,
+        "menuNames": [
+          "auto",
+          "manual"
+        ],
+        "menuLabels": [
+          "Auto",
+          "Manual"
+        ]
+      },
+      "default": "auto",
+      "page": "Topology",
+      "label": "Line Strip Info Update",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsinfopop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Info POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsinfoclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Topology",
+      "label": "Line Strip Info Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsinfoattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Info Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsindexpop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Index per Vert POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsindexclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Topology",
+      "label": "Line Strip Index per Vert Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsindexattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Index per Vert Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsmaxvertsoverride": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Topology",
+      "label": "Max Verts per Line Strip",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsmaxverts": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Topology",
+      "label": "Max Verts per Line Strip",
+      "readOnly": false,
+      "expression": null
+    },
+    "topoinfo": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "fromparams",
+          "fromattrs"
+        ],
+        "menuLabels": [
+          "From Primitive Source",
+          "From Max Prims Parameter",
+          "From Attributes"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Topology Info",
+      "readOnly": false,
+      "expression": null
+    },
+    "topoinfopop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Topology Info POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "topoinfoclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Topology",
+      "label": "Topology Info Attributes Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "trianglecountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Triangle Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "trianglecountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Triangle Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "quadcountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Quad Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "quadcountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Quad Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "linestripcountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Line Strip Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "linestripcountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsvertcountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Line Strip Vert Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "lsvertcountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Strip Vert Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "linecountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Line Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "linecountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Line Count Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointprimcountmode": {
+      "value": {
+        "type": "menu",
+        "value": "primsource",
+        "menuIndex": 0,
+        "menuNames": [
+          "primsource",
+          "zero",
+          "set"
+        ],
+        "menuLabels": [
+          "Primitive Source",
+          "Zero",
+          "Set"
+        ]
+      },
+      "default": "primsource",
+      "page": "Topology",
+      "label": "Point Prim Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointprimcountattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Topology",
+      "label": "Point Prim Count Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

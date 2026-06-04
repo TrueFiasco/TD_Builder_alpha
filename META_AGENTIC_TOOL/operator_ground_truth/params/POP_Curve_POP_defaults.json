@@ -1,0 +1,694 @@
+{
+  "operator": "Curve_POP",
+  "family": "POP",
+  "td_create_name": "curvePOP",
+  "param_count": 48,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 16,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "totallength": {
+      "value": {
+        "type": "int",
+        "value": 1000
+      },
+      "default": 1000,
+      "page": "Curve",
+      "label": "Total Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputcurve": {
+      "value": {
+        "type": "menu",
+        "value": "linestrip",
+        "menuIndex": 1,
+        "menuNames": [
+          "points",
+          "linestrip",
+          "colorstrip"
+        ],
+        "menuLabels": [
+          "Points",
+          "Line Strips",
+          "Color Strip"
+        ]
+      },
+      "default": "linestrip",
+      "page": "Curve",
+      "label": "Output Curve",
+      "readOnly": false,
+      "expression": null
+    },
+    "normalizeu": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Curve",
+      "label": "Normalize U",
+      "readOnly": false,
+      "expression": null
+    },
+    "symmetric": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Curve",
+      "label": "Symmetric",
+      "readOnly": false,
+      "expression": null
+    },
+    "parsize": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Curve",
+      "label": "Parameter Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "startu": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Start U",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Curve",
+      "label": "Segment",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0type": {
+      "value": {
+        "type": "menu",
+        "value": "easeinout",
+        "menuIndex": 4,
+        "menuNames": [
+          "constant",
+          "linear",
+          "easein",
+          "easeout",
+          "easeinout",
+          "bezier"
+        ],
+        "menuLabels": [
+          "Constant",
+          "Linear",
+          "Ease In",
+          "Ease Out",
+          "Ease In Ease Out",
+          "Bezier"
+        ]
+      },
+      "default": "easeinout",
+      "page": "Curve",
+      "label": "Curve Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0u": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Curve",
+      "label": "U",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0specstartval": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Curve",
+      "label": "Specify Start Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0startval0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Start Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0startval1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Start Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0startval2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Start Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0startval3": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Start Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0endval0": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Curve",
+      "label": "End Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0endval1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Curve",
+      "label": "End Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0endval2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Curve",
+      "label": "End Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0endval3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Curve",
+      "label": "End Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0alpha": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0beta": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Beta",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0slopein": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Slope in",
+      "readOnly": false,
+      "expression": null
+    },
+    "seg0slopeout": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Curve",
+      "label": "Slope Out",
+      "readOnly": false,
+      "expression": null
+    },
+    "applylookup": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lookup",
+      "label": "Apply Lookup",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookupindexattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup",
+      "label": "Lookup Index Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromlow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "From Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromhigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup",
+      "label": "From High",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "To Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "tohigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup",
+      "label": "To High",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendleft": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "hold",
+      "page": "Lookup",
+      "label": "Extend Left and Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendright": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "hold",
+      "page": "Lookup",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Lookup",
+      "label": "Lookup",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0multiply": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup",
+      "label": "Multiply",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0add": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "Add",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0combineop": {
+      "value": {
+        "type": "menu",
+        "value": "set",
+        "menuIndex": 0,
+        "menuNames": [
+          "set",
+          "add",
+          "mult",
+          "min",
+          "max"
+        ],
+        "menuLabels": [
+          "Set",
+          "Add",
+          "Multiply",
+          "Minimum",
+          "Maximum"
+        ]
+      },
+      "default": "set",
+      "page": "Lookup",
+      "label": "Combine Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0outputattrscope": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup",
+      "label": "Output Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0overrideautoattr": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lookup",
+      "label": "Override Automatic Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrtype": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Lookup",
+      "label": "Attribute Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrnumcomps": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Lookup",
+      "label": "Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrdefaultval0": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrdefaultval1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrdefaultval2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0attrdefaultval3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

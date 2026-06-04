@@ -1,0 +1,162 @@
+{
+  "operator": "Blob_Track_CHOP",
+  "family": "CHOP",
+  "td_create_name": "blobtrackCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "searchmode": {
+      "type": "int",
+      "value": 1
+    },
+    "maxblobs": {
+      "type": "int",
+      "value": 3
+    },
+    "maxpointdistance": {
+      "type": "float",
+      "value": 0.19345000029802323
+    },
+    "maxblobmovement": {
+      "type": "float",
+      "value": 0.22345000149011612
+    },
+    "areaofinterest": {
+      "type": "menu",
+      "value": "circle",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "rectangle",
+        "circle"
+      ],
+      "menuLabels": [
+        "Off",
+        "Rectangle",
+        "Circle"
+      ]
+    },
+    "centerx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "centery": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "sizex": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "sizey": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "rotate": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "allowmovementoutside": {
+      "type": "toggle",
+      "value": true
+    },
+    "outputcentroid": {
+      "type": "toggle",
+      "value": true
+    },
+    "outputvelocity": {
+      "type": "toggle",
+      "value": true
+    },
+    "minblobpoints": {
+      "type": "int",
+      "value": 4
+    },
+    "blobinittime": {
+      "type": "float",
+      "value": 0.17345
+    },
+    "lostblobtimeout": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "predicttype": {
+      "type": "menu",
+      "value": "off",
+      "menuIndex": 0,
+      "menuNames": [
+        "off",
+        "simple",
+        "kalman"
+      ],
+      "menuLabels": [
+        "Off",
+        "Simple Forward Predict",
+        "Kalman Filter Predict"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\compositeCHOP_lossless.json",
+  "operator_type": "compositeCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "comp1",
+          "type": "CHOP:comp",
+          "parameters": {
+            "pageindex": 1,
+            "base": 1,
+            "relative": "abs",
+            "start": 99,
+            "startunit": "samples",
+            "peak": 100,
+            "peakunit": "samples",
+            "release": 101,
+            "releaseunit": "samples",
+            "end": 101,
+            "endunit": "samples",
+            "risefunc": "lin",
+            "fallfunc": "ei"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "torange1": 1,
+            "torange2": 2
+          }
+        },
+        {
+          "name": "trim1",
+          "type": "CHOP:trim",
+          "parameters": {
+            "relative": "abs",
+            "start": 100,
+            "end": 112,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 4,
+            "period": 4,
+            "channelname": "\"tx ty\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shift1",
+          "type": "CHOP:shift",
+          "parameters": {
+            "relative": "abs",
+            "start": -3.1,
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "scroll": -4.1,
+            "scrollunit": "seconds"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "shift1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "trim1",
+          "to": "shift1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:comp": 1,
+          "CHOP:math": 1,
+          "CHOP:trim": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:shift": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\jointSOP_lossless.json",
+  "operator_type": "jointSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "joint1",
+          "type": "SOP:joint",
+          "parameters": {
+            "divs": 10
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "prim",
+            "orient": "yz",
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "prim",
+            "orient": "yz",
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -1.7,
+            "ty": -0.8,
+            "tz": -1.6,
+            "ry": -70,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": 0.9,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "merge1",
+          "to": "joint1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "circle1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "transform2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "SOP:joint": 1,
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:circle": 2,
+          "SOP:transform": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

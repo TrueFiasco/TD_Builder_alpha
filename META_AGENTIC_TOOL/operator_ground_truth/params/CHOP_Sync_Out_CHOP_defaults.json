@@ -1,0 +1,285 @@
+{
+  "operator": "Sync_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "syncoutCHOP",
+  "param_count": 21,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Sync Out",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "multicastaddress": {
+      "value": {
+        "type": "string",
+        "value": "239.255.0.1"
+      },
+      "default": "239.255.0.1",
+      "page": "Sync Out",
+      "label": "Multicast Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "port": {
+      "value": {
+        "type": "int",
+        "value": 15000
+      },
+      "default": 15000,
+      "page": "Sync Out",
+      "label": "Network Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "localaddress": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Sync Out",
+      "label": "Local Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "localportmode": {
+      "value": {
+        "type": "menu",
+        "value": "automatic",
+        "menuIndex": 0,
+        "menuNames": [
+          "automatic",
+          "manual"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "Manual"
+        ]
+      },
+      "default": "automatic",
+      "page": "Sync Out",
+      "label": "Local Port Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "localport": {
+      "value": {
+        "type": "int",
+        "value": 7777
+      },
+      "default": 7777,
+      "page": "Sync Out",
+      "label": "Local Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeout": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Sync Out",
+      "label": "Timeout",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeoutunit": {
+      "value": {
+        "type": "menu",
+        "value": "frames",
+        "menuIndex": 1,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "milliseconds"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "ms"
+        ]
+      },
+      "default": "frames",
+      "page": "Sync Out",
+      "label": "Timeout",
+      "readOnly": false,
+      "expression": null
+    },
+    "clienttimeouts": {
+      "value": {
+        "type": "int",
+        "value": 5
+      },
+      "default": 5,
+      "page": "Sync Out",
+      "label": "Client Timeouts (Consecutive)",
+      "readOnly": false,
+      "expression": null
+    },
+    "banclients": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Sync Out",
+      "label": "Ban Clients",
+      "readOnly": false,
+      "expression": null
+    },
+    "banclienttimeouts": {
+      "value": {
+        "type": "int",
+        "value": 100
+      },
+      "default": 100,
+      "page": "Sync Out",
+      "label": "Total Timeouts",
+      "readOnly": false,
+      "expression": null
+    },
+    "clearstats": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Sync Out",
+      "label": "Clear Stats",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "operator": "Refine_SOP",
+  "family": "SOP",
+  "td_create_name": "refineSOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 17,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Refine",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "firstu": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Refine",
+      "label": "First U",
+      "readOnly": false,
+      "expression": null
+    },
+    "domainu1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Refine",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "secondu": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Refine",
+      "label": "Second U",
+      "readOnly": false,
+      "expression": null
+    },
+    "domainu2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Refine",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "divsu": {
+      "value": {
+        "type": "int",
+        "value": 9
+      },
+      "default": 9,
+      "page": "Refine",
+      "label": "U Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "firstv": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Refine",
+      "label": "First V",
+      "readOnly": false,
+      "expression": null
+    },
+    "domainv1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Refine",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "secondv": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Refine",
+      "label": "Second V",
+      "readOnly": false,
+      "expression": null
+    },
+    "domainv2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Refine",
+      "label": "",
+      "readOnly": false,
+      "expression": null
+    },
+    "divsv": {
+      "value": {
+        "type": "int",
+        "value": 9
+      },
+      "default": 9,
+      "page": "Refine",
+      "label": "V Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "refine",
+        "menuIndex": 0,
+        "menuNames": [
+          "refine",
+          "unrefine",
+          "subdiv"
+        ],
+        "menuLabels": [
+          "Refine",
+          "Unrefine",
+          "Subdivide"
+        ]
+      },
+      "default": "refine",
+      "page": "Refine",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "nurbu": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Refine",
+      "label": "NURB Count U",
+      "readOnly": false,
+      "expression": null
+    },
+    "nurbv": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Refine",
+      "label": "NURB Count V",
+      "readOnly": false,
+      "expression": null
+    },
+    "space": {
+      "value": {
+        "type": "menu",
+        "value": "domain",
+        "menuIndex": 0,
+        "menuNames": [
+          "domain",
+          "arc"
+        ],
+        "menuLabels": [
+          "Uniform Domain Lengths",
+          "Uniform Arc Lengths"
+        ]
+      },
+      "default": "domain",
+      "page": "Refine",
+      "label": "Spacing",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolu": {
+      "value": {
+        "type": "float",
+        "value": 0.01
+      },
+      "default": 0.01,
+      "page": "Refine",
+      "label": "Tolerance U",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolv": {
+      "value": {
+        "type": "float",
+        "value": 0.01
+      },
+      "default": 0.01,
+      "page": "Refine",
+      "label": "Tolerance V",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

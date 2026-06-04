@@ -1,0 +1,162 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\differenceTOP_lossless.json",
+  "operator_type": "differenceTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "blur1",
+          "type": "TOP:blur",
+          "parameters": {
+            "pageindex": 1,
+            "preshrink": 2,
+            "size": 32,
+            "outputresolution": "custom"
+          }
+        },
+        {
+          "name": "diff1",
+          "type": "TOP:diff",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "flip1",
+          "type": "TOP:flip",
+          "parameters": {
+            "flipx": "on"
+          }
+        },
+        {
+          "name": "mono1",
+          "type": "TOP:mono",
+          "parameters": {}
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "cache1",
+          "type": "TOP:cache",
+          "parameters": {
+            "outputindex": -1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Movie File In\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 60,
+            "h": 30,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "videodevin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||6|||6|||0|||OBS Virtual Camera\"",
+            "precedence": "even",
+            "signalformat": "f640x480p-30.00hz"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "diff1",
+          "to": "blur1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "diff1",
+          "to_input": "0"
+        },
+        {
+          "from": "cache1",
+          "to": "diff1",
+          "to_input": "1"
+        },
+        {
+          "from": "videodevin1",
+          "to": "flip1",
+          "to_input": "0"
+        },
+        {
+          "from": "flip1",
+          "to": "mono1",
+          "to_input": "0"
+        },
+        {
+          "from": "blur1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "switch1",
+          "to": "cache1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "mono1",
+          "to": "switch1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 9,
+        "operator_types": {
+          "TOP:blur": 1,
+          "TOP:diff": 1,
+          "TOP:flip": 1,
+          "TOP:mono": 1,
+          "TOP:null": 1,
+          "TOP:cache": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "TOP:switch": 1,
+          "TOP:videodevin": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 8
+      }
+    }
+  ]
+}

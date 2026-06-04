@@ -1,0 +1,124 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\videostreamoutTOP_lossless.json",
+  "operator_type": "videostreamoutTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "absTime.frame",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "videostreamin1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiostrin1",
+          "type": "CHOP:audiostrin",
+          "parameters": {
+            "videostreamintop": "videostreamin1",
+            "syncoffset": -0.15,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "videostreamin1",
+          "type": "TOP:videostreamin",
+          "parameters": {
+            "url": "srt://143.244.47.80:2030?mode=caller"
+          }
+        },
+        {
+          "name": "videostreamout1",
+          "type": "TOP:videostreamout",
+          "parameters": {
+            "mode": "srt",
+            "url": "srt://0.0.0.0:2030?mode=listener",
+            "audiochop": "null1",
+            "audiocodec": "mp3",
+            "perframemetadata": "eval1"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "audiofilein1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiostrin1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "videostreamout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:eval": 1,
+          "DAT:info": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:audiostrin": 1,
+          "CHOP:audiofilein": 1,
+          "TOP:moviefilein": 1,
+          "TOP:videostreamin": 1,
+          "TOP:videostreamout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

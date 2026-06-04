@@ -1,0 +1,367 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\mirrorTOP_lossless.json",
+  "operator_type": "mirrorTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "ramp",
+            "frequency": 0.01,
+            "amp": 360,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "tile1",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "cropleft": 0.04,
+            "cropright": 0.927,
+            "cropbottom": 0.026,
+            "croptop": 0.954,
+            "flipx": "on",
+            "flipy": "on",
+            "overlapu": 0.06,
+            "overlapv": 0.079
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 10,
+            "amp": 0.5,
+            "offset": 0.5,
+            "channelname": "\"x y\"",
+            "timeslice": "on",
+            "exporttable": "noise1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "mirror1",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.33,
+            "pivoty": 0.33,
+            "rotate": 56
+          }
+        },
+        {
+          "name": "mirror2",
+          "type": "TOP:mirror",
+          "parameters": {}
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "noise1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "mirror2",
+          "to": "tile1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "mirror1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "mirror2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "TOP:tile": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:mirror": 2,
+          "DAT:table": 2,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "tile1",
+          "type": "TOP:tile",
+          "parameters": {
+            "pageindex": 1,
+            "repeatx": 1,
+            "repeaty": 1,
+            "overlapu": 0.036,
+            "overlapv": 0.076
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "mirror1",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.29,
+            "pivoty": 0.29,
+            "rotate": 58,
+            "extend": "repeat",
+            "flipx": "on"
+          }
+        },
+        {
+          "name": "mirror2",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.27,
+            "pivoty": 0.811,
+            "rotate": 107,
+            "flipx": "on"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "xord": "trs",
+            "sx": 0.5,
+            "sy": 0.5,
+            "extend": "repeat"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein2",
+          "to": "tile1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "mirror1",
+          "to_input": "0"
+        },
+        {
+          "from": "mirror1",
+          "to": "mirror2",
+          "to_input": "0"
+        },
+        {
+          "from": "tile1",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:tile": 1,
+          "DAT:text": 1,
+          "TOP:mirror": 2,
+          "TOP:transform": 1,
+          "TOP:moviefilein": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "add1",
+          "type": "TOP:add",
+          "parameters": {
+            "size": "input1",
+            "prefit": "nativeres"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "mirror1",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.45,
+            "pivoty": 0.6,
+            "rotate": -20.4,
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "mirror2",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.6,
+            "pivoty": -0.4,
+            "rotate": -89.4,
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "mirror3",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.204,
+            "pivoty": 0.45,
+            "rotate": -162.4,
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "mirror4",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.8,
+            "pivoty": 0.56,
+            "rotate": 167.8,
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "mirror5",
+          "type": "TOP:mirror",
+          "parameters": {
+            "pivotx": 0.6,
+            "pivoty": 0.56,
+            "rotate": 101.8,
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "pageindex": 1,
+            "operand": "add",
+            "resolutionw": 1280,
+            "resolutionh": 1280
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "add1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "add1",
+          "to_input": "1"
+        },
+        {
+          "from": "add1",
+          "to": "mirror1",
+          "to_input": "0"
+        },
+        {
+          "from": "add1",
+          "to": "mirror2",
+          "to_input": "0"
+        },
+        {
+          "from": "add1",
+          "to": "mirror3",
+          "to_input": "0"
+        },
+        {
+          "from": "add1",
+          "to": "mirror4",
+          "to_input": "0"
+        },
+        {
+          "from": "add1",
+          "to": "mirror5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:add": 1,
+          "DAT:text": 1,
+          "TOP:mirror": 5,
+          "TOP:constant": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

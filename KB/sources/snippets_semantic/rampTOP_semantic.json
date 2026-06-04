@@ -1,0 +1,657 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\rampTOP_lossless.json",
+  "operator_type": "rampTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp_circle",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "circular",
+            "period": 0.8,
+            "extendleft": "zero",
+            "interpnotches": "step",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:ramp": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp_editing_table",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "type": "vertical"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "TOP:ramp": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "pageindex": 1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "stepping",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1
+          }
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp4_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "ramp_animated",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp3_keys",
+            "type": "radial",
+            "dither": "on"
+          }
+        },
+        {
+          "name": "ramp_step_interpolation",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp4_keys",
+            "type": "radial",
+            "interpnotches": "step",
+            "dither": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "CHOP:speed": 1,
+          "CHOP:constant": 1,
+          "DAT:table": 3,
+          "TOP:ramp": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp2_keys",
+            "type": "vertical",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "hsvrgb1",
+          "type": "TOP:hsvrgb",
+          "parameters": {}
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "hsvrgb1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:null": 1,
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:hsvrgb": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp2",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "script1",
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "script1",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "midpoint",
+            "const0value": 0.69
+          }
+        },
+        {
+          "name": "script1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 2,
+          "DAT:script": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "output": "expr"
+          }
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "eval1",
+            "type": "circular",
+            "extendright": "hold",
+            "interpnotches": "easeineaseout"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "bicolor",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 100,
+            "h": 100,
+            "top": "hsvrgb1",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "hsvrgb1",
+          "type": "TOP:hsvrgb",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp1_keys2",
+          "to": "eval1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "hsvrgb1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:eval": 1,
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "COMP:container": 1,
+          "TOP:hsvrgb": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 1,
+            "dat": "ramp1_keys"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp2_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "blendModeIndex",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 1,
+            "value0": 0.537688,
+            "value1": 0.5,
+            "w": 200,
+            "h": 20,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "ramp1_swapOrder",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 1,
+            "dat": "ramp2_keys",
+            "swaporder": "on"
+          }
+        },
+        {
+          "name": "math_blendModeIndex",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "integer": "floor",
+            "torange2": 44.9,
+            "exporttable": "math1_export"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "ramp1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "ramp1_swapOrder",
+          "to_input": "0"
+        },
+        {
+          "from": "blendModeIndex/out1",
+          "to": "math_blendModeIndex",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:ramp": 2,
+          "DAT:text": 1,
+          "DAT:table": 3,
+          "TOP:moviefilein": 1,
+          "COMP:slider": 1,
+          "CHOP:math": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "ramp_red",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp3_keys",
+            "resolutionw": 100,
+            "resolutionh": 256,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "null_info",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp3_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp4_keys",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "ramp_green",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp4_keys",
+            "type": "vertical",
+            "operand": "add"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ramp_green",
+          "to": "null_info",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp_red",
+          "to": "ramp_green",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:ramp": 2,
+          "TOP:null": 1,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "rampA",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "rampB",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:base": 2,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

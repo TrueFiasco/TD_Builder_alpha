@@ -1,0 +1,208 @@
+{
+  "operator": "Clip_CHOP",
+  "family": "CHOP",
+  "td_create_name": "clipCHOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "rdat": {
+      "type": "op",
+      "value": ""
+    },
+    "callbacks": {
+      "type": "op",
+      "value": ""
+    },
+    "reload": {
+      "type": "pulse",
+      "value": null
+    },
+    "rord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "transtion": {
+      "type": "menu",
+      "value": "waitend",
+      "menuIndex": 1,
+      "menuNames": [
+        "blend",
+        "waitend"
+      ],
+      "menuLabels": [
+        "Blend",
+        "Wait Until End"
+      ]
+    },
+    "blendtime": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "blendtimeunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "next": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "nblendtime": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "nblendtimeunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "loopactive": {
+      "type": "toggle",
+      "value": true
+    },
+    "looprelease": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "indexchannel": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "abspos": {
+      "type": "menu",
+      "value": "blendend",
+      "menuIndex": 1,
+      "menuNames": [
+        "override",
+        "blendend",
+        "blendtarget",
+        "add"
+      ],
+      "menuLabels": [
+        "Override / Absolute",
+        "Blend to End",
+        "Blend to Target",
+        "Add"
+      ]
+    },
+    "rottype": {
+      "type": "menu",
+      "value": "override",
+      "menuIndex": 1,
+      "menuNames": [
+        "same",
+        "override",
+        "blendend",
+        "blendtarget",
+        "add"
+      ],
+      "menuLabels": [
+        "Same as Position",
+        "Override / Absolute",
+        "Blend to End",
+        "Blend to Target",
+        "Add"
+      ]
+    },
+    "pauseend": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

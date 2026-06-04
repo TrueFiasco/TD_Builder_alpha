@@ -1,0 +1,867 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\triggerCHOP_lossless.json",
+  "operator_type": "triggerCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 1,
+            "multitrigger": "add",
+            "ashape": "easeout",
+            "peaklen": 0.3,
+            "decay": 0.3,
+            "dshape": "easeout",
+            "release": 2,
+            "rshape": "easeout",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "trigger1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "trigger1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "COMP:button": 1,
+          "CHOP:trigger": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trigger6",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 4,
+            "mintrigger": 0.4,
+            "multitrigger": "add"
+          }
+        },
+        {
+          "name": "trigger7",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 1,
+            "mintrigger": 0.4,
+            "multitrigger": "add",
+            "attack": 0.5,
+            "ashape": "linear",
+            "peaklen": 0.2,
+            "dshape": "linear",
+            "rshape": "linear"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:trigger": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "logic1",
+          "type": "CHOP:logic",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 2,
+            "multitrigger": "add",
+            "sustain": 1,
+            "release": 0.5,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "trigger1",
+          "to": "logic1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "trigger1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:logic": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "CHOP:trigger": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 2,
+            "multitrigger": "add",
+            "delay": 0.5,
+            "peaklen": 0.7,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "trigger1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "COMP:button": 1,
+          "CHOP:trigger": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "offtoon": "reset",
+            "on": "inctime",
+            "ontooff": "reset",
+            "off": "reset",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "logic1",
+          "type": "CHOP:logic",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 0.2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "loop",
+            "max": 500,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "threshup": 0.3,
+            "multitrigger": "add",
+            "peaklen": 0.3,
+            "sustain": 1,
+            "rshape": "linear",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trigger2",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "threshup": 0.3,
+            "multitrigger": "add",
+            "peaklen": 0.3,
+            "sustain": 1,
+            "rshape": "linear",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "logic1",
+          "to_input": "0"
+        },
+        {
+          "from": "logic1",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "logic1",
+          "to": "speed1",
+          "to_input": "1"
+        },
+        {
+          "from": "trigger1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "noise1",
+          "to": "trail1",
+          "to_input": "2"
+        },
+        {
+          "from": "speed1",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "trigger2",
+          "to": "trail2",
+          "to_input": "1"
+        },
+        {
+          "from": "count1",
+          "to": "trigger1",
+          "to_input": "0"
+        },
+        {
+          "from": "speed1",
+          "to": "trigger2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 11,
+        "operator_types": {
+          "CHOP:count": 1,
+          "CHOP:logic": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "CHOP:trail": 2,
+          "CHOP:trigger": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "count3",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "min",
+            "limitmax": 1,
+            "offtoon": "inctime",
+            "on": "inctime",
+            "ontooff": "dectime",
+            "off": "dectime",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "logic3",
+          "type": "CHOP:logic",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "noise3",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 0.2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail7",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trigger5",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "threshup": 0.2,
+            "multitrigger": "add",
+            "peaklen": 0.3,
+            "sustain": 1,
+            "rshape": "linear",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math_bias",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "preoff": -0.1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "logic3",
+          "to": "count3",
+          "to_input": "0"
+        },
+        {
+          "from": "math_bias",
+          "to": "logic3",
+          "to_input": "0"
+        },
+        {
+          "from": "logic3",
+          "to": "trail7",
+          "to_input": "0"
+        },
+        {
+          "from": "count3",
+          "to": "trail7",
+          "to_input": "1"
+        },
+        {
+          "from": "trigger5",
+          "to": "trail7",
+          "to_input": "2"
+        },
+        {
+          "from": "count3",
+          "to": "trigger5",
+          "to_input": "0"
+        },
+        {
+          "from": "noise3",
+          "to": "math_bias",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:count": 1,
+          "CHOP:logic": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:trigger": 1,
+          "CHOP:math": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "go",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Go",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null4",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "type": "vertical",
+            "fitaspect": "fithorz",
+            "fillmode": "best"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "resetcondition": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "count2",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "min",
+            "limitmax": 2,
+            "offtoon": "inctime",
+            "on": "inctime",
+            "ontooff": "dectime",
+            "off": "dectime",
+            "resetcondition": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "resetcondition": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail3",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail4",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail6",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "box",
+            "speedcoeff": 0,
+            "timeslice": "on",
+            "exporttable": "filter1_export"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {
+            "index2": 4
+          }
+        },
+        {
+          "name": "signal5",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "constant4",
+          "type": "CHOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant6",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1
+          }
+        },
+        {
+          "name": "animation1",
+          "type": "COMP:animation",
+          "parameters": {
+            "pageindex": 1,
+            "playmode": "outputrange",
+            "end": 10
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 5,
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "filter1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "lag_suppress_jumps",
+          "type": "CHOP:lag",
+          "parameters": {
+            "clamp": "on",
+            "slope1": 2,
+            "slope2": 2,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "signal5",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "animation1/out",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "speed1",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "count2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant6",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "speed1",
+          "to_input": "1"
+        },
+        {
+          "from": "speed1",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "trail3",
+          "to_input": "0"
+        },
+        {
+          "from": "count2",
+          "to": "trail4",
+          "to_input": "0"
+        },
+        {
+          "from": "lag_suppress_jumps",
+          "to": "trail6",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "null4",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "null2",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "go/out1",
+          "to": "signal5",
+          "to_input": "0"
+        },
+        {
+          "from": "lookup1",
+          "to": "lag_suppress_jumps",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 16,
+        "operator_types": {
+          "COMP:button": 1,
+          "CHOP:null": 4,
+          "TOP:ramp": 1,
+          "CHOP:count": 2,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "CHOP:trail": 4,
+          "CHOP:filter": 1,
+          "CHOP:lookup": 1,
+          "CHOP:constant": 2,
+          "COMP:animation": 1,
+          "DAT:table": 2,
+          "CHOP:lag": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    }
+  ]
+}

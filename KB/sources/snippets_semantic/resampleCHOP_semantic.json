@@ -1,0 +1,152 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\resampleCHOP_lossless.json",
+  "operator_type": "resampleCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "wave3",
+          "type": "CHOP:wave",
+          "parameters": {
+            "end": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "resample_double_samples",
+          "type": "CHOP:resample",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave3",
+          "to": "resample_double_samples",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:resample": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "wave3",
+          "type": "CHOP:wave",
+          "parameters": {
+            "end": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "resample_triple_time_25_samples_per_sec",
+          "type": "CHOP:resample",
+          "parameters": {
+            "method": "newint",
+            "relative": "abs",
+            "end": 3
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave3",
+          "to": "resample_triple_time_25_samples_per_sec",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:resample": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "wave3",
+          "type": "CHOP:wave",
+          "parameters": {
+            "end": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "resample_quadruple_time_same_shape",
+          "type": "CHOP:resample",
+          "parameters": {
+            "method": "strech",
+            "relative": "abs",
+            "end": 4
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave3",
+          "to": "resample_quadruple_time_same_shape",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:resample": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

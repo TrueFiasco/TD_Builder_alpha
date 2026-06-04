@@ -1,0 +1,91 @@
+{
+  "operator": "Boolean_SOP",
+  "family": "SOP",
+  "td_create_name": "booleanSOP",
+  "param_count": 6,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "booleanop": {
+      "value": {
+        "type": "menu",
+        "value": "union",
+        "menuIndex": 0,
+        "menuNames": [
+          "union",
+          "intersect",
+          "aminusb",
+          "bminusa",
+          "aedge\t",
+          "bedge"
+        ],
+        "menuLabels": [
+          "Union",
+          "Intersect",
+          "A minus B",
+          "B minus A",
+          "A Edge",
+          "B Edge"
+        ]
+      },
+      "default": "union",
+      "page": "Boolean",
+      "label": "Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "accattrib": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Boolean",
+      "label": "Accurate Attributes Interpolation",
+      "readOnly": false,
+      "expression": null
+    },
+    "creategroup": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Boolean",
+      "label": "Create Groups",
+      "readOnly": false,
+      "expression": null
+    },
+    "groupa": {
+      "value": {
+        "type": "string",
+        "value": "A"
+      },
+      "default": "A",
+      "page": "Boolean",
+      "label": "Group A",
+      "readOnly": false,
+      "expression": null
+    },
+    "groupb": {
+      "value": {
+        "type": "string",
+        "value": "B"
+      },
+      "default": "B",
+      "page": "Boolean",
+      "label": "Group B",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

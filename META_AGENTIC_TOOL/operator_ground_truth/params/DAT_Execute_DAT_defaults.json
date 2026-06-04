@@ -1,0 +1,483 @@
+{
+  "operator": "Execute_DAT",
+  "family": "DAT",
+  "td_create_name": "executeDAT",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 22,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Execute",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "here",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "here",
+          "op"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "This Node",
+          "Specified Operator"
+        ]
+      },
+      "default": "here",
+      "page": "Execute",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Execute",
+      "label": "From Operator",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "start": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "startpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Start Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "create": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Create",
+      "readOnly": false,
+      "expression": null
+    },
+    "createpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Create Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "exit": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Exit",
+      "readOnly": false,
+      "expression": null
+    },
+    "exitpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Exit Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "framestart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Frame Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "framestartpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Frame Start Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "frameend": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Frame End",
+      "readOnly": false,
+      "expression": null
+    },
+    "frameendpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Frame End Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "playstatechange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Play State Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "playstatepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Play State Change Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "devicechange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Device Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "devicechangepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Device Change Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "projectpresave": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Project Pre Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "projectpresavepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Project Pre Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "projectpostsave": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Project Post Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "projectpostsavepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Project Post Save Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "edit": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Execute",
+      "label": "Edit..",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "File",
+      "label": "File",
+      "readOnly": false,
+      "expression": null
+    },
+    "defaultreadencoding": {
+      "value": {
+        "type": "menu",
+        "value": "autodetect",
+        "menuIndex": 0,
+        "menuNames": [
+          "autodetect",
+          "utf8",
+          "utf16le",
+          "utf16be",
+          "cp1252"
+        ],
+        "menuLabels": [
+          "Auto-Detect",
+          "UTF8",
+          "UTF16-LE",
+          "UTF16-BE",
+          "CP1252"
+        ]
+      },
+      "default": "autodetect",
+      "page": "File",
+      "label": "Default Read Encoding",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncfile": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Sync to File",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstartpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load File",
+      "readOnly": false,
+      "expression": null
+    },
+    "write": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write on Toe Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "writepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write File",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "python",
+        "menuIndex": 3,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "operator": "Audio_VST_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiovstCHOP",
+  "param_count": 32,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "C:/Program Files/Common Files/VST3",
+      "page": "VST",
+      "label": "File",
+      "readOnly": false,
+      "expression": "'C:/Program Files/Common Files/VST3'"
+    },
+    "mode": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "VST",
+      "label": "Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "reloadpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Reload",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadpluginstate": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "VST",
+      "label": "Load Plugin State on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 44100.0
+      },
+      "default": 44100.0,
+      "page": "VST",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "alwaysontop": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "VST",
+      "label": "Plugin GUI Always on Top",
+      "readOnly": false,
+      "expression": null
+    },
+    "displaygui": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Display Plugin GUI",
+      "readOnly": false,
+      "expression": null
+    },
+    "learnparms": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Learn Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "regularparms": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Regular Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "readonlyparms": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Read-Only Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "clearlearnedparms": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "VST",
+      "label": "Clear Learned Parameters",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "VST",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "custombuslayout": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Bus Layout",
+      "label": "Custom Bus Layout",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputbuslayout": {
+      "value": {
+        "type": "string",
+        "value": "L R"
+      },
+      "default": "L R",
+      "page": "Bus Layout",
+      "label": "Output Bus Layout",
+      "readOnly": false,
+      "expression": null
+    },
+    "maininputlayout": {
+      "value": {
+        "type": "string",
+        "value": "L R"
+      },
+      "default": "L R",
+      "page": "Bus Layout",
+      "label": "Main Input Bus Layout",
+      "readOnly": false,
+      "expression": null
+    },
+    "aux": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Bus Layout",
+      "label": "Aux Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "aux0enable": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Bus Layout",
+      "label": "Enable",
+      "readOnly": false,
+      "expression": null
+    },
+    "aux0layout": {
+      "value": {
+        "type": "string",
+        "value": "L R"
+      },
+      "default": "L R",
+      "page": "Bus Layout",
+      "label": "Bus Layout",
+      "readOnly": false,
+      "expression": null
+    },
+    "customplayhead": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Playhead",
+      "label": "Custom Playhead",
+      "readOnly": false,
+      "expression": null
+    },
+    "timecodeop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Playhead",
+      "label": "Timecode Object/CHOP/DAT",
+      "readOnly": false,
+      "expression": "me.time.timecode"
+    },
+    "tempo": {
+      "value": {
+        "type": "float",
+        "value": 120.0
+      },
+      "default": 120.0,
+      "page": "Playhead",
+      "label": "Tempo (bpm)",
+      "readOnly": false,
+      "expression": null
+    },
+    "signature1": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Playhead",
+      "label": "Signature",
+      "readOnly": false,
+      "expression": null
+    },
+    "signature2": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Playhead",
+      "label": "Signature",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

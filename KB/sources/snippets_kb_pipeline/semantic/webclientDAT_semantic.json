@@ -1,0 +1,590 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\webclientDAT_lossless.json",
+  "operator_type": "webclientDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "webclient_derivative",
+          "type": "DAT:webclient",
+          "parameters": {
+            "callbacks": "webclient1_callbacks",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:webclient": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table_data",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 1,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "webrender1",
+          "type": "TOP:webrender",
+          "parameters": {
+            "source": "dat",
+            "dat": "webclient_derivativeDocs",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "webclient_derivativeDocs",
+          "type": "DAT:webclient",
+          "parameters": {
+            "reqmethod": "get",
+            "url": "docs.derivative.ca/index.php",
+            "callbacks": "webclient1_callbacks"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table_data",
+          "to": "webclient_derivativeDocs",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "TOP:webrender": 1,
+          "DAT:webclient": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "dispmethod": "stroke",
+            "strokewidth": 2,
+            "alignx": "left",
+            "aligny": "bottom",
+            "borderspace1": 10,
+            "borderspace2": 10
+          }
+        },
+        {
+          "name": "text2",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "dispmethod": "stroke",
+            "strokewidth": 2,
+            "alignx": "left",
+            "aligny": "bottom",
+            "borderspace1": 10,
+            "borderspace2": 10
+          }
+        },
+        {
+          "name": "text3",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "dispmethod": "scalable",
+            "antialias": "aa8mid",
+            "alignx": "left",
+            "aligny": "bottom",
+            "borderspace1": 10,
+            "borderspace2": 10
+          }
+        },
+        {
+          "name": "text4",
+          "type": "TOP:text",
+          "parameters": {
+            "wordwrap": "on",
+            "legacyfontselection": "on",
+            "dispmethod": "scalable",
+            "antialias": "aa8mid",
+            "alignx": "left",
+            "aligny": "bottom",
+            "borderspace1": 10,
+            "borderspace2": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "select_image1",
+          "type": "DAT:select",
+          "parameters": {
+            "firstrow": "on",
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "select_image3",
+          "type": "DAT:select",
+          "parameters": {
+            "firstrow": "on",
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "table_nasaOnTheStationNews",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 1,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "webclient_nasaOnTheStation",
+          "type": "DAT:webclient",
+          "parameters": {
+            "reqmethod": "get",
+            "url": "https://www.nasa.gov/rss/dyn/onthestation_rss.rss",
+            "callbacks": "webclient1_callbacks",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "text1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein3",
+          "to": "text2",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "text3",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "text4",
+          "to_input": "0"
+        },
+        {
+          "from": "table_nasaOnTheStationNews",
+          "to": "select_image1",
+          "to_input": "0"
+        },
+        {
+          "from": "table_nasaOnTheStationNews",
+          "to": "select_image3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:text": 4,
+          "DAT:text": 2,
+          "TOP:moviefilein": 2,
+          "DAT:select": 2,
+          "DAT:table": 1,
+          "DAT:webclient": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "out",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:beat",
+          "parameters": {
+            "playmode": "locked",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "count2",
+          "type": "CHOP:count",
+          "parameters": {
+            "pageindex": 1,
+            "output": "loop",
+            "limitmin": 1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "webclient1",
+          "type": "DAT:webclient",
+          "parameters": {
+            "reqmethod": "get",
+            "url": "derivative.ca/Community",
+            "callbacks": "webclient1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "table_images",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select",
+          "to": "out",
+          "to_input": "0"
+        },
+        {
+          "from": "count1",
+          "to": "count2",
+          "to_input": "0"
+        },
+        {
+          "from": "table_images",
+          "to": "select",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:null": 1,
+          "DAT:text": 3,
+          "CHOP:beat": 1,
+          "CHOP:count": 1,
+          "DAT:select": 1,
+          "TOP:moviefilein": 1,
+          "DAT:webclient": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "null1",
+            "offtoon": "on",
+            "language": "python"
+          }
+        },
+        {
+          "name": "webclient1",
+          "type": "DAT:webclient",
+          "parameters": {
+            "pageindex": 2,
+            "url": "\"\"",
+            "output": "requesttable",
+            "callbacks": "webclient1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "buttonMomentary",
+          "type": "COMP:widget",
+          "parameters": {
+            "x": 3,
+            "y": 3,
+            "w": 220,
+            "h": 26,
+            "helpdat": "./code/help",
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "align": "horizlr",
+            "spacing": 1,
+            "marginl": 3,
+            "marginr": 3,
+            "marginb": 3,
+            "margint": 3,
+            "justifyh": "left",
+            "justifyv": "top",
+            "crop": "on",
+            "ext0promote": "on",
+            "parentshortcut": "Widget"
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "buttonMomentary/valueOut",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 2,
+          "DAT:chopexec": 1,
+          "DAT:webclient": 1,
+          "COMP:widget": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "json1",
+          "type": "DAT:json",
+          "parameters": {
+            "output": "result",
+            "expression": "me.results",
+            "outputformat": "table",
+            "language": "json"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "webclient1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "webclient_derivative",
+          "type": "DAT:webclient",
+          "parameters": {
+            "reqmethod": "get",
+            "url": "https://jsonplaceholder.typicode.com/todos",
+            "callbacks": "webclient1_callbacks",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "json1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:json": 1,
+          "DAT:text": 3,
+          "DAT:webclient": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

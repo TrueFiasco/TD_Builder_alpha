@@ -1,0 +1,248 @@
+{
+  "operator": "Stitch_SOP",
+  "family": "SOP",
+  "td_create_name": "stitchSOP",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Stitch",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "stitchop": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "group",
+          "skip"
+        ],
+        "menuLabels": [
+          "All Primitives",
+          "Groups of N Primitives",
+          "Skip Every Nth Primitive"
+        ]
+      },
+      "default": "all",
+      "page": "Stitch",
+      "label": "Stitch",
+      "readOnly": false,
+      "expression": null
+    },
+    "inc": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Stitch",
+      "label": "N",
+      "readOnly": false,
+      "expression": null
+    },
+    "loop": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Stitch",
+      "label": "Wrap Last to First",
+      "readOnly": false,
+      "expression": null
+    },
+    "dir": {
+      "value": {
+        "type": "menu",
+        "value": "ujoin",
+        "menuIndex": 0,
+        "menuNames": [
+          "ujoin",
+          "vjoin"
+        ],
+        "menuLabels": [
+          "in U",
+          "in V"
+        ]
+      },
+      "default": "ujoin",
+      "page": "Stitch",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "tolerance": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "Tolerance",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Stitch",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "leftuv1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "Left UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "leftuv2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Stitch",
+      "label": "Left UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuv1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Stitch",
+      "label": "Right UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuv2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Stitch",
+      "label": "Right UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "lrwidth1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "LR Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "lrwidth2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "LR Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "dostitch": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Stitch",
+      "label": "Stitch",
+      "readOnly": false,
+      "expression": null
+    },
+    "dotangent": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Stitch",
+      "label": "Tangent",
+      "readOnly": false,
+      "expression": null
+    },
+    "sharp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Stitch",
+      "label": "Sharp Partials",
+      "readOnly": false,
+      "expression": null
+    },
+    "fixed": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Stitch",
+      "label": "Fixed Intersection",
+      "readOnly": false,
+      "expression": null
+    },
+    "lrscale1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "LR Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "lrscale2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Stitch",
+      "label": "LR Scale",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

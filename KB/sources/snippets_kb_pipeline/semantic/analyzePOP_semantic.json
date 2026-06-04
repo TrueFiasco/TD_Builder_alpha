@@ -1,0 +1,155 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\analyzePOP_lossless.json",
+  "operator_type": "analyzePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "none",
+            "cols": 100,
+            "rows": 100
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "grid1",
+            "attrib": "P",
+            "thinoutrange": "on",
+            "thinrangestart": 3900,
+            "thinrangelength": 500,
+            "thinstep": 10,
+            "thinrandom": 0.18
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze2",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 0.7,
+            "rady": 0.96,
+            "tx": 0.005,
+            "ty": -0.005,
+            "tz": -0.03
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 0.7,
+            "rady": 0.96,
+            "tx": 0.005,
+            "ty": -0.005,
+            "tz": -0.03
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "centroid": "on",
+            "min": "on",
+            "max": "on",
+            "numpointsvertsprims": "on"
+          }
+        },
+        {
+          "name": "analyze2",
+          "type": "POP:analyze",
+          "parameters": {
+            "inputattrs": "*",
+            "min": "on",
+            "max": "on",
+            "numpointsvertsprims": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "analyze2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 2,
+        "operator_types": {
+          "POP:grid": 1,
+          "DAT:popto": 3,
+          "DAT:text": 1,
+          "POP:circle": 2,
+          "POP:analyze": 2,
+          "COMP:annotate": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

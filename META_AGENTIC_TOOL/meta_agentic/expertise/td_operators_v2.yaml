@@ -1,0 +1,1472 @@
+schema_version: '2.0'
+last_updated: '2025-12-20T23:30:00Z'
+validated_against: td_universal_parsed.json
+usage_note: |
+  IMPORTANT: 670+ operators are available, not just the Sweet 16 below!
+  Sweet 16 = commonly used operators with full parameter documentation.
+  All operators in operator_index are valid build targets.
+  For any operator not in Sweet 16, use it directly - the builder supports all TD operators.
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DATA TYPE CONVERSION GUIDE
+# Converting data between operator families (CHOP ↔ TOP ↔ SOP ↔ DAT)
+# ═══════════════════════════════════════════════════════════════════════════════
+data_conversion_guide:
+  overview: |
+    TouchDesigner has dedicated "converter" operators for moving data between families.
+    CRITICAL: All converters require an explicit source parameter - wire connections alone
+    are NOT sufficient! The converter must know WHERE to pull data from.
+
+  conversion_operators:
+    # CHOP converters (output CHOP channels)
+    datto_chop:
+      operator: datto (CHOP family)
+      converts: DAT table → CHOP channels
+      required_param: dat
+      example: 'dat: "table1"'
+
+    sopto_chop:
+      operator: sopto (CHOP family)
+      converts: SOP geometry → CHOP channels (point positions, normals, etc.)
+      required_param: sop
+      example: 'sop: "sphere1"'
+
+    topto_chop:
+      operator: topto (CHOP family)
+      converts: TOP pixels → CHOP channels
+      required_param: top
+      example: 'top: "noise1"'
+
+    # TOP converters (output TOP textures)
+    chopto_top:
+      operator: chopto (TOP family)
+      converts: CHOP channels → TOP texture
+      required_param: chop
+      dataformat_rules: |
+        MUST set dataformat to match CHOP channel count:
+        - 1 channel  → dataformat: "r"    (float/mono)
+        - 2 channels → dataformat: "rg"   (vec2)
+        - 3 channels → dataformat: "rgb"  (vec3)
+        - 4 channels → dataformat: "rgba" (vec4)
+      example: 'chop: "math1", dataformat: "rgb"'
+
+    # SOP converters (output SOP geometry)
+    chopto_sop:
+      operator: chopto (SOP family)
+      converts: CHOP channels → SOP point attributes
+      required_param: chop
+      additional_params: chanscope, attscope
+      example: 'chop: "null1", chanscope: "tx ty tz", attscope: "P"'
+
+    datto_sop:
+      operator: datto (SOP family)
+      converts: DAT table → SOP points
+      required_param: dat
+      example: 'dat: "pointsTable"'
+
+    # DAT converters (output DAT tables)
+    chopto_dat:
+      operator: chopto (DAT family)
+      converts: CHOP channels → DAT table
+      required_param: chop
+      example: 'chop: "constant1", names: "on"'
+
+    sopto_dat:
+      operator: sopto (DAT family)
+      converts: SOP geometry → DAT table
+      required_param: sop
+      example: 'sop: "grid1"'
+
+  common_mistakes:
+    - mistake: "Relying on wire connection instead of source parameter"
+      why_wrong: "Converter ops are 'pull' not 'push' - they need explicit reference"
+      fix: "Always set the source param (chop, sop, dat, top)"
+
+    - mistake: "Not setting dataformat on CHOPto TOP"
+      why_wrong: "TOP needs to know channel layout to pack into pixels"
+      fix: "Count source CHOP channels, set dataformat to r/rg/rgb/rgba"
+
+    - mistake: "Using wrong converter for target family"
+      why_wrong: "Each family has its own converter operator"
+      fix: "Use operator from TARGET family (want TOP? use TOP:chopto)"
+
+  quick_reference: |
+    FROM → TO:
+    DAT  → CHOP: datto (CHOP), param: dat
+    SOP  → CHOP: sopto (CHOP), param: sop
+    TOP  → CHOP: topto (CHOP), param: top
+    CHOP → TOP:  chopto (TOP), param: chop + dataformat!
+    CHOP → SOP:  chopto (SOP), param: chop + chanscope + attscope
+    CHOP → DAT:  chopto (DAT), param: chop
+    SOP  → DAT:  sopto (DAT), param: sop
+    DAT  → SOP:  datto (SOP), param: dat
+
+sweet_16:
+  CHOP:
+    noise:
+      purpose: The Noise CHOP makes an irregular wave that never repeats, with values approximately in the range -1
+      key_params:
+      - type        # Noise type (sparse, hermite, alligator, etc.)
+      - seed        # Random seed
+      - amp         # Amplitude (controls range of output values)
+      - offset      # Offset added to noise output (in Noise parameter group with amp)
+      - period      # Period of noise
+      - periodunit  # Unit for period
+      - harmon      # Number of harmonics
+      param_notes: |
+        amp and offset are in the same parameter group (Noise).
+        Use together for range control: amp=2.5, offset=2.5 gives range [0, 5]
+    math:
+      purpose: The Math CHOP performs arithmetic operations on channels
+      key_params:
+      - preop
+      - chanop
+      - chopop
+      - postop
+      - match
+      # Range mapping params (use individual not arrays!)
+      - fromrange1  # min of input range
+      - fromrange2  # max of input range
+      - torange1    # min of output range
+      - torange2    # max of output range
+      - gain
+      param_notes: |
+        CRITICAL: Range params are individual values, NOT arrays!
+        WRONG: torange: [2, 7]
+        RIGHT: torange1: 2, torange2: 7
+    'null':
+      purpose: The Null CHOP is used as a place-holder and does not alter the data coming in
+      key_params:
+      - cooktype
+      - checkvalues
+      - checknames
+      - checkrange
+      - timeslice
+    constant:
+      purpose: The Constant CHOP creates new constant-value channels
+      key_params:
+      - name0       # First channel name (NOT const0name!)
+      - value0      # First channel value (NOT const0value!)
+      - name1       # Second channel name (optional)
+      - value1      # Second channel value (optional)
+      - snap
+      - first
+      - current
+      param_notes: |
+        CRITICAL: Use name0/value0, NOT const0name/const0value!
+        Example: name0="scale", value0=0.618 creates a channel named "scale" with value 0.618
+        For multiple channels: name0, value0, name1, value1, name2, value2, etc.
+    analyze:
+      purpose: The Analyze CHOP looks at the values of all the values of a channel, and outputs a single-number res
+      key_params:
+      - function
+      - allowstart
+      - allowend
+      - nopeakvalue
+      - valleys
+    filter:
+      purpose: The Filter CHOP smooths or sharpens the input channels
+      key_params:
+      - type
+      - effect
+      - width
+      - widthunit
+      - spike
+    select:
+      purpose: The Select CHOP selects and renames channels from other CHOPs of any CHOP network
+      key_params:
+      - chop
+      - channames
+      - renamefrom
+      - renameto
+      - filterbydigits
+    merge:
+      purpose: The Merge CHOP takes multiple inputs and merges them into the output
+      key_params:
+      - align
+      - duplicate
+      - timeslice
+      - scope
+      - srselect
+    count:
+      purpose: The Count CHOP counts the number of times a channel crosses a trigger or release threshold
+      key_params:
+      - threshold
+      - threshup
+      - threshdown
+      - retrigger
+      - retriggerunit
+    speed:
+      purpose: The Speed CHOP converts speed (units per second) to distance (units) over a time range
+      key_params:
+      - order
+      - speed
+      - constant1
+      - constant2
+      - constant3
+    logic:
+      purpose: The Logic CHOP first converts channels of all its input CHOPs into binary (0 = off, 1 = on) channels
+      key_params:
+      - convert
+      - preop
+      - chanop
+      - chopop
+      - match
+    limit:
+      purpose: The Limit CHOP can limit the values of the input channels to be between a minimum and maximum, and c
+      key_params:
+      - type
+      - min
+      - max
+      - positive
+      - norm
+    lag:
+      purpose: The Lag CHOP adds lag and overshoot to channels
+      key_params:
+      - lagmethod
+      - lag
+      - lagunit
+      - overshoot
+      - overshootunit
+    trigger:
+      purpose: The Trigger CHOP starts an audio-style attack/decay/sustain/release (ADSR) envelope to all trigger p
+      key_params:
+      - threshold
+      - threshup
+      - threshdown
+      - retrigger
+      - mintrigger
+    expression:
+      purpose: The Expression CHOP allows you to modify input channels by using math expressions
+      key_params:
+      - chanperexpr
+      - limitexpr
+      - limitnum
+      - expr0expr
+      - timeslice
+    audiodevicein:
+      purpose: The Audio Device In CHOP receives audio from any of the attached audio input devices using DirectSou
+      key_params:
+      - active
+      - driver
+      - device
+      - errormissing
+      - inputs
+    sopto:
+      purpose: The SOP to CHOP extracts point data (position, normals, etc.) from geometry as CHOP channels
+      key_params:
+      - sop           # Source SOP path (REQUIRED)
+      - custom        # on/off - enable custom attribute extraction
+      - attribscope   # Which attribute to extract (e.g., "P" for position, "N" for normals)
+      - renamescope   # Channel names for extracted data (e.g., "tx ty tz")
+      - position      # on/off - include point position
+      - normal        # on/off - include normals
+      param_notes: |
+        CRITICAL: Must set source sop AND extraction settings!
+        Example: sop: "box1", custom: "on", attribscope: "P", renamescope: "tx ty tz"
+    datto:
+      purpose: The DAT to CHOP converts table data (rows/columns) into CHOP channels
+      key_params:
+      - dat           # Source DAT path (REQUIRED)
+      - firstrow      # First row interpretation (values, names, etc.)
+      - firstcolumn   # First column interpretation
+      - output        # Output format (channel per row/column)
+      param_notes: |
+        CRITICAL: Must set source dat param!
+        Example: dat: "table1", firstrow: "names", firstcolumn: "values"
+    topto:
+      purpose: The TOP to CHOP samples pixel values from a TOP and outputs as channels
+      key_params:
+      - top           # Source TOP path (REQUIRED)
+      - crop          # Crop region to sample
+      - downsample    # Downsample factor
+      param_notes: |
+        CRITICAL: Must set source top param!
+        Example: top: "noise1", crop: "0 0 1 1"
+    out:
+      purpose: The Out CHOP marks the output of a CHOP network
+      key_params: []
+  TOP:
+    noise:
+      purpose: The Noise TOP generates a variety of noise patterns including perlin, simplex, sparse, alligator and
+      key_params:
+      - type
+      - seed
+      - period
+      - harmon
+      - spread
+    level:
+      purpose: The Level TOP adjusts image contrast, brightness, gamma, black level, color range, quantization, opa
+      key_params:
+      - clampinput
+      - invert
+      - blacklevel
+      - brightness1
+      - gamma1
+    composite:
+      purpose: The Composite TOP is a multi-input TOP that will perform a composite operation for each input
+      key_params:
+      - top
+      - previewgrid
+      - selectinput
+      - inputindex
+      - operand
+    blur:
+      purpose: The Blur TOP blurs the image with various kernel filters and radii
+      key_params:
+      - type
+      - extend
+      - preshrink
+      - size
+      - scale
+    transform:
+      purpose: The Transform TOP applies 2D transformations to a TOP image like translate, scale, rotate, and multi
+      key_params:
+      - xord
+      - t
+      - tunit
+      - rotate
+      - s
+    'null':
+      purpose: The Null TOP has no effect on the image
+      key_params:
+      - outputresolution
+      - resolution
+      - resmenu
+      - resmult
+      - outputaspect
+    ramp:
+      purpose: The Ramp TOP allows you to interactively create vertical, horizontal, radial, and circular ramps
+      key_params:
+      - dat
+      - type
+      - position
+      - phase
+      - period
+    constant:
+      purpose: The Constant TOP sets the red, green, blue, and alpha (r, g, b, and a) channels individually
+      key_params:
+      - color
+      - alpha
+      - multrgbbyalpha
+      - rgbaunit
+      - compoverinput
+    feedback:
+      purpose: The Feedback TOP can be used to create feedback effects in TOPs
+      key_params:
+      - top
+      - reset
+      - resetpulse
+      - outputresolution
+      - resolution
+    render:
+      purpose: The Render TOP is used to render all 3D scenes in TouchDesigner
+      key_params:
+      - camera
+      - multicamerahint
+      - geometry
+      - lights
+      - antialias
+    moviefilein:
+      purpose: The Movie File In TOP loads movies, still images, or a sequence of still images into TOPs
+      key_params:
+      - file
+      - reload
+      - reloadpulse
+      - playmode
+      - play
+    text:
+      purpose: The Text TOP displays text strings in an image
+      key_params:
+      - field
+      - dat
+      - rowindex
+      - colindex
+      - specdat
+    resolution:
+      purpose: The Resolution TOP changes the resolution of the TOP image
+      key_params:
+      - highqualresize
+      - outputresolution
+      - resolution
+      - resmenu
+      - resmult
+    crop:
+      purpose: The Crop TOP crops an image by defining the position of the left, right, bottom, and top edges of th
+      key_params:
+      - cropleft
+      - cropleftunit
+      - cropright
+      - croprightunit
+      - cropbottom
+    flip:
+      purpose: The Flip TOP will Flip an image in X and/or Y
+      key_params:
+      - flipx
+      - flipy
+      - flipz
+      - flop
+      - outputresolution
+    over:
+      purpose: The Over TOP places Input1 'over' Input2
+      key_params:
+      - size
+      - prefit
+      - justifyh
+      - justifyv
+      - extend
+    chopto:
+      purpose: The CHOP to TOP converts CHOP channel data to texture/image format
+      key_params:
+      - chop          # Source CHOP path (REQUIRED)
+      - dataformat    # CRITICAL: Must match CHOP channel count!
+      - clamp         # Clamp CHOP values
+      - layout        # Image layout (horizontal, vertical, etc.)
+      - resolution    # Output resolution
+      param_notes: |
+        CRITICAL: Must set BOTH source chop AND dataformat!
+
+        DATA FORMAT RULES (match to CHOP channel count):
+        - 1 channel  → dataformat: "r" (float/mono)
+        - 2 channels → dataformat: "rg" (vec2)
+        - 3 channels → dataformat: "rgb" (vec3)
+        - 4 channels → dataformat: "rgba" (vec4)
+
+        WHY THIS MATTERS: CHOPto TOP needs to know how to pack channel
+        data into pixel format. Mismatched formats cause black output or errors.
+
+        EXAMPLES:
+        - Single value (brightness): chop: "analyze1", dataformat: "r"
+        - XYZ position: chop: "transform1", dataformat: "rgb"
+        - RGBA color: chop: "constant1", dataformat: "rgba"
+
+        Wire connections do NOT set the source - you MUST set chop param!
+  SOP:
+    grid:
+      purpose: The Grid SOP allows you to create grids and rectangles using polygons, a mesh, Bzier and NURBS surfa
+      key_params:
+      - type
+      - surftype
+      - orient
+      - modifybounds
+      - size
+    sphere:
+      purpose: The Sphere SOP generates spherical objects of different geometry types
+      key_params:
+      - type
+      - surftype
+      - orientbounds
+      - modifybounds
+      - rord
+    box:
+      purpose: The Box SOP creates cuboids
+      key_params:
+      - orientbounds
+      - modifybounds
+      - rord
+      - size
+      - t
+    line:
+      purpose: The Line SOP creates straight lines
+      key_params:
+      - pa
+      - pb
+      - points
+      - texture
+    circle:
+      purpose: The Circle SOP creates open or closed arcs, circles and ellipses
+      key_params:
+      - type
+      - orient
+      - modifybounds
+      - rad
+      - t
+    transform:
+      purpose: The Transform SOP translates, rotates and scales the input geometry in "object space" or local to th
+      key_params:
+      - group
+      - xord
+      - rord
+      # Individual axis params (use these, NOT arrays!)
+      - tx  # translate X
+      - ty  # translate Y
+      - tz  # translate Z
+      - rx  # rotate X
+      - ry  # rotate Y
+      - rz  # rotate Z
+      - sx  # scale X
+      - sy  # scale Y
+      - sz  # scale Z
+      - px  # pivot X
+      - py  # pivot Y
+      - pz  # pivot Z
+      param_notes: |
+        CRITICAL: Transform params are individual per-axis values, NOT arrays!
+        WRONG: s: [1, 2, 1]
+        RIGHT: sx: 1, sy: 2, sz: 1
+    merge:
+      purpose: The Merge SOP merges geometry from multiple SOPs
+      key_params: []
+    'null':
+      purpose: The Null SOP has no effect on the geometry
+      key_params: []
+    copy:
+      purpose: The Copy SOP lets you make copies of the geometry of other SOPs and apply a transformation to each c
+      key_params:
+      - sourcegrp
+      - templategrp
+      - ncy
+      - nprims
+      - nml
+    sort:
+      purpose: The Sort SOP allows you to sort points and primitives in different ways
+      key_params:
+      - ptsort
+      - pointseed
+      - pointoffset
+      - pointprox
+      - pointobj
+    delete:
+      purpose: The Delete SOP deletes input geometry as selected by a group specification or a geometry selection b
+      key_params:
+      - group
+      - negate
+      - entity
+      - geotype
+      - usenumber
+    facet:
+      purpose: The Facet SOP lets you control the smoothness of faceting of a given object
+      key_params:
+      - group
+      - unit
+      - prenml
+      - unique
+      - cons
+    skin:
+      purpose: The Skin SOP takes any number of faces and builds a skin surface over them
+      key_params:
+      - uprims
+      - vprims
+      - surftype
+      - keepshape
+      - closev
+    sweep:
+      purpose: The Sweep SOP sweeps primitives in the Cross-section input along Backbone Source primitive(s), creat
+      key_params:
+      - xgrp
+      - pathgrp
+      - refgrp
+      - cycle
+      - angle
+    carve:
+      purpose: The Carve SOP works with any face or surface type, be that polygon, Bzier, or NURBS
+      key_params:
+      - group
+      - firstu
+      - domainu1
+      - secondu
+      - domainu2
+    convert:
+      purpose: The Convert SOP converts geometry from one geometry type to another type
+      key_params:
+      - group
+      - fromtype
+      - totype
+      - surftype
+      - lodu
+    chopto:
+      purpose: The CHOP to SOP applies CHOP channel data to SOP point attributes (position, normals, color)
+      key_params:
+      - chop          # Source CHOP path (REQUIRED)
+      - chanscope     # Which channels to use (e.g., "tx ty tz", "chan1")
+      - attscope      # Which SOP attribute to modify (e.g., "P" for position, "N" for normals, "Cd" for color)
+      - compnml       # Compute normals after modification
+      param_notes: |
+        CRITICAL: Must set source chop, channel scope AND attribute scope!
+        Example: chop: "null1", chanscope: "tx ty tz", attscope: "P"
+    out:
+      purpose: The Out SOP marks the output of a SOP network
+      key_params: []
+      param_notes: |
+        Use null_sop or out_sop to mark chain outputs.
+        Build with type: "null_sop" or type: "out_sop"
+  DAT:
+    text:
+      purpose: The Text DAT lets you edit free-form, multi-line ASCII text
+      key_params:
+      - edit
+      - file
+      - syncfile
+      - loadonstart
+      - loadonstartpulse
+    table:
+      purpose: The Table DAT lets you hand-edit or create a table of rows and columns of cells, each cell containin
+      key_params:
+      - edit
+      - file
+      - syncfile
+      - defaultreadencoding
+      - loadonstart
+      param_notes: |
+        To populate cells when building: Use 'tableData' field (NOT parameters)
+        Example: {"name": "table1", "type": "tableDAT", "tableData": [["a","b"],["1","2"]]}
+    select:
+      purpose: The Select DAT allows you to fetch a DAT from any other location in the project, and to select any s
+      key_params:
+      - dat
+      - firstrow
+      - firstcol
+      - extractrows
+      - rownamestart
+    'null':
+      purpose: The Null DAT has no effect on the data
+      key_params:
+      - language
+      - extension
+      - customext
+      - wordwrap
+      param_notes: |
+        Build with type: "null_dat" (not just "null" which defaults to CHOP)
+    out:
+      purpose: The Out DAT marks the output of a DAT network
+      key_params: []
+      param_notes: |
+        Build with type: "out_dat"
+    sopto:
+      purpose: The SOP to DAT extracts geometry data (points, primitives) into table format
+      key_params:
+      - sop           # Source SOP path (REQUIRED)
+      param_notes: |
+        CRITICAL: Must set source sop param!
+        Example: sop: "grid1"
+    evaluate:
+      purpose: The Evaluate DAT changes the cells of the incoming DAT using string-editing and math expressions
+      key_params:
+      - dat
+      - datexpr
+      - output
+      - expr
+      - outputsize
+    script:
+      purpose: The Script DAT runs a script each time the DAT cooks and can build/modify the output table based in
+      key_params:
+      - callbacks
+      - setuppars
+      - language
+      - extension
+      - customext
+    info:
+      purpose: The Info DAT gives you string information about a node
+      key_params:
+      - op
+      - passive
+      - language
+      - extension
+      - customext
+    error:
+      purpose: The Error DAT lists the most recent TouchDesigner errors in its FIFO (first in/first out) table
+      key_params:
+      - active
+      - severity
+      - type
+      - source
+      - message
+    webclient:
+      purpose: The Web Client DAT allows you to send HTTP requests to web servers from TouchDesigner
+      key_params:
+      - active
+      - reqmethod
+      - url
+      - uploadfile
+      - request
+    chopto:
+      purpose: The CHOP to DAT allows you to get CHOP channel values into a DAT in table format
+      key_params:
+      - chop          # Source CHOP path (REQUIRED)
+      - names         # on/off - include channel names
+      - latestsample  # on/off - only latest sample
+      - output        # Output format: "colperchan" or "rowperchan"
+      - language      # Language for output
+      param_notes: |
+        CRITICAL: Must set source chop param!
+        Example: chop: "constant1", names: "on", output: "rowperchan"
+    perform:
+      purpose: The Perform DAT logs various performance times in a Table DAT format
+      key_params:
+      - active
+      - triggermode
+      - triggerthreshold
+      - logcook
+      - logexport
+  COMP:
+    base:
+      purpose: The Base Component has no panel parameters and no 3D object parameters
+      key_params:
+      - reinitextensions
+      - initextonstart
+      - ext
+      - ext0object
+      - ext0name
+    container:
+      purpose: The Container Component groups together any number of button, slider, field, container and other Pan
+      key_params:
+      - x
+      - y
+      - w
+      - h
+      - fixedaspect
+    geometry:
+      purpose: The Geometry Component is a 3D surface or 3D Object that you render in TouchDesigner with a Render T
+      key_params:
+      - xord
+      - rord
+      - t
+      - r
+      - s
+    camera:
+      purpose: The Camera Component is a 3D object that behaves like a real-world camera
+      key_params:
+      - xord
+      - rord
+      - t
+      - r
+      - s
+    light:
+      purpose: The Light Components are objects which cast light into a 3D scene
+      key_params:
+      - xord
+      - rord
+      - t
+      - r
+      - s
+    animation:
+      purpose: The Animation Component is a special component used for creating keyframe animation channels
+      key_params:
+      - timeref
+      - playmode
+      - play
+      - speed
+      - cue
+  MAT:
+    constant:
+      purpose: The Constant MAT renders a constant color on a material
+      key_params:
+      - applyprojmaps
+      - color
+      - alpha
+      - applypointcolor
+      - colormapextendu
+    pbr:
+      purpose: The PBR MAT creates a material using a Physically Based Rendering (PBR) lighting model
+      key_params:
+      - basecolor
+      - specularlevel
+      - metallic
+      - roughness
+      - ambientocclusion
+    phong:
+      purpose: The Phong MAT creates a material using the Phong Shading model
+      key_params:
+      - ambdiff
+      - diff
+      - amb
+      - spec
+      - emit
+    wireframe:
+      purpose: The Wireframe MAT renders the edges of polygons and curves as lines
+      key_params:
+      - color
+      - alpha
+      - wireframemode
+      - linewidth
+      - dodeform
+  POP:
+    field:
+      purpose: The Field POP adds a Weight attribute that represents, for each point of the input, how much a shape
+      key_params:
+      - attrclass
+      - fieldattrscope
+      - specpop
+      - mode
+      - size
+    feedback:
+      purpose: The Feedback POP receives the output of another POP called the  target  POP , from the previous fram
+      key_params:
+      - targetpop
+      - initializepulse
+      - startpulse
+      - play
+      - preroll
+operator_index:
+  CHOP:
+  - ' class'
+  - abletonlink
+  - analyze
+  - anatomyofa
+  - angle
+  - attribute
+  - audiobandeq
+  - audiobinaural
+  - audiodevicein
+  - audiodeviceout
+  - audiodynamics
+  - audiofilein
+  - audiofileout
+  - audiofilter
+  - audiomovie
+  - audiondi
+  - audiooscillator
+  - audioparaeq
+  - audioplay
+  - audiorender
+  - audiospectrum
+  - audiostreamin
+  - audiostreamout
+  - audiowebrender
+  - bandeq
+  - beat
+  - bind
+  - blacktrax
+  - blend
+  - blobtrack
+  - bodytrack
+  - bulletsolver
+  - clip
+  - clipblender
+  - clock
+  - composite
+  - constant
+  - copy
+  - count
+  - cplusplus
+  - cross
+  - cycle
+  - datto
+  - delay
+  - delete
+  - dmxin
+  - dmxout
+  - envelope
+  - etherdream
+  - event
+  - expression
+  - extend
+  - facetrack
+  - fan
+  - feedback
+  - filein
+  - fileout
+  - filter
+  - freed
+  - freedout
+  - function
+  - gesture
+  - handle
+  - heliosdac
+  - hog
+  - hold
+  - importselect
+  - in
+  - info
+  - interpolate
+  - inversecurve
+  - inversekin
+  - join
+  - joystick
+  - keyboardin
+  - keyframe
+  - kinect
+  - kinectazure
+  - lag
+  - laser
+  - laserdevice
+  - leapmotion
+  - leuzerod4
+  - lfo
+  - limit
+  - logic
+  - lookup
+  - ltcin
+  - ltcout
+  - math
+  - merge
+  - midiin
+  - midiinmap
+  - midiout class
+  - mosys
+  - mousein
+  - mouseout
+  - ncam
+  - noise
+  - 'null'
+  - oakdevice
+  - oakselect
+  - object
+  - oculusaudio
+  - oculusrift
+  - openvr
+  - optitrackin
+  - oscin
+  - oscout
+  - out
+  - override
+  - panelcomp class
+  - pangolin
+  - pantilt
+  - par class
+  - parametriceq
+  - pattern
+  - perform
+  - phaser
+  - pipein
+  - pipeout
+  - popto
+  - posistagenet
+  - pulse
+  - realsense
+  - record
+  - rename
+  - renderpick
+  - renderstreamin
+  - reorder
+  - replace
+  - resample
+  - scan
+  - scurve
+  - select
+  - send midi messages
+  - sequencer
+  - serialdat
+  - sharedmemin
+  - sharedmemout
+  - shift
+  - shuffle
+  - slope
+  - sopto
+  - sort
+  - speed
+  - splice
+  - spring
+  - st2110device
+  - stretch
+  - stype
+  - switch
+  - syncin
+  - syncout
+  - tablet
+  - timecode class
+  - timecode object
+  - timeline
+  - timer
+  - timeslice
+  - topto
+  - touchin
+  - touchout
+  - trail
+  - transform
+  - transformxyz
+  - trigger
+  - trim
+  - warp
+  - wave
+  - writeacplusplus
+  - writeasharedmemory
+  - wrnchai
+  - zed
+  COMP:
+  - actor
+  - ambientlight
+  - animation
+  - annotate
+  - base
+  - blend
+  - bone
+  - bulletsolver
+  - button
+  - camera
+  - camerablend
+  - constraint
+  - container
+  - dependency class
+  - engine
+  - environmentlight
+  - fbx
+  - field
+  - flowemitter
+  - force
+  - geometry
+  - geotext
+  - glsl
+  - handle
+  - impulseforce
+  - light
+  - list
+  - 'null'
+  - nvidiaflexsolver
+  - opviewer
+  - parameter
+  - select
+  - sharedmemin
+  - sharedmemout
+  - slider
+  - table
+  - text
+  - time
+  - usd
+  - widget
+  - window
+  DAT:
+  - ' class'
+  - <code>.sendosc()</code>
+  - artnet
+  - audiodevices
+  - chopto
+  - clip
+  - convert
+  - cplusplus
+  - datexecute
+  - default python method
+  - default python method placeholders
+  - dmxmap
+  - error
+  - etherdream
+  - evaluate
+  - examine
+  - filein
+  - fileout
+  - folder
+  - in
+  - indices
+  - info
+  - insert
+  - json
+  - lookup
+  - matching python method
+  - mediafileinfo
+  - merge
+  - midievent
+  - midiin
+  - monitors
+  - mpcdi
+  - mqttclient
+  - ndi
+  - 'null'
+  - opfind
+  - out
+  - panelcomp
+  - par
+  - parameter
+  - parameterexecute
+  - peer class
+  - perform
+  - point class
+  - popto
+  - python callback in the attached script
+  - renderpick
+  - reorder
+  - script
+  - select
+  - serial
+  - serialdevices
+  - socketio
+  - sort
+  - substitute
+  - switch
+  - table
+  - text
+  - touchin
+  - touchout
+  - transpose
+  - tuioin
+  - udpout
+  - udtin
+  - udtout
+  - videodevices
+  - web
+  - webclient
+  - webrtc class
+  - webserver
+  - websocket
+  - xml
+  MAT:
+  - constant
+  - depth
+  - glsl
+  - in
+  - line
+  - 'null'
+  - out
+  - pbr
+  - phong
+  - pointsprite
+  - select
+  - switch
+  - wireframe
+  POP:
+  - accumulate
+  - alembic
+  - analyze
+  - attribute
+  - attributecombine
+  - attributeconvert
+  - blend
+  - box
+  - cache
+  - cacheblend
+  - cacheselect
+  - chopto
+  - circle
+  - connectivity
+  - convert
+  - copy
+  - cplusplus
+  - curve
+  - datto
+  - delete
+  - dimension
+  - dmxfixture
+  - dmxout
+  - extrude
+  - facet
+  - feedback
+  - field
+  - filein
+  - fileout
+  - force
+  - forceradial
+  - glsl
+  - glsladvanced
+  - glslcopy
+  - glslcreate
+  - glslselect
+  - grid
+  - group
+  - histogram
+  - importselect
+  - in
+  - limit
+  - line
+  - linebreak
+  - linedivide
+  - linemetrics
+  - lineresample
+  - linesmooth
+  - linethick
+  - lookupattribute
+  - lookupchannel
+  - lookuptexture
+  - math
+  - mathcombine
+  - mathmix
+  - merge
+  - neighbor
+  - noise
+  - normal
+  - normalize
+  - 'null'
+  - oakselect
+  - out
+  - particle
+  - pattern
+  - phaser
+  - plane
+  - point
+  - pointfilein
+  - pointgenerator
+  - polygonize
+  - primitive
+  - projection
+  - proximity
+  - quantize
+  - random
+  - ray
+  - rectangle
+  - rerange
+  - revolve
+  - select
+  - skin
+  - skindeform
+  - sopto
+  - sort
+  - sphere
+  - sprinkle
+  - subdivide
+  - switch
+  - texturemap
+  - topology
+  - topto
+  - torus
+  - trail
+  - transform
+  - trig
+  - tube
+  - twist
+  - writeacplusplus
+  - zed
+  SOP:
+  - add
+  - alembic
+  - align
+  - arm
+  - attribute
+  - attributecreate
+  - basis
+  - blend
+  - bonegroup
+  - boolean
+  - box
+  - bridge
+  - cache
+  - cap
+  - capture
+  - captureregion
+  - carve
+  - chopto
+  - circle
+  - clay
+  - clip
+  - convert
+  - copy
+  - cplusplus
+  - creep
+  - curveclay
+  - curvesect
+  - datto
+  - deform
+  - delete
+  - divide
+  - extrude
+  - facet
+  - facetrack
+  - filein
+  - fillet
+  - fit
+  - font
+  - force
+  - fractal
+  - grid
+  - group
+  - hole
+  - importselect
+  - in
+  - inversecurve
+  - isosurface
+  - join
+  - joint
+  - kinect
+  - lattice
+  - limit
+  - line
+  - linethick
+  - lod
+  - lsystem
+  - magnet
+  - material
+  - merge
+  - metaball
+  - model
+  - noise
+  - 'null'
+  - objectmerge
+  - oculusrift
+  - openvr
+  - out
+  - particle
+  - point class
+  - points
+  - polyloft
+  - polypatch
+  - polyreduce
+  - polyspline
+  - polystitch
+  - popto
+  - primitive
+  - profile
+  - project
+  - rails
+  - raster
+  - ray
+  - rectangle
+  - refine
+  - resample
+  - revolve
+  - select
+  - sequenceblend
+  - skin
+  - sort
+  - sphere
+  - spring
+  - sprite
+  - stitch
+  - subdivide
+  - superquad
+  - surfsect
+  - sweep
+  - switch
+  - text
+  - texture
+  - torus
+  - trace
+  - trail
+  - transform
+  - trim
+  - tristrip
+  - tube
+  - twist
+  - vertex
+  - wireframe
+  - zed
+  TOP:
+  - ' class'
+  - add
+  - analyze
+  - antialias
+  - blobtrack
+  - bloom
+  - blur
+  - cache
+  - cacheselect
+  - channelmix
+  - chopto
+  - chromakey
+  - circle
+  - composite
+  - constant
+  - convolve
+  - cornerpin
+  - cplusplus
+  - crop
+  - cross
+  - cubemap
+  - cuda
+  - depth
+  - difference
+  - directdisplayout
+  - directxin
+  - directxout
+  - displace
+  - edge
+  - emboss
+  - feedback
+  - fit
+  - flex
+  - flip
+  - flow
+  - function
+  - glsl
+  - glslmulti
+  - hsvadjust
+  - hsvtorgb
+  - importselect
+  - in
+  - inside
+  - kinect
+  - kinectazure
+  - kinectazure class
+  - kinectazureselect
+  - layer
+  - layermix
+  - layout
+  - leapmotion
+  - level
+  - limit
+  - lookup
+  - lumablur
+  - lumalevel
+  - math
+  - matte
+  - mirror
+  - monochrome
+  - mosys
+  - moviefilein
+  - moviefileout
+  - mpcdi
+  - multiply
+  - ncam
+  - ndiin
+  - ndiout
+  - noise
+  - normalmap
+  - notch
+  - 'null'
+  - nvidiabackground
+  - nvidiadenoise
+  - nvidiartxvideo
+  - nvidiaupscaler
+  - oakselect
+  - oculusrift
+  - opencolorio
+  - openvr
+  - opticalflow
+  - opviewer
+  - orbbec
+  - orbbecselect
+  - ouster
+  - ousterselect
+  - out
+  - outside
+  - over
+  - pack
+  - photoshopin
+  - pointfilein
+  - pointfileselect
+  - pointtransform
+  - popto
+  - prefiltermap
+  - projection
+  - ramp
+  - realsense
+  - rectangle
+  - remap
+  - render
+  - renderpass
+  - renderselect
+  - rendersimple
+  - renderstreamin
+  - renderstreamout
+  - reorder
+  - resolution
+  - rgbkey
+  - rgbtohsv
+  - scalabledisplay
+  - screen
+  - screengrab
+  - select
+  - sharedmemin
+  - sharedmemout
+  - sick
+  - simplerender
+  - slope
+  - spectrum
+  - ssao
+  - st2110in
+  - st2110out
+  - stype
+  - substance
+  - substanceselect
+  - subtract
+  - svg
+  - switch
+  - syphonspoutin
+  - syphonspoutout
+  - text
+  - texture3d
+  - threshold
+  - tile
+  - timemachine
+  - tonemap
+  - touchin
+  - touchout
+  - transform
+  - under
+  - videodevicein
+  - videodeviceout
+  - videostreamin
+  - videostreamout
+  - vioso
+  - webrender
+  - writeacplusplus
+  - writeaglsl
+  - writeasharedmemory
+  - zed
+  - zedselect

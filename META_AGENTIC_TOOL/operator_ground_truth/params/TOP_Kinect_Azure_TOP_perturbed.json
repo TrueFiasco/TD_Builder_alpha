@@ -1,0 +1,480 @@
+{
+  "operator": "Kinect_Azure_TOP",
+  "family": "TOP",
+  "td_create_name": "kinectazureTOP",
+  "param_count": 46,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "library": {
+      "type": "menu",
+      "value": "orbbec",
+      "menuIndex": 1,
+      "menuNames": [
+        "microsoft",
+        "orbbec"
+      ],
+      "menuLabels": [
+        "Microsoft Kinect Azure",
+        "Orrbec Compatible (Femto Mega, Femto Bolt, ...)"
+      ]
+    },
+    "sensor": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "fps": {
+      "type": "menu",
+      "value": "fps5",
+      "menuIndex": 0,
+      "menuNames": [
+        "fps5",
+        "fps15",
+        "fps30"
+      ],
+      "menuLabels": [
+        "5 FPS",
+        "15 FPS",
+        "30 FPS"
+      ]
+    },
+    "colorres": {
+      "type": "menu",
+      "value": "2560x1440",
+      "menuIndex": 2,
+      "menuNames": [
+        "1280x720",
+        "1920x1080",
+        "2560x1440",
+        "2048x1536",
+        "3840x2160",
+        "4096x3072"
+      ],
+      "menuLabels": [
+        "1280 x 720 (16:9)",
+        "1920 x 1080 (16:9)",
+        "2560 x 1440 (16:9)",
+        "2048 x 1536 (4:3)",
+        "3840 x 2160 (16x9)",
+        "4096 x 3072 (4x3)"
+      ]
+    },
+    "depthmode": {
+      "type": "menu",
+      "value": "widebinned",
+      "menuIndex": 1,
+      "menuNames": [
+        "narrowunbinned",
+        "widebinned",
+        "narrowbinned",
+        "wideunbinned",
+        "passiveir"
+      ],
+      "menuLabels": [
+        "Narrow FOV - Unbinned (640x576)",
+        "Wide FOV - 2x2 Binned (512x512)",
+        "Narrow FOV - 2x2 Binned (320x288)",
+        "Wide FOV - Unbinned (1024x1024)",
+        "Passive IR (1024x1024)"
+      ]
+    },
+    "modelpath": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "proccessingmode": {
+      "type": "menu",
+      "value": "cpu",
+      "menuIndex": 1,
+      "menuNames": [
+        "gpudefault",
+        "cpu",
+        "directml"
+      ],
+      "menuLabels": [
+        "GPU Default",
+        "CPU",
+        "DirectML"
+      ]
+    },
+    "gpu": {
+      "type": "int",
+      "value": 1
+    },
+    "orientation": {
+      "type": "menu",
+      "value": "cw90",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "cw90",
+        "ccw90",
+        "flipped"
+      ],
+      "menuLabels": [
+        "Default",
+        "Clockwise 90 Degrees",
+        "Counterclockwise 90 Degrees",
+        "Flipped 180 Degrees"
+      ]
+    },
+    "image": {
+      "type": "menu",
+      "value": "ir",
+      "menuIndex": 2,
+      "menuNames": [
+        "color",
+        "depth",
+        "ir",
+        "playerindex",
+        "pointcloud"
+      ],
+      "menuLabels": [
+        "Color",
+        "Depth",
+        "IR",
+        "Player Index",
+        "Point Cloud"
+      ]
+    },
+    "remapimage": {
+      "type": "toggle",
+      "value": true
+    },
+    "bodyimage": {
+      "type": "toggle",
+      "value": true
+    },
+    "mirrorimage": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetcolors": {
+      "type": "pulse",
+      "value": null
+    },
+    "enablecolors": {
+      "type": "toggle",
+      "value": true
+    },
+    "manualexposure": {
+      "type": "toggle",
+      "value": true
+    },
+    "exposure": {
+      "type": "int",
+      "value": 33001
+    },
+    "manualwhitebalance": {
+      "type": "toggle",
+      "value": true
+    },
+    "whitebalance": {
+      "type": "int",
+      "value": 4501
+    },
+    "brightness": {
+      "type": "int",
+      "value": 129
+    },
+    "contrast": {
+      "type": "int",
+      "value": 6
+    },
+    "saturation": {
+      "type": "int",
+      "value": 33
+    },
+    "sharpness": {
+      "type": "int",
+      "value": 3
+    },
+    "gain": {
+      "type": "int",
+      "value": 256
+    },
+    "backlight": {
+      "type": "toggle",
+      "value": true
+    },
+    "powerfreq": {
+      "type": "menu",
+      "value": "50hz",
+      "menuIndex": 0,
+      "menuNames": [
+        "50hz",
+        "60hz"
+      ],
+      "menuLabels": [
+        "50Hz",
+        "60Hz"
+      ]
+    },
+    "depthdelay": {
+      "type": "int",
+      "value": 1
+    },
+    "syncmode": {
+      "type": "menu",
+      "value": "master",
+      "menuIndex": 1,
+      "menuNames": [
+        "standalone",
+        "master",
+        "subordinate"
+      ],
+      "menuLabels": [
+        "Standalone",
+        "Master",
+        "Subordinate"
+      ]
+    },
+    "subdelay": {
+      "type": "int",
+      "value": 1
+    },
+    "outputresolution": {
+      "type": "menu",
+      "value": "eighth",
+      "menuIndex": 1,
+      "menuNames": [
+        "useinput",
+        "eighth",
+        "quarter",
+        "half",
+        "2x",
+        "4x",
+        "8x",
+        "fit",
+        "limit",
+        "custom",
+        "parpanel"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Eighth",
+        "Quarter",
+        "Half",
+        "2X",
+        "4X",
+        "8X",
+        "Fit Resolution",
+        "Limit Resolution",
+        "Custom Resolution",
+        "Parent Panel Size"
+      ]
+    },
+    "resolutionw": {
+      "type": "int",
+      "value": 257
+    },
+    "resolutionh": {
+      "type": "int",
+      "value": 257
+    },
+    "resmult": {
+      "type": "toggle",
+      "value": false
+    },
+    "outputaspect": {
+      "type": "menu",
+      "value": "custom",
+      "menuIndex": 2,
+      "menuNames": [
+        "useinput",
+        "resolution",
+        "custom"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Resolution",
+        "Custom Aspect"
+      ]
+    },
+    "aspect1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "aspect2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "inputfiltertype": {
+      "type": "menu",
+      "value": "mipmap",
+      "menuIndex": 2,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmap"
+      ],
+      "menuLabels": [
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "Mipmap Pixels"
+      ]
+    },
+    "fillmode": {
+      "type": "menu",
+      "value": "outside",
+      "menuIndex": 5,
+      "menuNames": [
+        "useinput",
+        "fill",
+        "width",
+        "height",
+        "best",
+        "outside",
+        "nativeres"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Fill",
+        "Fit Horizontal",
+        "Fit Vertical",
+        "Fit Best",
+        "Fit Outside",
+        "Native Resolution"
+      ]
+    },
+    "filtertype": {
+      "type": "menu",
+      "value": "linear",
+      "menuIndex": 2,
+      "menuNames": [
+        "useinput",
+        "nearest",
+        "linear",
+        "mipmap"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Nearest Pixel",
+        "Interpolate Pixels",
+        "Mipmap Pixels"
+      ]
+    },
+    "npasses": {
+      "type": "int",
+      "value": 2
+    },
+    "chanmask": {
+      "type": "menu",
+      "value": "0",
+      "menuIndex": 0,
+      "menuNames": [],
+      "menuLabels": []
+    },
+    "format": {
+      "type": "menu",
+      "value": "rgba8fixed",
+      "menuIndex": 1,
+      "menuNames": [
+        "useinput",
+        "rgba8fixed",
+        "rgba16float",
+        "rgba32float",
+        "rgb10a2fixed",
+        "rgba16fixed",
+        "rgba11float",
+        "mono8fixed",
+        "mono16fixed",
+        "mono16float",
+        "mono32float",
+        "rg8fixed",
+        "rg16fixed",
+        "rg16float",
+        "rg32float",
+        "a8fixed",
+        "a16fixed",
+        "a16float",
+        "a32float",
+        "monoalpha8fixed",
+        "monoalpha16fixed",
+        "monoalpha16float",
+        "monoalpha32float"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "8-bit fixed (RGBA)",
+        "16-bit float (RGBA)",
+        "32-bit float (RGBA)",
+        "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+        "16-bit fixed (RGBA)",
+        "11-bit float (RGB), Positive Values Only",
+        "8-bit fixed (Mono)",
+        "16-bit fixed (Mono)",
+        "16-bit float (Mono)",
+        "32-bit float (Mono)",
+        "8-bit fixed (RG)",
+        "16-bit fixed (RG)",
+        "16-bit float (RG)",
+        "32-bit float (RG)",
+        "8-bit fixed (A)",
+        "16-bit fixed (A)",
+        "16-bit float (A)",
+        "32-bit float (A)",
+        "8-bit fixed (Mono+Alpha)",
+        "16-bit fixed (Mono+Alpha)",
+        "16-bit float (Mono+Alpha)",
+        "32-bit float (Mono+Alpha)"
+      ]
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

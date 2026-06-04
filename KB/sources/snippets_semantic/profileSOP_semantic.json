@@ -1,0 +1,440 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\profileSOP_lossless.json",
+  "operator_type": "profileSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "nurbs",
+            "sizex": 5,
+            "sizey": 5,
+            "rows": 40,
+            "cols": 40
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {
+            "seed": 3.97,
+            "period": 0.73,
+            "rough": 0.88,
+            "exp": 1.92,
+            "amp": 0.69
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "tz": 1,
+            "reverseanchors": "on",
+            "divs": 50,
+            "arc": "openarc",
+            "endangle": 300
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 1.35,
+            "rady": 1.35,
+            "tz": 1,
+            "reverseanchors": "on",
+            "divs": 21,
+            "arc": "openarc",
+            "endangle": 300
+          }
+        },
+        {
+          "name": "project1",
+          "type": "SOP:project",
+          "parameters": {
+            "pageindex": 1,
+            "method": "parametric"
+          }
+        },
+        {
+          "name": "polyloft1",
+          "type": "SOP:polyloft",
+          "parameters": {}
+        },
+        {
+          "name": "profile_extract",
+          "type": "SOP:profile",
+          "parameters": {
+            "sdivs": 12
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "polyloft1",
+          "to": "project1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "project1",
+          "to_input": "1"
+        },
+        {
+          "from": "merge1",
+          "to": "polyloft1",
+          "to_input": "0"
+        },
+        {
+          "from": "project1",
+          "to": "profile_extract",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 7,
+        "operator_types": {
+          "SOP:grid": 1,
+          "SOP:merge": 1,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:circle": 2,
+          "SOP:project": 1,
+          "SOP:polyloft": 1,
+          "SOP:profile": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.09,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "lfo2",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.04,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "type": "nurbs",
+            "sizex": 10,
+            "sizey": 10,
+            "rows": 40,
+            "cols": 40
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.1,
+            "torange2": 0.5
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.6,
+            "torange2": 1
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.1,
+            "torange2": 0.5
+          }
+        },
+        {
+          "name": "math4",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": 0.5,
+            "torange2": 1
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null4",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "trim1",
+          "type": "SOP:trim",
+          "parameters": {
+            "optype": "keepin"
+          }
+        },
+        {
+          "name": "trim2",
+          "type": "SOP:trim",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {
+            "seed": 3.97,
+            "period": 0.73,
+            "rough": 0.557,
+            "exp": 1.25
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "nurbs",
+            "tz": 1.3
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "u1"
+          }
+        },
+        {
+          "name": "rename2",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "u2"
+          }
+        },
+        {
+          "name": "rename3",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "v1"
+          }
+        },
+        {
+          "name": "rename4",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "v2"
+          }
+        },
+        {
+          "name": "project2",
+          "type": "SOP:project",
+          "parameters": {
+            "pageindex": 1,
+            "method": "parametric"
+          }
+        },
+        {
+          "name": "profile_remapping",
+          "type": "SOP:profile",
+          "parameters": {
+            "method": "remap",
+            "parametric": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo2",
+          "to": "math4",
+          "to_input": "0"
+        },
+        {
+          "from": "rename1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "rename2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "rename3",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "rename4",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "profile_remapping",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "profile_remapping",
+          "to": "trim2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "rename2",
+          "to_input": "0"
+        },
+        {
+          "from": "math3",
+          "to": "rename3",
+          "to_input": "0"
+        },
+        {
+          "from": "math4",
+          "to": "rename4",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "project2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "project2",
+          "to_input": "1"
+        },
+        {
+          "from": "project2",
+          "to": "profile_remapping",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 22,
+        "connection_count": 18,
+        "operator_types": {
+          "CHOP:lfo": 2,
+          "SOP:grid": 1,
+          "CHOP:math": 4,
+          "CHOP:null": 4,
+          "SOP:trim": 2,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "CHOP:rename": 4,
+          "SOP:project": 1,
+          "SOP:profile": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

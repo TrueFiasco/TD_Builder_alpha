@@ -1,0 +1,661 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\displaceTOP_lossless.json",
+  "operator_type": "displaceTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.2,
+            "radiusy": 0.2,
+            "bgalpha": 1,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue",
+            "extend": "zero"
+          }
+        },
+        {
+          "name": "displace2",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue"
+          }
+        },
+        {
+          "name": "circle_red",
+          "type": "COMP:slider",
+          "parameters": {
+            "value0": 0.535354,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on",
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "circle_blue",
+          "type": "COMP:slider",
+          "parameters": {
+            "value0": 0.5,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on",
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "displace1",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "displace2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "displace2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:circle": 1,
+          "TOP:displace": 2,
+          "COMP:slider": 2,
+          "TOP:moviefilein": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "rough": 0.25,
+            "amp": 3,
+            "constraint": "offset",
+            "constrmean": 0.5,
+            "end": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "displace",
+          "type": "TOP:displace",
+          "parameters": {
+            "displaceweighty": 0.05,
+            "displaceweightz": 1,
+            "extend": "mirror"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "trail_max",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail_min",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "analyze_max",
+          "type": "CHOP:analyze",
+          "parameters": {
+            "function": "maximum"
+          }
+        },
+        {
+          "name": "analyze_min",
+          "type": "CHOP:analyze",
+          "parameters": {
+            "function": "minimum"
+          }
+        },
+        {
+          "name": "chop_to_top",
+          "type": "TOP:chopto",
+          "parameters": {
+            "chop": "noise",
+            "dataformat": "legacy"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "displace",
+          "to_input": "0"
+        },
+        {
+          "from": "chop_to_top",
+          "to": "displace",
+          "to_input": "1"
+        },
+        {
+          "from": "analyze_max",
+          "to": "trail_max",
+          "to_input": "0"
+        },
+        {
+          "from": "analyze_min",
+          "to": "trail_min",
+          "to_input": "0"
+        },
+        {
+          "from": "noise",
+          "to": "analyze_max",
+          "to_input": "0"
+        },
+        {
+          "from": "noise",
+          "to": "analyze_min",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:displace": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:trail": 2,
+          "CHOP:analyze": 2,
+          "TOP:chopto": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "dat": "ramp1_keys",
+            "period": 0.5
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "displace_weight",
+          "type": "TOP:displace",
+          "parameters": {
+            "horzsource": "blue",
+            "vertsource": "blue",
+            "displaceweighty": 0.1,
+            "displaceweightz": 1
+          }
+        },
+        {
+          "name": "displace_weight1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue",
+            "displaceweightx": 0.2,
+            "displaceweightz": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein2",
+          "to": "displace_weight",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "displace_weight",
+          "to_input": "1"
+        },
+        {
+          "from": "moviein2",
+          "to": "displace_weight1",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "displace_weight1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1,
+          "TOP:displace": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "type": "simplex2d",
+            "harmon": 6,
+            "spread": 14.5,
+            "gain": 1.07,
+            "exp": 1.65,
+            "amp": 0.16,
+            "offset": 0.284,
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "horzsource": "blue",
+            "vertsource": "red",
+            "displaceweightx": 0.5,
+            "displaceweightz": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein3",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "displace1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:displace": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sizzle",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "displace2",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue"
+          }
+        },
+        {
+          "name": "displacer",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "sizzle",
+            "value0": 0.030303,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "transformer",
+          "type": "TOP:transform",
+          "parameters": {
+            "extend": "repeat",
+            "limittiles": "on",
+            "inputfiltertype": "nearest",
+            "fillmode": "best",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "noise_displacer",
+          "type": "TOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "type": "random",
+            "filtertype": "nearest",
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "moviein_displacee",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "file": "$TT/Map/OilDrums.jpg",
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "fillmode": "best"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "displace2",
+          "to": "sizzle",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein_displacee",
+          "to": "displace2",
+          "to_input": "0"
+        },
+        {
+          "from": "transformer",
+          "to": "displace2",
+          "to_input": "1"
+        },
+        {
+          "from": "noise_displacer",
+          "to": "transformer",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:null": 1,
+          "TOP:displace": 1,
+          "COMP:slider": 1,
+          "TOP:transform": 1,
+          "TOP:noise": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "level1",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sizzle1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "displace3",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue"
+          }
+        },
+        {
+          "name": "displacer1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "sizzle",
+            "value0": 0.040404,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "transformer1",
+          "type": "TOP:transform",
+          "parameters": {
+            "extend": "repeat",
+            "limittiles": "on",
+            "inputfiltertype": "nearest",
+            "fillmode": "best",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "noise_displacer1",
+          "type": "TOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "type": "random",
+            "filtertype": "nearest",
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "moviein_displacee1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "file": "$TT/Map/OilDrums.jpg",
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "fillmode": "best"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "transformer1",
+          "to": "level1",
+          "to_input": "0"
+        },
+        {
+          "from": "displace3",
+          "to": "sizzle1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein_displacee1",
+          "to": "displace3",
+          "to_input": "0"
+        },
+        {
+          "from": "level1",
+          "to": "displace3",
+          "to_input": "1"
+        },
+        {
+          "from": "noise_displacer1",
+          "to": "transformer1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:level": 1,
+          "DAT:text": 1,
+          "TOP:null": 1,
+          "TOP:displace": 1,
+          "COMP:slider": 1,
+          "TOP:transform": 1,
+          "TOP:noise": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

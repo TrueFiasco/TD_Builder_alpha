@@ -1,0 +1,119 @@
+{
+  "operator": "Surfsect_SOP",
+  "family": "SOP",
+  "td_create_name": "surfsectSOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "groupa": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "groupb": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "tol3d": {
+      "type": "float",
+      "value": 0.12545
+    },
+    "tol2d": {
+      "type": "float",
+      "value": 0.13345
+    },
+    "step": {
+      "type": "int",
+      "value": 101
+    },
+    "method": {
+      "type": "menu",
+      "value": "profiles",
+      "menuIndex": 1,
+      "menuNames": [
+        "bool",
+        "profiles"
+      ],
+      "menuLabels": [
+        "Boolean",
+        "Generate Profiles"
+      ]
+    },
+    "boolop": {
+      "type": "menu",
+      "value": "intersect",
+      "menuIndex": 1,
+      "menuNames": [
+        "union",
+        "intersect",
+        "aminusb",
+        "bminusa",
+        "other"
+      ],
+      "menuLabels": [
+        "Union",
+        "Intersect",
+        "A minus B",
+        "B minus A",
+        "User Defined:"
+      ]
+    },
+    "insidea": {
+      "type": "toggle",
+      "value": true
+    },
+    "insideb": {
+      "type": "toggle",
+      "value": true
+    },
+    "outsidea": {
+      "type": "toggle",
+      "value": true
+    },
+    "outsideb": {
+      "type": "toggle",
+      "value": true
+    },
+    "target": {
+      "type": "menu",
+      "value": "b",
+      "menuIndex": 1,
+      "menuNames": [
+        "a",
+        "b",
+        "both"
+      ],
+      "menuLabels": [
+        "A",
+        "B",
+        "A and B"
+      ]
+    },
+    "creategroupa": {
+      "type": "toggle",
+      "value": true
+    },
+    "profilesa": {
+      "type": "string",
+      "value": "A_perturbed"
+    },
+    "creategroupb": {
+      "type": "toggle",
+      "value": true
+    },
+    "profilesb": {
+      "type": "string",
+      "value": "B_perturbed"
+    },
+    "mindholes": {
+      "type": "toggle",
+      "value": false
+    },
+    "join": {
+      "type": "toggle",
+      "value": false
+    }
+  }
+}

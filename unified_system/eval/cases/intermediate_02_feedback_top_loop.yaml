@@ -1,0 +1,19 @@
+name: intermediate_02_feedback_top_loop
+tier: intermediate
+prompt: |
+  Create a video-feedback motion-blur effect. Use a Feedback TOP that delays
+  the previous frame, and a Composite TOP (or Comp TOP) that mixes the
+  delayed frame with new content. Wire the loop so the feedback delays the
+  composite output.
+expected_operators:
+  - TOP:feedback
+  - TOP:composite
+expected_connections:
+  - [composite1, feedback1]
+tolerance:
+  min_operator_recall: 1.0
+  min_connection_recall: 1.0
+notes: |
+  Tests feedback-loop topology. A common pitfall: agents wire the feedback
+  the wrong way around (feedback → composite without the loop closure).
+  Connection name `composite1 → feedback1` represents the closing edge.

@@ -1,0 +1,241 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\blendCHOP_lossless.json",
+  "operator_type": "blendCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "trim1",
+          "type": "CHOP:trim",
+          "parameters": {
+            "pageindex": 1,
+            "relative": "abs",
+            "startunit": "seconds",
+            "end": 10,
+            "endunit": "seconds",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trim2",
+          "type": "CHOP:trim",
+          "parameters": {
+            "relative": "abs",
+            "startunit": "seconds",
+            "end": 10,
+            "endunit": "seconds",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "period": 10
+          }
+        },
+        {
+          "name": "wave2",
+          "type": "CHOP:wave",
+          "parameters": {
+            "wavetype": "square",
+            "period": 2
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "merge2",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "\"weight 1\"",
+            "value0": 0.538462,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "slider2",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "\"weight 2\"",
+            "value0": 0.105769,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "slider3",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "weight3",
+            "value0": 0.711538,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "blend_proportioanl",
+          "type": "CHOP:blend",
+          "parameters": {
+            "pageindex": 1,
+            "method": "prop",
+            "firstweight": "on"
+          }
+        },
+        {
+          "name": "blend_diffderencing",
+          "type": "CHOP:blend",
+          "parameters": {
+            "pageindex": 1,
+            "firstweight": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "merge1",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge2",
+          "to": "trim2",
+          "to_input": "0"
+        },
+        {
+          "from": "slider1/out1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider2/out1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "slider3/out1",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "slider2/out1",
+          "to": "merge2",
+          "to_input": "0"
+        },
+        {
+          "from": "slider3/out1",
+          "to": "merge2",
+          "to_input": "1"
+        },
+        {
+          "from": "trim1",
+          "to": "blend_proportioanl",
+          "to_input": "0"
+        },
+        {
+          "from": "wave1",
+          "to": "blend_proportioanl",
+          "to_input": "1"
+        },
+        {
+          "from": "wave2",
+          "to": "blend_proportioanl",
+          "to_input": "2"
+        },
+        {
+          "from": "noise1",
+          "to": "blend_proportioanl",
+          "to_input": "3"
+        },
+        {
+          "from": "trim2",
+          "to": "blend_diffderencing",
+          "to_input": "0"
+        },
+        {
+          "from": "wave1",
+          "to": "blend_diffderencing",
+          "to_input": "1"
+        },
+        {
+          "from": "wave2",
+          "to": "blend_diffderencing",
+          "to_input": "2"
+        },
+        {
+          "from": "noise1",
+          "to": "blend_diffderencing",
+          "to_input": "3"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 15,
+        "operator_types": {
+          "CHOP:trim": 2,
+          "CHOP:wave": 2,
+          "CHOP:merge": 2,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "COMP:slider": 3,
+          "CHOP:blend": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

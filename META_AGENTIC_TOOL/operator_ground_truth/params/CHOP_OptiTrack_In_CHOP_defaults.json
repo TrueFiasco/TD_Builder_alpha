@@ -1,0 +1,261 @@
+{
+  "operator": "OptiTrack_In_CHOP",
+  "family": "CHOP",
+  "td_create_name": "optitrackinCHOP",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "OptiTrack In",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "connectiontype": {
+      "value": {
+        "type": "menu",
+        "value": "mutlicast",
+        "menuIndex": 0,
+        "menuNames": [
+          "mutlicast",
+          "unicast"
+        ],
+        "menuLabels": [
+          "Multicast",
+          "Unicast"
+        ]
+      },
+      "default": "mutlicast",
+      "page": "OptiTrack In",
+      "label": "Connection Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "netaddress": {
+      "value": {
+        "type": "string",
+        "value": "127.0.0.1"
+      },
+      "default": "127.0.0.1",
+      "page": "OptiTrack In",
+      "label": "Network Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "localaddress": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "OptiTrack In",
+      "label": "Local Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "commandport": {
+      "value": {
+        "type": "int",
+        "value": 1510
+      },
+      "default": 1510,
+      "page": "OptiTrack In",
+      "label": "Command Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "dataport": {
+      "value": {
+        "type": "int",
+        "value": 1511
+      },
+      "default": 1511,
+      "page": "OptiTrack In",
+      "label": "Data Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "int",
+        "value": 30
+      },
+      "default": 30,
+      "page": "OptiTrack In",
+      "label": "Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "OptiTrack In",
+      "label": "Reset",
+      "readOnly": false,
+      "expression": null
+    },
+    "rigidbodies": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "OptiTrack In",
+      "label": "Rigid Bodies",
+      "readOnly": false,
+      "expression": null
+    },
+    "labeledmarkers": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OptiTrack In",
+      "label": "Labeled Markers",
+      "readOnly": false,
+      "expression": null
+    },
+    "unlabeledmarkers": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OptiTrack In",
+      "label": "Unlabeled Markers",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

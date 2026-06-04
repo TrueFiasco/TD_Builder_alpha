@@ -1,0 +1,290 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\circleSOP_lossless.json",
+  "operator_type": "circleSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle_center_x",
+          "type": "SOP:circle",
+          "parameters": {
+            "tx": 1
+          }
+        },
+        {
+          "name": "circle_radius_x",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 0.5,
+            "rady": 1
+          }
+        },
+        {
+          "name": "circle_radius_y",
+          "type": "SOP:circle",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.5
+          }
+        },
+        {
+          "name": "circle_wireframe",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "prim"
+          }
+        },
+        {
+          "name": "circle_as_polygons",
+          "type": "SOP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle_as_primitive",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "prim"
+          }
+        },
+        {
+          "name": "circle_using_anchor",
+          "type": "SOP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle_as_polygons_wireframe",
+          "type": "SOP:circle",
+          "parameters": {}
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 8
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle_divisions",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 6
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "wire1",
+          "type": "SOP:wire",
+          "parameters": {
+            "radius": 0.03
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle_arc_angle",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 10,
+            "arc": "closedarc",
+            "beginangle": 180,
+            "endangle": 360
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle_arc_angle",
+          "to": "wire1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:wire": 1,
+          "DAT:text": 1,
+          "SOP:circle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "facet1",
+          "type": "SOP:facet",
+          "parameters": {
+            "unique": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "primitive1",
+          "type": "SOP:primitive",
+          "parameters": {
+            "pageindex": 1,
+            "doxform": "on",
+            "sx": 0.61,
+            "sy": 0.61,
+            "sz": 0.61
+          }
+        },
+        {
+          "name": "circle_arc_angle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 10,
+            "arc": "slicedarc",
+            "beginangle": 120,
+            "endangle": 350
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle_arc_angle1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "primitive1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:facet": 1,
+          "DAT:text": 1,
+          "SOP:primitive": 1,
+          "SOP:circle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle_arc_type_clockwise",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 15,
+            "arc": "openarc",
+            "beginangle": 191,
+            "endangle": 77
+          }
+        },
+        {
+          "name": "circle_arc_type_counerclockwise",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on",
+            "divs": 15,
+            "arc": "openarc",
+            "beginangle": 191,
+            "endangle": 405
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

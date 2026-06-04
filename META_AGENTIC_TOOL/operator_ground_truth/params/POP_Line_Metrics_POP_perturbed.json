@@ -1,0 +1,251 @@
+{
+  "operator": "Line_Metrics_POP",
+  "family": "POP",
+  "td_create_name": "linemetricsPOP",
+  "param_count": 48,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "attrclass": {
+      "type": "menu",
+      "value": "vertex",
+      "menuIndex": 1,
+      "menuNames": [
+        "point",
+        "vertex"
+      ],
+      "menuLabels": [
+        "Point",
+        "Vertex"
+      ]
+    },
+    "dispnext": {
+      "type": "toggle",
+      "value": true
+    },
+    "dispnextname": {
+      "type": "string",
+      "value": "DispNext_perturbed"
+    },
+    "dispprev": {
+      "type": "toggle",
+      "value": true
+    },
+    "dispprevname": {
+      "type": "string",
+      "value": "DispPrev_perturbed"
+    },
+    "distnext": {
+      "type": "toggle",
+      "value": true
+    },
+    "distnextname": {
+      "type": "string",
+      "value": "DistNext_perturbed"
+    },
+    "distprev": {
+      "type": "toggle",
+      "value": true
+    },
+    "distprevname": {
+      "type": "string",
+      "value": "DistPrev_perturbed"
+    },
+    "dirnext": {
+      "type": "toggle",
+      "value": true
+    },
+    "dirnextname": {
+      "type": "string",
+      "value": "DirNext_perturbed"
+    },
+    "dirprev": {
+      "type": "toggle",
+      "value": true
+    },
+    "dirprevname": {
+      "type": "string",
+      "value": "DirPrev_perturbed"
+    },
+    "tangent": {
+      "type": "toggle",
+      "value": true
+    },
+    "tangentname": {
+      "type": "string",
+      "value": "Tan_perturbed"
+    },
+    "curvature": {
+      "type": "toggle",
+      "value": true
+    },
+    "curvaturename": {
+      "type": "string",
+      "value": "Curv_perturbed"
+    },
+    "angleperdist": {
+      "type": "toggle",
+      "value": true
+    },
+    "angleperdistname": {
+      "type": "string",
+      "value": "AnglePerDist_perturbed"
+    },
+    "continuousdir": {
+      "type": "toggle",
+      "value": true
+    },
+    "maxneighbors": {
+      "type": "int",
+      "value": 3
+    },
+    "diststart": {
+      "type": "toggle",
+      "value": true
+    },
+    "diststartname": {
+      "type": "string",
+      "value": "DistStart_perturbed"
+    },
+    "distend": {
+      "type": "toggle",
+      "value": true
+    },
+    "distendname": {
+      "type": "string",
+      "value": "DistEnd_perturbed"
+    },
+    "diststartnorm": {
+      "type": "toggle",
+      "value": true
+    },
+    "diststartnormname": {
+      "type": "string",
+      "value": "DistStartNorm_perturbed"
+    },
+    "distendnorm": {
+      "type": "toggle",
+      "value": true
+    },
+    "distendnormname": {
+      "type": "string",
+      "value": "DistEndNorm_perturbed"
+    },
+    "primlen": {
+      "type": "toggle",
+      "value": true
+    },
+    "primlenname": {
+      "type": "string",
+      "value": "LineStripLength_perturbed"
+    },
+    "primlenprim": {
+      "type": "toggle",
+      "value": true
+    },
+    "pointindex": {
+      "type": "toggle",
+      "value": true
+    },
+    "pointindexname": {
+      "type": "string",
+      "value": "VertIndex_perturbed"
+    },
+    "numverts": {
+      "type": "toggle",
+      "value": true
+    },
+    "numvertsname": {
+      "type": "string",
+      "value": "NumVerts_perturbed"
+    },
+    "vertindexnorm": {
+      "type": "toggle",
+      "value": true
+    },
+    "vertindexnormname": {
+      "type": "string",
+      "value": "VertIndexNorm_perturbed"
+    },
+    "linestripindex": {
+      "type": "toggle",
+      "value": true
+    },
+    "linestripindexname": {
+      "type": "string",
+      "value": "LineStripIndex_perturbed"
+    },
+    "lsindexnorm": {
+      "type": "toggle",
+      "value": true
+    },
+    "lsindexnormname": {
+      "type": "string",
+      "value": "LineStripIndexNorm_perturbed"
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

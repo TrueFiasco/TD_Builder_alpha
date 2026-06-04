@@ -1,0 +1,492 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\shuffleCHOP_lossless.json",
+  "operator_type": "shuffleCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqall"
+          }
+        },
+        {
+          "name": "shuffle2",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitall"
+          }
+        },
+        {
+          "name": "shuffle3",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "swap"
+          }
+        },
+        {
+          "name": "shuffle4",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqn",
+            "nval": 4
+          }
+        },
+        {
+          "name": "shuffle5",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqeveryn",
+            "nval": 2
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.32,
+            "const1name": "chan2",
+            "const1value": 0.18,
+            "const2name": "chan3",
+            "const2value": 0.32,
+            "const3name": "chan4",
+            "const3value": 0.45,
+            "const4name": "chan5",
+            "const4value": 0.61,
+            "const5name": "chan6",
+            "const5value": 0.72,
+            "const6name": "chan7",
+            "const6value": 0.85,
+            "const7name": "chan8",
+            "const7value": 0.97
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "shuffle4",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle3",
+          "to": "shuffle2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "shuffle3",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "shuffle4",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "shuffle5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 5,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:shuffle": 5,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "NOTE",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "integer": "round"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "trim1",
+          "type": "CHOP:trim",
+          "parameters": {
+            "relative": "abs",
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "channelname": "noise"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.5,
+            "speedcoeff": 0,
+            "filterpersample": "on"
+          }
+        },
+        {
+          "name": "shuffle1",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitall"
+          }
+        },
+        {
+          "name": "shuffle2",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "swap"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "trim1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        },
+        {
+          "from": "shuffle1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "filter2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "shuffle1",
+          "to_input": "0"
+        },
+        {
+          "from": "trim1",
+          "to": "shuffle2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 9,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:math": 1,
+          "CHOP:null": 2,
+          "CHOP:trim": 1,
+          "CHOP:noise": 1,
+          "CHOP:speed": 1,
+          "CHOP:filter": 2,
+          "CHOP:shuffle": 2,
+          "CHOP:constant": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviefilein1",
+            "crop": "full"
+          }
+        },
+        {
+          "name": "shuffle3",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "seqname"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "outputresolution": "custom",
+            "resolutionw": 80,
+            "resolutionh": 45
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "shuffle3",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "shuffle3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 1,
+          "CHOP:shuffle": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null4",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "wave1",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "period": 90,
+            "periodunit": "samples",
+            "channelname": "chan",
+            "startunit": "samples",
+            "end": 89,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shuffle4",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "spliteveryn",
+            "nval": 10
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "shuffle4",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "wave1",
+          "to": "shuffle4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:shuffle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "wave2",
+          "type": "CHOP:wave",
+          "parameters": {
+            "pageindex": 1,
+            "period": 90,
+            "periodunit": "samples",
+            "channelname": "chan",
+            "startunit": "samples",
+            "end": 89,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shuffle5",
+          "type": "CHOP:shuffle",
+          "parameters": {
+            "method": "splitn",
+            "nval": 9
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "wave2",
+          "to": "shuffle5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:wave": 1,
+          "DAT:text": 1,
+          "CHOP:shuffle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

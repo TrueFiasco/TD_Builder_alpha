@@ -1,0 +1,423 @@
+{
+  "operator": "Math_CHOP",
+  "family": "CHOP",
+  "td_create_name": "mathCHOP",
+  "param_count": 24,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 8,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "preop": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "negate",
+          "pos",
+          "root",
+          "square",
+          "inverse"
+        ],
+        "menuLabels": [
+          "Off",
+          "Negate",
+          "Positive",
+          "Root",
+          "Square",
+          "Inverse"
+        ]
+      },
+      "default": "off",
+      "page": "OP",
+      "label": "Channel Pre OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanop": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "avg",
+          "min",
+          "max",
+          "len"
+        ],
+        "menuLabels": [
+          "Off",
+          "Add",
+          "Subtract",
+          "Multiply",
+          "Divide",
+          "Average",
+          "Minimum",
+          "Maximum",
+          "Length"
+        ]
+      },
+      "default": "off",
+      "page": "OP",
+      "label": "Combine Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "chopop": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "avg",
+          "min",
+          "max",
+          "len"
+        ],
+        "menuLabels": [
+          "Off",
+          "Add",
+          "Subtract",
+          "Multiply",
+          "Divide",
+          "Average",
+          "Minimum",
+          "Maximum",
+          "Length"
+        ]
+      },
+      "default": "off",
+      "page": "OP",
+      "label": "Combine CHOPs",
+      "readOnly": false,
+      "expression": null
+    },
+    "postop": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "negate",
+          "pos",
+          "root",
+          "square",
+          "inverse"
+        ],
+        "menuLabels": [
+          "Off",
+          "Negate",
+          "Positive",
+          "Root",
+          "Square",
+          "Inverse"
+        ]
+      },
+      "default": "off",
+      "page": "OP",
+      "label": "Channel Post OP",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "index",
+        "menuIndex": 0,
+        "menuNames": [
+          "index",
+          "name"
+        ],
+        "menuLabels": [
+          "Channel Number",
+          "Channel Name"
+        ]
+      },
+      "default": "index",
+      "page": "OP",
+      "label": "Match by",
+      "readOnly": false,
+      "expression": null
+    },
+    "align": {
+      "value": {
+        "type": "menu",
+        "value": "auto",
+        "menuIndex": 0,
+        "menuNames": [
+          "auto",
+          "none",
+          "stretch",
+          "start",
+          "end",
+          "shift1",
+          "trim1",
+          "stretch1",
+          "trim",
+          "squash"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "Extend to Min/Max",
+          "Stretch to Min/Max",
+          "Shift to Minimum",
+          "Shift to Maximum",
+          "Shift to First Interval",
+          "Trim to First Interval",
+          "Stretch to First Interval",
+          "Trim to Smallest Interval",
+          "Stretch to Smallest Interval"
+        ]
+      },
+      "default": "auto",
+      "page": "OP",
+      "label": "Align",
+      "readOnly": false,
+      "expression": null
+    },
+    "interppars": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP",
+      "label": "Interp Pars per Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "integer": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "ceiling",
+          "floor",
+          "round"
+        ],
+        "menuLabels": [
+          "Off",
+          "Ceiling",
+          "Floor",
+          "Round"
+        ]
+      },
+      "default": "off",
+      "page": "OP",
+      "label": "Integer",
+      "readOnly": false,
+      "expression": null
+    },
+    "preoff": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Mult-Add",
+      "label": "Pre-Add",
+      "readOnly": false,
+      "expression": null
+    },
+    "gain": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Mult-Add",
+      "label": "Multiply",
+      "readOnly": false,
+      "expression": null
+    },
+    "postoff": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Mult-Add",
+      "label": "Post-Add",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromrange1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Range",
+      "label": "From Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromrange2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Range",
+      "label": "From Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "torange1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Range",
+      "label": "To Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "torange2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Range",
+      "label": "To Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

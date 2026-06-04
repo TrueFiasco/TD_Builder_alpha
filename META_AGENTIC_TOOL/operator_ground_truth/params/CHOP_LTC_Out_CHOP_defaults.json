@@ -1,0 +1,380 @@
+{
+  "operator": "LTC_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "ltcoutCHOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 13,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "playmode": {
+      "value": {
+        "type": "menu",
+        "value": "sequential",
+        "menuIndex": 0,
+        "menuNames": [
+          "sequential",
+          "timecodeop"
+        ],
+        "menuLabels": [
+          "Sequential",
+          "Timecode Object/CHOP/DAT"
+        ]
+      },
+      "default": "sequential",
+      "page": "LTC",
+      "label": "Play Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "play": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "LTC",
+      "label": "Play",
+      "readOnly": false,
+      "expression": null
+    },
+    "cue": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "LTC",
+      "label": "Cue",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "LTC",
+      "label": "Cue Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "frame": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "LTC",
+      "label": "Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "second": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "LTC",
+      "label": "Second",
+      "readOnly": false,
+      "expression": null
+    },
+    "minute": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "LTC",
+      "label": "Minute",
+      "readOnly": false,
+      "expression": null
+    },
+    "hour": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "LTC",
+      "label": "Hour",
+      "readOnly": false,
+      "expression": null
+    },
+    "framerate": {
+      "value": {
+        "type": "float",
+        "value": 30.0
+      },
+      "default": 30.0,
+      "page": "LTC",
+      "label": "Frame Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "dropframe": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "LTC",
+      "label": "Drop Frame Numbering",
+      "readOnly": false,
+      "expression": null
+    },
+    "highfpsbehavior": {
+      "value": {
+        "type": "menu",
+        "value": "cycleframes",
+        "menuIndex": 0,
+        "menuNames": [
+          "cycleframes",
+          "duplicateframes"
+        ],
+        "menuLabels": [
+          "Cycle Frames",
+          "Duplicate Frames"
+        ]
+      },
+      "default": "cycleframes",
+      "page": "LTC",
+      "label": "High FPS Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "timecodeop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "LTC",
+      "label": "Timecode Object/CHOP/DAT",
+      "readOnly": false,
+      "expression": "tdu.Timecode()"
+    },
+    "audiorate": {
+      "value": {
+        "type": "float",
+        "value": 48000.0
+      },
+      "default": 48000.0,
+      "page": "LTC",
+      "label": "Audio Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "user1": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 1",
+      "readOnly": false,
+      "expression": null
+    },
+    "user2": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 2",
+      "readOnly": false,
+      "expression": null
+    },
+    "user3": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 3",
+      "readOnly": false,
+      "expression": null
+    },
+    "user4": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 4",
+      "readOnly": false,
+      "expression": null
+    },
+    "user5": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 5",
+      "readOnly": false,
+      "expression": null
+    },
+    "user6": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 6",
+      "readOnly": false,
+      "expression": null
+    },
+    "user7": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 7",
+      "readOnly": false,
+      "expression": null
+    },
+    "user8": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "User",
+      "label": "User Data 8",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

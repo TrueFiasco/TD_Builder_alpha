@@ -1,0 +1,437 @@
+{
+  "operator": "Leap_Motion_CHOP",
+  "family": "CHOP",
+  "td_create_name": "leapmotionCHOP",
+  "param_count": 35,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 26,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "api": {
+      "value": {
+        "type": "menu",
+        "value": "v4",
+        "menuIndex": 1,
+        "menuNames": [
+          "v2",
+          "v4"
+        ],
+        "menuLabels": [
+          "Version 2 Tracking",
+          "Orion (v4) / Gemini (v5)"
+        ]
+      },
+      "default": "v4",
+      "page": "Setup",
+      "label": "API",
+      "readOnly": false,
+      "expression": null
+    },
+    "libfolder": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Setup",
+      "label": "Library Folder",
+      "readOnly": false,
+      "expression": "app.applicationsFolder + '/Ultraleap/LeapSDK/lib/x64'"
+    },
+    "hmd": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Default",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "default",
+      "page": "Setup",
+      "label": "HMD Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "deviceinfo": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Device Info",
+      "readOnly": false,
+      "expression": null
+    },
+    "debugchannels": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Debug Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "statuschannels": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Status Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "namedhands": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Named Hands",
+      "readOnly": false,
+      "expression": null
+    },
+    "hands": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Setup",
+      "label": "Hands",
+      "readOnly": false,
+      "expression": null
+    },
+    "lefthands": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Setup",
+      "label": "Left Hands",
+      "readOnly": false,
+      "expression": null
+    },
+    "righthands": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Setup",
+      "label": "Right Hands",
+      "readOnly": false,
+      "expression": null
+    },
+    "handvelocity": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Hand Velocity",
+      "readOnly": false,
+      "expression": null
+    },
+    "handsphere": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Hand Sphere",
+      "readOnly": false,
+      "expression": null
+    },
+    "pinchstrength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Pinch Strength",
+      "readOnly": false,
+      "expression": null
+    },
+    "grabstrength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Grab Strength",
+      "readOnly": false,
+      "expression": null
+    },
+    "namedfingers": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Named Fingers",
+      "readOnly": false,
+      "expression": null
+    },
+    "fingersperhand": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Setup",
+      "label": "Fingers per Hand",
+      "readOnly": false,
+      "expression": null
+    },
+    "fingerrotation": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Finger Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "fingersize": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Finger Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "fingerextended": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Finger Extended",
+      "readOnly": false,
+      "expression": null
+    },
+    "fingerjoints": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Finger Joints",
+      "readOnly": false,
+      "expression": null
+    },
+    "tools": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "Tools",
+      "readOnly": false,
+      "expression": null
+    },
+    "circlegestures": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "Circle Gestures",
+      "readOnly": false,
+      "expression": null
+    },
+    "swipegestures": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "Swipe Gestures",
+      "readOnly": false,
+      "expression": null
+    },
+    "keytapgestures": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "Key Tap Gestures",
+      "readOnly": false,
+      "expression": null
+    },
+    "screentapgestures": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "Screen Tap Gestures",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

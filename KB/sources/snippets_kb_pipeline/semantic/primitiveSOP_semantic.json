@@ -1,0 +1,180 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\primitiveSOP_lossless.json",
+  "operator_type": "primitiveSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "facet1",
+          "type": "SOP:facet",
+          "parameters": {
+            "unique": "on",
+            "postnml": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "reverseanchors": "on",
+            "rows": 10,
+            "cols": 10,
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "primitive4",
+          "type": "SOP:primitive",
+          "parameters": {
+            "pageindex": 1,
+            "doxform": "on",
+            "rz": 45
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "primitive4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:facet": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:primitive": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "nurbs",
+            "reverseanchors": "on",
+            "divs": 11,
+            "arc": "openarc",
+            "endangle": 270
+          }
+        },
+        {
+          "name": "primitive2",
+          "type": "SOP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "closeu": "closeround"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "primitive2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "SOP:primitive": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "SOP:circle",
+          "parameters": {
+            "type": "nurbs",
+            "reverseanchors": "on",
+            "divs": 11,
+            "arc": "openarc",
+            "endangle": 270
+          }
+        },
+        {
+          "name": "primitive3",
+          "type": "SOP:primitive",
+          "parameters": {
+            "pageindex": 2,
+            "closeu": "closesharp"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle2",
+          "to": "primitive3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "SOP:primitive": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

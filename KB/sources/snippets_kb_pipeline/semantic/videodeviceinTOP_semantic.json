@@ -1,0 +1,41 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\videodeviceinTOP_lossless.json",
+  "operator_type": "videodeviceinTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "videoin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"\\\\\\\\?\\\\usb#vid_5986&pid_0361&mi_00#7&eac547f&0&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global --||-- BisonCam, NB Pro\"",
+            "precedence": "even"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:videodevin": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

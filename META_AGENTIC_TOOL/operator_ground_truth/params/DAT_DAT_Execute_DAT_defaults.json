@@ -1,0 +1,371 @@
+{
+  "operator": "DAT_Execute_DAT",
+  "family": "DAT",
+  "td_create_name": "datexecuteDAT",
+  "param_count": 23,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "DAT Execute",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "here",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "here",
+          "op"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "This Node",
+          "Specified Operator"
+        ]
+      },
+      "default": "here",
+      "page": "DAT Execute",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "DAT Execute",
+      "label": "From Operator",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "dat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "DAT Execute",
+      "label": "DATs",
+      "readOnly": false,
+      "expression": null
+    },
+    "tablechange": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "DAT Execute",
+      "label": "Table Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "rowchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DAT Execute",
+      "label": "Row Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "colchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DAT Execute",
+      "label": "Column Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "cellchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DAT Execute",
+      "label": "Cell Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizechange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "DAT Execute",
+      "label": "Size Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "execute": {
+      "value": {
+        "type": "menu",
+        "value": "start",
+        "menuIndex": 0,
+        "menuNames": [
+          "start",
+          "end"
+        ],
+        "menuLabels": [
+          "Start of Frame",
+          "End of Frame"
+        ]
+      },
+      "default": "start",
+      "page": "DAT Execute",
+      "label": "Execute",
+      "readOnly": false,
+      "expression": null
+    },
+    "edit": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "DAT Execute",
+      "label": "Edit..",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "File",
+      "label": "File",
+      "readOnly": false,
+      "expression": null
+    },
+    "defaultreadencoding": {
+      "value": {
+        "type": "menu",
+        "value": "autodetect",
+        "menuIndex": 0,
+        "menuNames": [
+          "autodetect",
+          "utf8",
+          "utf16le",
+          "utf16be",
+          "cp1252"
+        ],
+        "menuLabels": [
+          "Auto-Detect",
+          "UTF8",
+          "UTF16-LE",
+          "UTF16-BE",
+          "CP1252"
+        ]
+      },
+      "default": "autodetect",
+      "page": "File",
+      "label": "Default Read Encoding",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncfile": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Sync to File",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstartpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load File",
+      "readOnly": false,
+      "expression": null
+    },
+    "write": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write on Toe Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "writepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write File",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "python",
+        "menuIndex": 3,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

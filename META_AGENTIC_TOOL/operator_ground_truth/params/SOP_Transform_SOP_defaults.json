@@ -1,0 +1,630 @@
+{
+  "operator": "Transform_SOP",
+  "family": "SOP",
+  "td_create_name": "transformSOP",
+  "param_count": 37,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Transform",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "xord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Transform",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Transform",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "sx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Uniform Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "vlength": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Transform",
+      "label": "Normals Maintain Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Transform",
+      "label": "Look At",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectory": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "upvectorz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Up Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "forwarddir": {
+      "value": {
+        "type": "menu",
+        "value": "negz",
+        "menuIndex": 5,
+        "menuNames": [
+          "posx",
+          "negx",
+          "posy",
+          "negy",
+          "posz",
+          "negz"
+        ],
+        "menuLabels": [
+          "+X",
+          "-X",
+          "+Y",
+          "-Y",
+          "+Z",
+          "-Z"
+        ]
+      },
+      "default": "negz",
+      "page": "Transform",
+      "label": "Forward Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "postxord": {
+      "value": {
+        "type": "menu",
+        "value": "st",
+        "menuIndex": 0,
+        "menuNames": [
+          "st",
+          "ts"
+        ],
+        "menuLabels": [
+          "Scale Translate",
+          "Translate Scale"
+        ]
+      },
+      "default": "st",
+      "page": "Post",
+      "label": "Post Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "posttx": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "origin",
+          "reference"
+        ],
+        "menuLabels": [
+          "Off",
+          "Origin",
+          "Reference Input"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Translate X",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromx": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "From Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "tox": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "To Reference",
+      "readOnly": false,
+      "expression": null
+    },
+    "postty": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "origin",
+          "reference"
+        ],
+        "menuLabels": [
+          "Off",
+          "Origin",
+          "Reference Input"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Translate Y",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromy": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "From Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "toy": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "To Reference",
+      "readOnly": false,
+      "expression": null
+    },
+    "posttz": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "origin",
+          "reference"
+        ],
+        "menuLabels": [
+          "Off",
+          "Origin",
+          "Reference Input"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Translate Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromz": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "From Input",
+      "readOnly": false,
+      "expression": null
+    },
+    "toz": {
+      "value": {
+        "type": "menu",
+        "value": "center",
+        "menuIndex": 1,
+        "menuNames": [
+          "min",
+          "center",
+          "max"
+        ],
+        "menuLabels": [
+          "Min",
+          "Center",
+          "Max"
+        ]
+      },
+      "default": "center",
+      "page": "Post",
+      "label": "To Reference",
+      "readOnly": false,
+      "expression": null
+    },
+    "postscale": {
+      "value": {
+        "type": "menu",
+        "value": "peraxis",
+        "menuIndex": 0,
+        "menuNames": [
+          "peraxis",
+          "unity",
+          "reference"
+        ],
+        "menuLabels": [
+          "Per Axis",
+          "Unity",
+          "Reference"
+        ]
+      },
+      "default": "peraxis",
+      "page": "Post",
+      "label": "Post Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "postscalex": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "unity",
+          "reference",
+          "unityprop",
+          "referenceprop"
+        ],
+        "menuLabels": [
+          "Off",
+          "Unity",
+          "Reference Input",
+          "Unity Proportional",
+          "Reference Proportional"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Scale X",
+      "readOnly": false,
+      "expression": null
+    },
+    "postscaley": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "unity",
+          "reference",
+          "unityprop",
+          "referenceprop"
+        ],
+        "menuLabels": [
+          "Off",
+          "Unity",
+          "Reference Input",
+          "Unity Proportional",
+          "Reference Proportional"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Scale Y",
+      "readOnly": false,
+      "expression": null
+    },
+    "postscalez": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "unity",
+          "reference",
+          "unityprop",
+          "referenceprop"
+        ],
+        "menuLabels": [
+          "Off",
+          "Unity",
+          "Reference Input",
+          "Unity Proportional",
+          "Reference Proportional"
+        ]
+      },
+      "default": "off",
+      "page": "Post",
+      "label": "Post Scale Z",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

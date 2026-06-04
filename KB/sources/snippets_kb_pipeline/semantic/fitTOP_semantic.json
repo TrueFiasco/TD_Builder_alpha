@@ -1,0 +1,274 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\fitTOP_lossless.json",
+  "operator_type": "fitTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit1",
+          "type": "TOP:fit",
+          "parameters": {
+            "fit": "fithorz",
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1000,
+            "resolutionh": 1000,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "fit2",
+          "type": "TOP:fit",
+          "parameters": {
+            "fit": "fitvert",
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1000,
+            "resolutionh": 1000,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit1",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit2",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "fit1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "fit2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:fit": 2,
+          "CHOP:info": 2,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit3",
+          "type": "TOP:fit",
+          "parameters": {
+            "pageindex": 1,
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1000,
+            "resolutionh": 1000,
+            "outputaspect": "resolution",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "fit4",
+          "type": "TOP:fit",
+          "parameters": {
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 400,
+            "resolutionh": 1000,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "fit5",
+          "type": "TOP:fit",
+          "parameters": {
+            "pageindex": 1,
+            "fit": "fitoutside",
+            "sx": 1.01,
+            "sy": 1.01,
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1000,
+            "resolutionh": 1000,
+            "outputaspect": "resolution",
+            "filtertype": "mipmap"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit3",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info4",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit4",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "info5",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit5",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 1,
+            "filtertype": "mipmap"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein2",
+          "to": "fit3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein2",
+          "to": "fit4",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein2",
+          "to": "fit5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:fit": 3,
+          "CHOP:info": 3,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit6",
+          "type": "TOP:fit",
+          "parameters": {
+            "pageindex": 1,
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "info6",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "fit6",
+            "iscope": "\"resx resy aspectx aspecty\"",
+            "childcooktime": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein3",
+          "to": "fit6",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:fit": 1,
+          "CHOP:info": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

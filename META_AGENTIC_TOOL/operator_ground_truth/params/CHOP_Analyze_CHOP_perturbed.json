@@ -1,0 +1,127 @@
+{
+  "operator": "Analyze_CHOP",
+  "family": "CHOP",
+  "td_create_name": "analyzeCHOP",
+  "param_count": 14,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "function": {
+      "type": "menu",
+      "value": "maximum",
+      "menuIndex": 1,
+      "menuNames": [
+        "average",
+        "maximum",
+        "minimum",
+        "maximumindex",
+        "minimumindex",
+        "sum",
+        "rmspower",
+        "firstpeakvalue",
+        "firstpeakindex",
+        "lastpeakvalue",
+        "lastpeakindex",
+        "highestpeakvalue",
+        "highestpeakindex",
+        "lowestpeakvalue",
+        "lowestpeakindex",
+        "totalpeaks",
+        "duplicates"
+      ],
+      "menuLabels": [
+        "Average",
+        "Maximum",
+        "Minimum",
+        "Index of Maximum",
+        "Index of Minimum",
+        "Sum",
+        "RMS Power",
+        "Value of First Peak",
+        "Index of First Peak",
+        "Value of Last Peak",
+        "Index of Last Peak",
+        "Value of Highest Peak",
+        "Index of Highest Peak",
+        "Value of Lowest Peak",
+        "Index of Lowest Peak",
+        "Total Peaks",
+        "Duplicates"
+      ]
+    },
+    "allowstart": {
+      "type": "toggle",
+      "value": false
+    },
+    "allowend": {
+      "type": "toggle",
+      "value": false
+    },
+    "nopeakvalue": {
+      "type": "float",
+      "value": -0.8765499999999999
+    },
+    "valleys": {
+      "type": "toggle",
+      "value": true
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

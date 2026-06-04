@@ -1,0 +1,327 @@
+{
+  "operator": "Function_CHOP",
+  "family": "CHOP",
+  "td_create_name": "functionCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "func": {
+      "value": {
+        "type": "menu",
+        "value": "sqrt",
+        "menuIndex": 0,
+        "menuNames": [
+          "sqrt",
+          "abs",
+          "sign",
+          "cos",
+          "sin",
+          "tan",
+          "acos",
+          "asin",
+          "atan",
+          "atan2",
+          "cosh",
+          "sinh",
+          "tanh",
+          "log",
+          "logb",
+          "ln",
+          "pow10",
+          "exp",
+          "powe",
+          "powb",
+          "pow",
+          "dbtopower",
+          "powertodb",
+          "dbtoamp",
+          "amptodb"
+        ],
+        "menuLabels": [
+          "sqrt(x)         Square Root",
+          "abs(x)         Absolute Value",
+          "sign(x)         Sign",
+          "cos(x)         Cosine",
+          "sin(x)          Sine",
+          "tan(x)         Tangent",
+          "acos(x)       Arccosine",
+          "asin(x)        Arcsine",
+          "atan(x)        Arctan( Input1 )",
+          "atan2(y,x)   Arctan( Input1 / Input2 )",
+          "cosh(x)       Hyperbolic Cosine",
+          "sinh(x)        Hyperbolic Sine",
+          "tanh(x)        Hyperbolic Tangent",
+          "log10(x)       Log base 10",
+          "logN(x)         Log base N",
+          "ln(x)            Natural Log",
+          "pow(10,x)    10 ^ Input1",
+          "exp(x)          e ^ Input1",
+          "pow(x)         Base ^ Input1",
+          "pow(x)         Input1 ^ Exponent",
+          "pow(x,y)      Input1 ^ Input2",
+          "dB to Power",
+          "Power to dB",
+          "dB to Amplitude",
+          "Amplitude to dB"
+        ]
+      },
+      "default": "sqrt",
+      "page": "Function",
+      "label": "Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "baseval": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Function",
+      "label": "Base Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "expval": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Function",
+      "label": "Exponent Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "angunit": {
+      "value": {
+        "type": "menu",
+        "value": "deg",
+        "menuIndex": 0,
+        "menuNames": [
+          "deg",
+          "rad",
+          "cycle"
+        ],
+        "menuLabels": [
+          "Degrees",
+          "Radians",
+          "Cycles"
+        ]
+      },
+      "default": "deg",
+      "page": "Function",
+      "label": "Angle Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "index",
+        "menuIndex": 0,
+        "menuNames": [
+          "index",
+          "name"
+        ],
+        "menuLabels": [
+          "Channel Number",
+          "Channel Name"
+        ]
+      },
+      "default": "index",
+      "page": "Function",
+      "label": "Match by",
+      "readOnly": false,
+      "expression": null
+    },
+    "error": {
+      "value": {
+        "type": "menu",
+        "value": "abort",
+        "menuIndex": 0,
+        "menuNames": [
+          "abort",
+          "replace",
+          "useprev"
+        ],
+        "menuLabels": [
+          "Abort With Error Message",
+          "Replace With Specified Values",
+          "Use The Previous Value"
+        ]
+      },
+      "default": "abort",
+      "page": "Error",
+      "label": "Error Handling",
+      "readOnly": false,
+      "expression": null
+    },
+    "pinfval": {
+      "value": {
+        "type": "float",
+        "value": 100000000.0
+      },
+      "default": 100000000.0,
+      "page": "Error",
+      "label": "+ Infinity Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "ninfval": {
+      "value": {
+        "type": "float",
+        "value": -100000000.0
+      },
+      "default": -100000000.0,
+      "page": "Error",
+      "label": "- Infinity Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "domval": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Error",
+      "label": "Domain Error Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "divval": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Error",
+      "label": "Divide Error Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

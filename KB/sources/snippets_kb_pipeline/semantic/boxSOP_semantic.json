@@ -1,0 +1,383 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\boxSOP_lossless.json",
+  "operator_type": "boxSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "box_size",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 0.5,
+            "sizey": 1,
+            "sizez": 1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box_size1",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 1,
+            "sizey": 0.5,
+            "sizez": 1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box_size2",
+          "type": "SOP:box",
+          "parameters": {
+            "sizex": 1,
+            "sizey": 1,
+            "sizez": 0.5,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:box": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "box_center",
+          "type": "SOP:box",
+          "parameters": {
+            "tx": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box_center1",
+          "type": "SOP:box",
+          "parameters": {
+            "ty": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box_center2",
+          "type": "SOP:box",
+          "parameters": {
+            "tz": -1,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box_center",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "box_center1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "box_center2",
+          "to": "merge1",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:box": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "reverseanchors": "on",
+            "texture": "byprimtype"
+          }
+        },
+        {
+          "name": "box_input",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box_input",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "box_input",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:null": 1,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:box": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null3",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "box_consolidate_corner_points",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on",
+            "consolidatepts": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "box_consolidate_corner_points",
+          "to": "null3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:null": 1,
+          "DAT:text": 1,
+          "SOP:box": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "box_divisions",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on",
+            "dodivs": "on"
+          }
+        },
+        {
+          "name": "box_divisions1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on",
+            "dodivs": "on",
+            "divsx": 2,
+            "divsy": 3,
+            "divsz": 1
+          }
+        },
+        {
+          "name": "box_enforcement_bars",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on",
+            "dodivs": "on",
+            "divsx": 2,
+            "divsy": 3,
+            "divsz": 1,
+            "rebar": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:box": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "box_texture",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "box_texture1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on",
+            "texture": "faceinside"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:geo": 2,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "SOP:box": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

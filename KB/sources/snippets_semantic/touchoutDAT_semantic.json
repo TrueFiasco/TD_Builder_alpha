@@ -1,0 +1,207 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\touchoutDAT_lossless.json",
+  "operator_type": "touchoutDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "touchin1"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "clock1",
+          "type": "CHOP:clock",
+          "parameters": {
+            "pageindex": 1,
+            "msec": "\"\"",
+            "moonphase": "\"\"",
+            "sunphase": "\"\"",
+            "sunrise": "\"\"",
+            "sunset": "\"\"",
+            "declination": "\"\"",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "clock1",
+            "names": "on",
+            "output": "rowperchan",
+            "language": "text"
+          }
+        },
+        {
+          "name": "datexec1",
+          "type": "DAT:datexec",
+          "parameters": {
+            "dat": "touchin1",
+            "cellchange": "on",
+            "language": "python"
+          }
+        },
+        {
+          "name": "touchin1",
+          "type": "DAT:touchin",
+          "parameters": {
+            "port": 9533,
+            "language": "text"
+          }
+        },
+        {
+          "name": "touchout1",
+          "type": "DAT:touchout",
+          "parameters": {
+            "port": 9533
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "chopto1",
+          "to": "touchout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:info": 1,
+          "DAT:text": 2,
+          "CHOP:clock": 1,
+          "DAT:chopto": 1,
+          "DAT:datexec": 1,
+          "DAT:touchin": 1,
+          "DAT:touchout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "base1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "myComp",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "base1/myComp/out1"
+          }
+        },
+        {
+          "name": "datexec1",
+          "type": "DAT:datexec",
+          "parameters": {
+            "dat": "null1",
+            "language": "python"
+          }
+        },
+        {
+          "name": "touchin1",
+          "type": "DAT:touchin",
+          "parameters": {
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "touchout1",
+          "type": "DAT:touchout",
+          "parameters": {}
+        },
+        {
+          "name": "sendScript",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "touchin1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "touchout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 2,
+        "operator_types": {
+          "COMP:base": 2,
+          "DAT:null": 1,
+          "DAT:text": 3,
+          "CHOP:select": 1,
+          "DAT:datexec": 1,
+          "DAT:touchin": 1,
+          "DAT:touchout": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

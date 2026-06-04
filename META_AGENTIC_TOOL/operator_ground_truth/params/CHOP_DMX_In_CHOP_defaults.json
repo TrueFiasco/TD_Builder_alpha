@@ -1,0 +1,421 @@
+{
+  "operator": "DMX_In_CHOP",
+  "family": "CHOP",
+  "td_create_name": "dmxinCHOP",
+  "param_count": 32,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 6,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "DMX",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "interface": {
+      "value": {
+        "type": "menu",
+        "value": "artnet",
+        "menuIndex": 3,
+        "menuNames": [
+          "serial",
+          "enttecusbpro",
+          "enttecusbpromk2",
+          "artnet",
+          "sacn",
+          "kinet"
+        ],
+        "menuLabels": [
+          "Generic Serial",
+          "Enttec USB Pro",
+          "Enttec USB Pro Mk2",
+          "Art-Net",
+          "sACN",
+          "KiNET"
+        ]
+      },
+      "default": "artnet",
+      "page": "DMX",
+      "label": "Interface",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "packetpersample",
+        "menuIndex": 0,
+        "menuNames": [
+          "packetpersample",
+          "packetperchan",
+          "packetperchanall"
+        ],
+        "menuLabels": [
+          "Packet Per Sample (Timesliced)",
+          "Packet Per Channel (Latest)",
+          "Packet Per Channel (All)"
+        ]
+      },
+      "default": "packetpersample",
+      "page": "DMX",
+      "label": "Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "int",
+        "value": 30
+      },
+      "default": 30,
+      "page": "DMX",
+      "label": "Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "keepvals": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "DMX",
+      "label": "Keep Values on Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "clear": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "DMX",
+      "label": "Clear Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "serialport": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Serial",
+      "label": "Serial Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "device": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Serial",
+      "label": "Device",
+      "readOnly": false,
+      "expression": null
+    },
+    "net": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Network",
+      "label": "Net (0-127)",
+      "readOnly": false,
+      "expression": null
+    },
+    "subnet": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Network",
+      "label": "Subnet (0-15)",
+      "readOnly": false,
+      "expression": null
+    },
+    "universe": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Network",
+      "label": "Universe",
+      "readOnly": false,
+      "expression": null
+    },
+    "filterdat": {
+      "value": {
+        "type": "op",
+        "value": "op_default_filterdat"
+      },
+      "default": "",
+      "page": "Network",
+      "label": "Filter Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "netname": {
+      "value": {
+        "type": "string",
+        "value": "net"
+      },
+      "default": "net",
+      "page": "Network",
+      "label": "Net Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "subnetname": {
+      "value": {
+        "type": "string",
+        "value": "subnet"
+      },
+      "default": "subnet",
+      "page": "Network",
+      "label": "Subnet Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "universename": {
+      "value": {
+        "type": "string",
+        "value": "uni"
+      },
+      "default": "uni",
+      "page": "Network",
+      "label": "Universe Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "multicast": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Network",
+      "label": "Multicast",
+      "readOnly": false,
+      "expression": null
+    },
+    "localaddress": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Network",
+      "label": "Local Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "discardbcast": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Network",
+      "label": "Discard Broadcast Packets",
+      "readOnly": false,
+      "expression": null
+    },
+    "kinetversion": {
+      "value": {
+        "type": "menu",
+        "value": "v1",
+        "menuIndex": 0,
+        "menuNames": [
+          "v1",
+          "v2"
+        ],
+        "menuLabels": [
+          "DmxOut (v1)",
+          "PortOut (v2)"
+        ]
+      },
+      "default": "v1",
+      "page": "Network",
+      "label": "KiNET Version",
+      "readOnly": false,
+      "expression": null
+    },
+    "kinetport": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Network",
+      "label": "KiNET Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "kinetportname": {
+      "value": {
+        "type": "string",
+        "value": "kp"
+      },
+      "default": "kp",
+      "page": "Network",
+      "label": "KiNET Port Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "startcodes": {
+      "value": {
+        "type": "string",
+        "value": "0"
+      },
+      "default": "0",
+      "page": "Network",
+      "label": "Start Codes",
+      "readOnly": false,
+      "expression": null
+    },
+    "queuesize": {
+      "value": {
+        "type": "int",
+        "value": 5
+      },
+      "default": 5,
+      "page": "Network",
+      "label": "Queue Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

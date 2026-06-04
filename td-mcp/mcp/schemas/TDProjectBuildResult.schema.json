@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TDProjectBuildResult",
+  "type": "object",
+  "properties": {
+    "status": { "type": "string", "enum": ["success", "failed"] },
+    "expanded_dir": { "type": "string" },
+    "toc_path": { "type": "string" },
+    "output_path": { "type": "string" },
+    "collapse_command": { "type": "string" },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "expanded_output_dir": { "type": "string" },
+        "checks": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["status"]
+}
+

@@ -1,0 +1,283 @@
+family: OTHER
+operator_count: 1
+operators:
+- operator_type: Script
+  examples:
+  - example_name: example1
+    operators:
+    - name: table1
+      type: DAT:table
+      role: input
+      parameters:
+        removeblank: 'on'
+    - name: script5
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script5_callbacks
+    - name: script6
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script6_callbacks
+    - name: script7
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script7_callbacks
+    - name: script9
+      type: DAT:script
+      role: input
+      parameters:
+        callbacks: script9_callbacks
+    - name: script10
+      type: DAT:script
+      role: input
+      parameters:
+        callbacks: script10_callbacks
+    - name: script5_callbacks
+      type: DAT:text
+      role: isolated
+    - name: script6_callbacks
+      type: DAT:text
+      role: isolated
+    - name: script7_callbacks
+      type: DAT:text
+      role: isolated
+    - name: script9_callbacks
+      type: DAT:text
+      role: isolated
+    - name: script10_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: script10
+      to: script5
+      input_index: '0'
+    - from: script9
+      to: script6
+      input_index: '0'
+    - from: table1
+      to: script7
+      input_index: '0'
+    topology:
+      operator_count: 11
+      connection_count: 3
+      has_parallel_paths: false
+      max_chain_length: 2
+  - example_name: example2
+    operators:
+    - name: dump
+      type: DAT:text
+      role: isolated
+    - name: table10
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 4
+        cols: 3
+    - name: script11
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script11_callbacks
+    - name: script11_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table10
+      to: script11
+      input_index: '0'
+    topology:
+      operator_count: 4
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+  - example_name: example3
+    operators:
+    - name: table9
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 4
+        cols: 3
+    - name: script4
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script2_callbacks1
+    - name: table11
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 5
+        cols: 3
+    - name: script12
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script2_callbacks2
+    - name: script2_callbacks1
+      type: DAT:text
+      role: isolated
+    - name: script2_callbacks2
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table9
+      to: script4
+      input_index: '0'
+    - from: table11
+      to: script12
+      input_index: '0'
+    topology:
+      operator_count: 6
+      connection_count: 2
+      has_parallel_paths: false
+      max_chain_length: 2
+  - example_name: example4
+    operators:
+    - name: script8
+      type: DAT:script
+      role: isolated
+      parameters:
+        stdswitcher1: 2
+        callbacks: script8_callbacks
+    - name: script8_callbacks
+      type: DAT:text
+      role: isolated
+    connections: []
+    topology:
+      operator_count: 2
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+  - example_name: example5
+    operators:
+    - name: table6
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 4
+        cols: 3
+    - name: table8
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 2
+        cols: 3
+    - name: script2
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script2_callbacks
+    - name: script2_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table6
+      to: script2
+      input_index: '0'
+    - from: table8
+      to: script2
+      input_index: '1'
+    topology:
+      operator_count: 4
+      connection_count: 2
+      has_parallel_paths: false
+      max_chain_length: 2
+  - example_name: example6
+    operators:
+    - name: table1
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 6
+    - name: table2
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 6
+    - name: script1
+      type: DAT:script
+      role: output
+      parameters:
+        callbacks: script1_callbacks
+    - name: script2
+      type: DAT:script
+      role: output
+      parameters:
+        stdswitcher1: 2
+        callbacks: script3_callbacks
+    - name: script1_callbacks
+      type: DAT:text
+      role: isolated
+    - name: script3_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table1
+      to: script1
+      input_index: '0'
+    - from: table1
+      to: script2
+      input_index: '0'
+    - from: table2
+      to: script2
+      input_index: '1'
+    topology:
+      operator_count: 6
+      connection_count: 3
+      has_parallel_paths: true
+      max_chain_length: 2
+  - example_name: example7
+    operators:
+    - name: table5
+      type: DAT:table
+      role: input
+      parameters:
+        rows: 6
+    - name: script3
+      type: DAT:script
+      role: output
+      parameters:
+        stdswitcher1: 2
+        callbacks: script3_callbacks
+    - name: script3_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table5
+      to: script3
+      input_index: '0'
+    topology:
+      operator_count: 3
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+  - example_name: example8
+    operators:
+    - name: table7
+      type: DAT:table
+      role: input
+      parameters:
+        cols: 3
+    - name: script1
+      type: DAT:script
+      role: output
+      parameters:
+        stdswitcher1: 2
+        callbacks: script1_callbacks
+    - name: script1_callbacks
+      type: DAT:text
+      role: isolated
+    connections:
+    - from: table7
+      to: script1
+      input_index: '0'
+    topology:
+      operator_count: 3
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+total_examples: 8

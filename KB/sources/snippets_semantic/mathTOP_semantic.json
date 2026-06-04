@@ -1,0 +1,370 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\mathTOP_lossless.json",
+  "operator_type": "mathTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "inside2",
+          "type": "TOP:inside",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "reorder_r_to_alpha",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputalphachan": "red"
+          }
+        },
+        {
+          "name": "reorder_alpha_to_rgb",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputredchan": "alpha",
+            "outputgreenchan": "alpha",
+            "outputbluechan": "alpha"
+          }
+        },
+        {
+          "name": "level_strip_out_low_alpha",
+          "type": "TOP:level",
+          "parameters": {
+            "clampinput": "clamp",
+            "blacklevel": 0.04,
+            "outlow": 0.04,
+            "outhigh": 256
+          }
+        },
+        {
+          "name": "math_unpremultiply_with_treatment",
+          "type": "TOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "op": "rgbdivalpha",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "inside_looks_ok_after_premultiplying",
+          "type": "TOP:inside",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "math_unpremultiply_without_treatment",
+          "type": "TOP:math",
+          "parameters": {
+            "op": "rgbdivalpha",
+            "format": "rgba32float"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "inside2",
+          "to_input": "0"
+        },
+        {
+          "from": "reorder_r_to_alpha",
+          "to": "inside2",
+          "to_input": "1"
+        },
+        {
+          "from": "level_strip_out_low_alpha",
+          "to": "reorder_r_to_alpha",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "reorder_alpha_to_rgb",
+          "to_input": "0"
+        },
+        {
+          "from": "reorder_alpha_to_rgb",
+          "to": "level_strip_out_low_alpha",
+          "to_input": "0"
+        },
+        {
+          "from": "inside2",
+          "to": "math_unpremultiply_with_treatment",
+          "to_input": "0"
+        },
+        {
+          "from": "math_unpremultiply_with_treatment",
+          "to": "inside_looks_ok_after_premultiplying",
+          "to_input": "0"
+        },
+        {
+          "from": "math_unpremultiply_with_treatment",
+          "to": "inside_looks_ok_after_premultiplying",
+          "to_input": "1"
+        },
+        {
+          "from": "moviein1",
+          "to": "math_unpremultiply_without_treatment",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 9,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:inside": 2,
+          "TOP:moviefilein": 1,
+          "TOP:reorder": 2,
+          "TOP:level": 1,
+          "TOP:math": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "TOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": 5,
+            "fromrange2": 6,
+            "torangeg1": 0.3,
+            "torangeg2": 0.7,
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "type": "random",
+            "offset": 5.5,
+            "resolutionw": 40,
+            "resolutionh": 40,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze2",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "TOP:analyze",
+          "parameters": {
+            "op": "maximum"
+          }
+        },
+        {
+          "name": "analyze2",
+          "type": "TOP:analyze",
+          "parameters": {
+            "op": "minimum"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "analyze2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:math": 1,
+          "TOP:null": 1,
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 2,
+          "TOP:analyze": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "TOP:math",
+          "parameters": {
+            "pageindex": 2
+          }
+        },
+        {
+          "name": "limit1",
+          "type": "TOP:limit",
+          "parameters": {
+            "norm": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze_luminance",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "analyze_independent",
+            "exportmethod": "datname",
+            "exporttable": "topto2_export"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "topto2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "analyze_luminance",
+          "type": "TOP:analyze",
+          "parameters": {
+            "op": "maximum"
+          }
+        },
+        {
+          "name": "analyze_independent",
+          "type": "TOP:analyze",
+          "parameters": {
+            "op": "maximum",
+            "analyzechannel": "independent"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "limit1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "analyze_luminance",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "analyze_independent",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:math": 1,
+          "TOP:limit": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 2,
+          "TOP:moviefilein": 1,
+          "DAT:table": 1,
+          "TOP:analyze": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

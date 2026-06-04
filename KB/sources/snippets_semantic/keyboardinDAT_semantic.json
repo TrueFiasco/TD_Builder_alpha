@@ -1,0 +1,67 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\keyboardinDAT_lossless.json",
+  "operator_type": "keyboardinDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "geotext1",
+          "type": "COMP:geotext",
+          "parameters": {
+            "pageindex": 1,
+            "text": 1,
+            "formatcodes": "on",
+            "bold": "on",
+            "fontsize": 2,
+            "layoutanchoru": 0.486,
+            "layoutsizew": 4,
+            "layoutsizeh": 20,
+            "alignx": "center"
+          }
+        },
+        {
+          "name": "keyboardin1",
+          "type": "DAT:keyboardin",
+          "parameters": {
+            "keys": "\"left up down right 1 2 3 4 5\"",
+            "shortcuts": "lctrl.[0-9]",
+            "callbacks": "keyboardin1_callbacks",
+            "maxlines": 7
+          }
+        },
+        {
+          "name": "keyboardin1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "COMP:geotext": 1,
+          "DAT:keyboardin": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

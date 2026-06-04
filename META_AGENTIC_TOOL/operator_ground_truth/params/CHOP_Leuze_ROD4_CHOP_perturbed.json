@@ -1,0 +1,178 @@
+{
+  "operator": "Leuze_ROD4_CHOP",
+  "family": "CHOP",
+  "td_create_name": "leuzerod4CHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "netaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "port": {
+      "type": "int",
+      "value": 9009
+    },
+    "rod4porotocol": {
+      "type": "menu",
+      "value": "ascii",
+      "menuIndex": 1,
+      "menuNames": [
+        "binary",
+        "ascii"
+      ],
+      "menuLabels": [
+        "Binary ROD4 compatible",
+        "ROD4plus ASCII-Remote"
+      ]
+    },
+    "inputcoordinate": {
+      "type": "menu",
+      "value": "cartesian",
+      "menuIndex": 1,
+      "menuNames": [
+        "polar",
+        "cartesian"
+      ],
+      "menuLabels": [
+        "Polar",
+        "Cartesian"
+      ]
+    },
+    "outputmode": {
+      "type": "menu",
+      "value": "blobtracking",
+      "menuIndex": 1,
+      "menuNames": [
+        "rawdata",
+        "blobtracking"
+      ],
+      "menuLabels": [
+        "Raw Data",
+        "Blob Tracking"
+      ]
+    },
+    "maxblobs": {
+      "type": "int",
+      "value": 3
+    },
+    "maxpointdistance": {
+      "type": "float",
+      "value": 0.19345000029802323
+    },
+    "maxblobmovement": {
+      "type": "float",
+      "value": 0.22345000149011612
+    },
+    "areaofinterest": {
+      "type": "menu",
+      "value": "boundingbox",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "distancebased",
+        "boundingbox"
+      ],
+      "menuLabels": [
+        "Off",
+        "Distance Based",
+        "Bounding Box"
+      ]
+    },
+    "maxdistance": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "lowerleft1": {
+      "type": "float",
+      "value": -0.8765499999999999
+    },
+    "lowerleft2": {
+      "type": "float",
+      "value": 0.37345
+    },
+    "upperright1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "upperright2": {
+      "type": "float",
+      "value": 1.62345
+    },
+    "allowmovementoutside": {
+      "type": "toggle",
+      "value": true
+    },
+    "boundingboxmask": {
+      "type": "op",
+      "value": ""
+    },
+    "rotate": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

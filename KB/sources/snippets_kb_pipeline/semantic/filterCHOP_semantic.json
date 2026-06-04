@@ -1,0 +1,1349 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\filterCHOP_lossless.json",
+  "operator_type": "filterCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "box",
+            "width": 0.5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter3",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "box",
+            "width": 0.5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "signal",
+            "value0": 0.646465,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "filter3",
+          "to": "trail1",
+          "to_input": "2"
+        },
+        {
+          "from": "null1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter2",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:filter": 3,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "beat1",
+          "type": "CHOP:beat",
+          "parameters": {
+            "pageindex": 1,
+            "playmode": "locked",
+            "pulse": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter_de_spike",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "despike",
+            "width": 0.1,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "beat1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "filter_de_spike",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "trail1",
+          "to_input": "3"
+        },
+        {
+          "from": "math1",
+          "to": "filter_de_spike",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 5,
+        "operator_types": {
+          "CHOP:beat": 1,
+          "CHOP:math": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:filter": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail3",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "button1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Toggle Me\"",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "filter_box",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "box",
+            "width": 5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter_gaussian",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter_edge_detect",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "edge",
+            "width": 5,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "button1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "trail3",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "filter_box",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter_gaussian",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "filter_edge_detect",
+          "to": "trail3",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter_box",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter_gaussian",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "filter_edge_detect",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:null": 1,
+          "CHOP:merge": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 3,
+          "COMP:button": 1,
+          "CHOP:filter": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "pulse",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "count1",
+          "type": "CHOP:count",
+          "parameters": {
+            "output": "loop",
+            "limitmax": 100,
+            "timeslice": "on",
+            "exporttable": "count1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "noise_random",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "end": 1
+          }
+        },
+        {
+          "name": "count1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "filter_per_sample",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.4,
+            "speedcoeff": 0,
+            "filterpersample": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "lfo1",
+          "to": "count1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_random",
+          "to": "filter_per_sample",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:count": 1,
+          "DAT:text": 1,
+          "CHOP:noise": 1,
+          "DAT:table": 1,
+          "CHOP:filter": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add",
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "math4",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 0.2
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null1_export"
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "period": 0.12,
+            "channelname": "\"tx ty\"",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slope1",
+          "type": "CHOP:slope",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.3,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter3",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.1,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "mousein1",
+          "type": "CHOP:mousein",
+          "parameters": {
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "mousein2",
+          "type": "CHOP:mousein",
+          "parameters": {
+            "posxname": "\"\"",
+            "posyname": "\"\"",
+            "lbuttonname": "left",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trigger1",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "pageindex": 1,
+            "multitrigger": "add",
+            "peaklen": 0.2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "circleRaw",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.1,
+            "radiusy": 0.1,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "adjustments",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "movement_threhold",
+            "const0value": 0.8,
+            "exporttable": "constant1_export",
+            "const1name": "filter_slow",
+            "const1value": 0.3,
+            "const2name": "filter_fast",
+            "const2value": 0.05
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "math3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "mathMovement",
+          "type": "CHOP:math",
+          "parameters": {
+            "chanop": "len"
+          }
+        },
+        {
+          "name": "null1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "mathFilterTimes",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "exporttable": "math3_export"
+          }
+        },
+        {
+          "name": "constant1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "circleAlwaysFiltered",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.1,
+            "radiusy": 0.1,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "circleAdaptiveFiltered",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.1,
+            "radiusy": 0.1,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "mousein1",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "math4",
+          "to": "math1",
+          "to_input": "2"
+        },
+        {
+          "from": "mousein2",
+          "to": "math4",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "slope1",
+          "to_input": "0"
+        },
+        {
+          "from": "mathMovement",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "filter2",
+          "to_input": "0"
+        },
+        {
+          "from": "slope1",
+          "to": "filter3",
+          "to_input": "0"
+        },
+        {
+          "from": "mathMovement",
+          "to": "trigger1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter3",
+          "to": "mathMovement",
+          "to_input": "0"
+        },
+        {
+          "from": "trigger1",
+          "to": "mathFilterTimes",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 25,
+        "connection_count": 14,
+        "operator_types": {
+          "CHOP:math": 4,
+          "CHOP:null": 2,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:slope": 1,
+          "CHOP:trail": 1,
+          "CHOP:filter": 3,
+          "CHOP:mousein": 2,
+          "CHOP:trigger": 1,
+          "TOP:circle": 3,
+          "CHOP:constant": 1,
+          "DAT:table": 5
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 8
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "pulse",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "hold1",
+          "type": "CHOP:hold",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "constantTimes",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "time1",
+            "const0value": 0.82,
+            "const1name": "time4",
+            "const2name": "time3",
+            "const2value": 0.36,
+            "const3name": "time4",
+            "const3value": 2.61
+          }
+        },
+        {
+          "name": "filterPerChan1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filterPerChan2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "hold1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "hold1",
+          "to_input": "1"
+        },
+        {
+          "from": "hold1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "hold1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "hold1",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "hold1",
+          "to": "merge1",
+          "to_input": "3"
+        },
+        {
+          "from": "filterPerChan1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "filterPerChan2",
+          "to": "trail2",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "filterPerChan1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "filterPerChan2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 10,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:hold": 1,
+          "CHOP:merge": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 2,
+          "CHOP:constant": 1,
+          "CHOP:filter": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 3,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -0.5,
+            "torange2": 0.5,
+            "scope": "tx",
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add"
+          }
+        },
+        {
+          "name": "length",
+          "type": "CHOP:math",
+          "parameters": {
+            "chanop": "len"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 0.0001,
+            "amp": 0.01,
+            "channelname": "\"tx ty\"",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.015,
+            "radiusy": 0.015,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "TOP:circle",
+          "parameters": {
+            "pageindex": 1,
+            "radiusx": 0.02,
+            "radiusy": 0.02,
+            "borderr": 0.913725,
+            "borderg": 1,
+            "borderwidth": 0.01
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.03,
+            "radiusy": 0.03,
+            "borderg": 1,
+            "borderb": 0.176471,
+            "borderwidth": 0.01
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "original"
+          }
+        },
+        {
+          "name": "rename2",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "gaussian"
+          }
+        },
+        {
+          "name": "rename3",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "oneeuro"
+          }
+        },
+        {
+          "name": "mousein1",
+          "type": "CHOP:mousein",
+          "parameters": {
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "exporttable": "mousein1_export"
+          }
+        },
+        {
+          "name": "reorder1",
+          "type": "TOP:reorder",
+          "parameters": {
+            "outputalphachan": "one"
+          }
+        },
+        {
+          "name": "filterLength",
+          "type": "CHOP:math",
+          "parameters": {
+            "chanop": "len"
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 1,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "filterLength1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chanop": "len"
+          }
+        },
+        {
+          "name": "filter1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "filter2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "filter_oneEuro",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "oneeuro",
+            "timeslice": "on",
+            "exporttable": "filter1_export"
+          }
+        },
+        {
+          "name": "filter_gaussian",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.3,
+            "speedcoeff": 0,
+            "timeslice": "on",
+            "exporttable": "filter2_export"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "math2",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "mousein1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "math2",
+          "to_input": "1"
+        },
+        {
+          "from": "math1",
+          "to": "length",
+          "to_input": "0"
+        },
+        {
+          "from": "rename1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "rename2",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "rename3",
+          "to": "trail1",
+          "to_input": "2"
+        },
+        {
+          "from": "circle1",
+          "to": "circle2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "circle3",
+          "to_input": "0"
+        },
+        {
+          "from": "length",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "filterLength1",
+          "to": "rename2",
+          "to_input": "0"
+        },
+        {
+          "from": "filterLength",
+          "to": "rename3",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "reorder1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter_oneEuro",
+          "to": "filterLength",
+          "to_input": "0"
+        },
+        {
+          "from": "filter_gaussian",
+          "to": "filterLength1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "filter_oneEuro",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "filter_gaussian",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 21,
+        "connection_count": 17,
+        "operator_types": {
+          "CHOP:math": 5,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "TOP:circle": 3,
+          "CHOP:rename": 3,
+          "CHOP:mousein": 1,
+          "TOP:reorder": 1,
+          "DAT:table": 3,
+          "CHOP:filter": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "wavetype": "pulse",
+            "frequency": 0.5,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "hold1",
+          "type": "CHOP:hold",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "reset",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Reset",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 2,
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "noise1",
+          "to": "hold1",
+          "to_input": "0"
+        },
+        {
+          "from": "lfo1",
+          "to": "hold1",
+          "to_input": "1"
+        },
+        {
+          "from": "hold1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "trail1",
+          "to_input": "1"
+        },
+        {
+          "from": "hold1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "reset/out1",
+          "to": "filter1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "CHOP:hold": 1,
+          "COMP:button": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:filter": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

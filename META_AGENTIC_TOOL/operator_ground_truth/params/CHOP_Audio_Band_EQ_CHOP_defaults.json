@@ -1,0 +1,318 @@
+{
+  "operator": "Audio_Band_EQ_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiobandeqCHOP",
+  "param_count": 26,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 9,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "drywet": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Low Bands",
+      "label": "Dry / Wet Mix",
+      "readOnly": false,
+      "expression": null
+    },
+    "band1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "25 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "40 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band3": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "60 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band4": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "90 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band5": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "150 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band6": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "240 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band7": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "370 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band8": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Low Bands",
+      "label": "590 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band9": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "930 Hz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band10": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "1.5 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band11": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "2.3 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band12": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "3.6 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band13": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "5.6 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band14": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "8.9 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band15": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "14 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "band16": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "High Bands",
+      "label": "22 KHz",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

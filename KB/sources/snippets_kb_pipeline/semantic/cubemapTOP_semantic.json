@@ -1,0 +1,175 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\cubemapTOP_lossless.json",
+  "operator_type": "cubemapTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"+ X\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "text3",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"- X\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "text4",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"+ Y\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "text5",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"- Y\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "text6",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"+ Z\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "text7",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"- Z\"",
+            "legacyfontselection": "on",
+            "fontsizex": 60,
+            "bgalpha": 0.5
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "period": 10,
+            "amp": 180,
+            "channelname": "\"rx ry rz\"",
+            "timeslice": "on",
+            "exporttable": "noise1_export"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "envmap": "cubemap1",
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "cubemap1",
+          "type": "TOP:cubemap",
+          "parameters": {}
+        },
+        {
+          "name": "noise1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text2",
+          "to": "cubemap1",
+          "to_input": "0"
+        },
+        {
+          "from": "text3",
+          "to": "cubemap1",
+          "to_input": "1"
+        },
+        {
+          "from": "text4",
+          "to": "cubemap1",
+          "to_input": "2"
+        },
+        {
+          "from": "text5",
+          "to": "cubemap1",
+          "to_input": "3"
+        },
+        {
+          "from": "text6",
+          "to": "cubemap1",
+          "to_input": "4"
+        },
+        {
+          "from": "text7",
+          "to": "cubemap1",
+          "to_input": "5"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 6,
+        "operator_types": {
+          "COMP:geo": 1,
+          "TOP:text": 6,
+          "CHOP:noise": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "TOP:cubemap": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

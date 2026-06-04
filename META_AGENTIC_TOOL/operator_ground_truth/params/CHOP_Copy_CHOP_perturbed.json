@@ -1,0 +1,133 @@
+{
+  "operator": "Copy_CHOP",
+  "family": "CHOP",
+  "td_create_name": "copyCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "method": {
+      "type": "menu",
+      "value": "convolve",
+      "menuIndex": 1,
+      "menuNames": [
+        "trigger",
+        "convolve"
+      ],
+      "menuLabels": [
+        "Triggered Copy",
+        "Convolve"
+      ]
+    },
+    "output": {
+      "type": "menu",
+      "value": "accum",
+      "menuIndex": 1,
+      "menuNames": [
+        "match",
+        "accum"
+      ],
+      "menuLabels": [
+        "One Channel per Template Channel",
+        "One Channel per Copy Channel"
+      ]
+    },
+    "threshold": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "remainder": {
+      "type": "menu",
+      "value": "extend",
+      "menuIndex": 1,
+      "menuNames": [
+        "crop",
+        "extend",
+        "mix"
+      ],
+      "menuLabels": [
+        "Discard Remainder",
+        "Make Output Longer",
+        "Mix Remainder with Beginning"
+      ]
+    },
+    "keep": {
+      "type": "toggle",
+      "value": false
+    },
+    "stamp": {
+      "type": "toggle",
+      "value": true
+    },
+    "copy": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "copy0param": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "copy0value": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

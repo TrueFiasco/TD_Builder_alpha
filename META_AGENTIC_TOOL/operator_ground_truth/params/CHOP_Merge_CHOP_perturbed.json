@@ -1,0 +1,114 @@
+{
+  "operator": "Merge_CHOP",
+  "family": "CHOP",
+  "td_create_name": "mergeCHOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "align": {
+      "type": "menu",
+      "value": "none",
+      "menuIndex": 1,
+      "menuNames": [
+        "auto",
+        "none",
+        "stretch",
+        "start",
+        "end",
+        "shift1",
+        "trim1",
+        "stretch1",
+        "trim",
+        "squash"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "Extend to Min/Max",
+        "Stretch to Min/Max",
+        "Shift to Minimum",
+        "Shift to Maximum",
+        "Shift to First Interval",
+        "Trim to First Interval",
+        "Stretch to First Interval",
+        "Trim to Smallest Interval",
+        "Stretch to Smallest Interval"
+      ]
+    },
+    "duplicate": {
+      "type": "menu",
+      "value": "first",
+      "menuIndex": 1,
+      "menuNames": [
+        "unique",
+        "first",
+        "last",
+        "replace"
+      ],
+      "menuLabels": [
+        "Make Unique",
+        "Keep First",
+        "Keep Last",
+        "Replace First with Last"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

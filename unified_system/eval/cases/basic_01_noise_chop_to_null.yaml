@@ -1,0 +1,15 @@
+name: basic_01_noise_chop_to_null
+tier: basic
+prompt: |
+  Create a TouchDesigner network with a Noise CHOP feeding into a Null CHOP.
+expected_operators:
+  - CHOP:noise
+  - CHOP:null
+expected_connections:
+  - [noise1, null1]
+tolerance:
+  min_operator_recall: 1.0
+  min_connection_recall: 1.0
+notes: |
+  Minimum baseline. If V2 can't get this right, the orchestration is fundamentally
+  broken regardless of retrieval quality.

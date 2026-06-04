@@ -1,0 +1,176 @@
+{
+  "operator": "Record_CHOP",
+  "family": "CHOP",
+  "td_create_name": "recordCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "record": {
+      "type": "menu",
+      "value": "add",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "on",
+        "add",
+        "auto"
+      ],
+      "menuLabels": [
+        "Off",
+        "On",
+        "Add",
+        "Auto Range"
+      ]
+    },
+    "sample": {
+      "type": "menu",
+      "value": "scur",
+      "menuIndex": 0,
+      "menuNames": [
+        "scur",
+        "sslice"
+      ],
+      "menuLabels": [
+        "Current Frame",
+        "Current Time Slice"
+      ]
+    },
+    "interp": {
+      "type": "menu",
+      "value": "cubic",
+      "menuIndex": 2,
+      "menuNames": [
+        "hold",
+        "linear",
+        "cubic"
+      ],
+      "menuLabels": [
+        "Hold Previous Value",
+        "Linear",
+        "Cubic"
+      ]
+    },
+    "output": {
+      "type": "menu",
+      "value": "curframe",
+      "menuIndex": 1,
+      "menuNames": [
+        "full",
+        "curframe",
+        "frame1",
+        "slice",
+        "segment"
+      ],
+      "menuLabels": [
+        "Full Range",
+        "Current Frame",
+        "Current Frame at Frame 1",
+        "Current Time Slice",
+        "Segment"
+      ]
+    },
+    "segment1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "segment2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "segmentunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "reset": {
+      "type": "pulse",
+      "value": null
+    },
+    "resetcondition": {
+      "type": "menu",
+      "value": "ontooff",
+      "menuIndex": 2,
+      "menuNames": [
+        "offtoon",
+        "on",
+        "ontooff",
+        "off"
+      ],
+      "menuLabels": [
+        "Off to On",
+        "While On",
+        "On to Off",
+        "While Off"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

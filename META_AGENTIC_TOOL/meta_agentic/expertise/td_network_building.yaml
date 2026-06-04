@@ -1,0 +1,185 @@
+schema_version: '1.0'
+last_updated: '2025-12-20T12:00:00Z'
+update_count: 9
+validated_against: unified_system build results
+working_patterns: {}
+failing_patterns: {}
+build_rules:
+- rule: Always set timeslice=on for audio-connected analyze CHOP
+  confidence: 0.8
+  source: Known best practice
+  validated: false
+  success_count: 0
+  failure_without_count: 0
+- rule: Feedback TOPs should have opacity < 1.0 in connected level
+  confidence: 0.75
+  source: Known best practice
+  validated: false
+- rule: Type conversion operators required between different families
+  confidence: 0.95
+  source: TD type system
+  validated: true
+  conversions:
+    TOP_to_CHOP: toptoChop
+    CHOP_to_TOP: choptotop
+    CHOP_to_SOP: choptoSop
+    SOP_to_CHOP: soptoChop
+    TOP_to_SOP: Not direct - use texture in material
+    SOP_to_TOP: Render
+
+- rule: Conversion operators require explicit source parameters
+  confidence: 1.0
+  source: Claude Desktop testing 2025-12-20
+  validated: true
+  critical_note: Wire connections alone do NOT configure conversion operators
+  conversion_operator_params:
+    soptoChop:
+      td_type: "CHOP:sopto"
+      required_param: "sop"
+      description: "Converts SOP geometry data to CHOP channels"
+      example: '"sop": "sphere1", "attribscope": "P"'
+      default_params:
+        attribscope: "P"  # CRITICAL: Position only by default (BUG-016 FIX)
+        custom: "on"      # Enable custom attribute mode
+        position: "off"   # Disable legacy position toggle (use attribscope instead)
+
+      # === ATTRIBSCOPE DOCUMENTATION (BUG-016) ===
+      # The attribscope parameter controls WHICH attributes are sampled from SOP
+      # DEFAULT should be "P" (position only) - do NOT sample extra attributes
+      attribscope_options:
+        P:
+          description: "Position only - extracts point positions"
+          output_channels: ["tx", "ty", "tz"]
+          use_when: "Most common case - getting point positions for instancing, CHOP math, etc."
+          is_default: true
+        "P N":
+          description: "Position and Normals"
+          output_channels: ["tx", "ty", "tz", "nx", "ny", "nz"]
+          use_when: "Lighting calculations, direction-based effects"
+          requires_explicit_request: true
+        "P uv":
+          description: "Position and UV coordinates"
+          output_channels: ["tx", "ty", "tz", "u", "v"]
+          use_when: "Texture coordinate manipulation"
+          requires_explicit_request: true
+        "P Cd":
+          description: "Position and vertex Color"
+          output_channels: ["tx", "ty", "tz", "Cdr", "Cdg", "Cdb"]
+          use_when: "Color attribute transfer"
+          requires_explicit_request: true
+        custom:
+          description: "Any SOP attribute by name"
+          example: '"P pscale myCustomAttr"'
+          use_when: "Custom particle attributes, simulation data"
+          requires_explicit_request: true
+
+      # === COMMON MISTAKES (BUG-016) ===
+      common_mistakes:
+        - mistake: "Omitting attribscope and letting TD pick defaults"
+          problem: "May sample unwanted channels (normals, UVs)"
+          fix: "Always explicitly set attribscope: 'P'"
+        - mistake: "Using position: 1 parameter instead of attribscope"
+          problem: "Legacy parameter, less control"
+          fix: "Use custom: on + attribscope: 'P'"
+        - mistake: "Setting normal: 1 or textureuv: on when not needed"
+          problem: "Adds unwanted channels, wastes processing"
+          fix: "Only add attributes user explicitly requested"
+
+      # === WORKING EXAMPLES FROM SNIPPETS ===
+      verified_examples:
+        - source: "soptoCHOP.tox/example1/sopto_point_positions.parm"
+          config: |
+            sop 0 box1
+            position 0 off
+            custom 0 on
+            attribscope 0 P
+            renamescope 0 "tx ty tz"
+        - source: "05_data_conversion.tox.dir/sopto1.parm"
+          config: |
+            sop 0 sphere1
+            attribscope 0 P
+        - source: "noiseCHOP.tox/example8/sopto_getPositionAndNormal.parm"
+          config: |
+            attribscope 0 "P N"
+          note: "Only includes N because normals were explicitly needed for 3D geometry effects"
+
+      note: "ALWAYS set attribscope to P unless user explicitly requests normals/UVs/other attributes"
+    choptotop:
+      td_type: "TOP:chopto"
+      required_param: "chop"
+      description: "Path to CHOP operator to convert"
+      optional_params: ["dataformat", "rchan", "gchan", "bchan"]
+      example: '"chop": "null1", "dataformat": "rgb"'
+    dattochop:
+      td_type: "CHOP:datto"
+      required_param: "dat"
+      description: "Path to DAT operator to convert"
+      example: '"dat": "table1"'
+    toptochop:
+      td_type: "CHOP:topto"
+      required_param: "top"
+      description: "Path to TOP operator to convert"
+      example: '"top": "moviefilein1"'
+    choptosop:
+      td_type: "SOP:chopto"
+      required_param: "chop"
+      description: "Path to CHOP operator to convert"
+      example: '"chop": "noise1"'
+    choptodat:
+      td_type: "DAT:chopto"
+      required_param: "chop"
+      description: "Path to CHOP operator to convert"
+      example: '"chop": "null1"'
+    soptodat:
+      td_type: "DAT:sopto"
+      required_param: "sop"
+      description: "Path to SOP operator to convert"
+      example: '"sop": "grid1"'
+default_overrides: {}
+naming_conventions:
+  patterns:
+  - pattern: '{type}{number}'
+    description: Default TD naming
+    examples:
+    - noise1
+    - analyze1
+    - composite1
+  - pattern: '{purpose}_{type}'
+    description: Purpose-prefixed naming
+    examples:
+    - audio_analyze
+    - beat_filter
+    - visual_composite
+  - pattern: '{source}_{output}'
+    description: Flow-based naming
+    examples:
+    - audio_to_visual
+    - chop_to_top
+  recommendations:
+  - Use default naming for simple networks
+  - Use purpose-prefixed for complex networks
+  - Be consistent within a project
+connection_rules:
+  valid_connections:
+    CHOP_to_CHOP: true
+    TOP_to_TOP: true
+    SOP_to_SOP: true
+    DAT_to_DAT: true
+    MAT_to_COMP: true
+  requires_conversion:
+    TOP_to_CHOP: toptoChop
+    CHOP_to_TOP: choptotop
+    CHOP_to_SOP: choptoSop
+    SOP_to_CHOP: soptoChop
+  invalid_connections:
+    MAT_to_CHOP: Materials cannot connect to CHOPs
+    DAT_to_TOP: Use parameter references instead
+build_history: []
+learning_queue: []
+network_building:
+  tests: null
+  _last_updated: '2025-12-15T18:25:56.980144'
+  _updated_by: codex
+  _confidence: 0.5
+refreshed_from_state: expertise_state.yaml
+state_checksum: ffa509da00b227c9

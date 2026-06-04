@@ -1,0 +1,248 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\containerCOMP_lossless.json",
+  "operator_type": "containerCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 500,
+            "h": 500,
+            "sizefromwindow": "on",
+            "topsmoothness": "mipmap",
+            "align": "verttb"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:container": 1,
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "gridAnchors",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 500,
+            "h": 500,
+            "sizefromwindow": "on",
+            "topsmoothness": "mipmap",
+            "align": "verttb"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "Vertical",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 1280,
+            "h": 720,
+            "top": "./out1",
+            "topsmoothness": "mipmap",
+            "parentshortcut": "Project"
+          }
+        },
+        {
+          "name": "Horizontal",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 1280,
+            "h": 720,
+            "top": "./out1",
+            "topsmoothness": "mipmap",
+            "parentshortcut": "Project"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "container1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 4,
+            "w": 480,
+            "h": 270,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "drop": "usecallbacks",
+            "dragdropcallbacks": "./dragdrop"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4,
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "outputresolution": "quarter"
+          }
+        },
+        {
+          "name": "moviefilein3",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "outputresolution": "quarter"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1,
+          "TOP:moviefilein": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "container1",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 404,
+            "h": 283,
+            "sizefromwindow": "on",
+            "topsmoothness": "mipmap",
+            "align": "gridrows"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:eval": 1,
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

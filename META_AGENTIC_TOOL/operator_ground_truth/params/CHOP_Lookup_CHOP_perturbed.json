@@ -1,0 +1,167 @@
+{
+  "operator": "Lookup_CHOP",
+  "family": "CHOP",
+  "td_create_name": "lookupCHOP",
+  "param_count": 18,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "index1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "index2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "cyclic": {
+      "type": "menu",
+      "value": "yes",
+      "menuIndex": 1,
+      "menuNames": [
+        "auto",
+        "yes",
+        "no"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "Yes",
+        "No"
+      ]
+    },
+    "chanmatch": {
+      "type": "menu",
+      "value": "onetomany",
+      "menuIndex": 1,
+      "menuNames": [
+        "onetoone",
+        "onetomany"
+      ],
+      "menuLabels": [
+        "One Lookup Table Channel",
+        "All Lookup Table Channels"
+      ]
+    },
+    "match": {
+      "type": "menu",
+      "value": "name",
+      "menuIndex": 1,
+      "menuNames": [
+        "index",
+        "name"
+      ],
+      "menuLabels": [
+        "Channel Number",
+        "Channel Name"
+      ]
+    },
+    "interp": {
+      "type": "toggle",
+      "value": false
+    },
+    "left": {
+      "type": "menu",
+      "value": "hold",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "right": {
+      "type": "menu",
+      "value": "hold",
+      "menuIndex": 1,
+      "menuNames": [
+        "input",
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Use Input",
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "defval": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

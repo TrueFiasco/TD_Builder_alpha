@@ -1,0 +1,204 @@
+{
+  "operator": "Ray_SOP",
+  "family": "SOP",
+  "td_create_name": "raySOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Ray",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "project",
+        "menuIndex": 1,
+        "menuNames": [
+          "minimum",
+          "project"
+        ],
+        "menuLabels": [
+          "Minimum Distance",
+          "Project Rays"
+        ]
+      },
+      "default": "project",
+      "page": "Ray",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "dotrans": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Ray",
+      "label": "Transform Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookfar": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Intersect Farthest Surface",
+      "readOnly": false,
+      "expression": null
+    },
+    "normal": {
+      "value": {
+        "type": "menu",
+        "value": "source",
+        "menuIndex": 0,
+        "menuNames": [
+          "source",
+          "collision",
+          "reflect"
+        ],
+        "menuLabels": [
+          "Source Normal",
+          "Collision Normal",
+          "Reflected Ray"
+        ]
+      },
+      "default": "source",
+      "page": "Ray",
+      "label": "Point Intersection Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "bounces": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Ray",
+      "label": "Bounces",
+      "readOnly": false,
+      "expression": null
+    },
+    "bouncegeo": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Save Bounce Geometry",
+      "readOnly": false,
+      "expression": null
+    },
+    "putdist": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Point Intersection Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ray",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "lift": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ray",
+      "label": "Lift",
+      "readOnly": false,
+      "expression": null
+    },
+    "sample": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Ray",
+      "label": "Sample",
+      "readOnly": false,
+      "expression": null
+    },
+    "jitter": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ray",
+      "label": "Jitter Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Ray",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "newgrp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Create Point Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitgrp": {
+      "value": {
+        "type": "string",
+        "value": "rayHitGroup"
+      },
+      "default": "rayHitGroup",
+      "page": "Ray",
+      "label": "Ray Hit Group",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

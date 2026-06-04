@@ -1,0 +1,1396 @@
+{
+  "family": "DAT",
+  "count": 61,
+  "classes": [
+    {
+      "file": "ArtnetDAT_Class.htm",
+      "class_name": "ArtnetDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onPollReply",
+        "onPollComplete"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "AudiodevicesDAT_Class.htm",
+      "class_name": "AudiodevicesDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ChopexecuteDAT_Class.htm",
+      "class_name": "ChopexecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onOffToOn",
+        "whileOn",
+        "onOnToOff",
+        "whileOff",
+        "onValueChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ChoptoDAT_Class.htm",
+      "class_name": "ChoptoDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ClipDAT_Class.htm",
+      "class_name": "ClipDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ConvertDAT_Class.htm",
+      "class_name": "ConvertDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "CplusplusDAT_Class.htm",
+      "class_name": "CplusplusDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "DAT_Class.htm",
+      "class_name": "DAT",
+      "family": "DAT",
+      "inherits": "OP class",
+      "callbacks": [],
+      "members": [
+        {
+          "name": "export",
+          "signature": "export",
+          "return_type": "bool",
+          "description": "Get or set"
+        },
+        {
+          "name": "text",
+          "signature": "text",
+          "return_type": "str",
+          "description": "Get or set contents. Tables are treated as tab delimited columns, newline delimited rows."
+        },
+        {
+          "name": "csv",
+          "signature": "csv",
+          "return_type": "str",
+          "description": "Get or set contents using"
+        }
+      ],
+      "methods": [
+        {
+          "name": "flush",
+          "signature": "flush()",
+          "return_type": "None",
+          "description": "Dummy function required to redirect stdout to DATs."
+        },
+        {
+          "name": "isatty",
+          "signature": "isatty()",
+          "return_type": "False",
+          "description": "Required to redirect stdout to DATs."
+        },
+        {
+          "name": "save",
+          "signature": "save(filepath, append=False, createFolders=False)",
+          "return_type": "str",
+          "description": "Saves the content of the"
+        },
+        {
+          "name": "write",
+          "signature": "write(args)",
+          "return_type": "str",
+          "description": "Append content to this"
+        },
+        {
+          "name": "detectLanguage",
+          "signature": "detectLanguage(setLanguage=False)",
+          "return_type": "str",
+          "description": "Returns the result of attempting to auto-detect the programming language in the"
+        },
+        {
+          "name": "clear",
+          "signature": "clear(keepSize=False, keepFirstRow=False, keepFirstCol=False)",
+          "return_type": "None",
+          "description": "Remove all rows and columns from the table."
+        },
+        {
+          "name": "appendRow",
+          "signature": "appendRow(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Append a row to the end of the table, or after the specified row name/index. Returns the integer index of the new row."
+        },
+        {
+          "name": "appendRows",
+          "signature": "appendRows(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Append rows to the end of the table, or after the specified row name/index. Returns the integer of the last row appended."
+        },
+        {
+          "name": "appendCol",
+          "signature": "appendCol(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Append a column to the end of the table. See appendRow for similar usage."
+        },
+        {
+          "name": "appendCols",
+          "signature": "appendCols(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Append columns to the end of the table. See appendRows for similar usage."
+        },
+        {
+          "name": "insertRow",
+          "signature": "insertRow(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Insert a row to the beginning of the table or before the specified row name/index. See"
+        },
+        {
+          "name": "insertCol",
+          "signature": "insertCol(vals, nameOrIndex, sort=None)",
+          "return_type": "int",
+          "description": "Insert a column to the beginning of the table or before the specified row name/index. See"
+        },
+        {
+          "name": "replaceRow",
+          "signature": "replaceRow(nameOrIndex, vals, entireRow=True)",
+          "return_type": "int",
+          "description": "Replaces the contents of an existing row."
+        },
+        {
+          "name": "replaceCol",
+          "signature": "replaceCol(nameOrIndex, vals, entireCol=True)",
+          "return_type": "int",
+          "description": "Replaces the contents of an existing column. See"
+        },
+        {
+          "name": "deleteRow",
+          "signature": "deleteRow(nameOrIndex)",
+          "return_type": "None",
+          "description": "Delete a single row at the specified row name or index."
+        },
+        {
+          "name": "deleteRows",
+          "signature": "deleteRows(vals)",
+          "return_type": "None",
+          "description": "Deletes multiple rows at the row names or indices specified in vals."
+        },
+        {
+          "name": "deleteCol",
+          "signature": "deleteCol(nameOrIndex)",
+          "return_type": "None",
+          "description": "Delete a single column at the specified column name or index."
+        },
+        {
+          "name": "deleteCols",
+          "signature": "deleteCols(vals)",
+          "return_type": "None",
+          "description": "Deletes multiple columns at the column names or indices specified in vals."
+        },
+        {
+          "name": "setSize",
+          "signature": "setSize(numrows, numcols)",
+          "return_type": "None",
+          "description": "Set the exact size of the table."
+        },
+        {
+          "name": "scroll",
+          "signature": "scroll(row, col)",
+          "return_type": "None",
+          "description": "Bring current"
+        },
+        {
+          "name": "cell",
+          "signature": "cell(rowNameOrIndex, colNameOrIndex, caseSensitive=True, val=False)",
+          "return_type": "td.Cell | str | None",
+          "description": "Find a single"
+        },
+        {
+          "name": "cells",
+          "signature": "cells(rowNameOrIndex, colNameOrIndex, caseSensitive=True, val=False)",
+          "return_type": "list",
+          "description": "Returns a (possibly empty) list of"
+        },
+        {
+          "name": "findCell",
+          "signature": "findCell(pattern, rows=None, cols=None, valuePattern=True, rowPattern=True, colPattern=True, caseSensitive=False, val=False)",
+          "return_type": "Cell | str | None",
+          "description": "Returns a cell that matches the given pattern and row/column names or indices or None if no match is found."
+        },
+        {
+          "name": "findCells",
+          "signature": "findCells(pattern, rows=None, cols=None, valuePattern=True, rowPattern=True, colPattern=True, val=False)",
+          "return_type": "list",
+          "description": "Returns a (possibly empty) list of cells that match the given patterns and row/column names or indices."
+        },
+        {
+          "name": "row",
+          "signature": "row(*nameOrIndexes, caseSensitive=True, val=False)",
+          "return_type": "List[Cell]",
+          "description": "Returns a list of"
+        },
+        {
+          "name": "rows",
+          "signature": "rows(*nameOrIndexes, caseSensitive=True, val=False)",
+          "return_type": "List[List[Cell]]",
+          "description": "Returns a (possibly empty) list of rows (each row being a list of cells). If no arguments are given it returns all rows in the table."
+        },
+        {
+          "name": "col",
+          "signature": "col(*nameOrIndexes, caseSensitive=True, val=False)",
+          "return_type": "list",
+          "description": "Returns a list of"
+        },
+        {
+          "name": "cols",
+          "signature": "cols(*nameOrIndexes, caseSensitive=True, val=False)",
+          "return_type": "List[List[Cell]]",
+          "description": "Returns a (possibly empty) list of columns (each being a list themselves). If no arguments are given then all columns in the table are returned."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "DatexecuteDAT_Class.htm",
+      "class_name": "DatexecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onTableChange",
+        "onRowChange",
+        "onColChange",
+        "onCellChange",
+        "onSizeChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "DmxmapDAT_Class.htm",
+      "class_name": "DmxmapDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ErrorDAT_Class.htm",
+      "class_name": "ErrorDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onError"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "EtherdreamDAT_Class.htm",
+      "class_name": "EtherdreamDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onPollReply",
+        "onPollComplete"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "EvaluateDAT_Class.htm",
+      "class_name": "EvaluateDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ExamineDAT_Class.htm",
+      "class_name": "ExamineDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ExecuteDAT_Class.htm",
+      "class_name": "ExecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onStart",
+        "create",
+        "onExit",
+        "onFrameStart",
+        "onFrameEnd",
+        "onPlayStateChange",
+        "onDeviceChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FifoDAT_Class.htm",
+      "class_name": "FifoDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onNewRow"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FileinDAT_Class.htm",
+      "class_name": "FileinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FileoutDAT_Class.htm",
+      "class_name": "FileoutDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Write one or more sequence of bytes. No terminators are appended."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages , terminator=' ')",
+          "return_type": "int",
+          "description": "Used to write strings into the file."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "FolderDAT_Class.htm",
+      "class_name": "FolderDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "InDAT_Class.htm",
+      "class_name": "InDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "IndicesDAT_Class.htm",
+      "class_name": "IndicesDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "InfoDAT_Class.htm",
+      "class_name": "InfoDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "InsertDAT_Class.htm",
+      "class_name": "InsertDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "KeyboardinDAT_Class.htm",
+      "class_name": "KeyboardinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onKey",
+        "onShortcut"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "MediafileinfoDAT_Class.htm",
+      "class_name": "MediafileinfoDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "fetchInfo",
+          "signature": "fetchInfo(filename)",
+          "return_type": "MediaFileInfo",
+          "description": "Returns a MediaFileInfo named tuple."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "MergeDAT_Class.htm",
+      "class_name": "MergeDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "MidieventDAT_Class.htm",
+      "class_name": "MidieventDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceiveMIDI"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "MidiinDAT_Class.htm",
+      "class_name": "MidiinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceiveMIDI"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "MonitorsDAT_Class.htm",
+      "class_name": "MonitorsDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onDisplayChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "MqttclientDAT_Class.htm",
+      "class_name": "MqttclientDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onConnect",
+        "onConnectFailure",
+        "onConnectionLost",
+        "onSubscribe",
+        "onSubscribeFailure",
+        "onUnsubscribe",
+        "onUnsubscribeFailure",
+        "onPublish",
+        "onMessage"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "publish",
+          "signature": "publish(topic, payload, qos=0, retain=False)",
+          "return_type": "None",
+          "description": "Publish content to a specific topic."
+        },
+        {
+          "name": "subscribe",
+          "signature": "subscribe(topic, qos=0)",
+          "return_type": "None",
+          "description": "Subscribe to a specific topic from the broker."
+        },
+        {
+          "name": "unsubscribe",
+          "signature": "unsubscribe(topic)",
+          "return_type": "None",
+          "description": "Unsubscribe from a previously subscribed topic."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "MultitouchinDAT_Class.htm",
+      "class_name": "MultitouchinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onDown",
+        "onMove",
+        "onUp",
+        "onHover",
+        "newRow"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "NdiDAT_Class.htm",
+      "class_name": "NdiDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "NullDAT_Class.htm",
+      "class_name": "NullDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "OpexecuteDAT_Class.htm",
+      "class_name": "OpexecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onPreCook",
+        "onPostCook",
+        "onDestroy",
+        "onFlagChange",
+        "onWireChange",
+        "onNameChange",
+        "onPathChange",
+        "onUIChange",
+        "onNumChildrenChange",
+        "onChildRename",
+        "onCurrentChildChange",
+        "onExtensionChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "OpfindDAT_Class.htm",
+      "class_name": "OpfindDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onInitGetColumnNames",
+        "onFindOPGetValues",
+        "onFindOPGetInclude"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "OscinDAT_Class.htm",
+      "class_name": "OscinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceiveOSC"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send a sequence of bytes through this connection. No terminators are appended. Note: the message will not be OSC formatted."
+        },
+        {
+          "name": "sendOSC",
+          "signature": "sendOSC(address, *values, asBundle=False, useNonStandardTypes=True, use64BitPrecision=False)",
+          "return_type": "int",
+          "description": "Send an OSC formatted message through this connection. Multiple pairs of address/valueLists arguments to be passed. This method will automatically decide what OSC type to convert the passed values to."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages, terminator='')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection. Note: the message will not be OSC formatted."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "OscoutDAT_Class.htm",
+      "class_name": "OscoutDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send a sequence of bytes through this connection. No terminators are appended. Note: the message will not be OSC formatted."
+        },
+        {
+          "name": "sendOSC",
+          "signature": "sendOSC(address, *values, asBundle=False, useNonStandardTypes=True, use64BitPrecision=False)",
+          "return_type": "int",
+          "description": "Send an OSC formatted message through this connection. Multiple pairs of address/valueLists arguments to be passed. This method will automatically decide what OSC type to convert the passed values to."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages, terminator='')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection. Note: the message will not be OSC formatted."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "OutDAT_Class.htm",
+      "class_name": "OutDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "PanelexecuteDAT_Class.htm",
+      "class_name": "PanelexecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onOffToOn",
+        "whileOn",
+        "onOnToOff",
+        "whileOff",
+        "onValueChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ParameterDAT_Class.htm",
+      "class_name": "ParameterDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ParameterexecuteDAT_Class.htm",
+      "class_name": "ParameterexecuteDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onValueChange",
+        "onPulse",
+        "onExpressionChange",
+        "onExportChange",
+        "onEnableChange",
+        "onModeChange"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "PerformDAT_Class.htm",
+      "class_name": "PerformDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "RenderpickDAT_Class.htm",
+      "class_name": "RenderpickDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "pick",
+          "signature": "pick(u, v, camera=None)",
+          "return_type": "RenderPickEvent",
+          "description": "Perform a pick at the given (u, v)"
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "ScriptDAT_Class.htm",
+      "class_name": "ScriptDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onSetupParameters",
+        "onPulse",
+        "onCook",
+        "onGetCookLevel"
+      ],
+      "members": [
+        {
+          "name": "textFormat",
+          "signature": "textFormat",
+          "return_type": "bool",
+          "description": "Get or set text format flag. This will convert between table and text formats. Note: textFormat = True should be the last call in the scriptOp, adding a row or column after will convert the"
+        }
+      ],
+      "methods": [
+        {
+          "name": "appendCustomPage",
+          "signature": "appendCustomPage(name)",
+          "return_type": "Page",
+          "description": "Add a new"
+        },
+        {
+          "name": "destroyCustomPars",
+          "signature": "destroyCustomPars()",
+          "return_type": "int",
+          "description": "Remove all custom parameters from the"
+        },
+        {
+          "name": "sortCustomPages",
+          "signature": "sortCustomPages(*pages)",
+          "return_type": "None",
+          "description": "Reorder custom parameter pages."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "SerialDAT_Class.htm",
+      "class_name": "SerialDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceive"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send one or more sequence of bytes. No terminators are appended."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages , terminator=' ')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "SerialdevicesDAT_Class.htm",
+      "class_name": "SerialdevicesDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onDeviceAdded",
+        "onDeviceRemoved"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "SocketioDAT_Class.htm",
+      "class_name": "SocketioDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceiveEvent",
+        "onOpen",
+        "onClose"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "emit",
+          "signature": "emit(event, data=None)",
+          "return_type": "None",
+          "description": "Emits an event to the socket.io server."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "SoptoDAT_Class.htm",
+      "class_name": "SoptoDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "TableDAT_Class.htm",
+      "class_name": "TableDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "TcpipDAT_Class.htm",
+      "class_name": "TcpipDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onConnect",
+        "onReceive",
+        "onClose"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send one or more sequence of bytes. No terminators are appended."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages , terminator=' ')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "TextDAT_Class.htm",
+      "class_name": "TextDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [
+        {
+          "name": "textFormat",
+          "signature": "textFormat",
+          "return_type": "bool",
+          "description": "Get or set text format flag. This will convert between table and text formats. Note: Adding a row or column after will convert the"
+        }
+      ],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "TouchinDAT_Class.htm",
+      "class_name": "TouchinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "TouchoutDAT_Class.htm",
+      "class_name": "TouchoutDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "UdpinDAT_Class.htm",
+      "class_name": "UdpinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceive"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send a sequence of bytes through this connection. No terminators are appended. Note: the message will not be OSC formatted."
+        },
+        {
+          "name": "sendOSC",
+          "signature": "sendOSC(address, *values, asBundle=False, useNonStandardTypes=True, use64BitPrecision=False)",
+          "return_type": "int",
+          "description": "Send an OSC formatted message through this connection. Multiple pairs of address/valueLists arguments to be passed. This method will automatically decide what OSC type to convert the passed values to."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages, terminator='')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection. Note: the message will not be OSC formatted."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "UdtinDAT_Class.htm",
+      "class_name": "UdtinDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onReceive"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(*messages)",
+          "return_type": "int",
+          "description": "Send a sequence of bytes through this connection. No terminators are appended. Note: the message will not be OSC formatted."
+        },
+        {
+          "name": "sendOSC",
+          "signature": "sendOSC(address, *values, asBundle=False, useNonStandardTypes=True, use64BitPrecision=False)",
+          "return_type": "int",
+          "description": "Send an OSC formatted message through this connection. Multiple pairs of address/valueLists arguments to be passed. This method will automatically decide what OSC type to convert the passed values to."
+        },
+        {
+          "name": "send",
+          "signature": "send(*messages, terminator='')",
+          "return_type": "int",
+          "description": "Send a sequence of strings through this connection. Note: the message will not be OSC formatted."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "VideodevicesDAT_Class.htm",
+      "class_name": "VideodevicesDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "WebclientDAT_Class.htm",
+      "class_name": "WebclientDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onConnect",
+        "onDisconnect",
+        "onResponse"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "request",
+          "signature": "request(url, method, header=None, data=None, pars=None, authType=None, username=None, password=None, appKey=None, appSecret=None, oauth1Token=None, oauth1Secret=None, oauth2Token=None, uploadFile=None, timeout=60000)",
+          "return_type": "int",
+          "description": "Sends an HTTP request of the specified method to the url. Any headers and data can also be specified. Returns the connection identifier that will correspond with the id passed to onResponse callbacks."
+        },
+        {
+          "name": "closeConnection",
+          "signature": "closeConnection(id)",
+          "return_type": "None",
+          "description": "Closes the active connection."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "WebrtcDAT_Class.htm",
+      "class_name": "WebrtcDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onOffer",
+        "onAnswer",
+        "onNegotiationNeeded",
+        "onIceCandidate",
+        "onIceCandidateError",
+        "onTrack",
+        "onRemoveTrack",
+        "onDataChannel",
+        "onDataChannelOpen",
+        "onDataChannelClose",
+        "onData",
+        "onConnectionStateChange",
+        "onSignalingStateChange",
+        "onIceConnectionStateChange",
+        "onIceGatheringStateChange"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "addIceCandidate",
+          "signature": "addIceCandidate(connectionId, candidate, lineIndex, sdpMid)",
+          "return_type": "None",
+          "description": "Add a remote ICE (Interactive Connectivity Establishment) candidate to the connection."
+        },
+        {
+          "name": "addTrack",
+          "signature": "addTrack(connectionId, trackId, type)",
+          "return_type": "bool",
+          "description": "Adds a local media track to the connection and return true if it was successfully added."
+        },
+        {
+          "name": "closeConnection",
+          "signature": "closeConnection(connectionId)",
+          "return_type": "None",
+          "description": "Closes the connection."
+        },
+        {
+          "name": "closeDataChannel",
+          "signature": "closeDataChannel(connectionId, channelName)",
+          "return_type": "bool",
+          "description": "Closes the data channel. Returns true if successful."
+        },
+        {
+          "name": "createAnswer",
+          "signature": "createAnswer(connectionId)",
+          "return_type": "None",
+          "description": "Creates a local answer for the connection associated with the ID."
+        },
+        {
+          "name": "createDataChannel",
+          "signature": "createDataChannel(connectionId, channelName)",
+          "return_type": "bool",
+          "description": "Creates a bidirectional data channel over the connection. Returns true if successful."
+        },
+        {
+          "name": "createOffer",
+          "signature": "createOffer(connectionId)",
+          "return_type": "None",
+          "description": "Creates a local offer for the connection associated with the ID."
+        },
+        {
+          "name": "getConnectionState",
+          "signature": "getConnectionState(connectionId)",
+          "return_type": "str",
+          "description": "* connectionId - (Keyword, Optional) The UUID of the connection."
+        },
+        {
+          "name": "getSignalingState",
+          "signature": "getSignalingState(connectionId)",
+          "return_type": "str",
+          "description": "* connectionId - (Keyword, Optional) The UUID of the connection."
+        },
+        {
+          "name": "getIceGatheringState",
+          "signature": "getIceGatheringState(connectionId)",
+          "return_type": "str",
+          "description": "* connectionId - (Keyword, Optional) The UUID of the connection."
+        },
+        {
+          "name": "getIceConnectionState",
+          "signature": "getIceConnectionState(connectionId)",
+          "return_type": "str",
+          "description": "* connectionId - (Keyword, Optional) The UUID of the connection."
+        },
+        {
+          "name": "getStats",
+          "signature": "getStats(connectionId=None)",
+          "return_type": "str",
+          "description": "Fetches the JSON-formated statistics of any or all connections."
+        },
+        {
+          "name": "getTracks",
+          "signature": "getTracks(connectionId, type, peer)",
+          "return_type": "list",
+          "description": "Returns a list of track IDs."
+        },
+        {
+          "name": "openConnection",
+          "signature": "openConnection()",
+          "return_type": "str",
+          "description": "Opens the local end of a peer connection and returns the UUID."
+        },
+        {
+          "name": "removeTrack",
+          "signature": "removeTrack(connectionId, trackId, type)",
+          "return_type": "bool",
+          "description": "Removes a local media track from the connection and return true if it was successfully removed."
+        },
+        {
+          "name": "restartIce",
+          "signature": "restartIce(connectionId)",
+          "return_type": "None",
+          "description": "Restarts the ICE gathering process."
+        },
+        {
+          "name": "sendBytes",
+          "signature": "sendBytes(connectionId, channelName, data)",
+          "return_type": "None",
+          "description": "Send bytes over the data channel."
+        },
+        {
+          "name": "sendText",
+          "signature": "sendText(connectionId, channelName, data)",
+          "return_type": "None",
+          "description": "Send text over the data channel."
+        },
+        {
+          "name": "setLocalDescription",
+          "signature": "setLocalDescription(connectionId, type, sdp, stereo=False)",
+          "return_type": "None",
+          "description": "Set the description (ie. SDP) of the local side of the peer-to-peer connection."
+        },
+        {
+          "name": "setRemoteDescription",
+          "signature": "setRemoteDescription(connectionId, type, sdp)",
+          "return_type": "None",
+          "description": "Set the description (ie. SDP) of the remote side of the peer-to-peer connection."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "WebserverDAT_Class.htm",
+      "class_name": "WebserverDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onHTTPRequest",
+        "onWebSocketOpen",
+        "onWebSocketClose",
+        "onWebSocketReceiveText",
+        "onWebSocketReceiveBinary",
+        "onWebSocketReceivePing",
+        "onWebSocketReceivePong",
+        "onServerStart",
+        "onServerStop"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "authenticateBasic",
+          "signature": "authenticateBasic(token, userPasswords)",
+          "return_type": "bool",
+          "description": "Performs Basic Authentication on a token from a Basic Authorization header and verifies it against the userPasswords dictionary. Returns true if the token is accepted, false otherwise."
+        },
+        {
+          "name": "webSocketClose",
+          "signature": "webSocketClose(client)",
+          "return_type": "None",
+          "description": "Closes the Web Socket connection."
+        },
+        {
+          "name": "webSocketSendBinary",
+          "signature": "webSocketSendBinary(client, data)",
+          "return_type": "None",
+          "description": "Sends binary data to the client's Web Socket."
+        },
+        {
+          "name": "webSocketSendText",
+          "signature": "webSocketSendText(client, data)",
+          "return_type": "None",
+          "description": "Sends text data to the client's Web Socket."
+        },
+        {
+          "name": "webSocketSendPing",
+          "signature": "webSocketSendPing(client, data=None)",
+          "return_type": "None",
+          "description": "Sends ping data to the client's Web Socket."
+        },
+        {
+          "name": "webSocketSendPong",
+          "signature": "webSocketSendPong(client, data=None)",
+          "return_type": "None",
+          "description": "Sends pong data to the client's Web Socket."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "WebsocketDAT_Class.htm",
+      "class_name": "WebsocketDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [
+        "onConnect",
+        "onDisconnect",
+        "onReceiveText",
+        "onReceiveBinary",
+        "onReceivePing",
+        "onReceivePong",
+        "onMonitorMessage"
+      ],
+      "members": [],
+      "methods": [
+        {
+          "name": "sendText",
+          "signature": "sendText(message)",
+          "return_type": "int",
+          "description": "Send a text frame over the WebSocket connection. Returns the number of bytes sent in the message, or a negative value on error."
+        },
+        {
+          "name": "sendPong",
+          "signature": "sendPong(contents)",
+          "return_type": "int",
+          "description": "Send a pong reply over the WebSocket connection. Returns the number of bytes sent in the message, or a negative value on error."
+        },
+        {
+          "name": "sendPing",
+          "signature": "sendPing(contents)",
+          "return_type": "int",
+          "description": "Send a ping request over the WebSocket connection. Returns the number of bytes sent in the message, or a negative value on error."
+        },
+        {
+          "name": "sendBinary",
+          "signature": "sendBinary(contents)",
+          "return_type": "int",
+          "description": "Send a binary frame over the WebSocket connection. Returns the number of bytes sent in the message, or a negative value on error."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "XmlDAT_Class.htm",
+      "class_name": "XmlDAT",
+      "family": "DAT",
+      "inherits": "DAT class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    }
+  ]
+}

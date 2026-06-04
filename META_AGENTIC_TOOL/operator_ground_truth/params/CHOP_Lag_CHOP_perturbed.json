@@ -1,0 +1,171 @@
+{
+  "operator": "Lag_CHOP",
+  "family": "CHOP",
+  "td_create_name": "lagCHOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "lagmethod": {
+      "type": "menu",
+      "value": "amp",
+      "menuIndex": 1,
+      "menuNames": [
+        "value",
+        "amp",
+        "mag",
+        "rotation"
+      ],
+      "menuLabels": [
+        "Lag Value",
+        "Lag Amplitude",
+        "Lag Magnitude",
+        "Quaternion Rotation"
+      ]
+    },
+    "lag1": {
+      "type": "float",
+      "value": 0.32345000298023224
+    },
+    "lag2": {
+      "type": "float",
+      "value": 0.32345000298023224
+    },
+    "lagunit": {
+      "type": "menu",
+      "value": "fraction",
+      "menuIndex": 3,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "overshoot1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "overshoot2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "overshootunit": {
+      "type": "menu",
+      "value": "fraction",
+      "menuIndex": 3,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "clamp": {
+      "type": "toggle",
+      "value": true
+    },
+    "slope1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "slope2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "aclamp": {
+      "type": "toggle",
+      "value": true
+    },
+    "accel1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "accel2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "lagsamples": {
+      "type": "toggle",
+      "value": true
+    },
+    "reset": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

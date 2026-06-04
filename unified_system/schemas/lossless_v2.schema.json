@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TouchDesigner Lossless v2 (Expanded .toe.dir reconstruction)",
+  "type": "object",
+  "required": ["format_version", "format_layer", "metadata", "lossless_data"],
+  "properties": {
+    "format_version": { "type": "string" },
+    "format_layer": { "const": "lossless" },
+    "metadata": {
+      "type": "object",
+      "required": ["project_name", "mode"],
+      "properties": {
+        "project_name": { "type": "string" },
+        "mode": { "enum": ["toe", "tox"] },
+        "root_comp": { "type": "string" },
+        "td_version": { "type": "string" },
+        "build_number": { "type": "string" },
+        "build_date": { "type": "string" },
+        "cookrate": { "type": "integer" },
+        "realtime": { "type": "boolean" },
+        "created_at": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "lossless_data": {
+      "type": "object",
+      "required": ["raw_files", "toc_order", "toc_raw_lines", "toc_disk_paths"],
+      "properties": {
+        "toc_raw_lines": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "toc_order": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "toc_disk_paths": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "raw_files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["content", "is_binary"],
+            "properties": {
+              "content": { "type": "string" },
+              "is_binary": { "type": "boolean" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "operators": { "type": "array" },
+    "connections": { "type": "array" },
+    "statistics": { "type": "object" }
+  },
+  "additionalProperties": true
+}
+

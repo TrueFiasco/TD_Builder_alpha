@@ -1,0 +1,4109 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\UI\\Basic Widgets\\knobFixed.tox.dir",
+    "build_version": "099",
+    "build_date": "Mon Nov  3 15:28:39 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2023.12601"
+  },
+  "operators": {
+    "/knobFixed": {
+      "name": "knobFixed",
+      "path": "/knobFixed",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "enableexternaltox": {
+          "67108864": "off"
+        }
+      },
+      "parent": null,
+      "children": [
+        "knobFixed"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n1\nchildren 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed": {
+      "name": "knobFixed",
+      "path": "/knobFixed/knobFixed",
+      "op_type": "COMP:widget",
+      "family": "COMP",
+      "specific_type": "widget",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -12400,
+        160,
+        130
+      ],
+      "color": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "x": {
+          "67108864": 3
+        },
+        "y": {
+          "67108864": 3
+        },
+        "w": {
+          "67108864": 450
+        },
+        "h": {
+          "67108864": 110
+        },
+        "alignorder": {
+          "67108880": "0 \"20000 - me.nodeY\""
+        },
+        "enable": {
+          "67108913": "on \"me.par.Value0.bindMaster.enable if hasattr(me.par, 'Value0') and me.par.Value0.bindMaster and isinstance(me.par.Value0.bindMaster, Par) else True\""
+        },
+        "helpdat": {
+          "67108881": "./code/help op('./code/help')"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108864": 0.2
+        },
+        "bgcolorg": {
+          "67108864": 0.2
+        },
+        "bgcolorb": {
+          "67108864": 0.2
+        },
+        "bgalpha": {
+          "67108864": 1
+        },
+        "borderar": {
+          "67108864": 0
+        },
+        "borderag": {
+          "67108864": 0
+        },
+        "borderab": {
+          "67108864": 0
+        },
+        "borderaalpha": {
+          "67108864": 0
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "align": {
+          "67108864": "horizlr"
+        },
+        "spacing": {
+          "67108864": 1
+        },
+        "marginl": {
+          "67108864": 3
+        },
+        "marginr": {
+          "67108864": 3
+        },
+        "marginb": {
+          "67108864": 3
+        },
+        "margint": {
+          "67108864": 3
+        },
+        "justifyh": {
+          "67108864": "left"
+        },
+        "justifyv": {
+          "67108864": "top"
+        },
+        "crop": {
+          "67108864": "on"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "Widget"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "clone": {
+          "67108913": "\"\" \"op.TDBasicWidgets.op('knobFixed') if hasattr(op, 'TDBasicWidgets') else ''\""
+        },
+        "Version": {
+          "67109184": "2.2.8"
+        },
+        "Widgettox": {
+          "67109056": "knobFixed"
+        },
+        "Numericfieldwidth": {
+          "67108945": "110 me.par.h"
+        },
+        "Labelhfillweight": {
+          "67109056": 0.5
+        },
+        "Labelheight": {
+          "67109056": 34
+        },
+        "Numericfieldhfillweight": {
+          "67109056": 1
+        },
+        "Numericfieldvfillweight": {
+          "67109056": 1
+        },
+        "Knobwidth": {
+          "67108945": "110 me.par.h"
+        },
+        "Knobhfillweight": {
+          "67109056": 1
+        },
+        "Knobheight": {
+          "67109056": 88
+        },
+        "Knobsensitivity": {
+          "67108944": "1 None"
+        },
+        "Valueparexec": {
+          "67109312": "\"\""
+        },
+        "Knobpanelexec": {
+          "67109328": "\"\" None"
+        },
+        "Numericfieldpanelexec": {
+          "67109328": "\"\" None"
+        },
+        "Cacheabletop": {
+          "67109201": "\"\" op('./knob0/bg')"
+        },
+        "Knob0": {
+          "67109184": "./knob0"
+        },
+        "Label": {
+          "67109184": "./label"
+        },
+        "Numericvalue0": {
+          "67109184": "./numericValue0"
+        },
+        "Disablecolorr": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolorg": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolorb": {
+          "67108944": "0.2 None"
+        },
+        "Disablecolora": {
+          "67108944": "0.65 None"
+        },
+        "Numericfieldoffsetx": {
+          "67108944": "0 None"
+        },
+        "Numericfieldoffsety": {
+          "67108944": "0 None"
+        },
+        "Labelfontfraction": {
+          "67109056": 1
+        },
+        "Numericfieldcustom": {
+          "67109056": "\"\""
+        },
+        "Numericfieldfontfraction": {
+          "67109056": 1
+        },
+        "Knobfontfraction": {
+          "67109056": 0.263
+        },
+        "Value0": {
+          "67108928": 0.451583
+        },
+        "Toxsavebuild": {
+          "67109184": 2023.12601
+        }
+      },
+      "parent": "/knobFixed",
+      "children": [
+        "code",
+        "knob0",
+        "label",
+        "output",
+        "overlay",
+        "valueOut",
+        "vertLayout",
+        "numericValue0"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 7 Values Label Field Knob Widget OPs About\n1846677775 Font Font 1 1 0 0 1 1 1 2 0 \"Open Sans\" \"\" Widget 4097 166 Arial Arial \"Arial Black\" \"Arial Black\" Bahnschrift Bahnschrift \"Bahnschrift Condensed\" \"Bahnschrift Condensed\" \"Bahnschrift Light\" \"Bahnschrift Light\" \"Bahnschrift Light Condensed\" \"Bahnschrift Light Condensed\" \"Bahnschrift Light SemiCondensed\" \"Bahnschrift Light SemiCondensed\" \"Bahnschrift SemiBold\" \"Bahnschrift SemiBold\" \"Bahnschrift SemiBold Condensed\" \"Bahnschrift SemiBold Condensed\" \"Bahnschrift SemiBold SemiCondensed\" \"Bahnschrift SemiBold SemiCondensed\" \"Bahnschrift SemiCondensed\" \"Bahnschrift SemiCondensed\" \"Bahnschrift SemiLight\" \"Bahnschrift SemiLight\" \"Bahnschrift SemiLight Condensed\" \"Bahnschrift SemiLight Condensed\" \"Bahnschrift SemiLight SemiCondensed\" \"Bahnschrift SemiLight SemiCondensed\" Calibri Calibri \"Calibri Light\" \"Calibri Light\" Cambria Cambria \"Cambria Math\" \"Cambria Math\" Candara Candara \"Candara Light\" \"Candara Light\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code ExtraLight\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code Light\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiBold\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Code SemiLight\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono ExtraLight\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono Light\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiBold\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Cascadia Mono SemiLight\" \"Comic Sans MS\" \"Comic Sans MS\" Consolas Consolas Constantia Constantia Corbel Corbel \"Corbel Light\" \"Corbel Light\" \"Courier New\" \"Courier New\" Ebrima Ebrima \"Franklin Gothic Medium\" \"Franklin Gothic Medium\" \"GLYPHICONS Halflings\" \"GLYPHICONS Halflings\" Gabriola Gabriola Gadugi Gadugi Georgia Georgia Impact Impact \"Ink Free\" \"Ink Free\" Inter Inter \"Inter Medium\" \"Inter Medium\" \"Inter SemiBold\" \"Inter SemiBold\" \"Javanese Text\" \"Javanese Text\" \"Leelawadee UI\" \"Leelawadee UI\" \"Leelawadee UI Semilight\" \"Leelawadee UI Semilight\" \"Lucida Console\" \"Lucida Console\" \"Lucida Sans Unicode\" \"Lucida Sans Unicode\" \"MS Gothic\" \"MS Gothic\" \"MS PGothic\" \"MS PGothic\" \"MS UI Gothic\" \"MS UI Gothic\" \"MV Boli\" \"MV Boli\" \"Malgun Gothic\" \"Malgun Gothic\" \"Malgun Gothic Semilight\" \"Malgun Gothic Semilight\" Marlett Marlett \"Material Design Icons\" \"Material Design Icons\" \"Microsoft Himalaya\" \"Microsoft Himalaya\" \"Microsoft JhengHei\" \"Microsoft JhengHei\" \"Microsoft JhengHei Light\" \"Microsoft JhengHei Light\" \"Microsoft JhengHei UI\" \"Microsoft JhengHei UI\" \"Microsoft JhengHei UI Light\" \"Microsoft JhengHei UI Light\" \"Microsoft New Tai Lue\" \"Microsoft New Tai Lue\" \"Microsoft PhagsPa\" \"Microsoft PhagsPa\" \"Microsoft Sans Serif\" \"Microsoft Sans Serif\" \"Microsoft Tai Le\" \"Microsoft Tai Le\" \"Microsoft YaHei\" \"Microsoft YaHei\" \"Microsoft YaHei Light\" \"Microsoft YaHei Light\" \"Microsoft YaHei UI\" \"Microsoft YaHei UI\" \"Microsoft YaHei UI Light\" \"Microsoft YaHei UI Light\" \"Microsoft Yi Baiti\" \"Microsoft Yi Baiti\" MingLiU-ExtB MingLiU-ExtB MingLiU_HKSCS-ExtB MingLiU_HKSCS-ExtB MingLiU_MSCS-ExtB MingLiU_MSCS-ExtB \"Mongolian Baiti\" \"Mongolian Baiti\" \"Myanmar Text\" \"Myanmar Text\" NSimSun NSimSun \"Nirmala Text\" \"Nirmala Text\" \"Nirmala Text Semilight\" \"Nirmala Text Semilight\" \"Nirmala UI\" \"Nirmala UI\" \"Nirmala UI Semilight\" \"Nirmala UI Semilight\" \"Noto Kufi Arabic\" \"Noto Kufi Arabic\" \"Noto Naskh Arabic\" \"Noto Naskh Arabic\" \"Noto Sans\" \"Noto Sans\" \"Noto Sans CJK JP\" \"Noto Sans CJK JP\" \"Noto Sans CJK JP Regular\" \"Noto Sans CJK JP Regular\" \"Noto Sans Mono\" \"Noto Sans Mono\" \"Open Sans\" \"Open Sans\" \"Open Sans Light\" \"Open Sans Light\" \"Open Sans SemiBold\" \"Open Sans SemiBold\" PMingLiU-ExtB PMingLiU-ExtB \"PT Mono\" \"PT Mono\" \"Palatino Linotype\" \"Palatino Linotype\" Roboto Roboto \"Roboto Black\" \"Roboto Black\" \"Roboto Condensed\" \"Roboto Condensed\" \"Roboto Medium\" \"Roboto Medium\" SV SV \"Sans Serif Collection\" \"Sans Serif Collection\" \"Segoe Fluent Icons\" \"Segoe Fluent Icons\" \"Segoe MDL2 Assets\" \"Segoe MDL2 Assets\" \"Segoe Print\" \"Segoe Print\" \"Segoe Script\" \"Segoe Script\" \"Segoe UI\" \"Segoe UI\" \"Segoe UI Black\" \"Segoe UI Black\" \"Segoe UI Emoji\" \"Segoe UI Emoji\" \"Segoe UI Historic\" \"Segoe UI Historic\" \"Segoe UI Light\" \"Segoe UI Light\" \"Segoe UI Semibold\" \"Segoe UI Semibold\" \"Segoe UI Semilight\" \"Segoe UI Semilight\" \"Segoe UI Symbol\" \"Segoe UI Symbol\" \"Segoe UI Variable Display\" \"Segoe UI Variable Display\" \"Segoe UI Variable Display Light\" \"Segoe UI Variable Display Light\" \"Segoe UI Variable Display Semibold\" \"Segoe UI Variable Display Semibold\" \"Segoe UI Variable Display Semilight\" \"Segoe UI Variable Display Semilight\" \"Segoe UI Variable Small\" \"Segoe UI Variable Small\" \"Segoe UI Variable Small Light\" \"Segoe UI Variable Small Light\" \"Segoe UI Variable Small Semibold\" \"Segoe UI Variable Small Semibold\" \"Segoe UI Variable Small Semilight\" \"Segoe UI Variable Small Semilight\" \"Segoe UI Variable Text\" \"Segoe UI Variable Text\" \"Segoe UI Variable Text Light\" \"Segoe UI Variable Text Light\" \"Segoe UI Variable Text Semibold\" \"Segoe UI Variable Text Semibold\" \"Segoe UI Variable Text Semilight\" \"Segoe UI Variable Text Semilight\" SimSun SimSun SimSun-ExtB SimSun-ExtB SimSun-ExtG SimSun-ExtG \"Sitka Banner\" \"Sitka Banner\" \"Sitka Banner Semibold\" \"Sitka Banner Semibold\" \"Sitka Display\" \"Sitka Display\" \"Sitka Display Semibold\" \"Sitka Display Semibold\" \"Sitka Heading\" \"Sitka Heading\" \"Sitka Heading Semibold\" \"Sitka Heading Semibold\" \"Sitka Small\" \"Sitka Small\" \"Sitka Small Semibold\" \"Sitka Small Semibold\" \"Sitka Subheading\" \"Sitka Subheading\" \"Sitka Subheading Semibold\" \"Sitka Subheading Semibold\" \"Sitka Text\" \"Sitka Text\" \"Sitka Text Semibold\" \"Sitka Text Semibold\" Sylfaen Sylfaen Symbol Symbol Tahoma Tahoma \"Times New Roman\" \"Times New Roman\" \"Trebuchet MS\" \"Trebuchet MS\" Verdana Verdana Webdings Webdings Wingdings Wingdings \"Yu Gothic\" \"Yu Gothic\" \"Yu Gothic Light\" \"Yu Gothic Light\" \"Yu Gothic Medium\" \"Yu Gothic Medium\" \"Yu Gothic UI\" \"Yu Gothic UI\" \"Yu Gothic UI Light\" \"Yu Gothic UI Light\" \"Yu Gothic UI Semibold\" \"Yu Gothic UI Semibold\" \"Yu Gothic UI Semilight\" \"Yu Gothic UI Semilight\" 5 2 op.TDResources.op('TDUI/fontMenuSource').par.font \"not me.par.Fontfile\"\n772804867 Rightclickmenu \"Right Click Menu\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 9\n772804868 Popuphelp \"Popup Help\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 7\n772804868 Version Version 1 1 0 0 1 1 1 2 0 2.2.8 \"\" About 1\n772804868 Widgettox \"Widget Tox\" 1 1 0 0 1 1 1 2 0 knobFixed \"\" Widget 101\n772804868 Knoblabel Label 1 1 0 0 1 1 1 2 0 A \"\" Knob 0\n772804867 Knobfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Knob 6\n772804865 Knobrangegapangle \"Range Gap Angle\" 1 1 0 0 1 360 360 2 51 \"\" \"\" Knob 14\n-1374678783 Knobdialscale \"Dial Scale\" 1 3 0 0 3 1 1 2 0.686 \"\" \"\" Knob 11\n772804865 Knoblevelscale \"Level Scale\" 1 1 0 0 1 1 1 2 0.753 \"\" \"\" Knob 12\n772804865 Knobrangescale \"Range Scale\" 1 1 0 0 1 1 1 2 0.863 \"\" \"\" Knob 13\n772804868 Widgetlabel \"Widget Label\" 1 1 0 0 1 1 1 2 0 \"Knob Fixed\" \"\" Label 0\n-1374678781 Labeldisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 2\n772804866 Labelwidth Width 1 3 1 1 1 300 300 2 120 \"\" \"\" Label 18\n-1374678769 Labelalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 left \"\" Label 4097 3 left Left center Center right Right 11\n772804879 Labelaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 top \"\" Label 4097 3 bottom Bottom center Center top Top 12\n772804867 Labelfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 8\n772804867 Numericfielddisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 0\n772804866 Numericfieldwidth Width 1 3 0 0 1 120 120 2 110 \"\" \"\" Field 25\n772804867 Numericfieldfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 12\n772804866 Numericfielddecimalplaces Precision 1 3 0 0 1 3 10 2 3 \"\" \"\" Field 5\n-1374678774 Knobbgtop \"Bg TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 17\n772804874 Knobdialtop \"Dial TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 18\n-1374678769 Labelhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Width\" fill Fill 17\n772804879 Labelverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fill \"\" Label 4097 2 fixed \"Fixed Height\" fill Fill 20\n772804865 Labelhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 0.5 \"\" \"\" Label 19\n772804866 Labelheight Height 1 3 1 1 1 300 300 2 34 \"\" \"\" Label 21\n772804865 Labelvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 22\n-1374678769 Numericfieldhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Width\" fill Fill 24\n772804865 Numericfieldhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 26\n772804879 Numericfieldverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Height\" fill Fill 27\n772804865 Numericfieldvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 29\n772804866 Numericfieldheight Height 1 3 0 0 1 120 120 2 26 \"\" \"\" Field 28\n772804865 Knotchwidth \"Knotch Width\" 1 3 0 0 1 1 1 2 0.733 \"\" \"\" Knob 15\n772804865 Knotchlength \"Knotch Length\" 1 3 0 0 3 1 1 2 0.162 \"\" \"\" Knob 16\n-1374678769 Knobhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Knob 4097 2 fixed \"Fixed Width\" fill Fill 26\n772804866 Knobwidth Width 1 3 1 1 1 300 300 2 110 \"\" \"\" Knob 27\n772804865 Knobhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Knob 28\n772804879 Knobverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fill \"\" Knob 4097 2 fixed \"Fixed Height\" fill Fill 29\n772804866 Knobheight Height 1 3 1 1 1 300 300 2 88 \"\" \"\" Knob 30\n772804865 Knobvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Knob 31\n-1374678783 Knobsensitivity Sensitivity 1 1 0 0 1 1 1 2 1 \"\" \"\" Knob 10\n-1374678769 Numericfieldtype \"Field Type\" 1 1 0 0 1 1 1 2 0 float \"\" Field 4097 2 float Float integer Integer 2\n-1374678773 Numericfieldfocus \"Focus Order\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 7\n-1374678779 Createeditvalueparexec \"Create/Edit Value Par Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 50\n772804875 Valueparexec \"Value Par Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 51\n-1374678779 Knobcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 32\n772804875 Knobpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 33\n-1374678779 Numericfieldcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 22\n772804875 Numericfieldpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 23\n772804879 Knobalignmode \"Align Mode\" 1 1 0 0 1 1 1 2 0 metrics \"\" Knob 4097 2 metrics \"Use Font Metrics\" bbox \"Use Text Bounding Box\" 9\n-1374678781 Cacheactive \"Cache Active\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 34\n772804874 Cacheabletop \"Cacheable TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 35\n772804877 Widgetcachecomp \"Widget Cache COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 36\n772804874 Labeltop \"Label TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 1\n-1374678781 Enablerollover \"Enable Rollover\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 1\n772804877 Knob0 knob0 1 1 0 0 1 1 1 2 0 ./knob0 \"\" OPs 0\n772804877 Label label 1 1 0 0 1 1 1 2 0 ./label \"\" OPs 1\n772804877 Numericvalue0 numericValue0 1 1 0 0 1 1 1 2 0 ./numericValue0 \"\" OPs 2\n-1374678769 Knobfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Knob 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 2\n-1374678769 Labelfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Label 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 4\n-1374678769 Numericfieldfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 panelunits \"\" Field 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 8\n-1374678781 Cacheoptimized \"Cache Optimized\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 37\n772940801 Rollovercolor \"Rollover Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.9 \"\" \"\" 2 0.9 \"\" \"\" 2 0.9 \"\" \"\" 2 0.15 \"\" \"\" Widget 2 me.par.Enablerollover.eval()\n772809729 Disablecolor \"Disable Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.65 \"\" \"\" Widget 4\n-1374673919 Knobbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.15 \"\" \"\" 2 0.15 \"\" \"\" 2 0.15 \"\" \"\" 2 1 \"\" \"\" Knob 19\n772809729 Knobrangecolor \"Range Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.325 \"\" \"\" 2 0.325 \"\" \"\" 2 0.325 \"\" \"\" 2 1 \"\" \"\" Knob 21\n772809729 Knoblevelcolor \"Level Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.48 \"\" \"\" 2 0.6825 \"\" \"\" 2 0.75 \"\" \"\" 2 1 \"\" \"\" Knob 22\n772809729 Knobdialcolor \"Dial Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.5 \"\" \"\" 2 0.5 \"\" \"\" 2 0.5 \"\" \"\" 2 1 \"\" \"\" Knob 23\n772809729 Knobrollovercolor \"Rollover Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 1 \"\" \"\" 2 0 \"\" \"\" 2 1 \"\" \"\" 2 0.25 \"\" \"\" Knob 25\n772809729 Knobfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 1 \"\" \"\" Knob 20\n772809729 Knotchcolor \"Knotch Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 1 \"\" \"\" Knob 24\n-1374670335 Labeloffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 6 \"\" \"\" 2 -6 \"\" \"\" Label 13\n-1374673919 Labelbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 1 \"\" \"\" Label 15\n772809729 Labelfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.65 \"\" \"\" 2 0.65 \"\" \"\" 2 0.65 \"\" \"\" 2 1 \"\" \"\" Label 16\n772804867 Numericfieldreadonly \"Read Only\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 1\n-1374678781 Numericfieldupdatewhiletyping \"Numeric Field Update While Typing\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 6\n-1374670335 Numericfieldoffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Field 17\n-1374673919 Numericfieldbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.28 \"\" \"\" 2 0.28 \"\" \"\" 2 0.28 \"\" \"\" 2 1 \"\" \"\" Field 19\n772809729 Numericfieldbordercolor \"Border Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 21\n772809729 Numericfieldfontcolor \"Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 1 \"\" \"\" Field 20\n-1374678781 Knoblabeldisplay \"Knob Label Display\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Knob 1\n-1374678781 Labelwordwrap \"Word Wrap\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 3\n772935937 Labelfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 6 \"me.par.Labelfontsizemode.eval() in ['fract', 'relfract']\"\n772805633 Labelpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Label 14\n772804879 Numericfieldformatting \"Numeric Format\" 1 1 0 0 1 1 1 2 0 number \"\" Field 4097 8 default Default number Number scientific Scientific percent Percent dollars Dollars euros Euros customfstring \"Custom F-String\" customfmt \"Fmt Syntax\" 3\n772935940 Numericfieldcustom \"Custom Expression\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4 \"me.par.Numericfieldformatting.menuIndex > 5\"\n-1374678769 Numericfieldalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 center \"\" Field 4097 3 left Left center Center right Right 15\n772804879 Numericfieldaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 center \"\" Field 4097 3 bottom Bottom center Center top Top 16\n772935937 Numericfieldfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 10 \"me.par.Numericfieldfontsizemode.eval() in ['fract', 'relfract']\"\n772805633 Numericfieldpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 18\n772935937 Knobfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 0.263 \"\" \"\" Knob 4 \"me.par.Knobfontsizemode.eval() in ['fract', 'relfract']\"\n772804880 Fontfile \"Font File\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 6\n772935951 Rollovercomposite \"Rollover Composite\" 1 1 0 0 1 1 1 2 0 over \"\" Widget 4097 7 over Over under Under inside Inside outside Outside add Add subtract Subtract multiply Multiply 3 me.par.Enablerollover.eval()\n772804879 Knobscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 onlyshrink \"\" Knob 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 5\n772804867 Knobitalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 7\n772804867 Knobdropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 8\n772804879 Labelscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 never \"\" Label 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 7\n772804867 Labelitalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 9\n772804867 Labeldropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 10\n772804879 Numericfieldscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 1 2 0 never \"\" Field 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 11\n772804867 Numericfielditalic Italic 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 13\n772804867 Numericfielddropshadow \"Drop Shadow\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 14\n772935938 Knobfontsize \"Font Size\" 1 3 1 6 1 20 20 2 20 \"\" \"\" Knob 3 \"me.par.Knobfontsizemode.eval() in ['points', 'panelunits']\"\n772935938 Labelfontsize \"Font Size\" 1 3 1 6 1 20 20 2 10 \"\" \"\" Label 5 \"me.par.Labelfontsizemode.eval() in ['points', 'panelunits']\"\n772935938 Numericfieldfontsize \"Font Size\" 1 3 1 6 1 20 20 2 10 \"\" \"\" Field 9 \"me.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits']\"\n772804865 Value0 \"Value 0\" 1 3 0 0 3 1 1 2 0 \"\" \"\" Values 0\n-1374678780 Valname0 \"Name 0\" 1 1 0 0 1 1 1 2 0 Value \"\" Values 4\n772804868 Onvaluechangescript0 \"On Value Change Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 5\n772804868 Offtoonscript0 \"Off To On Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 7\n772804868 Ontooffscript0 \"On To Off Script 0\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Values 6\n772804869 Help Help 1 1 0 0 1 1 1 2 0 \"\" \"\" About 0\n772804868 Toxsavebuild \".tox Save Build\" 1 1 0 0 1 1 1 2 0 \"\" \"\" About 38\n-1374678779 Update Update 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 100\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n12\nrollu 1\nrollv 1\nradio sknob0\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 4\nscreenw 320\nscreenh 110\nscreenwm 314\nscreenhm 104\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code": {
+      "name": "code",
+      "path": "/knobFixed/knobFixed/code",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [
+        "help",
+        "docsHelper",
+        "panelexec1",
+        "TDUpdateSystem"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/code/help": {
+      "name": "help",
+      "path": "/knobFixed/knobFixed/code/help",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "expr": {
+          "67108864": "parent(2).par.Popuphelp.eval()"
+        },
+        "rowindexend": {
+          "201326609": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "rowexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        },
+        "colindexend": {
+          "201326609": "0 \"me.inputs[0].numCols - 1\""
+        },
+        "colexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/code/docsHelper": {
+      "name": "docsHelper",
+      "path": "/knobFixed/knobFixed/code/docsHelper",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108864": 32
+        },
+        "h": {
+          "67108864": 32
+        },
+        "layer": {
+          "67108864": 1
+        },
+        "display": {
+          "67108864": "off"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "ext0object": {
+          "67108864": "op('./DocsHelper').module.DocsHelper(me)"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "DocsHelper"
+        },
+        "clone": {
+          "67108913": "/sys/TDResources/docsHelper op.TDResources.op('docsHelper')"
+        },
+        "Helpcommand": {
+          "67109201": "\"\" ext.DocsHelper.HelpCommand"
+        },
+        "Palettename": {
+          "67109056": "widgetsExtractor"
+        },
+        "Palettecomp": {
+          "67108977": "/sys/TDResources parent(2)"
+        },
+        "Resetpalettecompname": {
+          "67109056": 0
+        },
+        "Experimental": {
+          "67109201": "off app.experimental"
+        },
+        "Mode": {
+          "67108928": "Wiki"
+        },
+        "Wikipage": {
+          "67108928": "Widgets"
+        },
+        "Url": {
+          "67109056": "https://www.derivative.ca"
+        },
+        "Version": {
+          "67109184": 1.3
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code",
+      "children": [
+        "parexec1",
+        "DocsHelper",
+        "parexec_PaletteComp"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 \"Docs Helper\" About\n772804868 Helpcommand \"Help Command\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 1\n772935940 Palettename \"Palette COMP Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 3 \"me.par.Mode == 'Palette'\"\n772804877 Palettecomp \"Help COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 0\n-1374678779 Createaboutpage \"Create About Page and Pars\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 9\n772935941 Resetpalettecompname \"Reset Palette COMP Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 4 \"me.par.Mode == 'Palette'\"\n772804869 Testopenhelp \"Test Open Help\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 11\n772935939 Experimental Experimental 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 6 \"me.par.Mode != 'URL'\"\n-1374678769 Mode Mode 1 1 0 0 1 1 1 2 0 Palette \"\" \"Docs Helper\" 4097 3 URL URL Wiki Wiki Palette Palette 2\n772935940 Section Section 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 7 \"me.par.Mode != 'URL'\"\n772935940 Wikipage \"Wiki Page\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 5 \"me.par.Mode == 'Wiki'\"\n772935940 Url URL 1 1 0 0 1 1 1 2 0 https://www.derivative.ca \"\" \"Docs Helper\" 8 \"me.par.Mode == 'URL'\"\n772804868 Version Version 1 1 0 0 1 1 1 2 0 1.3 \"\" About 0\n772804869 Settoxsavebuild \"Set Tox Save Build\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"Docs Helper\" 10\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n7\nradioname sbutton\nlradioname sbutton\ndisplay 0\nscreenw 200\nscreenh 200\nscreenwm 200\nscreenhm 200\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/docsHelper/parexec1": {
+      "name": "parexec1",
+      "path": "/knobFixed/knobFixed/code/docsHelper/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108864": ".."
+        },
+        "pars": {
+          "67108864": "*"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000|def onValueChange(par, prev):\n\text.DocsHelper.onParValueChange(par, prev)\n\ndef onPulse(par):\n\text.DocsHelper.onParPulse(par)",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/docsHelper/DocsHelper": {
+      "name": "DocsHelper",
+      "path": "/knobFixed/knobFixed/code/docsHelper/DocsHelper",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000l\"\"\"\nGeneric docs help button and pulse par system\n\"\"\"\n\nDocsHelper = op.TDResources.mod.DocsHelper.DocsHelper",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/docsHelper/parexec_PaletteComp": {
+      "name": "parexec_PaletteComp",
+      "path": "/knobFixed/knobFixed/code/docsHelper/parexec_PaletteComp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "/sys/TDResources parent.DocsHelper.par.Palettecomp.eval()"
+        },
+        "pars": {
+          "67108864": "Help"
+        },
+        "valuechange": {
+          "67108864": "off"
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "loadonstart": {
+          "67108864": "on"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code/docsHelper",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000/def onPulse(par):\n\tparent.DocsHelper.OpenDocs()",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/panelexec1": {
+      "name": "panelexec1",
+      "path": "/knobFixed/knobFixed/code/panelexec1",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "67108913": "on parent.Widget.par.Rightclickmenu"
+        },
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "panels": {
+          "201326641": "\"\" \"[parent(2)] + parent(2).findChildren(type=PanelCOMP)\""
+        },
+        "panelvalue": {
+          "67108864": "rselect"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0003T# me - this DAT\n# panelValue - the PanelValue object that changed\n# \n# Make sure the corresponding toggle is enabled in the Panel Execute DAT.\n\nTDF = op.TDModules.mod.TDFunctions\n\ndef onOffToOn(panelValue):\n\tif not panelValue.owner.panel.ctrl:\n\t\treturn\n\top.TDResources.op('popMenu').Open(\n\t\t\t\t\t\titems=['Parameters', 'Viewer', 'Network', 'Customize Component'],\n\t\t\t\t\t\tcallback=onPopMenu)\n\ndef onPopMenu(info):\n\tif info['item'] == 'Parameters':\n\t\tparent.Widget.openParameters()\n\telif info['item'] == 'Viewer':\n\t\tparent.Widget.openViewer()\n\telif info['item'] == 'Network':\n\t\tTDF.showInPane(parent.Widget)\n\telif info['item'] == 'Customize Component':\n\t\top.TDDialogs.op('CompEditor').EditComp(parent.Widget)\n\t\t\n\ndef whileOn(panelValue):\n\treturn\n\ndef onOnToOff(panelValue):\n\treturn\n\ndef whileOff(panelValue):\n\treturn\n\ndef onValueChange(panelValue):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/TDUpdateSystem": {
+      "name": "TDUpdateSystem",
+      "path": "/knobFixed/knobFixed/code/TDUpdateSystem",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        160,
+        129
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "topsmoothness": {
+          "67108864": "mipmap"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "clone": {
+          "67108913": "/sys/TDResources/TDUpdater/TDUpdateSystem op.TDUpdater.op('TDUpdateSystem')"
+        },
+        "Comptoupdate": {
+          "67108977": "\"\" parent(2)"
+        },
+        "Updatesystem": {
+          "67109201": "\"\" op.TDUpdater"
+        },
+        "Invalidsourcemessage": {
+          "67108928": "\"Requires the basicWidgets package from palette>UI>Basic Widgets>Package in your project.\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code",
+      "children": [
+        "parexec_comp",
+        "parexec_system"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 \"TD Update System\" Customizations\n772804877 Comptoupdate \"COMP To Update\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 1\n-1374678779 Setupparameters \"Setup Parameters\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 3\n772804867 Enableupdatesystem \"Enable Update System\" 1 1 0 0 1 1 1 2 1 \"\" \"\" \"TD Update System\" 2\n772804877 Updatesystem \"Update System\" 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 0\n-1374678779 Update Update 1 1 0 0 1 1 1 2 0 \"\" \"\" \"TD Update System\" 4\n772804868 Invalidsourcemessage \"Invalid Source Message\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Customizations 0\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/TDUpdateSystem/parexec_comp": {
+      "name": "parexec_comp",
+      "path": "/knobFixed/knobFixed/code/TDUpdateSystem/parexec_comp",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326608": ".. .."
+        },
+        "op": {
+          "67108913": "/sys/TDResources/TDUpdater parent().par.Comptoupdate.eval()"
+        },
+        "pars": {
+          "67108864": "Update"
+        },
+        "valuechange": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code/TDUpdateSystem",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAADjZGVmIHVwZGF0ZXIoKToKCXJldHVybiBwYXJlbnQoKS5wYXIuVXBkYXRlc3lzdGVtLmV2YWwoKS5leHQuVXBkYXRlcgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCBwcmV2KToKCXVwZGF0ZXIoKS5vblVwZGF0ZUNvbXBQYXJWYWx1ZUNoYW5nZShwYXIsIHByZXYsIHBhcmVudCgpKQoKZGVmIG9uUHVsc2UocGFyKToKCXVwZGF0ZXIoKS5vblVwZGF0ZUNvbXBQYXJQdWxzZShwYXIsIHBhcmVudCgpKQkKCQo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/code/TDUpdateSystem/parexec_system": {
+      "name": "parexec_system",
+      "path": "/knobFixed/knobFixed/code/TDUpdateSystem/parexec_system",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326608": ".. .."
+        },
+        "op": {
+          "67108913": "/sys/TDResources/TDUpdater/TDUpdateSystem parent()"
+        },
+        "pars": {
+          "67108864": "\"Enableupdatesystem Setupparameters Readonlyversion Update\""
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "language": {
+          "67108864": "python"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/code/TDUpdateSystem",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAC4dXBkYXRlciA9IG9wKCdwYXJleGVjX2NvbXAnKS5tb2R1bGUudXBkYXRlcgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCBwcmV2KToKCXVwZGF0ZXIoKS5vblVwZGF0ZVN5c3RlbVBhclZhbHVlQ2hhbmdlKHBhciwgcHJldikKCmRlZiBvblB1bHNlKHBhcik6Cgl1cGRhdGVyKCkub25VcGRhdGVTeXN0ZW1QYXJQdWxzZShwYXIpCQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0": {
+      "name": "knob0",
+      "path": "/knobFixed/knobFixed/knob0",
+      "op_type": "COMP:slider",
+      "family": "COMP",
+      "specific_type": "slider",
+      "viewport_pos": null,
+      "tile_pos": [
+        475,
+        -525,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 8
+        },
+        "clampul": {
+          "67108864": "off"
+        },
+        "clampuh": {
+          "67108864": "off"
+        },
+        "clampvl": {
+          "67108864": "off"
+        },
+        "clampvh": {
+          "67108864": "off"
+        },
+        "w": {
+          "67108881": "110 parent.Widget.par.Knobwidth"
+        },
+        "h": {
+          "67108881": "88 parent.Widget.par.Knobheight"
+        },
+        "hmode": {
+          "67108881": "fixed parent.Widget.par.Knobhorizontalmode"
+        },
+        "hfillweight": {
+          "67108881": "1 parent.Widget.par.Knobhfillweight"
+        },
+        "vmode": {
+          "67108913": "fill parent.Widget.par.Knobverticalmode"
+        },
+        "vfillweight": {
+          "67108881": "1 parent.Widget.par.Knobvfillweight"
+        },
+        "alignorder": {
+          "67108864": 1
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/knobFixed/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "uvbuttonsleft": {
+          "67108864": 1
+        },
+        "uvbuttonsmiddle": {
+          "67108864": 0
+        },
+        "uvbuttonsright": {
+          "67108864": 1
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0 parent.Widget.par.Knobbgcolorr"
+        },
+        "bgcolorg": {
+          "67108913": "0 parent.Widget.par.Knobbgcolorg"
+        },
+        "bgcolorb": {
+          "67108913": "0 parent.Widget.par.Knobbgcolorb"
+        },
+        "bgalpha": {
+          "67108913": "0 parent.Widget.par.Knobbgcolora"
+        },
+        "top": {
+          "67108864": "./bg"
+        },
+        "topfill": {
+          "67108864": "best"
+        },
+        "borderar": {
+          "67108864": 0
+        },
+        "borderag": {
+          "67108864": 0
+        },
+        "borderab": {
+          "67108864": 0
+        },
+        "borderaalpha": {
+          "67108864": 0
+        },
+        "leftborder": {
+          "67108864": "bordera"
+        },
+        "rightborder": {
+          "67108864": "bordera"
+        },
+        "bottomborder": {
+          "67108864": "bordera"
+        },
+        "topborder": {
+          "67108864": "bordera"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "justifyh": {
+          "67108864": "center"
+        },
+        "justifyv": {
+          "67108864": "center"
+        },
+        "ext0object": {
+          "67108864": "op('./KnobExt').module.KnobExt(me)"
+        },
+        "ext0promote": {
+          "67108864": "on"
+        },
+        "parentshortcut": {
+          "67108864": "Value"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Knoblabel": {
+          "67108928": "A"
+        },
+        "Knobbgcolorr": {
+          "67108928": 0.15
+        },
+        "Knobbgcolorg": {
+          "67108928": 0.15
+        },
+        "Knobbgcolorb": {
+          "67108928": 0.15
+        },
+        "Knobbgcolora": {
+          "67108928": 1
+        },
+        "Knobdialcolorr": {
+          "67108928": 0.5
+        },
+        "Knobdialcolorg": {
+          "67108928": 0.5
+        },
+        "Knobdialcolorb": {
+          "67108928": 0.5
+        },
+        "Knobdialcolora": {
+          "67108928": 1
+        },
+        "Knobfontcolorr": {
+          "67108928": 0.3
+        },
+        "Knobfontcolorg": {
+          "67108928": 0.3
+        },
+        "Knobfontcolorb": {
+          "67108928": 0.3
+        },
+        "Knobfontcolora": {
+          "67108928": 1
+        },
+        "Knoblevelcolorr": {
+          "67108928": 0.48
+        },
+        "Knoblevelcolorg": {
+          "67108928": 0.6825
+        },
+        "Knoblevelcolorb": {
+          "67108928": 0.75
+        },
+        "Knoblevelcolora": {
+          "67108928": 1
+        },
+        "Knobrollovercolorr": {
+          "67108928": 1
+        },
+        "Knobrollovercolorg": {
+          "67108928": 0
+        },
+        "Knobrollovercolorb": {
+          "67108928": 1
+        },
+        "Knobrollovercolora": {
+          "67108928": 0.25
+        },
+        "Knobdialscale": {
+          "67108928": 0.686
+        },
+        "Knoblevelscale": {
+          "67108928": 0.753
+        },
+        "Knobrangescale": {
+          "67108928": 0.863
+        },
+        "Knobrangegapangle": {
+          "67108928": 51
+        },
+        "Knobrangecolorr": {
+          "67108928": 0.325
+        },
+        "Knobrangecolorg": {
+          "67108928": 0.325
+        },
+        "Knobrangecolorb": {
+          "67108928": 0.325
+        },
+        "Knobrangecolora": {
+          "67108928": 1
+        },
+        "Knotchcolorr": {
+          "67108928": 0.1
+        },
+        "Knotchcolorg": {
+          "67108928": 0.1
+        },
+        "Knotchcolorb": {
+          "67108928": 0.1
+        },
+        "Knotchcolora": {
+          "67108928": 1
+        },
+        "Knotchwidth": {
+          "67108928": 0.733
+        },
+        "Knotchlength": {
+          "67108928": 0.162
+        },
+        "Knobverticalmode": {
+          "67108928": "fill"
+        },
+        "Knobwidth": {
+          "67108928": 110
+        },
+        "Knobsensitivity": {
+          "67108928": 1
+        },
+        "Knobpanelexec": {
+          "67109184": "\"\""
+        },
+        "Cacheabletop": {
+          "67109201": "\"\" op('./knob0/bg')"
+        },
+        "Knobfontsize": {
+          "67108928": 11
+        },
+        "Knobfontfraction": {
+          "67109056": 1
+        },
+        "Knobfontbold": {
+          "67108928": "on"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [
+        "bg",
+        "knob",
+        "text",
+        "info1",
+        "knobBg",
+        "KnobExt",
+        "switch1",
+        "switch2",
+        "rollover",
+        "SubWidgetExt",
+        "cacheselect1",
+        "glslKnobWidget",
+        "knobRotateScale",
+        "panelExecOPExec",
+        "panelexecValueX",
+        "text1_callbacks",
+        "knobWidgetShader",
+        "parexecSettingsX"
+      ],
+      "inputs": {
+        "0": "vertLayout"
+      },
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Knob\n772804868 Knoblabel Label 1 1 0 0 1 1 1 2 0 Knob \"\" Knob 0\n-1374673919 Knobbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Knob 19\n772809729 Knobdialcolor \"Dial Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 0.2 \"\" \"\" 2 1 \"\" \"\" Knob 23\n772809729 Knobfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 0.6 \"\" \"\" 2 0.7 \"\" \"\" Knob 20\n772809729 Knoblevelcolor \"Level Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" Knob 22\n772809729 Knobrollovercolor \"Rollover Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 1 \"\" \"\" Knob 25\n-1374678783 Knobdialscale \"Dial Scale\" 1 3 0 0 3 1 1 2 0.774 \"\" \"\" Knob 11\n772804865 Knoblevelscale \"Level Scale\" 1 1 0 0 1 1 1 2 0.885 \"\" \"\" Knob 12\n772804865 Knobrangescale \"Range Scale\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Knob 13\n772804865 Knobrangegapangle \"Range Gap Angle\" 1 1 0 0 1 360 360 2 -135 \"\" \"\" Knob 14\n772809729 Knobrangecolor \"Range Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.382 \"\" \"\" 2 0.382 \"\" \"\" 2 0.382 \"\" \"\" 2 0.5 \"\" \"\" Knob 21\n772804874 Knobdialtop \"Dial TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 18\n-1374678774 Knobbgtop \"Bg TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 17\n772809729 Knotchcolor \"Knotch Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Knob 24\n772804865 Knotchwidth \"Knotch Width\" 1 3 0 0 1 1 1 2 0.5 \"\" \"\" Knob 15\n772804865 Knotchlength \"Knotch Length\" 1 3 0 0 3 1 1 2 0 \"\" \"\" Knob 16\n772804865 Knobvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Knob 31\n772804866 Knobheight Height 1 3 1 1 1 300 300 2 88 \"\" \"\" Knob 30\n772804879 Knobverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Knob 4097 2 fixed \"Fixed Height\" fill Fill 29\n772804865 Knobhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Knob 28\n772804866 Knobwidth Width 1 3 1 1 1 300 300 2 88 \"\" \"\" Knob 27\n-1374678769 Knobhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Knob 4097 2 fixed \"Fixed Width\" fill Fill 26\n-1374678783 Knobsensitivity Sensitivity 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 10\n-1374678779 Knobcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 0 \"\" Knob 32\n772804875 Knobpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 33\n772804879 Knobalignmode \"Align Mode\" 1 1 0 0 1 1 1 2 0 metrics \"\" Knob 4097 2 metrics \"Use Font Metrics\" bbox \"Use Text Bounding Box\" 9\n-1374678781 Cacheactive \"Cache Active\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 34\n772804874 Cacheabletop \"Cacheable TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 35\n772804877 Widgetcachecomp \"Widget Cache COMP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 36\n-1374678781 Cacheoptimized \"Cache Optimized\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 37\n-1374678781 Knoblabeldisplay \"Knob Label Display\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 1\n-1374678769 Knobfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Knob 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 2\n772935938 Knobfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Knob 3 \"me.par.Knobfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Knobfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Knob 4 \"me.par.Knobfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Knobscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Knob 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 5\n772804867 Knobfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Knob 6\n772804867 Knobitalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Knob 7\n772804867 Knobdropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Knob 8\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n16\nu 0.730159\nv -0.142857\ntrueu 0.730159\ntruev -0.142857\nrollu 0.142857\nrollv 0.031746\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 64\nscreenh 64\nscreenwm 64\nscreenhm 64\nstateu 0.730159\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/bg": {
+      "name": "bg",
+      "path": "/knobFixed/knobFixed/knob0/bg",
+      "op_type": "TOP:null",
+      "family": "TOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {
+        "0": "switch2"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/knob": {
+      "name": "knob",
+      "path": "/knobFixed/knobFixed/knob0/knob",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "67108913": "\"\" \"parent.Widget.par.Knobdialtop.eval() or ''\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/text": {
+      "name": "text",
+      "path": "/knobFixed/knobFixed/knob0/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67108881": "\"\" parent.Widget.par.Knoblabel.eval()"
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108881": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108881": "off parent.Widget.par.Knobfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Knobitalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Knobdropshadow"
+        },
+        "scaletofit": {
+          "67108913": "never parent.Widget.par.Knobscaletofit"
+        },
+        "fontsize": {
+          "67108881": "20 \"parent.Widget.par.Knobfontsize.eval() if parent.Widget.par.Knobfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Knobfontfraction.eval()\""
+        },
+        "fontsizeunits": {
+          "67108881": "panelunits parent.Widget.par.Knobfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108881": "1 parent.Widget.par.Knobfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108881": "1 parent.Widget.par.Knobfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108881": "1 parent.Widget.par.Knobfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108881": "1 parent.Widget.par.Knobfontcolora.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "display": {
+          "67108913": "off parent.Widget.par.Knoblabeldisplay"
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.448276\nv 0.304348\ntrueu 0.448276\ntruev 0.304348\nrollu 0.99373\nrollv 0.73913\nscreenw 64\nscreenh 64\nscreenwm 64\nscreenhm 64\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/info1": {
+      "name": "info1",
+      "path": "/knobFixed/knobFixed/knob0/info1",
+      "op_type": "DAT:info",
+      "family": "DAT",
+      "specific_type": "info",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": {
+          "67108864": "knobWidgetShader"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/knobBg": {
+      "name": "knobBg",
+      "path": "/knobFixed/knobFixed/knob0/knobBg",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "67108913": "\"\" \"parent.Widget.par.Knobbgtop.eval() or ''\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/KnobExt": {
+      "name": "KnobExt",
+      "path": "/knobFixed/knobFixed/knob0/KnobExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAruU3ViV2lkZ2V0RXh0ID0gbW9kLlN1YldpZGdldEV4dC5TdWJXaWRnZXRFeHQKVERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgS25vYkV4dChTdWJXaWRnZXRFeHQpOgoJIiIiCglLbm9iRXh0IGRlc2NyaXB0aW9uCgkiIiIKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXApOgoJCSMgVGhlIGNvbXBvbmVudCB0byB3aGljaCB0aGlzIGV4dGVuc2lvbiBpcyBhdHRhY2hlZAoJCXNlbGYucGFyUHJlZml4ID0gJ0tub2InCgkJU3ViV2lkZ2V0RXh0Ll9faW5pdF9fKHNlbGYsIG93bmVyQ29tcCkKCQlzZWxmLmtub2JSb3RhdGVSYXRlU2NhbGUgPSBwYXJlbnQuV2lkZ2V0LnBhci5Lbm9ic2Vuc2l0aXZpdHkuZXZhbCgpCgkJc2VsZi5sYXN0diA9IE5vbmUKCQlzZWxmLm5vcm1NaW4gPSBwYXJlbnQuV2lkZ2V0LnBhci5WYWx1ZTAubm9ybU1pbgoJCXNlbGYubm9ybU1heCA9IHBhcmVudC5XaWRnZXQucGFyLlZhbHVlMC5ub3JtTWF4CgkJI2RlYnVnKG5vcm1NaW4sIG5vcm1NYXgpCgkJc2VsZi5rbm9iUm90YXRlUmF0ZVNjYWxlID0gc2VsZi5Lbm9iUm90YXRlU2NhbGUKCQlzZWxmLmNWYWwgPSBOb25lCgoKCWRlZiBVcGRhdGVBdHRyaWJ1dGVzKHNlbGYpOgoJCSIiIgoJCVVwZGF0ZXMgYXR0cmlidXRlcyBhZnRlciBjaGFuZ2VzIHRvIHdpZGdldCBwYXJhbWV0ZXIgdmFsdWVzCgkJIiIiCgkJc2VsZi5rbm9iUm90YXRlUmF0ZVNjYWxlID0gcGFyZW50LldpZGdldC5wYXIuS25vYnNlbnNpdGl2aXR5LmV2YWwoKQoJCXNlbGYubm9ybU1pbiA9IHBhcmVudC5XaWRnZXQucGFyLlZhbHVlMC5ub3JtTWluCgkJc2VsZi5ub3JtTWF4ID0gcGFyZW50LldpZGdldC5wYXIuVmFsdWUwLm5vcm1NYXgKCQlzZWxmLmtub2JSb3RhdGVSYXRlU2NhbGUgPSBzZWxmLktub2JSb3RhdGVTY2FsZQoKCUBwcm9wZXJ0eQoJZGVmIEtub2JSb3RhdGVTY2FsZShzZWxmKToKCQlyZXR1cm4gZmxvYXQob3AoJ2tub2JSb3RhdGVTY2FsZScpWzAsMF0udmFsKQoJCSMgcmV0dXJuIChwYXJlbnQuV2lkZ2V0LnBhci5Lbm9ic2Vuc2l0aXZpdHkuZXZhbCgpKSAqIFwKCQkjIAkJCQkJCQkJCShzZWxmLm5vcm1NYXgtc2VsZi5ub3JtTWluKSAqIFwKCQkjIAkJCQkJCQkJCShwYXJlbnQuV2lkZ2V0LmhlaWdodC81MTIpCgoJZGVmIFNlbGVjdChzZWxmLCBwYW5lbFZhbHVlKToKCQkiIiIKCQlGaXJzdCBjbGljayBvbiBrbm9iIHNldHMgb2Zmc2V0IGxvY2F0aW9uCgkJIiIiCgkJc2VsZi5rbm9iUm90YXRlUmF0ZVNjYWxlID0gc2VsZi5Lbm9iUm90YXRlU2NhbGUKCQlpZiBwYW5lbFZhbHVlLm5hbWUgPT0gJ3NlbGVjdCc6CgkJCWlkTnVtID0gcGFuZWxWYWx1ZS5vd25lci5kaWdpdHMKCQkJc2VsZi5jVmFsID0gZ2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhciwgJ1ZhbHVlJysgc3RyKGlkTnVtKSkuZXZhbCgpCgkJCXNlbGYubGFzdFYgPSAocGFuZWxWYWx1ZS5vd25lci5wYW5lbC52LnZhbCpzZWxmLmtub2JSb3RhdGVSYXRlU2NhbGUpCgoJZGVmIFZhbHVlQ2hhbmdlKHNlbGYsIHBhbmVsVmFsdWUpOgoJCSIiIgoJCU1hbmFnZXMgdmFsdWUgY2hhbmdlIHVzaW5nIHByZXZpb3VzIHZhbHVlIGFuZCBvZmZzZXQKCQkiIiIKCQlpZiBwYW5lbFZhbHVlLm5hbWUgPT0gJ3YnOgoJCQlpZE51bSA9IHBhbmVsVmFsdWUub3duZXIuZGlnaXRzCgkJCSNsYXN0ViA9IG1lLmZldGNoKCdsYXN0dicpCgkJCW5ld1YgPSBwYW5lbFZhbHVlLnZhbCpzZWxmLmtub2JSb3RhdGVSYXRlU2NhbGUKCQkJI2RlYnVnKCduZXdWJywgbmV3VikKCQkJaW5jciA9IG5ld1Ytc2VsZi5sYXN0VgoJCQkjZGVidWcoJ2luY3InLCBpbmNyKQoJCQkjd2lkZ2V0Q1ZhbHVlID0gZ2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhciwgJ1ZhbHVlJysgc3RyKGlkTnVtKSkuZXZhbCgpCgkJCSN3aWRnZXROVmFsdWUgPSB3aWRnZXRDVmFsdWUgKyBpbmNyCgkJCQoJCQl3aWRnZXROVmFsdWUgPSBzZWxmLmNWYWwgKyBpbmNyCgkJCSNwYXJlbnQuV2lkZ2V0LlNldFZhbHVlKHdpZGdldE5WYWx1ZSwgaW5kZXggPSBpZE51bSkKCQkJc2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhciwgJ1ZhbHVlJysgc3RyKGlkTnVtKSwgd2lkZ2V0TlZhbHVlKQoJCQkjZGVidWcoJ2NWYWx1ZScsIHdpZGdldENWYWx1ZSwgaW5jcikKCQkJc2VsZi5sYXN0ViA9IG5ld1YKCQkJc2VsZi5jVmFsID0gd2lkZ2V0TlZhbHVlCgkJCSNkZWJ1Zyhrbm9iUm90YXRlUmF0ZVNjYWxlICkKCglkZWYgb25QYXJTZXR0aW5nc0NoYW5nZShzZWxmLCBwYXIsIHByZXYpOgoJCSIiIgoJCU1hbmFnZXMgdmFsdWUgY2hhbmdlcyB3aWRnZXQgc2V0dGluZ3MgcGFyYW1ldGVycwoJCSIiIgoJCXZhbCA9IHBhci5ldmFsKCkKCQlpZiBwYXIubmFtZVs6NV0gaW4gWydEZWZhdScsCgkJCQkJCQkJJ05vcm1tJywKCQkJCQkJCQknQ2xhbXAnLAoJCQkJCQkJCSdNaW5tYSddIFwKCQkJCQlvciBwYXIubmFtZSA9PSAnS25vYnNlbnNpdGl2aXR5JzoKCQkJc2VsZi5VcGRhdGVBdHRyaWJ1dGVzKCkKCQllbHNlOgoJCQlTdWJXaWRnZXRFeHQub25QYXJTZXR0aW5nc0NoYW5nZShzZWxmLCBwYXIsIHByZXYpCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJT24gcGFuZWwgZXZlbnQKCQkiIiIKCQlpZiBldmVudCA9PSAndmFsdWVDaGFuZ2UnOgoJCQkjZGVidWcoJ3ZjJywgcGFuZWxWYWx1ZS5uYW1lKQoJCQlwYXJlbnQoKS5WYWx1ZUNoYW5nZShwYW5lbFZhbHVlKQoJCWVsaWYgZXZlbnQgPT0gJ29mZlRvT24nOgoJCQkjZGVidWcoJ29vJywgcGFuZWxWYWx1ZS5uYW1lKQoJCQlwYXJlbnQoKS5TZWxlY3QocGFuZWxWYWx1ZSk=",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/switch1": {
+      "name": "switch1",
+      "path": "/knobFixed/knobFixed/knob0/switch1",
+      "op_type": "TOP:switch",
+      "family": "TOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "index": {
+          "67108913": "0 parent.Widget.par.Cacheactive"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {
+        "0": "knobWidgetShader",
+        "1": "cacheselect1"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/switch2": {
+      "name": "switch2",
+      "path": "/knobFixed/knobFixed/knob0/switch2",
+      "op_type": "TOP:switch",
+      "family": "TOP",
+      "specific_type": "switch",
+      "viewport_pos": null,
+      "tile_pos": [
+        800,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "blend": {
+          "67108881": "off parent.Widget.par.Cacheoptimized"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {
+        "0": "switch1",
+        "1": "cacheselect1"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/rollover": {
+      "name": "rollover",
+      "path": "/knobFixed/knobFixed/knob0/rollover",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        400,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 6
+        },
+        "w": {
+          "67108866": 400
+        },
+        "h": {
+          "67108866": 300
+        },
+        "layer": {
+          "67108864": 7
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignore"
+        },
+        "display": {
+          "67108913": "on \"(parent().panel.rollover or parent().panel.lselect or parent().panel.inside) * parent.Widget.par.Enablerollover.eval()\""
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0 parent.Widget.par.Rollovercolorr.eval()"
+        },
+        "bgcolorg": {
+          "67108913": "0.366667 parent.Widget.par.Rollovercolorg.eval()"
+        },
+        "bgcolorb": {
+          "67108913": "0.5 parent.Widget.par.Rollovercolorb.eval()"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Rollovercolora.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "composite": {
+          "67108913": "add parent.Widget.par.Rollovercomposite.eval()"
+        },
+        "clone": {
+          "67108912": "\"\" \"parent.Widget.par.Package.eval().SubComp('TDWidgetKit', 'masterButton/button0/rollover')\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n7\nu 0.503937\nv 0.590551\ntrueu 0.503937\ntruev 0.590551\nrollu 0.669291\nrollv 1\ndisplay 0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/SubWidgetExt": {
+      "name": "SubWidgetExt",
+      "path": "/knobFixed/knobFixed/knob0/SubWidgetExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAA36VERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgU3ViV2lkZ2V0RXh0OgoJIiIiCglSb2NrZXJFeHQgZGVzY3JpcHRpb24KCSIiIgoKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXAsIGluZGV4Q29tcD1Ob25lKToKCQkjIFRoZSBjb21wb25lbnQgdG8gd2hpY2ggdGhpcyBleHRlbnNpb24gaXMgYXR0YWNoZWQKCQlzZWxmLm93bmVyQ29tcCA9IG93bmVyQ29tcAoJCWlmIGluZGV4Q29tcDoKCQkJc2VsZi5pbmRleENvbXAgPSBpbmRleENvbXAKCQllbHNlOgoJCQlzZWxmLmluZGV4Q29tcCA9IHNlbGYub3duZXJDb21wCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJUGFuZWwgZXhlYyBldmVudHMgZnJvbSB3aWRnZXQKCQkiIiIKCQlwYXNzCgoJZGVmIG9uUGFyU2V0dGluZ3NDaGFuZ2Uoc2VsZiwgcGFyLCBwcmV2KToKCQkiIiIKCQlNYW5hZ2VzIHZhbHVlIGNoYW5nZXMgd2lkZ2V0IHNldHRpbmdzIHBhcmFtZXRlcnMKCQkiIiIKCQl2YWwgPSBwYXIuZXZhbCgpCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAncnVuY29tbWFuZCc6CgkJCWVuYWJsZSA9IHBhci5ldmFsKCkKCQkJZm9yIHN1ZmZpeCBpbiBbJ2NvbW1hbmRvbicsICdjb21tYW5kb2ZmJywgJ2NvbW1hbmRvbnZhbHVlY2hhbmdlJ106CgkJCQlwID0gc2VsZi5wcmVmaXhQYXIoc3VmZml4KQoJCQkJaWYgcCBpcyBub3QgTm9uZToKCQkJCQlwLmVuYWJsZSA9IGVuYWJsZQoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnaG9yaXpvbnRhbG1vZGUnOgoJCQlmaWxsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQkJc2VsZi5wcmVmaXhQYXIoJ2hmaWxsd2VpZ2h0JykuZW5hYmxlID0gZmlsbAoJCQlzZWxmLnByZWZpeFBhcignd2lkdGgnKS5lbmFibGUgPSBub3QgZmlsbAoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAndmVydGljYWxtb2RlJzoKCQkJZmlsbCA9IFRydWUgaWYgdmFsID09ICdmaWxsJyBlbHNlIEZhbHNlCgkJCXNlbGYucHJlZml4UGFyKCd2ZmlsbHdlaWdodCcpLmVuYWJsZSA9IGZpbGwKCQkJc2VsZi5wcmVmaXhQYXIoJ2hlaWdodCcpLmVuYWJsZSA9IG5vdCBmaWxsCgkJZWxpZiBwYXIubmFtZSBpbiBbc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYScsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYicsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyJ106CgkJCWdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHBhci5uYW1lICsgJ2NvbG9ycicpLmVuYWJsZSA9IHBhci5ldmFsKCkKCglkZWYgb25QYXJTZXR0aW5nc1B1bHNlKHNlbGYsIHBhcik6CgkJIiIiCgkJTWFuYWdlcyBwdWxzZSBldmVudHMgZm9yIHdpZGdldCBzZXR0aW5ncyBwYXJhbWV0ZXJzCgkJIiIiCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnY3VzdG9taXplaW50ZXJhY3Rpb24nOgoJCQlzZWxmLm1ha2VQYW5lbEV4ZWN1dGUoKQoKCWRlZiBvblRvZ2dsZUV2ZW50KHNlbGYsIGV2ZW50LCBwYW5lbFZhbHVlKToKCQlpZiBldmVudCA9PSAnb2ZmVG9Pbic6CgkJCXNlbGYudG9nZ2xlKCkKCglkZWYgdG9nZ2xlKHNlbGYpOgoJCWluZGV4ID0gc2VsZi5pbmRleENvbXAuZGlnaXRzCgkJdmFsdWVQYXIgPSBnZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLCAnVmFsdWUnICsgc3RyKGluZGV4KSkKCQl2YWx1ZVBhci52YWwgPSAxIC0gdmFsdWVQYXIuZXZhbCgpCgoJZGVmIHByZWZpeFBhcihzZWxmLCBzdWZmaXgpOgoJCSIiIgoJCVJldHVybiBhIHBhcmFtZXRlciBwcmVmaXhlZCBieSBwYXJQcmVmaXgKCQk6cGFyYW0gc3VmZml4OiB0aGUgcGFyIG5hbWUgYWZ0ZXIgcGFyUHJlZml4IChzdHJpbmcpCgkJOnJldHVybjogdGhlIHBhcmFtZXRlciBvciBOb25lIGlmIG5vdCBmb3VuZAoJCSIiIgoJCXJldHVybiBnZXRhdHRyKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLAoJCQkJCSAgIHNlbGYucGFyUHJlZml4ICsgc3VmZml4LCBOb25lKQoKCWRlZiBnZXREb2NrRXhwcmVzc2lvblRvT3duZXIoc2VsZik6CgkJcGFnZSA9IFRERi5nZXRDdXN0b21QYWdlKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQsICdPUHMnKQoJCWV4cHIgPSAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyAiJykiCgkJZm9yIHAgaW4gcGFnZS5wYXJzOgoJCQlpZiBwLmV2YWwoKSA9PSBzZWxmLm93bmVyQ29tcDoKCQkJCWV4cHIgPSAibWUuZG9jay5wYXIuIiArIHAubmFtZSArICIuZXZhbCgpIgoJCQkJYnJlYWsKCQlyZXR1cm4gZXhwcgoKCWRlZiBtYWtlUGFuZWxFeGVjdXRlKHNlbGYsIHBhbmVsRXhwcj1Ob25lKToKCQkiIiIKCQlDcmVhdGVzIGEgcGFuZWwgZXhlY3V0ZSBEQVQgZm9yIHJ1bm5pbmcgZXh0ZXJuYWwgY29kZSBmcm9tIHRoZQoJCXdpZGdldCB0aGF0IGlzIGNvbm5lY3RlZCB0byB0aGUgYnV0dG9uIGludGVyYWN0aW9uIHJlY2VpdmVyIC0gd2hpY2gKCQlpcyB0aGUgb3duZXJDb21wIG9mIHRoaXMgY2xhc3MKCgkJcGFuZWxFeHByOiB3aWxsIGJlIHVzZWQgYXMgdGhlIGV4cHJlc3Npb24gaW4gdGhlIHBhbmVsIHBhcmFtZXRlciBvZiB0aGUKCQkJcGFuZWxFeGVjLiBEZWZhdWx0cyB0byAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyInKSIKCQkiIiIKCQlwYW5lbEV4ZWNQYXIgPSBzZWxmLlBhbmVsRXhlY1BhcgoJCXBlRGF0ID0gcGFuZWxFeGVjUGFyLmV2YWwoKQoJCWV4cHIgPSBzZWxmLmdldERvY2tFeHByZXNzaW9uVG9Pd25lcigpIFwKCQkJCQkJCQkJCQlpZiBwYW5lbEV4cHIgaXMgTm9uZSBlbHNlIHBhbmVsRXhwcgoJCWlmIG5vdCBwZURhdDoKCQkJcGVEYXQgPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0LnBhcmVudCgpLmNyZWF0ZSgKCQkJCXBhbmVsZXhlY3V0ZURBVCwgc2VsZi5wYXJQcmVmaXggKyAnUGFuZWxFeGVjJykKCQkJcGVEYXQubm9kZVggPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0Lm5vZGVYIC0gMjAwCgkJCXBlRGF0Lm5vZGVZID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldC5ub2RlWQoJCQlwZURhdC5kb2NrID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldAoJCQlwZURhdC5wYXIucGFuZWwuZXhwciA9IGV4cHIKCQkJcGVEYXQucGFyLm9udG9vZmYgPSBUcnVlCgkJCXBlRGF0LnZpZXdlciA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnZhbCA9IHBlRGF0Lm5hbWUKCQkJcGFuZWxFeGVjUGFyLmVuYWJsZSA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnJlYWRPbmx5ID0gVHJ1ZQoJCQlzZWxmLm93bmVyQ29tcC5vcCgncGFuZWxFeGVjT1BFeGVjJykuY29vayhmb3JjZT1UcnVlKQoJCWVsc2U6CgkJCWlmIGV4cHIgbm90IGluIHBlRGF0LnBhci5wYW5lbC5leHByOgoJCQkJcGVEYXQucGFyLnBhbmVsLmV4cHIgKz0gJywgJyArIGV4cHIKCQlwYW5lbEV4ZWNQYXIuZXZhbCgpLnBhci5lZGl0LnB1bHNlKCkKCglAcHJvcGVydHkKCWRlZiBQYW5lbEV4ZWNQYXIoc2VsZik6CgkJcmV0dXJuIGdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHNlbGYucGFyUHJlZml4ICsgJ3BhbmVsZXhlYycsIE5vbmUpCgo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/cacheselect1": {
+      "name": "cacheselect1",
+      "path": "/knobFixed/knobFixed/knob0/cacheselect1",
+      "op_type": "TOP:cacheselect",
+      "family": "TOP",
+      "specific_type": "cacheselect",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -500,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cachetop": {
+          "67108913": "\"\" \"parent.Widget.par.Widgetcachecomp.eval().op('cache') if parent.Widget.par.Widgetcachecomp.eval() else ''\""
+        },
+        "index": {
+          "67108913": "-127 \"((parent.Widget.par.Value0.eval()-parent.Widget.par.Value0.normMin) * (0 - -parent.Widget.par.Widgetcachecomp.eval().par.Indexrange)) / (parent.Widget.par.Value0.normMax-parent.Widget.par.Value0.normMin) + -parent.Widget.par.Widgetcachecomp.eval().par.Indexrange if parent.Widget.par.Widgetcachecomp.eval() else 0\""
+        },
+        "resolutionw": {
+          "67108913": "256 op('label').width"
+        },
+        "resolutionh": {
+          "67108913": "256 op('label').height"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/glslKnobWidget": {
+      "name": "glslKnobWidget",
+      "path": "/knobFixed/knobFixed/knob0/glslKnobWidget",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAABijLy9UaGlzIHNoYWRlciBjcmVhdGVzIGEga25vYiB1aSBlbGVtZW50Cgp1bmlmb3JtIGZsb2F0IHJhbmdlR2FwQW5nbGU7CnVuaWZvcm0gdmVjMyBpbmRpY2F0b3JBbmREaWFsSW5zZXQ7IC8vCnVuaWZvcm0gZmxvYXQga25vYlJhZGl1czsKdW5pZm9ybSB2ZWM0IGtub2JSYW5nZUNvbG9yOwp1bmlmb3JtIHZlYzQga25vYkxldmVsQ29sb3I7CnVuaWZvcm0gdmVjNCBrbm9iRGlhbENvbG9yOwp1bmlmb3JtIHZlYzQga25vYkJnQ29sb3I7CnVuaWZvcm0gZmxvYXQga25vYk5vcm1WYWx1ZTsKdW5pZm9ybSBmbG9hdCBkZWZhdWx0VmFsdWU7CnVuaWZvcm0gaW50IGtub2JJbmRpY2F0b3JEaXI7CnVuaWZvcm0gZmxvYXQgb2Zmc2V0Owp1bmlmb3JtIGZsb2F0IG9mZnNldDI7CnVuaWZvcm0gdmVjMiBtaW5NYXg7CnVuaWZvcm0gZmxvYXQga25vYlZhbHVlOwp1bmlmb3JtIGZsb2F0IGtub3RjaFdpZHRoOwp1bmlmb3JtIHZlYzQga25vdGNoQ29sb3I7CnVuaWZvcm0gZmxvYXQga25vdGNoTGVuZ3RoOwoKdW5pZm9ybSBmbG9hdCByb3Q7Cgpjb25zdCBmbG9hdCBQSSA9IDMuMTQxNTkyNjUzNTg5NzkzMjM4NDYyNjQzMzgzOwoKdW5pZm9ybSBzYW1wbGVyMkQgc0lucHV0czA7CgpsYXlvdXQobG9jYXRpb24gPSAwKSBvdXQgdmVjNCBmcmFnQ29sb3I7CgovLyBmdW5jdGlvbnMKbWF0MiByb3RhdGUyZChmbG9hdCBfYW5nbGUpewogICAgcmV0dXJuIG1hdDIoY29zKF9hbmdsZSksLXNpbihfYW5nbGUpLAogICAgICAgICAgICAgICAgc2luKF9hbmdsZSksY29zKF9hbmdsZSkpOwp9CgpmbG9hdCBib3goaW4gdmVjMiBfc3QsIGluIHZlYzIgX3NpemUpewogICAgX3NpemUgPSB2ZWMyKDAuNSkgLSBfc2l6ZSowLjU7CiAgICB2ZWMyIHV2ID0gc21vb3Roc3RlcChfc2l6ZSwKICAgICAgICAgICAgICAgICAgICAgICAgX3NpemUrdmVjMigwLjAwMSksCiAgICAgICAgICAgICAgICAgICAgICAgIF9zdCk7CiAgICB1diAqPSBzbW9vdGhzdGVwKF9zaXplLAogICAgICAgICAgICAgICAgICAgIF9zaXplK3ZlYzIoMC4wMDEpLAogICAgICAgICAgICAgICAgICAgIHZlYzIoMS4wKS1fc3QpOwogICAgcmV0dXJuIHV2LngqdXYueTsKfQoKZmxvYXQgY2lyY2xlKGluIHZlYzIgdXYsIGluIGZsb2F0IHJhZGl1cykgewogICAgdmVjMiBkaXN0ID0gdXYtdmVjMigwLjUpOwogICAgLy9yYWRpdXMgPSAxLjA7CiAgICByZXR1cm4gMS4wLXNtb290aHN0ZXAocmFkaXVzLShyYWRpdXMqMC4wMSApLAogICAgICAgICAgICByYWRpdXMrKHJhZGl1cyowLjAxKSwgZG90KGRpc3QsZGlzdCkqNC4wKTsKfQoKZmxvYXQgYXRhbjIoaW4gZmxvYXQgeSwgaW4gZmxvYXQgeCkgewogICAgcmV0dXJuIHggPT0gMC4wID8gc2lnbih5KSpQSS8yIDogYXRhbih5LCB4KTsKfQoKdmVjNCBjaXJjbGUyKHZlYzIgdXYsIHZlYzIgcG9zLCBmbG9hdCByYWQsIHZlYzQgY29sb3IpIHsKICB2ZWMyIGRpc3QgPSB1di12ZWMyKDAuNSk7CiAgZmxvYXQgZDEgPSBsZW5ndGgocG9zIC0gdXYpIC0gcmFkOwogIGZsb2F0IGQyID0gbGVuZ3RoKHBvcyAtIHV2KSAtIHJhZCswOwoJZmxvYXQgdCA9IGNsYW1wKGQxLCAwLjAsIDEuMCk7CgoJcmV0dXJuIHZlYzQoY29sb3IucmdiLCAoMS4wIC0gdCkqY29sb3IuYSk7Cn0KCnZlYzQgY2lyY2xlMyh2ZWMyIF9zdCwgZmxvYXQgX3JhZGl1cywgdmVjNCBjb2xvcil7CiAgdmVjMiBkaXN0ID0gX3N0LXZlYzIoMC41KTsgLy9fc3QtdmVjMigwLjUpOwogIC8vX3JhZGl1cyA9IDAuMjsKICAvL19yYWRpdXMgPSAxLjA7CiAgZmxvYXQgY2lyYyA9IDEuLXNtb290aHN0ZXAoX3JhZGl1cy0oX3JhZGl1cyowLjAxNSksCiAgICAgICAgICAgICAgICAgICAgICAgICBfcmFkaXVzKyhfcmFkaXVzKjAuMDE1KSwKICAgICAgICAgICAgICAgICAgICAgICAgIGRvdChkaXN0LGRpc3QpKjQuMCk7CiAgcmV0dXJuIGNpcmMqY29sb3I7Cn0KCmZsb2F0IGFhc3RlcChmbG9hdCB0aHJlc2hvbGQsIGZsb2F0IHZhbHVlKSB7CiAgZmxvYXQgYWZ3aWR0aCA9IDAuNyAqIGxlbmd0aCh2ZWMyKGRGZHgodmFsdWUpLCBkRmR5KHZhbHVlKSkpOwogIHJldHVybiBzbW9vdGhzdGVwKHRocmVzaG9sZC1hZndpZHRoLCB0aHJlc2hvbGQrYWZ3aWR0aCwgdmFsdWUpOwp9Cgp2ZWM0IG92ZXIodmVjNCB0T3ZlciwgdmVjNCB0VW5kZXIpCnsKICAgIHJldHVybiAoKDEuMC10T3Zlci5hKSp0VW5kZXIpICsgKHRPdmVyKnRPdmVyLmEpOwp9Cgp2ZWM0IGF0b3AodmVjNCB0T3ZlciwgdmVjNCB0VW5kZXIpCnsKICAgIHJldHVybiAoKDEuMC10T3Zlci5hKSp0VW5kZXIpICsgdE92ZXIuYSAqIHRPdmVyOwp9CgpmbG9hdCBtYXAoZmxvYXQgcywgZmxvYXQgYTEsIGZsb2F0IGEyLCBmbG9hdCBiMSwgZmxvYXQgYjIpCnsKICAgIHJldHVybiBiMSArIChzLWExKSooYjItYjEpLyhhMi1hMSk7Cn0KCnZlYzIgcm90YXRlVVYoZmxvYXQgb2Zmc2V0LCB2ZWMyIHV2KQp7CiAgICBmbG9hdCByb3QgPSBvZmZzZXQ7CiAgICB1di09LjU7CiAgICBtYXQyIG0gPSBtYXQyKGNvcyhyb3QpLCAtc2luKHJvdCksIHNpbihyb3QpLCBjb3Mocm90KSk7CiAgICB1diAgPSBtICogdXY7CgogICAgdXYrPS41OwogICAgcmV0dXJuIHV2Owp9Cgp2ZWMyIGNhcnRQb2xhcih2ZWMyIHApIHsKICAgIHJldHVybiB2ZWMyKGF0YW4oKHApLnksIChwKS54KSwgbGVuZ3RoKHApKTsKfQoKdm9pZCBtYWluKCkgewoKCXZlYzIgZnJhZ0Nvb3JkID0gZ2xfRnJhZ0Nvb3JkLnh5OwoJdmVjMiByZXMgPSB1VERPdXRwdXRJbmZvLnJlcy56dzsKCWZsb2F0IGZpdCA9IG1heChyZXMueC0zLCByZXMueS0zKS8yOwoKICAgIGZsb2F0IHJvdEluZCA9IHJhZGlhbnMobWFwKGtub2JWYWx1ZSwgbWluTWF4LngsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBtaW5NYXgueSwgcmFuZ2VHYXBBbmdsZSwgMzYwLXJhbmdlR2FwQW5nbGUpKTsKICAgIGZsb2F0IHJvdE1pZFBvaW50ID0gcmFkaWFucyhtYXAoKChtaW5NYXgueCttaW5NYXgueSkvMiksIG1pbk1heC54LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgbWluTWF4LnksIHJhbmdlR2FwQW5nbGUsIDM2MC1yYW5nZUdhcEFuZ2xlKSk7CiAgICBmbG9hdCByb3REZWZhdWx0ID0gcmFkaWFucyhtYXAoZGVmYXVsdFZhbHVlLCBtaW5NYXgueCwgbWluTWF4LnksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByYW5nZUdhcEFuZ2xlLCAzNjAtcmFuZ2VHYXBBbmdsZSkpOwoKCiAgICB2ZWMyIHhVViA9IHJvdGF0ZVVWKHJvdE1pZFBvaW50LCB2VVYuc3QpOwogICAgZmxvYXQgem9uZVdpcGUgPSAoYXRhbjIoKHhVVi5zLTAuNSksIHhVVi50LTAuNSkpOwoKICAgIC8vbWFwcyBhdGFuMiBvdXRwdXQgZnJvbSAwLTE4MCB0byBjb250aW51b3VzIDAtMzYwCiAgICBpZiAoIHNpZ24oem9uZVdpcGUpPDAgKXsKICAgICAgICB6b25lV2lwZSA9IG1hcCh6b25lV2lwZSwgcmFkaWFucygtMTgwKSwgcmFkaWFucygwKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByYWRpYW5zKDE4MC4pLCByYWRpYW5zKDM2MCkpOwogICAgfQoKICAgIGZsb2F0IHJhbmdlR2FwID0gcmFkaWFucyhyYW5nZUdhcEFuZ2xlKTsKICAgIGZsb2F0IHJhbmdlMzYwID0gcmFkaWFucygzNjApOwoKICAgIGZsb2F0IHJhbmdlWm9uZSA9IHpvbmVXaXBlID4gcmFuZ2VHYXAgJiYKICAgICAgICAgICAgICAgICAgICAgICAgem9uZVdpcGUgPCAocmFuZ2UzNjAgLSByYW5nZUdhcCkgID8gMS4wIDogMC4wOwoKICAgIGZsb2F0IGluZFpvbmUgPSAwOwogICAgaWYgKCBrbm9iVmFsdWUgPCBkZWZhdWx0VmFsdWUgKXsKICAgICAgICBpbmRab25lID0gem9uZVdpcGUgPiByb3RJbmQgJiYgem9uZVdpcGUgPCByb3REZWZhdWx0ID8gMS4wIDogMC4wOwogICAgfQogICAgZWxzZSBpZiAoIGtub2JWYWx1ZSA+IGRlZmF1bHRWYWx1ZSApewogICAgICAgIGluZFpvbmUgPSB6b25lV2lwZSA8IHJvdEluZCAmJiB6b25lV2lwZSA+IHJvdERlZmF1bHQgPyAxLjAgOiAwLjA7CiAgICB9CgoKICAgIHZlYzIgaVVWID0gcm90YXRlVVYoLXJvdEluZCwgdlVWLnN0KTsKICAgIC8vdmVjNCB0ZXh0TGF5ZXIgPSB0ZXh0dXJlKHNURDJESW5wdXRzWzBdLCB2VVYuc3QpOwoJdmVjNCBrbm9iTGF5ZXIgPSB0ZXh0dXJlKHNURDJESW5wdXRzWzBdLCBpVVYpOwogICAgdmVjNCBiZ0xheWVyID0gdGV4dHVyZShzVEQyRElucHV0c1sxXSwgdlVWLnN0KTsKCiAgICBmbG9hdCBrbm9iRGlhbFNjYWxlID0gaW5kaWNhdG9yQW5kRGlhbEluc2V0Lng7CiAgICBmbG9hdCBrbm9iUmFuZ2VTY2FsZSA9IGluZGljYXRvckFuZERpYWxJbnNldC55OwogICAgZmxvYXQga25vYkxldmVsU2NhbGUgPSBpbmRpY2F0b3JBbmREaWFsSW5zZXQuejsKCiAgICB2ZWM0IGNvbG9yID0gdmVjNChrbm9iQmdDb2xvci5yZ2IgKiBrbm9iQmdDb2xvci5hLCBrbm9iQmdDb2xvci5hKTsKICAgIGNvbG9yID0gb3ZlcihiZ0xheWVyLCBjb2xvcik7CgogICAgLy92ZWM0IGtub2JEaWFsID0gY2lyY2xlMihmcmFnQ29vcmQsIHJlcy8yLAogICAgLy8gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaXQqKGtub2JEaWFsU2NhbGUpLCBrbm9iRGlhbENvbG9yKTsKICAgIC8vdmVjNCBrbm9iRGlhbCA9IGNpcmNsZTMoZnJhZ0Nvb3JkL3JlcywKICAgIC8vICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAga25vYkRpYWxTY2FsZSwga25vYkRpYWxDb2xvcik7CgogICAgdmVjNCBrbm9iRGlhbCA9IGNpcmNsZTIoZnJhZ0Nvb3JkLCByZXMvMiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKGZpdCprbm9iRGlhbFNjYWxlKSwga25vYkRpYWxDb2xvcik7CgogICAgLy92ZWM0IGtub2JEaWFsQ3V0ID0gY2lyY2xlMyhmcmFnQ29vcmQvcmVzLAogICAgLy8gICAgICAgICAgICAgICAgICAgICAgICAga25vYkRpYWxTY2FsZS0wLjAyLCBrbm9iRGlhbENvbG9yKTsKCiAgICB2ZWM0IGtub2JEaWFsQ3V0ID0gY2lyY2xlMihmcmFnQ29vcmQsIHJlcy8yLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgKGZpdCprbm9iRGlhbFNjYWxlLTEpLCBrbm9iRGlhbENvbG9yKTsKCiAgICB2ZWM0IGtub2JSYW5nZSA9IGNpcmNsZTIoZnJhZ0Nvb3JkLCByZXMvMiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChmaXQqa25vYlJhbmdlU2NhbGUpLCBrbm9iUmFuZ2VDb2xvcik7CiAgICBrbm9iUmFuZ2UgPSAoa25vYlJhbmdlICogcmFuZ2Vab25lKSAqIGZsb29yKDEta25vYkRpYWxDdXQuYSk7CgogICAgdmVjNCBrbm9iTGV2ZWwgPSBjaXJjbGUyKGZyYWdDb29yZCwgcmVzLzIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaXQqa25vYkxldmVsU2NhbGUsIHZlYzQoMS4wLDEuMCwxLjAsMS4wKSkqZmxvb3IoMS1rbm9iRGlhbEN1dC5hKTsKICAgIHZlYzQga25vdGNoTGF5ZXIgPSBjaXJjbGUyKGZyYWdDb29yZCwgcmVzLzIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaXQqa25vYkRpYWxTY2FsZSwga25vdGNoQ29sb3IpOwogICAgdmVjNCBrbm90Y2hNYXNrID0gY2lyY2xlMihmcmFnQ29vcmQsIHJlcy8yLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaXQqa25vYkRpYWxTY2FsZS1rbm90Y2hMZW5ndGgsIHZlYzQoMS4wKSk7CiAgICAvL2tub3RjaExheWVyID0ga25vdGNoTGF5ZXIgKiBrbm90Y2hab25lOwogICAgZmxvYXQga25vdGNoU2NhbGVyID0gKDEta25vdGNoTGVuZ3RoKSooa25vYkRpYWxTY2FsZS8yKTsKICAgIGZsb2F0IGtub3RjaFZhbCA9IGJveCh2ZWMyKGlVVi54LGlVVi55Kyhrbm9iTGV2ZWxTY2FsZS80KStrbm90Y2hTY2FsZXIpLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZlYzIoa25vdGNoV2lkdGgvMjAsa25vYkxldmVsU2NhbGUvMikpOwogICAgdmVjNCBrbm90Y2ggPSBrbm90Y2hDb2xvciprbm90Y2hWYWwqa25vYkxldmVsLmE7CgogICAga25vYkxldmVsID0ga25vYkxldmVsICogaW5kWm9uZTsKICAgIGNvbG9yID0gYXRvcChrbm9iUmFuZ2UsIGNvbG9yKTsKICAgIGNvbG9yID0gYXRvcChrbm9iTGV2ZWwqa25vYkxldmVsQ29sb3IsIGNvbG9yKTsKICAgIGNvbG9yID0gYXRvcChrbm9iRGlhbCwgY29sb3IpOwogICAgY29sb3IgPSBhdG9wKGtub2JMYXllciwgY29sb3IpOwogICAgY29sb3IgPSBhdG9wKGtub3RjaCwgY29sb3IpOwogICAgLy9jb2xvciA9IG92ZXIodGV4dExheWVyLCBjb2xvcik7CgogICAgLy9jb2xvciA9IG92ZXIoa25vdGNoTGF5ZXIqKDEta25vdGNoTWFzayksIGNvbG9yKTsKCWZyYWdDb2xvciA9IGNvbG9yOwoJLy9mcmFnQ29sb3IgPSBpbmQ7Cgp9Cg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/knobRotateScale": {
+      "name": "knobRotateScale",
+      "path": "/knobFixed/knobFixed/knob0/knobRotateScale",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "expr": {
+          "67108864": "\"parent.Widget.par.Knobsensitivity.eval() * (parent.Widget.par.Value0.normMax-parent.Widget.par.Value0.normMin) * (parent.Widget.height/512)\""
+        },
+        "rowindexend": {
+          "201326609": "0 \"me.inputTable.numRows - 1\""
+        },
+        "rowexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        },
+        "colindexend": {
+          "201326609": "0 \"me.inputTable.numCols - 1\""
+        },
+        "colexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/knob0/panelExecOPExec": {
+      "name": "panelExecOPExec",
+      "path": "/knobFixed/knobFixed/knob0/panelExecOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare ext.SubWidgetExt.PanelExecPar.eval()"
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000hdef onOPdelete():\n\text.SubWidgetExt.PanelExecPar.val = ''\n\text.SubWidgetExt.PanelExecPar.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/panelexecValueX": {
+      "name": "panelexecValueX",
+      "path": "/knobFixed/knobFixed/knob0/panelexecValueX",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "panels": {
+          "201326609": "\"\" parent()"
+        },
+        "panelvalue": {
+          "67108913": "\"select u v\" \"'select ' + 'v'\""
+        },
+        "valuechange": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAD3ZGVmIG9mZlRvT24ocGFuZWxWYWx1ZSk6CglleHQuU3ViV2lkZ2V0RXh0Lm9uUGFuZWxFdmVudCgnb2ZmVG9PbicsIHBhbmVsVmFsdWUpCgpkZWYgb25Ub09mZihwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCdvblRvT2ZmJywgcGFuZWxWYWx1ZSkKCmRlZiB2YWx1ZUNoYW5nZShwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCd2YWx1ZUNoYW5nZScsIHBhbmVsVmFsdWUpCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/text1_callbacks": {
+      "name": "text1_callbacks",
+      "path": "/knobFixed/knobFixed/knob0/text1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        50,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAe/IyBUZXh0IENvbXBvbmVudCBjYWxsYmFja3MKCmRlZiBvblZhbHVlQ2hhbmdlKGNvbXAsIHZhbHVlLCBwcmV2VmFsdWUpOgoJIiIiCglDYWxsZWQgd2hlbmV2ZXIgdGhlIHRleHQgY29tcG9uZW50J3MgdmFsdWUgcGFyYW1ldGVyIGNoYW5nZXMgZm9yIGFueSByZWFzb24gaW5jbHVkaW5nIHR5cGluZwoJaW4gdGhlIHRleHQgd2luZG93IG9yIGNoYW5naW5nIHRoZSBwYXJhbWV0ZXIgZGlyZWN0bHkuIFRoZSBjYWxsYmFjayBpcyBlcXVpdmFsZW50IHRvIHRoZQoJb25WYWx1ZUNoYW5nZSBpbiB0aGUgcGFyYW1ldGVyIGV4ZWN0dXRlIERBVC4KCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCQl2YWx1ZTogdGhlIG5ldyB2YWx1ZQoJCXByZXZWYWx1ZTogdGhlIHByZXZpb3VzIHZhbHVlCgkiIiIKCSNkZWJ1ZygnXG5vblZhbHVlQ2hhbmdlIGNvbXA6JywgY29tcC5wYXRoLCAnLSBuZXcgdmFsdWU6ICcsIHZhbHVlLCAnLCBwcmV2IHZhbHVlOiAnLCBwcmV2VmFsdWUgKQoJcmV0dXJuCgkKZGVmIG9uRm9jdXMoY29tcCk6CgkiIiIKCUNhbGxlZCB3aGVuIG9uZSBvZiB0aGUgdGV4dCBjb21wb25lbnRzIHZpZXdlcnMgZ2V0cyBrZXlib2FyZCBmb2N1cy4gCgkKCUFyZ3M6CgkJY29tcDogdGhlIHRleHQgY29tcG9uZW50CgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzIGNvbXA6JywgY29tcC5wYXRoKQoJcmV0dXJuCgpkZWYgb25Gb2N1c0VuZChjb21wLCBpbmZvKToKCSIiIgoJQ2FsbGVkIHdoZW4gb25lIG9mIHRoZSB0ZXh0IGNvbXBvbmVudCdzIHZpZXdlcnMgbG9zZXMga2V5Ym9hcmQgZm9jdXMuIEluIHJlZ3VsYXIgZWRpdGluZyBtb2RlCgl0aGlzIGlzIHJpZ2h0IGFmdGVyIHRoZSBjb250ZW50cyBhcmUgc2F2ZWQgYmFjayB0byB0aGUgdmFsdWUgcGFyYW1ldGVyLiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZAoJZXZlcnl0aW1lIHRoZSB2aWV3ZXIgbG9zZXMgZm9jdXMsIGV2ZW4gaWYgdGhlIHRleHQgZG9lcyBub3QgY2hhbmdlLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCWluZm86IGEgZGljdGlvbmFyeSBjb250YWluaW5nIGluZm9ybWF0aW9uIGFib3V0IHRoZSBldmVudCBpbmNsdWRpbmc6CgkJCXJlYXNvbjogYSBzdHJpbmcgaW5kaWNhdGluZyB3aGF0IGNhdXNlZCB0aGUgdmlld2VyIHRvIGxvc2UgZm9jdXMgZS5nLiAnZW50ZXInLCAnZXNjYXBlJywgJ3RhYicsICd1bmtub3duJwoJCgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzRW5kIGNvbXA6JywgY29tcC5wYXRoLCAnLSBpbmZvOlxuJywgaW5mbykKCXJldHVybgoJCmRlZiBvblRleHRFZGl0KGNvbXApOgoJIiIiCglDYWxsZWQgZWFjaCB0aW1lIHRoZSBjb250ZW50cyBvZiB0aGUgdGV4dCBjb21wb25lbnQgdmlld2VyIGNoYW5nZSBpLmUuIHdoZW4gdHlwaW5nIGEgY2hhcmFjdGVyLAoJZGVsZXRpbmcgdGV4dCwgY3V0dGluZyBvciBwYXN0aW5nLiAKCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXQgY29tcDonLCBjb21wLnBhdGgsICctIHRleHQ6ICcsIGNvbXAuZWRpdFRleHQpCglyZXR1cm4KCQpkZWYgb25UZXh0RWRpdEVuZChjb21wLCB2YWx1ZSwgcHJldlZhbHVlKToKCSIiIgoJQ2FsbGVkIHdoZW4gdGhlIHVzZXIgZmluaXNoZXMgZWRpdGluZyBhbmQgdGhlIHZhbHVlIGhhcyBiZWVuIGNoYW5nZWQuIE5vdCBjYWxsZWQgaW4gJ0NvbnRpbnVvdXMgRWRpdCcgbW9kZS4gVXNlCglvblRleHRFZGl0IGFuZCBvbkZvY3VzRW5kIHdoZW4gdXNpbmcgY29udGludW91cyBlZGl0aW5nLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCXZhbHVlOiB0aGUgbmV3IHZhbHVlCgkJcHJldlZhbHVlOiB0aGUgcHJldmlvdXMgdmFsdWUKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXRFbmQgY29tcDonLCBjb21wLnBhdGgsICctIG5ldyB2YWx1ZTogJywgdmFsdWUsICcsIHByZXYgdmFsdWU6ICcsIHByZXZWYWx1ZSApCglyZXR1cm4KCQoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/knobWidgetShader": {
+      "name": "knobWidgetShader",
+      "path": "/knobFixed/knobFixed/knob0/knobWidgetShader",
+      "op_type": "TOP:glsl",
+      "family": "TOP",
+      "specific_type": "glsl",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "render": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pixeldat": {
+          "67108864": "glslKnobWidget"
+        },
+        "autodispatchsize": {
+          "67108864": "off"
+        },
+        "dispatchsizex": {
+          "67108864": 64
+        },
+        "dispatchsizey": {
+          "67108864": 1
+        },
+        "dispatchsizez": {
+          "67108864": 1
+        },
+        "clearoutputs": {
+          "67108864": "off"
+        },
+        "vec0name": {
+          "67108864": "indicatorAndDialInset"
+        },
+        "vec0valuex": {
+          "67108913": "0.627 parent.Widget.par.Knobdialscale.eval()"
+        },
+        "vec0valuey": {
+          "67108913": "0.863 parent.Widget.par.Knobrangescale.eval()"
+        },
+        "vec0valuez": {
+          "67108913": "0.753 parent.Widget.par.Knoblevelscale.eval()"
+        },
+        "vec0valuew": {
+          "67108896": 0
+        },
+        "outputresolution": {
+          "67108864": "custom"
+        },
+        "resolutionw": {
+          "67108913": "128 parent().height"
+        },
+        "resolutionh": {
+          "67108913": "128 parent().height"
+        },
+        "format": {
+          "67108864": "rgba8fixed"
+        },
+        "vec1name": {
+          "67108864": "minMax"
+        },
+        "vec1valuex": {
+          "67108913": "-1 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).normMin\""
+        },
+        "vec1valuey": {
+          "67108913": "1 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).normMax\""
+        },
+        "vec1valuez": {
+          "67108896": 0
+        },
+        "vec1valuew": {
+          "67108896": 0
+        },
+        "vec2name": {
+          "67108864": "rangeGapAngle"
+        },
+        "vec2valuex": {
+          "67108913": "35 parent.Widget.par.Knobrangegapangle.eval()"
+        },
+        "vec2valuey": {
+          "67108896": 1
+        },
+        "vec2valuez": {
+          "67108896": 1
+        },
+        "vec2valuew": {
+          "67108896": 1
+        },
+        "vec3name": {
+          "67108864": "knobRangeColor"
+        },
+        "vec3valuex": {
+          "67108913": "0.18 parent.Widget.par.Knobrangecolorr.eval()"
+        },
+        "vec3valuey": {
+          "67108913": "0.28 parent.Widget.par.Knobrangecolorg.eval()"
+        },
+        "vec3valuez": {
+          "67108913": "0.3 parent.Widget.par.Knobrangecolorb.eval()"
+        },
+        "vec3valuew": {
+          "67108913": "0.7 parent.Widget.par.Knobrangecolora.eval()"
+        },
+        "vec4name": {
+          "67108864": "knobLevelColor"
+        },
+        "vec4valuex": {
+          "67108913": "0.6 parent.Widget.par.Knoblevelcolorr.eval()"
+        },
+        "vec4valuey": {
+          "67108913": "0.93333 parent.Widget.par.Knoblevelcolorg.eval()"
+        },
+        "vec4valuez": {
+          "67108913": "1 parent.Widget.par.Knoblevelcolorb.eval()"
+        },
+        "vec4valuew": {
+          "67108913": "0.7 parent.Widget.par.Knoblevelcolora.eval()"
+        },
+        "vec5name": {
+          "67108864": "knobDialColor"
+        },
+        "vec5valuex": {
+          "67108913": "0.4 parent.Widget.par.Knobdialcolorr.eval()"
+        },
+        "vec5valuey": {
+          "67108913": "0.4 parent.Widget.par.Knobdialcolorg.eval()"
+        },
+        "vec5valuez": {
+          "67108913": "0.4 parent.Widget.par.Knobdialcolorb.eval()"
+        },
+        "vec5valuew": {
+          "67108913": "0.7 parent.Widget.par.Knobdialcolora.eval()"
+        },
+        "vec6name": {
+          "67108864": "knobBgColor"
+        },
+        "vec6valuex": {
+          "67108864": 0
+        },
+        "vec6valuey": {
+          "67108864": 0
+        },
+        "vec6valuez": {
+          "67108864": 0
+        },
+        "vec6valuew": {
+          "67108864": 0
+        },
+        "vec7name": {
+          "67108864": "knobIndicatorDir"
+        },
+        "vec7valuex": {
+          "67108864": 1
+        },
+        "vec7valuey": {
+          "67108864": 0
+        },
+        "vec7valuez": {
+          "67108864": 0
+        },
+        "vec7valuew": {
+          "67108864": 0
+        },
+        "vec8name": {
+          "67108864": "knotchWidth"
+        },
+        "vec8valuex": {
+          "67108913": "0.733 parent.Widget.par.Knotchwidth.eval()"
+        },
+        "vec8valuey": {
+          "67108896": 1
+        },
+        "vec8valuez": {
+          "67108896": 1
+        },
+        "vec8valuew": {
+          "67108896": 1
+        },
+        "vec9name": {
+          "67108864": "knotchLength"
+        },
+        "vec9valuex": {
+          "67108913": "0.162 parent.Widget.par.Knotchlength.eval()"
+        },
+        "vec9valuey": {
+          "67108896": 1
+        },
+        "vec9valuez": {
+          "67108896": 1
+        },
+        "vec9valuew": {
+          "67108896": 1
+        },
+        "vec10name": {
+          "67108864": "knobNormValue"
+        },
+        "vec10valuex": {
+          "67108913": "0.283464 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).evalNorm()\""
+        },
+        "vec10valuey": {
+          "67108896": 1
+        },
+        "vec10valuez": {
+          "67108896": 1
+        },
+        "vec10valuew": {
+          "67108896": 1
+        },
+        "vec11name": {
+          "67108864": "defaultValue"
+        },
+        "vec11valuex": {
+          "67108913": "0 \"getattr(parent.Widget.par, 'Value'+ str(parent().digits)).default\""
+        },
+        "vec11valuey": {
+          "67108896": 1
+        },
+        "vec11valuez": {
+          "67108896": 1
+        },
+        "vec11valuew": {
+          "67108896": 1
+        },
+        "vec12name": {
+          "67108864": "knobBaseColor"
+        },
+        "vec12valuex": {
+          "67108864": 0
+        },
+        "vec12valuey": {
+          "67108864": 0
+        },
+        "vec12valuez": {
+          "67108864": 0
+        },
+        "vec12valuew": {
+          "67108864": 1
+        },
+        "vec13name": {
+          "67108864": "offset"
+        },
+        "vec13valuex": {
+          "67108896": 0
+        },
+        "vec13valuey": {
+          "67108896": 1
+        },
+        "vec13valuez": {
+          "67108896": 1
+        },
+        "vec13valuew": {
+          "67108896": 1
+        },
+        "vec14name": {
+          "67108864": "offset2"
+        },
+        "vec14valuex": {
+          "67108864": 0
+        },
+        "vec14valuey": {
+          "67108864": 1
+        },
+        "vec14valuez": {
+          "67108864": 1
+        },
+        "vec14valuew": {
+          "67108864": 1
+        },
+        "vec15name": {
+          "67108864": "knobValue"
+        },
+        "vec15valuex": {
+          "67108913": "-0.433072 parent.Widget.par.Value0.eval()"
+        },
+        "vec15valuey": {
+          "67108896": 1
+        },
+        "vec15valuez": {
+          "67108896": 1
+        },
+        "vec15valuew": {
+          "67108896": 1
+        },
+        "vec16name": {
+          "67108864": "knotchColor"
+        },
+        "vec16valuex": {
+          "67108913": "0.1 parent.Widget.par.Knotchcolorr.eval()"
+        },
+        "vec16valuey": {
+          "67108913": "0.1 parent.Widget.par.Knotchcolorg.eval()"
+        },
+        "vec16valuez": {
+          "67108913": "0.1 parent.Widget.par.Knotchcolorb.eval()"
+        },
+        "vec16valuew": {
+          "67108913": "1 parent.Widget.par.Knotchcolora.eval()"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {
+        "0": "knob",
+        "1": "knobBg"
+      },
+      "extra_files": {
+        "oldacbo": {
+          "content": "1\n0\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/knob0/parexecSettingsX": {
+      "name": "parexecSettingsX",
+      "path": "/knobFixed/knobFixed/knob0/parexecSettingsX",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterButton \"parent.Widget \""
+        },
+        "pars": {
+          "67108912": "\"Knobcustomizeinteraction Default0 Norm* Clamp* Min* Knobsensitivity Knobhoriz* Knobvert*\" \"'Buttonlabeltype Buttonpanelexecute Buttontype Buttonruncommand' + (' Value' + str(parent().digits) if parent.Widget.par.Buttonruncommand else '')\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/knob0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAACQZGVmIHZhbHVlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCWV4dC5TdWJXaWRnZXRFeHQub25QYXJTZXR0aW5nc0NoYW5nZShwYXIsIHByZXYpCgpkZWYgb25QdWxzZShwYXIpOgoJZXh0LlN1YldpZGdldEV4dC5vblBhclNldHRpbmdzUHVsc2UocGFyKQoK",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/label": {
+      "name": "label",
+      "path": "/knobFixed/knobFixed/label",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108881": "170 parent().par.Labelwidth"
+        },
+        "h": {
+          "67108881": "34 parent().par.Labelheight"
+        },
+        "layer": {
+          "67108864": 1
+        },
+        "hmode": {
+          "67108881": "fixed parent.Widget.par.Labelhorizontalmode"
+        },
+        "hfillweight": {
+          "67108881": "0.5 parent.Widget.par.Labelhfillweight"
+        },
+        "vmode": {
+          "67108881": "fill parent.Widget.par.Labelverticalmode"
+        },
+        "vfillweight": {
+          "67108881": "1 parent.Widget.par.Labelvfillweight"
+        },
+        "display": {
+          "67108913": "on parent.Widget.par.Labeldisplay"
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/knobFixed/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67109393": "off parent.Widget.par.clickthrough parent.Widget.par.clickthrough"
+        },
+        "uvbuttonsleft": {
+          "67108896": 0
+        },
+        "uvbuttonsmiddle": {
+          "67108896": 0
+        },
+        "uvbuttonsright": {
+          "67108896": 0
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorr"
+        },
+        "bgcolorg": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorg"
+        },
+        "bgcolorb": {
+          "67108913": "0.2 parent.Widget.par.Labelbgcolorb"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Labelbgcolora"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Widgetlabel": {
+          "67108928": "\"Knob Fixed\""
+        },
+        "Labelbgcolorr": {
+          "67108928": 0.2
+        },
+        "Labelbgcolorg": {
+          "67108928": 0.2
+        },
+        "Labelbgcolorb": {
+          "67108928": 0.2
+        },
+        "Labelbgcolora": {
+          "67108928": 1
+        },
+        "Labelfontcolorr": {
+          "67108928": 0.65
+        },
+        "Labelfontcolorg": {
+          "67108928": 0.65
+        },
+        "Labelfontcolorb": {
+          "67108928": 0.65
+        },
+        "Labelfontcolora": {
+          "67108928": 1
+        },
+        "Labelwidth": {
+          "67108928": 120
+        },
+        "Labelhfillweight": {
+          "67108928": 0.5
+        },
+        "Labelverticalmode": {
+          "67108928": "fill"
+        },
+        "Labelheight": {
+          "67108928": 34
+        },
+        "Labelaligny": {
+          "67108928": "top"
+        },
+        "Labeloffsetx": {
+          "67108928": 6
+        },
+        "Labeloffsety": {
+          "67108928": 0
+        },
+        "Labelfontsize": {
+          "67108928": 9
+        },
+        "Labelfontfraction": {
+          "67109056": 1
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [
+        "text",
+        "parexecRunCommand"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Label\n772804868 Widgetlabel \"Widget Label\" 1 1 0 0 1 1 1 2 0 Label \"\" Label 0\n-1374678781 Labeldisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 2\n-1374673919 Labelbgcolor \"Bg Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 1 \"\" \"\" Label 15\n772809729 Labelfontcolor \"Font Color\" 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 3 0 0 3 1 1 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 0.7 \"\" \"\" 2 1 \"\" \"\" Label 16\n772804874 Labeltop \"Label TOP\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 1\n-1374678769 Labelhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Width\" fill Fill 17\n772804866 Labelwidth Width 1 3 1 1 1 300 300 2 88 \"\" \"\" Label 18\n772804865 Labelhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 19\n772804879 Labelverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Label 4097 2 fixed \"Fixed Height\" fill Fill 20\n772804866 Labelheight Height 1 3 1 1 1 300 300 2 88 \"\" \"\" Label 21\n772804865 Labelvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Label 22\n-1374678769 Labelalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 Center \"\" Label 4097 3 left Left center Center right Right 11\n772804879 Labelaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 Center \"\" Label 4097 3 bottom Bottom center Center top Top 12\n-1374670335 Labeloffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Label 13\n772805633 Labelpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Label 14\n-1374678781 Labelwordwrap \"Word Wrap\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 3\n-1374678769 Labelfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Label 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 4\n772935938 Labelfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Label 5 \"me.par.Labelfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Labelfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Label 6 \"me.par.Labelfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Labelscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Label 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 7\n772804867 Labelfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Label 8\n772804867 Labelitalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Label 9\n772804867 Labeldropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Label 10\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n15\nu 0.649254\nv 0.36\ntrueu 0.649254\ntruev 0.36\nrollu 0.122257\nrollv 0.894737\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 320\nscreenh 20\nscreenwm 320\nscreenhm 20\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/label/text": {
+      "name": "text",
+      "path": "/knobFixed/knobFixed/label/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67108913": "Derivative parent.Widget.par.Widgetlabel.eval()"
+        },
+        "type": {
+          "67108864": "multiline"
+        },
+        "wordwrap": {
+          "67108913": "off parent.Widget.par.Labelwordwrap.eval()"
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108881": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108913": "off parent.Widget.par.Labelfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Labelitalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Labeldropshadow"
+        },
+        "scaletofit": {
+          "67108913": "always parent.Widget.par.Labelscaletofit.eval()"
+        },
+        "fontsize": {
+          "67109425": "20 \"parent.Widget.par.Labelfontsize.eval() if parent.Widget.par.Labelfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Labelfontfraction.eval()\" op('bg').par.fontsizex"
+        },
+        "fontsizeunits": {
+          "67108913": "panelunits parent.Widget.par.Labelfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108913": "1 parent.Widget.par.Labelfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108913": "1 parent.Widget.par.Labelfontcolora.eval()"
+        },
+        "textoffsetx": {
+          "67108913": "0 parent.Widget.par.Labeloffsetx.eval()"
+        },
+        "textoffsety": {
+          "67108913": "0 parent.Widget.par.Labeloffsety.eval()"
+        },
+        "textpaddingl": {
+          "67108913": "0 parent.Widget.par.Labelpadding1.eval()"
+        },
+        "textpaddingr": {
+          "67108913": "0 parent.Widget.par.Labelpadding2.eval()"
+        },
+        "textpaddingb": {
+          "67108913": "0 parent.Widget.par.Labelpadding3.eval()"
+        },
+        "textpaddingt": {
+          "67108913": "0 parent.Widget.par.Labelpadding4.eval()"
+        },
+        "alignx": {
+          "67108913": "center parent.Widget.par.Labelalignx.eval()"
+        },
+        "aligny": {
+          "67108913": "center parent.Widget.par.Labelaligny.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "bottomanchor": {
+          "67108864": 0.039
+        },
+        "helpdat": {
+          "67108881": "ext.TDUIWidget.PopupHelpDat parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "on parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "top": {
+          "67108913": "parent.Widget.par.Labeltop.eval() parent.Widget.par.Labeltop.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/label",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.576803\nv 0.421053\ntrueu 0.576803\ntruev 0.421053\nrollu 0.0501567\nrollv 0.736842\nscreenw 320\nscreenh 20\nscreenwm 320\nscreenhm 20\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/label/parexecRunCommand": {
+      "name": "parexecRunCommand",
+      "path": "/knobFixed/knobFixed/label/parexecRunCommand",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterLabel parent.Widget"
+        },
+        "pars": {
+          "67108864": "\"Labelhorizontalmode Labelverticalmode\""
+        },
+        "onpulse": {
+          "67108864": "off"
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/label",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAOCIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojCiMgTWFrZSBzdXJlIHRoZSBjb3JyZXNwb25kaW5nIHRvZ2dsZSBpcyBlbmFibGVkIGluIHRoZSBQYXJhbWV0ZXIgRXhlY3V0ZSBEQVQuCgpkZWYgdmFsdWVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJaWYgcGFyLm5hbWUgPT0gJ0xhYmVsaG9yaXpvbnRhbG1vZGUnOgoJCSNpZiBwYXIuZXZhbCgpID09ICdmaWxsJzoKCQl2YWwgPSBUcnVlIGlmIHZhbCA9PSAnZmlsbCcgZWxzZSBGYWxzZQoJCXNldGF0dHIocGFyZW50LldpZGdldC5wYXIuTGFiZWxoZmlsbHdlaWdodCwgJ2VuYWJsZScsIHZhbCkKCQlzZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLkxhYmVsd2lkdGgsICdlbmFibGUnLCBib29sKDEtdmFsKSkKCWVsaWYgcGFyLm5hbWUgPT0gJ0xhYmVsdmVydGljYWxtb2RlJzoKCQkjaWYgcGFyLmV2YWwoKSA9PSAnZmlsbCc6CgkJdmFsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQlzZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLkxhYmVsdmZpbGx3ZWlnaHQsICdlbmFibGUnLCB2YWwpCgkJc2V0YXR0cihwYXJlbnQuV2lkZ2V0LnBhci5MYWJlbGhlaWdodCwgJ2VuYWJsZScsIGJvb2woMS12YWwpKQoJcmV0dXJuCgpkZWYgb25QdWxzZShwYXIpOgoJcmV0dXJuCgpkZWYgZXhwcmVzc2lvbkNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBleHBvcnRDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgZW5hYmxlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG1vZGVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/output": {
+      "name": "output",
+      "path": "/knobFixed/knobFixed/output",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 3
+        },
+        "enablecloning": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [
+        "dat",
+        "chop",
+        "Value0",
+        "datValues",
+        "numValues",
+        "valuesParexec",
+        "valueParOPExec"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 Widget Info\n-1374678781 Connectors Connectors 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 0\n772804868 Outputgroupname \"Output Group Name\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 1\n772804869 Resetvaluedefaults \"Reset Value Defaults\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Widget 4\n772804879 Valuetype \"Value Type\" 1 1 0 0 1 1 1 2 0 Float \"\" Widget 4097 4 Float Float Int Integer Str String Bool Boolean 3\n772804867 Appendopname \"Append OP Name\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Widget 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/output/dat": {
+      "name": "dat",
+      "path": "/knobFixed/knobFixed/output/dat",
+      "op_type": "DAT:out",
+      "family": "DAT",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {
+        "0": "datValues"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/output/chop": {
+      "name": "chop",
+      "path": "/knobFixed/knobFixed/output/chop",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" me.parent()"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {
+        "0": "Value0"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/output/Value0": {
+      "name": "Value0",
+      "path": "/knobFixed/knobFixed/output/Value0",
+      "op_type": "CHOP:par",
+      "family": "CHOP",
+      "specific_type": "par",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "ops": {
+          "67108864": "../.."
+        },
+        "parameters": {
+          "67108864": "\"Value0 Value1 Value2 Value3\""
+        },
+        "renamefrom": {
+          "67108864": "\"Value0 Value1 Value2 Value3\""
+        },
+        "renameto": {
+          "67108913": "\"x y z a\" \"[getattr(parent.Widget.par, 'Valname0', ''), getattr(parent.Widget.par, 'Valname1', ''), getattr(parent.Widget.par, 'Valname2', ''), getattr(parent.Widget.par, 'Valname3', '')]\""
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/output/datValues": {
+      "name": "datValues",
+      "path": "/knobFixed/knobFixed/output/datValues",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "expr": {
+          "67108864": "\"getattr(parent.Widget.par, ['Valname', 'Value'][me.inputCell.col] + str(me.inputCell.row))\""
+        },
+        "rowindexend": {
+          "201326609": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "rowexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        },
+        "colindexend": {
+          "201326609": "0 \"me.inputs[0].numCols - 1\""
+        },
+        "colexpr": {
+          "201326609": "\"\" \"re.match('.*',me.inputCell.val) != None\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {
+        "0": "numValues"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/output/numValues": {
+      "name": "numValues",
+      "path": "/knobFixed/knobFixed/output/numValues",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -600,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        },
+        "fill": {
+          "67108864": "setsize"
+        },
+        "rows": {
+          "67108913": "3 len(parent.Widget.pars('Valname*'))"
+        },
+        "cols": {
+          "67108864": 2
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "1\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000\u0000\u0000\u0000",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/output/valuesParexec": {
+      "name": "valuesParexec",
+      "path": "/knobFixed/knobFixed/output/valuesParexec",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -775,
+        130,
+        90
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108881": "\"\" parent.Widget"
+        },
+        "pars": {
+          "67108913": "\"\" \"['Createeditvalueparexec'] + ['Value' + str(i) for i in range(4) if any([getattr(parent.Widget.par, parName, None) for parName in ['Onvaluechangescript' + str(i), 'Ontooffscript' + str(i), 'Offtoonscript' + str(i)]])]\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0004[def onValueChange(par, prev):\n\tparNum = par.name[-1]\n\tfor name in ['Onvaluechangescript', 'Ontooffscript', 'Offtoonscript']:\n\t\ttry:\n\t\t\tp = getattr(parent.Widget.par, name + parNum)\n\t\texcept:\n\t\t\treturn\n\t\tif p:\n\t\t\tif p.name.startswith('Onv'):\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\t\t\telif p.name.startswith('Ont') and prev and not par.eval():\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\t\t\telif p.name.startswith('Off') and not prev and par.eval():\n\t\t\t\trun(p, fromOP = parent.Widget, asParameter=True)\n\ndef onPulse(par):\n\tif not parent.Widget.par.Valueparexec.eval():\n\t\tparexec = parent.Widget.parent().create(parameterexecuteDAT, 'valueParExec')\n\t\tparexec.nodeY = parent.Widget.nodeY\n\t\tparexec.nodeX = parent.Widget.nodeX - 200\n\t\tparexec.dock = parent.Widget\n\t\tparexec.par.op.expr = 'me.dock'\n\t\tparexec.par.pars = 'Value?'\n\t\tparexec.par.builtin = False\n\t\tparent.Widget.par.Valueparexec = parexec.name\n\t\tparent.Widget.par.Valueparexec.enable = True\n\t\tparent.Widget.par.Valueparexec.readOnly = True\n\t\top('valueParOPExec').cook(force=True)\n\tparent.Widget.par.Valueparexec.eval().par.edit.pulse()",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/output/valueParOPExec": {
+      "name": "valueParOPExec",
+      "path": "/knobFixed/knobFixed/output/valueParOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -775,
+        130,
+        90
+      ],
+      "color": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare \"parent.Widget.par.Valueparexec.eval() if parent.Widget.par.Valueparexec.eval() else ''\""
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/output",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000fdef onOPdelete():\n\tparent.Widget.par.Valueparexec = ''\n\tparent.Widget.par.Valueparexec.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/overlay": {
+      "name": "overlay",
+      "path": "/knobFixed/knobFixed/overlay",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        200,
+        93,
+        155
+      ],
+      "color": [
+        0.5,
+        0.2,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "layer": {
+          "67108864": 100000
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignoremargin"
+        },
+        "display": {
+          "67108913": "on 1-parent().par.enable"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorr"
+        },
+        "bgcolorg": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorg"
+        },
+        "bgcolorb": {
+          "67108913": "0.2 parent.Widget.par.Disablecolorb"
+        },
+        "bgalpha": {
+          "67108913": "0.5 parent.Widget.par.Disablecolora"
+        },
+        "topsmoothness": {
+          "67108864": "mipmap"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n11\nu 0.183463\nv 0.190476\ntrueu 0.183463\ntruev 0.190476\nrollu 0.118056\nrollv 0.297297\ndisplay 0\nscreenw 577\nscreenh 38\nscreenwm 577\nscreenhm 38\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/valueOut": {
+      "name": "valueOut",
+      "path": "/knobFixed/knobFixed/valueOut",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "201326609": "\"\" me.name"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [],
+      "inputs": {
+        "0": "output/chop"
+      },
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/vertLayout": {
+      "name": "vertLayout",
+      "path": "/knobFixed/knobFixed/vertLayout",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        550,
+        -300,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "h": {
+          "67108864": 1021
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignorder": {
+          "67108913": "300 -me.nodeY"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "align": {
+          "67108864": "verttb"
+        },
+        "spacing": {
+          "67108913": "1 parent.Widget.par.alignmargin"
+        },
+        "justifyh": {
+          "67108913": "left parent.Widget.par.justifyh"
+        },
+        "justifyv": {
+          "67108864": "top"
+        },
+        "crop": {
+          "67108864": "on"
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n14\nu 0.113332\nv 0.238532\ntrueu 0.113332\ntruev 0.238532\nrollu 0.96875\nrollv 0.349515\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nscreenw 193\nscreenh 104\nscreenwm 193\nscreenhm 104\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0": {
+      "name": "numericValue0",
+      "path": "/knobFixed/knobFixed/numericValue0",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        700,
+        -600,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "picked": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 7
+        },
+        "w": {
+          "67108881": "110 parent.Widget.par.Numericfieldwidth"
+        },
+        "h": {
+          "67108881": "26 parent.Widget.par.Numericfieldheight"
+        },
+        "hmode": {
+          "67108913": "fixed parent.Widget.par.Numericfieldhorizontalmode"
+        },
+        "hfillweight": {
+          "67108913": "1 parent.Widget.par.Numericfieldhfillweight"
+        },
+        "vmode": {
+          "67108913": "fixed parent.Widget.par.Numericfieldverticalmode"
+        },
+        "vfillweight": {
+          "67108913": "1 parent.Widget.par.Numericfieldvfillweight"
+        },
+        "alignorder": {
+          "67108864": 1
+        },
+        "display": {
+          "67108913": "on parent.Widget.par.Numericfielddisplay"
+        },
+        "helpdat": {
+          "67108913": "/TDWidgetKit/widgets/knobFixed/code/help parent.Widget.op('code/help')"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "align": {
+          "67108864": "horizlr"
+        },
+        "spacing": {
+          "67108864": 1
+        },
+        "justifyv": {
+          "67108864": "center"
+        },
+        "ext0object": {
+          "67108864": "op('./NumericFieldExt').module.NumericFieldExt(me)"
+        },
+        "parentshortcut": {
+          "67108864": "Value"
+        },
+        "enablecloning": {
+          "67108864": "off"
+        },
+        "Numericfieldbgcolorr": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolorg": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolorb": {
+          "67108928": 0.28
+        },
+        "Numericfieldbgcolora": {
+          "67108928": 1
+        },
+        "Numericfieldbordercolorr": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolorg": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolorb": {
+          "67108928": 0
+        },
+        "Numericfieldbordercolora": {
+          "67108928": 0
+        },
+        "Numericfieldfontcolorr": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolorg": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolorb": {
+          "67108928": 0.7
+        },
+        "Numericfieldfontcolora": {
+          "67108928": 1
+        },
+        "Numericfieldpanelexec": {
+          "67109184": "\"\""
+        },
+        "Numericfieldwidth": {
+          "67108928": 110
+        },
+        "Numericfieldformatting": {
+          "67108928": "scientific"
+        },
+        "Numericfieldcustom": {
+          "67109056": "\"\""
+        },
+        "Numericfieldfontsize": {
+          "67108928": 9
+        },
+        "Numericfieldfontfraction": {
+          "67109056": 1
+        }
+      },
+      "parent": "/knobFixed/knobFixed",
+      "children": [
+        "text",
+        "panel1",
+        "rollover",
+        "SubWidgetExt",
+        "panelexecValue",
+        "NumericFieldExt",
+        "panelExecOPExec",
+        "parexecSettings",
+        "text1_callbacks"
+      ],
+      "inputs": {
+        "0": "vertLayout"
+      },
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Field\n772804867 Numericfielddisplay Display 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 0\n-1374673919 Numericfieldbgcolor \"Bg Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 0.1 \"\" \"\" 2 1.05 \"\" \"\" Field 19\n772809729 Numericfieldbordercolor \"Border Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 0.3 \"\" \"\" 2 1 \"\" \"\" Field 21\n772809729 Numericfieldfontcolor \"Font Color\" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0.8 \"\" \"\" 2 0.8 \"\" \"\" 2 0.8 \"\" \"\" 2 1 \"\" \"\" Field 20\n772804866 Numericfielddecimalplaces Precision 1 3 0 0 1 3 10 2 5 \"\" \"\" Field 5\n-1374678769 Numericfieldtype \"Field Type\" 1 1 0 0 1 1 10 2 0 string \"\" Field 4097 2 float Float integer Integer 2\n-1374678773 Numericfieldfocus \"Focus Order\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 7\n-1374678779 Numericfieldcustomizeinteraction \"Customize Interaction\" 1 1 0 0 1 1 1 2 0 0 \"\" Field 22\n772804875 Numericfieldpanelexec \"Panel Exec\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 23\n-1374678769 Numericfieldhorizontalmode \"Horizontal Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Width\" fill Fill 24\n772804866 Numericfieldwidth Width 1 3 0 0 1 120 120 2 119 \"\" \"\" Field 25\n772804865 Numericfieldhfillweight \"Horizontal Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 26\n772804879 Numericfieldverticalmode \"Vertical Mode\" 1 1 0 0 1 1 1 2 0 fixed \"\" Field 4097 2 fixed \"Fixed Height\" fill Fill 27\n772804866 Numericfieldheight Height 1 3 0 0 1 120 120 2 26 \"\" \"\" Field 28\n772804865 Numericfieldvfillweight \"Vertical Fill Weight\" 1 3 0 0 1 1 1 2 1 \"\" \"\" Field 29\n-1374678781 Numericfieldupdatewhiletyping \"Numeric Field Update While Typing\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 6\n772804867 Numericfieldreadonly \"Read Only\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 1\n-1374678769 Numericfieldalignx \"Align Horizontal\" 1 1 0 0 1 1 1 2 0 Center \"\" Field 4097 3 left Left center Center right Right 15\n772804879 Numericfieldaligny \"Align Vertical\" 1 1 0 0 1 1 1 2 0 Center \"\" Field 4097 3 bottom Bottom center Center top Top 16\n-1374670335 Numericfieldoffset Offset 1 1 -5 -5 1 5 5 1 -5 -5 1 5 5 2 0 \"\" \"\" 2 0 \"\" \"\" Field 17\n772805633 Numericfieldpadding Padding 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" 2 0 \"\" \"\" Field 18\n772804879 Numericfieldformatting \"Numeric Format\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4097 8 default Default number Number scientific Scientific percent Percent dollars Dollars euros Euros customfstring \"Custom F-String\" customfmt \"Fmt Syntax\" 3\n772935940 Numericfieldcustom \"Custom Expression\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 4 \"me.par.Numericfieldformatting.menuIndex > 5\"\n-1374678769 Numericfieldfontsizemode \"Font Size Mode\" 1 1 0 0 1 1 1 2 0 points \"\" Field 4097 4 panelunits \"Panel Units\" fract Fraction relfract \"Fraction Aspect\" points Points 8\n772935938 Numericfieldfontsize \"Font Size\" 1 3 1 6 1 20 20 2 8 \"\" \"\" Field 9 \"me.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits']\"\n772935937 Numericfieldfontfraction \"Font Fraction\" 1 1 0 0 1 1 1 2 1 \"\" \"\" Field 10 \"me.par.Numericfieldfontsizemode.eval() in ['fract', 'relfract']\"\n772804879 Numericfieldscaletofit \"Scale Text to Fit\" 1 1 0 0 1 1 10 2 0 never \"\" Field 4097 3 never Never always Always onlyshrink \"Only when Too Large\" 11\n772804867 Numericfieldfontbold \"Font Bold\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Field 12\n772804867 Numericfielditalic Italic 1 1 0 0 1 1 10 2 0 \"\" \"\" Field 13\n772804867 Numericfielddropshadow \"Drop Shadow\" 1 1 0 0 1 1 10 2 0 \"\" \"\" Field 14\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n16\nu 0.37299\nv 0.380952\ntrueu 0.37299\ntruev 0.380952\nrollu 0.271186\nrollv 0.64\nradio sslider\nradioname s0\nlradioname s0\nmradioname s0\nrradioname s0\nchildren 1\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/text": {
+      "name": "text",
+      "path": "/knobFixed/knobFixed/numericValue0/text",
+      "op_type": "COMP:text",
+      "family": "COMP",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 1
+        },
+        "text": {
+          "67109379": "Header \"getattr(parent.Widget.par, 'Value'+str(parent().digits))\""
+        },
+        "type": {
+          "67108881": "string me.par.type.menuNames.index(parent.Widget.par.Numericfieldtype.eval())"
+        },
+        "formatting": {
+          "67108881": "customfmt parent.Widget.par.Numericfieldformatting"
+        },
+        "customformatting": {
+          "67109379": "\"\" parent.Widget.par.Numericfieldcustom"
+        },
+        "precision": {
+          "67108881": "3 parent.Widget.par.Numericfielddecimalplaces.eval()"
+        },
+        "editmode": {
+          "67108881": "locked \"0 if parent.Widget.par.Numericfieldreadonly.eval() else (2 if parent.Widget.par.Numericfieldupdatewhiletyping.eval() else 1)\""
+        },
+        "fieldfocus": {
+          "67108881": "\"\" parent.Widget.par.Numericfieldfocus"
+        },
+        "callbacks": {
+          "67108864": "text1_callbacks"
+        },
+        "legacyfontselection": {
+          "67108864": "on"
+        },
+        "font": {
+          "67108913": "Verdana parent.Widget.par.Font.eval()"
+        },
+        "fontfile": {
+          "67108881": "\"\" parent.Widget.par.Fontfile"
+        },
+        "bold": {
+          "67108913": "off parent.Widget.par.Numericfieldfontbold.eval()"
+        },
+        "italic": {
+          "67108881": "off parent.Widget.par.Numericfielditalic"
+        },
+        "dropshadow": {
+          "67108881": "off parent.Widget.par.Numericfielddropshadow"
+        },
+        "scaletofit": {
+          "67109425": "never parent.Widget.par.Numericfieldscaletofit parent.Widget.par.Numericfieldfontsizemode"
+        },
+        "fontsize": {
+          "67108913": "20 \"parent.Widget.par.Numericfieldfontsize.eval() if parent.Widget.par.Numericfieldfontsizemode.eval() in ['points', 'panelunits'] else parent.Widget.par.Numericfieldfontfraction.eval()\""
+        },
+        "fontsizeunits": {
+          "67108913": "panelunits parent.Widget.par.Numericfieldfontsizemode.eval()"
+        },
+        "fontcolorr": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorr.eval()"
+        },
+        "fontcolorg": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorg.eval()"
+        },
+        "fontcolorb": {
+          "67108913": "1 parent.Widget.par.Numericfieldfontcolorb.eval()"
+        },
+        "fontalpha": {
+          "67108881": "1 parent.Widget.par.Numericfieldfontcolora.eval()"
+        },
+        "textoffsetx": {
+          "67108913": "0 parent.Widget.par.Numericfieldoffsetx.eval()"
+        },
+        "textoffsety": {
+          "67108913": "0 parent.Widget.par.Numericfieldoffsety.eval()"
+        },
+        "textpaddingl": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding1.eval()"
+        },
+        "textpaddingr": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding2.eval()"
+        },
+        "textpaddingb": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding3.eval()"
+        },
+        "textpaddingt": {
+          "67108913": "0 parent.Widget.par.Numericfieldpadding4.eval()"
+        },
+        "alignx": {
+          "67108913": "center parent.Widget.par.Numericfieldalignx.eval()"
+        },
+        "aligny": {
+          "67108913": "center parent.Widget.par.Numericfieldaligny.eval()"
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "clickthrough": {
+          "67108881": "off parent.Widget.par.clickthrough"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorr"
+        },
+        "bgcolorg": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorg"
+        },
+        "bgcolorb": {
+          "67108881": "0 parent.Widget.par.Numericfieldbgcolorb"
+        },
+        "bgalpha": {
+          "67109393": "0 parent.Widget.par.Numericfieldbgcolora parent.Widget.par.Numericfieldbgcolora"
+        },
+        "borderover": {
+          "67108864": "off"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n10\nu 0.25\nv 0.375\ntrueu 0.25\ntruev 0.375\nrollu 0.75\nrollv 0.0416667\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/panel1": {
+      "name": "panel1",
+      "path": "/knobFixed/knobFixed/numericValue0/panel1",
+      "op_type": "CHOP:panel",
+      "family": "CHOP",
+      "specific_type": "panel",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "component": {
+          "201326608": "text parent()"
+        },
+        "autoexportroot": {
+          "201326609": "\"\" parent()"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/knobFixed/knobFixed/numericValue0/rollover": {
+      "name": "rollover",
+      "path": "/knobFixed/knobFixed/numericValue0/rollover",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": {
+          "67108864": 2
+        },
+        "w": {
+          "67108866": 400
+        },
+        "h": {
+          "67108866": 300
+        },
+        "layer": {
+          "67108864": 7
+        },
+        "hmode": {
+          "67108864": "fill"
+        },
+        "vmode": {
+          "67108864": "fill"
+        },
+        "alignallow": {
+          "67108864": "ignore"
+        },
+        "display": {
+          "67108913": "on \"(parent().panel.rollover or parent().panel.lselect or parent().panel.inside) * parent.Widget.par.Enablerollover.eval()\""
+        },
+        "clickthrough": {
+          "67108864": "on"
+        },
+        "resizecomp": {
+          "201326609": "\"\" me"
+        },
+        "repocomp": {
+          "201326609": "\"\" me"
+        },
+        "bgcolorr": {
+          "67108913": "0 parent.Widget.par.Rollovercolorr.eval()"
+        },
+        "bgcolorg": {
+          "67108913": "0.366667 parent.Widget.par.Rollovercolorg.eval()"
+        },
+        "bgcolorb": {
+          "67108913": "0.5 parent.Widget.par.Rollovercolorb.eval()"
+        },
+        "bgalpha": {
+          "67108913": "1 parent.Widget.par.Rollovercolora.eval()"
+        },
+        "borderover": {
+          "67108864": "off"
+        },
+        "composite": {
+          "67108913": "add parent.Widget.par.Rollovercomposite.eval()"
+        },
+        "clone": {
+          "67108912": "\"\" \"parent.Widget.par.Package.eval().SubComp('TDWidgetKit', 'masterButton/button0/rollover')\""
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "panel": {
+          "content": "1\n3\n11\nu 0.503937\nv 0.590551\ntrueu 0.503937\ntruev 0.590551\nrollu 0.669291\nrollv 1\ndisplay 0\nscreenw 80\nscreenh 24\nscreenwm 80\nscreenhm 24\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/SubWidgetExt": {
+      "name": "SubWidgetExt",
+      "path": "/knobFixed/knobFixed/numericValue0/SubWidgetExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -600,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAA36VERGID0gb3AuVERNb2R1bGVzLm1vZC5UREZ1bmN0aW9ucwoKY2xhc3MgU3ViV2lkZ2V0RXh0OgoJIiIiCglSb2NrZXJFeHQgZGVzY3JpcHRpb24KCSIiIgoKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXAsIGluZGV4Q29tcD1Ob25lKToKCQkjIFRoZSBjb21wb25lbnQgdG8gd2hpY2ggdGhpcyBleHRlbnNpb24gaXMgYXR0YWNoZWQKCQlzZWxmLm93bmVyQ29tcCA9IG93bmVyQ29tcAoJCWlmIGluZGV4Q29tcDoKCQkJc2VsZi5pbmRleENvbXAgPSBpbmRleENvbXAKCQllbHNlOgoJCQlzZWxmLmluZGV4Q29tcCA9IHNlbGYub3duZXJDb21wCgoJZGVmIG9uUGFuZWxFdmVudChzZWxmLCBldmVudCwgcGFuZWxWYWx1ZSk6CgkJIiIiCgkJUGFuZWwgZXhlYyBldmVudHMgZnJvbSB3aWRnZXQKCQkiIiIKCQlwYXNzCgoJZGVmIG9uUGFyU2V0dGluZ3NDaGFuZ2Uoc2VsZiwgcGFyLCBwcmV2KToKCQkiIiIKCQlNYW5hZ2VzIHZhbHVlIGNoYW5nZXMgd2lkZ2V0IHNldHRpbmdzIHBhcmFtZXRlcnMKCQkiIiIKCQl2YWwgPSBwYXIuZXZhbCgpCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAncnVuY29tbWFuZCc6CgkJCWVuYWJsZSA9IHBhci5ldmFsKCkKCQkJZm9yIHN1ZmZpeCBpbiBbJ2NvbW1hbmRvbicsICdjb21tYW5kb2ZmJywgJ2NvbW1hbmRvbnZhbHVlY2hhbmdlJ106CgkJCQlwID0gc2VsZi5wcmVmaXhQYXIoc3VmZml4KQoJCQkJaWYgcCBpcyBub3QgTm9uZToKCQkJCQlwLmVuYWJsZSA9IGVuYWJsZQoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnaG9yaXpvbnRhbG1vZGUnOgoJCQlmaWxsID0gVHJ1ZSBpZiB2YWwgPT0gJ2ZpbGwnIGVsc2UgRmFsc2UKCQkJc2VsZi5wcmVmaXhQYXIoJ2hmaWxsd2VpZ2h0JykuZW5hYmxlID0gZmlsbAoJCQlzZWxmLnByZWZpeFBhcignd2lkdGgnKS5lbmFibGUgPSBub3QgZmlsbAoJCWVsaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAndmVydGljYWxtb2RlJzoKCQkJZmlsbCA9IFRydWUgaWYgdmFsID09ICdmaWxsJyBlbHNlIEZhbHNlCgkJCXNlbGYucHJlZml4UGFyKCd2ZmlsbHdlaWdodCcpLmVuYWJsZSA9IGZpbGwKCQkJc2VsZi5wcmVmaXhQYXIoJ2hlaWdodCcpLmVuYWJsZSA9IG5vdCBmaWxsCgkJZWxpZiBwYXIubmFtZSBpbiBbc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYScsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyYicsCgkJCQkJCSAgc2VsZi5wYXJQcmVmaXggKyAnYm9yZGVyJ106CgkJCWdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHBhci5uYW1lICsgJ2NvbG9ycicpLmVuYWJsZSA9IHBhci5ldmFsKCkKCglkZWYgb25QYXJTZXR0aW5nc1B1bHNlKHNlbGYsIHBhcik6CgkJIiIiCgkJTWFuYWdlcyBwdWxzZSBldmVudHMgZm9yIHdpZGdldCBzZXR0aW5ncyBwYXJhbWV0ZXJzCgkJIiIiCgkJaWYgcGFyLm5hbWUgPT0gc2VsZi5wYXJQcmVmaXggKyAnY3VzdG9taXplaW50ZXJhY3Rpb24nOgoJCQlzZWxmLm1ha2VQYW5lbEV4ZWN1dGUoKQoKCWRlZiBvblRvZ2dsZUV2ZW50KHNlbGYsIGV2ZW50LCBwYW5lbFZhbHVlKToKCQlpZiBldmVudCA9PSAnb2ZmVG9Pbic6CgkJCXNlbGYudG9nZ2xlKCkKCglkZWYgdG9nZ2xlKHNlbGYpOgoJCWluZGV4ID0gc2VsZi5pbmRleENvbXAuZGlnaXRzCgkJdmFsdWVQYXIgPSBnZXRhdHRyKHBhcmVudC5XaWRnZXQucGFyLCAnVmFsdWUnICsgc3RyKGluZGV4KSkKCQl2YWx1ZVBhci52YWwgPSAxIC0gdmFsdWVQYXIuZXZhbCgpCgoJZGVmIHByZWZpeFBhcihzZWxmLCBzdWZmaXgpOgoJCSIiIgoJCVJldHVybiBhIHBhcmFtZXRlciBwcmVmaXhlZCBieSBwYXJQcmVmaXgKCQk6cGFyYW0gc3VmZml4OiB0aGUgcGFyIG5hbWUgYWZ0ZXIgcGFyUHJlZml4IChzdHJpbmcpCgkJOnJldHVybjogdGhlIHBhcmFtZXRlciBvciBOb25lIGlmIG5vdCBmb3VuZAoJCSIiIgoJCXJldHVybiBnZXRhdHRyKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQucGFyLAoJCQkJCSAgIHNlbGYucGFyUHJlZml4ICsgc3VmZml4LCBOb25lKQoKCWRlZiBnZXREb2NrRXhwcmVzc2lvblRvT3duZXIoc2VsZik6CgkJcGFnZSA9IFRERi5nZXRDdXN0b21QYWdlKHNlbGYub3duZXJDb21wLnBhcmVudC5XaWRnZXQsICdPUHMnKQoJCWV4cHIgPSAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyAiJykiCgkJZm9yIHAgaW4gcGFnZS5wYXJzOgoJCQlpZiBwLmV2YWwoKSA9PSBzZWxmLm93bmVyQ29tcDoKCQkJCWV4cHIgPSAibWUuZG9jay5wYXIuIiArIHAubmFtZSArICIuZXZhbCgpIgoJCQkJYnJlYWsKCQlyZXR1cm4gZXhwcgoKCWRlZiBtYWtlUGFuZWxFeGVjdXRlKHNlbGYsIHBhbmVsRXhwcj1Ob25lKToKCQkiIiIKCQlDcmVhdGVzIGEgcGFuZWwgZXhlY3V0ZSBEQVQgZm9yIHJ1bm5pbmcgZXh0ZXJuYWwgY29kZSBmcm9tIHRoZQoJCXdpZGdldCB0aGF0IGlzIGNvbm5lY3RlZCB0byB0aGUgYnV0dG9uIGludGVyYWN0aW9uIHJlY2VpdmVyIC0gd2hpY2gKCQlpcyB0aGUgb3duZXJDb21wIG9mIHRoaXMgY2xhc3MKCgkJcGFuZWxFeHByOiB3aWxsIGJlIHVzZWQgYXMgdGhlIGV4cHJlc3Npb24gaW4gdGhlIHBhbmVsIHBhcmFtZXRlciBvZiB0aGUKCQkJcGFuZWxFeGVjLiBEZWZhdWx0cyB0byAibWUuZG9jay5vcCgnIiArIHNlbGYub3duZXJDb21wLm5hbWUgKyInKSIKCQkiIiIKCQlwYW5lbEV4ZWNQYXIgPSBzZWxmLlBhbmVsRXhlY1BhcgoJCXBlRGF0ID0gcGFuZWxFeGVjUGFyLmV2YWwoKQoJCWV4cHIgPSBzZWxmLmdldERvY2tFeHByZXNzaW9uVG9Pd25lcigpIFwKCQkJCQkJCQkJCQlpZiBwYW5lbEV4cHIgaXMgTm9uZSBlbHNlIHBhbmVsRXhwcgoJCWlmIG5vdCBwZURhdDoKCQkJcGVEYXQgPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0LnBhcmVudCgpLmNyZWF0ZSgKCQkJCXBhbmVsZXhlY3V0ZURBVCwgc2VsZi5wYXJQcmVmaXggKyAnUGFuZWxFeGVjJykKCQkJcGVEYXQubm9kZVggPSBzZWxmLm93bmVyQ29tcC5wYXJlbnQuV2lkZ2V0Lm5vZGVYIC0gMjAwCgkJCXBlRGF0Lm5vZGVZID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldC5ub2RlWQoJCQlwZURhdC5kb2NrID0gc2VsZi5vd25lckNvbXAucGFyZW50LldpZGdldAoJCQlwZURhdC5wYXIucGFuZWwuZXhwciA9IGV4cHIKCQkJcGVEYXQucGFyLm9udG9vZmYgPSBUcnVlCgkJCXBlRGF0LnZpZXdlciA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnZhbCA9IHBlRGF0Lm5hbWUKCQkJcGFuZWxFeGVjUGFyLmVuYWJsZSA9IFRydWUKCQkJcGFuZWxFeGVjUGFyLnJlYWRPbmx5ID0gVHJ1ZQoJCQlzZWxmLm93bmVyQ29tcC5vcCgncGFuZWxFeGVjT1BFeGVjJykuY29vayhmb3JjZT1UcnVlKQoJCWVsc2U6CgkJCWlmIGV4cHIgbm90IGluIHBlRGF0LnBhci5wYW5lbC5leHByOgoJCQkJcGVEYXQucGFyLnBhbmVsLmV4cHIgKz0gJywgJyArIGV4cHIKCQlwYW5lbEV4ZWNQYXIuZXZhbCgpLnBhci5lZGl0LnB1bHNlKCkKCglAcHJvcGVydHkKCWRlZiBQYW5lbEV4ZWNQYXIoc2VsZik6CgkJcmV0dXJuIGdldGF0dHIocGFyZW50LldpZGdldC5wYXIsIHNlbGYucGFyUHJlZml4ICsgJ3BhbmVsZXhlYycsIE5vbmUpCgo=",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/panelexecValue": {
+      "name": "panelexecValue",
+      "path": "/knobFixed/knobFixed/numericValue0/panelexecValue",
+      "op_type": "DAT:panelexec",
+      "family": "DAT",
+      "specific_type": "panelexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "panels": {
+          "201326592": ".."
+        },
+        "panelvalue": {
+          "67108864": "lselect"
+        },
+        "ontooff": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAD3ZGVmIG9mZlRvT24ocGFuZWxWYWx1ZSk6CglleHQuU3ViV2lkZ2V0RXh0Lm9uUGFuZWxFdmVudCgnb2ZmVG9PbicsIHBhbmVsVmFsdWUpCgpkZWYgb25Ub09mZihwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCdvblRvT2ZmJywgcGFuZWxWYWx1ZSkKCmRlZiB2YWx1ZUNoYW5nZShwYW5lbFZhbHVlKToKCWV4dC5TdWJXaWRnZXRFeHQub25QYW5lbEV2ZW50KCd2YWx1ZUNoYW5nZScsIHBhbmVsVmFsdWUpCg==",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/NumericFieldExt": {
+      "name": "NumericFieldExt",
+      "path": "/knobFixed/knobFixed/numericValue0/NumericFieldExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u00037SubWidgetExt = mod.SubWidgetExt.SubWidgetExt\nTDF = op.TDModules.mod.TDFunctions\n\nclass NumericFieldExt(SubWidgetExt):\n\t\"\"\"\n\tNumericFieldExt description\n\t\"\"\"\n\tdef __init__(self, ownerComp):\n\t\t# The component to which this extension is attached\n\t\tself.parPrefix = 'Numericfield'\n\t\tSubWidgetExt.__init__(self, ownerComp)\n\n\tdef onParSettingsChange(self, par, prev):\n\t\t\"\"\"\n\t\tManages value changes widget settings parameters\n\t\t\"\"\"\n\t\tval = par.eval()\n\t\tif par.name == 'Numericfieldtype':\n\t\t\tif val == 'integer':\n\t\t\t\tparent.Widget.par.Numericfielddecimalplaces.enable = False\n\t\t\telse:\n\t\t\t\tparent.Widget.par.Numericfielddecimalplaces.enable = True\n\t\telse:\n\t\t\tSubWidgetExt.onParSettingsChange(self, par, prev)\n\n\tdef makePanelExecute(self):\n\t\tSubWidgetExt.makePanelExecute(self,\n\t\t\t\t\tself.getDockExpressionToOwner() + '.op(\"field\")')\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/panelExecOPExec": {
+      "name": "panelExecOPExec",
+      "path": "/knobFixed/knobFixed/numericValue0/panelExecOPExec",
+      "op_type": "DAT:opexec",
+      "family": "DAT",
+      "specific_type": "opexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        100,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" parent()"
+        },
+        "op": {
+          "67108913": "pare ext.SubWidgetExt.PanelExecPar.eval()"
+        },
+        "destroy": {
+          "67108864": "on"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000hdef onOPdelete():\n\text.SubWidgetExt.PanelExecPar.val = ''\n\text.SubWidgetExt.PanelExecPar.enable = False\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/parexecSettings": {
+      "name": "parexecSettings",
+      "path": "/knobFixed/knobFixed/numericValue0/parexecSettings",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        -400,
+        200,
+        130,
+        90
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "201326609": "\"\" me.parent()"
+        },
+        "op": {
+          "67108913": "/TDWidgetKit/widgets/masterButton \"parent.Widget \""
+        },
+        "pars": {
+          "67108912": "Numericfield* \"'Buttonlabeltype Buttonpanelexecute Buttontype Buttonruncommand' + (' Value' + str(parent().digits) if parent.Widget.par.Buttonruncommand else '')\""
+        },
+        "builtin": {
+          "67108864": "off"
+        },
+        "defaultreadencoding": {
+          "67108864": "cp1252"
+        }
+      },
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAACQZGVmIHZhbHVlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCWV4dC5TdWJXaWRnZXRFeHQub25QYXJTZXR0aW5nc0NoYW5nZShwYXIsIHByZXYpCgpkZWYgb25QdWxzZShwYXIpOgoJZXh0LlN1YldpZGdldEV4dC5vblBhclNldHRpbmdzUHVsc2UocGFyKQoK",
+          "is_binary": true
+        }
+      }
+    },
+    "/knobFixed/knobFixed/numericValue0/text1_callbacks": {
+      "name": "text1_callbacks",
+      "path": "/knobFixed/knobFixed/numericValue0/text1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "showDocked": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/knobFixed/knobFixed/numericValue0",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAe/IyBUZXh0IENvbXBvbmVudCBjYWxsYmFja3MKCmRlZiBvblZhbHVlQ2hhbmdlKGNvbXAsIHZhbHVlLCBwcmV2VmFsdWUpOgoJIiIiCglDYWxsZWQgd2hlbmV2ZXIgdGhlIHRleHQgY29tcG9uZW50J3MgdmFsdWUgcGFyYW1ldGVyIGNoYW5nZXMgZm9yIGFueSByZWFzb24gaW5jbHVkaW5nIHR5cGluZwoJaW4gdGhlIHRleHQgd2luZG93IG9yIGNoYW5naW5nIHRoZSBwYXJhbWV0ZXIgZGlyZWN0bHkuIFRoZSBjYWxsYmFjayBpcyBlcXVpdmFsZW50IHRvIHRoZQoJb25WYWx1ZUNoYW5nZSBpbiB0aGUgcGFyYW1ldGVyIGV4ZWN0dXRlIERBVC4KCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCQl2YWx1ZTogdGhlIG5ldyB2YWx1ZQoJCXByZXZWYWx1ZTogdGhlIHByZXZpb3VzIHZhbHVlCgkiIiIKCSNkZWJ1ZygnXG5vblZhbHVlQ2hhbmdlIGNvbXA6JywgY29tcC5wYXRoLCAnLSBuZXcgdmFsdWU6ICcsIHZhbHVlLCAnLCBwcmV2IHZhbHVlOiAnLCBwcmV2VmFsdWUgKQoJcmV0dXJuCgkKZGVmIG9uRm9jdXMoY29tcCk6CgkiIiIKCUNhbGxlZCB3aGVuIG9uZSBvZiB0aGUgdGV4dCBjb21wb25lbnRzIHZpZXdlcnMgZ2V0cyBrZXlib2FyZCBmb2N1cy4gCgkKCUFyZ3M6CgkJY29tcDogdGhlIHRleHQgY29tcG9uZW50CgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzIGNvbXA6JywgY29tcC5wYXRoKQoJcmV0dXJuCgpkZWYgb25Gb2N1c0VuZChjb21wLCBpbmZvKToKCSIiIgoJQ2FsbGVkIHdoZW4gb25lIG9mIHRoZSB0ZXh0IGNvbXBvbmVudCdzIHZpZXdlcnMgbG9zZXMga2V5Ym9hcmQgZm9jdXMuIEluIHJlZ3VsYXIgZWRpdGluZyBtb2RlCgl0aGlzIGlzIHJpZ2h0IGFmdGVyIHRoZSBjb250ZW50cyBhcmUgc2F2ZWQgYmFjayB0byB0aGUgdmFsdWUgcGFyYW1ldGVyLiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZAoJZXZlcnl0aW1lIHRoZSB2aWV3ZXIgbG9zZXMgZm9jdXMsIGV2ZW4gaWYgdGhlIHRleHQgZG9lcyBub3QgY2hhbmdlLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCWluZm86IGEgZGljdGlvbmFyeSBjb250YWluaW5nIGluZm9ybWF0aW9uIGFib3V0IHRoZSBldmVudCBpbmNsdWRpbmc6CgkJCXJlYXNvbjogYSBzdHJpbmcgaW5kaWNhdGluZyB3aGF0IGNhdXNlZCB0aGUgdmlld2VyIHRvIGxvc2UgZm9jdXMgZS5nLiAnZW50ZXInLCAnZXNjYXBlJywgJ3RhYicsICd1bmtub3duJwoJCgkiIiIKCSNkZWJ1ZygnXG5vbkZvY3VzRW5kIGNvbXA6JywgY29tcC5wYXRoLCAnLSBpbmZvOlxuJywgaW5mbykKCXJldHVybgoJCmRlZiBvblRleHRFZGl0KGNvbXApOgoJIiIiCglDYWxsZWQgZWFjaCB0aW1lIHRoZSBjb250ZW50cyBvZiB0aGUgdGV4dCBjb21wb25lbnQgdmlld2VyIGNoYW5nZSBpLmUuIHdoZW4gdHlwaW5nIGEgY2hhcmFjdGVyLAoJZGVsZXRpbmcgdGV4dCwgY3V0dGluZyBvciBwYXN0aW5nLiAKCQoJQXJnczoKCQljb21wOiB0aGUgdGV4dCBjb21wb25lbnQKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXQgY29tcDonLCBjb21wLnBhdGgsICctIHRleHQ6ICcsIGNvbXAuZWRpdFRleHQpCglyZXR1cm4KCQpkZWYgb25UZXh0RWRpdEVuZChjb21wLCB2YWx1ZSwgcHJldlZhbHVlKToKCSIiIgoJQ2FsbGVkIHdoZW4gdGhlIHVzZXIgZmluaXNoZXMgZWRpdGluZyBhbmQgdGhlIHZhbHVlIGhhcyBiZWVuIGNoYW5nZWQuIE5vdCBjYWxsZWQgaW4gJ0NvbnRpbnVvdXMgRWRpdCcgbW9kZS4gVXNlCglvblRleHRFZGl0IGFuZCBvbkZvY3VzRW5kIHdoZW4gdXNpbmcgY29udGludW91cyBlZGl0aW5nLgoJCglBcmdzOgoJCWNvbXA6IHRoZSB0ZXh0IGNvbXBvbmVudAoJCXZhbHVlOiB0aGUgbmV3IHZhbHVlCgkJcHJldlZhbHVlOiB0aGUgcHJldmlvdXMgdmFsdWUKCSIiIgoJI2RlYnVnKCdcbm9uVGV4dEVkaXRFbmQgY29tcDonLCBjb21wLnBhdGgsICctIG5ldyB2YWx1ZTogJywgdmFsdWUsICcsIHByZXYgdmFsdWU6ICcsIHByZXZWYWx1ZSApCglyZXR1cm4KCQoJ",
+          "is_binary": true
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2023.12601\ntime Mon Nov  3 15:28:39 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "knobFixed.n",
+    "knobFixed.parm",
+    "knobFixed.panel",
+    "knobFixed/knobFixed.n",
+    "knobFixed/knobFixed.cparm",
+    "knobFixed/knobFixed.parm",
+    "knobFixed/knobFixed.panel",
+    "knobFixed/knobFixed/code.n",
+    "knobFixed/knobFixed/code.parm",
+    "knobFixed/knobFixed/code/help.n",
+    "knobFixed/knobFixed/code/help.parm",
+    "knobFixed/knobFixed/code/docsHelper.n",
+    "knobFixed/knobFixed/code/docsHelper.cparm",
+    "knobFixed/knobFixed/code/docsHelper.parm",
+    "knobFixed/knobFixed/code/docsHelper.panel",
+    "knobFixed/knobFixed/code/docsHelper/parexec1.n",
+    "knobFixed/knobFixed/code/docsHelper/parexec1.parm",
+    "knobFixed/knobFixed/code/docsHelper/parexec1.text",
+    "knobFixed/knobFixed/code/docsHelper/DocsHelper.n",
+    "knobFixed/knobFixed/code/docsHelper/DocsHelper.parm",
+    "knobFixed/knobFixed/code/docsHelper/DocsHelper.text",
+    "knobFixed/knobFixed/code/docsHelper/parexec_PaletteComp.n",
+    "knobFixed/knobFixed/code/docsHelper/parexec_PaletteComp.parm",
+    "knobFixed/knobFixed/code/docsHelper/parexec_PaletteComp.text",
+    "knobFixed/knobFixed/code/panelexec1.n",
+    "knobFixed/knobFixed/code/panelexec1.parm",
+    "knobFixed/knobFixed/code/panelexec1.text",
+    "knobFixed/knobFixed/code/TDUpdateSystem.n",
+    "knobFixed/knobFixed/code/TDUpdateSystem.cparm",
+    "knobFixed/knobFixed/code/TDUpdateSystem.parm",
+    "knobFixed/knobFixed/code/TDUpdateSystem.panel",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_comp.n",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_comp.parm",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_comp.text",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_system.n",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_system.parm",
+    "knobFixed/knobFixed/code/TDUpdateSystem/parexec_system.text",
+    "knobFixed/knobFixed/knob0.n",
+    "knobFixed/knobFixed/knob0.cparm",
+    "knobFixed/knobFixed/knob0.parm",
+    "knobFixed/knobFixed/knob0.panel",
+    "knobFixed/knobFixed/knob0/bg.n",
+    "knobFixed/knobFixed/knob0/knob.n",
+    "knobFixed/knobFixed/knob0/knob.parm",
+    "knobFixed/knobFixed/knob0/text.n",
+    "knobFixed/knobFixed/knob0/text.parm",
+    "knobFixed/knobFixed/knob0/text.panel",
+    "knobFixed/knobFixed/knob0/info1.n",
+    "knobFixed/knobFixed/knob0/info1.parm",
+    "knobFixed/knobFixed/knob0/knobBg.n",
+    "knobFixed/knobFixed/knob0/knobBg.parm",
+    "knobFixed/knobFixed/knob0/KnobExt.n",
+    "knobFixed/knobFixed/knob0/KnobExt.parm",
+    "knobFixed/knobFixed/knob0/KnobExt.text",
+    "knobFixed/knobFixed/knob0/switch1.n",
+    "knobFixed/knobFixed/knob0/switch1.parm",
+    "knobFixed/knobFixed/knob0/switch2.n",
+    "knobFixed/knobFixed/knob0/switch2.parm",
+    "knobFixed/knobFixed/knob0/rollover.n",
+    "knobFixed/knobFixed/knob0/rollover.parm",
+    "knobFixed/knobFixed/knob0/rollover.panel",
+    "knobFixed/knobFixed/knob0/SubWidgetExt.n",
+    "knobFixed/knobFixed/knob0/SubWidgetExt.parm",
+    "knobFixed/knobFixed/knob0/SubWidgetExt.text",
+    "knobFixed/knobFixed/knob0/cacheselect1.n",
+    "knobFixed/knobFixed/knob0/cacheselect1.parm",
+    "knobFixed/knobFixed/knob0/glslKnobWidget.n",
+    "knobFixed/knobFixed/knob0/glslKnobWidget.parm",
+    "knobFixed/knobFixed/knob0/glslKnobWidget.text",
+    "knobFixed/knobFixed/knob0/knobRotateScale.n",
+    "knobFixed/knobFixed/knob0/knobRotateScale.parm",
+    "knobFixed/knobFixed/knob0/panelExecOPExec.n",
+    "knobFixed/knobFixed/knob0/panelExecOPExec.parm",
+    "knobFixed/knobFixed/knob0/panelExecOPExec.text",
+    "knobFixed/knobFixed/knob0/panelexecValueX.n",
+    "knobFixed/knobFixed/knob0/panelexecValueX.parm",
+    "knobFixed/knobFixed/knob0/panelexecValueX.text",
+    "knobFixed/knobFixed/knob0/text1_callbacks.n",
+    "knobFixed/knobFixed/knob0/text1_callbacks.text",
+    "knobFixed/knobFixed/knob0/knobWidgetShader.n",
+    "knobFixed/knobFixed/knob0/knobWidgetShader.parm",
+    "knobFixed/knobFixed/knob0/knobWidgetShader.oldacbo",
+    "knobFixed/knobFixed/knob0/parexecSettingsX.n",
+    "knobFixed/knobFixed/knob0/parexecSettingsX.parm",
+    "knobFixed/knobFixed/knob0/parexecSettingsX.text",
+    "knobFixed/knobFixed/label.n",
+    "knobFixed/knobFixed/label.cparm",
+    "knobFixed/knobFixed/label.parm",
+    "knobFixed/knobFixed/label.panel",
+    "knobFixed/knobFixed/label/text.n",
+    "knobFixed/knobFixed/label/text.parm",
+    "knobFixed/knobFixed/label/text.panel",
+    "knobFixed/knobFixed/label/parexecRunCommand.n",
+    "knobFixed/knobFixed/label/parexecRunCommand.parm",
+    "knobFixed/knobFixed/label/parexecRunCommand.text",
+    "knobFixed/knobFixed/output.n",
+    "knobFixed/knobFixed/output.cparm",
+    "knobFixed/knobFixed/output.parm",
+    "knobFixed/knobFixed/output/dat.n",
+    "knobFixed/knobFixed/output/dat.parm",
+    "knobFixed/knobFixed/output/chop.n",
+    "knobFixed/knobFixed/output/chop.parm",
+    "knobFixed/knobFixed/output/Value0.n",
+    "knobFixed/knobFixed/output/Value0.parm",
+    "knobFixed/knobFixed/output/datValues.n",
+    "knobFixed/knobFixed/output/datValues.parm",
+    "knobFixed/knobFixed/output/numValues.n",
+    "knobFixed/knobFixed/output/numValues.parm",
+    "knobFixed/knobFixed/output/numValues.table",
+    "knobFixed/knobFixed/output/valuesParexec.n",
+    "knobFixed/knobFixed/output/valuesParexec.parm",
+    "knobFixed/knobFixed/output/valuesParexec.text",
+    "knobFixed/knobFixed/output/valueParOPExec.n",
+    "knobFixed/knobFixed/output/valueParOPExec.parm",
+    "knobFixed/knobFixed/output/valueParOPExec.text",
+    "knobFixed/knobFixed/overlay.n",
+    "knobFixed/knobFixed/overlay.parm",
+    "knobFixed/knobFixed/overlay.panel",
+    "knobFixed/knobFixed/valueOut.n",
+    "knobFixed/knobFixed/valueOut.parm",
+    "knobFixed/knobFixed/vertLayout.n",
+    "knobFixed/knobFixed/vertLayout.parm",
+    "knobFixed/knobFixed/vertLayout.panel",
+    "knobFixed/knobFixed/numericValue0.n",
+    "knobFixed/knobFixed/numericValue0.cparm",
+    "knobFixed/knobFixed/numericValue0.parm",
+    "knobFixed/knobFixed/numericValue0.panel",
+    "knobFixed/knobFixed/numericValue0/text.n",
+    "knobFixed/knobFixed/numericValue0/text.parm",
+    "knobFixed/knobFixed/numericValue0/text.panel",
+    "knobFixed/knobFixed/numericValue0/panel1.n",
+    "knobFixed/knobFixed/numericValue0/panel1.parm",
+    "knobFixed/knobFixed/numericValue0/rollover.n",
+    "knobFixed/knobFixed/numericValue0/rollover.parm",
+    "knobFixed/knobFixed/numericValue0/rollover.panel",
+    "knobFixed/knobFixed/numericValue0/SubWidgetExt.n",
+    "knobFixed/knobFixed/numericValue0/SubWidgetExt.parm",
+    "knobFixed/knobFixed/numericValue0/SubWidgetExt.text",
+    "knobFixed/knobFixed/numericValue0/panelexecValue.n",
+    "knobFixed/knobFixed/numericValue0/panelexecValue.parm",
+    "knobFixed/knobFixed/numericValue0/panelexecValue.text",
+    "knobFixed/knobFixed/numericValue0/NumericFieldExt.n",
+    "knobFixed/knobFixed/numericValue0/NumericFieldExt.parm",
+    "knobFixed/knobFixed/numericValue0/NumericFieldExt.text",
+    "knobFixed/knobFixed/numericValue0/panelExecOPExec.n",
+    "knobFixed/knobFixed/numericValue0/panelExecOPExec.parm",
+    "knobFixed/knobFixed/numericValue0/panelExecOPExec.text",
+    "knobFixed/knobFixed/numericValue0/parexecSettings.n",
+    "knobFixed/knobFixed/numericValue0/parexecSettings.parm",
+    "knobFixed/knobFixed/numericValue0/parexecSettings.text",
+    "knobFixed/knobFixed/numericValue0/text1_callbacks.n",
+    "knobFixed/knobFixed/numericValue0/text1_callbacks.text"
+  ],
+  "connections": [
+    {
+      "from": "vertLayout",
+      "to": "/knobFixed/knobFixed/knob0",
+      "to_input": 0
+    },
+    {
+      "from": "switch2",
+      "to": "/knobFixed/knobFixed/knob0/bg",
+      "to_input": 0
+    },
+    {
+      "from": "knobWidgetShader",
+      "to": "/knobFixed/knobFixed/knob0/switch1",
+      "to_input": 0
+    },
+    {
+      "from": "cacheselect1",
+      "to": "/knobFixed/knobFixed/knob0/switch1",
+      "to_input": 1
+    },
+    {
+      "from": "switch1",
+      "to": "/knobFixed/knobFixed/knob0/switch2",
+      "to_input": 0
+    },
+    {
+      "from": "cacheselect1",
+      "to": "/knobFixed/knobFixed/knob0/switch2",
+      "to_input": 1
+    },
+    {
+      "from": "knob",
+      "to": "/knobFixed/knobFixed/knob0/knobWidgetShader",
+      "to_input": 0
+    },
+    {
+      "from": "knobBg",
+      "to": "/knobFixed/knobFixed/knob0/knobWidgetShader",
+      "to_input": 1
+    },
+    {
+      "from": "datValues",
+      "to": "/knobFixed/knobFixed/output/dat",
+      "to_input": 0
+    },
+    {
+      "from": "Value0",
+      "to": "/knobFixed/knobFixed/output/chop",
+      "to_input": 0
+    },
+    {
+      "from": "numValues",
+      "to": "/knobFixed/knobFixed/output/datValues",
+      "to_input": 0
+    },
+    {
+      "from": "output/chop",
+      "to": "/knobFixed/knobFixed/valueOut",
+      "to_input": 0
+    },
+    {
+      "from": "vertLayout",
+      "to": "/knobFixed/knobFixed/numericValue0",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 55,
+    "total_connections": 13,
+    "total_raw_files": 1,
+    "total_extra_files": 45,
+    "total_files_captured": 154,
+    "by_family": {
+      "COMP": 16,
+      "DAT": 28,
+      "TOP": 7,
+      "CHOP": 4
+    },
+    "by_type": {
+      "COMP:container": 9,
+      "COMP:widget": 1,
+      "COMP:base": 2,
+      "DAT:eval": 3,
+      "DAT:parexec": 8,
+      "DAT:text": 8,
+      "DAT:panelexec": 3,
+      "COMP:slider": 1,
+      "TOP:null": 1,
+      "TOP:select": 2,
+      "COMP:text": 3,
+      "DAT:info": 1,
+      "TOP:switch": 2,
+      "TOP:cacheselect": 1,
+      "DAT:opexec": 3,
+      "TOP:glsl": 1,
+      "DAT:out": 1,
+      "CHOP:out": 2,
+      "CHOP:par": 1,
+      "DAT:table": 1,
+      "CHOP:panel": 1
+    },
+    "max_depth": 5,
+    "total_parameters": 639
+  }
+}

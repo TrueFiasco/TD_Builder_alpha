@@ -1,0 +1,195 @@
+{
+  "operator": "Limit_CHOP",
+  "family": "CHOP",
+  "td_create_name": "limitCHOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "type": {
+      "type": "menu",
+      "value": "clamp",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "clamp",
+        "loop",
+        "zigzag"
+      ],
+      "menuLabels": [
+        "Off",
+        "Clamp",
+        "Loop",
+        "Zigzag"
+      ]
+    },
+    "min": {
+      "type": "float",
+      "value": -0.8765499999999999
+    },
+    "max": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "positive": {
+      "type": "toggle",
+      "value": true
+    },
+    "norm": {
+      "type": "toggle",
+      "value": true
+    },
+    "normrange1": {
+      "type": "float",
+      "value": -0.8765499999999999
+    },
+    "normrange2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "underflow": {
+      "type": "toggle",
+      "value": true
+    },
+    "quantvalue": {
+      "type": "menu",
+      "value": "ceiling",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "ceiling",
+        "floor",
+        "round"
+      ],
+      "menuLabels": [
+        "Off",
+        "Ceiling",
+        "Floor",
+        "Round"
+      ]
+    },
+    "vstep": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "voffset": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "quantindex": {
+      "type": "menu",
+      "value": "relstart",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "relstart",
+        "relzero"
+      ],
+      "menuLabels": [
+        "Off",
+        "Offset Relative to Start",
+        "Offset Relative to Zero"
+      ]
+    },
+    "istep": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "istepunit": {
+      "type": "menu",
+      "value": "fraction",
+      "menuIndex": 3,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "ioffset": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ioffsetunit": {
+      "type": "menu",
+      "value": "fraction",
+      "menuIndex": 3,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds",
+        "fraction"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S",
+        "%"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

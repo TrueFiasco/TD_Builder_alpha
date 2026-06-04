@@ -1,0 +1,147 @@
+{
+  "operator": "Histogram_POP",
+  "family": "POP",
+  "td_create_name": "histogramPOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "attrclass": {
+      "type": "menu",
+      "value": "vertex",
+      "menuIndex": 1,
+      "menuNames": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "menuLabels": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ]
+    },
+    "inputattrscope": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "useinputrange": {
+      "type": "toggle",
+      "value": true
+    },
+    "inputrangemin": {
+      "type": "float",
+      "value": -9.87655
+    },
+    "inputrangemax": {
+      "type": "float",
+      "value": 10.12345
+    },
+    "outputbinval": {
+      "type": "toggle",
+      "value": true
+    },
+    "quantize": {
+      "type": "menu",
+      "value": "round",
+      "menuIndex": 1,
+      "menuNames": [
+        "floor",
+        "round",
+        "ceiling"
+      ],
+      "menuLabels": [
+        "Floor",
+        "Round",
+        "Ceiling"
+      ]
+    },
+    "outsiderange": {
+      "type": "menu",
+      "value": "discard",
+      "menuIndex": 1,
+      "menuNames": [
+        "clamp",
+        "discard",
+        "extrabins"
+      ],
+      "menuLabels": [
+        "Clamp",
+        "Discard",
+        "Extra Out-of-Range Bins"
+      ]
+    },
+    "numbins": {
+      "type": "int",
+      "value": 1001
+    },
+    "countattr": {
+      "type": "string",
+      "value": "Count_perturbed"
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\outPOP_lossless.json",
+  "operator_type": "outPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "base1",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "null1",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "POP:select",
+          "parameters": {
+            "pop": "base1/out1"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "base1/out1",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:base": 1,
+          "POP:null": 1,
+          "DAT:text": 1,
+          "POP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

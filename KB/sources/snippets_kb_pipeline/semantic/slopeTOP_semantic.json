@@ -1,0 +1,198 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\slopeTOP_lossless.json",
+  "operator_type": "slopeTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "ramp1",
+          "type": "TOP:ramp",
+          "parameters": {
+            "pageindex": 2,
+            "dat": "ramp1_keys",
+            "combineinput": "res",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slope1",
+          "type": "TOP:slope",
+          "parameters": {
+            "green": "neutral",
+            "blue": "vluminance",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "slope2",
+          "type": "TOP:slope",
+          "parameters": {
+            "green": "neutral",
+            "blue": "vluminance",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "slope3",
+          "type": "TOP:slope",
+          "parameters": {
+            "green": "neutral",
+            "blue": "vluminance",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "slope4",
+          "type": "TOP:slope",
+          "parameters": {
+            "pageindex": 1,
+            "red": "hred",
+            "green": "neutral",
+            "blue": "vred",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "slope5",
+          "type": "TOP:slope",
+          "parameters": {
+            "green": "neutral",
+            "blue": "vluminance",
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "ramp1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "slope5",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "ramp1_keys",
+          "type": "DAT:table",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "bgalpha": 1,
+            "softness": 0.076,
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "pageindex": 4
+          }
+        },
+        {
+          "name": "topto1_verticalCenterLine",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "slope1",
+            "crop": "col",
+            "ustart": 0.5,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2_verticalCenterLine",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "slope2",
+            "crop": "col",
+            "ustart": 0.5,
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto1_horizontalCenterLine",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "slope1",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2_horizontalCenterLine",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "slope2",
+            "exportmethod": "datname"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "rectangle1",
+          "to": "slope1",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle1",
+          "to": "slope2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "slope3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "slope4",
+          "to_input": "0"
+        },
+        {
+          "from": "ramp1",
+          "to": "slope5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 16,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:ramp": 1,
+          "DAT:text": 1,
+          "TOP:slope": 5,
+          "CHOP:topto": 6,
+          "DAT:table": 1,
+          "TOP:rectangle": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

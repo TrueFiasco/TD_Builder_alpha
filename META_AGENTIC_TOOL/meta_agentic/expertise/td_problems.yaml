@@ -1,0 +1,326 @@
+# TD Problem Tracking
+# Problem tracking with root causes - prevents same mistakes
+# Updated by: All agents when encountering issues
+
+schema_version: "1.0"
+last_updated: "2025-12-20T20:00:00Z"
+update_count: 9
+
+# Active problems
+problems:
+  PROB-001:
+    timestamp: "2025-12-16T17:00:00Z"
+    category: "build_failure"
+    description: "GLSL TOP error 'A pixel shader must be specified' - textDAT content not recognized"
+    root_cause: ".text file format wrong - marker row and first content line were on same line"
+    fix: "Corrected _generate_text_content() - Line 2 is marker ONLY, content starts Line 3"
+    prevention:
+      - expertise_file: "td_file_formats.yaml"
+        update: "Documented correct .text format with critical_note about line separation"
+    status: "fixed"
+    validated: true
+
+  PROB-002:
+    timestamp: "2025-12-16T17:00:00Z"
+    category: "build_failure"
+    description: "selectCHOP only selecting first channel when using 'tx ty' space-separated names"
+    root_cause: "TD .tox parser may not handle space-separated channel names correctly"
+    fix: "Use wildcard pattern 't*' instead of 'tx ty'"
+    prevention:
+      - expertise_file: "td_file_formats.yaml"
+        update: "Added note to Select_CHOP: prefer wildcards over space-separated names"
+    status: "fixed"
+    validated: true
+
+  PROB-003:
+    timestamp: "2025-12-16T17:00:00Z"
+    category: "build_failure"
+    description: "absTime.step expression returning 1.0 instead of ~0.016 in GLSL TOP uniform"
+    root_cause: "Expression evaluation unreliable for absTime.step in .tox-built uniforms"
+    fix: "Use constant value 0.016 for deltaTime"
+    prevention:
+      - expertise_file: "td_glsl.yaml"
+        update: "Added GLSL-TOP-ABSTIME-STEP problem with workaround"
+    status: "fixed"
+    validated: true
+
+  PROB-004:
+    timestamp: "2025-12-16T17:00:00Z"
+    category: "build_failure"
+    description: "Particles not centered at 0,0 - clustered in corner"
+    root_cause: "Noise TOP outputs 0-1 range, particles need -1 to 1"
+    fix: "Set noise TOP amp=2.0, offset=-1.0 to output centered range"
+    prevention:
+      - expertise_file: "td_file_formats.yaml"
+        update: "Added Noise_TOP centering parameters"
+    status: "fixed"
+    validated: true
+
+  PROB-005:
+    timestamp: "2025-12-20T12:00:00Z"
+    category: "build_failure"
+    description: "Conversion operators (soptoCHOP, choptoTOP, etc.) created but non-functional"
+    root_cause: "Wire connections alone don't configure conversion operators - they need explicit source params (sop, chop, dat)"
+    fix: "Added conversion_operator_params to td_network_building.yaml expertise; builder now loads from expertise"
+    prevention:
+      - expertise_file: "td_network_building.yaml"
+        update: "Added conversion_operator_params with required params for each conversion op"
+      - expertise_file: "tool_contract.md"
+        update: "Added Conversion Operators section with required params table"
+    status: "fixed"
+    validated: true
+    learning: "Conversion operators bridge data families - need explicit param to know what to convert"
+
+  PROB-006:
+    timestamp: "2025-12-20T12:00:00Z"
+    category: "hallucination"
+    description: "Claude Desktop invented operator type 'tableDATCreate' which doesn't exist"
+    root_cause: "LLM hallucinated plausible-sounding operator name without querying KB"
+    fix: "Added alias mapping: tableDATCreate -> DAT:table in OP_TYPE_MAP"
+    prevention:
+      - expertise_file: "tool_contract.md"
+        update: "Added guidance to query td_assistant before using unfamiliar operators"
+    status: "fixed"
+    validated: true
+    learning: "Always add aliases for commonly-hallucinated operator names"
+
+  PROB-007:
+    timestamp: "2025-12-20T12:00:00Z"
+    category: "build_failure"
+    description: "Container-internal connections ignored - only root-level connections with full paths worked"
+    root_cause: "_write_container() didn't process container.connections array"
+    fix: "Added connection processing in _write_container() - expands local names to full paths"
+    prevention:
+      - expertise_file: "td_network_building.yaml"
+        update: "Document that containers can have their own connections array"
+    status: "fixed"
+    validated: true
+    learning: "Support copy-paste friendly container definitions with local connection names"
+
+  PROB-008:
+    timestamp: "2025-12-20T19:30:00Z"
+    category: "expertise_gap"
+    description: "Math CHOP range parameters used array format [min, max] instead of individual params"
+    root_cause: "TD Designer used fromrange/torange as arrays like 'torange: [2, 7]' but TD requires separate params"
+    fix: "Use individual params: fromrange1, fromrange2, torange1, torange2"
+    prevention:
+      - expertise_file: "td_operators_v2.yaml"
+        update: "Update Math CHOP key_params to show fromrange1/fromrange2/torange1/torange2 format"
+      - expertise_file: "td_designer/build.md"
+        update: "Add note about Math CHOP range parameters requiring individual values"
+    status: "new"
+    validated: true
+    learning: "Many TD params that look like ranges are actually separate numbered params (param1, param2)"
+    kb_evidence: "soptoCHOP/example3 shows: fromrange1: -1, fromrange2: 1, torange1: -0.12, torange2: 0.14"
+
+  PROB-009:
+    timestamp: "2025-12-20T19:30:00Z"
+    category: "expertise_gap"
+    description: "Transform SOP scale/translate/rotate used array format instead of individual params"
+    root_cause: "TD Designer used 's: [expr, expr, expr]' but TD requires sx, sy, sz as separate params"
+    fix: "Use individual params: sx, sy, sz (scale), tx, ty, tz (translate), rx, ry, rz (rotate)"
+    prevention:
+      - expertise_file: "td_operators_v2.yaml"
+        update: "Update Transform SOP key_params to show sx/sy/sz, tx/ty/tz, rx/ry/rz format"
+      - expertise_file: "td_designer/build.md"
+        update: "Add note about Transform SOP requiring individual axis params"
+    status: "new"
+    validated: true
+    learning: "Transform operations in TD use per-axis params (sx, sy, sz) not arrays"
+    kb_evidence: "KB query confirmed Transform SOP uses individual axis parameters"
+
+  PROB-010:
+    timestamp: "2025-12-20T19:30:00Z"
+    updated: "2025-12-20T20:00:00Z"
+    category: "kb_query_failure"
+    description: "Claude Code incorrectly claimed Noise CHOP lacks offset param when it EXISTS"
+    root_cause: "KB query returned Transform params (t, r, s, p) not Noise parameter group - led to false negative"
+    fix: "Noise CHOP DOES have 'offset' parameter in the Noise parameter group alongside 'amp'"
+    prevention:
+      - expertise_file: "td_operators_v2.yaml"
+        update: "Added offset to Noise CHOP key_params with note about parameter groups"
+      - expertise_file: "claude_desktop_suggestions.md"
+        update: "Document query strategy: search for parameter GROUPS not individual params"
+    status: "fixed"
+    validated: true
+    learning: |
+      Query strategy matters! Use: "Noise CHOP Noise parameter group amp seed offset"
+      NOT: "Noise CHOP offset" which may return unrelated results
+      Related params are often in the same group (amp+offset, fromrange+torange)
+
+  PROB-011:
+    timestamp: "2025-12-20T19:30:00Z"
+    category: "expertise_gap"
+    description: "Conversion operators (soptoCHOP, choptoTOP) lack data extraction settings"
+    root_cause: "Conversion ops need explicit attribscope, renamescope, chanscope params to extract correct data"
+    fix: "Add proper extraction params: soptoCHOP needs attribscope (e.g., 'P' for position), choptoTOP needs dataformat, etc."
+    prevention:
+      - expertise_file: "td_network_building.yaml"
+        update: "Expand conversion_operator_params to include extraction settings (attribscope, renamescope)"
+      - expertise_file: "td_operators_v2.yaml"
+        update: "Add extraction params to Sweet 16 conversion operators"
+    status: "new"
+    validated: true
+    learning: "Conversion operators need both source reference AND extraction/format params"
+    kb_evidence: |
+      soptoCHOP examples show: sop="box1", custom="on", attribscope="P", renamescope="tx ty tz"
+      choptoSOP examples show: chop="null1", chanscope="chan1", attscope="P(1)"
+      choptoDAT examples show: chop="constant1", names="on", output="rowperchan"
+
+  PROB-012:
+    timestamp: "2025-12-20T20:00:00Z"
+    category: "build_failure"
+    description: "Table DAT cell expression causes syntax error - parentheses not escaped properly"
+    root_cause: "Python expressions with parentheses don't serialize correctly to .toe format"
+    fix: "Use simple literals instead of complex expressions, or escape parentheses"
+    prevention:
+      - expertise_file: "td_network_building.yaml"
+        update: "Add note about expression escaping for Table DAT cellexpr"
+    status: "workaround"
+    validated: true
+    learning: "Expression parameters may need special escaping in .toe builder"
+    error_message: "SyntaxError: '(' was never closed (, line 1) Context:(Parameter: Cell Expression)"
+
+  PROB-013:
+    timestamp: "2025-12-20T20:00:00Z"
+    category: "architecture_limitation"
+    description: "Table DAT fill mode creates header row but no data rows - cell data not param-settable"
+    root_cause: "Table DAT is a 'content storage' operator - cell data lives in .toe binary, not parameters"
+    fix: "Use alternative architecture: Constant CHOP -> CHOP to DAT for programmatic table creation"
+    prevention:
+      - expertise_file: "td_operators_v2.yaml"
+        update: "Add note to Table DAT about content storage limitation"
+      - expertise_file: "claude_desktop_suggestions.md"
+        update: "Document content storage operators vs parameter-driven operators"
+    status: "workaround"
+    validated: true
+    workaround: |
+      Replace Table DAT with:
+      constant1 (constantCHOP) -> choptodat1 (choptodatDAT)
+      This generates table data from CHOP values
+    learning: |
+      Content storage operators (Table DAT, Text DAT) store data in file, not parameters.
+      For programmatic table creation, generate data upstream and convert to DAT.
+
+# Format:
+# PROB-001:
+#   timestamp: "2025-12-15T10:30:00Z"
+#   category: "embedding_quality|search_quality|build_failure|hallucination|expertise_gap"
+#   description: "What happened"
+#   root_cause: "WHY it happened (not symptom)"
+#   fix: "How we fixed it"
+#   prevention:
+#     - expertise_file: "which file to update"
+#       update: "what to add to prevent recurrence"
+#   status: "new|in_progress|fixed"
+#   validated: true|false
+#   validation_metric: "optional - metric name"
+#   before: null  # metric value before fix
+#   after: null   # metric value after fix
+#   target: null  # target metric value
+
+# Known issues from audit (seeded from EMBEDDING_AUDIT_REPORT.md)
+# These are pre-identified problems to address
+seed_problems:
+  SEED-001:
+    category: "embedding_quality"
+    description: "Parameter detail chunks have 84% noise rate"
+    root_cause: "Hierarchical chunking creates isolated parameter docs without context"
+    proposed_fix: "Remove Tier 3 chunks; add context to parameter chunks"
+    status: "identified"
+    source: "EMBEDDING_AUDIT_REPORT.md"
+
+  SEED-002:
+    category: "search_quality"
+    description: "Average search usefulness only 29%"
+    root_cause: "Parameter details dominate; workflow examples not prioritized"
+    proposed_fix: "Boost snippet source scores 1.5x; de-boost params 0.5x"
+    status: "identified"
+    source: "EMBEDDING_AUDIT_REPORT.md"
+
+  SEED-003:
+    category: "embedding_quality"
+    description: "Noise-to-signal ratio 3:1 instead of target 10:1"
+    root_cause: "90% of chunks are low-value parameter docs"
+    proposed_fix: "Filter low-value chunks; prioritize examples and workflows"
+    status: "identified"
+    source: "EMBEDDING_AUDIT_REPORT.md"
+
+# Problem categories for analysis
+categories:
+  embedding_quality:
+    description: "Issues with vector embedding quality"
+    metrics:
+      - "noise_to_signal_ratio"
+      - "useful_chunk_percentage"
+    target_values:
+      noise_to_signal_ratio: 10.0  # 10:1 signal to noise
+      useful_chunk_percentage: 70.0
+
+  search_quality:
+    description: "Search results not helpful"
+    metrics:
+      - "search_usefulness_score"
+    target_values:
+      search_usefulness_score: 70.0  # 70% useful results
+
+  build_failure:
+    description: "Network build failures"
+    metrics:
+      - "build_success_rate"
+    target_values:
+      build_success_rate: 95.0
+
+  hallucination:
+    description: "False information in outputs"
+    metrics:
+      - "validation_failure_rate"
+    target_values:
+      validation_failure_rate: 0.0  # No hallucinations
+
+  expertise_gap:
+    description: "Missing knowledge in expertise files"
+    metrics:
+      - "unknown_operator_count"
+      - "unvalidated_pattern_count"
+    target_values:
+      unknown_operator_count: 0
+      unvalidated_pattern_count: 0
+
+# Root cause patterns (help identify causes faster)
+root_cause_patterns:
+  - pattern_match: "unknown operator"
+    likely_cause: "Operator not in registry or misspelled"
+    fix_template: "Verify operator exists; check spelling; add to expertise if new"
+
+  - pattern_match: "invalid parameter"
+    likely_cause: "Parameter name incorrect or not supported"
+    fix_template: "Check parameter exists for operator; verify spelling"
+
+  - pattern_match: "connection.*type"
+    likely_cause: "Attempting to connect incompatible operator families"
+    fix_template: "Insert conversion operator (toptoChop, choptosop, etc.)"
+
+  - pattern_match: "audio.*no output"
+    likely_cause: "Time Slice not enabled for audio-rate analysis"
+    fix_template: "Enable timeslice=on on analyze CHOP"
+
+  - pattern_match: "low.*search.*useful"
+    likely_cause: "Parameter-heavy chunks dominating useful content"
+    fix_template: "Re-weight source scoring; reduce tier 3 chunks"
+
+# Problem statistics
+statistics:
+  total_problems: 13
+  fixed_problems: 10  # PROB-001 to 007, PROB-008, PROB-009, PROB-010
+  new_problems: 1     # PROB-011 (conversion ops extraction)
+  workarounds: 2      # PROB-012 (expression escaping), PROB-013 (Table DAT content)
+  recurrence_count: 0  # Problems that came back after "fix"
+
+# Prevention effectiveness tracking
+prevention_effectiveness: {}
+# Format:
+# "PROB-001":
+#   prevention_added: "2025-12-15"
+#   recurred: false
+#   days_since_fix: N

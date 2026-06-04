@@ -1,0 +1,211 @@
+source_file: C:\TD_Projects\kb_pipeline\data\snippets\semantic\boxSOP_semantic.json
+operator_type: boxSOP
+
+examples:
+  - example_name: example1
+    curator_text: "These examples show different ways of using the Size parameter to change the shape of a Box."
+    network_description: "Three independent boxes demonstrate variations of the Size parameter."
+    operators:
+      - name: box_size
+        type: SOP:box
+        role: isolated
+        parameters:
+          sizex: 0.5
+          sizey: 1
+          sizez: 1
+          reverseanchors: 'on'
+      - name: box_size1
+        type: SOP:box
+        role: isolated
+        parameters:
+          sizex: 1
+          sizey: 0.5
+          sizez: 1
+          reverseanchors: 'on'
+      - name: box_size2
+        type: SOP:box
+        role: isolated
+        parameters:
+          sizex: 1
+          sizey: 1
+          sizez: 0.5
+          reverseanchors: 'on'
+    connections: []
+    topology:
+      operator_count: 3
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+
+  - example_name: example2
+    curator_text: "The Center parameters allow you to translate the Box in 3D space."
+    network_description: "Three boxes with different center positions are merged into a single output."
+    operators:
+      - name: box_center
+        type: SOP:box
+        role: input
+        parameters:
+          tx: -1
+          reverseanchors: 'on'
+      - name: box_center1
+        type: SOP:box
+        role: input
+        parameters:
+          ty: -1
+          reverseanchors: 'on'
+      - name: box_center2
+        type: SOP:box
+        role: input
+        parameters:
+          tz: -1
+          reverseanchors: 'on'
+      - name: merge1
+        type: SOP:merge
+        role: output
+    connections:
+      - from: box_center
+        to: merge1
+        input_index: '0'
+      - from: box_center1
+        to: merge1
+        input_index: '1'
+      - from: box_center2
+        to: merge1
+        input_index: '2'
+    topology:
+      operator_count: 4
+      connection_count: 3
+      has_parallel_paths: false
+      max_chain_length: 2
+
+  - example_name: example3
+    curator_text: "The Box SOP will create a Box around the input geometry."
+    network_description: "A sphere is deformed with noise, wrapped by a box operator, and output to null."
+    operators:
+      - name: sphere1
+        type: SOP:sphere
+        role: input
+        parameters:
+          reverseanchors: 'on'
+          texture: byprimtype
+      - name: noise1
+        type: SOP:noise
+        role: processor
+      - name: box_input
+        type: SOP:box
+        role: processor
+        parameters:
+          reverseanchors: 'on'
+      - name: null2
+        type: SOP:null
+        role: output
+    connections:
+      - from: sphere1
+        to: noise1
+      - from: noise1
+        to: box_input
+      - from: box_input
+        to: null2
+    topology:
+      operator_count: 4
+      connection_count: 3
+      has_parallel_paths: false
+      max_chain_length: 4
+
+  - example_name: example4
+    curator_text: "This example demonstrates that you can consolidate the corner points of the Box and compute correct normals for each primitive."
+    network_description: "A box with consolidated corner points is passed to null output."
+    operators:
+      - name: box_consolidate_corner_points
+        type: SOP:box
+        role: input
+        parameters:
+          reverseanchors: 'on'
+          consolidatepts: 'on'
+      - name: null3
+        type: SOP:null
+        role: output
+    connections:
+      - from: box_consolidate_corner_points
+        to: null3
+    topology:
+      operator_count: 2
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+
+  - example_name: example5
+    curator_text: "These examples divide the Box SOP by the assigned values in the Division parameter. You can also create enforcement bars."
+    network_description: "Three independent boxes demonstrate different division and enforcement bar settings."
+    operators:
+      - name: box_divisions
+        type: SOP:box
+        role: isolated
+        parameters:
+          reverseanchors: 'on'
+          dodivs: 'on'
+      - name: box_divisions1
+        type: SOP:box
+        role: isolated
+        parameters:
+          reverseanchors: 'on'
+          dodivs: 'on'
+          divsx: 2
+          divsy: 3
+          divsz: 1
+      - name: box_enforcement_bars
+        type: SOP:box
+        role: isolated
+        parameters:
+          reverseanchors: 'on'
+          dodivs: 'on'
+          divsx: 2
+          divsy: 3
+          divsz: 1
+          rebar: 'on'
+    connections: []
+    topology:
+      operator_count: 3
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+
+  - example_name: example6
+    curator_text: "The Box SOP has a handy feature in that you can assign your texture UV upon creation."
+    network_description: "Boxes reference a material with texture mapping in a component-based setup with no wire connections."
+    operators:
+      - name: geo1
+        type: COMP:geo
+        role: isolated
+        parameters:
+          material: phong1
+      - name: geo2
+        type: COMP:geo
+        role: isolated
+        parameters:
+          material: phong1
+      - name: phong1
+        type: MAT:phong
+        role: isolated
+        parameters:
+          legacyalphabehavior: 'on'
+      - name: moviein1
+        type: TOP:moviefilein
+        role: isolated
+      - name: box_texture
+        type: SOP:box
+        role: isolated
+        parameters:
+          reverseanchors: 'on'
+      - name: box_texture1
+        type: SOP:box
+        role: isolated
+        parameters:
+          reverseanchors: 'on'
+          texture: faceinside
+    connections: []
+    topology:
+      operator_count: 6
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1

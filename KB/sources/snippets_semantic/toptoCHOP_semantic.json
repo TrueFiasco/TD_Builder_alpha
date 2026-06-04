@@ -1,0 +1,511 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\toptoCHOP_lossless.json",
+  "operator_type": "toptoCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "combineinput": "res",
+            "resolutionw": 1,
+            "resolutionh": 1
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "topto_single_pixel",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviefilein1",
+            "crop": "pixel",
+            "ustart": 0.191,
+            "vstart": 0.452
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:constant": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:topto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "topto_column_of_pixels",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviefilein1",
+            "crop": "col",
+            "ustart": 0.6
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:topto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "topto_rowOfPixels",
+          "type": "CHOP:topto",
+          "parameters": {
+            "pageindex": 1,
+            "top": "moviein1"
+          }
+        },
+        {
+          "name": "topto_rowOfPixels_to_255",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "moviein1",
+            "rgbaunit": "u256"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "CHOP:topto": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "panel1",
+          "type": "CHOP:panel",
+          "parameters": {
+            "select": "\"u v\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "TOP:chopto",
+          "parameters": {
+            "chop": "topto_inputPixelSelection",
+            "dataformat": "legacy"
+          }
+        },
+        {
+          "name": "container1",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "h": 225,
+            "top": "./out1",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "topto_inputPixelSelection",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "null1",
+            "r": "red",
+            "g": "green",
+            "b": "blue",
+            "a": "alpha"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "container1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "panel1",
+          "to": "topto_inputPixelSelection",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "TOP:null": 1,
+          "CHOP:panel": 1,
+          "DAT:text": 1,
+          "TOP:chopto": 1,
+          "COMP:container": 1,
+          "CHOP:topto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "null2",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "pointfilein1",
+            "singleset": "on",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "pointfilein1",
+            "singleset": "on",
+            "excludenans": "on",
+            "activechannel": "alpha",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "pointfilein1",
+          "type": "TOP:pointfilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "pointfilein1",
+          "to": "null2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "TOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:topto": 2,
+          "TOP:pointfilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "res1",
+          "type": "TOP:res",
+          "parameters": {
+            "pageindex": 1,
+            "outputresolution": "custom",
+            "resolutionw": 40,
+            "resolutionh": 10,
+            "outputaspect": "resolution",
+            "inputfiltertype": "nearest",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "res2",
+          "type": "TOP:res",
+          "parameters": {
+            "pageindex": 1,
+            "outputresolution": "custom",
+            "resolutionw": 40,
+            "resolutionh": 10,
+            "outputaspect": "resolution",
+            "inputfiltertype": "mipmap",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "topto1",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "res1",
+            "a": "\"\"",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto2",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "transform2",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto3",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "transform3",
+            "g": "\"\"",
+            "b": "\"\"",
+            "a": "\"\"",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "topto4",
+          "type": "CHOP:topto",
+          "parameters": {
+            "top": "res2",
+            "a": "\"\"",
+            "crop": "full",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "r*"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "g*"
+          }
+        },
+        {
+          "name": "select3",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "b*"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "tx": 0.02,
+            "ty": 0.46,
+            "rotate": -12,
+            "sx": 2.3,
+            "sy": 2.3,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 16,
+            "resolutionh": 9,
+            "inputfiltertype": "nearest",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "transform3",
+          "type": "TOP:transform",
+          "parameters": {
+            "pageindex": 2,
+            "outputresolution": "custom",
+            "resolutionw": 16,
+            "resolutionh": 9,
+            "inputfiltertype": "mipmap",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform1",
+          "to": "res1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "res2",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "select2",
+          "to_input": "0"
+        },
+        {
+          "from": "topto1",
+          "to": "select3",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein2",
+          "to": "transform3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 8,
+        "operator_types": {
+          "TOP:res": 2,
+          "DAT:text": 1,
+          "CHOP:topto": 4,
+          "CHOP:select": 3,
+          "TOP:transform": 3,
+          "TOP:moviefilein": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

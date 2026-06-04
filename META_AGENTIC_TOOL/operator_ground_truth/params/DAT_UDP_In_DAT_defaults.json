@@ -1,0 +1,345 @@
+{
+  "operator": "UDP_In_DAT",
+  "family": "DAT",
+  "td_create_name": "udpinDAT",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Connect",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "protocol": {
+      "value": {
+        "type": "menu",
+        "value": "msging",
+        "menuIndex": 0,
+        "menuNames": [
+          "msging",
+          "multicastmsging"
+        ],
+        "menuLabels": [
+          "Messaging (UDP)",
+          "Multi-Cast Messaging (UDP)"
+        ]
+      },
+      "default": "msging",
+      "page": "Connect",
+      "label": "Protocol",
+      "readOnly": false,
+      "expression": null
+    },
+    "address": {
+      "value": {
+        "type": "string",
+        "value": "localhost"
+      },
+      "default": "localhost",
+      "page": "Connect",
+      "label": "Network Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "port": {
+      "value": {
+        "type": "int",
+        "value": 7000
+      },
+      "default": 7000,
+      "page": "Connect",
+      "label": "Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "shared": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Connect",
+      "label": "Shared Connection",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "perline",
+        "menuIndex": 1,
+        "menuNames": [
+          "perbyte",
+          "perline",
+          "permessage",
+          "pereot"
+        ],
+        "menuLabels": [
+          "One Per Byte",
+          "One Per Line",
+          "One Per Message",
+          "One Per EOT"
+        ]
+      },
+      "default": "perline",
+      "page": "Connect",
+      "label": "Row/Callback Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "localaddress": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Connect",
+      "label": "Local Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Received Data",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "callbacks",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "callbacks",
+          "op"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "Callbacks DAT",
+          "Specified Operator"
+        ]
+      },
+      "default": "callbacks",
+      "page": "Received Data",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Received Data",
+      "label": "From Operator",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "clamp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Received Data",
+      "label": "Clamp Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlines": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Received Data",
+      "label": "Maximum Lines",
+      "readOnly": false,
+      "expression": null
+    },
+    "clear": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Received Data",
+      "label": "Clear Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "messageoutput": {
+      "value": {
+        "type": "menu",
+        "value": "full",
+        "menuIndex": 0,
+        "menuNames": [
+          "full",
+          "numbytes"
+        ],
+        "menuLabels": [
+          "Full",
+          "Number of Bytes"
+        ]
+      },
+      "default": "full",
+      "page": "Received Data",
+      "label": "Message Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "bytes": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Received Data",
+      "label": "Bytes Column",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "text",
+        "menuIndex": 2,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

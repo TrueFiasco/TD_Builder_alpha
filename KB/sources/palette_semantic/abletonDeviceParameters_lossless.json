@@ -1,0 +1,837 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDAbleton\\Live 9 & 10\\abletonDeviceParameters.tox.dir",
+    "build_version": "099",
+    "build_date": "Wed Aug 24 12:34:11 2022",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2022.27900"
+  },
+  "operators": {
+    "/abletonDeviceParameters": {
+      "name": "abletonDeviceParameters",
+      "path": "/abletonDeviceParameters",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "opviewer": "./out1"
+      },
+      "parent": null,
+      "children": [
+        "help",
+        "abletonDeviceParameters"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonDeviceParameters/help": {
+      "name": "help",
+      "path": "/abletonDeviceParameters/help",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "language": "text"
+      },
+      "parent": "/abletonDeviceParameters",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAACfUHJvdmlkZXMgcmVhZC1vbmx5IGFjY2VzcyB0byBhbGwgcGFyYW1ldGVycyBvbiB0aGUgY2hvc2VuIGRldmljZS4gVGhlIFBhcmFtZXRlcnMgTGlzdCBhbGxvd3MgeW91IHRvIGZpbHRlciB0aGUgZGV2aWNlIHBhcmFtZXRlcnMgaWYgeW91IGRvbid0IHdhbnQgYWxsIG9mIHRoZW0u",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters": {
+      "name": "abletonDeviceParameters",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        160,
+        130
+      ],
+      "color": [
+        0.05,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 3,
+        "extension1": "op('./AbletonDeviceParametersExt').module.AbletonDeviceParametersExt(me)",
+        "promoteextension1": "on",
+        "opviewer": "./out1",
+        "enablecloning": "off",
+        "clone": {
+          "17": "op.TDAbleton.op('comps/abletonMIDI') me.par.Tdabletoncomp.eval().op('comps/abletonDeviceParameters1')"
+        },
+        "Device": {
+          "192": "None"
+        },
+        "Track": {
+          "192": "None"
+        },
+        "Chain1": {
+          "192": "None"
+        },
+        "Chain1device": {
+          "192": "None"
+        },
+        "Chain2device": {
+          "192": "None"
+        },
+        "Chain2": {
+          "192": "None"
+        },
+        "Chain3device": {
+          "192": "None"
+        },
+        "Chain3": {
+          "192": "None"
+        },
+        "Chain4device": {
+          "192": "None"
+        },
+        "Chain4": {
+          "192": "None"
+        },
+        "Tdabletoncomp": {
+          "81": "\"\" op.TDAbleton"
+        },
+        "Version": {
+          "336": "1.50 0.1"
+        },
+        "Update": {
+          "64": 0
+        },
+        "Helppage": {
+          "64": 0
+        },
+        "Connect": {
+          "64": "on"
+        },
+        "Clearchop": {
+          "64": 0
+        }
+      },
+      "parent": "/abletonDeviceParameters",
+      "children": [
+        "out1",
+        "parexec1",
+        "parexec2",
+        "abletonBase",
+        "AbletonDeviceParametersExt"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 2 \"Ableton Device Parameters\" TDAbleton\n772870415 Device Device 1 1 0 0 1 1 1 0 0 \"\" \"Ableton Device Parameters\" 4097 7 None None 262695140 Pitch 262695980 \"C Minor\" 262696180 tda 262848612 Muugy 262850972 \"Auto Filter\" 262944988 \"# Mixer #\" 1\n-1374613233 Track Track 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 8 None None 572138088 \"1 Muugy\" 572864736 \"2 Muugy\" 572949328 \"Effect Rack\" 572992208 Kick 573052680 \"Return: A-Reverb\" 573047232 \"Return: B-Delay\" 572127792 \"# Master Track #\" 0\n772870415 Chain1 \"Chain 1\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 2\n772870415 Chain1device \"Chain 1 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 6 None None 302438748 Blaze3-A 302438228 Blaze3-B 302437428 Blaze3-C 302436988 Blaze3-Settings 300610988 \"# Mixer #\" 3\n772870415 Chain2device \"Chain 2 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 5\n772870415 Chain2 \"Chain 2\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 4\n772870415 Chain3device \"Chain 3 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 7\n772870415 Chain3 \"Chain 3\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 6\n772870415 Chain4device \"Chain 4 Device\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 9\n772870415 Chain4 \"Chain 4\" 1 1 0 0 1 1 1 0 0 'None' \"Ableton Device Parameters\" 4097 1 None None 8\n772804877 Tdabletoncomp \"TDAbleton Comp\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 0\n772804868 Version \"TDAbleton Version\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 1\n772804869 Update \"Update To 1.50\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 2\n772804869 Helppage \"Help Page\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 3\n-1374678781 Connect Connect 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 4\n772804869 Clearchop \"Clear CHOP\" 1 1 0 0 1 1 1 0 0 0 TDAbleton 5\n772804866 Stripchopprefixsegments \"Strip CHOP Prefix Segments\" 1 3 0 0 1 10 10 0 0 \"\" TDAbleton 6\n-1374678780 Parameterslist \"Parameters List\" 1 1 0 0 1 1 1 0 0 \"\" \"Ableton Device Parameters\" 10\n772804867 Timesliceoscchops \"Timeslice OSC Chops\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 7\n772804867 Sendonly \"Send Only\" 1 1 0 0 1 1 1 0 0 \"\" TDAbleton 8\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/out1": {
+      "name": "out1",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/out1",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters",
+      "children": [],
+      "inputs": {
+        "0": "abletonBase/out1"
+      },
+      "extra_files": {}
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/parexec1": {
+      "name": "parexec1",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -400,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": "Mapfromlive",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002\u0012# me - this DAT\n# par - the Par object that has changed\n# val - the current value\n# prev - the previous value\n# \n# Make sure the corresponding toggle is enabled in the Parameter Execute DAT.\n\ndef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onParValueChange(par, val, prev)\n\ndef onPulse(par):\n\text.TDAbletonCompBaseExt.onParPulse(par)\n\ndef onExpressionChange(par, val, prev):\n\treturn\n\ndef onExportChange(par, val, prev):\n\treturn\n\ndef onEnableChange(par, val, prev):\n\treturn\n\ndef onModeChange(par, val, prev):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/parexec2": {
+      "name": "parexec2",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/parexec2",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "..",
+        "pars": {
+          "48": "Parameterslist \"'Tdabletoncomp Connect Sync Autosync Update ' + ' '.join(ext.TDAbletonCompBaseExt.lomParNames)\""
+        },
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002\"# me - this DAT\n# par - the Par object that has changed\n# val - the current value\n# prev - the previous value\n# \n# Make sure the corresponding toggle is enabled in the Parameter Execute DAT.\n\ndef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onParValueChange(par, val, prev)\n\treturn\n\ndef onPulse(par):\n\text.TDAbletonCompBaseExt.onParPulse(par)\n\treturn\n\ndef onExpressionChange(par, val, prev):\n\treturn\n\ndef onExportChange(par, val, prev):\n\treturn\n\ndef onEnableChange(par, val, prev):\n\treturn\n\ndef onModeChange(par, val, prev):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase": {
+      "name": "abletonBase",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        100,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.5,
+        0.35,
+        0.05
+      ],
+      "flags": {
+        "current": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 2,
+        "opviewer": "./out1",
+        "clone": {
+          "49": "\"\" op.TDAbleton.op('comps/abletonComp1/abletonBase')"
+        }
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters",
+      "children": [
+        "out1",
+        "parexec1",
+        "noTDAError",
+        "oscin_info",
+        "oscin_outputs",
+        "parexec_outPars",
+        "oscin1_callbacks",
+        "chopexec_autoSync",
+        "TDAbletonCompBaseExt"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/out1": {
+      "name": "out1",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/out1",
+      "op_type": "CHOP:out",
+      "family": "CHOP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {
+        "0": "oscin_outputs"
+      },
+      "extra_files": {}
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec1": {
+      "name": "parexec1",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": "../..",
+        "pars": {
+          "49": "\"Track Device Parameter Tdabletoncomp Connect Sync Autosync Update\" \"'Sendonly Timesliceoscchops Stripchopprefixsegments Tdabletoncomp Autosync Sync Clearchop Connect Update Helppage ' + tdu.tryExcept(lambda: ' '.join(ext.TDAbletonCompBaseExt.lomParNames), '')\""
+        },
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002x# me - this DAT\n# par - the Par object that has changed\n# val - the current value\n# prev - the previous value\n# \n# Make sure the corresponding toggle is enabled in the Parameter Execute DAT.\n\ndef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onParValueChange(par, val, prev)\n\treturn\n\ndef onPulse(par):\n\ttry:\n\t\text.TDAbletonCompBaseExt.onParPulse(par)\n\texcept:\n\t\tui.viewFile('https://docs.derivative.ca/index.php?title=TDAbleton')\n\treturn\n\ndef onExpressionChange(par, val, prev):\n\treturn\n\ndef onExportChange(par, val, prev):\n\treturn\n\ndef onEnableChange(par, val, prev):\n\treturn\n\ndef onModeChange(par, val, prev):\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/noTDAError": {
+      "name": "noTDAError",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/noTDAError",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -100,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex1": 1,
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHfY2xhc3MgVERBYmxldG9uQ29tcEJhc2VFeHQoKToKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXApOgoJCWxhYmVsID0gJ1REQWJsZXRvbkNPTVBCYXNlJwoJCWVycm9yID0gXAoJCSdcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuJ1wKCQknXHRUaGlzIGNvbXBvbmVudCByZXF1aXJlcyBhIHRkQWJsZXRvblBhY2thZ2UgaW4geW91ciBwcm9qZWN0LlxuJ1wKCQknXHQoUHJlc3MgSGVscCBwYXJhbWV0ZXIgb24gQWJvdXQgUGFnZSBmb3IgZG9jdW1lbnRhdGlvbilcbidcCgkJJyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIycKCQlwYXJlbnQoMikuYWRkU2NyaXB0RXJyb3IobGFiZWwgKyAiOiAiICsgZXJyb3IpCgkJcHJpbnQoJ1xuJyArIHBhcmVudCgyKS5wYXRoICsgJzonICsgZXJyb3IsICdcblxuJyk=",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_info": {
+      "name": "oscin_info",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_info",
+      "op_type": "DAT:oscin",
+      "family": "DAT",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        700,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off \"parent(2).par.Connect and me.par.addscope and not parent(2).ListenersConfirmed\""
+        },
+        "address": "localhost",
+        "port": {
+          "48": "58811 parent().par.Tdabletoncomp.eval().par.Inport"
+        },
+        "addscope": "\"\"",
+        "callbacks": "oscin1_callbacks",
+        "maxlines": 1,
+        "language": "text"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "fifo": {
+          "content": "MQowCioAAAABAAAACwAAAAEAAAAAAAAAAgAAAAdtZXNzYWdlAAAAAgAAALMvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiA0MDYzIDkgIjIwMTctMDYtMDIgMTg6MTM6MjMuMTIxMDAwIgAAAAIAAACzL2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgNDA2MyA5ICIyMDE3LTA2LTAyIDE4OjEzOjI1Ljk3MTAwMCIAAAACAAAAsy9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDQwNjMgOSAiMjAxNy0wNi0wMiAxODoxMzoyNi43MzgwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDE4OjE1OjUyLjUxMDAwMCIAAAACAAAAtC9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDM2MTk0IDkgIjIwMTctMDYtMDIgMTg6MTY6MTUuNzI0MDAwIgAAAAIAAAC0L2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgMzYxOTQgOSAiMjAxNy0wNi0wMiAxODoxNjozNC44NjEwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDE4OjE2OjUzLjQ4MTAwMCIAAAACAAAAtC9pbmZvL2xpc3RlbmVyL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZS9zZXR0ZXJJbmRleCAiU09ORy50cmFja3NbMF0ubWl4ZXJfZGV2aWNlLnBhbm5pbmciICJ2YWx1ZSIgIi9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUiIDM2MTk0IDkgIjIwMTctMDYtMDIgMTk6NTc6MTguMTAxMDAwIgAAAAIAAAC0L2luZm8vbGlzdGVuZXIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlL3NldHRlckluZGV4ICJTT05HLnRyYWNrc1swXS5taXhlcl9kZXZpY2UucGFubmluZyIgInZhbHVlIiAiL3NvbmcvQmFzcy9fX01peGVyX18vUGFubmluZy92YWx1ZSIgMzYxOTQgOSAiMjAxNy0wNi0wMiAyMDowMTozOS4yODMwMDAiAAAAAgAAALQvaW5mby9saXN0ZW5lci9zb25nL0Jhc3MvX19NaXhlcl9fL1Bhbm5pbmcvdmFsdWUvc2V0dGVySW5kZXggIlNPTkcudHJhY2tzWzBdLm1peGVyX2RldmljZS5wYW5uaW5nIiAidmFsdWUiICIvc29uZy9CYXNzL19fTWl4ZXJfXy9QYW5uaW5nL3ZhbHVlIiAzNjE5NCA5ICIyMDE3LTA2LTAyIDIwOjAyOjE0LjQzMzAwMCI=",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs": {
+      "name": "oscin_outputs",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs",
+      "op_type": "CHOP:oscin",
+      "family": "CHOP",
+      "specific_type": "oscin",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -200,
+        130,
+        90
+      ],
+      "color": [
+        0.2,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off \"not parent(2).par.Sendonly and parent(2).par.Connect and me.par.oscaddressscope\""
+        },
+        "netaddress": "localhost",
+        "port": 58811,
+        "oscaddressscope": "\"\"",
+        "queuetarget": 13.2,
+        "queuetargetunit": "frames",
+        "queuevariance": 0,
+        "queuevarianceunit": "frames",
+        "adjusttime": 12,
+        "adjusttimeunit": "frames",
+        "stripprefixes": {
+          "49": "0 parent(2).par.Stripchopprefixsegments"
+        },
+        "timeslice": {
+          "49": "off parent(2).par.Timesliceoscchops"
+        }
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "chop": {
+          "content": "5\n1\n",
+          "is_binary": false
+        },
+        "ts": {
+          "content": "65538\n0\n0\n0\n0\n0\n0\n1\n0\n0\n0\n0\n60\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        },
+        "oscin": {
+          "content": "1\n{\n   rate = 60\n   start = 0\n   tracklength = 1\n   tracks = 0\n\n}\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec_outPars": {
+      "name": "parexec_outPars",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec_outPars",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "on \"parent(2).par.Connect and (parent(2).TDAbletonComp.Connected if hasattr(parent(2), 'TDAbletonComp') else False)\""
+        },
+        "op": "../..",
+        "pars": {
+          "17": "ext.TDAbletonBaseExt.outPars \"' '.join(parent(2).OutParNames)\""
+        },
+        "onpulse": "off",
+        "builtin": "off",
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000Qdef onValueChange(par, val, prev):\n\text.TDAbletonCompBaseExt.onOutParChange(par)\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin1_callbacks": {
+      "name": "oscin1_callbacks",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin1_callbacks",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        700,
+        -325,
+        130,
+        90
+      ],
+      "color": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAPzIyBtZSAtIHRoaXMgREFUCiMgCiMgZGF0IC0gdGhlIERBVCB0aGF0IHJlY2VpdmVkIGEgbWVzc2FnZQojIHJvd0luZGV4IC0gdGhlIHJvdyBudW1iZXIgdGhlIG1lc3NhZ2Ugd2FzIHBsYWNlZCBpbnRvCiMgbWVzc2FnZSAtIGFuIGFzY2lpIHJlcHJlc2VudGF0aW9uIG9mIHRoZSBkYXRhCiMgICAgICAgICAgIFVucHJpbnRhYmxlIGNoYXJhY3RlcnMgYW5kIHVuaWNvZGUgY2hhcmFjdGVycyB3aWxsCiMgICAgICAgICAgIG5vdCBiZSBwcmVzZXJ2ZWQuIFVzZSB0aGUgJ2J5dGVzJyBwYXJhbWV0ZXIgdG8gZ2V0CiMgICAgICAgICAgIHRoZSByYXcgYnl0ZXMgdGhhdCB3ZXJlIHNlbnQuCiMgYnl0ZXMgLSBhIGJ5dGUgYXJyYXkgb2YgdGhlIG1lc3NhZ2UuCiMgdGltZVN0YW1wIC0gdGhlIGFycml2YWwgdGltZSBjb21wb25lbnQgdGhlIE9TQyBtZXNzYWdlCiMgYWRkcmVzcyAtIHRoZSBhZGRyZXNzIGNvbXBvbmVudCBvZiB0aGUgT1NDIG1lc3NhZ2UKIyBhcmdzIC0gYSBsaXN0IG9mIHZhbHVlcyBjb250YWluZWQgd2l0aGluIHRoZSBPU0MgbWVzc2FnZQojIHBlZXIgLSBhIFBlZXIgb2JqZWN0IGRlc2NyaWJpbmcgdGhlIG9yaWdpbmF0aW5nIG1lc3NhZ2UKIyAgIHBlZXIuY2xvc2UoKSAgICAjY2xvc2UgdGhlIGNvbm5lY3Rpb24KIyAgIHBlZXIub3duZXIgICN0aGUgb3BlcmF0b3IgdG8gd2hvbSB0aGUgcGVlciBiZWxvbmdzCiMgICBwZWVyLmFkZHJlc3MgICAgI25ldHdvcmsgYWRkcmVzcyBhc3NvY2lhdGVkIHdpdGggdGhlIHBlZXIKIyAgIHBlZXIucG9ydCAgICAgICAjbmV0d29yayBwb3J0IGFzc29jaWF0ZWQgd2l0aCB0aGUgcGVlcgojCgpkZWYgb25SZWNlaXZlT1NDKGRhdCwgcm93SW5kZXgsIG1lc3NhZ2UsIGJ5dGVzLCB0aW1lU3RhbXAsIGFkZHJlc3MsIGFyZ3MsIHBlZXIpOgoJZXh0LlREQWJsZXRvbkNvbXBCYXNlRXh0Lm9uUmVjZWl2ZU9TQ0luZm8oCgkJCQlkYXQsIHJvd0luZGV4LCBtZXNzYWdlLCBieXRlcywgdGltZVN0YW1wLCBhZGRyZXNzLCBhcmdzLCBwZWVyKQoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/chopexec_autoSync": {
+      "name": "chopexec_autoSync",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/chopexec_autoSync",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.2,
+        0.5,
+        0.05
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "on \"parent(2).par.Autosync if hasattr(parent(2).par, 'Autosync') else False\""
+        },
+        "chop": "oscin_outputs",
+        "channel": {
+          "49": "\"' '.join(parent(2).OutParNames)\" \"' '.join([parent(2).OutPars[parName][1] for parName in parent(2).OutParNames])\""
+        },
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0000ydef onValueChange(channel, sampleIndex, val, prev):\n\text.TDAbletonCompBaseExt.onOutputsChannelChange(channel.name, val)\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/TDAbletonCompBaseExt": {
+      "name": "TDAbletonCompBaseExt",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/TDAbletonCompBaseExt",
+      "op_type": "DAT:select",
+      "family": "DAT",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "dat": {
+          "49": "/project1/tdAbleton/TDAbletonCompBaseExt \"op.TDAbleton.op('TDAbletonCompBaseExt') if 'TDAbleton' in op else op('noTDAError')\""
+        },
+        "rownames": "*",
+        "colnames": "*",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/abletonDeviceParameters/abletonDeviceParameters/AbletonDeviceParametersExt": {
+      "name": "AbletonDeviceParametersExt",
+      "path": "/abletonDeviceParameters/abletonDeviceParameters/AbletonDeviceParametersExt",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "python"
+      },
+      "parent": "/abletonDeviceParameters/abletonDeviceParameters",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAqEI0FibGV0b25QYXJhbWV0ZXJFeHQKClREQWJsZXRvbkNvbXBCYXNlRXh0ID0gXAoJCQkJCW1vZCgnYWJsZXRvbkJhc2UvVERBYmxldG9uQ29tcEJhc2VFeHQnKS5UREFibGV0b25Db21wQmFzZUV4dAoKY2xhc3MgQWJsZXRvbkRldmljZVBhcmFtZXRlcnNFeHQoVERBYmxldG9uQ29tcEJhc2VFeHQpOgoJIiIiCglBYmxldG9uUGFyYW1ldGVyRXh0IHNldHMgdXAgYSAyIHdheSBjb25uZWN0aW9uIHdpdGggYW4gQWJsZXRvbiBwYXJhbWV0ZXIuCgkiIiIKCWRlZiBfX2luaXRfXyhzZWxmLCBvd25lckNvbXApOgoJCSMgVGhlIGNvbXBvbmVudCB0byB3aGljaCB0aGlzIGV4dGVuc2lvbiBpcyBhdHRhY2hlZAoJCVREQWJsZXRvbkNvbXBCYXNlRXh0Ll9faW5pdF9fKHNlbGYsIG93bmVyQ29tcCkKCglkZWYgc2V0dXBMaXN0ZW5lcnMoc2VsZik6CgkJIyBtYWtlIHN1cmUgd2UgaGF2ZSBhIHZhbGlkIGFibGV0b24gcGFyYW1ldGVyCgkJZGV2aWNlSW5mbyA9IHNlbGYuTE9NUGFySW5mbyhzZWxmLkZpbmFsRGV2aWNlUGFyKQoJCWlmIG5vdCBkZXZpY2VJbmZvOgoJCQlzZWxmLmRpc2Nvbm5lY3QoKQoJCQlyZXR1cm4KCQlkZXZpY2VMT01JbmZvID0gZGV2aWNlSW5mb1snbG9tSW5mbyddCgkJVERBYmxldG9uQ29tcEJhc2VFeHQuc2V0dXBMaXN0ZW5lcnMoc2VsZikKCQlwYXJhbWV0ZXJzTGlzdCA9IHNlbGYub3duZXJDb21wLnBhci5QYXJhbWV0ZXJzbGlzdC5ldmFsKCkuc3RyaXAoKQoJCWlmIHBhcmFtZXRlcnNMaXN0ICE9ICcnOgoJCQl0cnk6CgkJCQlwYXJhbWV0ZXJzTGlzdCA9IGV2YWwocGFyYW1ldGVyc0xpc3QpCgkJCQlsZW4ocGFyYW1ldGVyc0xpc3QpCgkJCWV4Y2VwdDoKCQkJCXBhcmFtZXRlcnNMaXN0ID0gW10KCQkJCXNlbGYuU2V0RXJyb3IoJ1BhcmFtZXRlcnMgTGlzdCBzaG91bGQgZXZhbHVhdGUgdG8gYSBQeXRob24gJwoJCQkJCQkJICAnY29sbGVjdGlvbiBvZiB0aGUgbmFtZXMgb2YgQWJsZXRvbiAnCgkJCQkJCQkgICdwYXJhbWV0ZXJzIHRvIGluY2x1ZGUuJywKCQkJCQkJCSAgJ0FibGV0b25EZXZpY2VQYXJhbWV0ZXJzRXh0JykKCQkjIHNldCB1cCBsaXN0ZW5lciBwYXJhbWV0ZXJzCgkJZm9yIGFQYXJJbmZvIGluIGRldmljZUxPTUluZm9bJ2FQYXJzJ10udmFsdWVzKCk6CgkJCWlmIHBhcmFtZXRlcnNMaXN0ICE9ICcnIGFuZCBhUGFySW5mb1snbmFtZSddIG5vdCBpbiBwYXJhbWV0ZXJzTGlzdDoKCQkJCWNvbnRpbnVlCgkJCSMgbG9tRXhwcmVzc2lvbjogYSBQeXRob24gZXhwcmVzc2lvbiB0byB0aGUgbGl2ZSBvYmplY3QgaW4gdGRhCgkJCWxvbUV4cHJlc3Npb24gPSBkZXZpY2VJbmZvWydsb21FeHByZXNzaW9uJ10gKyAnLicgXAoJCQkJCQkJKyBhUGFySW5mb1snZXhwcmVzc2lvbiddCgoJCQkjIHJldHVybkFkZHJlc3M6IG9zYyBhZGRyZXNzIHRoYXQgdXBkYXRlcyB3aWxsIGJlIHNlbnQgdG8gZnJvbSB0ZGEuCgkJCSMgbm90ZSB0aGF0IHRoaXMgbXVzdCBiZSBhIHZhbGlkIENIT1AgY2hhbm5lbCBuYW1lCgkJCXJldHVybkFkZHJlc3MgPSBzZWxmLnZhbGlkQ2hhbm5lbE5hbWUoCgkJCQkJCWRldmljZUluZm9bJ3JldHVybkFkZHJlc3MnXSArICcvJyArIGFQYXJJbmZvWyduYW1lJ11cCgkJCQkJCQkrICcvdmFsdWUnKQoKCQkJIyBpZDogdW5pcXVlIGlkIG9mIHRoZSBvYmplY3QgcmVxdWVzdGluZyBhIGxpc3RlbmVyCgkJCW93bmVySWQgPSBzZWxmLm93bmVyQ29tcC5pZAoKCQkJIyBwcm9wZXJ0eTogdGhlIG5hbWUgb2YgdGhlIGxpdmUgb2JqZWN0J3MgcHJvcGVydHkgdG8gbGlzdGVuIHRvCgkJCXByb3BlcnR5ID0gJ3ZhbHVlJwoKCQkJIyB0aGlzIHR1cGxlIGlzIHdoYXQgYSBsaXN0ZW5lciBrZXkgbG9va3MgbGlrZQoJCQlsaXN0ZW5lciA9IChsb21FeHByZXNzaW9uLCBwcm9wZXJ0eSwgcmV0dXJuQWRkcmVzcywgb3duZXJJZCkKCgkJCSMgYWRkTGlzdGVuZXIobGlzdGVuZXIsIG91dGdvaW5nIHBhcmFtZXRlciwgcGFyTWluLCBwYXJNYXgpCgkJCXNlbGYuYWRkTGlzdGVuZXIobGlzdGVuZXIpCgoJZGVmIG9uQWJsZXRvbk5vdGlmeShzZWxmLCBpbmZvKToKCQlUREFibGV0b25Db21wQmFzZUV4dC5vbkFibGV0b25Ob3RpZnkoc2VsZiwgaW5mbykKCQkjIFNldCBkZXZpY2UgcG9ydHMgd2hlbiBjb25uZWN0ZWQKCQlpZiBpbmZvWydub3RpZmljYXRpb25UeXBlJ10gPT0gJ2xvbU5hbWVDaGFuZ2VkJzoKCQkJY2hhbmdlZE9iaiA9IGluZm8KCQkJZGV2aWNlUGFyID0gZ2V0YXR0cihzZWxmLm93bmVyQ29tcC5wYXIsIHNlbGYuRmluYWxEZXZpY2VQYXIpCgkJCWlmIGNoYW5nZWRPYmouZ2V0KCdwYXJlbnRJbmZvJywgTm9uZSkgYW5kIFwKCQkJCQlzdHIoY2hhbmdlZE9ialsncGFyZW50SW5mbyddWydwdHInXSkgPT0gZGV2aWNlUGFyLmV2YWwoKToKCQkJCXNlbGYuc2V0dXBMaXN0ZW5lcnMoKQoKCglkZWYgb25QYXJWYWx1ZUNoYW5nZShzZWxmLCBwYXIsIHByZXYsIG5leHQpOgoJCWlmIHBhci5uYW1lID09ICdQYXJhbWV0ZXJzbGlzdCcgYW5kIHNlbGYub3duZXJDb21wLnBhci5Db25uZWN0OgoJCQlzZWxmLlNldEVycm9yKCcnLCAnQWJsZXRvbkRldmljZVBhcmFtZXRlcnNFeHQnKQoJCQlzZWxmLnNldHVwTGlzdGVuZXJzKCkKCQkJc2VsZi5PU0NJbkNIT1AucGFyLnJlc2V0cHVsc2UucHVsc2UoKQoJCWVsc2U6CgkJCVREQWJsZXRvbkNvbXBCYXNlRXh0Lm9uUGFyVmFsdWVDaGFuZ2Uoc2VsZiwgcGFyLCBwcmV2LCBuZXh0KQ==",
+          "is_binary": true
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2022.27900\ntime Wed Aug 24 12:34:11 2022\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "abletonDeviceParameters.n",
+    "abletonDeviceParameters.parm",
+    "abletonDeviceParameters/help.n",
+    "abletonDeviceParameters/help.parm",
+    "abletonDeviceParameters/help.text",
+    "abletonDeviceParameters/abletonDeviceParameters.n",
+    "abletonDeviceParameters/abletonDeviceParameters.cparm",
+    "abletonDeviceParameters/abletonDeviceParameters.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/out1.n",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec1.n",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec1.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec1.text",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec2.n",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec2.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/parexec2.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/out1.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/out1.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec1.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec1.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec1.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/noTDAError.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/noTDAError.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/noTDAError.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_info.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_info.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_info.fifo",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs.chop",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs.ts",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin_outputs.oscin",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec_outPars.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec_outPars.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/parexec_outPars.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin1_callbacks.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin1_callbacks.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/oscin1_callbacks.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/chopexec_autoSync.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/chopexec_autoSync.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/chopexec_autoSync.text",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/TDAbletonCompBaseExt.n",
+    "abletonDeviceParameters/abletonDeviceParameters/abletonBase/TDAbletonCompBaseExt.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/AbletonDeviceParametersExt.n",
+    "abletonDeviceParameters/abletonDeviceParameters/AbletonDeviceParametersExt.parm",
+    "abletonDeviceParameters/abletonDeviceParameters/AbletonDeviceParametersExt.text"
+  ],
+  "connections": [
+    {
+      "from": "abletonBase/out1",
+      "to": "/abletonDeviceParameters/abletonDeviceParameters/out1",
+      "to_input": 0
+    },
+    {
+      "from": "oscin_outputs",
+      "to": "/abletonDeviceParameters/abletonDeviceParameters/abletonBase/out1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 17,
+    "total_connections": 2,
+    "total_raw_files": 1,
+    "total_extra_files": 14,
+    "total_files_captured": 49,
+    "by_family": {
+      "COMP": 3,
+      "DAT": 11,
+      "CHOP": 3
+    },
+    "by_type": {
+      "COMP:base": 3,
+      "DAT:text": 4,
+      "CHOP:out": 2,
+      "DAT:parexec": 4,
+      "DAT:oscin": 1,
+      "CHOP:oscin": 1,
+      "DAT:chopexec": 1,
+      "DAT:select": 1
+    },
+    "max_depth": 4,
+    "total_parameters": 84
+  }
+}

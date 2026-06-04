@@ -1,0 +1,306 @@
+{
+  "operator": "Extrude_SOP",
+  "family": "SOP",
+  "td_create_name": "extrudeSOP",
+  "param_count": 22,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 2,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "sourcegrp": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extrude",
+      "label": "Source Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "xsectiongrp": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Extrude",
+      "label": "X-Section Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "dofuse": {
+      "value": {
+        "type": "menu",
+        "value": "min",
+        "menuIndex": 2,
+        "menuNames": [
+          "off",
+          "all",
+          "min",
+          "on",
+          "straight"
+        ],
+        "menuLabels": [
+          "No fusion",
+          "Clamp all points",
+          "Clamp minimal set",
+          "Clamp individual face",
+          "Clamp straight"
+        ]
+      },
+      "default": "min",
+      "page": "Values",
+      "label": "Fuse Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "fronttype": {
+      "value": {
+        "type": "menu",
+        "value": "face",
+        "menuIndex": 1,
+        "menuNames": [
+          "off",
+          "face",
+          "convex"
+        ],
+        "menuLabels": [
+          "No Output",
+          "Output Face",
+          "Convex Face"
+        ]
+      },
+      "default": "face",
+      "page": "Values",
+      "label": "Front Face",
+      "readOnly": false,
+      "expression": null
+    },
+    "backtype": {
+      "value": {
+        "type": "menu",
+        "value": "face",
+        "menuIndex": 1,
+        "menuNames": [
+          "off",
+          "face",
+          "convex"
+        ],
+        "menuLabels": [
+          "No Output",
+          "Output Face",
+          "Convex Face"
+        ]
+      },
+      "default": "face",
+      "page": "Values",
+      "label": "Back Face",
+      "readOnly": false,
+      "expression": null
+    },
+    "sidetype": {
+      "value": {
+        "type": "menu",
+        "value": "quads",
+        "menuIndex": 5,
+        "menuNames": [
+          "off",
+          "rows",
+          "cols",
+          "rowcol",
+          "triangles",
+          "quads",
+          "alttriangles"
+        ],
+        "menuLabels": [
+          "No Output",
+          "Rows",
+          "Columns",
+          "Rows and Columns",
+          "Triangles",
+          "Quadrilaterals",
+          "Alternating triangles"
+        ]
+      },
+      "default": "quads",
+      "page": "Values",
+      "label": "Side Mesh",
+      "readOnly": false,
+      "expression": null
+    },
+    "initextrude": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Values",
+      "label": "Initialize Extrusion",
+      "readOnly": false,
+      "expression": null
+    },
+    "thickxlate": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Values",
+      "label": "Thickness Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "thickscale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Values",
+      "label": "Thickness Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthxlate": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Values",
+      "label": "Depth Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthscale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Values",
+      "label": "Depth Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "vertex": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Values",
+      "label": "Vertex",
+      "readOnly": false,
+      "expression": null
+    },
+    "docusp": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Values",
+      "label": "Cusp Polygonal Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "cuspangle": {
+      "value": {
+        "type": "float",
+        "value": 20.0
+      },
+      "default": 20.0,
+      "page": "Values",
+      "label": "Side Cusp Angle",
+      "readOnly": false,
+      "expression": null
+    },
+    "sharefaces": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Values",
+      "label": "Consolidate Faces to Mesh",
+      "readOnly": false,
+      "expression": null
+    },
+    "removesharedsides": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Values",
+      "label": "Remove Shared Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "normals": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Values",
+      "label": "Compute Normals",
+      "readOnly": false,
+      "expression": null
+    },
+    "newg": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Groups",
+      "label": "Create Output Groups",
+      "readOnly": false,
+      "expression": null
+    },
+    "frontgrp": {
+      "value": {
+        "type": "string",
+        "value": "extrudeFront"
+      },
+      "default": "extrudeFront",
+      "page": "Groups",
+      "label": "Front Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "backgrp": {
+      "value": {
+        "type": "string",
+        "value": "extrudeBack"
+      },
+      "default": "extrudeBack",
+      "page": "Groups",
+      "label": "Back Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "sidegrp": {
+      "value": {
+        "type": "string",
+        "value": "extrudeSide"
+      },
+      "default": "extrudeSide",
+      "page": "Groups",
+      "label": "Side Group",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

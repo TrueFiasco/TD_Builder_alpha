@@ -1,0 +1,223 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\torusSOP_lossless.json",
+  "operator_type": "torusSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus_rows_and_columns",
+          "type": "SOP:torus",
+          "parameters": {
+            "type": "poly",
+            "radx": 1,
+            "rady": 1,
+            "reverseanchors": "on",
+            "rows": 5,
+            "cols": 5
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus_mesh",
+          "type": "SOP:torus",
+          "parameters": {
+            "reverseanchors": "on",
+            "rows": 10,
+            "cols": 10
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus_nurbs",
+          "type": "SOP:torus",
+          "parameters": {
+            "type": "nurbs",
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus_radius",
+          "type": "SOP:torus",
+          "parameters": {
+            "radx": 0.5,
+            "rady": 0.5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "torus_radius1",
+          "type": "SOP:torus",
+          "parameters": {
+            "radx": 0.5,
+            "rady": 1,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus_center",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": -1,
+            "ty": -1,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "torus_center1",
+          "type": "SOP:torus",
+          "parameters": {
+            "tx": 1,
+            "ty": 1,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus_center",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus_center1",
+          "to": "merge1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:torus": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

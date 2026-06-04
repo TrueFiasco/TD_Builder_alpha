@@ -1,0 +1,426 @@
+{
+  "operator": "Kinect_CHOP",
+  "family": "CHOP",
+  "td_create_name": "kinectCHOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Kinect",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "hwversion": {
+      "value": {
+        "type": "menu",
+        "value": "version2",
+        "menuIndex": 1,
+        "menuNames": [
+          "version1",
+          "version2"
+        ],
+        "menuLabels": [
+          "Version 1",
+          "Version 2"
+        ]
+      },
+      "default": "version2",
+      "page": "Kinect",
+      "label": "Hardware Version",
+      "readOnly": false,
+      "expression": null
+    },
+    "sensor": {
+      "value": {
+        "type": "string",
+        "value": "invalid||0"
+      },
+      "default": "invalid||0",
+      "page": "Kinect",
+      "label": "Sensor",
+      "readOnly": false,
+      "expression": null
+    },
+    "skeleton": {
+      "value": {
+        "type": "menu",
+        "value": "full",
+        "menuIndex": 0,
+        "menuNames": [
+          "full",
+          "seated",
+          "off"
+        ],
+        "menuLabels": [
+          "Full",
+          "Seated",
+          "Off"
+        ]
+      },
+      "default": "full",
+      "page": "Kinect",
+      "label": "Skeleton",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxplayers": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Kinect",
+      "label": "Max Players",
+      "readOnly": false,
+      "expression": null
+    },
+    "interactions": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Interactions",
+      "readOnly": false,
+      "expression": null
+    },
+    "relbonerotations": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Relative Bone Rotations",
+      "readOnly": false,
+      "expression": null
+    },
+    "absbonerotations": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Absolute Bone Rotations",
+      "readOnly": false,
+      "expression": null
+    },
+    "bonelengths": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Bone Lengths",
+      "readOnly": false,
+      "expression": null
+    },
+    "unrollbones": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Kinect",
+      "label": "Unroll Bone Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "worldspace": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Kinect",
+      "label": "World Space Positions",
+      "readOnly": false,
+      "expression": null
+    },
+    "colorspace": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Color Space Positions",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthspace": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Depth Space Positions",
+      "readOnly": false,
+      "expression": null
+    },
+    "facetracking": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Face Tracking",
+      "readOnly": false,
+      "expression": null
+    },
+    "statuschans": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Status Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "neardepthmode": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Near Depth Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "flipskelu": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Flip Skeleton U Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "flipfaceu": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Kinect",
+      "label": "Flip Face U Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "jointsmoothing": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Smoothing",
+      "label": "Joint Smoothing",
+      "readOnly": false,
+      "expression": null
+    },
+    "smoothing": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Smoothing",
+      "label": "Smoothing",
+      "readOnly": false,
+      "expression": null
+    },
+    "correction": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Smoothing",
+      "label": "Correction",
+      "readOnly": false,
+      "expression": null
+    },
+    "prediction": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Smoothing",
+      "label": "Prediction",
+      "readOnly": false,
+      "expression": null
+    },
+    "jitterrad": {
+      "value": {
+        "type": "float",
+        "value": 0.05000000074505806
+      },
+      "default": 0.05000000074505806,
+      "page": "Smoothing",
+      "label": "Jitter Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxdevrad": {
+      "value": {
+        "type": "float",
+        "value": 0.03999999910593033
+      },
+      "default": 0.03999999910593033,
+      "page": "Smoothing",
+      "label": "Max Deviation Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotationsmoothing": {
+      "value": {
+        "type": "float",
+        "value": 0.20000000298023224
+      },
+      "default": 0.20000000298023224,
+      "page": "Smoothing",
+      "label": "Rotation Smoothing",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datname",
+        "menuIndex": 1,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

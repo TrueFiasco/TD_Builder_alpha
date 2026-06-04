@@ -1,0 +1,142 @@
+{
+  "operator": "Pipe_Out_CHOP",
+  "family": "CHOP",
+  "td_create_name": "pipeoutCHOP",
+  "param_count": 23,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "mode": {
+      "type": "menu",
+      "value": "client",
+      "menuIndex": 0,
+      "menuNames": [
+        "client",
+        "server"
+      ],
+      "menuLabels": [
+        "This Operator is Client",
+        "This Operator is Server"
+      ]
+    },
+    "address": {
+      "type": "string",
+      "value": "localhost_perturbed"
+    },
+    "port": {
+      "type": "int",
+      "value": 7001
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "sendinput": {
+      "type": "toggle",
+      "value": false
+    },
+    "sendsingle": {
+      "type": "toggle",
+      "value": false
+    },
+    "sample": {
+      "type": "menu",
+      "value": "sstart",
+      "menuIndex": 1,
+      "menuNames": [
+        "scur",
+        "sstart"
+      ],
+      "menuLabels": [
+        "Current Frame",
+        "Frame 1"
+      ]
+    },
+    "upload": {
+      "type": "pulse",
+      "value": null
+    },
+    "script": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "sendscript": {
+      "type": "pulse",
+      "value": null
+    },
+    "cookalways": {
+      "type": "toggle",
+      "value": false
+    },
+    "pulse": {
+      "type": "toggle",
+      "value": false
+    },
+    "echo": {
+      "type": "toggle",
+      "value": true
+    },
+    "callbacks": {
+      "type": "op",
+      "value": "op_perturbed_callbacks"
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

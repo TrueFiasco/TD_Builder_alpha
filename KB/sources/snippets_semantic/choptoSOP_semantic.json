@@ -1,0 +1,657 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\choptoSOP_lossless.json",
+  "operator_type": "choptoSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "line1",
+          "type": "SOP:line",
+          "parameters": {
+            "points": 200
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 3,
+            "amp": 3,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 200,
+            "wlengthunit": "frames",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "chopto_point_position",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "null1",
+            "chanscope": "chan1",
+            "attscope": "P(1)"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "trail1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "chopto_point_position",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:line": 1,
+          "CHOP:null": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "SOP:chopto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add",
+            "align": "stretch"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "gain": 0.2
+          }
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise2",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "seed": 2,
+            "amp": 50,
+            "startunit": "samples",
+            "end": 499,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "point1",
+          "type": "SOP:point",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "point1",
+            "custom": "on",
+            "attribscope": "P",
+            "renamescope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "SOP:particle",
+          "parameters": {
+            "doid": "on",
+            "birth": 200,
+            "life": 1.7,
+            "lifevar": 2,
+            "limitposx": 10000,
+            "limitposy": 10000,
+            "limitposz": 10000,
+            "limitnegx": -10000,
+            "limitnegy": -10000,
+            "limitnegz": -10000,
+            "hit": "bounce"
+          }
+        },
+        {
+          "name": "particle2",
+          "type": "SOP:particle",
+          "parameters": {
+            "life": 2
+          }
+        },
+        {
+          "name": "chopto_normals",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "null2",
+            "attscope": "N"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sopto1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "noise2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "point1",
+          "to_input": "0"
+        },
+        {
+          "from": "chopto_normals",
+          "to": "particle1",
+          "to_input": "0"
+        },
+        {
+          "from": "point1",
+          "to": "particle2",
+          "to_input": "0"
+        },
+        {
+          "from": "point1",
+          "to": "chopto_normals",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 8,
+        "operator_types": {
+          "CHOP:math": 2,
+          "CHOP:null": 1,
+          "CHOP:noise": 1,
+          "SOP:point": 1,
+          "DAT:text": 1,
+          "CHOP:sopto": 1,
+          "SOP:circle": 1,
+          "SOP:particle": 2,
+          "SOP:chopto": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "out1",
+          "type": "SOP:out",
+          "parameters": {}
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "mul"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "add"
+          }
+        },
+        {
+          "name": "math3",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1,
+            "torange1": -0.12,
+            "torange2": 0.14
+          }
+        },
+        {
+          "name": "sort1",
+          "type": "SOP:sort",
+          "parameters": {
+            "ptsort": "vtxord"
+          }
+        },
+        {
+          "name": "wave5",
+          "type": "CHOP:wave",
+          "parameters": {
+            "wavetype": "const",
+            "periodunit": "samples",
+            "channelname": "a",
+            "startunit": "samples",
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "facet1",
+          "type": "SOP:facet",
+          "parameters": {
+            "unique": "on"
+          }
+        },
+        {
+          "name": "facet2",
+          "type": "SOP:facet",
+          "parameters": {
+            "postnml": "on"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "merge3",
+          "type": "CHOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "point1",
+          "type": "SOP:point",
+          "parameters": {
+            "doclr": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "facet2",
+            "custom": "on",
+            "attribscope": "N",
+            "renamescope": "\"nx ny nz\""
+          }
+        },
+        {
+          "name": "sopto2",
+          "type": "CHOP:sopto",
+          "parameters": {
+            "sop": "facet2",
+            "custom": "on",
+            "attribscope": "P",
+            "renamescope": "\"tx ty tz\""
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "type": "poly",
+            "orient": "z",
+            "radx": 1.4,
+            "rady": 0.3,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "SOP:chopto",
+          "parameters": {
+            "chop": "merge1",
+            "chanscope": "\"tx ty tz r g b a\"",
+            "attscope": "\"P Cd\"",
+            "compnml": "on"
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "\"r g b\""
+          }
+        },
+        {
+          "name": "noise_HSV",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "period": 2,
+            "rough": 1,
+            "exp": 3,
+            "sx": -4.2,
+            "sy": -4.2,
+            "sz": -4.2,
+            "channelname": "\"h s v\"",
+            "startunit": "samples",
+            "end": 159,
+            "endunit": "samples",
+            "left": "cycle",
+            "right": "cycle"
+          }
+        },
+        {
+          "name": "noise_HSV1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "rough": 1,
+            "exp": 1.8,
+            "amp": 0.5,
+            "sx": -4.2,
+            "sy": -4.2,
+            "sz": -4.2,
+            "channelname": "offset",
+            "startunit": "samples",
+            "end": 159,
+            "endunit": "samples",
+            "left": "cycle",
+            "right": "cycle"
+          }
+        },
+        {
+          "name": "math_hueRange",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange2": 0.2,
+            "scope": "h"
+          }
+        },
+        {
+          "name": "math_satRange",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 3,
+            "torange1": 0.3,
+            "torange2": 0.8,
+            "scope": "s"
+          }
+        },
+        {
+          "name": "math_valRange",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 0.8,
+            "torange2": 1,
+            "scope": "v"
+          }
+        },
+        {
+          "name": "math_range_0_1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "fromrange1": -1,
+            "fromrange2": 1
+          }
+        },
+        {
+          "name": "express_hsv2rgb",
+          "type": "CHOP:express",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "trim_repeat_each_column",
+          "type": "CHOP:trim",
+          "parameters": {
+            "relative": "abs",
+            "end": 3199,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "limit_normalize_and_quantize_samples",
+          "type": "CHOP:limit",
+          "parameters": {
+            "norm": "on",
+            "quantindex": "relzero",
+            "istep": 4,
+            "istepunit": "samples",
+            "ioffsetunit": "samples"
+          }
+        },
+        {
+          "name": "limit_normalize_and_quantize_samples1",
+          "type": "CHOP:limit",
+          "parameters": {
+            "norm": "on",
+            "quantindex": "relzero",
+            "istep": 4,
+            "istepunit": "samples",
+            "ioffsetunit": "samples"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "chopto1",
+          "to": "out1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math3",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "sopto2",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "math2",
+          "to_input": "1"
+        },
+        {
+          "from": "limit_normalize_and_quantize_samples1",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "facet1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "facet1",
+          "to_input": "0"
+        },
+        {
+          "from": "sort1",
+          "to": "facet2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "trim_repeat_each_column",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "rename1",
+          "to": "merge3",
+          "to_input": "0"
+        },
+        {
+          "from": "wave5",
+          "to": "merge3",
+          "to_input": "1"
+        },
+        {
+          "from": "facet2",
+          "to": "point1",
+          "to_input": "0"
+        },
+        {
+          "from": "point1",
+          "to": "chopto1",
+          "to_input": "0"
+        },
+        {
+          "from": "express_hsv2rgb",
+          "to": "rename1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_range_0_1",
+          "to": "math_hueRange",
+          "to_input": "0"
+        },
+        {
+          "from": "math_hueRange",
+          "to": "math_satRange",
+          "to_input": "0"
+        },
+        {
+          "from": "math_satRange",
+          "to": "math_valRange",
+          "to_input": "0"
+        },
+        {
+          "from": "limit_normalize_and_quantize_samples",
+          "to": "math_range_0_1",
+          "to_input": "0"
+        },
+        {
+          "from": "math_valRange",
+          "to": "express_hsv2rgb",
+          "to_input": "0"
+        },
+        {
+          "from": "merge3",
+          "to": "trim_repeat_each_column",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_HSV",
+          "to": "limit_normalize_and_quantize_samples",
+          "to_input": "0"
+        },
+        {
+          "from": "noise_HSV1",
+          "to": "limit_normalize_and_quantize_samples1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 27,
+        "connection_count": 24,
+        "operator_types": {
+          "SOP:out": 1,
+          "CHOP:math": 7,
+          "SOP:sort": 1,
+          "CHOP:wave": 1,
+          "SOP:facet": 2,
+          "CHOP:merge": 2,
+          "SOP:point": 1,
+          "DAT:text": 1,
+          "CHOP:sopto": 2,
+          "SOP:torus": 1,
+          "SOP:chopto": 1,
+          "CHOP:rename": 1,
+          "CHOP:noise": 2,
+          "CHOP:express": 1,
+          "CHOP:trim": 1,
+          "CHOP:limit": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 11
+      }
+    }
+  ]
+}

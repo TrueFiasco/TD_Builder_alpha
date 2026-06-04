@@ -1,0 +1,141 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\rectanglePOP_lossless.json",
+  "operator_type": "rectanglePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "POP:rectangle",
+          "parameters": {
+            "sizex": 0.8,
+            "sizey": 1,
+            "roundcorners": "on"
+          }
+        },
+        {
+          "name": "rectangle2",
+          "type": "POP:rectangle",
+          "parameters": {
+            "sizex": 0.8,
+            "sizey": 1
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "POP:rectangle": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 5
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "material": "constant1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "pageindex": 6,
+            "resolutionw": 1280,
+            "resolutionh": 720,
+            "format": "rgba16float"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "MAT:constant",
+          "parameters": {}
+        },
+        {
+          "name": "rectangle1",
+          "type": "POP:rectangle",
+          "parameters": {
+            "orient": "cam",
+            "camera": "cam1",
+            "roundcorners": "on"
+          }
+        },
+        {
+          "name": "rectangle2",
+          "type": "POP:rectangle",
+          "parameters": {
+            "orient": "cam",
+            "camera": "cam1",
+            "roundcorners": "on"
+          }
+        },
+        {
+          "name": "rendersimple1",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "rectangle2",
+            "constantr": 1,
+            "constantg": 1,
+            "constantb": 1,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 0,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "DAT:text": 1,
+          "TOP:render": 1,
+          "MAT:constant": 1,
+          "POP:rectangle": 2,
+          "TOP:rendersimple": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

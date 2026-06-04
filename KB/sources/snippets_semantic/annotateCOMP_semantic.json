@@ -1,0 +1,186 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\annotateCOMP_lossless.json",
+  "operator_type": "annotateCOMP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "pageindex": 1,
+            "period": 5.76,
+            "channelname": "\"chan1 chan2\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "hsvadj1",
+          "type": "TOP:hsvadj",
+          "parameters": {
+            "hueoffset": -185
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 5,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "combineinput": "res"
+          }
+        },
+        {
+          "name": "monitors1",
+          "type": "DAT:monitors",
+          "parameters": {
+            "callbacks": "monitors1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "annotate10",
+          "type": "COMP:annotate",
+          "parameters": {
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate11",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "monitors1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "hsvadj1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:geo": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 2,
+          "TOP:hsvadj": 1,
+          "COMP:annotate": 11,
+          "TOP:constant": 1,
+          "DAT:monitors": 1,
+          "TOP:moviefilein": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

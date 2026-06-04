@@ -1,0 +1,482 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDVR\\World Objects\\vrRenderToMovie.tox.dir",
+    "build_version": "099",
+    "build_date": "Mon Jul 22 21:31:47 2019",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2019.17400"
+  },
+  "operators": {
+    "/vrRenderToMovie": {
+      "name": "vrRenderToMovie",
+      "path": "/vrRenderToMovie",
+      "op_type": "COMP:container",
+      "family": "COMP",
+      "specific_type": "container",
+      "viewport_pos": [
+        2987.26,
+        88.016,
+        5.199
+      ],
+      "tile_pos": [
+        600,
+        -1000,
+        160,
+        129
+      ],
+      "color": null,
+      "flags": {
+        "picked": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "Hmdcomp": {
+          "81": "\"\" parent.World.par.Hmdcomp.eval()"
+        }
+      },
+      "parent": null,
+      "children": [
+        "camVR",
+        "null1",
+        "blend1",
+        "render1",
+        "projection1",
+        "moviefileout1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Custom\n772804877 Hmdcomp \"HMD World Object\" 1 1 0 0 1 1 1 0 0 \"\" Custom 0\n?\n",
+          "is_binary": false
+        },
+        "panel": {
+          "content": "1\n3\n0\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/vrRenderToMovie/camVR": {
+      "name": "camVR",
+      "path": "/vrRenderToMovie/camVR",
+      "op_type": "COMP:cam",
+      "family": "COMP",
+      "specific_type": "cam",
+      "viewport_pos": [
+        796.895,
+        506.041,
+        3.40156
+      ],
+      "tile_pos": [
+        -500,
+        200,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "pickable": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "far": 10000,
+        "winrollpivot": "legacy"
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [
+        "file1"
+      ],
+      "inputs": {
+        "0": "blend1"
+      },
+      "extra_files": {
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/vrRenderToMovie/camVR/file1": {
+      "name": "file1",
+      "path": "/vrRenderToMovie/camVR/file1",
+      "op_type": "SOP:filein",
+      "family": "SOP",
+      "specific_type": "filein",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "17": "\"\" \"app.samplesFolder + '/Geo/defcam.geo'\""
+        }
+      },
+      "parent": "/vrRenderToMovie/camVR",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/null1": {
+      "name": "null1",
+      "path": "/vrRenderToMovie/null1",
+      "op_type": "COMP:null",
+      "family": "COMP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        -500,
+        600,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "display": "on",
+        "pickable": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "constrain": {
+          "49": "parent.World.op('indHUD1') parent().par.Hmdcomp.eval()"
+        }
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [
+        "cross1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/vrRenderToMovie/null1/cross1": {
+      "name": "cross1",
+      "path": "/vrRenderToMovie/null1/cross1",
+      "op_type": "SOP:filein",
+      "family": "SOP",
+      "specific_type": "filein",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "17": "\"\" \"app.samplesFolder + '/Geo/defnull.geo'\""
+        }
+      },
+      "parent": "/vrRenderToMovie/null1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/blend1": {
+      "name": "blend1",
+      "path": "/vrRenderToMovie/blend1",
+      "op_type": "COMP:blend",
+      "family": "COMP",
+      "specific_type": "blend",
+      "viewport_pos": [
+        220.667,
+        496.857,
+        0.714286
+      ],
+      "tile_pos": [
+        -500,
+        400,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "display": "on",
+        "pickable": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "blendm1": 455
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [
+        "point1",
+        "sphere1"
+      ],
+      "inputs": {
+        "0": "null1"
+      },
+      "extra_files": {
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/vrRenderToMovie/blend1/point1": {
+      "name": "point1",
+      "path": "/vrRenderToMovie/blend1/point1",
+      "op_type": "SOP:add",
+      "family": "SOP",
+      "specific_type": "add",
+      "viewport_pos": null,
+      "tile_pos": [
+        150,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "usept0": "on"
+      },
+      "parent": "/vrRenderToMovie/blend1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/blend1/sphere1": {
+      "name": "sphere1",
+      "path": "/vrRenderToMovie/blend1/sphere1",
+      "op_type": "SOP:sphere",
+      "family": "SOP",
+      "specific_type": "sphere",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "radx": 0.1,
+        "rady": 0.1,
+        "radz": 0.1
+      },
+      "parent": "/vrRenderToMovie/blend1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/render1": {
+      "name": "render1",
+      "path": "/vrRenderToMovie/render1",
+      "op_type": "TOP:render",
+      "family": "TOP",
+      "specific_type": "render",
+      "viewport_pos": null,
+      "tile_pos": [
+        -500,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "camera": "camVR",
+        "geometry": {
+          "49": "* parent.World.par.Rendergeos"
+        },
+        "lights": {
+          "49": "parent.World.par.Renderlights parent.World.par.Renderlights"
+        },
+        "rendermode": "cubemap",
+        "resolutionw": 1280,
+        "resolutionh": 640,
+        "resmenu": "1280x720"
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/projection1": {
+      "name": "projection1",
+      "path": "/vrRenderToMovie/projection1",
+      "op_type": "TOP:projection",
+      "family": "TOP",
+      "specific_type": "projection",
+      "viewport_pos": null,
+      "tile_pos": [
+        -300,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 1,
+        "outputresolution": "custom",
+        "resolutionw": 1280,
+        "resolutionh": 640
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [],
+      "inputs": {
+        "0": "render1"
+      },
+      "extra_files": {}
+    },
+    "/vrRenderToMovie/moviefileout1": {
+      "name": "moviefileout1",
+      "path": "/vrRenderToMovie/moviefileout1",
+      "op_type": "TOP:moviefileout",
+      "family": "TOP",
+      "specific_type": "moviefileout",
+      "viewport_pos": null,
+      "tile_pos": [
+        -100,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "16": "TDMovieOut04K.0.mov \"'TDMovieOut' + str(me.par.n.eval()) + '.' + str(me.curSeqIndex) + '.mov'\""
+        },
+        "videocodec": "mpeg4",
+        "fps": 60
+      },
+      "parent": "/vrRenderToMovie",
+      "children": [],
+      "inputs": {
+        "0": "projection1"
+      },
+      "extra_files": {}
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2019.17400\ntime Mon Jul 22 21:31:47 2019\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "vrRenderToMovie.n",
+    "vrRenderToMovie.cparm",
+    "vrRenderToMovie.parm",
+    "vrRenderToMovie.panel",
+    "vrRenderToMovie/camVR.n",
+    "vrRenderToMovie/camVR.parm",
+    "vrRenderToMovie/camVR.gnode",
+    "vrRenderToMovie/camVR/file1.n",
+    "vrRenderToMovie/camVR/file1.parm",
+    "vrRenderToMovie/null1.n",
+    "vrRenderToMovie/null1.parm",
+    "vrRenderToMovie/null1.gnode",
+    "vrRenderToMovie/null1/cross1.n",
+    "vrRenderToMovie/null1/cross1.parm",
+    "vrRenderToMovie/blend1.n",
+    "vrRenderToMovie/blend1.parm",
+    "vrRenderToMovie/blend1.gnode",
+    "vrRenderToMovie/blend1/point1.n",
+    "vrRenderToMovie/blend1/point1.parm",
+    "vrRenderToMovie/blend1/sphere1.n",
+    "vrRenderToMovie/blend1/sphere1.parm",
+    "vrRenderToMovie/render1.n",
+    "vrRenderToMovie/render1.parm",
+    "vrRenderToMovie/projection1.n",
+    "vrRenderToMovie/projection1.parm",
+    "vrRenderToMovie/moviefileout1.n",
+    "vrRenderToMovie/moviefileout1.parm"
+  ],
+  "connections": [
+    {
+      "from": "blend1",
+      "to": "/vrRenderToMovie/camVR",
+      "to_input": 0
+    },
+    {
+      "from": "null1",
+      "to": "/vrRenderToMovie/blend1",
+      "to_input": 0
+    },
+    {
+      "from": "render1",
+      "to": "/vrRenderToMovie/projection1",
+      "to_input": 0
+    },
+    {
+      "from": "projection1",
+      "to": "/vrRenderToMovie/moviefileout1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 11,
+    "total_connections": 4,
+    "total_raw_files": 1,
+    "total_extra_files": 5,
+    "total_files_captured": 29,
+    "by_family": {
+      "COMP": 4,
+      "SOP": 4,
+      "TOP": 3
+    },
+    "by_type": {
+      "COMP:container": 1,
+      "COMP:cam": 1,
+      "SOP:filein": 2,
+      "COMP:null": 1,
+      "COMP:blend": 1,
+      "SOP:add": 1,
+      "SOP:sphere": 1,
+      "TOP:render": 1,
+      "TOP:projection": 1,
+      "TOP:moviefileout": 1
+    },
+    "max_depth": 3,
+    "total_parameters": 26
+  }
+}

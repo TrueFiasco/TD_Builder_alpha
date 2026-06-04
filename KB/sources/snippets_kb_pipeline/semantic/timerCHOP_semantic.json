@@ -1,0 +1,3105 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\timerCHOP_lossless.json",
+  "operator_type": "timerCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "logic1",
+          "type": "CHOP:logic",
+          "parameters": {
+            "convert": "bound",
+            "boundmin": 5,
+            "boundmax": 100,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "speed1",
+          "type": "CHOP:speed",
+          "parameters": {
+            "limittype": "clamp",
+            "max": 5,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "chopexec2",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "logic1",
+            "offtoon": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 1,
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "speed1",
+          "to": "logic1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "speed1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:logic": 1,
+          "DAT:text": 1,
+          "CHOP:speed": 1,
+          "DAT:chopexec": 1,
+          "CHOP:constant": 1,
+          "CHOP:timecode": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 6,
+            "callbacks": "timer1_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 15,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 2,
+            "deferpars": "on",
+            "length": 6,
+            "callbacks": "timer2_callbacks",
+            "outtimercount": "seconds",
+            "outtimeractive": "on",
+            "outreadypulse": "on",
+            "outdonepulse": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 15,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "constant_timerFrame",
+          "type": "CHOP:constant",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer2",
+          "to": "trail2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer3",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 4,
+            "delay": 3,
+            "cycle": "on",
+            "callbacks": "timer3_callbacks",
+            "outtimercount": "frames",
+            "outtimeractive": "on",
+            "outdelayfraction": "on",
+            "outdelaycount": "frames",
+            "outdonepulse": "on",
+            "outcycle": "on",
+            "outcyclepulse": "on",
+            "outcycleplusfraction": "on",
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "exporttable": "timer4_export"
+          }
+        },
+        {
+          "name": "trail3",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 20,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "text_done",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "text": "done",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "fontsizex": 45
+          }
+        },
+        {
+          "name": "trigger_text",
+          "type": "CHOP:trigger",
+          "parameters": {
+            "multitrigger": "add",
+            "decay": 5,
+            "channame": "text_alpha",
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "exporttable": "trigger1_export"
+          }
+        },
+        {
+          "name": "timer4_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "trigger1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "audioplay_depthfinder",
+          "type": "CHOP:audioplay",
+          "parameters": {
+            "specifydevice": "on",
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer3",
+          "to": "trail3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "TOP:text": 1,
+          "CHOP:trigger": 1,
+          "DAT:table": 2,
+          "CHOP:audioplay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer1_callbacks",
+            "segdat": "table1",
+            "outtimercount": "seconds",
+            "outtimeractive": "on",
+            "outdonepulse": "on",
+            "outseg": "on",
+            "outsegpulse": "on",
+            "outsegplusfraction": "on",
+            "outlength": "seconds",
+            "outcumulativecount": "seconds",
+            "outrunningcount": "seconds",
+            "outmastercount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 25,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer4",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 3,
+            "deferpars": "on",
+            "callbacks": "timer4_callbacks",
+            "segdat": "table_begin4",
+            "outtimercount": "seconds",
+            "outtimeractive": "on",
+            "outdonepulse": "on",
+            "outseg": "on",
+            "outsegpulse": "on",
+            "outsegplusfraction": "on",
+            "outlength": "seconds",
+            "outcumulativecount": "seconds",
+            "outmastercount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail4",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 25,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "table_begin4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "table_begin_anyorder4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer4",
+          "to": "trail4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 3,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table9",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer6",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer6_callbacks",
+            "segdat": "table9",
+            "channelcolumns": "v1",
+            "outseg": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail6",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 14,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "select_custom",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "v1",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer6_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer6",
+          "to": "trail6",
+          "to_input": "0"
+        },
+        {
+          "from": "trail6",
+          "to": "select_custom",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "lag1",
+          "type": "CHOP:lag",
+          "parameters": {
+            "lag1": 0.1,
+            "lag2": 0.1,
+            "overshoot1": 0.7,
+            "overshoot2": 0.7,
+            "clamp": "on",
+            "slope1": 8,
+            "slope2": 8,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table6",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "type": "box",
+            "spike": 0.1,
+            "speedcoeff": 0,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "filter2",
+          "type": "CHOP:filter",
+          "parameters": {
+            "spike": 0.1,
+            "speedcoeff": 0,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "chops": "timer6b",
+            "channames": "v1",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer6b",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer6b_callbacks",
+            "segdat": "table6",
+            "channelcolumns": "\"length v1\"",
+            "outseg": "on",
+            "timeslice": "on",
+            "exportmethod": "autoname",
+            "exporttable": "timer6_export"
+          }
+        },
+        {
+          "name": "trail6b",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 14,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "trail6b1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 14,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "trail6b2",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 14,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "trail6b3",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 14,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer6_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer6b_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "lag1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "filter2",
+          "to_input": "0"
+        },
+        {
+          "from": "timer6b",
+          "to": "trail6b",
+          "to_input": "0"
+        },
+        {
+          "from": "filter1",
+          "to": "trail6b1",
+          "to_input": "0"
+        },
+        {
+          "from": "filter2",
+          "to": "trail6b2",
+          "to_input": "0"
+        },
+        {
+          "from": "lag1",
+          "to": "trail6b3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:lag": 1,
+          "DAT:text": 2,
+          "DAT:table": 2,
+          "CHOP:filter": 2,
+          "CHOP:select": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "goTo",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer1_callbacks",
+            "segdat": "tableBeginAnyorder",
+            "segmethod": "parallel",
+            "outtimercount": "seconds",
+            "outdonepulse": "on",
+            "outlength": "seconds",
+            "outmastercount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 20,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "master_seconds"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "tableBeginAnyorder",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "select2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:info": 1,
+          "DAT:table": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "CHOP:select": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example10",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer7_callbacks",
+            "segdat": "segments",
+            "infocolumns": "message",
+            "outseg": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "message",
+          "type": "TOP:text",
+          "parameters": {
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "fontsizex": 25,
+            "resolutionw": 300,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "segments",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 7,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer7_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "TOP:text": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example11",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table8",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer8",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "maxcycles": 3,
+            "cycleendalert": 2,
+            "callbacks": "timer8_callbacks",
+            "segdat": "table8",
+            "outseg": "on",
+            "outsegpulse": "on",
+            "outcumulativecount": "seconds",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail8",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 30,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timecode8",
+          "type": "TOP:text",
+          "parameters": {
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "antialias": "aa8mid",
+            "fontsizex": 21,
+            "resolutionw": 200,
+            "resolutionh": 100
+          }
+        },
+        {
+          "name": "text_timer8",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "text": "\"segment 3, cycle 1, fraction 1.0\"",
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "fontautosize": "fitiffat",
+            "fontsizex": 12,
+            "positionx": 4,
+            "alignx": "left",
+            "borderspace1": 5,
+            "borderspace2": 1,
+            "resolutionw": 300,
+            "resolutionh": 50
+          }
+        },
+        {
+          "name": "timer8_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer8",
+          "to": "trail8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "TOP:text": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example12",
+      "description": "",
+      "operators": [
+        {
+          "name": "busy",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "wait",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "status",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 5.63,
+            "callbacks": "timer1_callbacks",
+            "outtimercount": "seconds",
+            "outinit": "on",
+            "outcumulativecount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 5.63,
+            "callbacks": "timer9_callbacks",
+            "outtimercount": "seconds",
+            "outinit": "on",
+            "outcumulativecount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "busyButton",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Busy",
+            "value0": "on",
+            "buttontype": "toggledown",
+            "scaletofit": "onlyshrink",
+            "w": 50,
+            "h": 50,
+            "top": "./bg",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer9_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "busyButton/out1",
+          "to": "busy",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 1,
+        "operator_types": {
+          "CHOP:null": 1,
+          "DAT:text": 5,
+          "CHOP:timer": 2,
+          "COMP:button": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example13",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer10",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 6,
+            "cycleendalert": 2,
+            "callbacks": "timer10_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer10_next",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 5,
+            "callbacks": "timer10_next_callbacks",
+            "outinit": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer10_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "info_depthfinder10",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audioplay_depthfinder10",
+            "iscope": "sample_state0",
+            "childcooktime": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer10_next_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "audioplay_depthfinder10",
+          "type": "CHOP:audioplay",
+          "parameters": {
+            "specifydevice": "on",
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 3,
+          "CHOP:timer": 2,
+          "CHOP:info": 1,
+          "CHOP:audioplay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example14",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "start14",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "start",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "table14",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer14",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 1.49,
+            "maxcycles": 5,
+            "callbacks": "timer14_callbacks",
+            "segdat": "table14",
+            "outtimercount": "seconds",
+            "outtimeractive": "on",
+            "outdelaycount": "seconds",
+            "outcycle": "on",
+            "outcyclepulse": "on",
+            "outcycleplusfraction": "on",
+            "outseg": "on",
+            "outsegpulse": "on",
+            "outsegplusfraction": "on",
+            "outcumulativecount": "seconds",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail14",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 40,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "initialize14",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "initialize",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "timer14_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "initialize14",
+          "to": "timer14",
+          "to_input": "0"
+        },
+        {
+          "from": "start14",
+          "to": "timer14",
+          "to_input": "1"
+        },
+        {
+          "from": "timer14",
+          "to": "trail14",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:constant": 2,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example15",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 0.1,
+            "torange2": 25,
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 1.49,
+            "maxcycles": 5,
+            "callbacks": "timer14_callbacks",
+            "segdat": "table1",
+            "outtimercount": "seconds",
+            "outdelaycount": "seconds",
+            "outcycle": "on",
+            "outseg": "on",
+            "outcumulativecount": "seconds",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 40,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "chopexec1",
+          "type": "DAT:chopexec",
+          "parameters": {
+            "chop": "math1",
+            "offtoon": "on",
+            "ontooff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec1",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "ontooff": "on",
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "gotoScrubber",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "scrubber",
+            "value0": 0.424242,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "set_timecode1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "text_timecode1",
+          "type": "TOP:text",
+          "parameters": {
+            "legacyparsing": "on",
+            "chopvaluereplace": "on",
+            "legacyfontselection": "on",
+            "fontautosize": "fitiffat",
+            "fontsizex": 20,
+            "resolutionw": 256,
+            "resolutionh": 64
+          }
+        },
+        {
+          "name": "timer14_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "gotoScrubber/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:math": 1,
+          "DAT:text": 3,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "DAT:chopexec": 1,
+          "DAT:panelexec": 1,
+          "COMP:slider": 1,
+          "TOP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example16",
+      "description": "",
+      "operators": [
+        {
+          "name": "lyric",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "over1",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "fitbest",
+            "sx": 1.1,
+            "sy": 1.1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "timeLyric",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "poemPlayer",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 8,
+            "w": 1920
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "specify"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "poemPlayer/out2",
+          "to": "lyric",
+          "to_input": "0"
+        },
+        {
+          "from": "lyric",
+          "to": "over1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "over1",
+          "to_input": "1"
+        },
+        {
+          "from": "poemPlayer/out3",
+          "to": "timeLyric",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:null": 1,
+          "TOP:over": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 2,
+          "CHOP:null": 1,
+          "COMP:container": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example17",
+      "description": "",
+      "operators": [
+        {
+          "name": "places",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 28,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "multichoiceGame",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 600,
+            "h": 200,
+            "topsmoothness": "mipmap"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:table": 1,
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example18",
+      "description": "",
+      "operators": [
+        {
+          "name": "she",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "she_go",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Go",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 90,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "ball_end",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 320,
+            "h": 180,
+            "top": "./out1",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "ball_start",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 320,
+            "h": 180,
+            "top": "./out1",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "switch_she",
+          "type": "TOP:switch",
+          "parameters": {}
+        },
+        {
+          "name": "she_complete",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Complete",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 10,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "ball_holdloop",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 320,
+            "h": 180,
+            "top": "./out1",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "panelexecshe3",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer_she_end",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 3,
+            "callbacks": "timer_she_end_callbacks",
+            "outtimercount": "frames",
+            "outtimeractive": "on",
+            "outreadypulse": "on",
+            "outdonepulse": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "panelexec_she1",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec_she2",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "she_initialize",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "Initialize",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 130,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "timer_she_start",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 3,
+            "callbacks": "timer_she_start_callbacks",
+            "outtimercount": "frames",
+            "outtimeractive": "on",
+            "outreadypulse": "on",
+            "outdonepulse": "on",
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "exporttable": "timer_she_start_export"
+          }
+        },
+        {
+          "name": "timer_she_holdloop",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 3,
+            "cycle": "on",
+            "maxcycles": 5,
+            "callbacks": "timer_she_holdloop_callbacks",
+            "outtimercount": "frames",
+            "outtimeractive": "on",
+            "outreadypulse": "on",
+            "outdonepulse": "on",
+            "outcycle": "on",
+            "timeslice": "on",
+            "exportmethod": "datname",
+            "exporttable": "timer_she_holdloop_export"
+          }
+        },
+        {
+          "name": "timer_she_start_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer_she_end_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer_she_holdloop_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer_she_start_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer_she_holdloop_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "switch_she",
+          "to": "she",
+          "to_input": "0"
+        },
+        {
+          "from": "ball_start/out1",
+          "to": "switch_she",
+          "to_input": "0"
+        },
+        {
+          "from": "ball_holdloop/out1",
+          "to": "switch_she",
+          "to_input": "1"
+        },
+        {
+          "from": "ball_end/out1",
+          "to": "switch_she",
+          "to_input": "2"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:null": 1,
+          "DAT:text": 4,
+          "COMP:button": 3,
+          "COMP:container": 3,
+          "TOP:switch": 1,
+          "DAT:panelexec": 3,
+          "CHOP:timer": 3,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example19",
+      "description": "",
+      "operators": [
+        {
+          "name": "geo0",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 4,
+            "material": "./phong1",
+            "clone": "geo0"
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 6,
+            "material": "./phong1",
+            "clone": "geo0"
+          }
+        },
+        {
+          "name": "geo2",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 6,
+            "material": "./phong1",
+            "clone": "geo0"
+          }
+        },
+        {
+          "name": "cam15",
+          "type": "COMP:cam",
+          "parameters": {
+            "tz": 5,
+            "aperture": 41.4214,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "eval15",
+          "type": "DAT:eval",
+          "parameters": {
+            "output": "expr"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "light15",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 2,
+            "tz": 10,
+            "viewanglemethod": "vertfov",
+            "aperture": 41.4214
+          }
+        },
+        {
+          "name": "table15",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer15",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 600,
+            "lengthunits": "frames",
+            "delayunits": "frames",
+            "callbacks": "timer15_callbacks",
+            "segdat": "eval15",
+            "segmethod": "parallel",
+            "segunits": "frames",
+            "outtimercount": "frames",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "render15",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "cam15",
+            "geometry": "\"geo0 geo1 geo2\"",
+            "uvunwrapcoordattrib": "uv",
+            "allowbufblending": "on",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "animation0",
+          "type": "COMP:animation",
+          "parameters": {
+            "pageindex": 2,
+            "playmode": "input",
+            "tleft": "hold",
+            "tright": "hold"
+          }
+        },
+        {
+          "name": "animation1",
+          "type": "COMP:animation",
+          "parameters": {
+            "pageindex": 2,
+            "playmode": "input",
+            "tleft": "hold",
+            "tright": "hold"
+          }
+        },
+        {
+          "name": "animation2",
+          "type": "COMP:animation",
+          "parameters": {
+            "pageindex": 2,
+            "playmode": "input",
+            "tleft": "hold",
+            "tright": "hold"
+          }
+        },
+        {
+          "name": "table_expr15",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer15_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table15",
+          "to": "eval15",
+          "to_input": "0"
+        },
+        {
+          "from": "table_expr15",
+          "to": "eval15",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 2,
+        "operator_types": {
+          "COMP:geo": 3,
+          "COMP:cam": 1,
+          "DAT:eval": 1,
+          "DAT:text": 2,
+          "COMP:light": 1,
+          "DAT:table": 2,
+          "CHOP:timer": 1,
+          "TOP:render": 1,
+          "COMP:animation": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example20",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table16",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer16",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer16_callbacks",
+            "segdat": "table16",
+            "outseg": "on",
+            "outcumulativecount": "seconds",
+            "outrunningcount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail16",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 10,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "goto_segment0",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Go To 0\"",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 130,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "goto_segment1",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Go To 1\"",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 130,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "goto_segment2",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Go To 2\"",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 130,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "goto_segment3",
+          "type": "COMP:button",
+          "parameters": {
+            "label": "\"Go To 3\"",
+            "scaletofit": "onlyshrink",
+            "x": 10,
+            "y": 130,
+            "w": 80,
+            "h": 40,
+            "cursor": "pointer",
+            "top": "./bg",
+            "topsmoothness": "mipmap",
+            "opacity": 0.742
+          }
+        },
+        {
+          "name": "panelexec_goto0",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec_goto1",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec_goto2",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "panelexec_goto3",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer16_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer16",
+          "to": "trail16",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "COMP:button": 4,
+          "DAT:panelexec": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example21",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "backtoback",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 1280,
+            "h": 360,
+            "topsmoothness": "mipmap",
+            "parentshortcut": "project"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "backtoback/out2",
+          "to": "null1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:null": 1,
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example22",
+      "description": "",
+      "operators": [
+        {
+          "name": "sort1",
+          "type": "DAT:sort",
+          "parameters": {
+            "order": "alphanum",
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "folder1",
+          "type": "DAT:folder",
+          "parameters": {
+            "nameformat": "noextension",
+            "type": "files",
+            "movieextensions": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "moviePlaylist",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 900,
+            "h": 600,
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "moviePlaylist_",
+          "type": "TOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "folder1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviePlaylist/out1",
+          "to": "moviePlaylist_",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:sort": 1,
+          "DAT:text": 1,
+          "DAT:folder": 1,
+          "COMP:container": 1,
+          "TOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example23",
+      "description": "",
+      "operators": [
+        {
+          "name": "m1",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "m2",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "m3",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "ball",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 1,
+            "material": "./phong1"
+          }
+        },
+        {
+          "name": "path",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 6,
+            "topsmoothness": "mipmap",
+            "nodeview": "opviewer"
+          }
+        },
+        {
+          "name": "cam16",
+          "type": "COMP:cam",
+          "parameters": {
+            "ty": 1,
+            "tz": 10,
+            "aperture": 41.4214,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "m0_all",
+          "type": "CHOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "lookup1",
+          "type": "CHOP:lookup",
+          "parameters": {
+            "exporttable": "lookup1_export"
+          }
+        },
+        {
+          "name": "reverse",
+          "type": "CHOP:stretch",
+          "parameters": {
+            "startunit": "seconds",
+            "endunit": "seconds",
+            "reverse": "on"
+          }
+        },
+        {
+          "name": "select2",
+          "type": "CHOP:select",
+          "parameters": {}
+        },
+        {
+          "name": "select3",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "timer_fraction"
+          }
+        },
+        {
+          "name": "timer11",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "maxcycles": 8,
+            "callbacks": "timer11_callbacks",
+            "segdat": "table1",
+            "channelcolumns": "test",
+            "infocolumns": "chop",
+            "outcycle": "on",
+            "outseg": "on",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "render16",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "cam16",
+            "geometry": "ball",
+            "uvunwrapcoordattrib": "uv",
+            "allowbufblending": "on",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "noteLooping",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "info_timer11",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer11",
+            "language": "text"
+          }
+        },
+        {
+          "name": "lookup1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer11_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "path/out1",
+          "to": "m1",
+          "to_input": "0"
+        },
+        {
+          "from": "path/out2",
+          "to": "m2",
+          "to_input": "0"
+        },
+        {
+          "from": "path/out3",
+          "to": "m3",
+          "to_input": "0"
+        },
+        {
+          "from": "path/out5",
+          "to": "m0_all",
+          "to_input": "0"
+        },
+        {
+          "from": "select3",
+          "to": "lookup1",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "lookup1",
+          "to_input": "1"
+        },
+        {
+          "from": "m0_all",
+          "to": "reverse",
+          "to_input": "0"
+        },
+        {
+          "from": "timer11",
+          "to": "select3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 19,
+        "connection_count": 8,
+        "operator_types": {
+          "CHOP:null": 4,
+          "COMP:geo": 1,
+          "COMP:container": 1,
+          "COMP:cam": 1,
+          "DAT:text": 3,
+          "DAT:table": 2,
+          "CHOP:lookup": 1,
+          "CHOP:stretch": 1,
+          "CHOP:select": 2,
+          "CHOP:timer": 1,
+          "TOP:render": 1,
+          "DAT:info": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example24",
+      "description": "",
+      "operators": [
+        {
+          "name": "log",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "length": 1,
+            "lengthunits": "frames",
+            "delay": 1,
+            "delayunits": "frames",
+            "cycle": "on",
+            "maxcycles": 10,
+            "callbacks": "timer1_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 3,
+          "CHOP:timer": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example25",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "lengthtype": "infinite",
+            "speed": 0.5,
+            "callbacks": "timer1_callbacks",
+            "outtimercount": "seconds",
+            "outrunningcount": "seconds",
+            "outmastercount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example26",
+      "description": "",
+      "operators": [
+        {
+          "name": "goTo",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 1,
+            "deferpars": "on",
+            "callbacks": "timer1_callbacks",
+            "segdat": "table1",
+            "infocolumns": "name",
+            "substart": 5.5,
+            "subend": 9.5,
+            "outtimercount": "seconds",
+            "outseg": "on",
+            "outsegpulse": "on",
+            "outsegplusfraction": "on",
+            "outmastercount": "seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 25,
+            "timeslice": "on",
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "master_seconds"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 1,
+            "value0": 0.323232,
+            "value1": 0.5,
+            "w": 100,
+            "h": 10,
+            "bgalpha": 1,
+            "top": "./back",
+            "topsmoothness": "mipmap",
+            "crop": "on"
+          }
+        },
+        {
+          "name": "panelexec1",
+          "type": "DAT:panelexec",
+          "parameters": {
+            "whileon": "on",
+            "ontooff": "on",
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timer1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "trail1",
+          "to": "select1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:info": 1,
+          "DAT:table": 1,
+          "CHOP:timer": 1,
+          "CHOP:trail": 1,
+          "CHOP:select": 1,
+          "COMP:slider": 1,
+          "DAT:panelexec": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example27",
+      "description": "",
+      "operators": [
+        {
+          "name": "par1",
+          "type": "CHOP:par",
+          "parameters": {
+            "ops": "pars"
+          }
+        },
+        {
+          "name": "pars",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text1",
+          "type": "COMP:text",
+          "parameters": {
+            "callbacks": "text1_callbacks",
+            "legacyfontselection": "on",
+            "alignx": "left",
+            "w": 200,
+            "h": 80
+          }
+        },
+        {
+          "name": "text2",
+          "type": "COMP:text",
+          "parameters": {
+            "callbacks": "text2_callbacks",
+            "legacyfontselection": "on",
+            "alignx": "left",
+            "w": 200,
+            "h": 80
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "timecontrol": "chop",
+            "deferpars": "on",
+            "length": 1000,
+            "callbacks": "timer1_callbacks",
+            "outmastercount": "all",
+            "extchop": "par1",
+            "extchannel": "Seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "text1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "text2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:par": 1,
+          "COMP:base": 1,
+          "DAT:info": 1,
+          "COMP:text": 2,
+          "DAT:text": 4,
+          "CHOP:timer": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\delayCHOP_lossless.json",
+  "operator_type": "delayCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "hold1",
+          "type": "CHOP:hold",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "chopop": "sub"
+          }
+        },
+        {
+          "name": "delay1",
+          "type": "CHOP:delay",
+          "parameters": {
+            "pageindex": 1,
+            "delayunit": "frames",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "logic2",
+          "type": "CHOP:logic",
+          "parameters": {
+            "convert": "nonzero",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "slope1",
+          "type": "CHOP:slope",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "x",
+            "const0value": 0.43,
+            "const1name": "y",
+            "const1value": 0.19,
+            "const2name": "z",
+            "const2value": 0.79
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "math1",
+          "to": "hold1",
+          "to_input": "0"
+        },
+        {
+          "from": "logic2",
+          "to": "hold1",
+          "to_input": "1"
+        },
+        {
+          "from": "constant1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "delay1",
+          "to": "math1",
+          "to_input": "1"
+        },
+        {
+          "from": "constant1",
+          "to": "delay1",
+          "to_input": "0"
+        },
+        {
+          "from": "slope1",
+          "to": "logic2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "slope1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:hold": 1,
+          "CHOP:math": 1,
+          "CHOP:delay": 1,
+          "CHOP:logic": 1,
+          "DAT:text": 1,
+          "CHOP:slope": 1,
+          "CHOP:constant": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

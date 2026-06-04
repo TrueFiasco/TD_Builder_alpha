@@ -1,0 +1,127 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\fractalSOP_lossless.json",
+  "operator_type": "fractalSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "tube1",
+          "type": "SOP:tube",
+          "parameters": {
+            "rad1": 0.3,
+            "rad2": 1,
+            "height": 5,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "fractal1",
+          "type": "SOP:fractal",
+          "parameters": {
+            "smooth": 1.895,
+            "scale": 0.6,
+            "vtxnms": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube1",
+          "to": "fractal1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:tube": 1,
+          "DAT:text": 1,
+          "SOP:fractal": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {
+            "period": 0.5,
+            "harmon": 3,
+            "rough": 0.649,
+            "exp": 1.74,
+            "tz": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "fractal2",
+          "type": "SOP:fractal",
+          "parameters": {
+            "divs": 1,
+            "smooth": 2,
+            "scale": 0.23,
+            "vtxnms": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "fractal2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:grid": 1,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:fractal": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

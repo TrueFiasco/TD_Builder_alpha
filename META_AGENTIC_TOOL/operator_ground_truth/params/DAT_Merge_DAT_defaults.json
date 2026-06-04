@@ -1,0 +1,212 @@
+{
+  "operator": "Merge_DAT",
+  "family": "DAT",
+  "td_create_name": "mergeDAT",
+  "param_count": 10,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "dats": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Merge",
+      "label": "DATs",
+      "readOnly": false,
+      "expression": null
+    },
+    "how": {
+      "value": {
+        "type": "menu",
+        "value": "row",
+        "menuIndex": 0,
+        "menuNames": [
+          "row",
+          "col",
+          "collapsecol",
+          "collapserow",
+          "collapsecells",
+          "repcolcells",
+          "reprowcells"
+        ],
+        "menuLabels": [
+          "Append Rows",
+          "Append Columns",
+          "Collapse Columns",
+          "Collapse Rows",
+          "Collapse Cells",
+          "Replace Cells by Column",
+          "Replace Cells by Row"
+        ]
+      },
+      "default": "row",
+      "page": "Merge",
+      "label": "How",
+      "readOnly": false,
+      "expression": null
+    },
+    "byname": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Merge",
+      "label": "By Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "spacer": {
+      "value": {
+        "type": "string",
+        "value": "\\t"
+      },
+      "default": "\\t",
+      "page": "Merge",
+      "label": "Concatenate with",
+      "readOnly": false,
+      "expression": null
+    },
+    "unmatched": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Merge",
+      "label": "Append Unmatched",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

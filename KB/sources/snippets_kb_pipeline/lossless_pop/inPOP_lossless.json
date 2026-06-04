@@ -1,0 +1,404 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\OPSnippets\\Snippets\\POP\\inPOP.tox.dir",
+    "build_version": "099",
+    "build_date": "Sat Nov 15 10:04:50 2025",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2025.31700"
+  },
+  "operators": {
+    "/inPOP": {
+      "name": "inPOP",
+      "path": "/inPOP",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        2120,
+        -615,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "enableexternaltox": "off",
+        "savebackup": "off"
+      },
+      "parent": null,
+      "children": [
+        "example1"
+      ],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/inPOP/example1": {
+      "name": "example1",
+      "path": "/inPOP/example1",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        50,
+        45,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pageindex": 3,
+        "Title": {
+          "67108928": "\"input to a component\""
+        },
+        "Datecreate": {
+          "67108928": "1/9/2025"
+        },
+        "Family": {
+          "67109184": "POP"
+        },
+        "Author": {
+          "67108928": "greg"
+        },
+        "Optype": {
+          "67109184": "inPOP"
+        }
+      },
+      "parent": "/inPOP",
+      "children": [
+        "box1",
+        "base1",
+        "null1",
+        "readMe"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 1 Snippet\n772804868 Title Title 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 0\n772804868 Datecreate \"Date Created (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 5\n772804868 Dateedit \"Date Edited (d/m/y)\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 6\n772804879 Family Family 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 4097 8 COMP COMP TOP TOP CHOP CHOP SOP SOP MAT MAT DAT DAT POP POP TEST TEST 1\n772804868 Author Author 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 3\n772804866 Version Version 1 3 1 1 1 20 20 2 1 \"\" \"\" Snippet 4\n772804868 Optype \"OP Type\" 1 1 0 0 1 1 1 2 0 \"\" \"\" Snippet 2\n?\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/inPOP/example1/box1": {
+      "name": "box1",
+      "path": "/inPOP/example1/box1",
+      "op_type": "POP:box",
+      "family": "POP",
+      "specific_type": "box",
+      "viewport_pos": null,
+      "tile_pos": [
+        45,
+        55,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/inPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/inPOP/example1/base1": {
+      "name": "base1",
+      "path": "/inPOP/example1/base1",
+      "op_type": "COMP:base",
+      "family": "COMP",
+      "specific_type": "base",
+      "viewport_pos": null,
+      "tile_pos": [
+        250,
+        35,
+        160,
+        130
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/inPOP/example1",
+      "children": [
+        "in1",
+        "out1",
+        "circle1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "network": {
+          "content": "1\ncompinputs\n{\n0 \t\"\"\n\tin1\n\tPOP\n}\nend\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/inPOP/example1/base1/in1": {
+      "name": "in1",
+      "path": "/inPOP/example1/base1/in1",
+      "op_type": "POP:in",
+      "family": "POP",
+      "specific_type": "in",
+      "viewport_pos": null,
+      "tile_pos": [
+        245,
+        65,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "picked": "on",
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "48": "\"Nice Geometry\" me.name"
+        }
+      },
+      "parent": "/inPOP/example1/base1",
+      "children": [],
+      "inputs": {
+        "0": "circle1"
+      },
+      "extra_files": {}
+    },
+    "/inPOP/example1/base1/out1": {
+      "name": "out1",
+      "path": "/inPOP/example1/base1/out1",
+      "op_type": "POP:out",
+      "family": "POP",
+      "specific_type": "out",
+      "viewport_pos": null,
+      "tile_pos": [
+        465,
+        65,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "label": {
+          "48": "\"Nicer Geonetry\" me.name"
+        }
+      },
+      "parent": "/inPOP/example1/base1",
+      "children": [],
+      "inputs": {
+        "0": "in1"
+      },
+      "extra_files": {}
+    },
+    "/inPOP/example1/base1/circle1": {
+      "name": "circle1",
+      "path": "/inPOP/example1/base1/circle1",
+      "op_type": "POP:circle",
+      "family": "POP",
+      "specific_type": "circle",
+      "viewport_pos": null,
+      "tile_pos": [
+        45,
+        35,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/inPOP/example1/base1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/inPOP/example1/null1": {
+      "name": "null1",
+      "path": "/inPOP/example1/null1",
+      "op_type": "POP:null",
+      "family": "POP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        475,
+        55,
+        130,
+        90
+      ],
+      "color": [
+        0.67,
+        0.67,
+        0.67
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/inPOP/example1",
+      "children": [],
+      "inputs": {
+        "0": "base1/out1"
+      },
+      "extra_files": {}
+    },
+    "/inPOP/example1/readMe": {
+      "name": "readMe",
+      "path": "/inPOP/example1/readMe",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -170,
+        50,
+        130,
+        90
+      ],
+      "color": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "flags": {
+        "viewer": "1",
+        "expose": "off",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "defaultreadencoding": "cp1252",
+        "language": "text",
+        "wordwrap": "on"
+      },
+      "parent": "/inPOP/example1",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAKzVGhlIEluIFBPUCBpcyB1c2VkIHRvIGNyZWF0ZSBhIFBPUCBpbnB1dCBpbiBhIENvbXBvbmVudC4gCgpDb21wb25lbnQgaW5wdXRzIGFyZSBwb3NpdGlvbmVkIGFscGhhbnVtZXJpY2FsbHkgb24gdGhlIGxlZnQgc2lkZSBvZiB0aGUgQ29tcG9uZW50LgoKSW4gdGhpcyBleGFtcGxlLCBiYXNlMSBDT01QIGhhcyBhIGJsdWUgUE9QIGlucHV0IGNvbm5lY3RvciBvbiBpdHMgbGVmdCBzaWRlLiAKClpvb20gaW5zaWRlIGJhc2UxIHRvIHNlZSB0aGUgSW4gUE9QLCBhbmQgbm90aWNlIHRoYXQgdGhlIEluIFBPUCBoYXMgdGhlIGNpcmNsZTEgVE9QIGFjdGluZyBhcyBmYWxsYmFjayBkYXRhIGNvbm5lY3RlZCB0byB0aGUgSW4gUE9QJ3Mgc2Vjb25kIGlucHV0LiBUaGlzIHdpbGwgYmUgb3V0cHV0IGJ5IHRoZSBJbiBQT1AgaWYgbm90aGluZyBpcyBjb25uZWN0ZWQgdG8gdGhlIGZpcnN0IGlucHV0IG9mIGJhc2UxLgoKWm9vbSBvdXQgb2YgYmFzZTEgYW5kIGNvbm5lY3QgYm94MSB0byBiYXNlMSwgYW5kIHNlZSB0aGUgb3V0cHV0IGNoYW5nZS4KCkFsc28sIHdoZW4geW91IHJvbGxvdmVyIHRoZSBpbnB1dCBjb25uZWN0b3IsIHlvdSBzZWUgYSBjdXN0b20gbGFiZWwsICJOaWNlIEdlb25tZXRyeSIsIHNldCB3aXRoIHRoZSBJbiBQT1AncyBMYWJlbCBwYXJhbWV0ZXIuICBTaW1pbGFybHkgZm9yIHRoZSBPdXQgUE9QIG91dDEuCg==",
+          "is_binary": true
+        }
+      }
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2025.31700\ntime Sat Nov 15 10:04:50 2025\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "inPOP.n",
+    "inPOP.parm",
+    "inPOP/example1.n",
+    "inPOP/example1.cparm",
+    "inPOP/example1.parm",
+    "inPOP/example1/box1.n",
+    "inPOP/example1/base1.n",
+    "inPOP/example1/base1.network",
+    "inPOP/example1/base1/in1.n",
+    "inPOP/example1/base1/in1.parm",
+    "inPOP/example1/base1/out1.n",
+    "inPOP/example1/base1/out1.parm",
+    "inPOP/example1/base1/circle1.n",
+    "inPOP/example1/null1.n",
+    "inPOP/example1/readMe.n",
+    "inPOP/example1/readMe.parm",
+    "inPOP/example1/readMe.text"
+  ],
+  "connections": [
+    {
+      "from": "circle1",
+      "to": "/inPOP/example1/base1/in1",
+      "to_input": 0
+    },
+    {
+      "from": "in1",
+      "to": "/inPOP/example1/base1/out1",
+      "to_input": 0
+    },
+    {
+      "from": "base1/out1",
+      "to": "/inPOP/example1/null1",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 9,
+    "total_connections": 3,
+    "total_raw_files": 1,
+    "total_extra_files": 3,
+    "total_files_captured": 19,
+    "by_family": {
+      "COMP": 3,
+      "POP": 5,
+      "DAT": 1
+    },
+    "by_type": {
+      "COMP:base": 3,
+      "POP:box": 1,
+      "POP:in": 1,
+      "POP:out": 1,
+      "POP:circle": 1,
+      "POP:null": 1,
+      "DAT:text": 1
+    },
+    "max_depth": 4,
+    "total_parameters": 13
+  }
+}

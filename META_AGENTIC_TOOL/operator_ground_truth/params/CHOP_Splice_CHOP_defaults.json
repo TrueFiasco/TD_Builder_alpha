@@ -1,0 +1,377 @@
+{
+  "operator": "Splice_CHOP",
+  "family": "CHOP",
+  "td_create_name": "spliceCHOP",
+  "param_count": 22,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 13,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputtrimmed": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Splice",
+      "label": "Output Trimmed Section",
+      "readOnly": false,
+      "expression": null
+    },
+    "direction": {
+      "value": {
+        "type": "menu",
+        "value": "firsttolast",
+        "menuIndex": 0,
+        "menuNames": [
+          "firsttolast",
+          "lasttofirst"
+        ],
+        "menuLabels": [
+          "First to Last",
+          "Last to First"
+        ]
+      },
+      "default": "firsttolast",
+      "page": "Splice",
+      "label": "Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "start": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Splice",
+      "label": "Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "units": {
+      "value": {
+        "type": "menu",
+        "value": "samples",
+        "menuIndex": 0,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "samples",
+      "page": "Splice",
+      "label": "Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "trimmethod": {
+      "value": {
+        "type": "menu",
+        "value": "trimlength",
+        "menuIndex": 0,
+        "menuNames": [
+          "trimlength",
+          "insertlength"
+        ],
+        "menuLabels": [
+          "Use Trim Length",
+          "Trim to Insert Input Length"
+        ]
+      },
+      "default": "trimlength",
+      "page": "Splice",
+      "label": "Trim Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "trimlength": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Splice",
+      "label": "Trim Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "trimlengthunits": {
+      "value": {
+        "type": "menu",
+        "value": "samples",
+        "menuIndex": 0,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "samples",
+      "page": "Splice",
+      "label": "Trim Length Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "insertmethod": {
+      "value": {
+        "type": "menu",
+        "value": "natural",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "natural",
+          "stretchtrim",
+          "insertlength",
+          "stretchinsert"
+        ],
+        "menuLabels": [
+          "None",
+          "Input Length",
+          "Stretch to Trim Length",
+          "Trim to Insert Length",
+          "Stretch to Insert Length"
+        ]
+      },
+      "default": "natural",
+      "page": "Splice",
+      "label": "Insert Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "insertlength": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Splice",
+      "label": "Insert Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "insertunits": {
+      "value": {
+        "type": "menu",
+        "value": "samples",
+        "menuIndex": 0,
+        "menuNames": [
+          "samples",
+          "frames",
+          "seconds",
+          "fraction"
+        ],
+        "menuLabels": [
+          "I",
+          "F",
+          "S",
+          "%"
+        ]
+      },
+      "default": "samples",
+      "page": "Splice",
+      "label": "Insert Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "insertinterp": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "linear",
+          "cubic"
+        ],
+        "menuLabels": [
+          "None",
+          "Linear",
+          "Cubic"
+        ]
+      },
+      "default": "linear",
+      "page": "Splice",
+      "label": "Insert Interpolate",
+      "readOnly": false,
+      "expression": null
+    },
+    "match": {
+      "value": {
+        "type": "menu",
+        "value": "index",
+        "menuIndex": 0,
+        "menuNames": [
+          "index",
+          "name"
+        ],
+        "menuLabels": [
+          "Channel Number",
+          "Channel Name"
+        ]
+      },
+      "default": "index",
+      "page": "Splice",
+      "label": "Match by",
+      "readOnly": false,
+      "expression": null
+    },
+    "unmatchedinterp": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "none",
+          "linear",
+          "cubic"
+        ],
+        "menuLabels": [
+          "None",
+          "Linear",
+          "Cubic"
+        ]
+      },
+      "default": "linear",
+      "page": "Splice",
+      "label": "Unmatched Chan Interpolate",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\replaceCHOP_lossless.json",
+  "operator_type": "replaceCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "replace1",
+          "type": "CHOP:replace",
+          "parameters": {}
+        },
+        {
+          "name": "constant_new",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "green",
+            "const0value": 0.3,
+            "const1name": "amber",
+            "const1value": 0.6
+          }
+        },
+        {
+          "name": "constant_default",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "red",
+            "const1name": "green",
+            "const2name": "blue",
+            "const3name": "amber",
+            "const4name": "white"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant_default",
+          "to": "replace1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_new",
+          "to": "replace1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:replace": 1,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "replace2",
+          "type": "CHOP:replace",
+          "parameters": {}
+        },
+        {
+          "name": "constant_all_channels",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "red",
+            "const0value": 0.1,
+            "const1name": "green",
+            "const1value": 0.2,
+            "const2name": "blue",
+            "const2value": 0.3,
+            "const3name": "amber",
+            "const3value": 0.4,
+            "const4name": "white",
+            "const4value": 0.5
+          }
+        },
+        {
+          "name": "constant_keep_only_these_channels",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "red",
+            "const1name": "\"green \"",
+            "const2name": "blue"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant_keep_only_these_channels",
+          "to": "replace2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant_all_channels",
+          "to": "replace2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:replace": 1,
+          "CHOP:constant": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "operator": "Sort_CHOP",
+  "family": "CHOP",
+  "td_create_name": "sortCHOP",
+  "param_count": 16,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "increasing",
+        "menuIndex": 0,
+        "menuNames": [
+          "increasing",
+          "decreasing",
+          "random"
+        ],
+        "menuLabels": [
+          "Increasing Values",
+          "Decreasing Values",
+          "Random"
+        ]
+      },
+      "default": "increasing",
+      "page": "Sort",
+      "label": "Sample Sort Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Sort",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "select": {
+      "value": {
+        "type": "menu",
+        "value": "byindices",
+        "menuIndex": 0,
+        "menuNames": [
+          "byindices",
+          "byname"
+        ],
+        "menuLabels": [
+          "By Channel Indices",
+          "By Channel Names"
+        ]
+      },
+      "default": "byindices",
+      "page": "Sort",
+      "label": "Select Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "indices": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Sort",
+      "label": "Channel Indices",
+      "readOnly": false,
+      "expression": null
+    },
+    "names": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Sort",
+      "label": "Channel Names",
+      "readOnly": false,
+      "expression": null
+    },
+    "indexchannel": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Sort",
+      "label": "Index Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "legacypattern": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Sort",
+      "label": "Legacy Pattern Matching",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "operator": "Blob_Track_CHOP",
+  "family": "CHOP",
+  "td_create_name": "blobtrackCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Tracker",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "searchmode": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Tracker",
+      "label": "Search Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxblobs": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Tracker",
+      "label": "Max Blobs",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpointdistance": {
+      "value": {
+        "type": "float",
+        "value": 0.07000000029802322
+      },
+      "default": 0.07000000029802322,
+      "page": "Tracker",
+      "label": "Max Point Distance in Blob",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxblobmovement": {
+      "value": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "default": 0.10000000149011612,
+      "page": "Tracker",
+      "label": "Max Blob Movement",
+      "readOnly": false,
+      "expression": null
+    },
+    "areaofinterest": {
+      "value": {
+        "type": "menu",
+        "value": "rectangle",
+        "menuIndex": 1,
+        "menuNames": [
+          "off",
+          "rectangle",
+          "circle"
+        ],
+        "menuLabels": [
+          "Off",
+          "Rectangle",
+          "Circle"
+        ]
+      },
+      "default": "rectangle",
+      "page": "Tracker",
+      "label": "Area of Interest",
+      "readOnly": false,
+      "expression": null
+    },
+    "centerx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Tracker",
+      "label": "Center",
+      "readOnly": false,
+      "expression": null
+    },
+    "centery": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Tracker",
+      "label": "Center",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizex": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Tracker",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "sizey": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "Tracker",
+      "label": "Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotate": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Tracker",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "allowmovementoutside": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Tracker",
+      "label": "Allow Movement Outside Area",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputcentroid": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Blobs",
+      "label": "Output Centroid",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputvelocity": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Blobs",
+      "label": "Output Velocity",
+      "readOnly": false,
+      "expression": null
+    },
+    "minblobpoints": {
+      "value": {
+        "type": "int",
+        "value": 3
+      },
+      "default": 3,
+      "page": "Blobs",
+      "label": "Min Points per Blob",
+      "readOnly": false,
+      "expression": null
+    },
+    "blobinittime": {
+      "value": {
+        "type": "float",
+        "value": 0.05
+      },
+      "default": 0.05,
+      "page": "Blobs",
+      "label": "Blob Init Time (s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "lostblobtimeout": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Blobs",
+      "label": "Lost Blob Timeout (s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "predicttype": {
+      "value": {
+        "type": "menu",
+        "value": "kalman",
+        "menuIndex": 2,
+        "menuNames": [
+          "off",
+          "simple",
+          "kalman"
+        ],
+        "menuLabels": [
+          "Off",
+          "Simple Forward Predict",
+          "Kalman Filter Predict"
+        ]
+      },
+      "default": "kalman",
+      "page": "Blobs",
+      "label": "Blob Movement Prediction Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

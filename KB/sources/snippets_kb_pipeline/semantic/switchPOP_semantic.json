@@ -1,0 +1,233 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\switchPOP_lossless.json",
+  "operator_type": "switchPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math3",
+          "type": "POP:math",
+          "parameters": {
+            "pageindex": 2,
+            "attrclass": "vertex",
+            "inputattrscope": "Tex",
+            "mult0": 10
+          }
+        },
+        {
+          "name": "tube4",
+          "type": "POP:tube",
+          "parameters": {}
+        },
+        {
+          "name": "tube5",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 0.6,
+            "rady": 1.2,
+            "height": 1.2
+          }
+        },
+        {
+          "name": "tube6",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 0.6,
+            "rady": 0.1,
+            "height": 1.5
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "switch3"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "switch3",
+            "extract": "vertices"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "switch4"
+          }
+        },
+        {
+          "name": "switch3",
+          "type": "POP:switch",
+          "parameters": {
+            "index": 2.5,
+            "blend": "on",
+            "primattrscope": "\"\"",
+            "vertattrscope": "Tex",
+            "input1pop": "\"\"",
+            "input2pop": "\"\""
+          }
+        },
+        {
+          "name": "switch4",
+          "type": "POP:switch",
+          "parameters": {
+            "index": 0.84,
+            "blend": "on",
+            "pointattrscope": "P",
+            "primattrscope": "\"\"",
+            "vertattrscope": "\"\"",
+            "input1pop": "\"\"",
+            "input2pop": "\"\""
+          }
+        },
+        {
+          "name": "comment5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "normalize7",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize8",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "radiusxy",
+            "mode1": "zero",
+            "mode2": "boxz",
+            "exp0": 0.4,
+            "exp1": 1,
+            "exp2": 1,
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize9",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "longitudez",
+            "mode1": "latitudez",
+            "mode2": "zero",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube5",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize7",
+          "to": "switch3",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize8",
+          "to": "switch3",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize9",
+          "to": "switch3",
+          "to_input": "2"
+        },
+        {
+          "from": "normalize7",
+          "to": "switch4",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize8",
+          "to": "switch4",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize9",
+          "to": "switch4",
+          "to_input": "2"
+        },
+        {
+          "from": "tube4",
+          "to": "normalize7",
+          "to_input": "0"
+        },
+        {
+          "from": "math3",
+          "to": "normalize8",
+          "to_input": "0"
+        },
+        {
+          "from": "tube6",
+          "to": "normalize9",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 10,
+        "operator_types": {
+          "POP:math": 1,
+          "POP:tube": 3,
+          "DAT:popto": 3,
+          "DAT:text": 1,
+          "POP:switch": 2,
+          "COMP:annotate": 4,
+          "POP:normalize": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

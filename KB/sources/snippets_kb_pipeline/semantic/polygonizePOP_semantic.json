@@ -1,0 +1,331 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\polygonizePOP_lossless.json",
+  "operator_type": "polygonizePOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "points",
+            "cols": 50,
+            "rows": 50,
+            "slices": 50
+          }
+        },
+        {
+          "name": "field1",
+          "type": "POP:field",
+          "parameters": {
+            "mode": "torus",
+            "radx": 0.37,
+            "rady": 0.1,
+            "radz": 0.3,
+            "rx": 21,
+            "ry": -38,
+            "outputattr": "Color.rgb"
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "TOP:popto",
+          "parameters": {
+            "pop": "field1",
+            "rgbamode": "custom",
+            "attribscope": "Color",
+            "layout": "popdim"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "polygonize3",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "polygonize2",
+          "type": "POP:polygonize",
+          "parameters": {
+            "top": "popto1",
+            "threshold": 0.293
+          }
+        },
+        {
+          "name": "polygonize3",
+          "type": "POP:polygonize",
+          "parameters": {
+            "top": "moviefilein1",
+            "threshold": 0.33
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "field1",
+          "to_input": "0"
+        },
+        {
+          "from": "polygonize2",
+          "to": "normal1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 2,
+        "operator_types": {
+          "POP:grid": 1,
+          "POP:field": 1,
+          "TOP:popto": 1,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "POP:normal": 1,
+          "COMP:annotate": 1,
+          "POP:polygonize": 2,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "pageindex": 2,
+            "borderr": 1,
+            "borderg": 1,
+            "borderb": 1,
+            "borderwidth": 0.0444,
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "sprinkle1",
+          "type": "POP:sprinkle",
+          "parameters": {
+            "seed": 2.06,
+            "numpoints": 619
+          }
+        },
+        {
+          "name": "polygonize1",
+          "type": "POP:polygonize",
+          "parameters": {
+            "top": "circle1",
+            "extend": "hold"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "polygonize1",
+          "to": "sprinkle1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:circle": 1,
+          "POP:sprinkle": 1,
+          "POP:polygonize": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "res1",
+          "type": "TOP:res",
+          "parameters": {
+            "pageindex": 1,
+            "outputresolution": "eighth",
+            "filtertype": "nearest"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "POP:merge",
+          "parameters": {
+            "input1pop": "\"\"",
+            "input1groupentity": "point",
+            "input1group": "\"\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "switch1",
+          "type": "TOP:switch",
+          "parameters": {
+            "index": 1
+          }
+        },
+        {
+          "name": "lookuptex1",
+          "type": "POP:lookuptex",
+          "parameters": {
+            "top": "switch1",
+            "lookupindexattr0": "Tex(0)",
+            "lookupindexattr1": "Tex(1)",
+            "outputattrscope": "Color"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "tohigh0": 1,
+            "tohigh1": 1,
+            "outputattrscope": "Tex"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "POP:rectangle",
+          "parameters": {}
+        },
+        {
+          "name": "polygonize1",
+          "type": "POP:polygonize",
+          "parameters": {
+            "top": "res1"
+          }
+        },
+        {
+          "name": "videodevin1",
+          "type": "TOP:videodevin",
+          "parameters": {
+            "device": "\"V1|||\\\\\\\\?\\\\usb#vid_13d3&pid_5279&mi_00#6&f7bbb15&1&0000#{65e8773d-8f56-11d0-a3b9-00a0c9223196}\\\\global|||4|||0|||Integrated Camera\"",
+            "precedence": "even",
+            "signalformat": "f1280x720p-30.00hz"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "switch1",
+          "to": "res1",
+          "to_input": "0"
+        },
+        {
+          "from": "polygonize1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "rectangle1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "videodevin1",
+          "to": "switch1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "switch1",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize1",
+          "to": "lookuptex1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "normalize1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:res": 1,
+          "POP:merge": 1,
+          "DAT:text": 1,
+          "TOP:switch": 1,
+          "POP:lookuptex": 1,
+          "POP:normalize": 1,
+          "POP:rectangle": 1,
+          "POP:polygonize": 1,
+          "TOP:videodevin": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

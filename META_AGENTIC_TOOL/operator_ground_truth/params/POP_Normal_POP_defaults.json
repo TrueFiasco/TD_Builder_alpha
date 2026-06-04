@@ -1,0 +1,560 @@
+{
+  "operator": "Normal_POP",
+  "family": "POP",
+  "td_create_name": "normalPOP",
+  "param_count": 34,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "nml": {
+      "value": {
+        "type": "menu",
+        "value": "alwayscompute",
+        "menuIndex": 1,
+        "menuNames": [
+          "noaction",
+          "alwayscompute",
+          "computeifnone",
+          "remove"
+        ],
+        "menuLabels": [
+          "No Action",
+          "Always Compute",
+          "Compute if it doesn't exist",
+          "Remove"
+        ]
+      },
+      "default": "alwayscompute",
+      "page": "Normals",
+      "label": "Normals Action",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputposattrn": {
+      "value": {
+        "type": "string",
+        "value": "P"
+      },
+      "default": "P",
+      "page": "Normals",
+      "label": "Input Position Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Normals",
+      "label": "Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "nmlweighting": {
+      "value": {
+        "type": "menu",
+        "value": "average",
+        "menuIndex": 0,
+        "menuNames": [
+          "average",
+          "angleWeighted",
+          "areaweighted"
+        ],
+        "menuLabels": [
+          "Average",
+          "Angle Weighted",
+          "Area Weighted"
+        ]
+      },
+      "default": "average",
+      "page": "Normals",
+      "label": "Normals Weighting",
+      "readOnly": false,
+      "expression": null
+    },
+    "compnmltech": {
+      "value": {
+        "type": "menu",
+        "value": "loopprims",
+        "menuIndex": 2,
+        "menuNames": [
+          "atomicfloat",
+          "atomiccompswap",
+          "loopprims"
+        ],
+        "menuLabels": [
+          "Atomic Float (if supported)",
+          "Atomic Comp Swap",
+          "Loop over Primitives Per Point"
+        ]
+      },
+      "default": "loopprims",
+      "page": "Normals",
+      "label": "Compute Normals Technique",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxprimsperpoint": {
+      "value": {
+        "type": "int",
+        "value": 6
+      },
+      "default": 6,
+      "page": "Normals",
+      "label": "Max Number of Primitives per Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "angle": {
+      "value": {
+        "type": "float",
+        "value": 20.0
+      },
+      "default": 20.0,
+      "page": "Normals",
+      "label": "Angle",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputattrscopen": {
+      "value": {
+        "type": "string",
+        "value": "N"
+      },
+      "default": "N",
+      "page": "Normals",
+      "label": "Normal Output Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "overrideautoattrn": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Normals",
+      "label": "Override Automatic Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrtypen": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Normals",
+      "label": "Attribute Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrnumcompsn": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Normals",
+      "label": "Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvaln0": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Normals",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvaln1": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Normals",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvaln2": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Normals",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvaln3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Normals",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "tang": {
+      "value": {
+        "type": "menu",
+        "value": "noaction",
+        "menuIndex": 0,
+        "menuNames": [
+          "noaction",
+          "alwayscompute",
+          "computeifnone",
+          "remove"
+        ],
+        "menuLabels": [
+          "No Action",
+          "Always Compute",
+          "Compute if it doesn't exist",
+          "Remove"
+        ]
+      },
+      "default": "noaction",
+      "page": "Tangents",
+      "label": "Tangents Action",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputposattrt": {
+      "value": {
+        "type": "string",
+        "value": "P"
+      },
+      "default": "P",
+      "page": "Tangents",
+      "label": "Input Position Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputnormalattr": {
+      "value": {
+        "type": "string",
+        "value": "N"
+      },
+      "default": "N",
+      "page": "Tangents",
+      "label": "Input Normal Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputtexattrib": {
+      "value": {
+        "type": "string",
+        "value": "Tex"
+      },
+      "default": "Tex",
+      "page": "Tangents",
+      "label": "Input Texture Coord Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "comptangtech": {
+      "value": {
+        "type": "menu",
+        "value": "atomicfloat",
+        "menuIndex": 0,
+        "menuNames": [
+          "atomicfloat",
+          "atomiccompswap"
+        ],
+        "menuLabels": [
+          "Atomic Float (if supported)",
+          "Atomic Comp Swap"
+        ]
+      },
+      "default": "atomicfloat",
+      "page": "Tangents",
+      "label": "Compute Tangents Technique",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputattrscopet": {
+      "value": {
+        "type": "string",
+        "value": "T"
+      },
+      "default": "T",
+      "page": "Tangents",
+      "label": "Tangent Output Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "overrideautoattrt": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Tangents",
+      "label": "Override Automatic Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrtypet": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Tangents",
+      "label": "Attribute Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrnumcompst": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Tangents",
+      "label": "Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvalt0": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Tangents",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvalt1": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Tangents",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvalt2": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Tangents",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrdefaultvalt3": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Tangents",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

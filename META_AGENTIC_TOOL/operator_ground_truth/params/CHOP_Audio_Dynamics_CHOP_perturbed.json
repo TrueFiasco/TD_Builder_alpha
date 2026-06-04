@@ -1,0 +1,159 @@
+{
+  "operator": "Audio_Dynamics_CHOP",
+  "family": "CHOP",
+  "td_create_name": "audiodynamicsCHOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "inputgain": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "enablecompressor": {
+      "type": "toggle",
+      "value": true
+    },
+    "compressiontype": {
+      "type": "menu",
+      "value": "compmus",
+      "menuIndex": 1,
+      "menuNames": [
+        "compagc",
+        "compmus"
+      ],
+      "menuLabels": [
+        "Automatic Gain Control",
+        "Musical Dynamics"
+      ]
+    },
+    "chanlinkingcomp": {
+      "type": "menu",
+      "value": "compindividually",
+      "menuIndex": 1,
+      "menuNames": [
+        "compequally",
+        "compindividually"
+      ],
+      "menuLabels": [
+        "Compress Equally",
+        "Compress Individually"
+      ]
+    },
+    "thresholdcompressor": {
+      "type": "float",
+      "value": 0.0
+    },
+    "ratiocompressor": {
+      "type": "float",
+      "value": 0.8234499880790711
+    },
+    "kneecompressor": {
+      "type": "float",
+      "value": 1.0
+    },
+    "attackcompressor": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "releasecompressor": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "gaincompressor": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "enablelimiter": {
+      "type": "toggle",
+      "value": true
+    },
+    "chanlinkinglim": {
+      "type": "menu",
+      "value": "compindividually",
+      "menuIndex": 1,
+      "menuNames": [
+        "compequally",
+        "compindividually"
+      ],
+      "menuLabels": [
+        "Limit Equally",
+        "Limit Individually"
+      ]
+    },
+    "thresholdlimiter": {
+      "type": "float",
+      "value": 0.0
+    },
+    "releaselimiter": {
+      "type": "float",
+      "value": 2.12345
+    },
+    "kneelimiter": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "drywet": {
+      "type": "float",
+      "value": 1.0
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "operator": "Proximity_POP",
+  "family": "POP",
+  "td_create_name": "proximityPOP",
+  "param_count": 22,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "maxdist": {
+      "type": "float",
+      "value": 0.22345
+    },
+    "mindist": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "maxlinesperpoint": {
+      "type": "int",
+      "value": 4
+    },
+    "uniformdist": {
+      "type": "toggle",
+      "value": false
+    },
+    "maxtempneighbors": {
+      "type": "int",
+      "value": 1001
+    },
+    "duplines": {
+      "type": "menu",
+      "value": "delete",
+      "menuIndex": 2,
+      "menuNames": [
+        "donothing",
+        "avoid",
+        "delete"
+      ],
+      "menuLabels": [
+        "Do Nothing",
+        "Avoid",
+        "Delete"
+      ]
+    },
+    "numhashbuckets": {
+      "type": "int",
+      "value": 10001
+    },
+    "output": {
+      "type": "menu",
+      "value": "points",
+      "menuIndex": 1,
+      "menuNames": [
+        "lines",
+        "points"
+      ],
+      "menuLabels": [
+        "Lines (Shared Points)",
+        "Point Primitives"
+      ]
+    },
+    "linedir": {
+      "type": "toggle",
+      "value": true
+    },
+    "linedirname": {
+      "type": "string",
+      "value": "LineDir_perturbed"
+    },
+    "linelength": {
+      "type": "toggle",
+      "value": true
+    },
+    "linelengthname": {
+      "type": "string",
+      "value": "LineLength_perturbed"
+    },
+    "endptattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "origin": {
+      "type": "menu",
+      "value": "second",
+      "menuIndex": 1,
+      "menuNames": [
+        "first",
+        "second"
+      ],
+      "menuLabels": [
+        "First Input Points",
+        "Second Input Points"
+      ]
+    },
+    "remunusedpoints": {
+      "type": "toggle",
+      "value": true
+    },
+    "cpureadback": {
+      "type": "toggle",
+      "value": true
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

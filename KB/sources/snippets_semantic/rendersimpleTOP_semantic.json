@@ -1,0 +1,141 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\rendersimpleTOP_lossless.json",
+  "operator_type": "rendersimpleTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "emitr": 0.3,
+            "shininess": 110
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3
+          }
+        },
+        {
+          "name": "torus4",
+          "type": "POP:torus",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3,
+            "tx": -7.5,
+            "ty": -6.1,
+            "tz": 3.6,
+            "rx": 30,
+            "ry": -30,
+            "rz": -50
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "rendersimple1",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "torus1",
+            "georx": 24,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "rendersimple2",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "torus2",
+            "georx": 24,
+            "diffuser": 0.5,
+            "diffuseg": 0.5,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "rendersimple3",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "torus3",
+            "georx": 24,
+            "lighttx": -140,
+            "lightty": 100,
+            "lighttz": 100,
+            "materialsource": "matnode",
+            "mat": "phong1",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "rendersimple_preNormalize",
+          "type": "TOP:rendersimple",
+          "parameters": {
+            "pop": "torus4",
+            "constantr": 0.3,
+            "constantg": 0.1,
+            "constantb": 0.3,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 0,
+        "operator_types": {
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "POP:torus": 4,
+          "TOP:moviefilein": 2,
+          "TOP:rendersimple": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

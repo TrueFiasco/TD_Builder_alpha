@@ -1,0 +1,43 @@
+# Expert Configuration: td_glsl_expert
+# Domain: TouchDesigner GLSL (TOP/MAT/SOP/POP) and general GLSL
+
+expert_name: "td_glsl_expert"
+domain: "TouchDesigner GLSL"
+purpose: "Design, validate, and improve GLSL shaders in TD (TOP/MAT/SOP/particle) with TD-specific conventions and grounded evidence."
+version: "1.0"
+created: "2025-12-15"
+
+source_of_truth:
+  - path: "data/wiki_docs/td_universal_parsed.json"
+    type: "ground_truth"
+  - path: "data/snippets/semantic/*.json"
+    type: "examples"
+  - path: "data/snippets/index.tsv"
+    type: "curator_index"
+
+expertise:
+  maintains:
+    - file: "td_glsl.yaml"
+      sections: ["glsl_top", "glsl_mat", "glsl_pop", "glsl_sop", "general_glsl", "recipes", "problems"]
+  reads:
+    - "td_operators.yaml"
+    - "td_parameters.yaml"
+    - "td_network_patterns.yaml"
+    - "td_problems.yaml"
+
+validation:
+  strict: true
+  require_source: true
+  min_confidence: 0.6
+  min_examples: 3
+
+workflow:
+  plan:
+    max_tokens: 4000
+    timeout_seconds: 120
+  build:
+    max_tokens: 8000
+    timeout_seconds: 300
+  self_improve:
+    max_tokens: 2000
+    timeout_seconds: 60

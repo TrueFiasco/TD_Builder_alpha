@@ -1,0 +1,502 @@
+{
+  "operator": "Pattern_POP",
+  "family": "POP",
+  "td_create_name": "patternPOP",
+  "param_count": 62,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "numpoints": {
+      "type": "int",
+      "value": 101
+    },
+    "cyclic": {
+      "type": "toggle",
+      "value": true
+    },
+    "connectivity": {
+      "type": "menu",
+      "value": "lines",
+      "menuIndex": 3,
+      "menuNames": [
+        "none",
+        "points",
+        "linestrip",
+        "lines"
+      ],
+      "menuLabels": [
+        "None",
+        "Point Primitives",
+        "Line Strip",
+        "Lines"
+      ]
+    },
+    "parsize": {
+      "type": "menu",
+      "value": "4",
+      "menuIndex": 3,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "type0": {
+      "type": "menu",
+      "value": "rampupdown",
+      "menuIndex": 3,
+      "menuNames": [
+        "zero",
+        "one",
+        "ramp",
+        "rampupdown",
+        "easein",
+        "easeout",
+        "easeinout",
+        "easeupdown",
+        "sin",
+        "cos",
+        "tri",
+        "square",
+        "pulse",
+        "random",
+        "randomcycle",
+        "index"
+      ],
+      "menuLabels": [
+        "Zero",
+        "One",
+        "Ramp",
+        "Ramp Up Down",
+        "Ease In",
+        "Ease Out",
+        "Ease In Ease Out",
+        "Ease Up Ease Down",
+        "Sine",
+        "Cosine",
+        "Triangle",
+        "Square",
+        "Pulse",
+        "Random",
+        "Random Step per Cycle",
+        "Index"
+      ]
+    },
+    "type1": {
+      "type": "menu",
+      "value": "cos",
+      "menuIndex": 9,
+      "menuNames": [
+        "zero",
+        "one",
+        "ramp",
+        "rampupdown",
+        "easein",
+        "easeout",
+        "easeinout",
+        "easeupdown",
+        "sin",
+        "cos",
+        "tri",
+        "square",
+        "pulse",
+        "random",
+        "randomcycle",
+        "index"
+      ],
+      "menuLabels": [
+        "Zero",
+        "One",
+        "Ramp",
+        "Ramp Up Down",
+        "Ease In",
+        "Ease Out",
+        "Ease In Ease Out",
+        "Ease Up Ease Down",
+        "Sine",
+        "Cosine",
+        "Triangle",
+        "Square",
+        "Pulse",
+        "Random",
+        "Random Step per Cycle",
+        "Index"
+      ]
+    },
+    "type2": {
+      "type": "menu",
+      "value": "one",
+      "menuIndex": 1,
+      "menuNames": [
+        "zero",
+        "one",
+        "ramp",
+        "rampupdown",
+        "easein",
+        "easeout",
+        "easeinout",
+        "easeupdown",
+        "sin",
+        "cos",
+        "tri",
+        "square",
+        "pulse",
+        "random",
+        "randomcycle",
+        "index"
+      ],
+      "menuLabels": [
+        "Zero",
+        "One",
+        "Ramp",
+        "Ramp Up Down",
+        "Ease In",
+        "Ease Out",
+        "Ease In Ease Out",
+        "Ease Up Ease Down",
+        "Sine",
+        "Cosine",
+        "Triangle",
+        "Square",
+        "Pulse",
+        "Random",
+        "Random Step per Cycle",
+        "Index"
+      ]
+    },
+    "seed": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "numcycles0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "numcycles1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "numcycles2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "steppercycle0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "steppercycle1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "steppercycle2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bias0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bias1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bias2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "phase0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "phase1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "phase2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "exp0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "exp1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "exp2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "fromlow0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "fromlow1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "fromlow2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "fromhigh0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "fromhigh1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "fromhigh2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tolow0": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tolow1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tolow2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tohigh0": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tohigh1": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tohigh2": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "reverse0": {
+      "type": "toggle",
+      "value": true
+    },
+    "reverse1": {
+      "type": "toggle",
+      "value": true
+    },
+    "reverse2": {
+      "type": "toggle",
+      "value": true
+    },
+    "linebreakcycle0": {
+      "type": "toggle",
+      "value": true
+    },
+    "linebreakcycle1": {
+      "type": "toggle",
+      "value": true
+    },
+    "linebreakcycle2": {
+      "type": "toggle",
+      "value": true
+    },
+    "closed": {
+      "type": "toggle",
+      "value": true
+    },
+    "outputlinebreakattr": {
+      "type": "toggle",
+      "value": true
+    },
+    "texture": {
+      "type": "menu",
+      "value": "ramppercycle",
+      "menuIndex": 2,
+      "menuNames": [
+        "off",
+        "rampstartend",
+        "ramppercycle"
+      ],
+      "menuLabels": [
+        "Off",
+        "Ramp Start to End",
+        "Ramp Per Cycle"
+      ]
+    },
+    "combineop": {
+      "type": "menu",
+      "value": "add",
+      "menuIndex": 1,
+      "menuNames": [
+        "set",
+        "add",
+        "mult"
+      ],
+      "menuLabels": [
+        "Set",
+        "Add",
+        "Multiply"
+      ]
+    },
+    "combineattrscope": {
+      "type": "string",
+      "value": "P_perturbed"
+    },
+    "outputattrscope": {
+      "type": "string",
+      "value": "P_perturbed"
+    },
+    "overrideautoattr": {
+      "type": "toggle",
+      "value": true
+    },
+    "attrtype": {
+      "type": "menu",
+      "value": "double",
+      "menuIndex": 1,
+      "menuNames": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "color",
+        "dcolor",
+        "dir",
+        "ddir"
+      ],
+      "menuLabels": [
+        "float",
+        "double",
+        "int",
+        "uint",
+        "Color",
+        "Color (double)",
+        "Direction",
+        "Direction (double)"
+      ]
+    },
+    "attrnumcomps": {
+      "type": "menu",
+      "value": "1",
+      "menuIndex": 0,
+      "menuNames": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "menuLabels": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "attrdefaultval0": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attrdefaultval1": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attrdefaultval2": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "attrdefaultval3": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "attrclass": {
+      "type": "menu",
+      "value": "vertex",
+      "menuIndex": 1,
+      "menuNames": [
+        "point",
+        "vertex",
+        "primitive"
+      ],
+      "menuLabels": [
+        "Point",
+        "Vertex",
+        "Primitive"
+      ]
+    },
+    "group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "bypass": {
+      "type": "toggle",
+      "value": true
+    },
+    "freeextragpumem": {
+      "type": "pulse",
+      "value": null
+    },
+    "delinputattrs": {
+      "type": "toggle",
+      "value": true
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    }
+  }
+}

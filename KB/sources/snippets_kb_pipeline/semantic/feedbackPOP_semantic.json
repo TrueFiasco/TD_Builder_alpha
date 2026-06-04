@@ -1,0 +1,171 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\feedbackPOP_lossless.json",
+  "operator_type": "feedbackPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "cache1",
+          "type": "POP:cache",
+          "parameters": {
+            "cachesize": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "feedback1",
+          "type": "POP:feedback",
+          "parameters": {
+            "targetpop": "null_feedback"
+          }
+        },
+        {
+          "name": "feedback2",
+          "type": "POP:feedback",
+          "parameters": {
+            "targetpop": "null_feedback1",
+            "preroll": 1
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "POP:transform",
+          "parameters": {
+            "rz": 1
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "POP:transform",
+          "parameters": {}
+        },
+        {
+          "name": "info_feedback",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "feedback1",
+            "iscope": "\"initializing ready running done timer_seconds\""
+          }
+        },
+        {
+          "name": "null_feedback",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "info_feedback1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "feedback2",
+            "iscope": "\"initializing ready running done timer_seconds\""
+          }
+        },
+        {
+          "name": "null_feedback1",
+          "type": "POP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "null_feedback1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "null_feedback",
+          "to": "cache1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "feedback1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "feedback2",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback2",
+          "to": "transform2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "null_feedback",
+          "to_input": "0"
+        },
+        {
+          "from": "transform2",
+          "to": "null_feedback1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 15,
+        "connection_count": 8,
+        "operator_types": {
+          "POP:null": 3,
+          "POP:cache": 1,
+          "DAT:text": 1,
+          "POP:torus": 2,
+          "COMP:annotate": 2,
+          "POP:feedback": 2,
+          "POP:transform": 2,
+          "CHOP:info": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

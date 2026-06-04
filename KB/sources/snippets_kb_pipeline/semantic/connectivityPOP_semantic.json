@@ -1,0 +1,772 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\connectivityPOP_lossless.json",
+  "operator_type": "connectivityPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "none",
+            "cols": 14,
+            "rows": 12
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity2",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity3",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze1",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "popto16",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity6",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "analyze1",
+          "type": "POP:analyze",
+          "parameters": {
+            "dimension": "on"
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "connectivity1",
+          "type": "POP:connectivity",
+          "parameters": {}
+        },
+        {
+          "name": "connectivity2",
+          "type": "POP:connectivity",
+          "parameters": {
+            "firstdim": 1
+          }
+        },
+        {
+          "name": "connectivity3",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "linestripperplane"
+          }
+        },
+        {
+          "name": "connectivity6",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "zigzagperplane"
+          }
+        },
+        {
+          "name": "connectivity7",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "spiralperplane"
+          }
+        },
+        {
+          "name": "connectivity8",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "triangles"
+          }
+        },
+        {
+          "name": "connectivity9",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "alttriangles"
+          }
+        },
+        {
+          "name": "connectivity10",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "quads"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "analyze1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity1",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity2",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity3",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity6",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity7",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "connectivity8",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity8",
+          "to": "connectivity9",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity9",
+          "to": "connectivity10",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 17,
+        "connection_count": 9,
+        "operator_types": {
+          "POP:grid": 1,
+          "DAT:popto": 4,
+          "DAT:text": 1,
+          "POP:analyze": 1,
+          "COMP:annotate": 2,
+          "POP:connectivity": 8
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "analyze2",
+            "transpose": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 22,
+            "rows": 10
+          }
+        },
+        {
+          "name": "analyze2",
+          "type": "POP:analyze",
+          "parameters": {
+            "dimension": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "connectivity4",
+          "type": "POP:connectivity",
+          "parameters": {}
+        },
+        {
+          "name": "connectivity5",
+          "type": "POP:connectivity",
+          "parameters": {}
+        },
+        {
+          "name": "connectivity11",
+          "type": "POP:connectivity",
+          "parameters": {
+            "firstdimclosed": "on"
+          }
+        },
+        {
+          "name": "connectivity12",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "quads"
+          }
+        },
+        {
+          "name": "connectivity13",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "quads",
+            "firstdimclosed": "on",
+            "seconddimclosed": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "analyze2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "connectivity4",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity4",
+          "to": "connectivity5",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity4",
+          "to": "connectivity11",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity4",
+          "to": "connectivity12",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity4",
+          "to": "connectivity13",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:analyze": 1,
+          "COMP:annotate": 1,
+          "POP:connectivity": 5
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid2",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "none",
+            "cols": 6,
+            "rows": 8,
+            "slices": 3
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "connectivity14",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "spiralperplane"
+          }
+        },
+        {
+          "name": "connectivity15",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "spiralperplane",
+            "firstdim": 2
+          }
+        },
+        {
+          "name": "connectivity22",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "triangles"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid2",
+          "to": "connectivity14",
+          "to_input": "0"
+        },
+        {
+          "from": "grid2",
+          "to": "connectivity15",
+          "to_input": "0"
+        },
+        {
+          "from": "grid2",
+          "to": "connectivity22",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "POP:grid": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 1,
+          "POP:connectivity": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid3",
+          "type": "POP:grid",
+          "parameters": {
+            "surftype": "points",
+            "cols": 4,
+            "rows": 3,
+            "ty": 0.2
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "grid3"
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity16"
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity17"
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity18"
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity19"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "popto10",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity20"
+          }
+        },
+        {
+          "name": "popto11",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity21"
+          }
+        },
+        {
+          "name": "popto12",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity21",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto13",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity20",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto14",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity17",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "popto15",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "connectivity18",
+            "extract": "primitives"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "connectivity16",
+          "type": "POP:connectivity",
+          "parameters": {}
+        },
+        {
+          "name": "connectivity17",
+          "type": "POP:connectivity",
+          "parameters": {
+            "firstdim": 1
+          }
+        },
+        {
+          "name": "connectivity18",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "spiralperplane"
+          }
+        },
+        {
+          "name": "connectivity19",
+          "type": "POP:connectivity",
+          "parameters": {
+            "reorderpoints": "on"
+          }
+        },
+        {
+          "name": "connectivity20",
+          "type": "POP:connectivity",
+          "parameters": {
+            "firstdim": 1,
+            "reorderpoints": "on"
+          }
+        },
+        {
+          "name": "connectivity21",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "spiralperplane",
+            "reorderpoints": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid3",
+          "to": "connectivity16",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "connectivity17",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "connectivity18",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "connectivity19",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "connectivity20",
+          "to_input": "0"
+        },
+        {
+          "from": "grid3",
+          "to": "connectivity21",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 20,
+        "connection_count": 6,
+        "operator_types": {
+          "POP:grid": 1,
+          "DAT:popto": 11,
+          "DAT:text": 1,
+          "COMP:annotate": 1,
+          "POP:connectivity": 6
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "copy1",
+          "type": "POP:copy",
+          "parameters": {
+            "pageindex": 1,
+            "dotemplaterotateto": "on",
+            "vecattr": "Tan",
+            "upvectoratype": "attribute",
+            "upattr": "N"
+          }
+        },
+        {
+          "name": "noise2",
+          "type": "POP:noise",
+          "parameters": {
+            "period": 3,
+            "amp0": 0.497
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 16
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 20,
+            "scale": 3.2,
+            "tangent": "pointNormals",
+            "tangentdirection": "Tangent"
+          }
+        },
+        {
+          "name": "normal1",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "dimension1",
+          "type": "POP:dimension",
+          "parameters": {
+            "dim0number": 80,
+            "dim1number": 16
+          }
+        },
+        {
+          "name": "linedivide1",
+          "type": "POP:linedivide",
+          "parameters": {
+            "interpmethod": "cardinal"
+          }
+        },
+        {
+          "name": "connectivity1",
+          "type": "POP:connectivity",
+          "parameters": {
+            "firstdim": 1,
+            "firstdimclosed": "on",
+            "seconddimclosed": "on"
+          }
+        },
+        {
+          "name": "connectivity2",
+          "type": "POP:connectivity",
+          "parameters": {
+            "surftype": "quads",
+            "firstdimclosed": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "copy1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise2",
+          "to": "copy1",
+          "to_input": "1"
+        },
+        {
+          "from": "circle2",
+          "to": "noise2",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity2",
+          "to": "normal1",
+          "to_input": "0"
+        },
+        {
+          "from": "linedivide1",
+          "to": "dimension1",
+          "to_input": "0"
+        },
+        {
+          "from": "connectivity1",
+          "to": "linedivide1",
+          "to_input": "0"
+        },
+        {
+          "from": "copy1",
+          "to": "connectivity1",
+          "to_input": "0"
+        },
+        {
+          "from": "dimension1",
+          "to": "connectivity2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 8,
+        "operator_types": {
+          "POP:copy": 1,
+          "POP:noise": 1,
+          "DAT:text": 1,
+          "POP:circle": 2,
+          "POP:normal": 1,
+          "COMP:annotate": 1,
+          "POP:dimension": 1,
+          "POP:linedivide": 1,
+          "POP:connectivity": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 8
+      }
+    }
+  ]
+}

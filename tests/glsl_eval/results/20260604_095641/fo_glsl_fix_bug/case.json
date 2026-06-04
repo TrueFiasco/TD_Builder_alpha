@@ -1,0 +1,18 @@
+{
+  "case_id": "fo_glsl_fix_bug",
+  "section": "fix_offline",
+  "slots": {
+    "bug": "uniform_redefinition"
+  },
+  "prompt": "This GLSL TOP network won't compile (uniform_redefinition). Fix it so it builds and renders, keeping the visual intent.",
+  "score": 0.0,
+  "metrics": {
+    "class_detected": 0.0,
+    "n_errors": 0.0,
+    "duration_s": 4.42
+  },
+  "detail": "error class 'uniform_redefinition' NOT detected (n_errors=0)",
+  "fixture": "fo_glsl_fix_bug::uniform_redefinition",
+  "expected_failure": "fixes symptom not cause; introduces a new error",
+  "success_criteria": "the {bug} class is gone, compiles 0 err, still renders"
+}

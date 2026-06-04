@@ -1,0 +1,186 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\circleTOP_lossless.json",
+  "operator_type": "circleTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "TOP:circle",
+          "parameters": {
+            "borderr": 1,
+            "borderg": 1,
+            "borderb": 1,
+            "borderwidth": 0.0105,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.1,
+            "radiusy": 0.1,
+            "centery": -0.5,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "ty": 0.7,
+            "extend": "hold",
+            "limittiles": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle2",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:circle": 2,
+          "TOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -0.4,
+            "torange2": 0.4,
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "TOP:circle",
+          "parameters": {
+            "radiusx": 0.06,
+            "radiusy": 0.06,
+            "rotate": -90,
+            "centery": 0.11,
+            "ispolygon": "on",
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic",
+            "resolutionw": 200,
+            "resolutionh": 20
+          }
+        },
+        {
+          "name": "circle4",
+          "type": "TOP:circle",
+          "parameters": {
+            "borderr": 0.3,
+            "borderwidth": 0.0963,
+            "softness": 0.1023,
+            "softnessoffset": 0.5,
+            "softnesstype": "hybridcubic"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "position",
+            "value0": 0.222222,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        },
+        {
+          "name": "transform2",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "slider1/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "transform2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:math": 1,
+          "DAT:text": 1,
+          "TOP:circle": 2,
+          "COMP:slider": 1,
+          "TOP:transform": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

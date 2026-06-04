@@ -1,0 +1,130 @@
+{
+  "operator": "Hokuyo_CHOP",
+  "family": "CHOP",
+  "td_create_name": "hokuyoCHOP",
+  "param_count": 20,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "active": {
+      "type": "toggle",
+      "value": false
+    },
+    "restart": {
+      "type": "pulse",
+      "value": null
+    },
+    "interface": {
+      "type": "menu",
+      "value": "serial",
+      "menuIndex": 0,
+      "menuNames": [
+        "serial",
+        "ethernet"
+      ],
+      "menuLabels": [
+        "Serial",
+        "Ethernet"
+      ]
+    },
+    "port": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "netaddress": {
+      "type": "string",
+      "value": "192.168.0.10_perturbed"
+    },
+    "localaddress": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "highsensitivity": {
+      "type": "toggle",
+      "value": true
+    },
+    "motorspeed": {
+      "type": "int",
+      "value": 2
+    },
+    "startstep": {
+      "type": "int",
+      "value": 1
+    },
+    "endstep": {
+      "type": "int",
+      "value": 1081
+    },
+    "output": {
+      "type": "menu",
+      "value": "cartesiancoords",
+      "menuIndex": 1,
+      "menuNames": [
+        "polarcoords",
+        "cartesiancoords"
+      ],
+      "menuLabels": [
+        "Polar Coordinates",
+        "Cartesian Coordinates"
+      ]
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

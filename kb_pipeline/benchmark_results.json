@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-12-14 05:40:31",
+  "test_queries": 10,
+  "systems": {
+    "basic_vector_search": {
+      "avg_ms": 42.48,
+      "min_ms": 35.53,
+      "max_ms": 60.02,
+      "total_queries": 10
+    },
+    "enhanced_no_cache": {
+      "avg_ms": 45.38,
+      "min_ms": 37.73,
+      "max_ms": 56.37,
+      "total_queries": 10
+    },
+    "enhanced_with_cache": {
+      "avg_ms": 3.51,
+      "min_ms": 3.02,
+      "max_ms": 3.97,
+      "total_queries": 10
+    },
+    "hybrid_search": {
+      "avg_ms": 41.73,
+      "min_ms": 36.66,
+      "max_ms": 50.78,
+      "total_queries": 10
+    }
+  },
+  "cache_stats": {
+    "total_queries": 20,
+    "cache_hits": 10,
+    "cache_misses": 10,
+    "cache_hit_rate": "50.0%",
+    "avg_vector_search_ms": "41.1",
+    "avg_graph_expansion_ms": "0.0",
+    "avg_total_query_ms": "25.9"
+  },
+  "storage_mb": {
+    "vector_db": 84.2697057723999,
+    "graph": 11.420356750488281,
+    "total_active": 95.69006252288818
+  }
+}

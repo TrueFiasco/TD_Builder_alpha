@@ -1,0 +1,371 @@
+{
+  "operator": "Lookup_Attribute_POP",
+  "family": "POP",
+  "td_create_name": "lookupattributePOP",
+  "param_count": 25,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 19,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "attrclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Lookup Attribute",
+      "label": "Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup Attribute",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookupindexattr": {
+      "value": {
+        "type": "string",
+        "value": "P(0)"
+      },
+      "default": "P(0)",
+      "page": "Lookup Attribute",
+      "label": "Lookup Index Attribute(s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "indexunit": {
+      "value": {
+        "type": "menu",
+        "value": "normalized",
+        "menuIndex": 0,
+        "menuNames": [
+          "normalized",
+          "pointindex"
+        ],
+        "menuLabels": [
+          "Normalized (0-1)",
+          "Point Index"
+        ]
+      },
+      "default": "normalized",
+      "page": "Lookup Attribute",
+      "label": "Lookup Index Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "cyclic": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Lookup Attribute",
+      "label": "Cyclic Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "interpolate": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Lookup Attribute",
+      "label": "Interpolate",
+      "readOnly": false,
+      "expression": null
+    },
+    "indexfromlow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup Attribute",
+      "label": "From Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "indexfromhigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup Attribute",
+      "label": "From High",
+      "readOnly": false,
+      "expression": null
+    },
+    "indextolow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup Attribute",
+      "label": "To Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "indextohigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup Attribute",
+      "label": "To High",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendleft": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "hold",
+      "page": "Lookup Attribute",
+      "label": "Extend Left and Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "extendright": {
+      "value": {
+        "type": "menu",
+        "value": "hold",
+        "menuIndex": 0,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror"
+        ]
+      },
+      "default": "hold",
+      "page": "Lookup Attribute",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Lookup Attribute",
+      "label": "Lookup",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0valueattr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup Attribute",
+      "label": "Value Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0fromlow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup Attribute",
+      "label": "From Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0fromhigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup Attribute",
+      "label": "From High",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0tolow": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Lookup Attribute",
+      "label": "To Low High",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0tohigh": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Lookup Attribute",
+      "label": "To High",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookup0outputattrscope": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Lookup Attribute",
+      "label": "Output Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

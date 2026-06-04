@@ -1,0 +1,76 @@
+{
+  "operator": "Join_SOP",
+  "family": "SOP",
+  "td_create_name": "joinSOP",
+  "param_count": 12,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "group": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "blend": {
+      "type": "toggle",
+      "value": false
+    },
+    "tolerance": {
+      "type": "float",
+      "value": 1.0
+    },
+    "bias": {
+      "type": "float",
+      "value": 0.6234500000000001
+    },
+    "knotmult": {
+      "type": "toggle",
+      "value": true
+    },
+    "proximity": {
+      "type": "toggle",
+      "value": false
+    },
+    "dir": {
+      "type": "menu",
+      "value": "vjoin",
+      "menuIndex": 1,
+      "menuNames": [
+        "ujoin",
+        "vjoin"
+      ],
+      "menuLabels": [
+        "in U",
+        "in V"
+      ]
+    },
+    "joinop": {
+      "type": "menu",
+      "value": "group",
+      "menuIndex": 1,
+      "menuNames": [
+        "all",
+        "group",
+        "skip"
+      ],
+      "menuLabels": [
+        "All Primitives",
+        "Groups of N Primitives",
+        "Skip Every Nth Primitive"
+      ]
+    },
+    "inc": {
+      "type": "int",
+      "value": 3
+    },
+    "loop": {
+      "type": "toggle",
+      "value": true
+    },
+    "prim": {
+      "type": "toggle",
+      "value": true
+    }
+  }
+}

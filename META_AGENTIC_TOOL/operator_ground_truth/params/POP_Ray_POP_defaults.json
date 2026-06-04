@@ -1,0 +1,479 @@
+{
+  "operator": "Ray_POP",
+  "family": "POP",
+  "td_create_name": "rayPOP",
+  "param_count": 38,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 32,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "rayattrib": {
+      "value": {
+        "type": "string",
+        "value": "N"
+      },
+      "default": "N",
+      "page": "Ray",
+      "label": "Ray Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "negateray": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Negate Ray",
+      "readOnly": false,
+      "expression": null
+    },
+    "numbounces": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Ray",
+      "label": "Number of Bounces",
+      "readOnly": false,
+      "expression": null
+    },
+    "connectpoints": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Connect Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "limitraylength": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Limit Ray Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "raydistancemaxattr": {
+      "value": {
+        "type": "string",
+        "value": "RayDistanceMax"
+      },
+      "default": "RayDistanceMax",
+      "page": "Ray",
+      "label": "Ray Distance Max Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "trimray": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Trim Ray",
+      "readOnly": false,
+      "expression": null
+    },
+    "trimdistanceattr": {
+      "value": {
+        "type": "string",
+        "value": "RayTrimDistance"
+      },
+      "default": "RayTrimDistance",
+      "page": "Ray",
+      "label": "Trim Distance Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "hwraytracing": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "fastbuild",
+          "fasttrace"
+        ],
+        "menuLabels": [
+          "Off",
+          "Fast Build (Dynamic Geometry)",
+          "Fast Trace (Static Geometry)"
+        ]
+      },
+      "default": "off",
+      "page": "Ray",
+      "label": "Hardware Ray Tracing",
+      "readOnly": false,
+      "expression": null
+    },
+    "opaque": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Ray",
+      "label": "Opaque Geometry",
+      "readOnly": false,
+      "expression": null
+    },
+    "anyhit": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Any Hit",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitnormal": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Hit Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitnormalname": {
+      "value": {
+        "type": "string",
+        "value": "RayHitNormal"
+      },
+      "default": "RayHitNormal",
+      "page": "Ray",
+      "label": "Hit Normal Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "doreflectedray": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Reflected Ray",
+      "readOnly": false,
+      "expression": null
+    },
+    "reflectedrayname": {
+      "value": {
+        "type": "string",
+        "value": "RayReflect"
+      },
+      "default": "RayReflect",
+      "page": "Ray",
+      "label": "Reflected Ray Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "dist": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Point Intersection Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "distname": {
+      "value": {
+        "type": "string",
+        "value": "RayDistance"
+      },
+      "default": "RayDistance",
+      "page": "Ray",
+      "label": "Point Intersection Distance Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "farhit": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Farthest Hit",
+      "readOnly": false,
+      "expression": null
+    },
+    "farhitname": {
+      "value": {
+        "type": "string",
+        "value": "RayFarHit"
+      },
+      "default": "RayFarHit",
+      "page": "Ray",
+      "label": "Farthest Hit Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "numhits": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Number of Hits",
+      "readOnly": false,
+      "expression": null
+    },
+    "numhitsname": {
+      "value": {
+        "type": "string",
+        "value": "RayNumHits"
+      },
+      "default": "RayNumHits",
+      "page": "Ray",
+      "label": "Number of Hits Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "inside": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Inside",
+      "readOnly": false,
+      "expression": null
+    },
+    "insidename": {
+      "value": {
+        "type": "string",
+        "value": "RayInside"
+      },
+      "default": "RayInside",
+      "page": "Ray",
+      "label": "Inside Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitprimindex": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Hit Primitive Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitprimindexname": {
+      "value": {
+        "type": "string",
+        "value": "RayPrimIndex"
+      },
+      "default": "RayPrimIndex",
+      "page": "Ray",
+      "label": "Hit Primitive Index Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "barycoords": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Ray",
+      "label": "Barycentric Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "barycoordsname": {
+      "value": {
+        "type": "string",
+        "value": "RayBaryCoords"
+      },
+      "default": "RayBaryCoords",
+      "page": "Ray",
+      "label": "Barycentric Coordinates Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "scale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Ray",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "lift": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Ray",
+      "label": "Lift",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitpointattrscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Ray",
+      "label": "Hit Point Attr Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitprimattrscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Ray",
+      "label": "Hit Primitive Attr Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "hitvertattrscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Ray",
+      "label": "Hit Vertex Attr Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

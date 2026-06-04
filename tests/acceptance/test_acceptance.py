@@ -1,0 +1,249 @@
+"""Conventional pass/fail acceptance tests for the td-builder MCP server.
+
+Automates docs/ACCEPTANCE_TEST.md (P1-P19, 37 tools). Run it and every
+tool/feature shows PASSED or FAILED:
+
+    & $PY -m pytest tests/acceptance -v
+
+Rules (from ACCEPTANCE_TEST.md scoring):
+  - An unhandled exception / error envelope where success is expected = FAIL.
+  - Mode-1 (no API key): spawn_* returning the "requires an API key" envelope
+    is a PASS (graceful fallback).
+  - Live-TD tools with TouchDesigner not running: a clear "not running"
+    message is a PASS (graceful fallback); if TD is up they must return real
+    data.
+  - Known limitations (find_similar_networks may be []; BASIC-mode build
+    warnings) count as PASS when they return without error.
+"""
+from __future__ import annotations
+
+import pytest
+
+NET = {
+    "meta": {"project_name": "smoke", "mode": "toe"},
+    "operators": [
+        {"name": "noise1", "family": "CHOP", "type": "noise"},
+        {"name": "null1", "family": "CHOP", "type": "null",
+         "inputs": [{"index": 0, "src": "noise1"}]},
+    ],
+}
+BUILD_DESIGN = {
+    "operators": [
+        {"name": "noise1", "type": "noise", "family": "CHOP"},
+        {"name": "null1", "type": "null", "family": "CHOP"},
+    ],
+    "connections": [{"from": "noise1", "to": "null1"}],
+}
+
+LIVE_MSG = ("touchdesigner not running", "webserver dat", "9981")
+
+
+def _is_graceful_live_down(r) -> bool:
+    t = r.text.lower()
+    return any(k in t for k in LIVE_MSG)
+
+
+# --------------------------------------------------------------------------
+# P1-P9  base knowledge tools (Mode 1, offline)
+# --------------------------------------------------------------------------
+
+def test_p01_server_identity(probe):
+    r = probe.call("get_server_info", {})
+    assert r.ok, f"errored: {r.text[:200]}"
+    d = r.json()
+    assert d["ok"] is True
+    assert "TD_builder_alpha" in d["data"]["script_path"]
+    assert d["data"]["version"] == "0.1.0-alpha"
+
+
+def test_p01b_tool_inventory(probe):
+    names = sorted(t.name for t in probe.list_tools())
+    assert len(names) == 37, f"expected 37 tools, got {len(names)}"
+    for required in ("get_server_info", "td_validate", "td_convert",
+                     "td_build_project", "hybrid_search", "query_graph"):
+        assert required in names
+
+
+def test_p02_operator_info_and_param_detail(probe):
+    a = probe.call("get_operator_info", {"operator_name": "Noise CHOP",
+                                         "compact": True})
+    assert a.ok and isinstance(a.json(), dict), a.text[:200]
+    b = probe.call("get_parameter_detail", {"operator_name": "Noise CHOP",
+                                             "parameter_name": "amp"})
+    assert b.ok, b.text[:200]
+    assert "not found" not in b.text.lower()
+
+
+def test_p03_hybrid_search(probe):
+    r = probe.call("hybrid_search", {
+        "query": "how do I create a feedback loop with a Feedback TOP and a Level TOP",
+        "n_results": 3})
+    assert r.ok, r.text[:200]
+    d = r.json()
+    assert isinstance(d, dict) and d.get("semantic_results")
+
+
+def test_p04_query_graph(probe):
+    fam = probe.call("query_graph", {"command": "family", "family": "TOP",
+                                     "compact": True})
+    assert fam.ok, fam.text[:200]
+    params = probe.call("query_graph", {"command": "params",
+                                        "operator": "Feedback TOP"})
+    assert params.ok, params.text[:200]
+    rel = probe.call("query_graph", {"command": "related",
+                                     "operator": "Composite TOP"})
+    assert rel.ok, rel.text[:200]
+
+
+def test_p05_list_pop_operators(probe):
+    r = probe.call("list_pop_operators", {})
+    assert r.ok, r.text[:200]
+    d = r.json()
+    assert d, "empty POP operator list"
+
+
+def test_p06_examples_and_similarity(probe):
+    ex = probe.call("find_operator_examples", {"operator_name": "Composite TOP"})
+    assert ex.ok, ex.text[:200]
+    # find_similar_networks may legitimately return [] (W5.3) — PASS if no error
+    sim = probe.call("find_similar_networks",
+                      {"example_id": "analyzeCHOP/example1"})
+    assert sim.ok or sim.json() == [], sim.text[:200]
+
+
+def test_p07_combination_and_param_usage(probe):
+    c = probe.call("find_operator_combination", {"operator_types": ["Noise TOP"]})
+    assert c.ok, c.text[:200]
+    u = probe.call("find_parameter_usage", {"operator_type": "Transform TOP",
+                                            "compact": True})
+    assert u.ok, u.text[:200]
+
+
+def test_p08_network_patterns(probe):
+    r = probe.call("get_network_patterns", {})
+    assert r.ok, r.text[:200]
+
+
+def test_p09_expert_prompt(probe):
+    r = probe.call("get_expert_prompt", {"expert_name": "td_designer",
+                                         "phase": "build"})
+    assert r.ok, r.text[:200]
+    assert len(r.text.strip()) > 50, "expert prompt suspiciously short"
+
+
+# --------------------------------------------------------------------------
+# P11-P14  offline engine tools
+# --------------------------------------------------------------------------
+
+def test_p11_validate_five_stages(probe):
+    r = probe.call("td_validate", {"network": NET, "verbose": True})
+    assert r.ok, r.text[:200]
+    d = r.json()
+    assert "valid" in d
+    assert set(d.get("stages", {})) == {
+        "schema", "semantic", "reference", "logical", "td_rules"}
+
+
+def test_p12_convert_builder_to_canonical(probe):
+    r = probe.call("td_convert", {"network": NET, "source_layer": "builder",
+                                  "target_layer": "canonical"})
+    assert r.ok, r.text[:200]
+    assert isinstance(r.json(), dict)
+
+
+def test_p13_build_offline(probe):
+    r = probe.call("td_build_project", {"design": BUILD_DESIGN,
+                                        "project_name": "smoke_build",
+                                        "mode": "tox"})
+    # BASIC-mode parameter warnings are a documented limitation -> still PASS
+    # as long as it produced output without an error envelope.
+    assert r.ok, f"build errored: {r.text[:300]}"
+
+
+def test_p14_compact_expertise(probe):
+    r = probe.call("td_compact_expertise", {"refresh_yaml": False})
+    assert r.ok, r.text[:200]
+    assert r.json().get("success") is True
+
+
+# --------------------------------------------------------------------------
+# P15  Mode-2 portability guard (Mode 1 = graceful envelope = PASS)
+# --------------------------------------------------------------------------
+
+def test_p15_spawn_engineer_mode_guard(probe, has_api_key):
+    r = probe.call("spawn_engineer", {"engineer_type": "knowledge_validator",
+                                      "task_spec": {}})
+    if has_api_key:
+        assert r.ok or "api key" not in r.text.lower(), r.text[:200]
+    else:
+        assert not r.ok
+        assert "requires an api key (mode 2)" in r.text.lower(), r.text[:200]
+
+
+def test_p15_spawn_expert_mode_guard(probe, has_api_key):
+    r = probe.call("spawn_expert", {"expert_type": "td_designer",
+                                    "task": "noop"})
+    if has_api_key:
+        assert r.ok or "api key" not in r.text.lower(), r.text[:200]
+    else:
+        assert not r.ok
+        assert "requires an api key (mode 2)" in r.text.lower(), r.text[:200]
+
+
+# --------------------------------------------------------------------------
+# P10 / P16-P19  live-TD tools
+#   TD up   -> must return real data
+#   TD down -> must degrade gracefully (clear "not running" message) = PASS
+# --------------------------------------------------------------------------
+
+def test_p10_td_python_class_docs(probe, td_live):
+    r = probe.call("get_td_classes", {})
+    if td_live:
+        assert r.ok, r.text[:200]
+    else:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+
+
+def test_p16_live_identity_topology(probe, td_live):
+    r = probe.call("get_td_info", {})
+    if td_live:
+        assert r.ok, r.text[:200]
+    else:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+
+
+def test_p17_live_capture(probe, td_live):
+    r = probe.call("get_top_info", {"operator_path": "/project1/out1"})
+    if td_live:
+        assert r.ok or r.images >= 1, r.text[:200]
+    else:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+
+
+def test_p18_live_diagnostics(probe, td_live):
+    r = probe.call("get_error_summary", {})
+    if td_live:
+        assert r.ok, r.text[:200]
+    else:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+
+
+def test_p19_live_crud_roundtrip(probe, td_live):
+    if not td_live:
+        r = probe.call("create_td_node", {"parent_path": "/project1",
+                                          "node_type": "constantCHOP",
+                                          "node_name": "td_accept_probe"})
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+        return
+    name = "td_accept_tmp"
+    path = f"/project1/{name}"
+    try:
+        c = probe.call("create_td_node", {"parent_path": "/project1",
+                                          "node_type": "constantCHOP",
+                                          "node_name": name})
+        assert c.ok, c.text[:200]
+        u = probe.call("update_td_node_parameters",
+                        {"node_path": path, "parameters": {"value0": 0.5}})
+        assert u.ok, u.text[:200]
+    finally:
+        probe.call("delete_td_node", {"node_path": path})

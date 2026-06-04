@@ -1,0 +1,243 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\webDAT_lossless.json",
+  "operator_type": "webDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "web_derivative",
+          "type": "DAT:web",
+          "parameters": {
+            "includeheader": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:web": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "web_yahoo_weather",
+          "type": "DAT:web",
+          "parameters": {
+            "url": "http://xml.weather.yahoo.com/forecastrss?p=10162"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:web": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "web1",
+          "type": "DAT:web",
+          "parameters": {
+            "url": "http://feeds.bbci.co.uk/news/rss.xml",
+            "fetch": 1,
+            "timeout": 1000000
+          }
+        },
+        {
+          "name": "sort1",
+          "type": "DAT:sort",
+          "parameters": {
+            "sortmethod": "colpreserve",
+            "unique": "entire"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "DAT:select",
+          "parameters": {
+            "extractcols": "byindex",
+            "colindexstart": 5
+          }
+        },
+        {
+          "name": "select2",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byexpr",
+            "rowexpr": "strmatch(\\\"*<media:thumbnail*\\\",$V)",
+            "colnamestart": "attribs"
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "DAT:convert",
+          "parameters": {
+            "delimiters": "\\\""
+          }
+        },
+        {
+          "name": "convert2",
+          "type": "DAT:convert",
+          "parameters": {}
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "stdswitcher1": 4
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "select_image1",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byindex"
+          }
+        },
+        {
+          "name": "select_image3",
+          "type": "DAT:select",
+          "parameters": {
+            "extractrows": "byindex"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "convert1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "convert2",
+          "to": "select2",
+          "to_input": "0"
+        },
+        {
+          "from": "select2",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "web1",
+          "to": "convert2",
+          "to_input": "0"
+        },
+        {
+          "from": "sort1",
+          "to": "select_image1",
+          "to_input": "0"
+        },
+        {
+          "from": "sort1",
+          "to": "select_image3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 7,
+        "operator_types": {
+          "DAT:web": 1,
+          "DAT:sort": 1,
+          "DAT:text": 1,
+          "DAT:select": 4,
+          "DAT:convert": 2,
+          "TOP:moviefilein": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 7
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "extractImagesFromWeb",
+          "type": "COMP:container",
+          "parameters": {
+            "w": 640,
+            "h": 360,
+            "topfill": "best",
+            "drag": "dragparent",
+            "drop": "dropparent"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:container": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\boxPOP_lossless.json",
+  "operator_type": "boxPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "POP:box",
+          "parameters": {
+            "sizex": 1.7,
+            "sizey": 1,
+            "sizez": 1,
+            "anchoru": 1,
+            "rz": -160.2
+          }
+        },
+        {
+          "name": "box2",
+          "type": "POP:box",
+          "parameters": {}
+        },
+        {
+          "name": "tube1",
+          "type": "POP:tube",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.3,
+            "rz": -40
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sprinkle1",
+          "type": "POP:sprinkle",
+          "parameters": {
+            "seed": 1.51,
+            "method": "vol"
+          }
+        },
+        {
+          "name": "box_rounded",
+          "type": "POP:box",
+          "parameters": {
+            "roundcorners": "on",
+            "depth": 3
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "tube1",
+          "to": "box2",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "sprinkle1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "POP:box": 3,
+          "POP:tube": 1,
+          "DAT:text": 1,
+          "POP:sprinkle": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

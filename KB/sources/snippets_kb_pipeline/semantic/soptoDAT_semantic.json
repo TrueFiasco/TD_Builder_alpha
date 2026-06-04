@@ -1,0 +1,253 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\soptoDAT_lossless.json",
+  "operator_type": "soptoDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "datto3",
+          "type": "SOP:datto",
+          "parameters": {
+            "pointsdat": "eval2"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sopto1",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "sphere1",
+            "attrib": "P",
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "offsets",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "fill": "setsize",
+            "language": "text"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "poly",
+            "radx": 2,
+            "rady": 2,
+            "radz": 2,
+            "reverseanchors": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sopto1",
+          "to": "eval2",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "eval2",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "datto3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:eval": 1,
+          "SOP:datto": 1,
+          "DAT:text": 1,
+          "DAT:sopto": 1,
+          "DAT:table": 2,
+          "SOP:sphere": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "output": "expr"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "datto1",
+          "type": "SOP:datto",
+          "parameters": {
+            "pointsdat": "null1",
+            "float": "life"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "type": "random",
+            "seed": 3.78,
+            "startunit": "samples",
+            "end": 150,
+            "endunit": "samples"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "chopto1",
+          "type": "DAT:chopto",
+          "parameters": {
+            "chop": "noise1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "DAT:select",
+          "parameters": {
+            "firstcol": "on",
+            "extractcols": "byindex",
+            "colindexstart": 10
+          }
+        },
+        {
+          "name": "particle1",
+          "type": "SOP:particle",
+          "parameters": {
+            "pageindex": 2,
+            "birth": 10,
+            "life": 5
+          }
+        },
+        {
+          "name": "sopto_particle_information",
+          "type": "DAT:sopto",
+          "parameters": {
+            "sop": "particle1",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "select1",
+          "to": "eval1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "eval1",
+          "to_input": "1"
+        },
+        {
+          "from": "eval1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "particle1",
+          "to": "datto1",
+          "to_input": "0"
+        },
+        {
+          "from": "sopto_particle_information",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "particle1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 6,
+        "operator_types": {
+          "DAT:eval": 1,
+          "DAT:null": 1,
+          "SOP:datto": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:chopto": 1,
+          "SOP:circle": 1,
+          "DAT:select": 1,
+          "SOP:particle": 1,
+          "DAT:sopto": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

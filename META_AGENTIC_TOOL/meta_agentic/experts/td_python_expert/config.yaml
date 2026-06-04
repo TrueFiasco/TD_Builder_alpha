@@ -1,0 +1,75 @@
+# Expert Configuration: td_python_expert
+# Domain: TouchDesigner Python (expressions, callbacks, extensions, DAT scripts)
+
+expert_name: "td_python_expert"
+domain: "TouchDesigner Python"
+purpose: "Design, validate, and improve Python scripts in TD (expressions, callbacks, extensions, DAT scripts) with TD-specific conventions and grounded evidence."
+version: "1.0"
+created: "2025-12-18"
+
+source_of_truth:
+  - path: "data/wiki_docs/td_universal_parsed.json"
+    type: "ground_truth"
+  - path: "data/snippets/semantic/*.json"
+    type: "examples"
+  - path: "data/snippets/index.tsv"
+    type: "curator_index"
+
+expertise:
+  maintains:
+    - file: "td_python.yaml"
+      sections: ["referencing", "parameters", "expressions", "callbacks", "extensions", "tdu_utilities", "problems"]
+  reads:
+    - "td_operators.yaml"
+    - "td_parameters.yaml"
+    - "td_network_patterns.yaml"
+    - "td_problems.yaml"
+
+validation:
+  strict: true
+  require_source: true
+  min_confidence: 0.6
+  min_examples: 3
+
+workflow:
+  plan:
+    max_tokens: 4000
+    timeout_seconds: 120
+  build:
+    max_tokens: 8000
+    timeout_seconds: 300
+  self_improve:
+    max_tokens: 2000
+    timeout_seconds: 60
+
+# Collaboration with other experts
+collaborators:
+  upstream:
+    - expert: "td_designer"
+      receives: "Network design with Python script requirements"
+      sections_read: ["§5"]
+  downstream:
+    - expert: "network_builder"
+      provides: "Python code for Text DAT nodes"
+      sections_write: ["§5"]
+
+# Python-specific configuration
+python_config:
+  version: "3.11"  # TD 2023+
+  td_modules:
+    - "td"      # TouchDesigner module
+    - "tdu"     # TouchDesigner utilities
+  allowed_imports:
+    - "math"
+    - "random"
+    - "datetime"
+    - "json"
+    - "re"
+  script_types:
+    - "parameter_expression"
+    - "chop_execute"
+    - "dat_execute"
+    - "panel_execute"
+    - "parameter_execute"
+    - "extension_class"
+    - "text_dat_script"

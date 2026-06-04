@@ -1,0 +1,585 @@
+{
+  "operator": "Limit_SOP",
+  "family": "SOP",
+  "td_create_name": "limitSOP",
+  "param_count": 47,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 17,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "chop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "CHOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Channels",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "X Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chany": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Y Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanz": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Z Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanrx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Rotate Channel X",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanry": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Rotate Channel Y",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanrz": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Rotate Channel Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanrad": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Radius Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanradx": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Radius Channel X",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanrady": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Radius Channel Y",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanradz": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Radius Channel Z",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanalpha": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Alpha Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Red Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chang": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Green Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanb": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Blue Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "texturew": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Channels",
+      "label": "Texture W",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Custom",
+      "label": "Custom Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Custom",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr0chan0": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Custom",
+      "label": "Channel Zero",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr0chan1": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Custom",
+      "label": "Channel One",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr0chan2": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Custom",
+      "label": "Channel Two",
+      "readOnly": false,
+      "expression": null
+    },
+    "customattr0chan3": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Custom",
+      "label": "Channel Three",
+      "readOnly": false,
+      "expression": null
+    },
+    "output": {
+      "value": {
+        "type": "menu",
+        "value": "line",
+        "menuIndex": 0,
+        "menuNames": [
+          "line",
+          "polys",
+          "circles",
+          "spheres",
+          "polyspheres",
+          "tubes",
+          "strips"
+        ],
+        "menuLabels": [
+          "Polygonal Line",
+          "Polygon at Each Point",
+          "Primitive Circle at Each Point",
+          "Sphere at Each Point",
+          "Poly Sphere at Each Point",
+          "Tubes",
+          "Strips"
+        ]
+      },
+      "default": "line",
+      "page": "Output",
+      "label": "Output Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "divisions": {
+      "value": {
+        "type": "int",
+        "value": 4
+      },
+      "default": 4,
+      "page": "Output",
+      "label": "Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "rad": {
+      "value": {
+        "type": "float",
+        "value": 0.1
+      },
+      "default": 0.1,
+      "page": "Output",
+      "label": "Radius",
+      "readOnly": false,
+      "expression": null
+    },
+    "flipsmooth": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "Smooth Flip",
+      "readOnly": false,
+      "expression": null
+    },
+    "dolimit": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "clamp",
+          "loop",
+          "zigzag"
+        ],
+        "menuLabels": [
+          "Off",
+          "Clamp",
+          "Loop",
+          "Zigzag"
+        ]
+      },
+      "default": "off",
+      "page": "Output",
+      "label": "Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "xlimitmin": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Output",
+      "label": "X Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "xlimitmax": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "X Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "ylimitmin": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Output",
+      "label": "Y Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "ylimitmax": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "Y Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "zlimitmin": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "Output",
+      "label": "Z Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "zlimitmax": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "Z Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "texture": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Output",
+      "label": "Apply Texture",
+      "readOnly": false,
+      "expression": null
+    },
+    "texscale1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "texscale2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Output",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "texoffset1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "texoffset2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "orient": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Output",
+      "label": "Orient to Path",
+      "readOnly": false,
+      "expression": null
+    },
+    "lookat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Output",
+      "label": "Lookat Object",
+      "readOnly": false,
+      "expression": null
+    },
+    "dorotate": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "on",
+          "cum"
+        ],
+        "menuLabels": [
+          "Off",
+          "On",
+          "Cumulative"
+        ]
+      },
+      "default": "off",
+      "page": "Output",
+      "label": "Rotate Polys",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotatex": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotatey": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotatez": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Output",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "normals": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Output",
+      "label": "Compute Normals",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

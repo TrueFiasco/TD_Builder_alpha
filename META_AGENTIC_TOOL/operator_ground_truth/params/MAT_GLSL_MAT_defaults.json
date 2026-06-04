@@ -1,0 +1,1526 @@
+{
+  "operator": "GLSL_MAT",
+  "family": "MAT",
+  "td_create_name": "glslMAT",
+  "param_count": 97,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 12,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "glslversion": {
+      "value": {
+        "type": "menu",
+        "value": "glsl430",
+        "menuIndex": 1,
+        "menuNames": [
+          "glsl120",
+          "glsl430",
+          "glsl440",
+          "glsl450",
+          "glsl460"
+        ],
+        "menuLabels": [
+          "1.20",
+          "4.30",
+          "4.40",
+          "4.50",
+          "4.60"
+        ]
+      },
+      "default": "glsl330",
+      "page": "Load",
+      "label": "GLSL Version",
+      "readOnly": false,
+      "expression": null
+    },
+    "predat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Load",
+      "label": "Preprocess Directives",
+      "readOnly": false,
+      "expression": null
+    },
+    "vdat": {
+      "value": {
+        "type": "op",
+        "value": "op_default_vertex"
+      },
+      "default": "",
+      "page": "Load",
+      "label": "Vertex Shader",
+      "readOnly": false,
+      "expression": null
+    },
+    "pdat": {
+      "value": {
+        "type": "op",
+        "value": "op_default_pixel"
+      },
+      "default": "",
+      "page": "Load",
+      "label": "Pixel Shader",
+      "readOnly": false,
+      "expression": null
+    },
+    "compilebehavior": {
+      "value": {
+        "type": "menu",
+        "value": "stalluntildone",
+        "menuIndex": 0,
+        "menuNames": [
+          "stalluntildone",
+          "threadedcheckerboard",
+          "threadedblack",
+          "threadedprevious"
+        ],
+        "menuLabels": [
+          "Stall Until Done",
+          "Threaded, Show Checkerboard Until Done",
+          "Threaded, Show Black Until Done",
+          "Threaded, Show Previous Shader Until Done"
+        ]
+      },
+      "default": "stalluntildone",
+      "page": "Load",
+      "label": "Compile Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "errorbehavior": {
+      "value": {
+        "type": "menu",
+        "value": "showcheckerboard",
+        "menuIndex": 0,
+        "menuNames": [
+          "showcheckerboard",
+          "showblack",
+          "showprevious"
+        ],
+        "menuLabels": [
+          "Show Checkerboard",
+          "Show Black",
+          "Show Previous Shader"
+        ]
+      },
+      "default": "showcheckerboard",
+      "page": "Load",
+      "label": "Error Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "loaduniformnames": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Load",
+      "label": "Load Uniform Names",
+      "readOnly": false,
+      "expression": null
+    },
+    "clearuniformnames": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Load",
+      "label": "Clear Uniform Names",
+      "readOnly": false,
+      "expression": null
+    },
+    "gdat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Load",
+      "label": "Geometry Shader",
+      "readOnly": false,
+      "expression": null
+    },
+    "inherit": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Load",
+      "label": "Inherit Uniforms/Samplers from",
+      "readOnly": false,
+      "expression": null
+    },
+    "lightingspace": {
+      "value": {
+        "type": "menu",
+        "value": "worldspace",
+        "menuIndex": 0,
+        "menuNames": [
+          "worldspace",
+          "cameraspace"
+        ],
+        "menuLabels": [
+          "World Space",
+          "Camera Space (Legacy 088 shaders)"
+        ]
+      },
+      "default": "worldspace",
+      "page": "Load",
+      "label": "Lighting Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "simplexnoise": {
+      "value": {
+        "type": "menu",
+        "value": "performance",
+        "menuIndex": 0,
+        "menuNames": [
+          "performance",
+          "quality"
+        ],
+        "menuLabels": [
+          "Performance",
+          "Quality"
+        ]
+      },
+      "default": "performance",
+      "page": "Load",
+      "label": "TDSimplexNoise()",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Attributes",
+      "label": "Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0type": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "float2",
+          "float3",
+          "float4",
+          "double",
+          "double2",
+          "double3",
+          "double4",
+          "int",
+          "int2",
+          "int3",
+          "int4",
+          "uint",
+          "uint2",
+          "uint3",
+          "uint4"
+        ],
+        "menuLabels": [
+          "float",
+          "float2",
+          "float3",
+          "float4",
+          "double",
+          "double2",
+          "double3",
+          "double4",
+          "int",
+          "int2",
+          "int3",
+          "int4",
+          "uint",
+          "uint2",
+          "uint3",
+          "uint4"
+        ]
+      },
+      "default": "float",
+      "page": "Attributes",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "mattr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Attributes",
+      "label": "Matrix Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "mattr0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Attributes",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "mattr0comps": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Attributes",
+      "label": "Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "mattr0cols": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Attributes",
+      "label": "Columns",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Samplers",
+      "label": "Sampler",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Samplers",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0top": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Samplers",
+      "label": "TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendu": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend U",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendv": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend V",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendw": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend W",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0filter": {
+      "value": {
+        "type": "menu",
+        "value": "mipmaplinear",
+        "menuIndex": 2,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmaplinear"
+        ],
+        "menuLabels": [
+          "Nearest",
+          "Linear",
+          "Mipmap Linear"
+        ]
+      },
+      "default": "mipmaplinear",
+      "page": "Samplers",
+      "label": "Filter",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0anisotropy": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "2x",
+          "4x",
+          "8x",
+          "16x"
+        ],
+        "menuLabels": [
+          "Off",
+          "2x",
+          "4x",
+          "8x",
+          "16x"
+        ]
+      },
+      "default": "off",
+      "page": "Samplers",
+      "label": "Anisotropic Filter",
+      "readOnly": false,
+      "expression": null
+    },
+    "premultrgbbyalpha": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Colors",
+      "label": "Pre-Multiply RGB by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "color": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Colors",
+      "label": "Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "color0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Colors",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "color0rgbr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Colors",
+      "label": "RGB",
+      "readOnly": false,
+      "expression": null
+    },
+    "color0rgbg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Colors",
+      "label": "RGB",
+      "readOnly": false,
+      "expression": null
+    },
+    "color0rgbb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Colors",
+      "label": "RGB",
+      "readOnly": false,
+      "expression": null
+    },
+    "color0alpha": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Colors",
+      "label": "Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Vectors",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Vectors",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuey": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuew": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "array": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Arrays",
+      "label": "Array",
+      "readOnly": false,
+      "expression": null
+    },
+    "array0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Arrays",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "array0type": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "vec2",
+          "vec3",
+          "vec4"
+        ],
+        "menuLabels": [
+          "float",
+          "vec2",
+          "vec3",
+          "vec4"
+        ]
+      },
+      "default": "float",
+      "page": "Arrays",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "array0chop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Arrays",
+      "label": "CHOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "array0arraytype": {
+      "value": {
+        "type": "menu",
+        "value": "uniformarray",
+        "menuIndex": 0,
+        "menuNames": [
+          "uniformarray",
+          "texturebuffer"
+        ],
+        "menuLabels": [
+          "Uniform Array",
+          "Texture Buffer"
+        ]
+      },
+      "default": "uniformarray",
+      "page": "Arrays",
+      "label": "Array Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "array0scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Arrays",
+      "label": "Channel Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "matrix": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Matrices",
+      "label": "Matrix",
+      "readOnly": false,
+      "expression": null
+    },
+    "matrix0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Matrices",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "matrix0value": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Matrices",
+      "label": "Matrix",
+      "readOnly": false,
+      "expression": null
+    },
+    "rel": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Matrices",
+      "label": "Relative",
+      "readOnly": false,
+      "expression": null
+    },
+    "rel0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Matrices",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "rel0from": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Matrices",
+      "label": "Xform from",
+      "readOnly": false,
+      "expression": null
+    },
+    "rel0to": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Matrices",
+      "label": "To",
+      "readOnly": false,
+      "expression": null
+    },
+    "const": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Constants",
+      "label": "Constant",
+      "readOnly": false,
+      "expression": null
+    },
+    "const0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Constants",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "const0value": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Constants",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "buffer": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Buffers",
+      "label": "Buffer",
+      "readOnly": false,
+      "expression": null
+    },
+    "buffer0pop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Buffers",
+      "label": "POP",
+      "readOnly": false,
+      "expression": null
+    },
+    "buffer0attrclass": {
+      "value": {
+        "type": "menu",
+        "value": "point",
+        "menuIndex": 0,
+        "menuNames": [
+          "point",
+          "vertex",
+          "primitive"
+        ],
+        "menuLabels": [
+          "Point",
+          "Vertex",
+          "Primitive"
+        ]
+      },
+      "default": "point",
+      "page": "Buffers",
+      "label": "Attribute Class",
+      "readOnly": false,
+      "expression": null
+    },
+    "buffer0attr": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Buffers",
+      "label": "Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "buffer0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Buffers",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "dodeform": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Deform",
+      "label": "Deform",
+      "readOnly": false,
+      "expression": null
+    },
+    "deformdata": {
+      "value": {
+        "type": "menu",
+        "value": "sop",
+        "menuIndex": 0,
+        "menuNames": [
+          "sop",
+          "mat",
+          "deformin"
+        ],
+        "menuLabels": [
+          "From a POP/SOP",
+          "From another MAT",
+          "From a DeformIn MAT"
+        ]
+      },
+      "default": "sop",
+      "page": "Deform",
+      "label": "Get Bone Data:",
+      "readOnly": false,
+      "expression": null
+    },
+    "targetsop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Deform",
+      "label": "POP/SOP with Capture Data",
+      "readOnly": false,
+      "expression": null
+    },
+    "pcaptpath": {
+      "value": {
+        "type": "string",
+        "value": "pCaptPath0"
+      },
+      "default": "pCaptPath0",
+      "page": "Deform",
+      "label": "BonePaths (pCaptPath) Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "pcaptdata": {
+      "value": {
+        "type": "string",
+        "value": "pCaptData0"
+      },
+      "default": "pCaptData0",
+      "page": "Deform",
+      "label": "BoneBindPoses (pCaptData) Attrib",
+      "readOnly": false,
+      "expression": null
+    },
+    "skelrootpath": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Deform",
+      "label": "Skeleton Root Path",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "mat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Deform",
+      "label": "MAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "blending": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Blending (Transparency)",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendop": {
+      "value": {
+        "type": "menu",
+        "value": "add",
+        "menuIndex": 0,
+        "menuNames": [
+          "add",
+          "subtract",
+          "revsubtract",
+          "minimum",
+          "maximum"
+        ],
+        "menuLabels": [
+          "Add",
+          "Subtract",
+          "Reverse Subtract",
+          "Minimum",
+          "Maximum"
+        ]
+      },
+      "default": "add",
+      "page": "Common",
+      "label": "Blend Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "srcblend": {
+      "value": {
+        "type": "menu",
+        "value": "one",
+        "menuIndex": 8,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "one",
+      "page": "Common",
+      "label": "Source Color *",
+      "readOnly": false,
+      "expression": null
+    },
+    "destblend": {
+      "value": {
+        "type": "menu",
+        "value": "omsa",
+        "menuIndex": 4,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "omsa",
+      "page": "Common",
+      "label": "Destination Color *",
+      "readOnly": false,
+      "expression": null
+    },
+    "separatealphafunc": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Separate Alpha Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendopa": {
+      "value": {
+        "type": "menu",
+        "value": "add",
+        "menuIndex": 0,
+        "menuNames": [
+          "add",
+          "subtract",
+          "revsubtract",
+          "minimum",
+          "maximum"
+        ],
+        "menuLabels": [
+          "Add",
+          "Subtract",
+          "Reverse Subtract",
+          "Minimum",
+          "Maximum"
+        ]
+      },
+      "default": "add",
+      "page": "Common",
+      "label": "Alpha Blend Operation",
+      "readOnly": false,
+      "expression": null
+    },
+    "srcblenda": {
+      "value": {
+        "type": "menu",
+        "value": "one",
+        "menuIndex": 8,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "one",
+      "page": "Common",
+      "label": "Source Alpha *",
+      "readOnly": false,
+      "expression": null
+    },
+    "destblenda": {
+      "value": {
+        "type": "menu",
+        "value": "omsa",
+        "menuIndex": 4,
+        "menuNames": [
+          "zero",
+          "dcol",
+          "omdcol",
+          "sa",
+          "omsa",
+          "da",
+          "omda",
+          "sas",
+          "one",
+          "constantcol",
+          "omconstantcol",
+          "constanta",
+          "omconstanta"
+        ],
+        "menuLabels": [
+          "Zero",
+          "Dest Color",
+          "One Minus Dest Color",
+          "Source Alpha",
+          "One Minus Source Alpha",
+          "Dest Alpha",
+          "One Minus Dest Alpha",
+          "Source Alpha Saturate",
+          "One",
+          "Constant Color",
+          "One Minus Constant Color",
+          "Constant Alpha",
+          "One Minus Constant Alpha"
+        ]
+      },
+      "default": "omsa",
+      "page": "Common",
+      "label": "Destination Alpha *",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantr": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantg": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstantb": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "blendconstanta": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Blend Constant Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "legacyalphabehavior": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Legacy Alpha Behavior",
+      "readOnly": false,
+      "expression": null
+    },
+    "postmultalpha": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Post-Mult Color by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointcolorpremult": {
+      "value": {
+        "type": "menu",
+        "value": "alreadypremult",
+        "menuIndex": 0,
+        "menuNames": [
+          "alreadypremult",
+          "premultinshader"
+        ],
+        "menuLabels": [
+          "Already Pre-Multiplied By Alpha",
+          "Pre-Multiply By Alpha in Shader"
+        ]
+      },
+      "default": "alreadypremult",
+      "page": "Common",
+      "label": "Point Color Pre-Multiply",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthtest": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Depth Test",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthfunc": {
+      "value": {
+        "type": "menu",
+        "value": "lessorequal",
+        "menuIndex": 1,
+        "menuNames": [
+          "less",
+          "lessorequal",
+          "equal",
+          "greater",
+          "greaterorequal",
+          "notequal",
+          "always"
+        ],
+        "menuLabels": [
+          "Less Than",
+          "Less Than or Equal",
+          "Equal",
+          "Greater Than",
+          "Greater Than or Equal",
+          "Not Equal",
+          "Always"
+        ]
+      },
+      "default": "lessorequal",
+      "page": "Common",
+      "label": "Depth Test Function",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthwriting": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Write Depth Values",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphatest": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Discard Pixels Based on Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphafunc": {
+      "value": {
+        "type": "menu",
+        "value": "greater",
+        "menuIndex": 2,
+        "menuNames": [
+          "less",
+          "lessorequal",
+          "greater",
+          "greaterorequal"
+        ],
+        "menuLabels": [
+          "Less Than",
+          "Less Than or Equal",
+          "Greater Than",
+          "Greater Than or Equal"
+        ]
+      },
+      "default": "greater",
+      "page": "Common",
+      "label": "Keep Pixels with Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "alphathreshold": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Common",
+      "label": "Alpha Threshold",
+      "readOnly": false,
+      "expression": null
+    },
+    "wireframe": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "tesselated",
+          "topology"
+        ],
+        "menuLabels": [
+          "Off",
+          "GPU Tesselated Wire Frame",
+          "Topology Wire Frame"
+        ]
+      },
+      "default": "off",
+      "page": "Common",
+      "label": "Wire Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "wirewidth": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Line Width",
+      "readOnly": false,
+      "expression": null
+    },
+    "cullface": {
+      "value": {
+        "type": "menu",
+        "value": "userender",
+        "menuIndex": 0,
+        "menuNames": [
+          "userender",
+          "neither",
+          "backfaces",
+          "frontfaces",
+          "bothfaces"
+        ],
+        "menuLabels": [
+          "Use Render Setting",
+          "Neither",
+          "Back Faces",
+          "Front Faces",
+          "Both Faces"
+        ]
+      },
+      "default": "userender",
+      "page": "Common",
+      "label": "Cull Face",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Polygon Depth Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetfactor": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Offset Factor",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetunits": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Offset Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

@@ -1,0 +1,59 @@
+# META_AGENTIC_TOOL Python Dependencies
+#
+# DEPRECATED for normal installs — the root `pyproject.toml` is now the single
+# source of truth. From the repo root, run:
+#     pip install -e ".[api,dev]"
+# This file is kept only for reference / direct subsystem use.
+#
+# BUG-018: Python version constraint
+# Requires: Python >=3.10,<3.14
+# Reason: ChromaDB uses Pydantic V1 which is incompatible with Python 3.14+
+
+# =============================================================================
+# CORE DEPENDENCIES (Required)
+# =============================================================================
+
+# Claude API client
+anthropic>=0.18.0
+
+# YAML parsing for expertise files
+PyYAML>=6.0
+
+# MCP server framework (for Claude Desktop integration)
+mcp>=1.0.0
+
+# =============================================================================
+# EMBEDDING & VECTOR SEARCH (Required for semantic search)
+# =============================================================================
+
+# Vector database for semantic search
+chromadb>=0.4.0
+
+# Sentence embeddings (fixes BUG-002)
+sentence-transformers>=2.2.0
+
+# =============================================================================
+# OPTIONAL: Development & Testing
+# =============================================================================
+
+# Uncomment for development:
+# pytest>=7.0
+# pytest-asyncio>=0.21.0
+# black>=23.0
+# mypy>=1.0
+
+# =============================================================================
+# NOTES
+# =============================================================================
+#
+# Standard library modules used (no install needed):
+#   asyncio, json, pathlib, typing, dataclasses, datetime, enum,
+#   logging, os, re, subprocess, sys, threading, uuid, hashlib
+#
+# For TouchDesigner integration:
+#   TD provides its own Python environment. These packages are for
+#   the MCP server running outside TD.
+#
+# Version pinning:
+#   Consider pinning exact versions for production:
+#   pip freeze > requirements-lock.txt

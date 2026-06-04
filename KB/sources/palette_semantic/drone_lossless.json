@@ -1,0 +1,1103 @@
+{
+  "metadata": {
+    "source_directory": "C:\\TD_Projects\\Learn\\Palette\\TDVR\\System Components\\drone.tox.dir",
+    "build_version": "099",
+    "build_date": "Mon Jul 22 21:30:06 2019",
+    "os_name": "Windows",
+    "os_version": "10",
+    "cookrate": 60,
+    "realtime": true,
+    "build_number": "2019.17400"
+  },
+  "operators": {
+    "/drone": {
+      "name": "drone",
+      "path": "/drone",
+      "op_type": "COMP:geo",
+      "family": "COMP",
+      "specific_type": "geo",
+      "viewport_pos": [
+        -280.413,
+        1655.74,
+        1.52104
+      ],
+      "tile_pos": [
+        300,
+        -200,
+        160,
+        130
+      ],
+      "color": [
+        0.68,
+        0.226667,
+        0.0
+      ],
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 7,
+        "extension1": "op(\\\"./CameraDolly\\\").module.CameraDolly(me)",
+        "promoteextension1": "on",
+        "parentshortcut": "Rig",
+        "nodeview": "opviewer",
+        "opviewer": "./icon",
+        "Joystickcomp": {
+          "64": "xboxForWindows"
+        },
+        "Movedirectionobject": {
+          "64": "vrHMD/eyeCenter"
+        },
+        "Usedirectionobject": {
+          "64": "on"
+        },
+        "Chanforwardbackward": {
+          "64": "leftThumbY"
+        },
+        "Chanleftright": {
+          "64": "leftThumbX"
+        },
+        "Chanpitch": {
+          "64": "rightThumbY"
+        },
+        "Chanyaw": {
+          "64": "rightThumbX"
+        },
+        "Chanreset": {
+          "64": "back"
+        },
+        "Chandown": {
+          "64": "ls"
+        },
+        "Chanup": {
+          "64": "rs"
+        },
+        "Active": {
+          "64": "on"
+        },
+        "Minmaxy1": {
+          "64": 0
+        },
+        "Minmaxy2": {
+          "64": 1000
+        },
+        "Previewrendertop": {
+          "64": "viewer3D/viewOut"
+        },
+        "Constraintobj": {
+          "320": "./constraint"
+        }
+      },
+      "parent": null,
+      "children": [
+        "help",
+        "icon",
+        "eval1",
+        "math1",
+        "null1",
+        "reset",
+        "state",
+        "table1",
+        "parexec",
+        "whileOn",
+        "execute1",
+        "parexec1",
+        "replace1",
+        "constraint",
+        "magnitudes",
+        "CameraDolly",
+        "setTransform",
+        "transformOut",
+        "worldPreview",
+        "runSetTranform",
+        "getControlChans",
+        "controlChanOrder",
+        "decomposeTransform"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "cparm": {
+          "content": "?\npages 3 Configuration \"Channel Name Mappings\" \"Published OPs\"\n772804865 Translatespeed \"Translate Speed\" 1 3 0 0 1 1 1 0 0.05 \"\" Configuration 5\n772804865 Rotatespeed \"Rotate Speed\" 1 3 0 0 1 1 1 0 1 \"\" Configuration 6\n772804877 Joystickcomp \"Joystick COMP\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 2\n772804867 Clampminx \"Clamp Min X\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 8\n772804867 Clampmaxx \"Clamp Max X\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 9\n772804867 Clampminy \"Clamp Min Y\" 1 1 0 0 1 1 1 0 1 \"\" Configuration 11\n772804867 Clampmaxy \"Clamp Max Y\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 12\n772804867 Clampminz \"Clamp Mix Z\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 14\n772804867 Clampmaxz \"Clamp Max Z\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 15\n772804870 Movedirectionobject \"Move Direction Object\" 1 1 0 0 1 1 1 0 0 ./cameraRigLookat Configuration 4\n772804867 Usedirectionobject \"Use Direction Object\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 3\n772804868 Chanforwardbackward \"Chan Forward Backward\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 0\n772804868 Chanleftright \"Chan Left Right\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 1\n772804868 Chanpitch \"Chan Pitch\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 2\n772804868 Chanyaw \"Chan Yaw\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 3\n772804868 Chanreset \"Chan Reset\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 4\n772804868 Chandown \"Chan Down\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 5\n772804868 Chanup \"Chan Up\" 1 1 0 0 1 1 1 0 0 \"\" \"Channel Name Mappings\" 6\n-1374678781 Active Active 1 1 0 0 1 1 1 0 0 \"\" Configuration 1\n772805121 Minmaxy \"Min Max Y\" 1 1 0 0 1 1 1 1 0 0 1 1 1 0 0 \"\" 0 0 \"\" Configuration 10\n772805121 Minmaxx \"Min Max X\" 1 1 -10000 0 1 10000 1 1 -10000 0 1 10000 1 0 -1000 \"\" 0 1000 \"\" Configuration 7\n772805121 Minmaxz \"Min Max Z\" 1 3 -10000 0 1 10000 1 3 -10000 0 1 10000 1 0 -1000 \"\" 0 1000 \"\" Configuration 13\n772804869 Reset Reset 1 1 0 0 1 1 1 0 0 \"\" Configuration 16\n-1374678774 Previewrendertop \"Render Preview TOP\" 1 1 0 0 1 1 1 0 0 \"\" Configuration 17\n772804869 Help Help 1 1 0 0 1 1 1 0 0 \"\" Configuration 0\n772804870 Constraintobj \"Constraint OBJ\" 1 1 0 0 1 1 1 0 0 ./constraint \"Published OPs\" 0\n?\n",
+          "is_binary": false
+        },
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/help": {
+      "name": "help",
+      "path": "/drone/help",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        -800,
+        -1000,
+        689,
+        475
+      ],
+      "color": [
+        0.68,
+        0.0,
+        0.453333
+      ],
+      "flags": {
+        "viewer": "1",
+        "activate": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 1,
+        "extension": "txt",
+        "wordwrap": "on"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002\u007fDrone Component\n\nThe Drone component is a 3D Object that connects to a compatible joystick component (for example the xboxForWindows component found in the TDVR/System Components folder in the Palette.\n\nInputs:\n\nExpects a compatible joystick component with a\nchild 'chansOut' CHOP.\n\nChannels must be mapped correctly using the \n'Channel Name Mappings' page above.\n\nOutputs:\n\nThe output of this component is the 'constraint' geo object. Connect this tranform to another \nobject using its local 'Constrain To' parameter. Notice this special internal component is \"Published\" on the top level custom components page in the Published OPs page.",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/icon": {
+      "name": "icon",
+      "path": "/drone/icon",
+      "op_type": "TOP:moviefilein",
+      "family": "TOP",
+      "specific_type": "moviefilein",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -300,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "file": {
+          "49": "Maps/Icons/cameraDrone.jpg \"app.samplesFolder + '/Map/Icons/cameraDrone.jpg'\""
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/drone/eval1": {
+      "name": "eval1",
+      "path": "/drone/eval1",
+      "op_type": "DAT:eval",
+      "family": "DAT",
+      "specific_type": "eval",
+      "viewport_pos": null,
+      "tile_pos": [
+        200,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "export": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "rowindexend": {
+          "17": "0 \"me.inputs[0].numRows - 1\""
+        },
+        "colindexend": {
+          "17": "0 \"me.inputs[0].numCols - 1\""
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "table1"
+      },
+      "extra_files": {}
+    },
+    "/drone/math1": {
+      "name": "math1",
+      "path": "/drone/math1",
+      "op_type": "CHOP:math",
+      "family": "CHOP",
+      "specific_type": "math",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -1000,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 3,
+        "chanop": "add",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        },
+        "exporttable": "setTransform"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "state"
+      },
+      "extra_files": {}
+    },
+    "/drone/null1": {
+      "name": "null1",
+      "path": "/drone/null1",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "getControlChans"
+      },
+      "extra_files": {}
+    },
+    "/drone/reset": {
+      "name": "reset",
+      "path": "/drone/reset",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -1000,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off parent.Rig.par.Active"
+        },
+        "fromop": {
+          "17": "\"\" me.parent()"
+        },
+        "chop": "state",
+        "channel": "reset",
+        "offtoon": "on",
+        "valuechange": "off"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAKKIyBtZSBpcyB0aGlzIERBVC4KIyAKIyBjaGFubmVsIGlzIHRoZSBDaGFubmVsIG9iamVjdCB3aGljaCBoYXMgY2hhbmdlZC4KIyBzYW1wbGVJbmRleCBpcyB0aGUgaW5kZXggb2YgdGhlIGNoYW5uZWwgdGhhdHMgY2hhbmdlZC4KIyB2YWwgaXMgdGhlIG51bWVyaWMgdmFsdWUgb2YgdGhlIGNoYW5nZWQgc2FtcGxlLgojIHByZXYgaXMgdGhlIHByZXZpb3VzIHNhbXBsZSB2YWx1ZS4KIyAKIyBNYWtlIHN1cmUgdGhlIGNvcnJlc3BvbmRpbmcgdG9nZ2xlIGlzIGVuYWJsZWQgaW4gdGhlIENIT1AgRXhlY3V0ZSBEQVQuCgpkZWYgb2ZmVG9PbihjaGFubmVsLCBzYW1wbGVJbmRleCwgdmFsLCBwcmV2KToKICAgIGlmIGNoYW5uZWwubmFtZSA9PSAncmVzZXQnOgogICAgICAgIHBhcmVudC5SaWcuUmVzZXQoKQogICAgcmV0dXJuCgpkZWYgd2hpbGVPbihjaGFubmVsLCBzYW1wbGVJbmRleCwgdmFsLCBwcmV2KToKICAgIHJldHVybgogICAgCmRlZiBvblRvT2ZmKGNoYW5uZWwsIHNhbXBsZUluZGV4LCB2YWwsIHByZXYpOgoKICAgIHJldHVybgoKZGVmIHdoaWxlT2ZmKGNoYW5uZWwsIHNhbXBsZUluZGV4LCB2YWwsIHByZXYpOgogICAgcmV0dXJuCgpkZWYgdmFsdWVDaGFuZ2UoY2hhbm5lbCwgc2FtcGxlSW5kZXgsIHZhbCwgcHJldik6CiAgICByZXR1cm4=",
+          "is_binary": true
+        }
+      }
+    },
+    "/drone/state": {
+      "name": "state",
+      "path": "/drone/state",
+      "op_type": "CHOP:express",
+      "family": "CHOP",
+      "specific_type": "express",
+      "viewport_pos": null,
+      "tile_pos": [
+        1000,
+        -800,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "stdswitcher1": 1,
+        "expr0": {
+          "49": "0 \"me.inputVal != 0\""
+        },
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "replace1"
+      },
+      "extra_files": {}
+    },
+    "/drone/table1": {
+      "name": "table1",
+      "path": "/drone/table1",
+      "op_type": "DAT:table",
+      "family": "DAT",
+      "specific_type": "table",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "rows": 2
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "table": {
+          "content": "MQoqAAAAAQAAAAIAAAAEAAAAAAAAAAIAAAAGJ3BhdGgnAAAAAgAAAAsncGFyYW1ldGVyJwAAAAIAAAAHJ3ZhbHVlJwAAAAIAAAAIJ2VuYWJsZScAAAACAAAAESdnZXRDb250cm9sQ2hhbnMnAAAAAgAAAAsnY2hhbm5hbWVzJwAAAAIAAACpJyInKycgJy5qb2luKFtwLmV2YWwoKSBmb3IgcCBpbiBbZ2V0YXR0cihwYXJlbnQuUmlnLnBhciwgbikgZm9yIG4gaW4gWydDaGFuZm9yd2FyZGJhY2t3YXJkJywnQ2hhbmxlZnRyaWdodCcsJ0NoYW5waXRjaCcsJ0NoYW55YXcnLCdDaGFucmVzZXQnLCdDaGFuZG93bicsJ0NoYW51cCddXV0pKyciJwAAAAIAAAABMQ==",
+          "is_binary": true
+        }
+      }
+    },
+    "/drone/parexec": {
+      "name": "parexec",
+      "path": "/drone/parexec",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        -1000,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "op": {
+          "49": "parent. parent.Rig"
+        },
+        "pars": "*",
+        "builtin": "off"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAAHoIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojIAojIE1ha2Ugc3VyZSB0aGUgY29ycmVzcG9uZGluZyB0b2dnbGUgaXMgZW5hYmxlZCBpbiB0aGUgUGFyYW1ldGVyIEV4ZWN1dGUgREFULgoKZGVmIG9uVmFsdWVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgb25QdWxzZShwYXIpOgoJaWYgcGFyLm5hbWUgPT0gJ0hlbHAnOgoJCW9wKCdoZWxwJykub3BlblZpZXdlcigpCgoKZGVmIG9uRXhwcmVzc2lvbkNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBvbkV4cG9ydENoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBvbkVuYWJsZUNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBvbk1vZGVDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgk=",
+          "is_binary": true
+        }
+      }
+    },
+    "/drone/whileOn": {
+      "name": "whileOn",
+      "path": "/drone/whileOn",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -800,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "off parent.Rig.par.Active"
+        },
+        "fromop": {
+          "17": "\"\" me.parent()"
+        },
+        "chop": "state",
+        "channel": "\"forwardBackward leftRight pitch yaw up down\"",
+        "whileon": "on",
+        "valuechange": "off"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0005|# me is this DAT.\n# \n# channel is the Channel object which has changed.\n# sampleIndex is the index of the channel thats changed.\n# val is the numeric value of the changed sample.\n# prev is the previous sample value.\n# \n# Make sure the corresponding toggle is enabled in the CHOP Execute DAT.\n\ntsPar = parent.Rig.par.Translatespeed  \nrsPar = parent.Rig.par.Rotatespeed\n\ndef offToOn(channel, sampleIndex, val, prev):\n    return\n\ndef whileOn(channel, sampleIndex, val, prev):\n    if channel.name == 'forwardBackward':\n        parent.Rig.MoveForwardBackward(op('magnitudes')['forwardBackward'].eval() * tsPar.eval())\n    elif channel.name == 'leftRight':\n        parent.Rig.MoveLeftRight(op('magnitudes')['leftRight'].eval() * tsPar.eval())\n    elif channel.name == 'pitch':\n        parent.Rig.Pitch(op('magnitudes')['pitch'].eval() * rsPar.eval())\n    elif channel.name == 'yaw':\n        parent.Rig.Yaw(op('magnitudes')['yaw'].eval() * -rsPar.eval())\n    elif channel.name == 'up':\n        parent.Rig.MoveUpDown(op('magnitudes')['up'].eval() * tsPar.eval())\n    elif channel.name == 'down':\n        parent.Rig.MoveUpDown(op('magnitudes')['down'].eval() * -tsPar.eval())\n\ndef onToOff(channel, sampleIndex, val, prev):\n    if channel.name == 'reset':\n        parent.Rig.Reset()\n    return\n\ndef whileOff(channel, sampleIndex, val, prev):\n    return\n\ndef valueChange(channel, sampleIndex, val, prev):\n    return",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/execute1": {
+      "name": "execute1",
+      "path": "/drone/execute1",
+      "op_type": "DAT:execute",
+      "family": "DAT",
+      "specific_type": "execute",
+      "viewport_pos": null,
+      "tile_pos": [
+        1500,
+        -800,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "17": "\"\" me.parent()"
+        },
+        "start": "on"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0001p# me - this DAT\n# \n# frame - the current frame\n# state - True if the timeline is paused\n# \n# Make sure the corresponding toggle is enabled in the Execute DAT.\n\ndef start():\n\tparent.Rig.Reset()\n\treturn\n\ndef create():\n\treturn\n\ndef exit():\n\treturn\n\ndef frameStart(frame):\n\treturn\n\ndef frameEnd(frame):\n\treturn\n\ndef playState(state):\n\treturn\n\ndef deviceChange():\n\treturn\n\t",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/parexec1": {
+      "name": "parexec1",
+      "path": "/drone/parexec1",
+      "op_type": "DAT:parexec",
+      "family": "DAT",
+      "specific_type": "parexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -300,
+        130,
+        92
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "fromop": {
+          "17": "\"\" me.parent()"
+        },
+        "op": {
+          "49": "parent() parent()"
+        },
+        "pars": "*",
+        "valuechange": "off"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAASkIyBtZSAtIHRoaXMgREFUCiMgcGFyIC0gdGhlIFBhciBvYmplY3QgdGhhdCBoYXMgY2hhbmdlZAojIHZhbCAtIHRoZSBjdXJyZW50IHZhbHVlCiMgcHJldiAtIHRoZSBwcmV2aW91cyB2YWx1ZQojIAojIE1ha2Ugc3VyZSB0aGUgY29ycmVzcG9uZGluZyB0b2dnbGUgaXMgZW5hYmxlZCBpbiB0aGUgUGFyYW1ldGVyIEV4ZWN1dGUgREFULgoKZGVmIHZhbHVlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoKZGVmIG9uUHVsc2UocGFyKToKCWlmIHBhci5uYW1lID09ICdaZXJvdHJhbnNmb3JtJzoKCQlkZWJ1ZygnemVybycpCgkJcm9vdENvbXAgPSBvcCgncm9vdFRyYW5zZm9ybScpCgkJZXllQ29tcCA9IG9wKCdleWVDZW50ZXInKQoJCXJlWGZvcm0gPSByb290Q29tcC5yZWxhdGl2ZVRyYW5zZm9ybShleWVDb21wKQoJCXJlWGZvcm1bMSwzXSA9IDAKCQlkZWJ1ZyhyZVhmb3JtKQoJCXJlWGZvcm0uaW52ZXJ0KCkKCQlzLCByLCB0LCA9IHJlWGZvcm0uZGVjb21wb3NlKCkKCQlvcCgncm9vdFRyYW5zZm9ybScpLnBhci5wdHggPSB0WzBdCgkJb3AoJ3Jvb3RUcmFuc2Zvcm0nKS5wYXIucHR5ID0gMCAjdFsxXQoJCW9wKCdyb290VHJhbnNmb3JtJykucGFyLnB0eiA9IHRbMl0KCQkjcm9vdENvbXAuc2V0UHJlVHJhbnNmb3JtKHJlWGZvcm0uaW52ZXJ0KCkpCgkJI3hmb3JtRXllQ2VudGVyID0gb3AoJ2V5ZUNlbnRlcicpLndvcmxkVHJhbnNmb3JtKCkgCgkJI3hmb3JtUm9vdCA9IG9wKCdyb290VHJhbnNmb3JtJykud29ybGRUcmFuc2Zvcm0oKQoJCSNkZWJ1Zyh4Zm9ybUV5ZUNlbnRlcikKCQkjcm9vdENvbXAgPSBvcCgncm9vdFRyYW5zZm9ybScpCgkJI3hmb3JtUmVsYXRpdmVNID0gcm9vdENvbXAucmVsYXRpdmVUcmFuc2Zvcm0ob3AoJ2V5ZUNlbnRlcicpKQoJCSNkZWJ1Zyh4Zm9ybVJlYWx0aXZlTSkJCgkJI21hdCA9IHRkdS5NYXRyaXgoKQoJCSNpZE0gPSBtYXQuaWRlbnRpdHkoKQoJCSNvZmZzZXRNID0gaWRNKnhmb3JtUmVsYXRpdmVNCgkJI29wKCdyb290VHJhbnNmb3JtJykuc2V0UHJlVHJhbnNmb3JtKHhmb3JtUmVsYXRpdmUpCgoJcmV0dXJuCgpkZWYgZXhwcmVzc2lvbkNoYW5nZShwYXIsIHZhbCwgcHJldik6CglyZXR1cm4KCmRlZiBleHBvcnRDaGFuZ2UocGFyLCB2YWwsIHByZXYpOgoJcmV0dXJuCgpkZWYgZW5hYmxlQ2hhbmdlKHBhciwgdmFsLCBwcmV2KToKCXJldHVybgoJ",
+          "is_binary": true
+        }
+      }
+    },
+    "/drone/replace1": {
+      "name": "replace1",
+      "path": "/drone/replace1",
+      "op_type": "CHOP:replace",
+      "family": "CHOP",
+      "specific_type": "replace",
+      "viewport_pos": null,
+      "tile_pos": [
+        800,
+        -600,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "length": "second",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "controlChanOrder",
+        "1": "null1"
+      },
+      "extra_files": {}
+    },
+    "/drone/constraint": {
+      "name": "constraint",
+      "path": "/drone/constraint",
+      "op_type": "COMP:null",
+      "family": "COMP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1500,
+        -600,
+        160,
+        130
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "display": "on",
+        "pickable": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "pxform": "on"
+      },
+      "parent": "/drone",
+      "children": [
+        "tube1"
+      ],
+      "inputs": {},
+      "extra_files": {
+        "gnode": {
+          "content": "1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\nUT_DMatrix4 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1\n",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/constraint/tube1": {
+      "name": "tube1",
+      "path": "/drone/constraint/tube1",
+      "op_type": "SOP:tube",
+      "family": "SOP",
+      "specific_type": "tube",
+      "viewport_pos": null,
+      "tile_pos": [
+        0,
+        0,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "activate": "on",
+        "render": "on",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "orient": "z",
+        "tx": 0,
+        "ty": 0,
+        "tz": {
+          "17": "0 -me.par.height/2"
+        },
+        "rad1": 0.2,
+        "rad2": 0,
+        "cap": "on"
+      },
+      "parent": "/drone/constraint",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/drone/magnitudes": {
+      "name": "magnitudes",
+      "path": "/drone/magnitudes",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -600,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "replace1"
+      },
+      "extra_files": {}
+    },
+    "/drone/CameraDolly": {
+      "name": "CameraDolly",
+      "path": "/drone/CameraDolly",
+      "op_type": "DAT:text",
+      "family": "DAT",
+      "specific_type": "text",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -300,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {},
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "MgoqAAAAAQAAAAEAAAABAAAAAQAAAAIAAB39IiIiCkV4dGVuc2lvbiBjbGFzc2VzIGVuaGFuY2UgVG91Y2hEZXNpZ25lciBjb21wb25lbnQgbmV0d29ya3Mgd2l0aCBweXRob24KZnVuY3Rpb25hbGl0eS4gQW4gZXh0ZW5zaW9uIGNhbiBiZSBhY2Nlc3NlZCB2aWEgb3AoJ3lvdXJDb21wJykuRXh0ZW5zaW9uTmFtZS4KSWYgdGhlIGV4dGVuc2lvbiBpcyAicHJvbW90ZWQiLCBhbGwgaXRzIGF0dHJpYnV0ZXMgd2l0aCBjYXBpdGFsaXplZCBuYW1lcyBjYW4KYmUgYWNjZXNzZWQgZGlyZWN0bHksIGUuZy4gb3AoJ3lvdXJDb21wJykuRXh0ZW5zaW9uTWV0aG9kKCkKClRvIGNyZWF0ZSBweXRob24gZGF0YSB0aGF0IGlzIHBlcnNpc3RlbnQgYWZ0ZXIgc2F2aW5nLCB1c2UgdGhlIFN0b3JhZ2VNYW5hZ2VyCm9iamVjdC4gRmlyc3Qgc2V0IHVwIHN0b3JlZCBpdGVtcyBpbiBhIGRpY3Rpb25hcnksIHRoZW4gY3JlYXRlIHRoZQpTdG9yYWdlTWFuYWdlciBvYmplY3QuIEV4YW1wbGU6CgoJIyBTdG9yZWQgaXRlbSBkZWZpbml0aW9uczoKCXN0b3JlZEl0ZW1zID0gWwoJCQl7J25hbWUnOiAnc2ltcGxlJ30sICMgQmFzaWMgc3RvcmVkIGV4dGVuc2lvbiB2YWx1ZS4gRGVmYXVsdDogTm9uZQoJCQl7J25hbWUnOiAnbXlWYWwnLCAnZGVmYXVsdCc6IDJ9LCAjIEJhc2ljIHZhbHVlIHdpdGggZGVmYXVsdCBzZXQgdG8gMgoJCQl7J25hbWUnOiAnUHJvbW8nfSwgIyBDYXBpdGFsaXplZCBuYW1lIGNhbiBiZSBwcm9tb3RlZC4KCgkJCSMgSXRlbXMgYXJlIGNyZWF0ZWQgYXMgcHJvcGVydGllcyBvZiB5b3VyIGV4dGVuc2lvbiBieSBkZWZhdWx0LiBZb3UKCQkJIyBjYW4gdHVybiB0aGlzIGJlaGF2aW9yIG9mZiB3aXRoIHRoZSAncHJvcGVydHknIGZsYWcuCgkJCXsnbmFtZSc6ICdub1Byb3AnLCAncHJvcGVydHknOiBGYWxzZX0sCgoJCQkjIE9yIHlvdSBjYW4gYWxzbyBtYWtlIHRoZSBwcm9wZXJ0eSByZWFkLW9ubHkgd2l0aCB0aGUgJ3JlYWRPbmx5JwoJCQkjIGZsYWcKCQkJeyduYW1lJzogJ2xvY2tlZCcsICdyZWFkT25seSc6IFRydWV9LAoKCQkJIyBUaGUgJ2RlcGVuZGFibGUnIGZsYWcgbWFrZXMgYSBzZXQsIGxpc3QsIG9yIGRpY3Rpb25hcnkgZGVwZW5kYWJsZQoJCQkjIHNvIFRvdWNoRGVzaWduZXIgb3BlcmF0b3JzIHRoYXQgYXJlIHdhdGNoaW5nIGl0cyBpdGVtcyB3aWxsIGNvb2sKCQkJIyB3aGVuIHRob3NlIGl0ZW1zIGNoYW5nZS4gTm90ZSB0aGF0IGFsbCBzaW5nbGUgdmFsdWUgc3RvcmVkIGl0ZW1zCgkJCSMgYXJlIGFsd2F5cyBkZXBlbmRhYmxlCgkJCXsnbmFtZSc6J2RlcGVuZERpY3QnLCdkZWZhdWx0JzpbJ2RvZycsICdjYXQnXSwgJ2RlcGVuZGFibGUnOlRydWV9CgkJCV0KCgkjIENyZWF0ZSB5b3VyIFN0b3JhZ2VNYW5hZ2VyIG9iamVjdAoJc2VsZi5zdG9yZWQgPSBTdG9yYWdlTWFuYWdlcihzZWxmLCBvd25lckNvbXAsIHN0b3JlZEl0ZW1zKQoKCSMgU3RvcmVkIGl0ZW1zIGFyZSBjcmVhdGVkIGFzIHByb3BlcnRpZXMgb2YgeW91ciBleHRlbnNpb24gYnkgZGVmYXVsdC4uLgoJc2VsZi5teVZhbCA9IDQKCgkjIFRoZSBTdG9yYWdlTWFuYWdlciBvYmplY3QgZ2l2ZXMgYWNjZXNzIHRvIGFsbCBzdG9yZWQgaXRlbXMsIGluY2x1ZGluZwoJIyB0aG9zZSB3aXRoIHByb3BlcnR5ID0gRmFsc2Ugb3IgcmVhZE9ubHkgPSBUcnVlCglzZWxmLnN0b3JlZFsnbG9ja2VkJ10gPSAiTmV3IHZhbHVlIgoJc2VsZi5zdG9yZWRbJ25vUHJvcCddID0gIkFub3RoZXIgbmV3IHZhbHVlIgoiIiIKCmZyb20gVGRTdG9yZVRvb2xzIGltcG9ydCBTdG9yYWdlTWFuYWdlcgoKY2xhc3MgQ2FtZXJhRG9sbHk6CgkiIiIKCUNhbWVyYURvbGx5IG1vdmVzIGFyb3VuZCBhIGRvbGx5IG9iamVjdCB0byBiZSB1c2VkIGJ5IGEKCWNhbWVyYSBhcyBhIHBhcmVudCB0cmFuc2Zvcm0KCSIiIgoJZGVmIF9faW5pdF9fKHNlbGYsIG93bmVyQ29tcCk6CgkJI1RoZSBjb21wb25lbnQgdG8gd2hpY2ggdGhpcyBleHRlbnNpb24gaXMgYXR0YWNoZWQKCQlzZWxmLm93bmVyQ29tcCA9IG93bmVyQ29tcAoJCSNEb2xseSBvYmplY3QgY29tcG9uZW50CgkJc2VsZi5kb2xseUNvbXAgPSBzZWxmLm93bmVyQ29tcC5vcCgnY29uc3RyYWludCcpCgkJI1RoZSBkaXJlY3Rpb24gb2JqZWN0IHBhcmFtZXRlcgoJCXNlbGYubW92ZURpclBhciA9IHNlbGYub3duZXJDb21wLnBhci5Nb3ZlZGlyZWN0aW9ub2JqZWN0CgkJI1RoZSBjaG9wIHRvIHN0b3JlIHRoZSBkZWNvbXBvc2VkIGNoYW5uZWxzIG9mIHhmb3JtCgkJc2VsZi5kZWNvbXBDaG9wID0gc2VsZi5vd25lckNvbXAub3AoJ2RlY29tcG9zZVRyYW5zZm9ybScpCgoJCSNBbGwgcGFyYW1ldGVycwoJCXNlbGYucGFyTWlubWF4dHgxID0gc2VsZi5vd25lckNvbXAucGFyLk1pbm1heHgxCgkJc2VsZi5wYXJNaW5tYXh0eDIgPSBzZWxmLm93bmVyQ29tcC5wYXIuTWlubWF4eDIKCQlzZWxmLnBhck1pbm1heHR5MSA9IHNlbGYub3duZXJDb21wLnBhci5NaW5tYXh5MQoJCXNlbGYucGFyTWlubWF4dHkyID0gc2VsZi5vd25lckNvbXAucGFyLk1pbm1heHkyCgkJc2VsZi5wYXJNaW5tYXh0ejEgPSBzZWxmLm93bmVyQ29tcC5wYXIuTWlubWF4ejEKCQlzZWxmLnBhck1pbm1heHR6MiA9IHNlbGYub3duZXJDb21wLnBhci5NaW5tYXh6MgoKCQkjQWxsIHBhcmFtZXRlcnMKCQlzZWxmLnBhckNsYW1wbWlueCA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1pbngKCQlzZWxmLnBhckNsYW1wbWF4eCA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1heHgKCQlzZWxmLnBhckNsYW1wbWlueSA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1pbnkKCQlzZWxmLnBhckNsYW1wbWF4eSA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1heHkKCQlzZWxmLnBhckNsYW1wbWlueiA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1pbnoKCQlzZWxmLnBhckNsYW1wbWF4eiA9IHNlbGYub3duZXJDb21wLnBhci5DbGFtcG1heHoKCgkJIyBTZXQgdXAgc3RvcmFnZSBmb3IgcGVyc2lzdGVudCBkYXRhCgkJc3RvcmVkSXRlbXMgPSBbeyduYW1lJzonRG9sbHlUcmFuc2Zvcm0nLCAnZGVmYXVsdCc6dGR1Lk1hdHJpeCgpfSwKCQkJCQkJeyduYW1lJzoncG9zaXRpb24nLCAnZGVmYXVsdCc6dGR1LlBvc2l0aW9uKCl9LAoJCQkJCQl7J25hbWUnOidwaXRjaCcsICdkZWZhdWx0JzowLjB9LAoJCQkJCQl7J25hbWUnOid5YXcnLCAnZGVmYXVsdCc6MC4wfSwKCQkJCQkJXQoKCQkjc3RvcmVkSXRlbXMgPSBbXQoJCXNlbGYuc3RvcmVkID0gU3RvcmFnZU1hbmFnZXIoc2VsZiwgb3duZXJDb21wLCBzdG9yZWRJdGVtcykKCglkZWYgR2V0TW92ZURpck9iamVjdChzZWxmKToKCQkiIiIKCQlHZXRzIHRoZSBvYmplY3QgdGhhdCBkZXRlcm1pbmVzIHRoZSBmb3J3YXJkCgkJZGllY3Rpb24gdG8gbW92ZSBpbgoJCSIiIgoJCW1kbyA9IHNlbGYubW92ZURpclBhci5ldmFsKCkKCQlpZiBpc2luc3RhbmNlKG1kbywgT2JqZWN0Q09NUCk6CgkJCXJldHVybiBtZG8KCQllbHNlOgoJCQlyZXR1cm4gTm9uZQoKCWRlZiBCdWlsZFRyYW5zZm9ybShzZWxmKToKCQkiIiIKCQlCdWlsZHMgdGhlIHRyYW5zZm9ybSBtYXRyaXggZm9yIHRoZSBkb2xseSB3aXRoIGN1cnJlbnQgdmFsdWVzCgkJIiIiCgkJI3N0YXJ0IHdpdGggaWRlbnRpdHkgbWF0cml4CgkJc2VsZi5Eb2xseVRyYW5zZm9ybS5pZGVudGl0eSgpCgkJI3RoZW4gcm90YXRlCgkJc2VsZi5Eb2xseVRyYW5zZm9ybS5yb3RhdGUoc2VsZi5waXRjaCwgc2VsZi55YXcsIDApCgkJI3RoZW4gdHJhbnNsYXRlCgkJc2VsZi5Eb2xseVRyYW5zZm9ybS50cmFuc2xhdGUoc2VsZi5wb3NpdGlvbi54LCBzZWxmLnBvc2l0aW9uLnksXAoJCQkJCQkJCQkJCQkJCQlzZWxmLnBvc2l0aW9uLnopCgoJZGVmIFRyYW5zZm9ybShzZWxmKToKCQkiIiIKCQlDYWxsZWQgd2hlbiBhIG5ldyB0cmFuc2Zvcm0gZm9yIHRoZSBjYW1lcmEgaXMgZGVzaXJlZAoJCSIiIgoJCXNlbGYuQnVpbGRUcmFuc2Zvcm0oKQoJCSNIQUNLIHRoaXMgc2hvdWxkIG5vdCBiZSByZXF1aXJlZCBhcyB0aGUgZGVwZW5kZW5jeSBzaG91bGQgdXBkYXRlCgkJI2Zyb20gdGhlIERvbGx5VHJhbnNmb3JtIGRlcGVuZGVuY3kgc3RvcmFnZSBvYmplY3QKCQkjcHJpbnQoJ2RvbGx5VHJhbnNmb3JtJywgc2VsZi5Eb2xseVRyYW5zZm9ybSkKCQlzZWxmLmRvbGx5Q29tcC5zZXRUcmFuc2Zvcm0oc2VsZi5Eb2xseVRyYW5zZm9ybSkKCQlzLCByLCB0ID0gc2VsZi5Eb2xseVRyYW5zZm9ybS5kZWNvbXBvc2UoKQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWUwID0gdFswXQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWUxID0gdFsxXQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWUyID0gdFsyXQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWUzID0gclswXQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWU0ID0gclsxXQoJCXNlbGYuZGVjb21wQ2hvcC5wYXIudmFsdWU1ID0gclsyXQoKCWRlZiBNb3ZlVXBEb3duKHNlbGYsIHNwZWVkKToKCQkiIiIKCQlNb3ZlcyB0aGUgZG9sbHkgdXAgZG93bgoJCSIiIgoJCSNHZXQgdGhlIGN1cnJlbnQgd29ybGQgdHJhbnNmb3JtIGZvciBlaXRoZXIgdGhlIGRpcmVjdGlvbiBvYmplY3QKCQkjb3IgaW50ZXJuYWwgZG9sbHkgb2JqZWN0CgkJI3NlbGYucG9zaXRpb24ueSA9IHNlbGYucG9zaXRpb24ueSArIHNwZWVkCgoJCWRpck9iamVjdCA9IHNlbGYuR2V0TW92ZURpck9iamVjdCgpCgkJaWYgZGlyT2JqZWN0OgoJCQlkb2xseVhmb3JtID0gZGlyT2JqZWN0LndvcmxkVHJhbnNmb3JtCgkJZWxzZToKCQkJZG9sbHlYZm9ybSA9IHNlbGYuZG9sbHlDb21wLndvcmxkVHJhbnNmb3JtCgoJCSNUaGUgZGlyZWN0aW9uIHlvdSB3YW50IHRvIG1vdmUgdGhlIGRvbGx5IGluIGl0cyBvd24gc3BhY2UKCQlkaXJWZWN0b3IgPSB0ZHUuVmVjdG9yKDAsMSwwKQoJCSNUaGlzIGdpdmVzIHlvdSB0aGUgZGlyZWN0aW9uIHlvdSBhcmUgbG9va2luZyBpbgoJCWRpclZlY3RvciA9IGRvbGx5WGZvcm0gKiBkaXJWZWN0b3IKCQkjWmVybyB5IGF4aXMgY2F1c2UgbW92aW5nIGluIDJEIHBsYW5lCgkJZGlyVmVjdG9yLnggPSAwCgkJZGlyVmVjdG9yLnogPSAwCgkJI05vcmFtbGl6ZSB0byBwcmVwYXJlIGZvciBzY2FsaW5nCgkJZGlyVmVjdG9yLm5vcm1hbGl6ZSgpCgkJI1NjYWxlIHZlY3RvciBieSBpbmNvbWluZyBzcGVlZCB2YWx1ZSB0byBjcmVhdGUgb2Zmc2V0CgkJZGlyVmVjdG9yICo9IHNwZWVkCgkJI0FkZCBvZmZzZXQgdG8gdGhlIHBvc2l0aW9uCgkJc2VsZi5wb3NpdGlvbiArPSBkaXJWZWN0b3IKCQlzZWxmLnBvc2l0aW9uLnkgPSBtaW4obWF4KHNlbGYucG9zaXRpb24ueSwgc2VsZi5wYXJNaW5tYXh0eTEpLCBzZWxmLnBhck1pbm1heHR5MikKCQkjcHJpbnQoc2VsZi5wb3NpdGlvbikKCQkjcHJpbnQoJ2ZiJywgc2VsZi5wb3NpdGlvbikKCglkZWYgTW92ZUZvcndhcmRCYWNrd2FyZChzZWxmLCBzcGVlZCk6CgkJIiIiCgkJTW92ZXMgdGhlIGRvbGx5IGxlZnQgcmlnaHQgcmVsYXRpdmUgdG8gaXRzIG93biBjdXJyZW50IG9yaWVudGF0aW9uCgkJIiIiCgkJI0dldCB0aGUgY3VycmVudCB3b3JsZCB0cmFuc2Zvcm0gZm9yIGVpdGhlciB0aGUgZGlyZWN0aW9uIG9iamVjdAoJCSNvciBpbnRlcm5hbCBkb2xseSBvYmplY3QKCQlkaXJPYmplY3QgPSBzZWxmLkdldE1vdmVEaXJPYmplY3QoKQoJCWlmIGRpck9iamVjdDoKCQkJZG9sbHlYZm9ybSA9IGRpck9iamVjdC53b3JsZFRyYW5zZm9ybQoJCWVsc2U6CgkJCWRvbGx5WGZvcm0gPSBzZWxmLmRvbGx5Q29tcC53b3JsZFRyYW5zZm9ybQoKCQkjVGhlIGRpcmVjdGlvbiB5b3Ugd2FudCB0byBtb3ZlIHRoZSBkb2xseSBpbiBpdHMgb3duIHNwYWNlCgkJZGlyVmVjdG9yID0gdGR1LlZlY3RvcigwLDAsLTEpCgkJI1RoaXMgZ2l2ZXMgeW91IHRoZSBkaXJlY3Rpb24geW91IGFyZSBsb29raW5nIGluCgkJZGlyVmVjdG9yID0gZG9sbHlYZm9ybSAqIGRpclZlY3RvcgoJCSNaZXJvIHkgYXhpcyBjYXVzZSBtb3ZpbmcgaW4gMkQgcGxhbmUKCQlkaXJWZWN0b3IueSA9IDAKCQkjTm9yYW1saXplIHRvIHByZXBhcmUgZm9yIHNjYWxpbmcKCQlkaXJWZWN0b3Iubm9ybWFsaXplKCkKCQkjU2NhbGUgdmVjdG9yIGJ5IGluY29taW5nIHNwZWVkIHZhbHVlIHRvIGNyZWF0ZSBvZmZzZXQKCQlkaXJWZWN0b3IgKj0gc3BlZWQKCQkjQWRkIG9mZnNldCB0byB0aGUgcG9zaXRpb24KCQlzZWxmLnBvc2l0aW9uICs9IGRpclZlY3RvcgoJCSNwcmludCgnZmInLCBzZWxmLnBvc2l0aW9uKQoKCWRlZiBNb3ZlTGVmdFJpZ2h0KHNlbGYsIHNwZWVkKToKCQkiIiIKCQlNb3ZlcyB0aGUgZG9sbHkgbGVmdCByaWdodCByZWxhdGl2ZSB0byBpdHMgb3duIGN1cnJlbnQgb3JpZW50YXRpb24KCQkiIiIKCQkjR2V0IHRoZSBjdXJyZW50IHdvcmxkIHRyYW5zZm9ybSBmb3IgZWl0aGVyIHRoZSBkaXJlY3Rpb24gb2JqZWN0CgkJI29yIGludGVybmFsIGRvbGx5IG9iamVjdAoJCWRpck9iamVjdCA9IHNlbGYuR2V0TW92ZURpck9iamVjdCgpCgkJaWYgZGlyT2JqZWN0OgoJCQlkb2xseVhmb3JtID0gZGlyT2JqZWN0LndvcmxkVHJhbnNmb3JtCgkJZWxzZToKCQkJZG9sbHlYZm9ybSA9IHNlbGYuZG9sbHlDb21wLndvcmxkVHJhbnNmb3JtCgkJI1RoZSBkaXJlY3Rpb24geW91IHdhbnQgdG8gbW92ZSB0aGUgZG9sbHkgaW4gaXRzIG93biBzcGFjZQoJCWRpclZlY3RvciA9IHRkdS5WZWN0b3IoMSwwLDApCgkJI1RoaXMgZ2l2ZXMgeW91IHRoZSBkaXJlY3Rpb24geW91IGFyZSBsb29raW5nIGluCgkJZGlyVmVjdG9yID0gZG9sbHlYZm9ybSAqIGRpclZlY3RvcgoJCSNaZXJvIHkgYXhpcyBjYXVzZSBtb3ZpbmcgaW4gMkQgcGxhbmUKCQlkaXJWZWN0b3IueSA9IDAKCQkjTm9yYW1saXplIHRvIHByZXBhcmUgZm9yIHNjYWxpbmcKCQlkaXJWZWN0b3Iubm9ybWFsaXplKCkKCQkjU2NhbGUgdmVjdG9yIGJ5IGluY29taW5nIHNwZWVkIHZhbHVlIHRvIGNyZWF0ZSBvZmZzZXQKCQlkaXJWZWN0b3IgKj0gc3BlZWQKCQkjQWRkIG9mZnNldCB0byB0aGUgcG9zaXRpb24KCQlzZWxmLnBvc2l0aW9uICs9IGRpclZlY3RvcgoJCSNwcmludCgnbHInLCBzZWxmLnBvc2l0aW9uKQoJCXBhc3MKCglkZWYgWWF3KHNlbGYsIHJvdGF0aW9uKToKCQkiIiIKCQlSb3RhdGVzIGRvbGx5IGFyb3VuZCBpdHMgWSBheGlzCgkJIiIiCgkJc2VsZi55YXcgKz0gcm90YXRpb24KCglkZWYgUGl0Y2goc2VsZiwgcm90YXRpb24pOgoJCSIiIgoJCVJvdGF0ZXMgZG9sbHkgYXJvdW5kIGl0cyBYIGF4aXMKCQkiIiIKCQlzZWxmLnBpdGNoICs9IHJvdGF0aW9uCgoJZGVmIFJlc2V0KHNlbGYpOgoJCSIiIgoJCVplcm9zIG91dCB0aGUgdHJhbnNmb3JtCgkJIiIiCgkJc2VsZi5zdG9yZWQucmVzdG9yZUFsbERlZmF1bHRzKCkKCQkjcHJpbnQoc2VsZi5Eb2xseVRyYW5zZm9ybSwgc2VsZi5waXRjaCwgc2VsZi55YXcpCgkJI0hBQ0sgcmVzdG9yZURlZmF1bHRzIGlzbid0IHJlc2V0dGluZyBNYXRyaXggYW5kIHBvc2l0aW9uIGNvcnJlY3RseQoJCSNzbyBoYXZlIHRvIHJlc2V0IHBvc2l0aW9uIGFuZCBEb2xseVRyYW5zZm9ybSBtYW51YWxseSBmb3Igbm93CgkJc2VsZi5wb3NpdGlvbiA9IHRkdS5Qb3NpdGlvbigpCgkJc2VsZi5Eb2xseVRyYW5zZm9ybSA9IHRkdS5NYXRyaXgoKQoJCSNIQUNLIGlmIGRlcGVuZGVuY3kgd29ya2VkIGNvcnJlY3RseSB0aGVyZSB3b3VsZCBiZSBubyBuZWVkIHRvIGNhbGwKCQkjdHJhbnNmb3JtIGVpdGhlcgoJCXNlbGYuVHJhbnNmb3JtKCkK",
+          "is_binary": true
+        }
+      }
+    },
+    "/drone/setTransform": {
+      "name": "setTransform",
+      "path": "/drone/setTransform",
+      "op_type": "DAT:chopexec",
+      "family": "DAT",
+      "specific_type": "chopexec",
+      "viewport_pos": null,
+      "tile_pos": [
+        1600,
+        -1000,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "active": {
+          "49": "on parent.Rig.par.Active"
+        },
+        "fromop": {
+          "17": "\"\" me.parent()"
+        },
+        "chop": "runSetTranform",
+        "channel": "forwardBackward",
+        "whileon": "on",
+        "valuechange": "off",
+        "freq": "onceperframe"
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {
+        "text": {
+          "content": "2\n*\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0002\u0000\u0000\u0002Z# me is this DAT.\n# \n# channel is the Channel object which has changed.\n# sampleIndex is the index of the channel thats changed.\n# val is the numeric value of the changed sample.\n# prev is the previous sample value.\n# \n# Make sure the corresponding toggle is enabled in the CHOP Execute DAT.\n\ndef offToOn(channel, sampleIndex, val, prev):\n    return\n\ndef whileOn(channel, sampleIndex, val, prev):\n    parent.Rig.Transform()\n\ndef onToOff(channel, sampleIndex, val, prev):\n    return\n\ndef whileOff(channel, sampleIndex, val, prev):\n    return\n\ndef valueChange(channel, sampleIndex, val, prev):\n    return",
+          "is_binary": false
+        }
+      }
+    },
+    "/drone/transformOut": {
+      "name": "transformOut",
+      "path": "/drone/transformOut",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1975,
+        -750,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "decomposeTransform"
+      },
+      "extra_files": {}
+    },
+    "/drone/worldPreview": {
+      "name": "worldPreview",
+      "path": "/drone/worldPreview",
+      "op_type": "TOP:select",
+      "family": "TOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        1200,
+        -300,
+        130,
+        90
+      ],
+      "color": [
+        0.68,
+        0.453333,
+        0.0
+      ],
+      "flags": {
+        "viewer": "1",
+        "display": "on",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "top": {
+          "49": "/viveDemo/viveHMD/out1 \"parent.Rig.par.Previewrendertop.eval() if isinstance(parent.Rig.par.Previewrendertop.eval(), TOP) else ''\""
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/drone/runSetTranform": {
+      "name": "runSetTranform",
+      "path": "/drone/runSetTranform",
+      "op_type": "CHOP:null",
+      "family": "CHOP",
+      "specific_type": "null",
+      "viewport_pos": null,
+      "tile_pos": [
+        1400,
+        -1000,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "cooktype": "selective",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {
+        "0": "math1"
+      },
+      "extra_files": {}
+    },
+    "/drone/getControlChans": {
+      "name": "getControlChans",
+      "path": "/drone/getControlChans",
+      "op_type": "CHOP:select",
+      "family": "CHOP",
+      "specific_type": "select",
+      "viewport_pos": null,
+      "tile_pos": [
+        400,
+        -700,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "current": "on",
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "chop": {
+          "49": "parent.Device.par.joystickComp.eval() \"parent.Rig.par.Joystickcomp.eval().op('chansOut') if parent.Rig.par.Joystickcomp.eval() else ''\""
+        },
+        "channames": {
+          "34": "\"leftThumbY leftThumbX rightThumbY rightThumbX back ls rs\""
+        },
+        "renameto": "\"forwardBackward leftRight pitch yaw reset down up\"",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/drone/controlChanOrder": {
+      "name": "controlChanOrder",
+      "path": "/drone/controlChanOrder",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        600,
+        -500,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "name0": "forwardBackward",
+        "name1": "leftRight",
+        "name2": "pitch",
+        "name3": "yaw",
+        "name4": "reset",
+        "name5": "up",
+        "name6": "down",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    },
+    "/drone/decomposeTransform": {
+      "name": "decomposeTransform",
+      "path": "/drone/decomposeTransform",
+      "op_type": "CHOP:constant",
+      "family": "CHOP",
+      "specific_type": "constant",
+      "viewport_pos": null,
+      "tile_pos": [
+        1775,
+        -750,
+        130,
+        90
+      ],
+      "color": null,
+      "flags": {
+        "viewer": "1",
+        "parlanguage": "0"
+      },
+      "parameters": {
+        "name0": "tx",
+        "name1": "ty",
+        "name2": "tz",
+        "name3": "rx",
+        "name4": "ry",
+        "name5": "rz",
+        "autoexportroot": {
+          "17": "\"\" me.parent()"
+        }
+      },
+      "parent": "/drone",
+      "children": [],
+      "inputs": {},
+      "extra_files": {}
+    }
+  },
+  "raw_files": {
+    ".build": {
+      "content": "version 099\nbuild 2019.17400\ntime Mon Jul 22 21:30:06 2019\nosname Windows\nosversion 10\n",
+      "is_binary": false
+    }
+  },
+  "toc_order": [
+    "# 4 0 0 0 1",
+    ".build",
+    "drone.n",
+    "drone.cparm",
+    "drone.parm",
+    "drone.gnode",
+    "drone/help.n",
+    "drone/help.parm",
+    "drone/help.text",
+    "drone/icon.n",
+    "drone/icon.parm",
+    "drone/eval1.n",
+    "drone/eval1.parm",
+    "drone/math1.n",
+    "drone/math1.parm",
+    "drone/null1.n",
+    "drone/null1.parm",
+    "drone/reset.n",
+    "drone/reset.parm",
+    "drone/reset.text",
+    "drone/state.n",
+    "drone/state.parm",
+    "drone/table1.n",
+    "drone/table1.parm",
+    "drone/table1.table",
+    "drone/parexec.n",
+    "drone/parexec.parm",
+    "drone/parexec.text",
+    "drone/whileOn.n",
+    "drone/whileOn.parm",
+    "drone/whileOn.text",
+    "drone/execute1.n",
+    "drone/execute1.parm",
+    "drone/execute1.text",
+    "drone/parexec1.n",
+    "drone/parexec1.parm",
+    "drone/parexec1.text",
+    "drone/replace1.n",
+    "drone/replace1.parm",
+    "drone/constraint.n",
+    "drone/constraint.parm",
+    "drone/constraint.gnode",
+    "drone/constraint/tube1.n",
+    "drone/constraint/tube1.parm",
+    "drone/magnitudes.n",
+    "drone/magnitudes.parm",
+    "drone/CameraDolly.n",
+    "drone/CameraDolly.text",
+    "drone/setTransform.n",
+    "drone/setTransform.parm",
+    "drone/setTransform.text",
+    "drone/transformOut.n",
+    "drone/transformOut.parm",
+    "drone/worldPreview.n",
+    "drone/worldPreview.parm",
+    "drone/runSetTranform.n",
+    "drone/runSetTranform.parm",
+    "drone/getControlChans.n",
+    "drone/getControlChans.parm",
+    "drone/controlChanOrder.n",
+    "drone/controlChanOrder.parm",
+    "drone/decomposeTransform.n",
+    "drone/decomposeTransform.parm"
+  ],
+  "connections": [
+    {
+      "from": "table1",
+      "to": "/drone/eval1",
+      "to_input": 0
+    },
+    {
+      "from": "state",
+      "to": "/drone/math1",
+      "to_input": 0
+    },
+    {
+      "from": "getControlChans",
+      "to": "/drone/null1",
+      "to_input": 0
+    },
+    {
+      "from": "replace1",
+      "to": "/drone/state",
+      "to_input": 0
+    },
+    {
+      "from": "controlChanOrder",
+      "to": "/drone/replace1",
+      "to_input": 0
+    },
+    {
+      "from": "null1",
+      "to": "/drone/replace1",
+      "to_input": 1
+    },
+    {
+      "from": "replace1",
+      "to": "/drone/magnitudes",
+      "to_input": 0
+    },
+    {
+      "from": "decomposeTransform",
+      "to": "/drone/transformOut",
+      "to_input": 0
+    },
+    {
+      "from": "math1",
+      "to": "/drone/runSetTranform",
+      "to_input": 0
+    }
+  ],
+  "statistics": {
+    "total_operators": 25,
+    "total_connections": 9,
+    "total_raw_files": 1,
+    "total_extra_files": 12,
+    "total_files_captured": 63,
+    "by_family": {
+      "COMP": 2,
+      "DAT": 10,
+      "TOP": 2,
+      "CHOP": 10,
+      "SOP": 1
+    },
+    "by_type": {
+      "COMP:geo": 1,
+      "DAT:text": 2,
+      "TOP:moviefilein": 1,
+      "DAT:eval": 1,
+      "CHOP:math": 1,
+      "CHOP:null": 4,
+      "DAT:chopexec": 3,
+      "CHOP:express": 1,
+      "DAT:table": 1,
+      "DAT:parexec": 2,
+      "DAT:execute": 1,
+      "CHOP:replace": 1,
+      "COMP:null": 1,
+      "SOP:tube": 1,
+      "TOP:select": 1,
+      "CHOP:select": 1,
+      "CHOP:constant": 2
+    },
+    "max_depth": 3,
+    "total_parameters": 98
+  }
+}

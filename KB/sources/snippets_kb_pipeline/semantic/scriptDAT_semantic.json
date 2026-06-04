@@ -1,0 +1,627 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\scriptDAT_lossless.json",
+  "operator_type": "scriptDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "removeblank": "on",
+            "language": "text"
+          }
+        },
+        {
+          "name": "script1",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script1_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "script2",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script2_callbacks"
+          }
+        },
+        {
+          "name": "script3",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script3_callbacks"
+          }
+        },
+        {
+          "name": "script4",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script4_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "script5",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script5_callbacks"
+          }
+        },
+        {
+          "name": "script1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script4_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script5_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "script1",
+          "to": "script2",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "script3",
+          "to_input": "0"
+        },
+        {
+          "from": "script4",
+          "to": "script5",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 6,
+          "DAT:table": 1,
+          "DAT:script": 5
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "dump",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table10",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script11",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script11_callbacks"
+          }
+        },
+        {
+          "name": "script11_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table10",
+          "to": "script11",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:table": 1,
+          "DAT:script": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table9",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script4",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script2_callbacks1"
+          }
+        },
+        {
+          "name": "table11",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script12",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script2_callbacks2"
+          }
+        },
+        {
+          "name": "script2_callbacks1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script2_callbacks2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table9",
+          "to": "script4",
+          "to_input": "0"
+        },
+        {
+          "from": "table11",
+          "to": "script12",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:table": 2,
+          "DAT:script": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "script8",
+          "type": "DAT:script",
+          "parameters": {
+            "pageindex": 2,
+            "callbacks": "script8_callbacks",
+            "language": "text"
+          }
+        },
+        {
+          "name": "script8_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:script": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table6",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 4,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table8",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script2",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script2_callbacks"
+          }
+        },
+        {
+          "name": "script2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table6",
+          "to": "script2",
+          "to_input": "0"
+        },
+        {
+          "from": "table8",
+          "to": "script2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 2,
+          "DAT:script": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script1",
+          "type": "DAT:script",
+          "parameters": {
+            "callbacks": "script1_callbacks"
+          }
+        },
+        {
+          "name": "script2",
+          "type": "DAT:script",
+          "parameters": {
+            "pageindex": 2,
+            "callbacks": "script3_callbacks"
+          }
+        },
+        {
+          "name": "script1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        },
+        {
+          "name": "script3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "script1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "script2",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "script2",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:table": 2,
+          "DAT:script": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table5",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 6,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script3",
+          "type": "DAT:script",
+          "parameters": {
+            "pageindex": 2,
+            "callbacks": "script3_callbacks"
+          }
+        },
+        {
+          "name": "script3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table5",
+          "to": "script3",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "DAT:script": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "table7",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "script1",
+          "type": "DAT:script",
+          "parameters": {
+            "pageindex": 2,
+            "callbacks": "script1_callbacks"
+          }
+        },
+        {
+          "name": "script1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table7",
+          "to": "script1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 2,
+          "DAT:table": 1,
+          "DAT:script": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

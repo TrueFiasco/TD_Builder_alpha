@@ -1,0 +1,138 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\constantTOP_lossless.json",
+  "operator_type": "constantTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "mono1",
+          "type": "TOP:mono",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "constant2",
+          "type": "TOP:constant",
+          "parameters": {
+            "pageindex": 1,
+            "operand": "burnlinear",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "multiply1",
+          "type": "TOP:multiply",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviefilein5",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant_multiply",
+          "type": "TOP:constant",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein2",
+          "to": "mono1",
+          "to_input": "0"
+        },
+        {
+          "from": "mono1",
+          "to": "constant2",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "multiply1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein4",
+          "to": "multiply1",
+          "to_input": "1"
+        },
+        {
+          "from": "moviefilein5",
+          "to": "constant_multiply",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:mono": 1,
+          "DAT:text": 1,
+          "COMP:annotate": 3,
+          "TOP:constant": 3,
+          "TOP:multiply": 1,
+          "TOP:moviefilein": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

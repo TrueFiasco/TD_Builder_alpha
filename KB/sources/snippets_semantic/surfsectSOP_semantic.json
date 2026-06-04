@@ -1,0 +1,188 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\surfsectSOP_lossless.json",
+  "operator_type": "surfsectSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null3",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null4",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "SOP:noise",
+          "parameters": {
+            "period": 0.05,
+            "rough": 0.052,
+            "amp": 0.16
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "type": "nurbs",
+            "radx": 0.3,
+            "rady": 0.3,
+            "radz": 0.3,
+            "tz": 0.3,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "sphere2",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "radx": 0.5,
+            "rady": 0.6,
+            "radz": 0.4,
+            "reverseanchors": "on",
+            "rows": 40
+          }
+        },
+        {
+          "name": "surfsect_Union",
+          "type": "SOP:surfsect",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "surfsect_A_minus_B",
+          "type": "SOP:surfsect",
+          "parameters": {
+            "pageindex": 1,
+            "boolop": "aminusb"
+          }
+        },
+        {
+          "name": "surfsect_B_minus_A",
+          "type": "SOP:surfsect",
+          "parameters": {
+            "pageindex": 1,
+            "boolop": "bminusa"
+          }
+        },
+        {
+          "name": "surfsect_Intersect",
+          "type": "SOP:surfsect",
+          "parameters": {
+            "pageindex": 1,
+            "boolop": "intersect"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "surfsect_Union",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "surfsect_Intersect",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "surfsect_A_minus_B",
+          "to": "null3",
+          "to_input": "0"
+        },
+        {
+          "from": "surfsect_B_minus_A",
+          "to": "null4",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere2",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "surfsect_Union",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "surfsect_Union",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "surfsect_A_minus_B",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "surfsect_A_minus_B",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "surfsect_B_minus_A",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "surfsect_B_minus_A",
+          "to_input": "1"
+        },
+        {
+          "from": "sphere1",
+          "to": "surfsect_Intersect",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "surfsect_Intersect",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 13,
+        "operator_types": {
+          "SOP:null": 4,
+          "SOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 2,
+          "SOP:surfsect": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\phongMAT_lossless.json",
+  "operator_type": "phongMAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -0.0658567,
+            "ty": 1.40252,
+            "tz": 6.57687,
+            "rx": -28.0544,
+            "ry": -0.406667,
+            "rz": -0.873279,
+            "px": 0.0658566,
+            "py": -2.08252,
+            "pz": -3.07687,
+            "orthowidth": 1,
+            "aperture": 44.1,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "geo1",
+          "type": "COMP:geo",
+          "parameters": {
+            "rz": 30,
+            "material": "phong1"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 1,
+            "gain": 4,
+            "exporttable": "math1_export"
+          }
+        },
+        {
+          "name": "light1",
+          "type": "COMP:light",
+          "parameters": {
+            "pageindex": 3,
+            "tx": 3.39721,
+            "ty": 3.32923,
+            "tz": 10,
+            "rx": -22.4535,
+            "ry": 20.8303,
+            "rz": -7.51474,
+            "px": -3.39721,
+            "py": -3.32924,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffr": 0.6,
+            "diffg": 0.6,
+            "diffb": 0.6,
+            "specr": 0.956863,
+            "specg": 1,
+            "specb": 0.498039,
+            "shininess": 10,
+            "normalmap": "subselect2",
+            "bumpscale": 1.5,
+            "envmap": "moviefilein2",
+            "envmaprotatex": 10,
+            "envmaprotatey": 90,
+            "texture1coord": "uv2",
+            "texture4coord": "uv1",
+            "rimlight0enable": "on",
+            "rimlight0center": 125,
+            "rimlight0width": 1,
+            "legacyalphabehavior": "on",
+            "rimlight1enable": "on",
+            "rimlight1map": "\"\"",
+            "rimlight1mapextendu": "repeat",
+            "rimlight1mapextendv": "repeat",
+            "rimlight1mapextendw": "repeat",
+            "rimlight1mapfilter": "mipmaplinear",
+            "rimlight1mapsamplingmode": "regular",
+            "rimlight1mapcoord": "uv0",
+            "rimlight1mapcoordattr": "Tex",
+            "rimlight1mapcoordinterp": "perspectivecorrect",
+            "rimlight1center": 292,
+            "rimlight1width": 0.153,
+            "rimlight1strength": 1,
+            "rimlight1strengthramp": "\"\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render1",
+          "type": "TOP:render",
+          "parameters": {
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {}
+        },
+        {
+          "name": "subselect1",
+          "type": "TOP:subselect",
+          "parameters": {
+            "substance": "substance1",
+            "output": "basecolor"
+          }
+        },
+        {
+          "name": "subselect2",
+          "type": "TOP:subselect",
+          "parameters": {
+            "substance": "substance1",
+            "output": "normal"
+          }
+        },
+        {
+          "name": "substance1",
+          "type": "TOP:substance",
+          "parameters": {
+            "pageindex": 1,
+            "graph": "graph1",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "math1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "moviefilein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "math1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:cam": 1,
+          "COMP:geo": 1,
+          "CHOP:math": 1,
+          "COMP:light": 1,
+          "MAT:phong": 1,
+          "DAT:text": 1,
+          "TOP:render": 1,
+          "CHOP:constant": 1,
+          "TOP:subselect": 2,
+          "TOP:substance": 1,
+          "DAT:table": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

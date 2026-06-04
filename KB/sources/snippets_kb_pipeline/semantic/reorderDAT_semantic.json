@@ -1,0 +1,274 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\reorderDAT_lossless.json",
+  "operator_type": "reorderDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "reorder_reverse",
+          "type": "DAT:reorder",
+          "parameters": {
+            "reorder": "row",
+            "method": "reverse"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "reorder_reverse",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:reorder": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "reorder_in_specified_order",
+          "type": "DAT:reorder",
+          "parameters": {
+            "reorder": "row",
+            "method": "specifyname",
+            "before": "a",
+            "after": "z",
+            "order": "\"a d c b\"",
+            "delete": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table2",
+          "to": "reorder_in_specified_order",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:reorder": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "reorder_replace_indices",
+          "type": "DAT:reorder",
+          "parameters": {
+            "reorder": "row",
+            "after": 1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table3",
+          "to": "reorder_replace_indices",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:reorder": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "reorder_in_specified_order_by_index",
+          "type": "DAT:reorder",
+          "parameters": {
+            "reorder": "row",
+            "method": "specifyindex",
+            "after": 1,
+            "order": "\"4 3 2 1 0\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table4",
+          "to": "reorder_in_specified_order_by_index",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:reorder": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table5",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 5,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "reorder_repeating_index",
+          "type": "DAT:reorder",
+          "parameters": {
+            "reorder": "row",
+            "method": "specifyindex",
+            "after": 1,
+            "order": "\"4 4 4 4 3 2 1 0\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table5",
+          "to": "reorder_repeating_index",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:reorder": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

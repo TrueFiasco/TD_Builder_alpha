@@ -1,0 +1,153 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\sortCHOP_lossless.json",
+  "operator_type": "sortCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "sort1",
+          "type": "CHOP:sort",
+          "parameters": {
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "sort2",
+          "type": "CHOP:sort",
+          "parameters": {
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "sort3",
+          "type": "CHOP:sort",
+          "parameters": {
+            "method": "decreasing",
+            "indices": 1,
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "sort4",
+          "type": "CHOP:sort",
+          "parameters": {
+            "select": "byname",
+            "indices": "chan3",
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "sort5",
+          "type": "CHOP:sort",
+          "parameters": {
+            "method": "random",
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "sort6",
+          "type": "CHOP:sort",
+          "parameters": {
+            "legacypattern": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pattern1",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "ramp",
+            "numcycles": 0.96,
+            "phase": 0.623,
+            "combine": "append"
+          }
+        },
+        {
+          "name": "pattern2",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "randomcycle",
+            "numcycles": 6.67,
+            "seed": 1.79,
+            "combine": "append"
+          }
+        },
+        {
+          "name": "pattern4",
+          "type": "CHOP:pattern",
+          "parameters": {
+            "wavetype": "cos",
+            "length": 40,
+            "numcycles": 0.5,
+            "phase": 0.09
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "pattern2",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "sort2",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "sort3",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern2",
+          "to": "sort4",
+          "to_input": "0"
+        },
+        {
+          "from": "sort2",
+          "to": "sort5",
+          "to_input": "0"
+        },
+        {
+          "from": "sort5",
+          "to": "sort6",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern4",
+          "to": "pattern1",
+          "to_input": "0"
+        },
+        {
+          "from": "pattern1",
+          "to": "pattern2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 8,
+        "operator_types": {
+          "CHOP:sort": 6,
+          "DAT:text": 1,
+          "CHOP:pattern": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 6
+      }
+    }
+  ]
+}

@@ -1,0 +1,393 @@
+{
+  "operator": "ZED_CHOP",
+  "family": "CHOP",
+  "td_create_name": "zedCHOP",
+  "param_count": 30,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 21,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "zedtop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "ZED",
+      "label": "ZED TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "cameratransform": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Camera Transform",
+      "readOnly": false,
+      "expression": null
+    },
+    "resetcameratransform": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Camera Transform",
+      "readOnly": false,
+      "expression": null
+    },
+    "planeorientation": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Plane Orientation",
+      "readOnly": false,
+      "expression": null
+    },
+    "getplane": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Get Plane",
+      "readOnly": false,
+      "expression": null
+    },
+    "getplanepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "planereferenceframe": {
+      "value": {
+        "type": "menu",
+        "value": "world",
+        "menuIndex": 0,
+        "menuNames": [
+          "world",
+          "camera"
+        ],
+        "menuLabels": [
+          "World",
+          "Camera"
+        ]
+      },
+      "default": "world",
+      "page": "ZED",
+      "label": "Plane Reference Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "planepointu": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "ZED",
+      "label": "Plane Point U",
+      "readOnly": false,
+      "expression": null
+    },
+    "planepointv": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "ZED",
+      "label": "Plane Point V",
+      "readOnly": false,
+      "expression": null
+    },
+    "planeposition": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Plane Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "planerotation": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Plane Rotation",
+      "readOnly": false,
+      "expression": null
+    },
+    "planenormal": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Plane Normal",
+      "readOnly": false,
+      "expression": null
+    },
+    "planesize": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Plane Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "bodytracking": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "skeleton18",
+          "skeleton34",
+          "skeleton38"
+        ],
+        "menuLabels": [
+          "Off",
+          "Skeleton - 18 Joints",
+          "Skeleton - 34 Joints",
+          "Skeleton - 38 Joints"
+        ]
+      },
+      "default": "off",
+      "page": "ZED",
+      "label": "Body Tracking",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxbodies": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "ZED",
+      "label": "Max Bodies",
+      "readOnly": false,
+      "expression": null
+    },
+    "body3d": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ZED",
+      "label": "Body 3D",
+      "readOnly": false,
+      "expression": null
+    },
+    "jointmode": {
+      "value": {
+        "type": "menu",
+        "value": "absolute",
+        "menuIndex": 0,
+        "menuNames": [
+          "absolute",
+          "relative"
+        ],
+        "menuLabels": [
+          "Absolute Position",
+          "Relative, with Orientation"
+        ]
+      },
+      "default": "absolute",
+      "page": "ZED",
+      "label": "Joint Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "body2d": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Body 2D",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspectcorrectuv": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Aspect Correct UVs",
+      "readOnly": false,
+      "expression": null
+    },
+    "boundingboxes": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ZED",
+      "label": "Bounding Boxes",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

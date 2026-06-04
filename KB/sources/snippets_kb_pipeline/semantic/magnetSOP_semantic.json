@@ -1,0 +1,87 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\magnetSOP_lossless.json",
+  "operator_type": "magnetSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "SOP:grid",
+          "parameters": {
+            "sizex": 6,
+            "sizey": 6,
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "CHOP:noise",
+          "parameters": {
+            "amp": 4.2,
+            "channelname": "\"tx ty\"",
+            "timeslice": "on",
+            "exporttable": "noise1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "magnet1",
+          "type": "SOP:magnet",
+          "parameters": {
+            "tz": 1.1
+          }
+        },
+        {
+          "name": "metaball1",
+          "type": "SOP:metaball",
+          "parameters": {}
+        },
+        {
+          "name": "noise1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "grid1",
+          "to": "magnet1",
+          "to_input": "0"
+        },
+        {
+          "from": "metaball1",
+          "to": "magnet1",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "SOP:grid": 1,
+          "CHOP:noise": 1,
+          "DAT:text": 1,
+          "SOP:magnet": 1,
+          "SOP:metaball": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

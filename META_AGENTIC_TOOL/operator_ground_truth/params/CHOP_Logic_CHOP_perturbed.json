@@ -1,0 +1,232 @@
+{
+  "operator": "Logic_CHOP",
+  "family": "CHOP",
+  "td_create_name": "logicCHOP",
+  "param_count": 17,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "convert": {
+      "type": "menu",
+      "value": "bound",
+      "menuIndex": 2,
+      "menuNames": [
+        "nonzero",
+        "pos",
+        "bound",
+        "valchange",
+        "namechange",
+        "_separator_",
+        "gt",
+        "ge",
+        "lt",
+        "le",
+        "eq",
+        "ne"
+      ],
+      "menuLabels": [
+        "Off When Zero",
+        "Off When Zero Or Less",
+        "Off When Outside Bounds",
+        "On When Value Changed",
+        "On When Channel Name Changed",
+        "_separator_",
+        "On When Greater Than Zero",
+        "On When Greater or Equal to Zero",
+        "On When Less Than Zero",
+        "On When Less or Equal to Zero",
+        "On When Equal to Zero",
+        "On When Not Equal to Zero"
+      ]
+    },
+    "preop": {
+      "type": "menu",
+      "value": "invert",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "invert",
+        "toggle",
+        "radio",
+        "radio2",
+        "rise",
+        "fall"
+      ],
+      "menuLabels": [
+        "Off",
+        "Invert",
+        "Toggle",
+        "Radio Button",
+        "Last Two On",
+        "Rising Edge",
+        "Falling Edge"
+      ]
+    },
+    "chanop": {
+      "type": "menu",
+      "value": "and",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "and",
+        "or",
+        "xor",
+        "nand",
+        "nor",
+        "eqv",
+        "lowest",
+        "highest",
+        "neqv"
+      ],
+      "menuLabels": [
+        "Off",
+        "And",
+        "Or",
+        "Exclusive Or",
+        "Not And",
+        "Not Or",
+        "Equivalent",
+        "Lowest Index On",
+        "Highest Index On",
+        "Not Equivalent"
+      ]
+    },
+    "chopop": {
+      "type": "menu",
+      "value": "and",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "and",
+        "or",
+        "xor",
+        "nand",
+        "nor",
+        "eqv",
+        "lowest",
+        "highest",
+        "neqv"
+      ],
+      "menuLabels": [
+        "Off",
+        "And",
+        "Or",
+        "Exclusive Or",
+        "Not And",
+        "Not Or",
+        "Equivalent",
+        "Lowest Index On",
+        "Highest Index On",
+        "Not Equivalent"
+      ]
+    },
+    "match": {
+      "type": "menu",
+      "value": "name",
+      "menuIndex": 1,
+      "menuNames": [
+        "index",
+        "name"
+      ],
+      "menuLabels": [
+        "Channel Number",
+        "Channel Name"
+      ]
+    },
+    "align": {
+      "type": "menu",
+      "value": "none",
+      "menuIndex": 1,
+      "menuNames": [
+        "auto",
+        "none",
+        "stretch",
+        "start",
+        "end",
+        "shift1",
+        "trim1",
+        "stretch1",
+        "trim",
+        "squash"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "Extend to Min/Max",
+        "Stretch to Min/Max",
+        "Shift to Minimum",
+        "Shift to Maximum",
+        "Shift to First Interval",
+        "Trim to First Interval",
+        "Stretch to First Interval",
+        "Trim to Smallest Interval",
+        "Stretch to Smallest Interval"
+      ]
+    },
+    "boundmin": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "boundmax": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

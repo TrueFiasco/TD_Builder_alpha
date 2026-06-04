@@ -1,0 +1,138 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\audiobandeqCHOP_lossless.json",
+  "operator_type": "audiobandeqCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -24,
+            "torange2": 24
+          }
+        },
+        {
+          "name": "null1",
+          "type": "CHOP:null",
+          "parameters": {
+            "pageindex": 1,
+            "exportmethod": "autoname"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "filter1",
+          "type": "CHOP:filter",
+          "parameters": {
+            "width": 0.3,
+            "speedcoeff": 0,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "renameto": "audioband1:band[1-16]"
+          }
+        },
+        {
+          "name": "audioband1",
+          "type": "CHOP:audioband",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "multilevel",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 1,
+            "w": 640,
+            "h": 360,
+            "top": "./back",
+            "topsmoothness": "mipmap"
+          }
+        },
+        {
+          "name": "audiodevout1",
+          "type": "CHOP:audiodevout",
+          "parameters": {
+            "cookalways": "off",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "filter1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "filter1",
+          "to_input": "0"
+        },
+        {
+          "from": "multilevel/out1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "audioband1",
+          "to_input": "0"
+        },
+        {
+          "from": "audioband1",
+          "to": "audiodevout1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 6,
+        "operator_types": {
+          "CHOP:math": 1,
+          "CHOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:filter": 1,
+          "CHOP:select": 1,
+          "CHOP:audioband": 1,
+          "COMP:container": 1,
+          "CHOP:audiodevout": 1,
+          "CHOP:audiofilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

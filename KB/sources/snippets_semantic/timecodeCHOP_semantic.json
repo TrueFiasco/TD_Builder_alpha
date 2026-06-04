@@ -1,0 +1,1435 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\timecodeCHOP_lossless.json",
+  "operator_type": "timecodeCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "frame",
+            "const0value": 155
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "frame",
+            "const0value": 15,
+            "const1name": "second",
+            "const1value": 7
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "timecode_chop1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "chop",
+            "rate": 25,
+            "chop": "constant1",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_chop2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "chop",
+            "rate": 25,
+            "chop": "constant2",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_sequential",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_op_reference",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "op": "moviefilein1",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_by_parameters",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "rate": 30,
+            "frame": 22,
+            "second": 1,
+            "minute": 2,
+            "hour": 3,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_specify_index",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "specifyindex",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_timecode_object1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_timecode_object2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode_locked_to_timeline",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "lockedtotimeline",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "CHOP:constant": 2,
+          "TOP:moviefilein": 1,
+          "CHOP:timecode": 9
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "pageindex": 1,
+            "op": "timecode2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "customlength": "value",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "pageindex": 1,
+            "customlength": "value",
+            "extendright": "hold",
+            "totalseconds": "on",
+            "totalframes": "on",
+            "dropframechan": "on",
+            "fpschan": "on",
+            "countdown": "on",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 2,
+          "DAT:text": 1,
+          "CHOP:timecode": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode3",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode3",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodestr",
+            "timecodestr": "10:00:00",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 1,
+          "CHOP:timecode": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode3",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info4",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode4",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "timecodestr": "10:00:00",
+            "frame": 33,
+            "second": 22,
+            "minute": 11,
+            "hour": 3,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode3",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "timecodestr": "10:00:00",
+            "frame": 7777,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode4",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "timecodestr": "10:00:00",
+            "frame": 7777,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 9,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 4,
+          "DAT:text": 1,
+          "CHOP:timecode": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "op": "timecode3",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodestr",
+            "timecodestr": "00:10:00:00",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "timecode2",
+          "to": "timecode1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:info": 1,
+          "DAT:text": 1,
+          "CHOP:timecode": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode3"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "op": "timecode3",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "op": "timecode3",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode3",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "rate": 240,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:info": 3,
+          "DAT:text": 1,
+          "CHOP:timecode": 3
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example7",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('moviefilein1').timecode"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info4",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "moviefilein1",
+            "infotype": "timecode"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "deferpars": "on",
+            "callbacks": "timer1_callbacks",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 3,
+            "cycle": "on",
+            "callbacks": "timer2_callbacks",
+            "outmastercount": "all",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodeobj",
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "timecodestr": "10:00:00",
+            "frame": 61,
+            "minute": 61,
+            "hour": 1,
+            "op": "timer1",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode3",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "op": "moviefilein1",
+            "customlength": "value",
+            "length": 1.666,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "timecodeop"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:eval": 1,
+          "DAT:info": 3,
+          "CHOP:info": 1,
+          "DAT:text": 3,
+          "CHOP:timer": 2,
+          "CHOP:timecode": 3,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example8",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timer1').timecode"
+          }
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timer1').timecode.countdown"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer1"
+          }
+        },
+        {
+          "name": "info3",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timer2"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 4,
+            "timecontrol": "timecode",
+            "lengthtype": "infinite",
+            "length": 30,
+            "callbacks": "timer1_callbacks",
+            "outtimercount": "all",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 4,
+            "timecontrol": "chop",
+            "lengthtype": "infinite",
+            "callbacks": "timer2_callbacks",
+            "outtimercount": "all",
+            "outmastercount": "all",
+            "extchop": "timecode2",
+            "extchannel": "total_seconds",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "extendright": "hold",
+            "totalseconds": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "customlength": "value",
+            "length": 60,
+            "extendright": "hold",
+            "totalseconds": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:eval": 2,
+          "DAT:info": 3,
+          "DAT:text": 3,
+          "CHOP:timer": 2,
+          "CHOP:timecode": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example9",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "frame": 22,
+            "second": 1,
+            "minute": 2,
+            "hour": 3,
+            "extendright": "hold",
+            "totalseconds": "on",
+            "totalframes": "on",
+            "dropframechan": "on",
+            "fpschan": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "text_python",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "language": "python"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "eval_timecode",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('moviefilein1').timecode"
+          }
+        },
+        {
+          "name": "timecodePython",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 3
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 2,
+          "CHOP:timecode": 1,
+          "TOP:moviefilein": 1,
+          "DAT:eval": 1,
+          "COMP:base": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example10",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "eval3",
+          "type": "DAT:eval",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "rate": 60,
+            "frame": 22,
+            "second": 1,
+            "minute": 2,
+            "hour": 3,
+            "extendright": "hold",
+            "totalseconds": "on",
+            "totalframes": "on",
+            "dropframechan": "on",
+            "fpschan": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "rate": 60,
+            "frame": 32,
+            "second": 3,
+            "minute": 5,
+            "hour": 7,
+            "extendright": "hold",
+            "totalseconds": "on",
+            "totalframes": "on",
+            "dropframechan": "on",
+            "fpschan": "on",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:eval": 3,
+          "DAT:text": 1,
+          "CHOP:timecode": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example11",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timecode1').timecode.countdown"
+          }
+        },
+        {
+          "name": "eval3",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timecode1').timecode"
+          }
+        },
+        {
+          "name": "eval4",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timecode2').timecode.countdown"
+          }
+        },
+        {
+          "name": "eval5",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('timecode2').timecode"
+          }
+        },
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": -10,
+            "torange2": 30
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "rename1",
+          "type": "CHOP:rename",
+          "parameters": {
+            "renameto": "second"
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "value0": 0.444444,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on",
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "op": "timer1",
+            "customlength": "value",
+            "length": 12,
+            "totalseconds": "on",
+            "totalframes": "on",
+            "fpschan": "on",
+            "countdown": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "chop",
+            "chop": "math1",
+            "op": "timer1",
+            "customlength": "value",
+            "countdown": "on",
+            "timeslice": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "rename1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "timecode1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "slider1/out1",
+          "to": "rename1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:eval": 4,
+          "CHOP:math": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:rename": 1,
+          "COMP:slider": 1,
+          "CHOP:timecode": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example12",
+      "description": "",
+      "operators": [
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "midiin1",
+            "infotype": "timecode"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "midiin1",
+          "type": "CHOP:midiin",
+          "parameters": {
+            "channel": "1-16",
+            "legacypattern": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "op": "midiin1",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "text_timecode",
+          "type": "COMP:text",
+          "parameters": {
+            "pageindex": 2,
+            "callbacks": "text1_callbacks",
+            "w": 200,
+            "h": 100
+          }
+        },
+        {
+          "name": "text1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "CHOP:info": 1,
+          "DAT:text": 2,
+          "CHOP:midiin": 1,
+          "CHOP:timecode": 1,
+          "COMP:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example13",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('moviefilein1').timecode"
+          }
+        },
+        {
+          "name": "eval2",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('audiofilein1').timecode"
+          }
+        },
+        {
+          "name": "eval3",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "op('ltcin2').timecode"
+          }
+        },
+        {
+          "name": "info1",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "moviefilein1",
+            "infotype": "timecode"
+          }
+        },
+        {
+          "name": "info2",
+          "type": "CHOP:info",
+          "parameters": {
+            "op": "audiofilein1",
+            "infotype": "timecode"
+          }
+        },
+        {
+          "name": "info1a",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "info2a",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "timecode2",
+            "language": "text"
+          }
+        },
+        {
+          "name": "ltcin2",
+          "type": "CHOP:ltcin",
+          "parameters": {
+            "inputrate": 60,
+            "userfields": "on",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "timer1",
+          "type": "CHOP:timer",
+          "parameters": {
+            "cycle": "on",
+            "callbacks": "timer2_callbacks",
+            "outmastercount": "all",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer2",
+          "type": "CHOP:timer",
+          "parameters": {
+            "ondone": "restartnoinit",
+            "callbacks": "timer3_callbacks",
+            "outinit": "on",
+            "outlength": "seconds",
+            "outmastercount": "all",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "timer3",
+          "type": "CHOP:timer",
+          "parameters": {
+            "pageindex": 3,
+            "deferpars": "on",
+            "length": 12.75,
+            "ondone": "restart",
+            "callbacks": "timer1_callbacks",
+            "outlength": "all",
+            "timeslice": "on",
+            "exportmethod": "datname"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "ltcout2",
+          "type": "CHOP:ltcout",
+          "parameters": {
+            "pageindex": 1,
+            "playmode": "timecodeop",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode1",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "op": "moviefilein1",
+            "customlength": "value",
+            "length": 1.666,
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "timecode2",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "op",
+            "op": "audiofilein1",
+            "customlength": "value",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "audiofilein1",
+          "type": "CHOP:audiofilein",
+          "parameters": {
+            "playmode": "specify",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {
+            "playmode": "timecodeop"
+          }
+        },
+        {
+          "name": "mediafileinfo1",
+          "type": "DAT:mediafileinfo",
+          "parameters": {}
+        },
+        {
+          "name": "timecode_length",
+          "type": "CHOP:timecode",
+          "parameters": {
+            "mode": "timecodepar",
+            "extendright": "hold",
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "table_mediaFiles",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 2,
+            "cols": 1
+          }
+        },
+        {
+          "name": "timer1_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer2_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        },
+        {
+          "name": "timer3_callbacks",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "python"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "ltcout2",
+          "to": "ltcin2",
+          "to_input": "0"
+        },
+        {
+          "from": "audiofilein1",
+          "to": "trail1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 24,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:eval": 3,
+          "CHOP:info": 2,
+          "DAT:info": 2,
+          "CHOP:ltcin": 1,
+          "DAT:text": 4,
+          "CHOP:timer": 3,
+          "CHOP:trail": 1,
+          "CHOP:ltcout": 1,
+          "CHOP:timecode": 3,
+          "CHOP:audiofilein": 1,
+          "TOP:moviefilein": 1,
+          "DAT:mediafileinfo": 1,
+          "DAT:table": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

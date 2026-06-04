@@ -1,0 +1,494 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\glslMAT_lossless.json",
+  "operator_type": "glslMAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "pbr1",
+          "type": "MAT:pbr",
+          "parameters": {
+            "metallic": 0.163,
+            "roughness": 0.56,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "phong1",
+          "type": "MAT:phong",
+          "parameters": {
+            "diffr": 0.983268,
+            "diffg": 0.498039,
+            "diffb": 1,
+            "specr": 1,
+            "specg": 0.189,
+            "specb": 0.189,
+            "bumpscale": 0.63,
+            "legacyalphabehavior": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "pbr1GLSL",
+          "type": "MAT:glsl",
+          "parameters": {
+            "glslversion": "glsl460",
+            "vdat": "pbr1GLSLVertex",
+            "pdat": "pbr1GLSLPixel",
+            "attr0name": "Tex",
+            "attr0type": "float3",
+            "sampler0name": "sBaseColorMap",
+            "sampler0top": "moviefilein1",
+            "vec0name": "uAlphaFront",
+            "vec0valuex": 1,
+            "legacyalphabehavior": "on",
+            "vec1name": "uShadowStrength",
+            "vec1valuex": 1,
+            "vec2name": "uMetallic",
+            "vec2valuex": 0.163,
+            "vec3name": "uRoughness",
+            "vec3valuex": 0.56,
+            "vec4name": "uSpecularLevel",
+            "vec4valuex": 1,
+            "vec5name": "uAmbientOcclusion",
+            "vec5valuex": 1
+          }
+        },
+        {
+          "name": "phong1GLSL",
+          "type": "MAT:glsl",
+          "parameters": {
+            "glslversion": "glsl460",
+            "vdat": "phong1GLSLVertex",
+            "pdat": "phong1GLSLPixel",
+            "attr0name": "Tex",
+            "attr0type": "float3",
+            "sampler0name": "sColorMap",
+            "sampler0top": "moviefilein1",
+            "vec0name": "uAlphaFront",
+            "vec0valuex": 1,
+            "legacyalphabehavior": "on",
+            "vec1name": "uShadowStrength",
+            "vec1valuex": 1,
+            "vec2name": "uShininess",
+            "vec2valuex": 100
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "pbr1GLSLInfo",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "pbr1GLSL",
+            "language": "text"
+          }
+        },
+        {
+          "name": "pbr1GLSLPixel",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "frag"
+          }
+        },
+        {
+          "name": "pbr1GLSLVertex",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "vert"
+          }
+        },
+        {
+          "name": "phong1GLSLInfo",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "phong1GLSL",
+            "language": "text"
+          }
+        },
+        {
+          "name": "phong1GLSLPixel",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "frag"
+          }
+        },
+        {
+          "name": "phong1GLSLVertex",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "vert"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 0,
+        "operator_types": {
+          "MAT:pbr": 1,
+          "MAT:phong": 1,
+          "DAT:text": 5,
+          "MAT:glsl": 2,
+          "TOP:moviefilein": 1,
+          "DAT:info": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam2",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": -0.358398,
+            "ty": 0.384441,
+            "tz": 8.8855,
+            "px": 0.716795,
+            "py": -0.768882,
+            "pz": -17.771,
+            "orthowidth": 1,
+            "aperture": 44.1
+          }
+        },
+        {
+          "name": "glsl1",
+          "type": "MAT:glsl",
+          "parameters": {
+            "pageindex": 6,
+            "vdat": "glsl1_vertex",
+            "pdat": "glsl1_pixel",
+            "vec0name": "uRange",
+            "blending": "on",
+            "srcblend": "sa",
+            "destblend": "one",
+            "alphathreshold": 0.001
+          }
+        },
+        {
+          "name": "light2",
+          "type": "COMP:light",
+          "parameters": {
+            "tz": 10
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "render2",
+          "type": "TOP:render",
+          "parameters": {
+            "camera": "cam2",
+            "antialias": "aa1",
+            "uvunwrapcoordattrib": "uv",
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "textures",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "positions",
+          "type": "TOP:noise",
+          "parameters": {
+            "period": 3,
+            "spread": 2.1,
+            "gain": 0.69,
+            "exp": 1.64,
+            "amp": 4,
+            "resolutionw": 128,
+            "resolutionh": 128,
+            "format": "rgba32float"
+          }
+        },
+        {
+          "name": "glsl1_info",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glsl1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "instances1",
+          "type": "COMP:geo",
+          "parameters": {
+            "pageindex": 5,
+            "instancing": "on",
+            "instanceop": "positionsFinal",
+            "instancetx": "r",
+            "instancety": "g",
+            "instancetz": "b",
+            "material": "glsl1"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "SOP:rectangle",
+          "parameters": {
+            "sizex": 0.1,
+            "sizey": 0.1
+          }
+        },
+        {
+          "name": "glsl1_pixel",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "frag"
+          }
+        },
+        {
+          "name": "glsl1_vertex",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "vert"
+          }
+        },
+        {
+          "name": "positionsFinal",
+          "type": "TOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "positions",
+          "to": "positionsFinal",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 13,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:cam": 1,
+          "MAT:glsl": 1,
+          "COMP:light": 1,
+          "DAT:text": 3,
+          "TOP:render": 1,
+          "COMP:base": 1,
+          "TOP:noise": 1,
+          "DAT:info": 1,
+          "COMP:geo": 1,
+          "SOP:rectangle": 1,
+          "TOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "phong1GLSL",
+          "type": "MAT:glsl",
+          "parameters": {
+            "glslversion": "glsl460",
+            "vdat": "phong1GLSLVertex",
+            "pdat": "phong1GLSLPixel",
+            "gdat": "phong1GLSLGeometry",
+            "vec0name": "uShadowColor",
+            "legacyalphabehavior": "on",
+            "vec1name": "uShadowStrength",
+            "vec1valuex": 1,
+            "vec2name": "uDiffuseColor",
+            "vec2valuex": 0.7,
+            "vec2valuey": 0.7,
+            "vec2valuez": 0.7,
+            "vec2valuew": 1,
+            "vec3name": "uAmbientColor",
+            "vec3valuex": 0.7,
+            "vec3valuey": 0.7,
+            "vec3valuez": 0.7,
+            "vec3valuew": 1,
+            "vec4name": "uSpecularColor",
+            "vec4valuex": 0.3,
+            "vec4valuey": 0.3,
+            "vec4valuez": 0.3,
+            "vec5name": "uShininess",
+            "vec5valuex": 100,
+            "vec6name": "uAmount",
+            "vec6valuex": 1.337,
+            "vec6valuey": 1,
+            "vec6valuez": 1,
+            "vec6valuew": 1
+          }
+        },
+        {
+          "name": "phong1GLSLInfo",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "phong1GLSL",
+            "language": "text"
+          }
+        },
+        {
+          "name": "phong1GLSLPixel",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "phong1GLSLVertex",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "phong1GLSLGeometry",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 4,
+          "MAT:glsl": 1,
+          "DAT:info": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "glsl1",
+          "type": "TOP:glsl",
+          "parameters": {
+            "pixeldat": "glsl1_pixel",
+            "computedat": "glsl1_compute"
+          }
+        },
+        {
+          "name": "utils",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "shaders",
+          "type": "COMP:base",
+          "parameters": {}
+        },
+        {
+          "name": "glsl1_info",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glsl1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "glsl1_pixel",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "glsl1_compute",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "TOP:glsl": 1,
+          "DAT:text": 4,
+          "COMP:base": 1,
+          "DAT:info": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

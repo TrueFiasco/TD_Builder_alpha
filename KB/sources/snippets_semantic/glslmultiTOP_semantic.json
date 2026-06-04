@@ -1,0 +1,218 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\glslmultiTOP_lossless.json",
+  "operator_type": "glslmultiTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "TOP:text",
+          "parameters": {
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text3",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text4",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text5",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text6",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text7",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text8",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1,
+            "leftborderi": "bordera"
+          }
+        },
+        {
+          "name": "text9",
+          "type": "TOP:text",
+          "parameters": {
+            "pageindex": 2,
+            "legacyfontselection": "on",
+            "fontautosize": "alwaysfit",
+            "bgalpha": 1
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "glslmulti1",
+          "type": "TOP:glslmulti",
+          "parameters": {
+            "pageindex": 1,
+            "pixeldat": "glslmulti1_pixel",
+            "computedat": "glslmulti1_compute",
+            "vec0name": "uGridSize",
+            "vec0valuex": 3,
+            "vec0valuey": 3,
+            "outputresolution": "custom",
+            "resolutionw": 1024,
+            "resolutionh": 1024
+          }
+        },
+        {
+          "name": "glslmulti1_info",
+          "type": "DAT:info",
+          "parameters": {
+            "op": "glslmulti1",
+            "language": "text"
+          }
+        },
+        {
+          "name": "glslmulti1_pixel",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        },
+        {
+          "name": "glslmulti1_compute",
+          "type": "DAT:text",
+          "parameters": {
+            "language": "glsl",
+            "extension": "glsl"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "glslmulti1",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "glslmulti1",
+          "to_input": "1"
+        },
+        {
+          "from": "text3",
+          "to": "glslmulti1",
+          "to_input": "2"
+        },
+        {
+          "from": "text4",
+          "to": "glslmulti1",
+          "to_input": "3"
+        },
+        {
+          "from": "text5",
+          "to": "glslmulti1",
+          "to_input": "4"
+        },
+        {
+          "from": "text6",
+          "to": "glslmulti1",
+          "to_input": "5"
+        },
+        {
+          "from": "text7",
+          "to": "glslmulti1",
+          "to_input": "6"
+        },
+        {
+          "from": "text8",
+          "to": "glslmulti1",
+          "to_input": "7"
+        },
+        {
+          "from": "text9",
+          "to": "glslmulti1",
+          "to_input": "8"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 9,
+        "operator_types": {
+          "TOP:text": 9,
+          "DAT:text": 3,
+          "TOP:glslmulti": 1,
+          "DAT:info": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

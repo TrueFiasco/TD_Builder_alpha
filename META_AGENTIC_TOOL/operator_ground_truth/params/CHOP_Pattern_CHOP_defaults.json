@@ -1,0 +1,519 @@
+{
+  "operator": "Pattern_CHOP",
+  "family": "CHOP",
+  "td_create_name": "patternCHOP",
+  "param_count": 36,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "wavetype": {
+      "value": {
+        "type": "menu",
+        "value": "sin",
+        "menuIndex": 1,
+        "menuNames": [
+          "const",
+          "sin",
+          "cos",
+          "tri",
+          "ramp",
+          "rampsamples",
+          "square",
+          "pulse",
+          "random",
+          "randomcycle",
+          "randomnonrepint",
+          "step",
+          "rampcyclic"
+        ],
+        "menuLabels": [
+          "Constant",
+          "Sine",
+          "Cosine",
+          "Triangle",
+          "Ramp",
+          "Ramp Samples",
+          "Square",
+          "Pulse",
+          "Random",
+          "Random per Cycle",
+          "Random Non-Repeating Integers",
+          "Step",
+          "Cyclic Ramp"
+        ]
+      },
+      "default": "sin",
+      "page": "Pattern",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "length": {
+      "value": {
+        "type": "int",
+        "value": 1000
+      },
+      "default": 1000,
+      "page": "Pattern",
+      "label": "Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "numcycles": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Number of Cycles",
+      "readOnly": false,
+      "expression": null
+    },
+    "steppercycle": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Step per Cycle",
+      "readOnly": false,
+      "expression": null
+    },
+    "numsteps": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Pattern",
+      "label": "Number of Steps",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "phase": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Phase",
+      "readOnly": false,
+      "expression": null
+    },
+    "phasestep": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Phase Step per Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "taper1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Taper",
+      "readOnly": false,
+      "expression": null
+    },
+    "taper2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Taper",
+      "readOnly": false,
+      "expression": null
+    },
+    "taperdecay": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Taper Decay Rate",
+      "readOnly": false,
+      "expression": null
+    },
+    "amp": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "Amplitude",
+      "readOnly": false,
+      "expression": null
+    },
+    "offset": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromrange1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "From Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromrange2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "From Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "torange1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Pattern",
+      "label": "To Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "torange2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Pattern",
+      "label": "To Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "integer": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "ceiling",
+          "floor",
+          "round"
+        ],
+        "menuLabels": [
+          "Off",
+          "Ceiling",
+          "Floor",
+          "Round"
+        ]
+      },
+      "default": "off",
+      "page": "Pattern",
+      "label": "Integer",
+      "readOnly": false,
+      "expression": null
+    },
+    "reverse": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Reverse",
+      "readOnly": false,
+      "expression": null
+    },
+    "randomize": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Pattern",
+      "label": "Randomize",
+      "readOnly": false,
+      "expression": null
+    },
+    "channelname": {
+      "value": {
+        "type": "string",
+        "value": "chan1"
+      },
+      "default": "chan1",
+      "page": "Channel",
+      "label": "Channel Names",
+      "readOnly": false,
+      "expression": null
+    },
+    "combine": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "append",
+          "insert",
+          "replace",
+          "add",
+          "multiply"
+        ],
+        "menuLabels": [
+          "Off",
+          "Append",
+          "Insert",
+          "Replace",
+          "Add",
+          "Multiply"
+        ]
+      },
+      "default": "off",
+      "page": "Channel",
+      "label": "Combine Channels",
+      "readOnly": false,
+      "expression": null
+    },
+    "rate": {
+      "value": {
+        "type": "float",
+        "value": 60.0
+      },
+      "default": 60.0,
+      "page": "Channel",
+      "label": "Sample Rate",
+      "readOnly": false,
+      "expression": "me.time.rate"
+    },
+    "left": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Channel",
+      "label": "Extend Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "right": {
+      "value": {
+        "type": "menu",
+        "value": "cycle",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "slope",
+          "cycle",
+          "mirror",
+          "default"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Slope",
+          "Cycle",
+          "Mirror",
+          "Default Value"
+        ]
+      },
+      "default": "cycle",
+      "page": "Channel",
+      "label": "Extend Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "defval": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Channel",
+      "label": "Default Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

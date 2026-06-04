@@ -1,0 +1,129 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\rasterSOP_lossless.json",
+  "operator_type": "rasterSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "res1",
+          "type": "TOP:res",
+          "parameters": {
+            "pageindex": 1,
+            "outputresolution": "eighth"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "operand": "under"
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "raster_vertical",
+          "type": "SOP:raster",
+          "parameters": {
+            "top": "res1",
+            "direction": "vertical"
+          }
+        },
+        {
+          "name": "raster_horizontal",
+          "type": "SOP:raster",
+          "parameters": {
+            "top": "res1"
+          }
+        },
+        {
+          "name": "point1_removeColor",
+          "type": "SOP:point",
+          "parameters": {
+            "doclr": "remove"
+          }
+        },
+        {
+          "name": "point2_removeColor",
+          "type": "SOP:point",
+          "parameters": {
+            "doclr": "remove"
+          }
+        },
+        {
+          "name": "null1_zoomed_in_view",
+          "type": "SOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2_zoomed_in_view",
+          "type": "SOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant1",
+          "to": "res1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviefilein1",
+          "to": "constant1",
+          "to_input": "0"
+        },
+        {
+          "from": "raster_horizontal",
+          "to": "point1_removeColor",
+          "to_input": "0"
+        },
+        {
+          "from": "raster_vertical",
+          "to": "point2_removeColor",
+          "to_input": "0"
+        },
+        {
+          "from": "point1_removeColor",
+          "to": "null1_zoomed_in_view",
+          "to_input": "0"
+        },
+        {
+          "from": "point2_removeColor",
+          "to": "null2_zoomed_in_view",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 6,
+        "operator_types": {
+          "TOP:res": 1,
+          "DAT:text": 1,
+          "TOP:constant": 1,
+          "TOP:moviefilein": 1,
+          "SOP:raster": 2,
+          "SOP:point": 2,
+          "SOP:null": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

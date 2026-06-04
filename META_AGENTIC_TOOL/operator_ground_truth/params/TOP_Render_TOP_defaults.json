@@ -1,0 +1,1396 @@
+{
+  "operator": "Render_TOP",
+  "family": "TOP",
+  "td_create_name": "renderTOP",
+  "param_count": 84,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 15,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "camera": {
+      "value": {
+        "type": "op",
+        "value": "cam1"
+      },
+      "default": "cam1",
+      "page": "Render",
+      "label": "Camera(s)",
+      "readOnly": false,
+      "expression": null
+    },
+    "multicamerahint": {
+      "value": {
+        "type": "menu",
+        "value": "automatic",
+        "menuIndex": 0,
+        "menuNames": [
+          "automatic",
+          "off",
+          "stereocameras"
+        ],
+        "menuLabels": [
+          "Automatic",
+          "Off (One Pass Per Camera)",
+          "X-Offset Stereo Cameras"
+        ]
+      },
+      "default": "automatic",
+      "page": "Render",
+      "label": "Multi-Camera Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "geometry": {
+      "value": {
+        "type": "op",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Render",
+      "label": "Geometry",
+      "readOnly": false,
+      "expression": null
+    },
+    "lights": {
+      "value": {
+        "type": "op",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Render",
+      "label": "Lights",
+      "readOnly": false,
+      "expression": null
+    },
+    "antialias": {
+      "value": {
+        "type": "menu",
+        "value": "aa4",
+        "menuIndex": 2,
+        "menuNames": [
+          "aa1",
+          "aa2",
+          "aa4",
+          "aa8mid",
+          "aa8high",
+          "aa16low",
+          "aa16mid",
+          "aa16high",
+          "aa32"
+        ],
+        "menuLabels": [
+          "1x (Off)",
+          "2x",
+          "4x",
+          "8x (Medium)",
+          "8x (High)",
+          "16x (Low)",
+          "16x (Medium)",
+          "16x (High)",
+          "32x"
+        ]
+      },
+      "default": "aa4",
+      "page": "Render",
+      "label": "Anti-Alias",
+      "readOnly": false,
+      "expression": null
+    },
+    "bgcolorr": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Render",
+      "label": "Background Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "bgcolorg": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Render",
+      "label": "Background Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "bgcolorb": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Render",
+      "label": "Background Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "bgcolora": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Render",
+      "label": "Background Color",
+      "readOnly": false,
+      "expression": null
+    },
+    "premultrgbbyalpha": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Pre-Multiply RGB by Alpha",
+      "readOnly": false,
+      "expression": null
+    },
+    "rendermode": {
+      "value": {
+        "type": "menu",
+        "value": "render2d",
+        "menuIndex": 0,
+        "menuNames": [
+          "render2d",
+          "cubemap",
+          "cubemapods",
+          "fisheye180",
+          "dualparaboloid",
+          "uvunwrap"
+        ],
+        "menuLabels": [
+          "2D",
+          "Cube Map",
+          "Cube Map (Omnidirectional Stereo)",
+          "Fish-Eye (180)",
+          "Dual Paraboloid",
+          "UV Unwrap"
+        ]
+      },
+      "default": "render2d",
+      "page": "Render",
+      "label": "Render Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "possidex": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Positive Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "possidey": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Positive Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "possidez": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Positive Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "negsidex": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Negative Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "negsidey": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Negative Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "negsidez": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Render",
+      "label": "Negative Sides",
+      "readOnly": false,
+      "expression": null
+    },
+    "uvunwrapcoord": {
+      "value": {
+        "type": "menu",
+        "value": "uv0",
+        "menuIndex": 0,
+        "menuNames": [
+          "uv0",
+          "uv1",
+          "uv2",
+          "uv3",
+          "uv4",
+          "uv5",
+          "uv6",
+          "uv7"
+        ],
+        "menuLabels": [
+          "Texture Layer 0 (uv[0-2])",
+          "Texture Layer 1 (uv[3-5])",
+          "Texture Layer 2 (uv[6-8])",
+          "Texture Layer 3 (uv[9-11])",
+          "Texture Layer 4 (uv[12-14])",
+          "Texture Layer 5 (uv[15-17])",
+          "Texture Layer 6 (uv[18-20])",
+          "Texture Layer 7 (uv[21-23])"
+        ]
+      },
+      "default": "uv0",
+      "page": "Render",
+      "label": "UV Unwrap SOP Coord",
+      "readOnly": false,
+      "expression": null
+    },
+    "uvunwrapcoordattrib": {
+      "value": {
+        "type": "string",
+        "value": "Tex"
+      },
+      "default": "Tex",
+      "page": "Render",
+      "label": "UV Unwrap POP Coord Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "transparency": {
+      "value": {
+        "type": "menu",
+        "value": "sortedblending",
+        "menuIndex": 0,
+        "menuNames": [
+          "sortedblending",
+          "orderind",
+          "alphatocoverage"
+        ],
+        "menuLabels": [
+          "Sorted Draw with Blending",
+          "Order Independent Transparency",
+          "Alpha-to-Coverage"
+        ]
+      },
+      "default": "sortedblending",
+      "page": "Render",
+      "label": "Transparency",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthpeel": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Render",
+      "label": "Depth Peel",
+      "readOnly": false,
+      "expression": null
+    },
+    "transpeellayers": {
+      "value": {
+        "type": "int",
+        "value": 3
+      },
+      "default": 3,
+      "page": "Render",
+      "label": "Transparency/Peel Layers",
+      "readOnly": false,
+      "expression": null
+    },
+    "render": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Advanced",
+      "label": "Render",
+      "readOnly": false,
+      "expression": null
+    },
+    "renderpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Render Pulse",
+      "readOnly": false,
+      "expression": null
+    },
+    "dither": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Advanced",
+      "label": "Dither",
+      "readOnly": false,
+      "expression": null
+    },
+    "coloroutputneeded": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Advanced",
+      "label": "Color Output Needed",
+      "readOnly": false,
+      "expression": null
+    },
+    "drawdepthonly": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Draw Depth Only",
+      "readOnly": false,
+      "expression": null
+    },
+    "numcolorbufs": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Advanced",
+      "label": "# of Color Buffers",
+      "readOnly": false,
+      "expression": null
+    },
+    "allowbufblending": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Allow Blending for Extra Buffers",
+      "readOnly": false,
+      "expression": null
+    },
+    "depthformat": {
+      "value": {
+        "type": "menu",
+        "value": "fixed24",
+        "menuIndex": 0,
+        "menuNames": [
+          "fixed24",
+          "float32"
+        ],
+        "menuLabels": [
+          "24-Bit Fixed-Point",
+          "32-Bit Floating-Point"
+        ]
+      },
+      "default": "fixed24",
+      "page": "Advanced",
+      "label": "Depth Buffer Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "cullface": {
+      "value": {
+        "type": "menu",
+        "value": "neither",
+        "menuIndex": 0,
+        "menuNames": [
+          "neither",
+          "backfaces",
+          "frontfaces",
+          "bothfaces"
+        ],
+        "menuLabels": [
+          "Neither",
+          "Back Faces",
+          "Front Faces",
+          "Both Faces"
+        ]
+      },
+      "default": "neither",
+      "page": "Advanced",
+      "label": "Cull Face",
+      "readOnly": false,
+      "expression": null
+    },
+    "overridemat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Advanced",
+      "label": "Override Material",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffset": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Polygon Depth Offset",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetfactor": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Advanced",
+      "label": "Offset Factor",
+      "readOnly": false,
+      "expression": null
+    },
+    "polygonoffsetunits": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Advanced",
+      "label": "Offset Units",
+      "readOnly": false,
+      "expression": null
+    },
+    "overdraw": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Advanced",
+      "label": "Display Overdraw",
+      "readOnly": false,
+      "expression": null
+    },
+    "overdrawlimit": {
+      "value": {
+        "type": "int",
+        "value": 7
+      },
+      "default": 7,
+      "page": "Advanced",
+      "label": "Overdraw Limit",
+      "readOnly": false,
+      "expression": null
+    },
+    "cropleft": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Crop",
+      "label": "Crop Left",
+      "readOnly": false,
+      "expression": null
+    },
+    "cropleftunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 1,
+        "menuNames": [
+          "pixels",
+          "fraction",
+          "fractionaspect"
+        ],
+        "menuLabels": [
+          "P",
+          "F",
+          "A"
+        ]
+      },
+      "default": "fraction",
+      "page": "Crop",
+      "label": "Crop Left Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "cropright": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Crop",
+      "label": "Crop Right",
+      "readOnly": false,
+      "expression": null
+    },
+    "croprightunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 1,
+        "menuNames": [
+          "pixels",
+          "fraction",
+          "fractionaspect"
+        ],
+        "menuLabels": [
+          "P",
+          "F",
+          "A"
+        ]
+      },
+      "default": "fraction",
+      "page": "Crop",
+      "label": "Crop Right Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "cropbottom": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Crop",
+      "label": "Crop Bottom",
+      "readOnly": false,
+      "expression": null
+    },
+    "cropbottomunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 1,
+        "menuNames": [
+          "pixels",
+          "fraction",
+          "fractionaspect"
+        ],
+        "menuLabels": [
+          "P",
+          "F",
+          "A"
+        ]
+      },
+      "default": "fraction",
+      "page": "Crop",
+      "label": "Crop Bottom Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "croptop": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Crop",
+      "label": "Crop Top",
+      "readOnly": false,
+      "expression": null
+    },
+    "croptopunit": {
+      "value": {
+        "type": "menu",
+        "value": "fraction",
+        "menuIndex": 1,
+        "menuNames": [
+          "pixels",
+          "fraction",
+          "fractionaspect"
+        ],
+        "menuLabels": [
+          "P",
+          "F",
+          "A"
+        ]
+      },
+      "default": "fraction",
+      "page": "Crop",
+      "label": "Crop Top Unit",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Vectors",
+      "label": "Vector",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Vectors",
+      "label": "Uniform Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuex": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuey": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuez": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "vec0valuew": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Vectors",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Samplers",
+      "label": "Sampler",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Samplers",
+      "label": "Sampler Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0top": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Samplers",
+      "label": "TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendu": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend U",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendv": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend V",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0extendw": {
+      "value": {
+        "type": "menu",
+        "value": "repeat",
+        "menuIndex": 2,
+        "menuNames": [
+          "hold",
+          "zero",
+          "repeat",
+          "mirror"
+        ],
+        "menuLabels": [
+          "Hold",
+          "Zero",
+          "Repeat",
+          "Mirror"
+        ]
+      },
+      "default": "repeat",
+      "page": "Samplers",
+      "label": "Extend W",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0filter": {
+      "value": {
+        "type": "menu",
+        "value": "mipmaplinear",
+        "menuIndex": 2,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmaplinear"
+        ],
+        "menuLabels": [
+          "Nearest",
+          "Linear",
+          "Mipmap Linear"
+        ]
+      },
+      "default": "mipmaplinear",
+      "page": "Samplers",
+      "label": "Filter",
+      "readOnly": false,
+      "expression": null
+    },
+    "sampler0anisotropy": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "2x",
+          "4x",
+          "8x",
+          "16x"
+        ],
+        "menuLabels": [
+          "Off",
+          "2x",
+          "4x",
+          "8x",
+          "16x"
+        ]
+      },
+      "default": "off",
+      "page": "Samplers",
+      "label": "Anisotropic Filter",
+      "readOnly": false,
+      "expression": null
+    },
+    "image": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Images",
+      "label": "Image",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0name": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Images",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0arraylength": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Images",
+      "label": "Array Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0resw": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Images",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0resh": {
+      "value": {
+        "type": "int",
+        "value": 256
+      },
+      "default": 256,
+      "page": "Images",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0format": {
+      "value": {
+        "type": "menu",
+        "value": "useoutput",
+        "menuIndex": 0,
+        "menuNames": [
+          "useoutput",
+          "rgba8fixed",
+          "rgba16float",
+          "rgba32float",
+          "rgb10a2fixed",
+          "rgba16fixed",
+          "rgba11float",
+          "mono8fixed",
+          "mono16fixed",
+          "mono16float",
+          "mono32float",
+          "rg8fixed",
+          "rg16fixed",
+          "rg16float",
+          "rg32float",
+          "a8fixed",
+          "a16fixed",
+          "a16float",
+          "a32float",
+          "monoalpha8fixed",
+          "monoalpha16fixed",
+          "monoalpha16float",
+          "monoalpha32float"
+        ],
+        "menuLabels": [
+          "Use Output",
+          "8-bit fixed (RGBA)",
+          "16-bit float (RGBA)",
+          "32-bit float (RGBA)",
+          "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+          "16-bit fixed (RGBA)",
+          "11-bit float (RGB), Positive Values Only",
+          "8-bit fixed (Mono)",
+          "16-bit fixed (Mono)",
+          "16-bit float (Mono)",
+          "32-bit float (Mono)",
+          "8-bit fixed (RG)",
+          "16-bit fixed (RG)",
+          "16-bit float (RG)",
+          "32-bit float (RG)",
+          "8-bit fixed (A)",
+          "16-bit fixed (A)",
+          "16-bit float (A)",
+          "32-bit float (A)",
+          "8-bit fixed (Mono+Alpha)",
+          "16-bit fixed (Mono+Alpha)",
+          "16-bit float (Mono+Alpha)",
+          "32-bit float (Mono+Alpha)"
+        ]
+      },
+      "default": "useoutput",
+      "page": "Images",
+      "label": "Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0type": {
+      "value": {
+        "type": "menu",
+        "value": "texture2d",
+        "menuIndex": 0,
+        "menuNames": [
+          "texture2d",
+          "texture2darray",
+          "texture3d",
+          "texturecube"
+        ],
+        "menuLabels": [
+          "2D Texture",
+          "2D Texture Array",
+          "3D Texture",
+          "Cube Texture"
+        ]
+      },
+      "default": "texture2d",
+      "page": "Images",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0depth": {
+      "value": {
+        "type": "int",
+        "value": 32
+      },
+      "default": 32,
+      "page": "Images",
+      "label": "Depth",
+      "readOnly": false,
+      "expression": null
+    },
+    "image0access": {
+      "value": {
+        "type": "menu",
+        "value": "writeonly",
+        "menuIndex": 0,
+        "menuNames": [
+          "writeonly",
+          "readwrite"
+        ],
+        "menuLabels": [
+          "Write Only",
+          "Read-Write"
+        ]
+      },
+      "default": "writeonly",
+      "page": "Images",
+      "label": "Access",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputresolution": {
+      "value": {
+        "type": "menu",
+        "value": "custom",
+        "menuIndex": 9,
+        "menuNames": [
+          "useinput",
+          "eighth",
+          "quarter",
+          "half",
+          "2x",
+          "4x",
+          "8x",
+          "fit",
+          "limit",
+          "custom",
+          "parpanel"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Eighth",
+          "Quarter",
+          "Half",
+          "2X",
+          "4X",
+          "8X",
+          "Fit Resolution",
+          "Limit Resolution",
+          "Custom Resolution",
+          "Parent Panel Size"
+        ]
+      },
+      "default": "custom",
+      "page": "Common",
+      "label": "Output Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionw": {
+      "value": {
+        "type": "int",
+        "value": 1280
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resolutionh": {
+      "value": {
+        "type": "int",
+        "value": 720
+      },
+      "default": 256,
+      "page": "Common",
+      "label": "Resolution",
+      "readOnly": false,
+      "expression": null
+    },
+    "resmult": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Common",
+      "label": "Use Global Res Multiplier",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputaspect": {
+      "value": {
+        "type": "menu",
+        "value": "resolution",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "resolution",
+          "custom"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Resolution",
+          "Custom Aspect"
+        ]
+      },
+      "default": "resolution",
+      "page": "Common",
+      "label": "Output Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "aspect2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Common",
+      "label": "Aspect",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputfiltertype": {
+      "value": {
+        "type": "menu",
+        "value": "linear",
+        "menuIndex": 1,
+        "menuNames": [
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Input Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "fillmode": {
+      "value": {
+        "type": "menu",
+        "value": "best",
+        "menuIndex": 4,
+        "menuNames": [
+          "useinput",
+          "fill",
+          "width",
+          "height",
+          "best",
+          "outside",
+          "nativeres"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Fill",
+          "Fit Horizontal",
+          "Fit Vertical",
+          "Fit Best",
+          "Fit Outside",
+          "Native Resolution"
+        ]
+      },
+      "default": "best",
+      "page": "Common",
+      "label": "Fill Viewer",
+      "readOnly": false,
+      "expression": null
+    },
+    "filtertype": {
+      "value": {
+        "type": "menu",
+        "value": "nearest",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "nearest",
+          "linear",
+          "mipmap"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "Nearest Pixel",
+          "Interpolate Pixels",
+          "Mipmap Pixels"
+        ]
+      },
+      "default": "linear",
+      "page": "Common",
+      "label": "Viewer Smoothness",
+      "readOnly": false,
+      "expression": null
+    },
+    "npasses": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Common",
+      "label": "Passes",
+      "readOnly": false,
+      "expression": null
+    },
+    "chanmask": {
+      "value": {
+        "type": "menu",
+        "value": "15",
+        "menuIndex": 15,
+        "menuNames": [],
+        "menuLabels": []
+      },
+      "default": "15",
+      "page": "Common",
+      "label": "Channel Mask",
+      "readOnly": false,
+      "expression": null
+    },
+    "format": {
+      "value": {
+        "type": "menu",
+        "value": "rgba8fixed",
+        "menuIndex": 1,
+        "menuNames": [
+          "useinput",
+          "rgba8fixed",
+          "rgba16float",
+          "rgba32float",
+          "rgb10a2fixed",
+          "rgba16fixed",
+          "rgba11float",
+          "mono8fixed",
+          "mono16fixed",
+          "mono16float",
+          "mono32float",
+          "rg8fixed",
+          "rg16fixed",
+          "rg16float",
+          "rg32float",
+          "a8fixed",
+          "a16fixed",
+          "a16float",
+          "a32float",
+          "monoalpha8fixed",
+          "monoalpha16fixed",
+          "monoalpha16float",
+          "monoalpha32float"
+        ],
+        "menuLabels": [
+          "Use Input",
+          "8-bit fixed (RGBA)",
+          "16-bit float (RGBA)",
+          "32-bit float (RGBA)",
+          "10-bit RGB, 2-bit Alpha fixed (RGBA)",
+          "16-bit fixed (RGBA)",
+          "11-bit float (RGB), Positive Values Only",
+          "8-bit fixed (Mono)",
+          "16-bit fixed (Mono)",
+          "16-bit float (Mono)",
+          "32-bit float (Mono)",
+          "8-bit fixed (RG)",
+          "16-bit fixed (RG)",
+          "16-bit float (RG)",
+          "32-bit float (RG)",
+          "8-bit fixed (A)",
+          "16-bit fixed (A)",
+          "16-bit float (A)",
+          "32-bit float (A)",
+          "8-bit fixed (Mono+Alpha)",
+          "16-bit fixed (Mono+Alpha)",
+          "16-bit float (Mono+Alpha)",
+          "32-bit float (Mono+Alpha)"
+        ]
+      },
+      "default": "rgba8fixed",
+      "page": "Common",
+      "label": "Pixel Format",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

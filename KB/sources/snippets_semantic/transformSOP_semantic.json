@@ -1,0 +1,361 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\transformSOP_lossless.json",
+  "operator_type": "transformSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "geoTransformSOP",
+          "type": "COMP:geo",
+          "parameters": {}
+        },
+        {
+          "name": "geoTransformComp",
+          "type": "COMP:geo",
+          "parameters": {
+            "rx": 45,
+            "ry": 45
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:geo": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "box1",
+          "type": "SOP:box",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "SOP:merge",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "transform_translate",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": 1.5,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform_translate1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": -1.5,
+            "postxord": "ts"
+          }
+        },
+        {
+          "name": "transform_translate2",
+          "type": "SOP:transform",
+          "parameters": {
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "transform_translate",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "transform_translate1",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "transform_translate2",
+          "to": "merge1",
+          "to_input": "2"
+        },
+        {
+          "from": "box1",
+          "to": "transform_translate",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "transform_translate1",
+          "to_input": "0"
+        },
+        {
+          "from": "box1",
+          "to": "transform_translate2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 6,
+        "operator_types": {
+          "SOP:box": 1,
+          "SOP:merge": 1,
+          "DAT:text": 1,
+          "SOP:transform": 3
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "SOP:circle",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform_scale",
+          "type": "SOP:transform",
+          "parameters": {
+            "sx": 0.5,
+            "sy": 1,
+            "sz": 1,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "transform_scale",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:circle": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "legacyparsing": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "transform_rotate",
+          "type": "SOP:transform",
+          "parameters": {
+            "rz": 180,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "transform_rotate",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "SOP:torus",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform_rotate1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tx": 1,
+            "rx": 100,
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus1",
+          "to": "transform_rotate1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 3,
+        "connection_count": 1,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "cam1",
+          "type": "COMP:cam",
+          "parameters": {
+            "tx": 3.96462,
+            "ty": 3.38337,
+            "tz": 12.8815,
+            "rx": 759.645,
+            "ry": -41.1348,
+            "rz": -7.70661,
+            "px": 1.7232e-07,
+            "py": -1.46841e-07,
+            "pz": -17.6601,
+            "orthowidth": 1,
+            "aperture": 44.1,
+            "far": 14165.1,
+            "winrollpivot": "legacy"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "SOP:torus",
+          "parameters": {
+            "reverseanchors": "on"
+          }
+        },
+        {
+          "name": "transform_look_at",
+          "type": "SOP:transform",
+          "parameters": {
+            "rx": 100,
+            "lookat": "cam1",
+            "postxord": "ts"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "torus2",
+          "to": "transform_look_at",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 1,
+        "operator_types": {
+          "COMP:cam": 1,
+          "DAT:text": 1,
+          "SOP:torus": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    }
+  ]
+}

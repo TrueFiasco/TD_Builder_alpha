@@ -1,0 +1,261 @@
+{
+  "operator": "Add_SOP",
+  "family": "SOP",
+  "td_create_name": "addSOP",
+  "param_count": 21,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointdat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Points",
+      "label": "Points DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "namedattribs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Points",
+      "label": "Named Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "keep": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Points",
+      "label": "Delete Geometry, Keep Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "addpts": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Points",
+      "label": "Add Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "point": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Points",
+      "label": "Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "point0posx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Points",
+      "label": "Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "point0posy": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Points",
+      "label": "Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "point0posz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Points",
+      "label": "Position",
+      "readOnly": false,
+      "expression": null
+    },
+    "point0weight": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Points",
+      "label": "Weight",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "pattern",
+        "menuIndex": 1,
+        "menuNames": [
+          "group",
+          "pattern"
+        ],
+        "menuLabels": [
+          "By Group",
+          "By Pattern"
+        ]
+      },
+      "default": "pattern",
+      "page": "Polygons",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Polygons",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "add": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "group",
+          "skip",
+          "sep"
+        ],
+        "menuLabels": [
+          "All Points",
+          "Groups of N Points",
+          "Skip Every Nth Point",
+          "Each Group Separately"
+        ]
+      },
+      "default": "all",
+      "page": "Polygons",
+      "label": "Add",
+      "readOnly": false,
+      "expression": null
+    },
+    "inc": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Polygons",
+      "label": "N",
+      "readOnly": false,
+      "expression": null
+    },
+    "closedall": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Polygons",
+      "label": "Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "polydat": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Polygons",
+      "label": "Polygons Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "poly": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Polygons",
+      "label": "Polygon",
+      "readOnly": false,
+      "expression": null
+    },
+    "poly0pattern": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Polygons",
+      "label": "Pattern",
+      "readOnly": false,
+      "expression": null
+    },
+    "poly0closed": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Polygons",
+      "label": "Closed",
+      "readOnly": false,
+      "expression": null
+    },
+    "remove": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Post",
+      "label": "Remove Unused Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "normals": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Post",
+      "label": "Compute Normals",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

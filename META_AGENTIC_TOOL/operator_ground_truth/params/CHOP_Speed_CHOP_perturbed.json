@@ -1,0 +1,161 @@
+{
+  "operator": "Speed_CHOP",
+  "family": "CHOP",
+  "td_create_name": "speedCHOP",
+  "param_count": 23,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "speed": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "order": {
+      "type": "menu",
+      "value": "second",
+      "menuIndex": 1,
+      "menuNames": [
+        "first",
+        "second",
+        "third"
+      ],
+      "menuLabels": [
+        "First",
+        "Second",
+        "Third"
+      ]
+    },
+    "constant1": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "constant2": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "constant3": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "limittype": {
+      "type": "menu",
+      "value": "clamp",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "clamp",
+        "loop",
+        "zigzag"
+      ],
+      "menuLabels": [
+        "Off",
+        "Clamp",
+        "Loop",
+        "Zigzag"
+      ]
+    },
+    "min": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "max": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "speedsamples": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetcondition": {
+      "type": "menu",
+      "value": "ontooff",
+      "menuIndex": 2,
+      "menuNames": [
+        "offtoon",
+        "on",
+        "ontooff",
+        "off"
+      ],
+      "menuLabels": [
+        "Off to On",
+        "While On",
+        "On to Off",
+        "While Off"
+      ]
+    },
+    "resetvalue": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "reset": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "resetonstart": {
+      "type": "toggle",
+      "value": false
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

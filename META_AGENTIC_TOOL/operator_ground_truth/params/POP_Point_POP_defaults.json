@@ -1,0 +1,244 @@
+{
+  "operator": "Point_POP",
+  "family": "POP",
+  "td_create_name": "pointPOP",
+  "param_count": 13,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 7,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "createp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Create P Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "createpointprim": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Create Point Primitives",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 0,
+      "page": "Setup",
+      "label": "New Attribute",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0name": {
+      "value": {
+        "type": "menu",
+        "value": "custom",
+        "menuIndex": 0,
+        "menuNames": [
+          "custom",
+          "n",
+          "color",
+          "tex",
+          "pointscale",
+          "linewidth"
+        ],
+        "menuLabels": [
+          "Custom",
+          "N",
+          "Color",
+          "Tex",
+          "PointScale",
+          "LineWidth"
+        ]
+      },
+      "default": "custom",
+      "page": "Setup",
+      "label": "Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0customname": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Setup",
+      "label": "Custom Name",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0type": {
+      "value": {
+        "type": "menu",
+        "value": "float",
+        "menuIndex": 0,
+        "menuNames": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "color",
+          "dcolor",
+          "dir",
+          "ddir"
+        ],
+        "menuLabels": [
+          "float",
+          "double",
+          "int",
+          "uint",
+          "Color",
+          "Color (double)",
+          "Direction",
+          "Direction (double)"
+        ]
+      },
+      "default": "float",
+      "page": "Setup",
+      "label": "Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "attr0numcomps": {
+      "value": {
+        "type": "menu",
+        "value": "1",
+        "menuIndex": 0,
+        "menuNames": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "menuLabels": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "default": "1",
+      "page": "Setup",
+      "label": "Number of Components",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

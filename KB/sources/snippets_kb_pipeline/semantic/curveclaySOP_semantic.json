@@ -1,0 +1,191 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\curveclaySOP_lossless.json",
+  "operator_type": "curveclaySOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "levelofdetail": 3,
+            "text": "Derivative",
+            "tz": 4
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "radx": 3,
+            "rady": 3,
+            "radz": 3,
+            "rows": 30
+          }
+        },
+        {
+          "name": "project1",
+          "type": "SOP:project",
+          "parameters": {
+            "pageindex": 1,
+            "method": "parametric",
+            "axis": "fnorm",
+            "urange1": 0.09,
+            "urange2": 0.38,
+            "vrange1": 0.45,
+            "vrange2": 0.55
+          }
+        },
+        {
+          "name": "curveclay1",
+          "type": "SOP:curveclay",
+          "parameters": {
+            "pageindex": 2,
+            "sharp": 1,
+            "refine": 1,
+            "deformlen": 0.18
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "project1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "project1",
+          "to_input": "1"
+        },
+        {
+          "from": "project1",
+          "to": "curveclay1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:project": 1,
+          "SOP:curveclay": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "SOP:text",
+          "parameters": {
+            "pageindex": 1,
+            "levelofdetail": 3,
+            "text": "Derivative",
+            "tx": -2.3,
+            "sx": 0.62,
+            "sy": 0.62,
+            "sz": 0.62
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "SOP:sphere",
+          "parameters": {
+            "pageindex": 1,
+            "type": "nurbs",
+            "radx": 3,
+            "rady": 3,
+            "radz": 3
+          }
+        },
+        {
+          "name": "curveclay1",
+          "type": "SOP:curveclay",
+          "parameters": {
+            "pageindex": 1,
+            "sharp": 1,
+            "refine": 1,
+            "projop": "zaxis"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "SOP:transform",
+          "parameters": {
+            "tz": 0.25,
+            "ry": 7.1
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "sphere1",
+          "to": "curveclay1",
+          "to_input": "0"
+        },
+        {
+          "from": "text1",
+          "to": "curveclay1",
+          "to_input": "1"
+        },
+        {
+          "from": "transform1",
+          "to": "curveclay1",
+          "to_input": "2"
+        },
+        {
+          "from": "text1",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 4,
+        "operator_types": {
+          "SOP:text": 1,
+          "DAT:text": 1,
+          "SOP:sphere": 1,
+          "SOP:curveclay": 1,
+          "SOP:transform": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

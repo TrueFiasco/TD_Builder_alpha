@@ -1,0 +1,367 @@
+{
+  "operator": "Leuze_ROD4_CHOP",
+  "family": "CHOP",
+  "td_create_name": "leuzerod4CHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 16,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "ROD4",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "netaddress": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "ROD4",
+      "label": "Network Address",
+      "readOnly": false,
+      "expression": null
+    },
+    "port": {
+      "value": {
+        "type": "int",
+        "value": 9008
+      },
+      "default": 9008,
+      "page": "ROD4",
+      "label": "Network Port",
+      "readOnly": false,
+      "expression": null
+    },
+    "rod4porotocol": {
+      "value": {
+        "type": "menu",
+        "value": "binary",
+        "menuIndex": 0,
+        "menuNames": [
+          "binary",
+          "ascii"
+        ],
+        "menuLabels": [
+          "Binary ROD4 compatible",
+          "ROD4plus ASCII-Remote"
+        ]
+      },
+      "default": "binary",
+      "page": "ROD4",
+      "label": "ROD4 Protocol",
+      "readOnly": false,
+      "expression": null
+    },
+    "inputcoordinate": {
+      "value": {
+        "type": "menu",
+        "value": "polar",
+        "menuIndex": 0,
+        "menuNames": [
+          "polar",
+          "cartesian"
+        ],
+        "menuLabels": [
+          "Polar",
+          "Cartesian"
+        ]
+      },
+      "default": "polar",
+      "page": "ROD4",
+      "label": "Input Coordinate",
+      "readOnly": false,
+      "expression": null
+    },
+    "outputmode": {
+      "value": {
+        "type": "menu",
+        "value": "rawdata",
+        "menuIndex": 0,
+        "menuNames": [
+          "rawdata",
+          "blobtracking"
+        ],
+        "menuLabels": [
+          "Raw Data",
+          "Blob Tracking"
+        ]
+      },
+      "default": "rawdata",
+      "page": "ROD4",
+      "label": "Output Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxblobs": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "ROD4",
+      "label": "Max Blobs",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxpointdistance": {
+      "value": {
+        "type": "float",
+        "value": 0.07000000029802322
+      },
+      "default": 0.07000000029802322,
+      "page": "ROD4",
+      "label": "Max Point Distance in Blob",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxblobmovement": {
+      "value": {
+        "type": "float",
+        "value": 0.10000000149011612
+      },
+      "default": 0.10000000149011612,
+      "page": "ROD4",
+      "label": "Max Blob Movement",
+      "readOnly": false,
+      "expression": null
+    },
+    "areaofinterest": {
+      "value": {
+        "type": "menu",
+        "value": "distancebased",
+        "menuIndex": 1,
+        "menuNames": [
+          "off",
+          "distancebased",
+          "boundingbox"
+        ],
+        "menuLabels": [
+          "Off",
+          "Distance Based",
+          "Bounding Box"
+        ]
+      },
+      "default": "distancebased",
+      "page": "ROD4",
+      "label": "Area of Interest",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxdistance": {
+      "value": {
+        "type": "float",
+        "value": 2.0
+      },
+      "default": 2.0,
+      "page": "ROD4",
+      "label": "Max Distance",
+      "readOnly": false,
+      "expression": null
+    },
+    "lowerleft1": {
+      "value": {
+        "type": "float",
+        "value": -1.0
+      },
+      "default": -1.0,
+      "page": "ROD4",
+      "label": "Lower Left Corner",
+      "readOnly": false,
+      "expression": null
+    },
+    "lowerleft2": {
+      "value": {
+        "type": "float",
+        "value": 0.25
+      },
+      "default": 0.25,
+      "page": "ROD4",
+      "label": "Lower Left Corner",
+      "readOnly": false,
+      "expression": null
+    },
+    "upperright1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "ROD4",
+      "label": "Upper Right Corner",
+      "readOnly": false,
+      "expression": null
+    },
+    "upperright2": {
+      "value": {
+        "type": "float",
+        "value": 1.5
+      },
+      "default": 1.5,
+      "page": "ROD4",
+      "label": "Upper Right Corner",
+      "readOnly": false,
+      "expression": null
+    },
+    "allowmovementoutside": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "ROD4",
+      "label": "Allow Movement Outside Area",
+      "readOnly": false,
+      "expression": null
+    },
+    "boundingboxmask": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "ROD4",
+      "label": "Bounding Box Mask TOP",
+      "readOnly": false,
+      "expression": null
+    },
+    "rotate": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "ROD4",
+      "label": "Rotate Incoming Coordinates",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

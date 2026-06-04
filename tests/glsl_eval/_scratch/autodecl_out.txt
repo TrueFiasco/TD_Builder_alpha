@@ -1,0 +1,26 @@
+STEP0 (clean shader, vec=0):
+
+BEFORE_LEN 124
+HAS_UNIFORM False
+
+
+
+STEP1 (after adding Vectors entry 'uTint' via API):
+## Script Execution Result
+
+
+**Stdout**:
+```
+AFTER_LEN 124
+HAS_UNIFORM_LINE False
+DAT_TEXT_BEGIN
+// no uTint anywhere
+out vec4 fragColor;
+void main(){
+    vec2 uv=vUV.st;
+    fragColor=TDOutputSwizzle(vec4(uv,0.0,1.0));
+}
+DAT_TEXT_END
+WARN ''
+
+```

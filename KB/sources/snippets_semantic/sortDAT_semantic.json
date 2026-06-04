@@ -1,0 +1,256 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\sortDAT_lossless.json",
+  "operator_type": "sortDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 15,
+            "cols": 3,
+            "language": "text"
+          }
+        },
+        {
+          "name": "sort_randomize",
+          "type": "DAT:sort",
+          "parameters": {
+            "order": "random",
+            "seed": 4.16,
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "sort_firstColumnAsNumbers",
+          "type": "DAT:sort",
+          "parameters": {
+            "sortmethod": "colname",
+            "name": "Numeric",
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "sort_midColumnWithDigitsAsAlphabetical",
+          "type": "DAT:sort",
+          "parameters": {
+            "sortmethod": "colname",
+            "name": "Alphabetical",
+            "order": "alpha",
+            "preservefirst": "on"
+          }
+        },
+        {
+          "name": "sort_lastColumnWithDigitsAsAlphanumeric",
+          "type": "DAT:sort",
+          "parameters": {
+            "sortmethod": "colname",
+            "name": "AlphaNumeric",
+            "order": "alphanum",
+            "preservefirst": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "sort_randomize",
+          "to_input": "0"
+        },
+        {
+          "from": "sort_midColumnWithDigitsAsAlphabetical",
+          "to": "sort_firstColumnAsNumbers",
+          "to_input": "0"
+        },
+        {
+          "from": "sort_lastColumnWithDigitsAsAlphanumeric",
+          "to": "sort_midColumnWithDigitsAsAlphabetical",
+          "to_input": "0"
+        },
+        {
+          "from": "sort_randomize",
+          "to": "sort_lastColumnWithDigitsAsAlphanumeric",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:sort": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "eval1",
+          "type": "DAT:eval",
+          "parameters": {
+            "expr": "\"me.inputCell.offset(0, -2) + ' ' + me.inputCell.offset(0, -1)\"",
+            "xfirstrow": "on",
+            "extractcols": "byname",
+            "colnamestart": "FirstLast"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "DAT:null",
+          "parameters": {}
+        },
+        {
+          "name": "sort1",
+          "type": "DAT:sort",
+          "parameters": {
+            "index": 2,
+            "order": "alpha",
+            "preservefirst": "on",
+            "unique": "single"
+          }
+        },
+        {
+          "name": "sort2",
+          "type": "DAT:sort",
+          "parameters": {
+            "index": 2,
+            "order": "alpha",
+            "preservefirst": "on",
+            "unique": "single"
+          }
+        },
+        {
+          "name": "merge1",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "col"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 19,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "insert1",
+          "type": "DAT:insert",
+          "parameters": {
+            "insert": "col",
+            "at": "end",
+            "contents": "FirstLast"
+          }
+        },
+        {
+          "name": "convert1",
+          "type": "DAT:convert",
+          "parameters": {
+            "how": "text",
+            "spacers": "\" \""
+          }
+        },
+        {
+          "name": "convert2",
+          "type": "DAT:convert",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "insert1",
+          "to": "eval1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "eval1",
+          "to": "sort1",
+          "to_input": "0"
+        },
+        {
+          "from": "merge1",
+          "to": "sort2",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "merge1",
+          "to_input": "0"
+        },
+        {
+          "from": "convert2",
+          "to": "merge1",
+          "to_input": "1"
+        },
+        {
+          "from": "table1",
+          "to": "insert1",
+          "to_input": "0"
+        },
+        {
+          "from": "table1",
+          "to": "convert1",
+          "to_input": "0"
+        },
+        {
+          "from": "convert1",
+          "to": "convert2",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 9,
+        "operator_types": {
+          "DAT:eval": 1,
+          "DAT:null": 1,
+          "DAT:sort": 2,
+          "DAT:merge": 1,
+          "DAT:text": 1,
+          "DAT:table": 1,
+          "DAT:insert": 1,
+          "DAT:convert": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    }
+  ]
+}

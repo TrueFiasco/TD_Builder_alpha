@@ -1,0 +1,1400 @@
+{
+  "source_file": "C:\\TD_Projects\\kb_pipeline\\data\\snippets\\lossless_pop\\mathmixPOP_lossless.json",
+  "operator_type": "mathmixPOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "c",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "r",
+            "const0value": 0.7,
+            "const1name": "g",
+            "const1value": 0.4,
+            "const2name": "b",
+            "const2value": 0.1
+          }
+        },
+        {
+          "name": "line1",
+          "type": "POP:line",
+          "parameters": {
+            "pageindex": 1,
+            "divs": 99
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix_add"
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix8"
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "CHOP:popto",
+          "parameters": {
+            "pop": "mathmix8",
+            "nameformat": "basic",
+            "attribscope": "XStuff"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus3",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 70,
+            "rows": 40
+          }
+        },
+        {
+          "name": "torus5",
+          "type": "POP:torus",
+          "parameters": {}
+        },
+        {
+          "name": "torus6",
+          "type": "POP:torus",
+          "parameters": {
+            "orient": "z"
+          }
+        },
+        {
+          "name": "torus8",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 20,
+            "rows": 10
+          }
+        },
+        {
+          "name": "circle7",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 20
+          }
+        },
+        {
+          "name": "circle8",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 10,
+            "normaldirection": "tangent"
+          }
+        },
+        {
+          "name": "normal3",
+          "type": "POP:normal",
+          "parameters": {}
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment8",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix3",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "N",
+            "comb0scopeb": 0.31,
+            "comb0result": "delta",
+            "comb1oper": "add",
+            "comb1scopea": "P",
+            "comb1scopeb": "delta",
+            "comb1scopec": "\"\"",
+            "comb1result": "P",
+            "comb2scopea": "\"\"",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "\"\""
+          }
+        },
+        {
+          "name": "mathmix5",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 1,
+            "vec0name": "MyColor",
+            "vec0type": "float3",
+            "comb0oper": "copya",
+            "comb0scopea": "MyColor",
+            "comb0result": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "mathmix6",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "N",
+            "comb0scopeb": 0.2,
+            "comb0result": "delta",
+            "comb1oper": "add",
+            "comb1scopea": "P",
+            "comb1scopeb": "delta",
+            "comb1scopec": "\"\"",
+            "comb1result": "\"\""
+          }
+        },
+        {
+          "name": "mathmix7",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\".6 .5 .4\"",
+            "comb0result": "example",
+            "comb1oper": "copya",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "mathmix8",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"P(0) N(0) Tex(0)\"",
+            "comb0result": "XStuff"
+          }
+        },
+        {
+          "name": "mathmix9",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "aaddbmultc",
+            "comb0scopea": "P",
+            "comb0scopeb": "N",
+            "comb0scopec": 0.2
+          }
+        },
+        {
+          "name": "annotate2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate3",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate4",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate6",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate7",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "constant1",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0value": 0.22,
+            "exporttable": "constant1_export"
+          }
+        },
+        {
+          "name": "constant3",
+          "type": "CHOP:constant",
+          "parameters": {
+            "const0name": "multx",
+            "const0value": 0.34,
+            "exporttable": "constant3_export",
+            "const1name": "multy",
+            "const1value": 0.21,
+            "const2name": "multz",
+            "const2value": 0.1
+          }
+        },
+        {
+          "name": "mathmix11",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "P(1)",
+            "comb0scopeb": "bboxx"
+          }
+        },
+        {
+          "name": "popViewer",
+          "type": "COMP:container",
+          "parameters": {
+            "pageindex": 7,
+            "w": 1280,
+            "h": 720,
+            "topsmoothness": "usetop",
+            "drop": "usecallbacks",
+            "ext0object": "op('./ViewerExt').module.ViewerExt(me)",
+            "ext0name": "ViewerExt",
+            "ext0promote": "on",
+            "ext1object": "\"\"",
+            "ext1name": "\"\"",
+            "iop1shortcut": "\"\"",
+            "iop1op": "\"\""
+          }
+        },
+        {
+          "name": "annotate11",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "annotate12",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "math_scale",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "N",
+            "mult0": 0.2,
+            "outputattrscope": "delta"
+          }
+        },
+        {
+          "name": "normalize1",
+          "type": "POP:normalize",
+          "parameters": {
+            "inputattrscope": "P(0)",
+            "parsize": 1,
+            "outputattrscope": "bboxx",
+            "overrideautoattr": "on"
+          }
+        },
+        {
+          "name": "normalize4",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "bbox"
+          }
+        },
+        {
+          "name": "mathmix_add",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "add",
+            "comb0scopea": "P",
+            "comb0scopeb": "delta"
+          }
+        },
+        {
+          "name": "mathmix_flip",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"P(1) P(0) P(2)\"",
+            "comb0result": "P"
+          }
+        },
+        {
+          "name": "mathmix_chop1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "aaddbmultc",
+            "comb0scopea": "N",
+            "comb0scopec": "N",
+            "comb0result": "delta",
+            "comb1oper": "add",
+            "comb1scopea": "P",
+            "comb1scopeb": "delta",
+            "comb1scopec": "\"\"",
+            "comb1result": "P"
+          }
+        },
+        {
+          "name": "mathmix_chop3",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 1,
+            "vec0name": "Scaler",
+            "vec0type": "float3",
+            "comb0oper": "aaddbmultc",
+            "comb0scopea": "P",
+            "comb0scopeb": "N",
+            "comb0scopec": "Scaler"
+          }
+        },
+        {
+          "name": "mathmix_cycles",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "angleunit": "cycle",
+            "comb0oper": "mult",
+            "comb0scopea": "P.x",
+            "comb0scopeb": 1,
+            "comb0result": "angle",
+            "comb1oper": "sin",
+            "comb1scopea": "angle",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "P.y"
+          }
+        },
+        {
+          "name": "mathmix_degrees",
+          "type": "POP:mathmix",
+          "parameters": {
+            "comb0oper": "mult",
+            "comb0scopea": "P.x",
+            "comb0scopeb": 360,
+            "comb0result": "angle",
+            "comb1oper": "sin",
+            "comb1scopea": "angle",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "P.y"
+          }
+        },
+        {
+          "name": "mathmix_radians",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "angleunit": "rad",
+            "comb0oper": "amultbmultc",
+            "comb0scopea": "P.x",
+            "comb0scopeb": "_Pi",
+            "comb0scopec": 2,
+            "comb0result": "angle",
+            "comb1oper": "sin",
+            "comb1scopea": "angle",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "P.y"
+          }
+        },
+        {
+          "name": "constant1_export",
+          "type": "DAT:table",
+          "parameters": {}
+        },
+        {
+          "name": "constant3_export",
+          "type": "DAT:table",
+          "parameters": {
+            "rows": 4,
+            "cols": 5
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "mathmix_flip",
+          "to": "normal3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "mathmix3",
+          "to_input": "0"
+        },
+        {
+          "from": "circle7",
+          "to": "mathmix5",
+          "to_input": "0"
+        },
+        {
+          "from": "torus8",
+          "to": "mathmix6",
+          "to_input": "0"
+        },
+        {
+          "from": "circle7",
+          "to": "mathmix7",
+          "to_input": "0"
+        },
+        {
+          "from": "circle8",
+          "to": "mathmix8",
+          "to_input": "0"
+        },
+        {
+          "from": "torus8",
+          "to": "mathmix9",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize1",
+          "to": "mathmix11",
+          "to_input": "0"
+        },
+        {
+          "from": "torus8",
+          "to": "math_scale",
+          "to_input": "0"
+        },
+        {
+          "from": "torus6",
+          "to": "normalize1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus6",
+          "to": "normalize4",
+          "to_input": "0"
+        },
+        {
+          "from": "math_scale",
+          "to": "mathmix_add",
+          "to_input": "0"
+        },
+        {
+          "from": "torus5",
+          "to": "mathmix_flip",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "mathmix_chop1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus3",
+          "to": "mathmix_chop3",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "mathmix_cycles",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "mathmix_degrees",
+          "to_input": "0"
+        },
+        {
+          "from": "line1",
+          "to": "mathmix_radians",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 47,
+        "connection_count": 18,
+        "operator_types": {
+          "CHOP:constant": 3,
+          "POP:line": 1,
+          "DAT:popto": 2,
+          "CHOP:popto": 1,
+          "DAT:text": 1,
+          "POP:torus": 4,
+          "POP:circle": 2,
+          "POP:normal": 1,
+          "COMP:annotate": 12,
+          "POP:mathmix": 14,
+          "COMP:container": 1,
+          "POP:math": 1,
+          "POP:normalize": 2,
+          "DAT:table": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus2",
+          "type": "POP:torus",
+          "parameters": {
+            "orient": "z",
+            "cols": 17,
+            "rows": 10
+          }
+        },
+        {
+          "name": "circle4",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 0.4,
+            "rady": 1
+          }
+        },
+        {
+          "name": "circle5",
+          "type": "POP:circle",
+          "parameters": {}
+        },
+        {
+          "name": "circle6",
+          "type": "POP:circle",
+          "parameters": {
+            "radx": 1,
+            "rady": 0.2
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "in1_Color",
+            "comb0result": "Color",
+            "input1pop": "\"\"",
+            "comb1oper": "copya",
+            "comb1scopea": "in1_Color",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "MyColor",
+            "input2pop": "\"\"",
+            "comb2scopea": "\"\"",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "\"\""
+          }
+        },
+        {
+          "name": "rerange1",
+          "type": "POP:rerange",
+          "parameters": {}
+        },
+        {
+          "name": "annotate9",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix10",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "add",
+            "comb0scopea": "Color",
+            "comb0scopeb": "in1_Color",
+            "input1pop": "\"\""
+          }
+        },
+        {
+          "name": "annotate10",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "normalize3",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize5",
+          "type": "POP:normalize",
+          "parameters": {
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize7",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "boxx",
+            "mode1": "zero",
+            "mode2": "zero",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        },
+        {
+          "name": "normalize8",
+          "type": "POP:normalize",
+          "parameters": {
+            "mode0": "zero",
+            "mode1": "zero",
+            "mode2": "boxy",
+            "outputattrscope": "\"Color(0) Color(1) Color(2)\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle4",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize3",
+          "to": "mathmix1",
+          "to_input": "1"
+        },
+        {
+          "from": "normalize5",
+          "to": "mathmix1",
+          "to_input": "2"
+        },
+        {
+          "from": "mathmix1",
+          "to": "rerange1",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize7",
+          "to": "mathmix10",
+          "to_input": "0"
+        },
+        {
+          "from": "normalize8",
+          "to": "mathmix10",
+          "to_input": "1"
+        },
+        {
+          "from": "circle5",
+          "to": "normalize3",
+          "to_input": "0"
+        },
+        {
+          "from": "circle6",
+          "to": "normalize5",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "normalize7",
+          "to_input": "0"
+        },
+        {
+          "from": "torus2",
+          "to": "normalize8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 14,
+        "connection_count": 10,
+        "operator_types": {
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:circle": 3,
+          "POP:mathmix": 2,
+          "POP:rerange": 1,
+          "COMP:annotate": 2,
+          "POP:normalize": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "grid1",
+          "type": "POP:grid",
+          "parameters": {
+            "sizex": 1,
+            "sizey": 0.1,
+            "sizez": 1,
+            "cols": 2,
+            "rows": 2
+          }
+        },
+        {
+          "name": "math1",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "_PointI",
+            "outputattrscope": "TestI"
+          }
+        },
+        {
+          "name": "math2",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "_PointU",
+            "outputattrscope": "TestU"
+          }
+        },
+        {
+          "name": "math3",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "_PointCy",
+            "outputattrscope": "TestCy"
+          }
+        },
+        {
+          "name": "math5",
+          "type": "POP:math",
+          "parameters": {
+            "inputattrscope": "_BoundsMaxP",
+            "outputattrscope": "TestBoundsMaxP"
+          }
+        },
+        {
+          "name": "null1",
+          "type": "POP:null",
+          "parameters": {}
+        },
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "seed": 4.2,
+            "amp0": 0.3
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math1",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto2",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math3",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto3",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix1",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto4",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix2",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto5",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix3",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto6",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix4",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto7",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix5",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "popto8",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "math5",
+            "attrib": "\"TestBoundsMinP TestBoundsMaxP\""
+          }
+        },
+        {
+          "name": "popto9",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "mathmix6",
+            "attrib": "\"P Test*\""
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "torus1",
+          "type": "POP:torus",
+          "parameters": {
+            "cols": 13,
+            "rows": 7
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 13
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 400,
+            "endangle": 3600
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 400,
+            "endangle": 3600
+          }
+        },
+        {
+          "name": "sphere1",
+          "type": "POP:sphere",
+          "parameters": {
+            "freq": 2
+          }
+        },
+        {
+          "name": "comment1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "comment2",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "utility": "on",
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_NumPoints",
+            "comb0result": "TestNumPoints",
+            "comb1oper": "copya",
+            "comb1scopea": "_NumPrims",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestNumPrims",
+            "comb2oper": "copya",
+            "comb2scopea": "_NumVerts",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "TestNumVerts",
+            "comb3scopea": "\"\"",
+            "comb3scopeb": "\"\"",
+            "comb3scopec": "\"\"",
+            "comb3result": "\"\""
+          }
+        },
+        {
+          "name": "mathmix2",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_DimI[0]",
+            "comb0result": "TestCOl",
+            "comb1oper": "copya",
+            "comb1scopea": "_DimI[1]",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestRow"
+          }
+        },
+        {
+          "name": "mathmix3",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_DimU[0]",
+            "comb0result": "TestU0",
+            "comb1oper": "copya",
+            "comb1scopea": "_DimU[1]",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestU1"
+          }
+        },
+        {
+          "name": "mathmix4",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "_DimCy[0]",
+            "comb0result": "TestCy0",
+            "comb1oper": "copya",
+            "comb1scopea": "_DimCy[1]",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestCy1",
+            "comb2oper": "copya",
+            "comb2scopea": "_DimSize[0]",
+            "comb2scopeb": "\"\"",
+            "comb2scopec": "\"\"",
+            "comb2result": "TestDimSize0"
+          }
+        },
+        {
+          "name": "mathmix5",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "P(0)",
+            "comb0scopeb": "_StepSeconds",
+            "comb1oper": "copya",
+            "comb1scopea": "_StepSeconds",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestStepSeconds"
+          }
+        },
+        {
+          "name": "mathmix6",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "copya",
+            "comb0scopea": "\"_DimI[0] _DimI[1]\"",
+            "comb0result": "TestCy",
+            "comb1oper": "copya",
+            "comb1scopea": "\"_DimSize[0] _DimSize[1]\"",
+            "comb1scopeb": "\"\"",
+            "comb1scopec": "\"\"",
+            "comb1result": "TestDimSize"
+          }
+        },
+        {
+          "name": "mathmix7",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "aaddbmultc",
+            "comb0scopea": "P(2)",
+            "comb0scopeb": "_PointI",
+            "comb0scopec": 0.02
+          }
+        },
+        {
+          "name": "mathmix8",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "amultbmultc",
+            "comb0scopea": "P.xy",
+            "comb0scopeb": "_PointU",
+            "comb0scopec": 10
+          }
+        },
+        {
+          "name": "annotate1",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 3,
+            "includeinorder": "on"
+          }
+        },
+        {
+          "name": "hog_turn_me_on_and_off",
+          "type": "CHOP:hog",
+          "parameters": {
+            "cookalways": "off",
+            "delay": 0.05
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "null1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "math2",
+          "to_input": "0"
+        },
+        {
+          "from": "math2",
+          "to": "math3",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "math5",
+          "to_input": "0"
+        },
+        {
+          "from": "circle1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "sphere1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "null1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "mathmix2",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "mathmix3",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "mathmix4",
+          "to_input": "0"
+        },
+        {
+          "from": "grid1",
+          "to": "mathmix5",
+          "to_input": "0"
+        },
+        {
+          "from": "torus1",
+          "to": "mathmix6",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "mathmix7",
+          "to_input": "0"
+        },
+        {
+          "from": "circle3",
+          "to": "mathmix8",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 34,
+        "connection_count": 14,
+        "operator_types": {
+          "POP:grid": 1,
+          "POP:math": 4,
+          "POP:null": 1,
+          "POP:noise": 1,
+          "DAT:popto": 9,
+          "DAT:text": 1,
+          "POP:torus": 1,
+          "POP:circle": 3,
+          "POP:sphere": 1,
+          "COMP:annotate": 3,
+          "POP:mathmix": 8,
+          "CHOP:hog": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 4
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "noise1",
+          "type": "POP:noise",
+          "parameters": {
+            "noisesize": 1,
+            "seed": 1.6,
+            "amp0": 0.3,
+            "combineop": "mult",
+            "combineattrscope": "N",
+            "outputattrscope": "RadialNoise"
+          }
+        },
+        {
+          "name": "point1",
+          "type": "POP:point",
+          "parameters": {
+            "pageindex": 1,
+            "attr0customname": "circleScaler",
+            "attr0numcomps": 3
+          }
+        },
+        {
+          "name": "popto1",
+          "type": "DAT:popto",
+          "parameters": {
+            "pop": "point1"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "circle1",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 200,
+            "normaldirection": "radial"
+          }
+        },
+        {
+          "name": "circle2",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 20
+          }
+        },
+        {
+          "name": "circle3",
+          "type": "POP:circle",
+          "parameters": {
+            "divs": 20
+          }
+        },
+        {
+          "name": "slider1",
+          "type": "COMP:slider",
+          "parameters": {
+            "pageindex": 1,
+            "value0": 0.565657,
+            "value1": 0.5,
+            "w": 100,
+            "h": 20,
+            "top": "./back",
+            "crop": "on",
+            "relpath": "externaltox"
+          }
+        },
+        {
+          "name": "mathmix1",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 1,
+            "vec0name": "RadialScale",
+            "comb0oper": "aaddbmultc",
+            "comb0scopea": "P",
+            "comb0scopeb": "RadialNoise",
+            "comb0scopec": "RadialScale"
+          }
+        },
+        {
+          "name": "mathmix2",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 2,
+            "comb0oper": "mult",
+            "comb0scopea": "P",
+            "comb0scopeb": "in1_circleScaler",
+            "input1pop": "\"\""
+          }
+        },
+        {
+          "name": "mathmix4",
+          "type": "POP:mathmix",
+          "parameters": {
+            "pageindex": 1,
+            "vec0name": "circleScaler",
+            "vec0type": "float3",
+            "vec0value0": 0.5,
+            "vec0value1": 0.2,
+            "comb0oper": "mult",
+            "comb0scopea": "P",
+            "comb0scopeb": "circleScaler"
+          }
+        },
+        {
+          "name": "annotate5",
+          "type": "COMP:annotate",
+          "parameters": {
+            "pageindex": 4,
+            "includeinorder": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "circle1",
+          "to": "noise1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "mathmix1",
+          "to_input": "0"
+        },
+        {
+          "from": "circle2",
+          "to": "mathmix2",
+          "to_input": "0"
+        },
+        {
+          "from": "point1",
+          "to": "mathmix2",
+          "to_input": "1"
+        },
+        {
+          "from": "circle3",
+          "to": "mathmix4",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 12,
+        "connection_count": 5,
+        "operator_types": {
+          "POP:noise": 1,
+          "POP:point": 1,
+          "DAT:popto": 1,
+          "DAT:text": 1,
+          "POP:circle": 3,
+          "COMP:slider": 1,
+          "POP:mathmix": 3,
+          "COMP:annotate": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

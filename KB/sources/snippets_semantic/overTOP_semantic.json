@@ -1,0 +1,234 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\overTOP_lossless.json",
+  "operator_type": "overTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "moviein2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "over_fit_best",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "fitbest",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "over_manual_position_scale_rotate",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "nativeres",
+            "extend": "hold",
+            "r": 28,
+            "tx": -0.38,
+            "ty": -0.05,
+            "sx": 0.8,
+            "sy": 0.8,
+            "px": 0.25,
+            "legacyxform": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein1",
+          "to": "over_fit_best",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein2",
+          "to": "over_fit_best",
+          "to_input": "1"
+        },
+        {
+          "from": "moviein1",
+          "to": "over_manual_position_scale_rotate",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein2",
+          "to": "over_manual_position_scale_rotate",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 2,
+          "TOP:over": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "pageindex": 1,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "overForceResolution",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "fitbest",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "but_that_was_not_the_easiest",
+          "type": "TOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein4",
+          "to": "overForceResolution",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "overForceResolution",
+          "to_input": "1"
+        },
+        {
+          "from": "overForceResolution",
+          "to": "but_that_was_not_the_easiest",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:constant": 1,
+          "TOP:over": 1,
+          "TOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "constant2",
+          "type": "TOP:constant",
+          "parameters": {
+            "pageindex": 1,
+            "resolutionw": 1280,
+            "resolutionh": 720
+          }
+        },
+        {
+          "name": "overFitOutside",
+          "type": "TOP:over",
+          "parameters": {
+            "prefit": "fitoutside",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "but_that_was_not_the_easiest_either",
+          "type": "TOP:null",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviein3",
+          "to": "overFitOutside",
+          "to_input": "0"
+        },
+        {
+          "from": "constant2",
+          "to": "overFitOutside",
+          "to_input": "1"
+        },
+        {
+          "from": "overFitOutside",
+          "to": "but_that_was_not_the_easiest_either",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 3,
+        "operator_types": {
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:constant": 1,
+          "TOP:over": 1,
+          "TOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 3
+      }
+    }
+  ]
+}

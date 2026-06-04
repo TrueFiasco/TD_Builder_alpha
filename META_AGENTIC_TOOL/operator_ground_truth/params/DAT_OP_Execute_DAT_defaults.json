@@ -1,0 +1,428 @@
+{
+  "operator": "OP_Execute_DAT",
+  "family": "DAT",
+  "td_create_name": "opexecuteDAT",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 17,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "OP Execute",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "here",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "here",
+          "op"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "This Node",
+          "Specified Operator"
+        ]
+      },
+      "default": "here",
+      "page": "OP Execute",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "OP Execute",
+      "label": "From Operator",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "op": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "OP Execute",
+      "label": "Monitor OPs",
+      "readOnly": false,
+      "expression": null
+    },
+    "precook": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Pre Cook",
+      "readOnly": false,
+      "expression": null
+    },
+    "postcook": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Post Cook",
+      "readOnly": false,
+      "expression": null
+    },
+    "destroy": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Destroy",
+      "readOnly": false,
+      "expression": null
+    },
+    "flagchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Flag Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "wirechange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Wire Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "namechange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Name Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "pathchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Path Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "uichange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "UI Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "numchildrenchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Number Children Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "childrename": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Child Rename",
+      "readOnly": false,
+      "expression": null
+    },
+    "currentchildchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Current Child Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "extensionchange": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Extension Change",
+      "readOnly": false,
+      "expression": null
+    },
+    "edit": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "OP Execute",
+      "label": "Edit..",
+      "readOnly": false,
+      "expression": null
+    },
+    "file": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "File",
+      "label": "File",
+      "readOnly": false,
+      "expression": null
+    },
+    "defaultreadencoding": {
+      "value": {
+        "type": "menu",
+        "value": "autodetect",
+        "menuIndex": 0,
+        "menuNames": [
+          "autodetect",
+          "utf8",
+          "utf16le",
+          "utf16be",
+          "cp1252"
+        ],
+        "menuLabels": [
+          "Auto-Detect",
+          "UTF8",
+          "UTF16-LE",
+          "UTF16-BE",
+          "CP1252"
+        ]
+      },
+      "default": "autodetect",
+      "page": "File",
+      "label": "Default Read Encoding",
+      "readOnly": false,
+      "expression": null
+    },
+    "syncfile": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Sync to File",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstart": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load on Start",
+      "readOnly": false,
+      "expression": null
+    },
+    "loadonstartpulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Load File",
+      "readOnly": false,
+      "expression": null
+    },
+    "write": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write on Toe Save",
+      "readOnly": false,
+      "expression": null
+    },
+    "writepulse": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "File",
+      "label": "Write File",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "python",
+        "menuIndex": 3,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

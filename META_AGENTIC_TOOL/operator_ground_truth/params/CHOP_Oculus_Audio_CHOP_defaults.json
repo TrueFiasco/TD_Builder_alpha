@@ -1,0 +1,373 @@
+{
+  "operator": "Oculus_Audio_CHOP",
+  "family": "CHOP",
+  "td_create_name": "oculusaudioCHOP",
+  "param_count": 29,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 18,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "headobject": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Setup",
+      "label": "Head Object COMP",
+      "readOnly": false,
+      "expression": null
+    },
+    "sourceobject": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Setup",
+      "label": "Source Object COMP",
+      "readOnly": false,
+      "expression": null
+    },
+    "minrange": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Setup",
+      "label": "Minimum Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxrange": {
+      "value": {
+        "type": "float",
+        "value": 100.0
+      },
+      "default": 100.0,
+      "page": "Setup",
+      "label": "Maximum Range",
+      "readOnly": false,
+      "expression": null
+    },
+    "diameter": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Setup",
+      "label": "Diameter",
+      "readOnly": false,
+      "expression": null
+    },
+    "bandhint": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "wide",
+          "narrow"
+        ],
+        "menuLabels": [
+          "None",
+          "Wide Band",
+          "Narrow Band"
+        ]
+      },
+      "default": "none",
+      "page": "Setup",
+      "label": "Band Hint",
+      "readOnly": false,
+      "expression": null
+    },
+    "reflectrevert": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Setup",
+      "label": "Reflections and Reverb",
+      "readOnly": false,
+      "expression": null
+    },
+    "attenuation": {
+      "value": {
+        "type": "menu",
+        "value": "none",
+        "menuIndex": 0,
+        "menuNames": [
+          "none",
+          "fixed",
+          "inversesequare"
+        ],
+        "menuLabels": [
+          "None",
+          "Fixed",
+          "Inverse Square"
+        ]
+      },
+      "default": "none",
+      "page": "Setup",
+      "label": "Attenuation",
+      "readOnly": false,
+      "expression": null
+    },
+    "attenuationscale": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Attenuation Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "boxroommode": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Setup",
+      "label": "Box Room Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomsizex": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Room Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomsizey": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Room Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomsizez": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Setup",
+      "label": "Room Size",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomleftrelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Left Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomrightrelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Right Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "roombottomrelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Bottom Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomtoprelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Top Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "roomfrontrelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Front Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "roombackrelfect": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Setup",
+      "label": "Room Back Reflect",
+      "readOnly": false,
+      "expression": null
+    },
+    "timeslice": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Time Slice",
+      "readOnly": false,
+      "expression": null
+    },
+    "scope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "srselect": {
+      "value": {
+        "type": "menu",
+        "value": "max",
+        "menuIndex": 1,
+        "menuNames": [
+          "first",
+          "max",
+          "min",
+          "err"
+        ],
+        "menuLabels": [
+          "Resample At First Input's Rate",
+          "Resample At Maximum Rate",
+          "Resample At Minimum Rate",
+          "Error If Rates Differ"
+        ]
+      },
+      "default": "max",
+      "page": "Common",
+      "label": "Sample Rate Match",
+      "readOnly": false,
+      "expression": null
+    },
+    "exportmethod": {
+      "value": {
+        "type": "menu",
+        "value": "datindex",
+        "menuIndex": 0,
+        "menuNames": [
+          "datindex",
+          "datname",
+          "autoname"
+        ],
+        "menuLabels": [
+          "DAT Table by Index",
+          "DAT Table by Name",
+          "Channel Name is Path:Parameter"
+        ]
+      },
+      "default": "datindex",
+      "page": "Common",
+      "label": "Export Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoexportroot": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Common",
+      "label": "Export Root",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "exporttable": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Export Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "renamefrom": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Common",
+      "label": "Rename from",
+      "readOnly": false,
+      "expression": null
+    },
+    "renameto": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Rename to",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

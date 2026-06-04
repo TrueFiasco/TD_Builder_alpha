@@ -1,0 +1,378 @@
+{
+  "pattern_updates": [
+    {
+      "pattern_name": "signal_analysis_and_processing",
+      "operators": [
+        "analyze",
+        "math",
+        "trail"
+      ],
+      "purpose": "Extract statistical features and process with math operations",
+      "confidence": 0.75,
+      "example_count": 5,
+      "evidence": [
+        "analyzeCHOP_semantic.json"
+      ]
+    },
+    {
+      "pattern_name": "signal_smoothing_and_recording",
+      "operators": [
+        "filter",
+        "trail"
+      ],
+      "purpose": "Smooth/filter jittery signals and record history",
+      "confidence": 0.82,
+      "example_count": 8,
+      "evidence": [
+        "filterCHOP_semantic.json"
+      ]
+    },
+    {
+      "pattern_name": "fade_and_feedback_effects",
+      "operators": [
+        "feedback",
+        "level",
+        "transform"
+      ],
+      "purpose": "Create fade/persistence effects with feedback loops",
+      "confidence": 0.8,
+      "example_count": 3,
+      "evidence": [
+        "feedbackTOP_semantic.json"
+      ]
+    },
+    {
+      "pattern_name": "sequential_math_operations",
+      "operators": [
+        "math",
+        "math",
+        "constant"
+      ],
+      "purpose": "Chain multiple math operations for complex transformations",
+      "confidence": 0.78,
+      "example_count": 10,
+      "evidence": [
+        "mathCHOP_semantic.json"
+      ]
+    }
+  ],
+  "co_occurrence_updates": [
+    {
+      "operator": "CHOP:analyze",
+      "commonly_follows": [
+        "CHOP:trail",
+        "CHOP:wave",
+        "CHOP:noise"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "operator": "TOP:feedback",
+      "commonly_follows": [
+        "TOP:transform",
+        "TOP:constant"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "operator": "CHOP:math",
+      "commonly_follows": [
+        "CHOP:constant",
+        "CHOP:null",
+        "CHOP:noise"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "operator": "CHOP:filter",
+      "commonly_follows": [
+        "CHOP:null",
+        "CHOP:math",
+        "CHOP:merge"
+      ],
+      "confidence": 0.8
+    }
+  ],
+  "expertise_gaps": [
+    {
+      "category": "expertise_gap",
+      "operator": "merge",
+      "family": "CHOP",
+      "description": "Operator merge (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "wave",
+      "family": "CHOP",
+      "description": "Operator wave (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "trail",
+      "family": "CHOP",
+      "description": "Operator trail (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "select",
+      "family": "CHOP",
+      "description": "Operator select (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "constant",
+      "family": "TOP",
+      "description": "Operator constant (TOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "transform",
+      "family": "TOP",
+      "description": "Operator transform (TOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "constant",
+      "family": "CHOP",
+      "description": "Operator constant (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "null",
+      "family": "CHOP",
+      "description": "Operator null (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "cross",
+      "family": "TOP",
+      "description": "Operator cross (TOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "level",
+      "family": "TOP",
+      "description": "Operator level (TOP) appears in examples but not in expertise",
+      "status": "new"
+    },
+    {
+      "category": "expertise_gap",
+      "operator": "trigger",
+      "family": "CHOP",
+      "description": "Operator trigger (CHOP) appears in examples but not in expertise",
+      "status": "new"
+    }
+  ],
+  "statistics": {
+    "summaries_generated": 5,
+    "summaries_validated": 5,
+    "new_patterns_discovered": 4,
+    "co_occurrence_reinforced": 5,
+    "operators_unknown": 11,
+    "problems_logged": 0
+  },
+  "self_improve_event": {
+    "id": "EVT-20251215185100-self_improve",
+    "ts": "2025-12-15T18:51:00.276588",
+    "agent_id": "summary_generator",
+    "domain": "patterns",
+    "task": "Self-improve: discover patterns and update expertise",
+    "findings": {
+      "new_patterns": [
+        {
+          "pattern_name": "signal_analysis_and_processing",
+          "operators": [
+            "analyze",
+            "math",
+            "trail"
+          ],
+          "purpose": "Extract statistical features and process with math operations",
+          "confidence": 0.75,
+          "example_count": 5,
+          "evidence": [
+            "analyzeCHOP_semantic.json"
+          ]
+        },
+        {
+          "pattern_name": "signal_smoothing_and_recording",
+          "operators": [
+            "filter",
+            "trail"
+          ],
+          "purpose": "Smooth/filter jittery signals and record history",
+          "confidence": 0.82,
+          "example_count": 8,
+          "evidence": [
+            "filterCHOP_semantic.json"
+          ]
+        },
+        {
+          "pattern_name": "fade_and_feedback_effects",
+          "operators": [
+            "feedback",
+            "level",
+            "transform"
+          ],
+          "purpose": "Create fade/persistence effects with feedback loops",
+          "confidence": 0.8,
+          "example_count": 3,
+          "evidence": [
+            "feedbackTOP_semantic.json"
+          ]
+        },
+        {
+          "pattern_name": "sequential_math_operations",
+          "operators": [
+            "math",
+            "math",
+            "constant"
+          ],
+          "purpose": "Chain multiple math operations for complex transformations",
+          "confidence": 0.78,
+          "example_count": 10,
+          "evidence": [
+            "mathCHOP_semantic.json"
+          ]
+        }
+      ],
+      "co_occurrence_reinforced": [
+        {
+          "operator": "CHOP:analyze",
+          "commonly_follows": [
+            "CHOP:trail",
+            "CHOP:wave",
+            "CHOP:noise"
+          ],
+          "confidence": 0.8
+        },
+        {
+          "operator": "TOP:feedback",
+          "commonly_follows": [
+            "TOP:transform",
+            "TOP:constant"
+          ],
+          "confidence": 0.8
+        },
+        {
+          "operator": "CHOP:math",
+          "commonly_follows": [
+            "CHOP:constant",
+            "CHOP:null",
+            "CHOP:noise"
+          ],
+          "confidence": 0.8
+        },
+        {
+          "operator": "CHOP:filter",
+          "commonly_follows": [
+            "CHOP:null",
+            "CHOP:math",
+            "CHOP:merge"
+          ],
+          "confidence": 0.8
+        }
+      ],
+      "expertise_gaps": [
+        {
+          "category": "expertise_gap",
+          "operator": "merge",
+          "family": "CHOP",
+          "description": "Operator merge (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "wave",
+          "family": "CHOP",
+          "description": "Operator wave (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "trail",
+          "family": "CHOP",
+          "description": "Operator trail (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "select",
+          "family": "CHOP",
+          "description": "Operator select (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "constant",
+          "family": "TOP",
+          "description": "Operator constant (TOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "transform",
+          "family": "TOP",
+          "description": "Operator transform (TOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "constant",
+          "family": "CHOP",
+          "description": "Operator constant (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "null",
+          "family": "CHOP",
+          "description": "Operator null (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "cross",
+          "family": "TOP",
+          "description": "Operator cross (TOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "level",
+          "family": "TOP",
+          "description": "Operator level (TOP) appears in examples but not in expertise",
+          "status": "new"
+        },
+        {
+          "category": "expertise_gap",
+          "operator": "trigger",
+          "family": "CHOP",
+          "description": "Operator trigger (CHOP) appears in examples but not in expertise",
+          "status": "new"
+        }
+      ],
+      "statistics": {
+        "summaries_generated": 5,
+        "summaries_validated": 5,
+        "new_patterns_discovered": 4,
+        "co_occurrence_reinforced": 5,
+        "operators_unknown": 11,
+        "problems_logged": 0
+      }
+    },
+    "evidence": [
+      "workflow_build_results.json",
+      "workflow_events.json"
+    ],
+    "status": "success"
+  }
+}

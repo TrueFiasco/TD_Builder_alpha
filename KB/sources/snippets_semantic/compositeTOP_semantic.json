@@ -1,0 +1,443 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\compositeTOP_lossless.json",
+  "operator_type": "compositeTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 1,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "count",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "person",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "composite_divide",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "divide",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "composite_inside",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "inside",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "composite_outside",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "outside",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "composite_multiply",
+          "type": "TOP:comp",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "person",
+          "to": "composite_divide",
+          "to_input": "0"
+        },
+        {
+          "from": "count",
+          "to": "composite_divide",
+          "to_input": "1"
+        },
+        {
+          "from": "count",
+          "to": "composite_inside",
+          "to_input": "0"
+        },
+        {
+          "from": "person",
+          "to": "composite_inside",
+          "to_input": "1"
+        },
+        {
+          "from": "count",
+          "to": "composite_outside",
+          "to_input": "0"
+        },
+        {
+          "from": "person",
+          "to": "composite_outside",
+          "to_input": "1"
+        },
+        {
+          "from": "count",
+          "to": "composite_multiply",
+          "to_input": "0"
+        },
+        {
+          "from": "person",
+          "to": "composite_multiply",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 8,
+        "operator_types": {
+          "TOP:moviefilein": 2,
+          "DAT:text": 1,
+          "TOP:comp": 4
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "image1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image2",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "image4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "composite_multiple_inputs1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "screen",
+            "size": "input1",
+            "prefit": "nativeres",
+            "extend": "hold",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "composite_multiple_inputs2",
+          "type": "TOP:comp",
+          "parameters": {
+            "tops": "image*",
+            "operand": "screen",
+            "size": "input1",
+            "prefit": "nativeres",
+            "extend": "hold",
+            "legacyxform": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "image1",
+          "to": "composite_multiple_inputs1",
+          "to_input": "0"
+        },
+        {
+          "from": "image2",
+          "to": "composite_multiple_inputs1",
+          "to_input": "1"
+        },
+        {
+          "from": "image3",
+          "to": "composite_multiple_inputs1",
+          "to_input": "2"
+        },
+        {
+          "from": "image4",
+          "to": "composite_multiple_inputs1",
+          "to_input": "3"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:moviefilein": 4,
+          "DAT:text": 1,
+          "TOP:comp": 2
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "lfo1",
+          "type": "CHOP:lfo",
+          "parameters": {
+            "frequency": 0.21,
+            "amp": 0.5,
+            "timeslice": "on",
+            "exporttable": "lfo1_export"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "person3",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "person4",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "lfo1_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "extension": "languageext"
+          }
+        },
+        {
+          "name": "composite_transforming_inputs",
+          "type": "TOP:comp",
+          "parameters": {
+            "pageindex": 1,
+            "size": "input1",
+            "prefit": "nativeres",
+            "sx": 1.3,
+            "sy": 1.3,
+            "legacyxform": "on"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "person4",
+          "to": "composite_transforming_inputs",
+          "to_input": "0"
+        },
+        {
+          "from": "person3",
+          "to": "composite_transforming_inputs",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 2,
+        "operator_types": {
+          "CHOP:lfo": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 2,
+          "DAT:table": 1,
+          "TOP:comp": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example5",
+      "description": "",
+      "operators": [
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "pageindex": 1,
+            "operand": "over",
+            "size": "input1",
+            "prefit": "nativeres",
+            "tstepx": 1.5,
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "constant2",
+          "type": "TOP:constant",
+          "parameters": {
+            "resolutionw": 512,
+            "resolutionh": 512
+          }
+        },
+        {
+          "name": "constant3",
+          "type": "TOP:constant",
+          "parameters": {
+            "resolutionw": 64,
+            "resolutionh": 64
+          }
+        },
+        {
+          "name": "constant4",
+          "type": "TOP:constant",
+          "parameters": {
+            "resolutionw": 64,
+            "resolutionh": 64
+          }
+        },
+        {
+          "name": "constant5",
+          "type": "TOP:constant",
+          "parameters": {
+            "resolutionw": 64,
+            "resolutionh": 64
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "constant2",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "constant3",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "constant4",
+          "to": "comp1",
+          "to_input": "2"
+        },
+        {
+          "from": "constant5",
+          "to": "comp1",
+          "to_input": "3"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 4,
+        "operator_types": {
+          "TOP:comp": 1,
+          "DAT:text": 1,
+          "TOP:constant": 4
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example6",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "classicComposites",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 1
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 2,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "COMP:base": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,361 @@
+{
+  "operator": "Align_SOP",
+  "family": "SOP",
+  "td_create_name": "alignSOP",
+  "param_count": 28,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Align",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "align": {
+      "value": {
+        "type": "menu",
+        "value": "all",
+        "menuIndex": 0,
+        "menuNames": [
+          "all",
+          "group",
+          "skip"
+        ],
+        "menuLabels": [
+          "All Primitives",
+          "Groups of N Primitives",
+          "Skip Every Nth Primitive"
+        ]
+      },
+      "default": "all",
+      "page": "Align",
+      "label": "Align",
+      "readOnly": false,
+      "expression": null
+    },
+    "inc": {
+      "value": {
+        "type": "int",
+        "value": 2
+      },
+      "default": 2,
+      "page": "Align",
+      "label": "N",
+      "readOnly": false,
+      "expression": null
+    },
+    "bias": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Align",
+      "label": "Bias",
+      "readOnly": false,
+      "expression": null
+    },
+    "leftuv1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Align",
+      "label": "Left UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "leftuv2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Align",
+      "label": "Left UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuv1": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Align",
+      "label": "Right UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuv2": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Align",
+      "label": "Right UV",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuvend1": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Align",
+      "label": "Right UV End",
+      "readOnly": false,
+      "expression": null
+    },
+    "rightuvend2": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Align",
+      "label": "Right UV End",
+      "readOnly": false,
+      "expression": null
+    },
+    "individual": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Align",
+      "label": "Individual Alignment",
+      "readOnly": false,
+      "expression": null
+    },
+    "dotrans": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Align",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "dorotate": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Align",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "xord": {
+      "value": {
+        "type": "menu",
+        "value": "srt",
+        "menuIndex": 0,
+        "menuNames": [
+          "srt",
+          "str",
+          "rst",
+          "rts",
+          "tsr",
+          "trs"
+        ],
+        "menuLabels": [
+          "Scale Rotate Translate",
+          "Scale Translate Rotate",
+          "Rotate Scale Translate",
+          "Rotate Translate Scale",
+          "Translate Scale Rotate",
+          "Translate Rotate Scale"
+        ]
+      },
+      "default": "srt",
+      "page": "Transform",
+      "label": "Transform Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "rord": {
+      "value": {
+        "type": "menu",
+        "value": "xyz",
+        "menuIndex": 0,
+        "menuNames": [
+          "xyz",
+          "xzy",
+          "yxz",
+          "yzx",
+          "zxy",
+          "zyx"
+        ],
+        "menuLabels": [
+          "Rx Ry Rz",
+          "Rx Rz Ry",
+          "Ry Rx Rz",
+          "Ry Rz Rx",
+          "Rz Rx Ry",
+          "Rz Ry Rx"
+        ]
+      },
+      "default": "xyz",
+      "page": "Transform",
+      "label": "Rotate Order",
+      "readOnly": false,
+      "expression": null
+    },
+    "tx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ty": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "tz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Translate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rx": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "ry": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "rz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Rotate",
+      "readOnly": false,
+      "expression": null
+    },
+    "sx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sy": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "sz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Transform",
+      "label": "Scale",
+      "readOnly": false,
+      "expression": null
+    },
+    "px": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "py": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    },
+    "pz": {
+      "value": {
+        "type": "float",
+        "value": 0.0
+      },
+      "default": 0.0,
+      "page": "Transform",
+      "label": "Pivot",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

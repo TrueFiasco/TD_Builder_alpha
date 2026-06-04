@@ -1,0 +1,147 @@
+{
+  "operator": "Capture_SOP",
+  "family": "SOP",
+  "td_create_name": "captureSOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 5,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Capture",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "rootbone": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "",
+      "page": "Capture",
+      "label": "Hierarchy",
+      "readOnly": false,
+      "expression": null
+    },
+    "weightfrom": {
+      "value": {
+        "type": "menu",
+        "value": "surface",
+        "menuIndex": 0,
+        "menuNames": [
+          "surface",
+          "cv"
+        ],
+        "menuLabels": [
+          "Surface",
+          "Points"
+        ]
+      },
+      "default": "surface",
+      "page": "Capture",
+      "label": "Weight from",
+      "readOnly": false,
+      "expression": null
+    },
+    "captframe": {
+      "value": {
+        "type": "int",
+        "value": 0
+      },
+      "default": 0,
+      "page": "Capture",
+      "label": "Capture Frame",
+      "readOnly": false,
+      "expression": null
+    },
+    "color": {
+      "value": {
+        "type": "menu",
+        "value": "coldefault",
+        "menuIndex": 0,
+        "menuNames": [
+          "coldefault",
+          "colregion"
+        ],
+        "menuLabels": [
+          "Default Source Color",
+          "Color by Capture Region"
+        ]
+      },
+      "default": "coldefault",
+      "page": "Capture",
+      "label": "Point Coloring",
+      "readOnly": false,
+      "expression": null
+    },
+    "captfile": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Override",
+      "label": "Override File",
+      "readOnly": false,
+      "expression": null
+    },
+    "savefile": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Override",
+      "label": "Save File",
+      "readOnly": false,
+      "expression": null
+    },
+    "autoincr": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Override",
+      "label": "Increment Save File",
+      "readOnly": false,
+      "expression": null
+    },
+    "savecaptfile": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Override",
+      "label": "Save All Data to File",
+      "readOnly": false,
+      "expression": null
+    },
+    "savesel": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Override",
+      "label": "Save Selected Points to File",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

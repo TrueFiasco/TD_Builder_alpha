@@ -1,0 +1,2477 @@
+family: MAT
+operator_count: 7
+operators:
+- operator_type: depthMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: box1
+      type: SOP:box
+      role: isolated
+      parameters:
+        sizex: 1.4
+        sizey: 3
+        sizez: 0.3
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        pageindex: 3
+        tx: 39.0574
+        ty: -5.91711
+        tz: 21.7166
+        rx: -10.8904
+        ry: -42.3666
+        rz: -2.25332e-05
+        px: -52.7909
+        py: 7.6247
+        pz: -64.6186
+        orthowidth: 1
+        aperture: 44.1
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 5
+        instancing: 'on'
+        instanceop: positions
+        instancetx: P(0)
+        instancety: P(1)
+        instancetz: P(2)
+        material: phong1
+    - name: geo2
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 5
+        material: 'null'
+        drawpriority: 1
+    - name: lfo1
+      type: CHOP:lfo
+      role: input
+      parameters:
+        frequency: 0.19
+        timeslice: 'on'
+    - name: 'null'
+      type: MAT:null
+      role: output
+    - name: grid1
+      type: SOP:grid
+      role: isolated
+      parameters:
+        type: poly
+        sizex: 5
+        sizey: 5.3
+        rows: 10
+        cols: 10
+    - name: line1
+      type: SOP:line
+      role: input
+      parameters:
+        pbz: 30
+        points: 10
+    - name: math1
+      type: CHOP:math
+      role: processor
+      parameters:
+        pageindex: 2
+        fromrange1: -1
+        fromrange2: 1
+        torange2: 32.5
+    - name: null1
+      type: TOP:null
+      role: output
+    - name: depth1
+      type: MAT:depth
+      role: input
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        tx: 44.5027
+        ty: -15.8883
+        tz: 34.3084
+        rx: -22.7133
+        ry: 318.346
+        rz: 0.000267386
+        px: -52.6424
+        py: 17.2972
+        pz: -92.1163
+        orthowidth: 1
+        aperture: 44.1
+    - name: phong1
+      type: MAT:phong
+      role: isolated
+      parameters:
+        diffg: 1
+        diffb: 0.72549
+    - name: render1
+      type: TOP:render
+      role: input
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: comment1
+      type: COMP:annotate
+      role: isolated
+      parameters:
+        pageindex: 3
+        utility: 'on'
+        includeinorder: 'on'
+    - name: position
+      type: CHOP:null
+      role: output
+    - name: annotate1
+      type: COMP:annotate
+      role: isolated
+      parameters:
+        pageindex: 3
+        includeinorder: 'on'
+    - name: positions
+      type: SOP:null
+      role: output
+    - name: wireframe1
+      type: MAT:wireframe
+      role: input
+      parameters:
+        wireframemode: topology
+        linewidth: 4.22
+    - name: switchMaterial
+      type: MAT:switch
+      role: processor
+      parameters:
+        index: 1
+    connections:
+    - from: switchMaterial
+      to: 'null'
+      input_index: '0'
+    - from: lfo1
+      to: math1
+      input_index: '0'
+    - from: render1
+      to: null1
+      input_index: '0'
+    - from: math1
+      to: position
+      input_index: '0'
+    - from: line1
+      to: positions
+      input_index: '0'
+    - from: depth1
+      to: switchMaterial
+      input_index: '0'
+    - from: wireframe1
+      to: switchMaterial
+      input_index: '1'
+    topology:
+      operator_count: 20
+      connection_count: 7
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: The Depth Only MAT can be used to prevent objects from being drawn
+      by making an invisible barrier in Z. To see the effect, change the index parameter
+      of the "switchMaterial" node to 0. This will apply the Depth MAT instead of
+      the blue Wireframe MAT to the animated Grid SOP.
+- operator_type: glslMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: pbr1
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        metallic: 0.163
+        roughness: 0.56
+        legacyalphabehavior: 'on'
+    - name: phong1
+      type: MAT:phong
+      role: isolated
+      parameters:
+        diffr: 0.983268
+        diffg: 0.498039
+        diffb: 1
+        specr: 1
+        specg: 0.189
+        specb: 0.189
+        bumpscale: 0.63
+        legacyalphabehavior: 'on'
+    - name: pbr1GLSL
+      type: MAT:glsl
+      role: isolated
+      parameters:
+        glslversion: glsl460
+        vdat: pbr1GLSLVertex
+        pdat: pbr1GLSLPixel
+        attr0name: Tex
+        attr0type: float3
+        sampler0name: sBaseColorMap
+        sampler0top: moviefilein1
+        vec0name: uAlphaFront
+        vec0valuex: 1
+        legacyalphabehavior: 'on'
+        vec1name: uShadowStrength
+        vec1valuex: 1
+        vec2name: uMetallic
+        vec2valuex: 0.163
+        vec3name: uRoughness
+        vec3valuex: 0.56
+        vec4name: uSpecularLevel
+        vec4valuex: 1
+        vec5name: uAmbientOcclusion
+        vec5valuex: 1
+    - name: phong1GLSL
+      type: MAT:glsl
+      role: isolated
+      parameters:
+        glslversion: glsl460
+        vdat: phong1GLSLVertex
+        pdat: phong1GLSLPixel
+        attr0name: Tex
+        attr0type: float3
+        sampler0name: sColorMap
+        sampler0top: moviefilein1
+        vec0name: uAlphaFront
+        vec0valuex: 1
+        legacyalphabehavior: 'on'
+        vec1name: uShadowStrength
+        vec1valuex: 1
+        vec2name: uShininess
+        vec2valuex: 100
+    - name: moviefilein1
+      type: TOP:moviefilein
+      role: isolated
+    - name: pbr1GLSLInfo
+      type: DAT:info
+      role: isolated
+      parameters:
+        op: pbr1GLSL
+    - name: pbr1GLSLPixel
+      type: DAT:text
+      role: isolated
+    - name: pbr1GLSLVertex
+      type: DAT:text
+      role: isolated
+    - name: phong1GLSLInfo
+      type: DAT:info
+      role: isolated
+      parameters:
+        op: phong1GLSL
+    - name: phong1GLSLPixel
+      type: DAT:text
+      role: isolated
+    - name: phong1GLSLVertex
+      type: DAT:text
+      role: isolated
+    connections: []
+    topology:
+      operator_count: 11
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: A basic GLSL shader can be created by setting up a Phong or PBR
+      material, and outputting the equivalen shader by pulsing the Output Shader...
+      parameter.
+  - example_name: example2
+    operators:
+    - name: cam2
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: -0.358398
+        ty: 0.384441
+        tz: 8.8855
+        px: 0.716795
+        py: -0.768882
+        pz: -17.771
+        orthowidth: 1
+        aperture: 44.1
+    - name: glsl1
+      type: MAT:glsl
+      role: isolated
+      parameters:
+        pageindex: 6
+        vdat: glsl1_vertex
+        pdat: glsl1_pixel
+        vec0name: uRange
+        blending: 'on'
+        srcblend: sa
+        destblend: one
+        alphathreshold: 0.001
+    - name: light2
+      type: COMP:light
+      role: isolated
+      parameters:
+        tz: 10
+    - name: render2
+      type: TOP:render
+      role: isolated
+      parameters:
+        camera: cam2
+        antialias: aa1
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: textures
+      type: COMP:base
+      role: isolated
+    - name: positions
+      type: TOP:noise
+      role: input
+      parameters:
+        period: 3
+        spread: 2.1
+        gain: 0.69
+        exp: 1.64
+        amp: 4
+        resolutionw: 128
+        resolutionh: 128
+        format: rgba32float
+    - name: glsl1_info
+      type: DAT:info
+      role: isolated
+      parameters:
+        op: glsl1
+    - name: instances1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 5
+        instancing: 'on'
+        instanceop: positionsFinal
+        instancetx: r
+        instancety: g
+        instancetz: b
+        material: glsl1
+    - name: rectangle1
+      type: SOP:rectangle
+      role: isolated
+      parameters:
+        sizex: 0.1
+        sizey: 0.1
+    - name: glsl1_pixel
+      type: DAT:text
+      role: isolated
+    - name: glsl1_vertex
+      type: DAT:text
+      role: isolated
+    - name: positionsFinal
+      type: TOP:null
+      role: output
+    connections:
+    - from: positions
+      to: positionsFinal
+      input_index: '0'
+    topology:
+      operator_count: 12
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+    curator_text: This randomly chooses from a set of textures rendered on an instanced
+      rectangle.1. The textures stay in their original format (2D), less memory, less
+      work than building a 3D texture first.2. The textures can be different resolutions.3.
+      The textures can be changing (such as be movies) without a performance penalty
+      that would be caused by rebuilding a 3D texture.Notice the usage of vVert. The
+      instanceID is passed through to the pixel shader and that is used to decide
+      which texture to access, via TDIntanceTexture().The "positions" Noise TOP is
+      a cheap way to generate a semi-structured point cloud where RGB is treated as
+      XYZ.See the Geo Text COMP for rendering 3D tet without textures.
+  - example_name: example3
+    operators:
+    - name: phong1GLSL
+      type: MAT:glsl
+      role: isolated
+      parameters:
+        glslversion: glsl460
+        vdat: phong1GLSLVertex
+        pdat: phong1GLSLPixel
+        gdat: phong1GLSLGeometry
+        vec0name: uShadowColor
+        legacyalphabehavior: 'on'
+        vec1name: uShadowStrength
+        vec1valuex: 1
+        vec2name: uDiffuseColor
+        vec2valuex: 0.7
+        vec2valuey: 0.7
+        vec2valuez: 0.7
+        vec2valuew: 1
+        vec3name: uAmbientColor
+        vec3valuex: 0.7
+        vec3valuey: 0.7
+        vec3valuez: 0.7
+        vec3valuew: 1
+        vec4name: uSpecularColor
+        vec4valuex: 0.3
+        vec4valuey: 0.3
+        vec4valuez: 0.3
+        vec5name: uShininess
+        vec5valuex: 100
+        vec6name: uAmount
+        vec6valuex: 1.337
+        vec6valuey: 1
+        vec6valuez: 1
+        vec6valuew: 1
+    - name: phong1GLSLInfo
+      type: DAT:info
+      role: isolated
+      parameters:
+        op: phong1GLSL
+    - name: phong1GLSLPixel
+      type: DAT:text
+      role: isolated
+    - name: phong1GLSLVertex
+      type: DAT:text
+      role: isolated
+    - name: phong1GLSLGeometry
+      type: DAT:text
+      role: isolated
+    connections: []
+    topology:
+      operator_count: 5
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: texturing:1. The textures stay in their original format (2D), less
+      memory, less work to build the 3D texture2. The textures can be different resolutions3.
+      The textures can be changing (such as be movies) without a performance penalty
+      caused by rebuilding the 3D textureNotice the new usage of vVert. instanceTextureHandle
+      in the shaders, as well as the Instance Textures parameter being filled in on
+      the Geometry COMP ‘Instance 2’ page.
+  - example_name: example4
+    operators:
+    - name: glsl1
+      type: TOP:glsl
+      role: isolated
+      parameters:
+        pixeldat: glsl1_pixel
+        computedat: glsl1_compute
+    - name: utils
+      type: DAT:text
+      role: isolated
+    - name: shaders
+      type: COMP:base
+      role: isolated
+    - name: glsl1_info
+      type: DAT:info
+      role: isolated
+      parameters:
+        op: glsl1
+    - name: glsl1_pixel
+      type: DAT:text
+      role: isolated
+    - name: glsl1_compute
+      type: DAT:text
+      role: isolated
+    connections: []
+    topology:
+      operator_count: 6
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: include code from other DATs
+- operator_type: lineMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: box1
+      type: SOP:box
+      role: input
+      parameters:
+        sizex: 2
+        sizey: 2
+        sizez: 2
+        reverseanchors: 'on'
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tz: 5
+        fov: 58
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        ry: 17
+        material: line2
+    - name: copy1
+      type: SOP:copy
+      role: processor
+      parameters:
+        ncy: 2
+        sx: 0.6
+        sy: 0.6
+        sz: 0.6
+    - name: line2
+      type: MAT:line
+      role: isolated
+      parameters:
+        widthnear: 7
+        widthfar: 0.7
+        legacyalphabehavior: 'on'
+    - name: toGeo
+      type: SOP:null
+      role: output
+    - name: merge1
+      type: SOP:merge
+      role: processor
+    - name: circle1
+      type: SOP:circle
+      role: input
+      parameters:
+        radx: 0.8
+        rady: 0.8
+        reverseanchors: 'on'
+        divs: 7
+        arc: openarc
+        beginangle: 100
+        endangle: 420
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    connections:
+    - from: circle1
+      to: copy1
+      input_index: '0'
+    - from: merge1
+      to: toGeo
+      input_index: '0'
+    - from: box1
+      to: merge1
+      input_index: '0'
+    - from: copy1
+      to: merge1
+      input_index: '1'
+    topology:
+      operator_count: 9
+      connection_count: 4
+      has_parallel_paths: false
+      max_chain_length: 4
+    curator_text: 'Line MAT gives solid line rendering. This is a basic render setup.Play
+      with the Line MAT parameters on Setup and Line pages, like width near/far, colors,
+      cap types,  Translate geo1 in Z for depth effect.Rendered line widths are not
+      intended to be depth-correct: this gives more user control. (set Depth Interpolation
+      Model to Inverse Distange to get depth-correct)Lights have no effect. Colors
+      are based on near-far colors and points'' distance from camera.Most SOP viewers
+      are set to Wireframe (w).Things to try:- near-far color/width tapering controls-
+      end caps- joints- Points, Vectors'
+  - example_name: example2
+    operators:
+    - name: copy1
+      type: SOP:copy
+      role: output
+      parameters:
+        ncy: 14
+        sx: 0.9
+        sy: 0.9
+        sz: 0.9
+    - name: grid3
+      type: SOP:grid
+      role: input
+      parameters:
+        sizex: 2
+        sizey: 2
+        reverseanchors: 'on'
+    - name: line1
+      type: MAT:line
+      role: isolated
+      parameters:
+        inversedistanceexponent: 1.169
+        distancenear: 2.773
+        distancefar: 4.9
+        widthnear: 5
+        widthfar: 2.5
+        linestartcaptype: arrow
+        pointtype: sphere
+        pointsizemultiplier: 1.5
+        scale: 0.09
+        vecendcaptype: arrow
+        vectaperstrength: 0.715
+        squareheight: 1.59
+        triangleheight: 12
+        arrowwidth: 3.2
+        arrowheight: 6.87
+        arrowtaillength: 1
+        legacyalphabehavior: 'on'
+    - name: line2
+      type: MAT:line
+      role: isolated
+      parameters:
+        widthnear: 2
+        widthfar: 0.1
+        legacyalphabehavior: 'on'
+    - name: null6
+      type: TOP:null
+      role: processor
+    - name: torus
+      type: SOP:torus
+      role: isolated
+      parameters:
+        type: poly
+        radx: 0.9
+        rady: 0.15
+        reverseanchors: 'on'
+    - name: level1
+      type: TOP:level
+      role: output
+      parameters:
+        pageindex: 2
+        clampinput: clamp
+        lowa: 1
+    - name: noise1
+      type: CHOP:noise
+      role: input
+      parameters:
+        amp: 1.5
+        channelname: '"tx ty tz"'
+    - name: noise2
+      type: CHOP:noise
+      role: isolated
+      parameters:
+        period: 0.0001
+        amp: 1.5
+        channelname: '"tx ty tz"'
+    - name: noise3
+      type: SOP:noise
+      role: processor
+      parameters:
+        attribute: n
+        period: 0.3
+    - name: sopto3
+      type: DAT:sopto
+      role: isolated
+      parameters:
+        sop: null_normals
+    - name: twist1
+      type: SOP:twist
+      role: output
+      parameters:
+        strength: 27
+    - name: chopto1
+      type: SOP:chopto
+      role: isolated
+      parameters:
+        chop: noise1
+    - name: chopto2
+      type: SOP:chopto
+      role: isolated
+      parameters:
+        chop: pattern1
+        chanscope: '"tx ty tz r g b"'
+        attscope: '"P(0) P(1) P(2) Cd(0) Cd(1) Cd(2)"'
+    - name: chopto4
+      type: SOP:chopto
+      role: isolated
+      parameters:
+        chop: noise2
+    - name: circle1
+      type: SOP:circle
+      role: input
+      parameters:
+        orient: zx
+        reverseanchors: 'on'
+        divs: 70
+        arc: openarc
+        beginangle: 100
+        endangle: 420
+    - name: circle2
+      type: SOP:circle
+      role: isolated
+      parameters:
+        reverseanchors: 'on'
+        divs: 3
+    - name: circle3
+      type: SOP:circle
+      role: isolated
+      parameters:
+        reverseanchors: 'on'
+        divs: 3
+        arc: openarc
+        endangle: 356
+    - name: circle4
+      type: SOP:circle
+      role: isolated
+      parameters:
+        reverseanchors: 'on'
+        divs: 3
+        arc: slicedarc
+        endangle: 356
+    - name: circle5
+      type: SOP:circle
+      role: isolated
+      parameters:
+        reverseanchors: 'on'
+        divs: 30
+        arc: slicedarc
+        endangle: 332
+    - name: delete1
+      type: SOP:delete
+      role: output
+      parameters:
+        keeppoints: 'on'
+    - name: sphere1
+      type: SOP:sphere
+      role: isolated
+      parameters:
+        reverseanchors: 'on'
+    - name: comment1
+      type: COMP:annotate
+      role: isolated
+      parameters:
+        utility: 'on'
+        includeinorder: 'on'
+    - name: pattern1
+      type: CHOP:pattern
+      role: output
+      parameters:
+        pageindex: 2
+        wavetype: random
+        channelname: '"r g b"'
+        combine: append
+    - name: toRender
+      type: SOP:select
+      role: input
+      parameters:
+        sops: copy1
+    - name: sopRender
+      type: COMP:container
+      role: input
+      parameters:
+        pageindex: 8
+        w: 1280
+        uvbuttonsleft: 1
+        uvbuttonsmiddle: 1
+        uvbuttonsright: 1
+        topsmoothness: mipmap
+        nodeview: opviewer
+        chop: sopto2
+        ext1object: '""'
+        ext1name: '""'
+        ext2object: '""'
+        ext2name: '""'
+    - name: grid_quads
+      type: SOP:grid
+      role: input
+      parameters:
+        type: poly
+        orient: zx
+        sizex: 2
+        sizey: 2
+        reverseanchors: 'on'
+        rows: 15
+        cols: 15
+    - name: sopRender3
+      type: COMP:container
+      role: isolated
+      parameters:
+        pageindex: 7
+        w: 1280
+        uvbuttonsleft: 1
+        uvbuttonsmiddle: 1
+        uvbuttonsright: 1
+        topsmoothness: mipmap
+        nodeview: opviewer
+        chop: sopto2
+        ext1object: '""'
+        ext1name: '""'
+        ext2object: '""'
+        ext2name: '""'
+    - name: null_normals
+      type: SOP:null
+      role: output
+    - name: facet_normals
+      type: SOP:facet
+      role: output
+      parameters:
+        prenml: 'on'
+    - name: grid_rowsCols
+      type: SOP:grid
+      role: input
+      parameters:
+        type: poly
+        surftype: rowcol
+        orient: zx
+        sizex: 2
+        sizey: 2
+        reverseanchors: 'on'
+        rows: 15
+        cols: 15
+    connections:
+    - from: circle1
+      to: copy1
+      input_index: '0'
+    - from: sopRender/out1
+      to: null6
+      input_index: '0'
+    - from: null6
+      to: level1
+      input_index: '0'
+    - from: grid3
+      to: noise3
+      input_index: '0'
+    - from: grid_quads
+      to: twist1
+      input_index: '0'
+    - from: toRender
+      to: delete1
+      input_index: '0'
+    - from: noise1
+      to: pattern1
+      input_index: '0'
+    - from: noise3
+      to: null_normals
+      input_index: '0'
+    - from: grid_rowsCols
+      to: facet_normals
+      input_index: '0'
+    topology:
+      operator_count: 31
+      connection_count: 9
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: Orientation-independent line widths, with endcap and joint controls.Several
+      SOP types rendered with the Line Material and displayed with sopRender from
+      the Palette to tumble/zoom.Drag-drop SOPs to toRender (easier than wiring, it's
+      a Select SOP).toRender's viewer is set to Wireframe (w).flick sopRender to autoRotate.Things
+      to try:- near-far color/width tapering controls- end caps- joints- Points, Vectors
+  - example_name: example3
+    operators:
+    - name: grid1
+      type: SOP:grid
+      role: input
+      parameters:
+        type: poly
+        surftype: cols
+        orient: zx
+        sizex: 1
+        sizey: 10
+        tz: -5
+        reverseanchors: 'on'
+        rows: 150
+        cols: 8
+    - name: line1
+      type: MAT:line
+      role: isolated
+      parameters:
+        pageindex: 2
+        inversedistanceexponent: 1.169
+        distancenear: 0.7
+        distancefar: 5
+        widthnear: 6
+        widthfar: 1
+        widthbias: -0.146
+        drawpoints: 'on'
+        pointtype: sphere
+        scale: 0.09
+        vecendcaptype: round
+        vectaperstrength: 0.325
+        roundheight: 1.9
+        arrowwidth: 2.1
+        arrowheight: 4.07
+        arrowtaillength: 1
+        legacyalphabehavior: 'on'
+    - name: null6
+      type: TOP:null
+      role: output
+    - name: merge1
+      type: CHOP:merge
+      role: output
+    - name: sopto1
+      type: CHOP:sopto
+      role: input
+      parameters:
+        sop: grid1
+        exportmethod: datname
+    - name: chopto3
+      type: SOP:chopto
+      role: output
+      parameters:
+        chop: merge1
+        chanscope: '"tx ty tz width"'
+        attscope: '"P(0) P(1) P(2) width"'
+    - name: toRender
+      type: SOP:select
+      role: isolated
+      parameters:
+        sops: chopto3
+    - name: sopRender
+      type: COMP:container
+      role: input
+      parameters:
+        pageindex: 7
+        w: 1280
+        uvbuttonsleft: 1
+        uvbuttonsmiddle: 1
+        uvbuttonsright: 1
+        topsmoothness: mipmap
+        nodeview: opviewer
+        chop: sopto2
+        ext1object: '""'
+        ext1name: '""'
+        ext2object: '""'
+        ext2name: '""'
+    - name: math_width
+      type: CHOP:math
+      role: processor
+      parameters:
+        pageindex: 2
+        fromrange1: -1
+        fromrange2: 1
+        torange1: -6
+        torange2: 10
+    - name: noise_width
+      type: CHOP:noise
+      role: processor
+      parameters:
+        pageindex: 1
+        period: 1.26
+        sx: 1.9
+        sy: 1.9
+        sz: 1.9
+        channelname: width
+    connections:
+    - from: sopRender/out1
+      to: null6
+      input_index: '0'
+    - from: sopto1
+      to: merge1
+      input_index: '0'
+    - from: math_width
+      to: merge1
+      input_index: '1'
+    - from: grid1
+      to: chopto3
+      input_index: '0'
+    - from: noise_width
+      to: math_width
+      input_index: '0'
+    - from: sopto1
+      to: noise_width
+      input_index: '0'
+    topology:
+      operator_count: 10
+      connection_count: 6
+      has_parallel_paths: true
+      max_chain_length: 4
+    curator_text: SOP has 'width' attribute, animated.Play with Line Width Bias, Steepness,
+      Linarize, and Near-Far distances.Turn the Points on.
+  - example_name: example4
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        ty: 0.34
+        tz: 4
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        rord: yxz
+        instancing: 'on'
+        instanceop: toGeo
+        instancetx: tx
+        instancety: ty
+        instancetz: tz
+        material: line1
+    - name: line1
+      type: MAT:line
+      role: isolated
+      parameters:
+        widthnear: 1
+        widthfar: 0.5
+        drawpoints: 'on'
+        pointtype: square
+        legacyalphabehavior: 'on'
+    - name: text1
+      type: DAT:text
+      role: isolated
+    - name: toGeo
+      type: CHOP:null
+      role: output
+    - name: sopto1
+      type: CHOP:sopto
+      role: input
+      parameters:
+        sop: circle1
+        exportmethod: datname
+    - name: circle1
+      type: SOP:circle
+      role: isolated
+      parameters:
+        orient: zx
+        reverseanchors: 'on'
+        arc: openarc
+        endangle: 3600
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        pageindex: 5
+        uvunwrapcoordattrib: uv
+        resolutionw: 1920
+        resolutionh: 1080
+        filtertype: mipmap
+    - name: controls
+      type: COMP:base
+      role: isolated
+      parameters:
+        pageindex: 3
+    - name: pattern_radius
+      type: CHOP:pattern
+      role: processor
+      parameters:
+        wavetype: ramp
+        torange1: 1
+        torange2: 0.1
+        channelname: '"tx tz"'
+        combine: multiply
+    - name: pattern_densityY
+      type: CHOP:pattern
+      role: processor
+      parameters:
+        wavetype: random
+        numcycles: 1000
+        bias: -0.087
+        seed: 8.41
+        channelname: '"ty "'
+        combine: add
+    - name: pattern_vertical
+      type: CHOP:pattern
+      role: processor
+      parameters:
+        wavetype: ramp
+        channelname: ty
+        combine: replace
+    - name: pattern_densityXZ
+      type: CHOP:pattern
+      role: processor
+      parameters:
+        wavetype: random
+        numcycles: 1000
+        bias: -0.087
+        channelname: '"tx tz"'
+        combine: add
+    connections:
+    - from: pattern_densityXZ
+      to: toGeo
+      input_index: '0'
+    - from: sopto1
+      to: pattern_radius
+      input_index: '0'
+    - from: pattern_vertical
+      to: pattern_densityY
+      input_index: '0'
+    - from: pattern_radius
+      to: pattern_vertical
+      input_index: '0'
+    - from: pattern_densityY
+      to: pattern_densityXZ
+      input_index: '0'
+    topology:
+      operator_count: 13
+      connection_count: 5
+      has_parallel_paths: false
+      max_chain_length: 6
+    curator_text: A few hundred thousand samples are created in CHOPs, then passed
+      to the Geometry COMP for instancing.geo1 has convert2 for display, a SOP with
+      one point, and one Particle primitive containing the point.The point has to
+      be part of a particle system to render by the Line MAT (or any MAT) as a single
+      point (the SOP cannot be just one point with no primitives, it needs a primitive,
+      and the Convert SOP converts it to a Particle System primitive).
+  - example_name: example5
+    operators:
+    - name: add1
+      type: SOP:add
+      role: isolated
+      parameters:
+        pageindex: 1
+        pointdat: table1
+        namedattribs: 'on'
+        poly0pattern: '*'
+        poly0closed: 'on'
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        pageindex: 2
+        tz: 5
+        projection: ortho
+        orthowidth: 8
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 4
+        material: line1
+    - name: geo2
+      type: COMP:geo
+      role: isolated
+      parameters:
+        tz: -0.1
+        material: phong1
+    - name: line1
+      type: MAT:line
+      role: isolated
+      parameters:
+        widthnear: 2
+        widthfar: 0.5
+        linestartcaptype: square
+        lineendcaptype: square
+        roundwidth: 0
+        roundheight: 0
+        legacyalphabehavior: 'on'
+    - name: phong1
+      type: MAT:phong
+      role: isolated
+      parameters:
+        legacyalphabehavior: 'on'
+    - name: table1
+      type: DAT:table
+      role: isolated
+      parameters:
+        rows: 7
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        pageindex: 5
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    connections: []
+    topology:
+      operator_count: 8
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: Lines are defined in a DAT. passed to Add SOP where points are specified
+      into a polygon. geo1 is Line Mat, geo2 is same geometty, but with default Phone
+      MAT.geo1 is at z = -.1 to make sure it gets rendered in background.
+  - example_name: example6
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        pageindex: 3
+        tz: 5
+        fogdensity: 1
+        fogfar: 4
+        fogalpha: 1
+    - name: grid1
+      type: SOP:grid
+      role: isolated
+      parameters:
+        orient: zx
+        sizex: 2
+        sizey: 5
+        tz: 1.5
+        reverseanchors: 'on'
+    - name: line2
+      type: SOP:line
+      role: isolated
+    - name: level1
+      type: TOP:level
+      role: output
+      parameters:
+        pageindex: 5
+        clampinput: clamp
+        lowa: 1
+        filtertype: mipmap
+    - name: ramp_x
+      type: TOP:ramp
+      role: input
+      parameters:
+        pageindex: 3
+        dat: ramp1_keys
+        outputresolution: custom
+        resolutionw: 128
+        resolutionh: 128
+        format: rgba32float
+    - name: ramp_z
+      type: TOP:ramp
+      role: input
+      parameters:
+        pageindex: 3
+        dat: ramp2_keys
+        type: vertical
+        outputresolution: custom
+        resolutionw: 128
+        resolutionh: 128
+        format: rgba32float
+    - name: noise_y
+      type: TOP:noise
+      role: input
+      parameters:
+        amp: 0.042
+        resolutionw: 128
+        resolutionh: 128
+        format: rgba32float
+    - name: render1
+      type: TOP:render
+      role: input
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1920
+        resolutionh: 1080
+    - name: geo_grid
+      type: COMP:geo
+      role: output
+      parameters:
+        pageindex: 5
+        material: line_grid
+    - name: null_pos
+      type: TOP:null
+      role: output
+    - name: reorder1
+      type: TOP:reorder
+      role: processor
+      parameters:
+        outputgreen: input2
+        outputblue: input3
+    - name: line_grid
+      type: MAT:line
+      role: isolated
+      parameters:
+        distancefar: 4
+        widthnear: 1.05
+        widthfar: 0.1
+        legacyalphabehavior: 'on'
+    - name: geo_vector
+      type: COMP:geo
+      role: input
+      parameters:
+        pageindex: 2
+        ty: -0.3
+        instancing: 'on'
+        instancetop: null_pos
+        instancetx: r
+        instancety: g
+        instancetz: b
+        instancer: r
+        instanceg: g
+        instanceb: b
+        instance0customop: null_vector
+        instance0customx: r
+        instance0customy: g
+        material: line_vectors
+    - name: null_color
+      type: TOP:null
+      role: output
+    - name: ramp1_keys
+      type: DAT:table
+      role: isolated
+    - name: ramp2_keys
+      type: DAT:table
+      role: isolated
+    - name: null_vector
+      type: TOP:null
+      role: output
+    - name: line_vectors
+      type: MAT:line
+      role: isolated
+      parameters:
+        pageindex: 3
+        distancefar: 4
+        widthnear: 1.63
+        widthfar: 0.1
+        pointtype: circlesprite
+        pointsizemultiplier: 24
+        drawvectors: 'on'
+        scale: 0.07
+        vecendcaptype: arrow
+        arrowwidth: 3
+        arrowheight: 10
+        arrowtaillength: 5
+        vecdiratttype: instanceattribsop
+        blending: 'on'
+        srcblend: sa
+        legacyalphabehavior: 'on'
+    - name: math_rerange
+      type: TOP:math
+      role: processor
+      parameters:
+        pageindex: 2
+        toranger1: -1
+        toranger2: 1
+        torangeb1: -1
+        torangeb2: 4
+    - name: noise_vector
+      type: TOP:noise
+      role: input
+      parameters:
+        period: 3
+        amp: 1
+        outputresolution: custom
+        resolutionw: 128
+        resolutionh: 128
+        format: rgba32float
+    - name: math_positive
+      type: TOP:math
+      role: processor
+      parameters:
+        preop: pos
+    connections:
+    - from: render1
+      to: level1
+      input_index: '0'
+    - from: geo_vector
+      to: geo_grid
+      input_index: '0'
+    - from: math_rerange
+      to: null_pos
+      input_index: '0'
+    - from: ramp_x
+      to: reorder1
+      input_index: '0'
+    - from: noise_y
+      to: reorder1
+      input_index: '1'
+    - from: ramp_z
+      to: reorder1
+      input_index: '2'
+    - from: math_positive
+      to: null_color
+      input_index: '0'
+    - from: noise_vector
+      to: null_vector
+      input_index: '0'
+    - from: reorder1
+      to: math_rerange
+      input_index: '0'
+    - from: noise_vector
+      to: math_positive
+      input_index: '0'
+    topology:
+      operator_count: 21
+      connection_count: 10
+      has_parallel_paths: true
+      max_chain_length: 4
+    curator_text: Line MAT example drawing vectors.Vectors are defined in TOPs feeding
+      geo_vector.level1 adding alpha by setting Low A to 1.level1 looks smoother than
+      render1 because Viewer Smoothness menu set to Mipmap Pixels.
+  - example_name: example7
+    operators:
+    - name: pointRender
+      type: COMP:container
+      role: isolated
+      parameters:
+        pageindex: 7
+        w: 1280
+        h: 720
+        mousewheel: 'on'
+        uvbuttonsleft: 1
+        uvbuttonsmiddle: 1
+        uvbuttonsright: 1
+        top: ./out1
+        topsmoothness: mipmap
+    connections: []
+    topology:
+      operator_count: 1
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: As you zoom into the point cloud object, the circle size is adjusted
+      to give approxiimately the the same screen coverage to make it look like the
+      points form one continuous surface.In the Line MAT it is using a Depth Interpolation
+      Model set to Inverse Distance with an exponent set to 1. That means a point
+      that is twice as far away as another point has a size (radius) that is double.
+- operator_type: pbrMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: sun
+      type: COMP:environment
+      role: isolated
+      parameters:
+        dimmer: 0.5
+        envlightmap: moviefilein1
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: -0.0658567
+        ty: 1.38252
+        tz: 6.07687
+        rx: -28.0544
+        ry: -0.406667
+        rz: -0.873279
+        px: 0.0658566
+        py: -2.08252
+        pz: -3.07687
+        orthowidth: 1
+        aperture: 44.1
+        winrollpivot: legacy
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        rz: 30
+        material: pbr1
+    - name: pbr1
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        substance: substance1
+        bumpscale: 3
+        legacyalphabehavior: 'on'
+    - name: math1
+      type: CHOP:math
+      role: output
+      parameters:
+        pageindex: 1
+        gain: 4
+        exporttable: math1_export
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 2
+        tx: 3.39721
+        ty: 3.32923
+        tz: 10
+        rx: -22.4535
+        ry: 20.8303
+        rz: -7.51474
+        px: -3.39721
+        py: -3.32924
+        orthowidth: 1
+        aperture: 44.1
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: constant1
+      type: CHOP:constant
+      role: input
+    - name: substance1
+      type: TOP:substance
+      role: isolated
+      parameters:
+        graph: graph1
+        resolutionw: 1024
+        resolutionh: 1024
+    - name: math1_export
+      type: DAT:table
+      role: isolated
+    - name: moviefilein1
+      type: TOP:moviefilein
+      role: isolated
+    connections:
+    - from: constant1
+      to: math1
+      input_index: '0'
+    topology:
+      operator_count: 11
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+    curator_text: The individual textures are selected from the Substance TOP and
+      added to Substance TOP parameter under the "Maps" page on the PBR MAT.pbr1 is
+      the Material of geo1. Inside the Geometry COMP has a SOP with tangent, normal,
+      and uv attributes.In the scene there is a point light and an environment light
+      with moviefilein1 as the environment map. The environment light is required
+      for ambient occlusion to be visible.
+  - example_name: example2
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: -0.0658567
+        ty: 1.38252
+        tz: 6.07687
+        rx: -28.0544
+        ry: -0.406667
+        rz: -0.873279
+        px: 0.0658566
+        py: -2.08252
+        pz: -3.07687
+        orthowidth: 1
+        aperture: 44.1
+        winrollpivot: legacy
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        material: pbr1
+    - name: pbr1
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        pageindex: 1
+        metallicmap: metallic
+        roughnessmap: roughness
+        ambientocclusionmap: amboccl
+        normalmap: normal
+        bumpscale: 3
+        legacyalphabehavior: 'on'
+    - name: level1
+      type: TOP:level
+      role: processor
+      parameters:
+        pageindex: 2
+        clampinput: clamp
+        highg: 0.525
+        highb: 0.36
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 2
+        tx: 3.39721
+        ty: 3.32923
+        tz: 10
+        rx: -22.4535
+        ry: 20.8303
+        rz: -7.51474
+        px: -3.39721
+        py: -3.32924
+        dimmer: 2
+        orthowidth: 1
+        aperture: 44.1
+    - name: normal
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: normal
+    - name: amboccl
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: ambient_occlusion
+    - name: hsvadj1
+      type: TOP:hsvadj
+      role: output
+      parameters:
+        valuerange: 0.285
+        saturationmult: 0.18
+        valuemult: 1.25
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: metallic
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: metallic
+    - name: basecolor
+      type: TOP:subselect
+      role: input
+      parameters:
+        substance: substance1
+        output: basecolor
+    - name: roughness
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: roughness
+    - name: substance1
+      type: TOP:substance
+      role: isolated
+      parameters:
+        graph: graph1
+        resolutionw: 1024
+        resolutionh: 1024
+    connections:
+    - from: basecolor
+      to: level1
+      input_index: '0'
+    - from: level1
+      to: hsvadj1
+      input_index: '0'
+    topology:
+      operator_count: 13
+      connection_count: 2
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: In this case the individual textures are selected from the Substance
+      Designer package and added to the respective map parameter under the "Maps"
+      page on the PBR MAT.basecolor is modified before being sent to the PBR MAT.
+  - example_name: example3
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: 2.20757
+        ty: 3.62407
+        tz: 11.4027
+        rx: -77.4542
+        ry: 39.312
+        rz: -44.0199
+        px: -2.20757
+        py: -3.62407
+        pz: -6.40273
+        orthowidth: 1
+        aperture: 44.1
+        winrollpivot: legacy
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 2
+        rz: 45
+        instancing: 'on'
+        instanceop: rename1
+        instancetx: tx
+        instancesx: s
+        instancesy: s
+        instancesz: s
+        material: pbr1
+    - name: geo2
+      type: COMP:geo
+      role: isolated
+      parameters:
+        tx: -2
+        tz: 1
+        sx: 0.6
+        sy: 0.6
+        sz: 0.6
+        material: pbr2
+    - name: lfo1
+      type: CHOP:lfo
+      role: isolated
+      parameters:
+        wavetype: normal
+        frequency: 0.1
+        timeslice: 'on'
+    - name: pbr1
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        pageindex: 4
+        specularlevel: 0.5
+        roughness: 0.5
+        emitr: 1
+        emitg: 1
+        emitb: 1
+        substance: substance1
+        normalmap: normal1
+        bumpscale: 3
+        emitmap: moviefilein1
+        alphaside: 1
+        rolloff: 10
+        rimlight0enable: 'on'
+        rimlight0center: 48
+        legacyalphabehavior: 'on'
+    - name: pbr2
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        pageindex: 4
+        metallic: 0.462
+        roughness: 0.5
+        substance: substance2
+        legacyalphabehavior: 'on'
+    - name: math1
+      type: CHOP:math
+      role: output
+      parameters:
+        pageindex: 1
+        gain: 10
+        exporttable: math1_export
+    - name: wave2
+      type: CHOP:wave
+      role: input
+      parameters:
+        ramp: 3
+        startunit: samples
+        end: 1
+        endunit: samples
+    - name: wave3
+      type: CHOP:wave
+      role: input
+      parameters:
+        offset: 2
+        amp: 0.4
+        ramp: -1
+        startunit: samples
+        end: 1
+        endunit: samples
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 2
+        tz: 10
+    - name: light2
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 2
+        tx: 12.6382
+        ty: 5.65964
+        tz: 19.6152
+        rx: -68.9329
+        ry: 66.6522
+        rz: -51.5368
+        px: -12.6382
+        py: -5.65964
+        pz: -9.61515
+        orthowidth: 1
+        aperture: 44.1
+    - name: merge1
+      type: CHOP:merge
+      role: processor
+    - name: normal1
+      type: TOP:normal
+      role: output
+    - name: rename1
+      type: CHOP:rename
+      role: output
+      parameters:
+        renameto: '"tx s"'
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        pageindex: 1
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: constant1
+      type: CHOP:constant
+      role: input
+    - name: substance1
+      type: TOP:substance
+      role: isolated
+      parameters:
+        pageindex: 1
+        graph: graph2
+        resolutionw: 512
+        resolutionh: 512
+    - name: substance2
+      type: TOP:substance
+      role: isolated
+      parameters:
+        graph: graph6
+    - name: emit_render
+      type: TOP:renderselect
+      role: isolated
+      parameters:
+        top: render1
+        bufferindex: 5
+    - name: math1_export
+      type: DAT:table
+      role: isolated
+    - name: moviefilein1
+      type: TOP:moviefilein
+      role: input
+    - name: normal_render
+      type: TOP:renderselect
+      role: isolated
+      parameters:
+        top: render1
+        bufferindex: 4
+    - name: amboccl_render
+      type: TOP:renderselect
+      role: isolated
+      parameters:
+        top: render1
+        bufferindex: 3
+    - name: metallic_render
+      type: TOP:renderselect
+      role: isolated
+      parameters:
+        top: render1
+        bufferindex: 2
+    - name: roughness_render
+      type: TOP:renderselect
+      role: isolated
+      parameters:
+        top: render1
+        bufferindex: 1
+    connections:
+    - from: constant1
+      to: math1
+      input_index: '0'
+    - from: wave2
+      to: merge1
+      input_index: '0'
+    - from: wave3
+      to: merge1
+      input_index: '1'
+    - from: moviefilein1
+      to: normal1
+      input_index: '0'
+    - from: merge1
+      to: rename1
+      input_index: '0'
+    topology:
+      operator_count: 25
+      connection_count: 5
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: 'pbr1 is the material of geo1, and two instances are created of
+      geo.  Substance TOP is added to Substance TOP parameter on PBR MAT (pbr1). This
+      automatically unpacks all the textures in the package and assigns them to their
+      respective maps. Overriding the Substance TOP is done by filling in a map parameter.
+      The Normal Map in the Substance TOP is being overriden by normal1 in the Normal
+      Map parameter.pbr1 has an emit map of moviefilein1 (banana). This is illustrated
+      by the continuous dimming of the point lights. When they are both fully dimmed
+      the banana is still visible, since it is emitting its own light. pbr2 does not
+      have an emit map so it is completely black when the lights are fully dimmed.pbr1
+      has a rim light, which is also most visible when the two point lights are dimmed.pbr1
+      has 5 additional maps put into the color buffers of the Render TOP (done on
+      the Advanced Page of PBR MAT: roughness, metallic, ambient occlusion, normal,
+      emit). Color buffers can be selected using the Render Select TOP and the color
+      buffer''s index. Index is based on the parameter on the Advanced page of PBR
+      MAT. Color buffer size is increased using the parameter on the Render TOP. pbr2
+      does not have any additional color buffers on the Advanced page so it is not
+      visible in those 5 Render Select TOPs.'
+  - example_name: example4
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: -3.28124e-05
+        ty: 0.0701644
+        tz: 5.08527
+        px: 0.347282
+        py: 0.674068
+        pz: -1.74407
+        orthowidth: 1
+        aperture: 44.1
+        far: 3470110.0
+        winrollpivot: legacy
+    - name: height
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: height
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 2
+        tx: 3.39721
+        ty: 3.32923
+        tz: 10
+        rx: -22.4535
+        ry: 20.8303
+        rz: -7.51474
+        px: -3.39721
+        py: -3.32924
+        dimmer: 1.8
+        orthowidth: 1
+        aperture: 44.1
+    - name: normal
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: normal
+    - name: amboccl
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: ambient_occlusion
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: metallic
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: metallic
+    - name: basecolor
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: basecolor
+    - name: no_height
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        pageindex: 1
+        metallicmap: metallic
+        roughnessmap: roughness
+        ambientocclusionmap: amboccl
+        normalmap: normal
+        bumpscale: 2.5
+        heightmap: height
+        legacyalphabehavior: 'on'
+    - name: roughness
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: roughness
+    - name: substance1
+      type: TOP:substance
+      role: isolated
+      parameters:
+        pageindex: 1
+        graph: graph1
+        resolutionw: 1024
+        resolutionh: 1024
+    - name: using_height
+      type: MAT:pbr
+      role: isolated
+      parameters:
+        pageindex: 1
+        metallicmap: metallic
+        roughnessmap: roughness
+        ambientocclusionmap: amboccl
+        normalmap: normal
+        bumpscale: 2.5
+        heightmapenable: 'on'
+        heightmap: height
+        parallaxscale: 2
+        parallaxocclusion: 'on'
+        legacyalphabehavior: 'on'
+    - name: no_height_geo
+      type: COMP:geo
+      role: isolated
+      parameters:
+        tx: -1.1
+        material: no_height
+    - name: using_height_geo
+      type: COMP:geo
+      role: isolated
+      parameters:
+        tx: 1.1
+        material: using_height
+    connections: []
+    topology:
+      operator_count: 14
+      connection_count: 0
+      has_parallel_paths: false
+      max_chain_length: 1
+    curator_text: This example demonstrates the difference between two PBR materials,
+      one using a height map, and one not.The sphere on the left of the render is
+      not using a height map, while the sphere on the right is.The individual textures
+      are selected from the Substance Designer package and added to the respective
+      map parameter under the "Maps" page on both PBR MATs.no_height and using_height
+      PBR MAT are the materials of no_height_geo and using_height_geo respectively.
+- operator_type: phongMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: -0.0658567
+        ty: 1.40252
+        tz: 6.57687
+        rx: -28.0544
+        ry: -0.406667
+        rz: -0.873279
+        px: 0.0658566
+        py: -2.08252
+        pz: -3.07687
+        orthowidth: 1
+        aperture: 44.1
+        winrollpivot: legacy
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        rz: 30
+        material: phong1
+    - name: math1
+      type: CHOP:math
+      role: output
+      parameters:
+        pageindex: 1
+        gain: 4
+        exporttable: math1_export
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        pageindex: 3
+        tx: 3.39721
+        ty: 3.32923
+        tz: 10
+        rx: -22.4535
+        ry: 20.8303
+        rz: -7.51474
+        px: -3.39721
+        py: -3.32924
+        orthowidth: 1
+        aperture: 44.1
+    - name: phong1
+      type: MAT:phong
+      role: isolated
+      parameters:
+        diffr: 0.6
+        diffg: 0.6
+        diffb: 0.6
+        specr: 0.956863
+        specg: 1
+        specb: 0.498039
+        shininess: 10
+        normalmap: subselect2
+        bumpscale: 1.5
+        envmap: moviefilein2
+        envmaprotatex: 10
+        envmaprotatey: 90
+        texture1coord: uv2
+        texture4coord: uv1
+        rimlight0enable: 'on'
+        rimlight0center: 125
+        rimlight0width: 1
+        legacyalphabehavior: 'on'
+        rimlight1enable: 'on'
+        rimlight1map: '""'
+        rimlight1mapextendu: repeat
+        rimlight1mapextendv: repeat
+        rimlight1mapextendw: repeat
+        rimlight1mapfilter: mipmaplinear
+        rimlight1mapsamplingmode: regular
+        rimlight1mapcoord: uv0
+        rimlight1mapcoordattr: Tex
+        rimlight1mapcoordinterp: perspectivecorrect
+        rimlight1center: 292
+        rimlight1width: 0.153
+        rimlight1strength: 1
+        rimlight1strengthramp: '""'
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: constant1
+      type: CHOP:constant
+      role: input
+    - name: subselect1
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: basecolor
+    - name: subselect2
+      type: TOP:subselect
+      role: isolated
+      parameters:
+        substance: substance1
+        output: normal
+    - name: substance1
+      type: TOP:substance
+      role: isolated
+      parameters:
+        pageindex: 1
+        graph: graph1
+        resolutionw: 1024
+        resolutionh: 1024
+    - name: math1_export
+      type: DAT:table
+      role: isolated
+    - name: moviefilein2
+      type: TOP:moviefilein
+      role: isolated
+    connections:
+    - from: constant1
+      to: math1
+      input_index: '0'
+    topology:
+      operator_count: 12
+      connection_count: 1
+      has_parallel_paths: false
+      max_chain_length: 2
+    curator_text: Select base color and normal from a Substance TOP and add them to
+      Color map and Normal map respectively. Change the specular lighting to be yellow
+      instead. Add an environment map (moviefilein1) to phong1 and rotate it to the
+      left side.
+- operator_type: pointspriteMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        material: pointsprite1
+    - name: sphere1
+      type: SOP:sphere
+      role: input
+      parameters:
+        type: poly
+        ry: -210
+    - name: comment1
+      type: COMP:annotate
+      role: isolated
+      parameters:
+        pageindex: 3
+        utility: 'on'
+        includeinorder: 'on'
+    - name: convert1
+      type: SOP:convert
+      role: output
+      parameters:
+        totype: particlesperpoint
+        prtype: pointsprites
+    - name: reorder1
+      type: TOP:reorder
+      role: output
+      parameters:
+        outputalphachan: luminance
+    - name: moviefilein2
+      type: TOP:moviefilein
+      role: input
+      parameters:
+        file: C:/Users/marku_000/Desktop/images.png
+    - name: pointsprite1
+      type: MAT:pointsprite
+      role: isolated
+      parameters:
+        pointsize: 26.57
+        blending: 'on'
+    connections:
+    - from: sphere1
+      to: convert1
+      input_index: '0'
+    - from: moviefilein2
+      to: reorder1
+      input_index: '0'
+    topology:
+      operator_count: 7
+      connection_count: 2
+      has_parallel_paths: false
+      max_chain_length: 2
+    curator_text: The Point Sprite MAT can be applied to particles (creatable using
+      the Particle SOP, DAT to SOP, or Convert SOP).By default, point sprites will
+      aways face the camera.You can apply color, a color map, change the size of the
+      created point sprite from a square to a rectangle, and scale the size of the
+      point sprite.A point sprite's final size controls the number of pixels wide/high
+      it is, regardless of how far it is from the camera, unless you are using attenuation
+      (for that, see the Point Sprite attenuation snippet).
+  - example_name: example2
+    operators:
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        rx: -70
+        material: pointsprite1
+    - name: lfo1
+      type: CHOP:lfo
+      role: input
+      parameters:
+        frequency: 0.54
+        timeslice: 'on'
+    - name: grid1
+      type: SOP:grid
+      role: input
+      parameters:
+        sizex: 1.2
+        sizey: 20
+        cols: 4
+    - name: math1
+      type: CHOP:math
+      role: processor
+      parameters:
+        pageindex: 2
+        fromrange1: -1
+        fromrange2: 1
+        torange1: 7
+        torange2: 20
+    - name: null1
+      type: CHOP:null
+      role: output
+    - name: circle1
+      type: TOP:circle
+      role: isolated
+      parameters:
+        softness: 0.2
+    - name: convert1
+      type: SOP:convert
+      role: output
+      parameters:
+        totype: particlesperpoint
+        prtype: pointsprites
+    - name: pointsprite1
+      type: MAT:pointsprite
+      role: isolated
+      parameters:
+        pointsize: 26.57
+        attenpscale: 1
+        attensizenear: 64
+        attensizefar: 6
+        blending: 'on'
+    connections:
+    - from: lfo1
+      to: math1
+      input_index: '0'
+    - from: math1
+      to: null1
+      input_index: '0'
+    - from: grid1
+      to: convert1
+      input_index: '0'
+    topology:
+      operator_count: 8
+      connection_count: 3
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: The Point Sprite MAT can be applied to particles (creatable using
+      the Particle SOP, DAT to SOP, or Convert SOP). By default, point sprites will
+      aways face the camera.You can apply color, a color map, change the size of the
+      created point sprite from a square to a rectangle, and scale the size of the
+      point sprite.In this example the Point Sprite MAT is using attenuation, so the
+      how many pixels wide&high each point sprite is, is depending on the distance
+      to the camera.To illustrate this, the parameter "Attenuate far distance" is
+      animated - points that are farther than or at this distance from the camera
+      will use the Far Point Scale Parameter.
+  - example_name: example3
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        tx: 0.22
+        ty: 0.4
+        tz: 2.8
+    - name: geo2
+      type: COMP:geo
+      role: isolated
+      parameters:
+        pageindex: 3
+        ry: -40
+        instancing: 'on'
+        instancetop: position
+        instanceactive: a
+        instancetx: r
+        instancety: g
+        instancetz: b
+        instancer: r
+        instanceg: g
+        instanceb: b
+        material: pointsprite2
+    - name: color
+      type: TOP:null
+      role: output
+    - name: math1
+      type: TOP:math
+      role: processor
+      parameters:
+        pageindex: 2
+        fromrange2: 255
+    - name: render1
+      type: TOP:render
+      role: isolated
+      parameters:
+        geometry: geo2
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: position
+      type: TOP:null
+      role: output
+    - name: pointfilein1
+      type: TOP:pointfilein
+      role: input
+      parameters:
+        pageindex: 4
+        red: x
+        green: y
+        blue: z
+    - name: pointsprite2
+      type: MAT:pointsprite
+      role: isolated
+      parameters:
+        pointsize: 2
+    - name: pointfileselect1
+      type: TOP:pointfileselect
+      role: input
+      parameters:
+        pageindex: 1
+        pointfileintop: pointfilein1
+        red: red
+        green: green
+        blue: blue
+    connections:
+    - from: math1
+      to: color
+      input_index: '0'
+    - from: pointfileselect1
+      to: math1
+      input_index: '0'
+    - from: pointfilein1
+      to: position
+      input_index: '0'
+    topology:
+      operator_count: 9
+      connection_count: 3
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: The Point Sprite MAT (or Line MAT) can also be used to easily visualize
+      instanced point clouds, by adjusting its "Constant Point Scale" parameter.In
+      this example we instance a single particle in the Geo COMP using a point cloud
+      as instance data for position and color of the instances.
+- operator_type: switchMAT
+  examples:
+  - example_name: example1
+    operators:
+    - name: cam1
+      type: COMP:cam
+      role: isolated
+      parameters:
+        pageindex: 3
+        tx: 4.36653
+        ty: -1.04692
+        tz: 2.1994
+        rx: -25.4546
+        ry: -60.8451
+        px: -4.36653
+        py: 1.04692
+        pz: -7.1994
+        orthowidth: 1
+        aperture: 44.1
+    - name: geo1
+      type: COMP:geo
+      role: isolated
+      parameters:
+        material: null2
+    - name: lfo1
+      type: CHOP:lfo
+      role: input
+      parameters:
+        timeslice: 'on'
+    - name: pbr1
+      type: MAT:pbr
+      role: input
+      parameters:
+        metallic: 0.506
+        roughness: 0.232
+    - name: line1
+      type: MAT:line
+      role: input
+      parameters:
+        distancenear: 4.5
+        pointsizemultiplier: 3.42
+    - name: null1
+      type: TOP:null
+      role: output
+    - name: null2
+      type: MAT:null
+      role: output
+    - name: null3
+      type: CHOP:null
+      role: output
+    - name: count1
+      type: CHOP:count
+      role: processor
+      parameters:
+        pageindex: 1
+        output: loop
+        limitmax: 3
+        timeslice: 'on'
+    - name: light1
+      type: COMP:light
+      role: isolated
+      parameters:
+        tx: 44.5027
+        ty: -15.8883
+        tz: 34.3084
+        rx: -22.7133
+        ry: 318.346
+        rz: 0.000267386
+        px: -52.6424
+        py: 17.2972
+        pz: -92.1163
+        orthowidth: 1
+        aperture: 44.1
+    - name: phong1
+      type: MAT:phong
+      role: input
+      parameters:
+        diffg: 0.733333
+        diffb: 1
+    - name: render1
+      type: TOP:render
+      role: input
+      parameters:
+        uvunwrapcoordattrib: uv
+        resolutionw: 1280
+        resolutionh: 720
+    - name: sphere1
+      type: SOP:sphere
+      role: isolated
+      parameters:
+        pageindex: 1
+        type: poly
+        freq: 15
+    - name: switch1
+      type: MAT:switch
+      role: processor
+    - name: constant1
+      type: MAT:constant
+      role: input
+    - name: wireframe1
+      type: MAT:wireframe
+      role: input
+      parameters:
+        wireframemode: topology
+    - name: environment1
+      type: COMP:environment
+      role: isolated
+      parameters:
+        envlightmap: moviefilein2
+    - name: moviefilein2
+      type: TOP:moviefilein
+      role: isolated
+    connections:
+    - from: render1
+      to: null1
+      input_index: '0'
+    - from: switch1
+      to: null2
+      input_index: '0'
+    - from: count1
+      to: null3
+      input_index: '0'
+    - from: lfo1
+      to: count1
+      input_index: '0'
+    - from: constant1
+      to: switch1
+      input_index: '0'
+    - from: phong1
+      to: switch1
+      input_index: '1'
+    - from: pbr1
+      to: switch1
+      input_index: '2'
+    - from: line1
+      to: switch1
+      input_index: '3'
+    - from: wireframe1
+      to: switch1
+      input_index: '4'
+    topology:
+      operator_count: 18
+      connection_count: 9
+      has_parallel_paths: false
+      max_chain_length: 3
+    curator_text: The Switch MAT allows you to switch between multiple materials.
+total_examples: 21

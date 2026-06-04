@@ -1,0 +1,290 @@
+{
+  "operator": "Sprinkle_POP",
+  "family": "POP",
+  "td_create_name": "sprinklePOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 11,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "createpointprim": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Sprinkle",
+      "label": "Create Point Primitives",
+      "readOnly": false,
+      "expression": null
+    },
+    "seed": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Sprinkle",
+      "label": "Seed",
+      "readOnly": false,
+      "expression": null
+    },
+    "method": {
+      "value": {
+        "type": "menu",
+        "value": "perprim",
+        "menuIndex": 0,
+        "menuNames": [
+          "perprim",
+          "volnondeterministic",
+          "vol"
+        ],
+        "menuLabels": [
+          "Per Primitive",
+          "Volume (Non-Deterministic)",
+          "Volume"
+        ]
+      },
+      "default": "perprim",
+      "page": "Sprinkle",
+      "label": "Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "numpoints": {
+      "value": {
+        "type": "int",
+        "value": 10000
+      },
+      "default": 10000,
+      "page": "Sprinkle",
+      "label": "Number of Points",
+      "readOnly": false,
+      "expression": null
+    },
+    "attemptsperpoint": {
+      "value": {
+        "type": "int",
+        "value": 5
+      },
+      "default": 5,
+      "page": "Sprinkle",
+      "label": "Attempts per Point",
+      "readOnly": false,
+      "expression": null
+    },
+    "raydirmode": {
+      "value": {
+        "type": "menu",
+        "value": "constant",
+        "menuIndex": 0,
+        "menuNames": [
+          "constant",
+          "random"
+        ],
+        "menuLabels": [
+          "Constant",
+          "Random"
+        ]
+      },
+      "default": "constant",
+      "page": "Sprinkle",
+      "label": "Ray Direction Mode",
+      "readOnly": false,
+      "expression": null
+    },
+    "raydirx": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Sprinkle",
+      "label": "Ray Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "raydiry": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Sprinkle",
+      "label": "Ray Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "raydirz": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Sprinkle",
+      "label": "Ray Direction",
+      "readOnly": false,
+      "expression": null
+    },
+    "hwraytracing": {
+      "value": {
+        "type": "menu",
+        "value": "off",
+        "menuIndex": 0,
+        "menuNames": [
+          "off",
+          "fastbuild",
+          "fasttrace"
+        ],
+        "menuLabels": [
+          "Off",
+          "Fast Build (Dynamic Geometry)",
+          "Fast Trace (Static Geometry)"
+        ]
+      },
+      "default": "off",
+      "page": "Sprinkle",
+      "label": "Hardware Ray Tracing",
+      "readOnly": false,
+      "expression": null
+    },
+    "pointattrscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Sprinkle",
+      "label": "Point Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "primattrscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Sprinkle",
+      "label": "Primitive Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "vertattribscope": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Sprinkle",
+      "label": "Vertex Attribute Scope",
+      "readOnly": false,
+      "expression": null
+    },
+    "bypass": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Bypass",
+      "readOnly": false,
+      "expression": null
+    },
+    "freeextragpumem": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Free Extra GPU Memory",
+      "readOnly": false,
+      "expression": null
+    },
+    "delinputattrs": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Common",
+      "label": "Delete Input Attributes",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmcolorspace": {
+      "value": {
+        "type": "menu",
+        "value": "srgb",
+        "menuIndex": 0,
+        "menuNames": [
+          "srgb",
+          "srgblinear",
+          "rec601ntsc",
+          "rec709",
+          "rec2020",
+          "dcip3",
+          "dcip3d60",
+          "displayp3d65",
+          "aces2065-1",
+          "acescg",
+          "passthrough"
+        ],
+        "menuLabels": [
+          "sRGB",
+          "sRGB - Linear",
+          "Rec.601 (NTSC)",
+          "Rec.709",
+          "Rec.2020",
+          "DCI-P3",
+          "DCI-P3 (D60)",
+          "Display P3 (D65)",
+          "ACES2065-1",
+          "ACEScg",
+          "Passthrough"
+        ]
+      },
+      "default": "srgb",
+      "page": "Common",
+      "label": "Parameter Color Space",
+      "readOnly": false,
+      "expression": null
+    },
+    "parmreferencewhite": {
+      "value": {
+        "type": "menu",
+        "value": "default",
+        "menuIndex": 0,
+        "menuNames": [
+          "default",
+          "useparent",
+          "sdr",
+          "hdr",
+          "ui"
+        ],
+        "menuLabels": [
+          "Default For Color Space",
+          "Use Parent Panel",
+          "Standard (SDR)",
+          "High (HDR)",
+          "UI"
+        ]
+      },
+      "default": "default",
+      "page": "Common",
+      "label": "Parameter Reference White",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

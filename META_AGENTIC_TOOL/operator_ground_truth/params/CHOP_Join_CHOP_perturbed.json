@@ -1,0 +1,190 @@
+{
+  "operator": "Join_CHOP",
+  "family": "CHOP",
+  "td_create_name": "joinCHOP",
+  "param_count": 27,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "chops": {
+      "type": "op",
+      "value": ""
+    },
+    "blendmethod": {
+      "type": "menu",
+      "value": "ovl",
+      "menuIndex": 1,
+      "menuNames": [
+        "pre",
+        "ovl",
+        "ins"
+      ],
+      "menuLabels": [
+        "Preserve Length",
+        "Overlap Sequences",
+        "Insert Blend Region"
+      ]
+    },
+    "blendfunc": {
+      "type": "menu",
+      "value": "cub",
+      "menuIndex": 4,
+      "menuNames": [
+        "lin",
+        "ei",
+        "eo",
+        "cos",
+        "cub",
+        "add",
+        "holdprev"
+      ],
+      "menuLabels": [
+        "Linear",
+        "Ease in",
+        "Ease out",
+        "Ease in Ease out",
+        "Cubic",
+        "Add",
+        "Hold Previous"
+      ]
+    },
+    "blendbyinput": {
+      "type": "toggle",
+      "value": true
+    },
+    "blendregion": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "blendregionunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "blendbias": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "match": {
+      "type": "menu",
+      "value": "name",
+      "menuIndex": 1,
+      "menuNames": [
+        "index",
+        "name"
+      ],
+      "menuLabels": [
+        "Channel Number",
+        "Channel Name"
+      ]
+    },
+    "step": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "stepscope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "blendscope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "transscopex": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "transscopey": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "transscopez": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "quatrot": {
+      "type": "toggle",
+      "value": true
+    },
+    "shortrot": {
+      "type": "toggle",
+      "value": true
+    },
+    "rotscope": {
+      "type": "string",
+      "value": "*r?_perturbed"
+    },
+    "cyclelen": {
+      "type": "float",
+      "value": 360.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

@@ -1,0 +1,1116 @@
+# TouchDesigner Operator Wiki Semantics (Partial - from initial batches)
+# Run batch_operator_semantics.py for full processing
+
+# === CHOP ===
+Ableton_Link_CHOP:
+  summary: "Retrieves timing information from Ableton Link network for synchronized music/visual performances. Use to sync tempo, beat, and bar with Ableton Live and other Link-enabled apps."
+  parameters:
+    active: "Turns the CHOP output on or off."
+    enable: "Initializes connection to the Ableton Link session."
+    startstopsync: "Enables start/stop synchronization across Link session."
+    signature: "Specifies the time signature (beats per measure)."
+    tempo: "Outputs current tempo in BPM."
+    beat: "Outputs current beat count."
+    bar: "Outputs current bar count."
+
+Analyze_CHOP:
+  summary: "Computes analysis functions on input channels, outputting one sample per channel with the result. Use for finding max, min, average, RMS of channel data."
+  parameters:
+    function: "Analysis function: Maximum, Minimum, Average, RMS, Sum, etc."
+    integrate: "Accumulate values across frames when enabled."
+    reset: "Resets integrated values."
+
+Angle_CHOP:
+  summary: "Calculates the angle of a vector or rotation between vectors in 2D or 3D. Use for direction detection, rotation calculation, or vector math."
+  parameters:
+    input: "Determines input format and angle calculation method."
+    format: "Output format: Angle, Direction, Quaternion."
+
+Audio_Band_EQ_CHOP:
+  summary: "Applies multi-band equalizer to audio with adjustable frequency bands. Use to boost or cut specific frequency ranges in audio."
+  parameters:
+    numbands: "Number of EQ frequency bands."
+    centerfreq: "Center frequency of each band."
+    gain: "Gain adjustment per band in dB."
+    bandwidth: "Width of each filter band."
+
+# === TOP ===
+Analyze_TOP:
+  summary: "Calculates image statistics like average color, brightness, min/max values. Use for color analysis, histogram generation, or image metrics."
+  parameters:
+    analyze: "Type of analysis: Brightness, Color, Histogram."
+    cook: "When to perform analysis: Always, Timeline, Manual."
+
+Blur_TOP:
+  summary: "Applies Gaussian or box blur to soften images. Use for glow effects, depth of field, smoothing, or reducing noise."
+  parameters:
+    size: "Blur radius in pixels."
+    filtertype: "Blur algorithm: Gaussian, Box."
+    extend: "Edge handling: Zero, Hold, Mirror, Repeat."
+
+Blob_Track_TOP:
+  summary: "Detects and tracks distinct regions (blobs) in images with position, size, and ID. Use for object tracking, motion detection, or interactive installations."
+  parameters:
+    minarea: "Minimum blob area to detect."
+    maxarea: "Maximum blob area to detect."
+    minbright: "Minimum brightness threshold."
+    maxblobs: "Maximum blobs to track simultaneously."
+
+Cache_TOP:
+  summary: "Stores frames in memory/GPU for time-delay effects or buffering. Use for feedback, time displacement, or frame history access."
+  parameters:
+    length: "Number of frames to cache."
+    step: "Frame step interval for caching."
+    index: "Current frame index to output."
+
+# === SOP ===
+Add_SOP:
+  summary: "Creates geometry by adding points and polygons from coordinates. Use for procedural point/polygon creation or building custom shapes."
+  parameters:
+    points: "Coordinates of points to add."
+    addparticlesystem: "Create as particle system."
+    closed: "Close the polygon."
+
+Alembic_SOP:
+  summary: "Imports geometry from Alembic (.abc) files for animated geometry from external 3D software. Use for complex animation interchange."
+  parameters:
+    file: "Path to Alembic file."
+    objectpath: "Object path within file."
+    frame: "Frame number to load."
+
+Attribute_Create_SOP:
+  summary: "Adds new attributes to geometry with specified values or expressions. Use for storing custom data on points, prims, or vertices."
+  parameters:
+    group: "Group to apply attribute to."
+    name: "Attribute name."
+    class: "Attribute class: Point, Prim, Vertex, Detail."
+    type: "Data type: Float, Int, String, Vector."
+    value: "Default value or expression."
+
+Blend_SOP:
+  summary: "Blends between multiple input geometries by weight. Use for morphing, shape interpolation, or smooth transitions between shapes."
+  parameters:
+    blend: "Blend factor between inputs (0-1)."
+    difference: "Output shape difference."
+
+# === DAT ===
+Analyze_DAT:
+  summary: "Computes statistics on table data like sum, average, min, max. Use for data analysis and aggregation."
+  parameters:
+    function: "Analysis function: Sum, Average, Min, Max, Count."
+    scope: "Analysis scope: Rows, Columns, All."
+
+Art_Net_DAT:
+  summary: "Receives Art-Net DMX protocol data over network. Use for lighting control, DMX fixture monitoring, or stage automation."
+  parameters:
+    active: "Enable Art-Net reception."
+    netaddress: "Network address to listen on."
+    universe: "DMX universe number."
+
+CHOP_Execute_DAT:
+  summary: "Runs Python callbacks when CHOP values change or cross thresholds. Use for reactive scripting triggered by channel data."
+  parameters:
+    chop: "CHOP operator to monitor."
+    valuechange: "Execute on any value change."
+    offtoontoon: "Execute on 0-to-1 transition."
+    ontooff: "Execute on 1-to-0 transition."
+
+# === COMP ===
+Animation_COMP:
+  summary: "Plays back keyframe animation from Animation Editor to control parameters over time. Use for timeline-based animation."
+  parameters:
+    play: "Play/pause animation playback."
+    speed: "Playback speed multiplier."
+    range: "Animation frame range."
+
+Base_COMP:
+  summary: "Container for building custom components with extensions, parameters, and internal networks. Use as foundation for reusable tools."
+  parameters:
+    externaltox: "Path to external .tox file."
+    reinitextensions: "Reinitialize Python extensions."
+
+Button_COMP:
+  summary: "Creates interactive button widgets for Panel interfaces. Use for UI controls like toggles, momentary buttons, or radio groups."
+  parameters:
+    buttontype: "Button style: Momentary, Toggle, Radio."
+    value: "Current button state/value."
+
+Container_COMP:
+  summary: "Holds and organizes Panel children with layout control. Use to structure UI element arrangement."
+  parameters:
+    bgcolor: "Background color."
+    align: "Child alignment."
+
+Engine_COMP:
+  summary: "Runs separate TouchDesigner process for distributed rendering. Use for multi-machine setups or background processing."
+  parameters:
+    file: "Project file to load."
+    start: "Start the engine process."
+
+Geometry_COMP:
+  summary: "Displays 3D geometry in render pipeline with materials and instancing. Use to render SOPs in 3D scenes."
+  parameters:
+    material: "Material to apply."
+    render: "Enable rendering."
+    instanceop: "Instance source operator."
+
+Light_COMP:
+  summary: "Creates light sources for 3D rendering. Use to illuminate geometry with point, directional, or spot lights."
+  parameters:
+    lighttype: "Light type: Point, Directional, Spot, Cone."
+    color: "Light color."
+    dimmer: "Light intensity."
+    shadow: "Enable shadows."
+
+Camera_COMP:
+  summary: "Defines viewpoint for 3D rendering. Use to set up perspective or orthographic views of 3D scenes."
+  parameters:
+    projection: "Projection type: Perspective, Orthographic."
+    fov: "Field of view angle."
+    near: "Near clipping plane."
+    far: "Far clipping plane."
+
+# === MAT ===
+Constant_MAT:
+  summary: "Creates solid color material without lighting. Use for flat shading, UI elements, or unlit surfaces."
+  parameters:
+    color: "Solid color RGB values."
+    alpha: "Transparency value."
+
+Depth_MAT:
+  summary: "Outputs depth buffer values as color. Use for depth-based effects, fog, or DOF calculations."
+  parameters:
+    near: "Near depth range."
+    far: "Far depth range."
+
+GLSL_MAT:
+  summary: "Runs custom GLSL shaders for advanced materials. Use for programmable vertex and pixel shader effects."
+  parameters:
+    glslversion: "GLSL version to use."
+    vertexshader: "Vertex shader DAT."
+    pixelshader: "Pixel shader DAT."
+
+PBR_MAT:
+  summary: "Physically-based rendering material with metallic/roughness workflow. Use for realistic surfaces like metal, plastic, skin."
+  parameters:
+    basecolor: "Base color/albedo."
+    metallic: "Metalness value (0-1)."
+    roughness: "Surface roughness (0-1)."
+    emissive: "Self-illumination color."
+    normal: "Normal map texture."
+
+Phong_MAT:
+  summary: "Classic Phong shading with diffuse, specular, ambient. Use for traditional 3D material lighting."
+  parameters:
+    diffuse: "Diffuse color."
+    specular: "Specular highlight color."
+    shininess: "Specular sharpness."
+    ambient: "Ambient light contribution."
+
+Point_Sprite_MAT:
+  summary: "Renders points as camera-facing textured sprites. Use for particle systems and point cloud visualization."
+  parameters:
+    pointsize: "Size of point sprites."
+    spritemap: "Texture map for sprites."
+
+Wireframe_MAT:
+  summary: "Renders geometry edges as lines only. Use for technical visualization or stylized wireframe looks."
+  parameters:
+    linewidth: "Width of wireframe lines."
+    color: "Wireframe color."
+
+# === POP ===
+Add_POP:
+  summary: "Creates new particles with position, velocity, and attributes each frame. Use to emit particles into a system."
+  parameters:
+    birthrate: "Particles per second to create."
+    pos: "Initial position."
+    vel: "Initial velocity."
+    life: "Particle lifespan."
+
+Attract_POP:
+  summary: "Pulls particles toward a point, line, or geometry. Use for gravity wells, magnetic effects, or flocking."
+  parameters:
+    attractmode: "Attraction type: Point, Axis, Surface."
+    force: "Attraction strength."
+    falloff: "Force falloff over distance."
+
+Collision_POP:
+  summary: "Detects and responds to particle collisions with geometry. Use for bouncing, sticking, or death on impact."
+  parameters:
+    sop: "Collision geometry."
+    behavior: "Response: Bounce, Stick, Die."
+    bounce: "Bounce factor."
+
+Force_POP:
+  summary: "Applies forces like gravity, wind, or turbulence to particles. Use for realistic motion dynamics."
+  parameters:
+    forcetype: "Force type: Gravity, Wind, Turbulence."
+    force: "Force direction/strength."
+    noise: "Turbulence parameters."
+
+Kill_POP:
+  summary: "Removes particles based on age, region, or conditions. Use to limit particle lifespan or cull particles."
+  parameters:
+    rule: "Kill condition: Age, Region, Expression."
+    life: "Maximum age."
+
+Limit_POP:
+  summary: "Constrains particle position or velocity within bounds. Use to keep particles in a defined region."
+  parameters:
+    limittype: "Bound type: Box, Sphere, Geometry."
+    behavior: "Response: Bounce, Wrap, Kill."
+
+Replicator_POP:
+  summary: "Creates copies of particle systems with transforms. Use for duplicating effects or creating arrays."
+  parameters:
+    copies: "Number of copies."
+    transform: "Transform for each copy."
+
+Source_POP:
+  summary: "Emits particles from geometry surfaces, points, or volumes. Use as main particle emitter from SOP shapes."
+  parameters:
+    geometry: "Source SOP."
+    emittype: "Emit from: Points, Surface, Volume."
+    birthrate: "Emission rate."
+
+# === More CHOPs ===
+Audio_Device_In_CHOP:
+  summary: "Captures live audio from sound cards or microphones. Use for real-time audio input and analysis."
+  parameters:
+    device: "Audio input device."
+    channels: "Number of audio channels."
+    samplerate: "Audio sample rate."
+
+Audio_Device_Out_CHOP:
+  summary: "Sends audio to speakers or headphones. Use for audio playback and output."
+  parameters:
+    device: "Audio output device."
+    volume: "Output volume."
+
+Audio_File_In_CHOP:
+  summary: "Plays audio files (WAV, MP3, AIFF) from disk. Use for music, sound effects, or audio analysis."
+  parameters:
+    file: "Path to audio file."
+    play: "Play/pause control."
+    cue: "Cue point in seconds."
+    loop: "Loop playback."
+
+Beat_CHOP:
+  summary: "Detects beats and tempo from audio. Use for music visualization and audio-reactive effects."
+  parameters:
+    threshold: "Beat detection sensitivity."
+    tempo: "Detected tempo output."
+    beat: "Beat pulse output."
+
+Constant_CHOP:
+  summary: "Outputs channels with constant values. Use for static parameters, flags, or reference values."
+  parameters:
+    name0: "First channel name."
+    value0: "First channel value."
+
+Count_CHOP:
+  summary: "Counts events like triggers or pulses. Use for tallying, sequencing, or event counting."
+  parameters:
+    threshold: "Trigger threshold."
+    reset: "Reset the count."
+    limitmax: "Maximum count limit."
+
+Delay_CHOP:
+  summary: "Time-shifts channels by frames or seconds. Use for echo effects, sync offsets, or timing delays."
+  parameters:
+    delay: "Delay amount."
+    delayunit: "Units: Frames, Seconds, Samples."
+
+Expression_CHOP:
+  summary: "Computes channel values from Python expressions. Use for custom math, logic, or dynamic calculations."
+  parameters:
+    expr0: "Expression for channel."
+    numchannels: "Number of output channels."
+
+Fan_CHOP:
+  summary: "Distributes values across channels or combines channels into one. Use for spreading or merging data."
+  parameters:
+    fanop: "Fan operation: Out, In."
+    destnames: "Output channel names."
+
+Filter_CHOP:
+  summary: "Smooths channel data with lowpass, highpass, or lag filters. Use for noise reduction or easing."
+  parameters:
+    filtertype: "Filter: Lowpass, Highpass, Bandpass."
+    cutoff: "Cutoff frequency."
+    lag: "Lag time for smoothing."
+
+# === More TOPs ===
+Composite_TOP:
+  summary: "Layers images using blend modes like Add, Multiply, Over. Use for compositing and layering effects."
+  parameters:
+    operand: "Blend operation: Add, Multiply, Over, Screen."
+    prefit: "How inputs are scaled to fit."
+
+Constant_TOP:
+  summary: "Outputs a solid color image. Use for backgrounds, masks, or color fills."
+  parameters:
+    colorr: "Red channel value."
+    colorg: "Green channel value."
+    colorb: "Blue channel value."
+    resolutionw: "Output width."
+    resolutionh: "Output height."
+
+Crop_TOP:
+  summary: "Cuts rectangular regions from images. Use for extracting or trimming image areas."
+  parameters:
+    cropleft: "Left crop boundary."
+    cropright: "Right crop boundary."
+    croptop: "Top crop boundary."
+    cropbottom: "Bottom crop boundary."
+
+Displace_TOP:
+  summary: "Warps images using displacement maps. Use for distortion, ripple, or warp effects."
+  parameters:
+    displaceweight: "Displacement strength."
+    method: "Displacement method."
+
+Edge_TOP:
+  summary: "Detects edges using Sobel, Canny, or other algorithms. Use for line art or contour extraction."
+  parameters:
+    edgetype: "Algorithm: Sobel, Canny, Prewitt."
+    threshold: "Edge sensitivity."
+
+Feedback_TOP:
+  summary: "Creates feedback loops from previous output. Use for trails, echoes, and recursive effects."
+  parameters:
+    top: "Target TOP input."
+    reset: "Reset feedback buffer."
+
+Fit_TOP:
+  summary: "Resizes images to target resolution with fit modes. Use for resolution matching and scaling."
+  parameters:
+    resolutionw: "Target width."
+    resolutionh: "Target height."
+    fit: "Fit mode: Fill, Width, Height, Native."
+
+Flip_TOP:
+  summary: "Mirrors or rotates images. Use for horizontal/vertical flip or 90-degree rotations."
+  parameters:
+    flipx: "Flip horizontal."
+    flipy: "Flip vertical."
+    rotate: "Rotation: None, 90, 180, 270."
+
+GLSL_TOP:
+  summary: "Runs custom GLSL shaders for GPU image processing. Use for custom effects, filters, or generative visuals."
+  parameters:
+    glslversion: "GLSL version."
+    pixeldat: "Pixel shader DAT."
+    compute: "Use compute shader."
+
+HSV_Adjust_TOP:
+  summary: "Adjusts hue, saturation, value for color correction. Use for color grading and adjustment."
+  parameters:
+    hueoffset: "Hue rotation."
+    saturationmult: "Saturation multiplier."
+    valuemult: "Value/brightness multiplier."
+
+# === More SOPs ===
+Box_SOP:
+  summary: "Creates 3D box/cube primitives. Use for basic 3D shapes and building blocks."
+  parameters:
+    sizex: "Box width."
+    sizey: "Box height."
+    sizez: "Box depth."
+    divsx: "X subdivisions."
+
+Circle_SOP:
+  summary: "Creates circles or arcs as polygons or NURBS. Use for 2D shapes and rings."
+  parameters:
+    type: "Type: Polygon, NURBS, Bezier."
+    radius: "Circle radius."
+    arc: "Arc type: Open, Closed, Slice."
+
+Copy_SOP:
+  summary: "Duplicates geometry with transforms or onto template points. Use for arrays and instancing."
+  parameters:
+    ncy: "Number of copies."
+    cumulate: "Accumulate transforms."
+    template: "Template points SOP."
+
+Extrude_SOP:
+  summary: "Pushes faces along normals for depth. Use for 3D text, logos, or adding thickness."
+  parameters:
+    dist: "Extrusion distance."
+    outputfront: "Include front face."
+    outputback: "Include back face."
+
+Grid_SOP:
+  summary: "Creates flat rectangular meshes. Use for planes, terrains, or UV grids."
+  parameters:
+    sizex: "Grid width."
+    sizey: "Grid height."
+    rows: "Row divisions."
+    cols: "Column divisions."
+
+Line_SOP:
+  summary: "Creates straight lines between points. Use for simple geometry or paths."
+  parameters:
+    origin: "Start point."
+    direction: "End point/direction."
+    points: "Number of points."
+
+Merge_SOP:
+  summary: "Combines multiple geometries into one. Use for joining separate shapes."
+
+Noise_SOP:
+  summary: "Displaces points with noise patterns. Use for organic deformation and terrain."
+  parameters:
+    type: "Noise type: Perlin, Simplex, Sparse."
+    amplitude: "Displacement strength."
+    period: "Noise frequency."
+
+Sphere_SOP:
+  summary: "Creates 3D sphere primitives. Use for balls, planets, or rounded shapes."
+  parameters:
+    type: "Type: Polygon, Mesh, NURBS."
+    radius: "Sphere radius."
+    freq: "Tessellation frequency."
+
+Transform_SOP:
+  summary: "Moves, rotates, scales geometry. Use for positioning and transforming shapes."
+  parameters:
+    tx: "Translation X."
+    ty: "Translation Y."
+    tz: "Translation Z."
+    rx: "Rotation X."
+    ry: "Rotation Y."
+    rz: "Rotation Z."
+    sx: "Scale X."
+    sy: "Scale Y."
+    sz: "Scale Z."
+
+# === More DATs ===
+Convert_DAT:
+  summary: "Transforms data between formats (tables, JSON, XML). Use for data format conversion."
+  parameters:
+    tofrom: "Conversion direction."
+    format: "Target format."
+
+Error_DAT:
+  summary: "Collects error messages from operators. Use for debugging and error monitoring."
+  parameters:
+    clear: "Clear error list."
+    maxlines: "Maximum errors to show."
+
+Evaluate_DAT:
+  summary: "Evaluates Python expressions in table cells. Use for dynamic calculations in tables."
+  parameters:
+    scope: "Evaluation scope."
+
+Execute_DAT:
+  summary: "Runs Python on events like start, frame change, parameter change. Use for event-driven scripting."
+  parameters:
+    active: "Enable execution."
+    start: "Run on start."
+    framestart: "Run each frame."
+
+File_In_DAT:
+  summary: "Reads text files from disk. Use for loading configs, scripts, or data."
+  parameters:
+    file: "Path to file."
+    refreshpulse: "Reload file."
+
+File_Out_DAT:
+  summary: "Writes DAT contents to files. Use for saving, logging, or export."
+  parameters:
+    file: "Output file path."
+    writepulse: "Trigger write."
+
+Merge_DAT:
+  summary: "Combines multiple tables by rows or columns. Use for concatenating data."
+  parameters:
+    mergemethod: "Merge: Rows, Columns."
+
+MIDI_In_DAT:
+  summary: "Receives MIDI messages as table data. Use for MIDI controller input."
+  parameters:
+    device: "MIDI input device."
+    channel: "MIDI channel filter."
+
+OSC_In_DAT:
+  summary: "Receives OSC messages over network. Use for external control via OSC protocol."
+  parameters:
+    port: "UDP port to listen on."
+    protocol: "Protocol: UDP, TCP."
+
+Script_DAT:
+  summary: "Runs Python scripts with cook callbacks. Use for procedural data generation."
+  parameters:
+    callbacks: "Callback DAT."
+
+Select_DAT:
+  summary: "Extracts rows, columns, or cells from another DAT. Use for filtering table data."
+  parameters:
+    dat: "Source DAT."
+    selectrows: "Row selection pattern."
+    selectcols: "Column selection pattern."
+
+Table_DAT:
+  summary: "Stores and edits tabular data. Fundamental for spreadsheet-like data management."
+
+Text_DAT:
+  summary: "Stores and edits text content. Use for scripts, shaders, or text storage."
+
+# === More CHOPs (batch 2) ===
+LFO_CHOP:
+  summary: "Generates low-frequency oscillator waveforms for animation and modulation. Use for sine, square, triangle waves."
+  parameters:
+    type: "Waveform: Sine, Square, Triangle, Ramp."
+    frequency: "Oscillation frequency."
+    amplitude: "Wave amplitude."
+    offset: "DC offset."
+    phase: "Phase offset."
+
+Logic_CHOP:
+  summary: "Performs boolean logic (AND, OR, NOT, XOR) on channels. Use for combining conditions."
+  parameters:
+    preop: "Pre-operation per channel."
+    convert: "Convert input to boolean."
+    chopop: "Logic operation between inputs."
+
+Math_CHOP:
+  summary: "Performs math operations on channels: add, multiply, power, trig. Use for calculations."
+  parameters:
+    preoff: "Pre-add offset."
+    gain: "Multiply factor."
+    postoff: "Post-add offset."
+    chanop: "Operation between channels."
+
+Merge_CHOP:
+  summary: "Combines channels from multiple CHOPs into single output. Use for joining channel data."
+
+MIDI_In_CHOP:
+  summary: "Receives MIDI as channels: note, velocity, CC. Use for MIDI controller input."
+  parameters:
+    device: "MIDI input device."
+    channel: "MIDI channel filter."
+    notestype: "Note output format."
+
+Mouse_In_CHOP:
+  summary: "Outputs mouse position, buttons, scroll wheel. Use for mouse-driven interaction."
+  parameters:
+    panel: "Panel to track mouse in."
+    buttons: "Output button channels."
+    wheel: "Output scroll wheel."
+
+Noise_CHOP:
+  summary: "Generates procedural noise patterns for animation. Use for organic random motion."
+  parameters:
+    type: "Noise type: Sparse, Hermite, Harmonic."
+    seed: "Random seed."
+    period: "Noise period."
+    amplitude: "Noise amplitude."
+
+Null_CHOP:
+  summary: "Passes through channels unchanged. Use for organization and clean references."
+
+OSC_In_CHOP:
+  summary: "Receives OSC messages as channel values. Use for network control input."
+  parameters:
+    port: "UDP port."
+    address: "OSC address pattern."
+
+Pattern_CHOP:
+  summary: "Generates mathematical patterns across samples. Use for ramps, waves, sequences."
+  parameters:
+    type: "Pattern: Ramp, Sine, Square."
+    size: "Number of samples."
+    cycles: "Number of cycles."
+
+# === More TOPs (batch 2) ===
+Level_TOP:
+  summary: "Adjusts brightness, contrast, gamma, color levels. Use for image correction and grading."
+  parameters:
+    opacity: "Overall opacity."
+    brightness: "Brightness adjustment."
+    contrast: "Contrast adjustment."
+    gamma: "Gamma correction."
+
+Lookup_TOP:
+  summary: "Remaps pixel values using lookup table. Use for color grading and LUT effects."
+  parameters:
+    lookuptable: "Lookup table TOP."
+    format: "Lookup format."
+
+Movie_File_In_TOP:
+  summary: "Plays video files (MP4, MOV, HAP). Use for video playback and media."
+  parameters:
+    file: "Video file path."
+    play: "Play/pause."
+    index: "Current frame."
+    speed: "Playback speed."
+    loop: "Loop mode."
+
+Noise_TOP:
+  summary: "Generates procedural noise textures. Use for texturing, displacement, masks."
+  parameters:
+    type: "Noise: Perlin, Simplex, Worley."
+    seed: "Random seed."
+    period: "Noise scale."
+    amplitude: "Noise strength."
+
+Null_TOP:
+  summary: "Passes through images unchanged. Use for organization and clean references."
+
+Over_TOP:
+  summary: "Composites foreground over background using alpha. Use for layering with transparency."
+
+Ramp_TOP:
+  summary: "Generates gradient images. Use for masks, backgrounds, color ramps."
+  parameters:
+    type: "Ramp: Horizontal, Vertical, Radial."
+    phase: "Gradient offset."
+
+Rectangle_TOP:
+  summary: "Draws rectangles with color and softness. Use for shapes, masks, UI elements."
+  parameters:
+    sizex: "Rectangle width."
+    sizey: "Rectangle height."
+    centerx: "X position."
+    centery: "Y position."
+    softness: "Edge softness."
+
+Render_TOP:
+  summary: "Renders 3D scenes to texture. Use for 3D graphics output with cameras and lights."
+  parameters:
+    camera: "Camera COMP."
+    lights: "Light COMPs."
+    geometry: "Geometry COMPs."
+    antialiasing: "AA samples."
+
+Resolution_TOP:
+  summary: "Changes image resolution with scaling. Use for resizing and resolution matching."
+  parameters:
+    resolutionw: "Target width."
+    resolutionh: "Target height."
+    outputaspect: "Aspect handling."
+
+# === More SOPs (batch 2) ===
+Carve_SOP:
+  summary: "Cuts curves and surfaces at positions. Use for partial geometry and trimming."
+  parameters:
+    firstu: "Start cut position."
+    secondu: "End cut position."
+
+Convert_SOP:
+  summary: "Converts between geometry types. Use for polygon/NURBS/mesh conversion."
+  parameters:
+    fromtype: "Source type."
+    totype: "Target type."
+
+Delete_SOP:
+  summary: "Removes points, prims, or edges by group. Use for filtering geometry."
+  parameters:
+    entity: "What to delete: Points, Primitives, Edges."
+    group: "Group pattern."
+    negate: "Invert selection."
+
+Divide_SOP:
+  summary: "Subdivides polygons with triangulation. Use for tessellation and smoothing."
+  parameters:
+    divtype: "Division method."
+    computenormals: "Recalculate normals."
+
+Facet_SOP:
+  summary: "Controls surface shading and normals. Use for flat/smooth shading control."
+  parameters:
+    unique: "Make points unique per face."
+    cusp: "Cusp angle threshold."
+
+Point_SOP:
+  summary: "Modifies point attributes with expressions. Use for position/color manipulation."
+  parameters:
+    tx: "X position expression."
+    ty: "Y position expression."
+    tz: "Z position expression."
+
+PolyExtrude_SOP:
+  summary: "Extrudes polygon faces with inset. Use for complex extrusions and bevels."
+  parameters:
+    dist: "Extrusion distance."
+    inset: "Face inset amount."
+    twist: "Twist during extrusion."
+
+Sort_SOP:
+  summary: "Reorders points or prims by criteria. Use for spatial or attribute sorting."
+  parameters:
+    ptsort: "Point sort method."
+    primsort: "Primitive sort method."
+    seed: "Random seed."
+
+Subdivide_SOP:
+  summary: "Smoothly subdivides geometry. Use for Catmull-Clark or Loop subdivision."
+  parameters:
+    iterations: "Subdivision levels."
+    algorithm: "Method: Catmull-Clark, Loop."
+
+Sweep_SOP:
+  summary: "Sweeps cross-section along curve. Use for tubes, rails, extruded shapes."
+  parameters:
+    backbone: "Backbone SOP."
+    crosssection: "Cross-section SOP."
+    twist: "Twist along path."
+
+# === More COMPs (batch 2) ===
+Field_COMP:
+  summary: "Creates text input fields for Panels. Use for string, int, float input."
+  parameters:
+    fieldtype: "Field type: String, Integer, Float."
+    value: "Current value."
+
+List_COMP:
+  summary: "Displays scrollable item lists. Use for selectable lists with callbacks."
+  parameters:
+    tabledat: "Data source DAT."
+    selectrows: "Allow selection."
+    callbacks: "Callback DAT."
+
+Palette_COMP:
+  summary: "Accesses built-in TouchDesigner palette. Use for reusable component library."
+
+Parameter_COMP:
+  summary: "Creates custom parameter UI pages. Use for component interfaces."
+
+Replicator_COMP:
+  summary: "Creates instances from template and table data. Use for data-driven duplication."
+  parameters:
+    template: "Template COMP."
+    replicatordat: "Data source DAT."
+    layoutx: "Instance layout X."
+    layouty: "Instance layout Y."
+
+Render_Pick_COMP:
+  summary: "Detects mouse picks on 3D geometry. Use for 3D object selection."
+  parameters:
+    renderpath: "Render TOP."
+    select: "Selection mode."
+
+Slider_COMP:
+  summary: "Creates slider widgets for Panels. Use for value input with range."
+  parameters:
+    slidertype: "Slider style."
+    value: "Current value."
+    min: "Minimum value."
+    max: "Maximum value."
+
+Table_COMP:
+  summary: "Displays tabular data in Panels. Use for formatted data display."
+  parameters:
+    tabledat: "Data source DAT."
+    callbacks: "Callback DAT."
+
+Text_COMP:
+  summary: "Displays text in Panels. Use for labels, titles, formatted text."
+  parameters:
+    text: "Text content."
+    fontsize: "Font size."
+    fontalpha: "Text opacity."
+
+Widget_COMP:
+  summary: "Provides UI widgets: knobs, buttons, graphs. Use for Panel controls."
+  parameters:
+    widgettype: "Widget type."
+
+# === CHOPs (batch 3) ===
+Select_CHOP:
+  summary: "Selects and renames channels by pattern. Use for filtering and renaming channel data."
+  parameters:
+    channames: "Channel pattern."
+    renamefrom: "Rename from pattern."
+    renameto: "Rename to pattern."
+
+Shuffle_CHOP:
+  summary: "Reorders, duplicates, or splits channels. Use for channel reorganization."
+  parameters:
+    method: "Method: Swap, Cycle, Reverse."
+    nchannels: "Number of channels."
+
+SOP_to_CHOP:
+  summary: "Converts SOP attributes (P, N, Cd) to channels. Use for geometry-driven animation."
+  parameters:
+    sop: "Source SOP."
+    attribute: "Which attribute."
+    method: "Conversion method."
+
+Speed_CHOP:
+  summary: "Calculates velocity from position or integrates to position. Use for motion analysis."
+  parameters:
+    function: "Speed, Distance, or Accel."
+    rate: "Sample rate."
+
+Spring_CHOP:
+  summary: "Simulates spring physics for bouncy motion. Use for springy animation effects."
+  parameters:
+    springk: "Spring constant."
+    mass: "Mass value."
+    damping: "Damping factor."
+
+Switch_CHOP:
+  summary: "Selects between inputs by index. Use for switching channel sources."
+  parameters:
+    index: "Input index."
+    blend: "Crossfade blend."
+
+Timer_CHOP:
+  summary: "Creates countdowns and timers with callbacks. Use for sequencing and timing."
+  parameters:
+    length: "Timer duration."
+    play: "Play control."
+    cue: "Cue position."
+
+Trail_CHOP:
+  summary: "Captures channel history over time. Use for trails and history visualization."
+  parameters:
+    wlength: "Window length."
+    capture: "Capture mode."
+
+Trigger_CHOP:
+  summary: "Generates ADSR envelopes from pulses. Use for triggered animation."
+  parameters:
+    attack: "Attack time."
+    decay: "Decay time."
+    sustain: "Sustain level."
+    release: "Release time."
+
+Wave_CHOP:
+  summary: "Generates waveforms: sine, triangle, square. Use for basic oscillation."
+  parameters:
+    type: "Waveform type."
+    freq: "Frequency."
+    amp: "Amplitude."
+    offset: "DC offset."
+
+# === TOPs (batch 3) ===
+Select_TOP:
+  summary: "References another TOP. Use for organization and clean references."
+  parameters:
+    top: "Target TOP."
+
+Switch_TOP:
+  summary: "Selects between inputs by index. Use for switching image sources."
+  parameters:
+    index: "Input index."
+    blend: "Crossfade blend."
+
+Text_TOP:
+  summary: "Renders text to texture. Use for titles, labels, dynamic text."
+  parameters:
+    text: "Text content."
+    font: "Font name."
+    fontsize: "Font size."
+    alignx: "Horizontal alignment."
+    aligny: "Vertical alignment."
+
+Texture_3D_TOP:
+  summary: "Creates 3D volumetric textures. Use for volume rendering and 3D effects."
+  parameters:
+    resolution: "Resolution."
+    depth: "Texture depth."
+    format: "Pixel format."
+
+Threshold_TOP:
+  summary: "Converts to binary by brightness. Use for masks and cutouts."
+  parameters:
+    threshold: "Threshold value."
+    softness: "Edge softness."
+    invert: "Invert output."
+
+Tile_TOP:
+  summary: "Repeats image in grid pattern. Use for tiling and patterns."
+  parameters:
+    scalex: "X scale."
+    scaley: "Y scale."
+    mirrorx: "Mirror X."
+    mirrory: "Mirror Y."
+
+Transform_TOP:
+  summary: "Applies 2D transforms to images. Use for positioning and scaling."
+  parameters:
+    tx: "Translate X."
+    ty: "Translate Y."
+    rz: "Rotation."
+    sx: "Scale X."
+    sy: "Scale Y."
+
+Video_Device_In_TOP:
+  summary: "Captures from cameras/webcams/capture cards. Use for live video input."
+  parameters:
+    device: "Video device."
+    resolution: "Capture resolution."
+    framerate: "Frame rate."
+
+Video_Device_Out_TOP:
+  summary: "Sends to external displays/capture devices. Use for video output."
+  parameters:
+    device: "Output device."
+    resolution: "Output resolution."
+
+Video_Stream_In_TOP:
+  summary: "Receives NDI/Spout/Syphon streams. Use for network video input."
+  parameters:
+    library: "NDI, Spout, Syphon."
+    source: "Stream source."
+
+# === SOPs (batch 3) ===
+Skin_SOP:
+  summary: "Creates surface between curves. Use for lofting and skinning."
+  parameters:
+    skinu: "Skin direction."
+
+SOPto_SOP:
+  summary: "References another SOP. Use for organization and referencing."
+  parameters:
+    sop: "Source SOP."
+
+Spring_SOP:
+  summary: "Simulates spring constraints between points. Use for soft body effects."
+  parameters:
+    iterations: "Solver iterations."
+    springk: "Spring constant."
+    damping: "Damping."
+
+Sprite_SOP:
+  summary: "Creates camera-facing sprites at points. Use for billboards and particles."
+  parameters:
+    size: "Sprite size."
+    constantsize: "Constant screen size."
+
+Switch_SOP:
+  summary: "Selects between geometry inputs. Use for switching geometry sources."
+  parameters:
+    index: "Input index."
+    blend: "Blend factor."
+
+Text_SOP:
+  summary: "Creates 3D text geometry. Use for 3D titles and text objects."
+  parameters:
+    text: "Text string."
+    font: "Font name."
+    fontsize: "Font size."
+    extrude: "Extrusion depth."
+
+Torus_SOP:
+  summary: "Creates donut/torus primitive. Use for rings and torus shapes."
+  parameters:
+    radx: "Major radius."
+    rady: "Minor radius."
+    rows: "Row divisions."
+    cols: "Column divisions."
+
+Trail_SOP:
+  summary: "Creates trails from moving points. Use for motion trails."
+  parameters:
+    length: "Trail length."
+    step: "Step size."
+
+Tube_SOP:
+  summary: "Creates cylindrical geometry. Use for pipes and cylinders."
+  parameters:
+    radscale: "Radius."
+    height: "Height."
+    cols: "Column divisions."
+    rows: "Row divisions."
+
+Twist_SOP:
+  summary: "Twists geometry around axis. Use for twist deformation."
+  parameters:
+    strength: "Twist amount."
+    bias: "Twist bias."
+
+# === DATs (batch 3) ===
+Info_DAT:
+  summary: "Displays operator state info. Use for debugging and monitoring."
+  parameters:
+    operator: "Target operator."
+
+Keyboard_In_DAT:
+  summary: "Captures keyboard events. Use for keyboard input handling."
+  parameters:
+    active: "Enable capture."
+    keys: "Key filter."
+
+Monitor_DAT:
+  summary: "Watches operators for errors. Use for debugging and monitoring."
+  parameters:
+    operators: "Operators to watch."
+    errors: "Show errors."
+    warnings: "Show warnings."
+
+Movie_File_In_DAT:
+  summary: "Reads video file metadata. Use for video file info."
+  parameters:
+    file: "Video file path."
+
+Null_DAT:
+  summary: "Passes through data unchanged. Use for organization."
+
+OP_Find_DAT:
+  summary: "Searches for operators by criteria. Use for finding operators."
+  parameters:
+    pattern: "Name pattern."
+    type: "Operator type."
+    family: "Operator family."
+    depth: "Search depth."
+
+Panel_Execute_DAT:
+  summary: "Runs callbacks for Panel events. Use for UI interaction."
+  parameters:
+    panel: "Target panel."
+    offToOn: "On click callback."
+    onToOff: "On release callback."
+
+Parameter_DAT:
+  summary: "Outputs operator parameters as table. Use for parameter inspection."
+  parameters:
+    ops: "Target operators."
+    pattern: "Parameter pattern."
+
+Parameter_Execute_DAT:
+  summary: "Runs callbacks on parameter change. Use for parameter-driven scripts."
+  parameters:
+    pars: "Parameters to watch."
+    valueChange: "On change callback."
+
+Reorder_DAT:
+  summary: "Rearranges table rows/columns. Use for data restructuring."
+  parameters:
+    rowfrom: "Source rows."
+    rowto: "Destination rows."
+
+Substitute_DAT:
+  summary: "Replaces text patterns. Use for find/replace in tables."
+  parameters:
+    from: "Pattern to find."
+    to: "Replacement text."
+
+Sort_DAT:
+  summary: "Sorts table rows by column. Use for data sorting."
+  parameters:
+    sortcols: "Sort columns."
+    sorttype: "Sort type."
+
+TCP_IP_DAT:
+  summary: "Sends/receives TCP network data. Use for TCP communication."
+  parameters:
+    address: "Server address."
+    port: "TCP port."
+    protocol: "Protocol type."
+
+UDP_In_DAT:
+  summary: "Receives UDP messages. Use for UDP input."
+  parameters:
+    port: "UDP port."
+    address: "Listen address."
+
+UDP_Out_DAT:
+  summary: "Sends UDP messages. Use for UDP output."
+  parameters:
+    address: "Destination address."
+    port: "UDP port."

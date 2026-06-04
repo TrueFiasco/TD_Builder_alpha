@@ -1,0 +1,208 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\blobtrackCHOP_lossless.json",
+  "operator_type": "blobtrackCHOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "trail1",
+          "type": "CHOP:trail",
+          "parameters": {
+            "wlength": 2,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "select1",
+          "type": "CHOP:select",
+          "parameters": {
+            "channames": "*id"
+          }
+        },
+        {
+          "name": "fakeData1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2
+          }
+        },
+        {
+          "name": "blobtrack1",
+          "type": "CHOP:blobtrack",
+          "parameters": {
+            "pageindex": 1,
+            "maxblobs": 6,
+            "maxpointdistance": 0.2,
+            "maxblobmovement": 0.5,
+            "centery": -0.5,
+            "sizex": 9.8,
+            "sizey": 9.8,
+            "minblobpoints": 30,
+            "lostblobtimeout": 0.8,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "fakeData1_",
+          "type": "CHOP:null",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "blobRender1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "blobRender1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "select1",
+          "to": "trail1",
+          "to_input": "0"
+        },
+        {
+          "from": "blobtrack1",
+          "to": "select1",
+          "to_input": "0"
+        },
+        {
+          "from": "fakeData1_",
+          "to": "blobtrack1",
+          "to_input": "0"
+        },
+        {
+          "from": "fakeData1/out1",
+          "to": "fakeData1_",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 8,
+        "connection_count": 5,
+        "operator_types": {
+          "TOP:null": 1,
+          "DAT:text": 1,
+          "CHOP:trail": 1,
+          "CHOP:select": 1,
+          "COMP:base": 2,
+          "CHOP:blobtrack": 1,
+          "CHOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "fakeData1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2
+          }
+        },
+        {
+          "name": "blobtrack1",
+          "type": "CHOP:blobtrack",
+          "parameters": {
+            "maxblobs": 6,
+            "maxpointdistance": 0.2,
+            "maxblobmovement": 0.8,
+            "areaofinterest": "circle",
+            "sizex": 9,
+            "sizey": 9,
+            "minblobpoints": 30,
+            "lostblobtimeout": 1,
+            "timeslice": "on"
+          }
+        },
+        {
+          "name": "fakeData1_",
+          "type": "CHOP:null",
+          "parameters": {
+            "pageindex": 1
+          }
+        },
+        {
+          "name": "blobRender1",
+          "type": "COMP:base",
+          "parameters": {
+            "pageindex": 2
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "blobRender1/out1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "fakeData1_",
+          "to": "blobtrack1",
+          "to_input": "0"
+        },
+        {
+          "from": "fakeData1/out1",
+          "to": "fakeData1_",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 3,
+        "operator_types": {
+          "TOP:null": 1,
+          "DAT:text": 1,
+          "COMP:base": 2,
+          "CHOP:blobtrack": 1,
+          "CHOP:null": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

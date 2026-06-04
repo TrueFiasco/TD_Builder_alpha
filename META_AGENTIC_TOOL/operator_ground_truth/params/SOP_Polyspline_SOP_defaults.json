@@ -1,0 +1,174 @@
+{
+  "operator": "Polyspline_SOP",
+  "family": "SOP",
+  "td_create_name": "polysplineSOP",
+  "param_count": 11,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 10,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "group": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Polyspline",
+      "label": "Group",
+      "readOnly": false,
+      "expression": null
+    },
+    "basis": {
+      "value": {
+        "type": "menu",
+        "value": "bezier",
+        "menuIndex": 0,
+        "menuNames": [
+          "bezier",
+          "sbezier",
+          "c1bezier",
+          "degree2",
+          "bspline",
+          "cardinal",
+          "linear"
+        ],
+        "menuLabels": [
+          "Bezier",
+          "Special Bezier",
+          "Special Smooth Bezier",
+          "Degree 2 Bezier",
+          "BSpline",
+          "Cardinal",
+          "Linear"
+        ]
+      },
+      "default": "bezier",
+      "page": "Polyspline",
+      "label": "Spline Type",
+      "readOnly": false,
+      "expression": null
+    },
+    "closure": {
+      "value": {
+        "type": "menu",
+        "value": "cifpoly",
+        "menuIndex": 2,
+        "menuNames": [
+          "cnone",
+          "calways",
+          "cifpoly"
+        ],
+        "menuLabels": [
+          "Off",
+          "On",
+          "If polygon does"
+        ]
+      },
+      "default": "cifpoly",
+      "page": "Polyspline",
+      "label": "Close",
+      "readOnly": false,
+      "expression": null
+    },
+    "divide": {
+      "value": {
+        "type": "menu",
+        "value": "standard",
+        "menuIndex": 0,
+        "menuNames": [
+          "standard",
+          "evenlen",
+          "evenx",
+          "eveny",
+          "evenz"
+        ],
+        "menuLabels": [
+          "Standard",
+          "Even Length Segments",
+          "Even X Segments",
+          "Even Y Segments",
+          "Even Z Segments"
+        ]
+      },
+      "default": "standard",
+      "page": "Polyspline",
+      "label": "Division Method",
+      "readOnly": false,
+      "expression": null
+    },
+    "segsize": {
+      "value": {
+        "type": "float",
+        "value": 0.5
+      },
+      "default": 0.5,
+      "page": "Polyspline",
+      "label": "Segment Length",
+      "readOnly": false,
+      "expression": null
+    },
+    "polydivs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Polyspline",
+      "label": "Output Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "edgedivs": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Polyspline",
+      "label": "Sample Divisions",
+      "readOnly": false,
+      "expression": null
+    },
+    "first": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Polyspline",
+      "label": "First CV Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "last": {
+      "value": {
+        "type": "int",
+        "value": 1
+      },
+      "default": 1,
+      "page": "Polyspline",
+      "label": "Last CV Count",
+      "readOnly": false,
+      "expression": null
+    },
+    "tension": {
+      "value": {
+        "type": "float",
+        "value": 1.0
+      },
+      "default": 1.0,
+      "page": "Polyspline",
+      "label": "CV Tension",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

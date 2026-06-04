@@ -1,0 +1,311 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\mergeDAT_lossless.json",
+  "operator_type": "mergeDAT",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "text1",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "text2",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "merge_append_col",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "col"
+          }
+        },
+        {
+          "name": "merge_append_row",
+          "type": "DAT:merge",
+          "parameters": {}
+        }
+      ],
+      "connections": [
+        {
+          "from": "text1",
+          "to": "merge_append_col",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "merge_append_col",
+          "to_input": "1"
+        },
+        {
+          "from": "text1",
+          "to": "merge_append_row",
+          "to_input": "0"
+        },
+        {
+          "from": "text2",
+          "to": "merge_append_row",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 3,
+          "DAT:merge": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "merge_collapse_col",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "collapsecol",
+            "spacer": "\"\""
+          }
+        },
+        {
+          "name": "merge_collapse_row",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "collapserow",
+            "spacer": "\"\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table1",
+          "to": "merge_collapse_col",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "merge_collapse_col",
+          "to_input": "1"
+        },
+        {
+          "from": "table1",
+          "to": "merge_collapse_row",
+          "to_input": "0"
+        },
+        {
+          "from": "table2",
+          "to": "merge_collapse_row",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 5,
+        "connection_count": 4,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 2,
+          "DAT:merge": 2
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "merge_cell",
+          "type": "DAT:merge",
+          "parameters": {
+            "how": "collapsecells",
+            "spacer": "\"\""
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "table3",
+          "to": "merge_cell",
+          "to_input": "0"
+        },
+        {
+          "from": "table4",
+          "to": "merge_cell",
+          "to_input": "1"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 4,
+        "connection_count": 2,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 2,
+          "DAT:merge": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 2
+      }
+    },
+    {
+      "name": "example4",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "table1",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table2",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table3",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "table4",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "rows": 2,
+            "cols": 2,
+            "language": "text"
+          }
+        },
+        {
+          "name": "merge_selecting_Dats_via_expression",
+          "type": "DAT:merge",
+          "parameters": {
+            "dats": "table*",
+            "spacer": "\"\"",
+            "language": "text"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 6,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "DAT:table": 4,
+          "DAT:merge": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

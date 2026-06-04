@@ -1,0 +1,117 @@
+{
+  "operator": "Spring_CHOP",
+  "family": "CHOP",
+  "td_create_name": "springCHOP",
+  "param_count": 19,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "springk": {
+      "type": "float",
+      "value": 100.12345
+    },
+    "mass": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "dampingk": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "method": {
+      "type": "menu",
+      "value": "force",
+      "menuIndex": 1,
+      "menuNames": [
+        "disp",
+        "force"
+      ],
+      "menuLabels": [
+        "Position",
+        "Force"
+      ]
+    },
+    "condfromchan": {
+      "type": "toggle",
+      "value": false
+    },
+    "initpos": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "initspeed": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "springsamples": {
+      "type": "toggle",
+      "value": true
+    },
+    "reset": {
+      "type": "toggle",
+      "value": true
+    },
+    "resetpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "datname",
+      "menuIndex": 1,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

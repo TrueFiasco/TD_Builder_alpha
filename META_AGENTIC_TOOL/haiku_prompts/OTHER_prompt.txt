@@ -1,0 +1,67 @@
+# OTHER Network Descriptions
+
+Write ONLY a 1-2 sentence network_description for each example.
+Describe the DATA FLOW based on the operators and connections.
+DO NOT explain what operators do. DO NOT explain parameter values.
+
+Output format:
+```yaml
+operator_type:
+  example_name: "description..."
+```
+
+---
+
+## Script
+### example1
+INPUT: table1(DAT:table), script9(DAT:script), script10(DAT:script)
+OUTPUT: script5(DAT:script), script6(DAT:script), script7(DAT:script)
+ISOLATED: script5_callbacks(DAT:text), script6_callbacks(DAT:text), script7_callbacks(DAT:text), script9_callbacks(DAT:text), script10_callbacks(DAT:text)
+FLOW: script10->script5, script9->script6, table1->script7
+TOPO: 11 ops, 3 conns, chain=2
+
+### example2
+INPUT: table10(DAT:table)
+OUTPUT: script11(DAT:script)
+ISOLATED: dump(DAT:text), script11_callbacks(DAT:text)
+FLOW: table10->script11
+TOPO: 4 ops, 1 conns, chain=2
+
+### example3
+INPUT: table9(DAT:table), table11(DAT:table)
+OUTPUT: script4(DAT:script), script12(DAT:script)
+ISOLATED: script2_callbacks1(DAT:text), script2_callbacks2(DAT:text)
+FLOW: table9->script4, table11->script12
+TOPO: 6 ops, 2 conns, chain=2
+
+### example4
+ISOLATED: script8(DAT:script), script8_callbacks(DAT:text)
+TOPO: 2 ops, 0 conns, chain=1
+
+### example5
+INPUT: table6(DAT:table), table8(DAT:table)
+OUTPUT: script2(DAT:script)
+ISOLATED: script2_callbacks(DAT:text)
+FLOW: table6->script2, table8->script2
+TOPO: 4 ops, 2 conns, chain=2
+
+### example6
+INPUT: table1(DAT:table), table2(DAT:table)
+OUTPUT: script1(DAT:script), script2(DAT:script)
+ISOLATED: script1_callbacks(DAT:text), script3_callbacks(DAT:text)
+FLOW: table1->script1, table1->script2, table2->script2
+TOPO: 6 ops, 3 conns, chain=2
+
+### example7
+INPUT: table5(DAT:table)
+OUTPUT: script3(DAT:script)
+ISOLATED: script3_callbacks(DAT:text)
+FLOW: table5->script3
+TOPO: 3 ops, 1 conns, chain=2
+
+### example8
+INPUT: table7(DAT:table)
+OUTPUT: script1(DAT:script)
+ISOLATED: script1_callbacks(DAT:text)
+FLOW: table7->script1
+TOPO: 3 ops, 1 conns, chain=2

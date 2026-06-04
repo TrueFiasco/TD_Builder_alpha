@@ -1,0 +1,91 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\tubeSOP_lossless.json",
+  "operator_type": "tubeSOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "tube_pyramid",
+          "type": "SOP:tube",
+          "parameters": {
+            "rad2": 1,
+            "cols": 4,
+            "cap": "on"
+          }
+        },
+        {
+          "name": "tube_flat_ring",
+          "type": "SOP:tube",
+          "parameters": {
+            "type": "poly",
+            "rad1": 1.5,
+            "rad2": 1,
+            "height": 0,
+            "cols": 100
+          }
+        },
+        {
+          "name": "tube_mesh_cone",
+          "type": "SOP:tube",
+          "parameters": {
+            "pageindex": 1,
+            "rad2": 1
+          }
+        },
+        {
+          "name": "tube_primitive",
+          "type": "SOP:tube",
+          "parameters": {
+            "pageindex": 1,
+            "type": "prim",
+            "rad2": 0.9
+          }
+        },
+        {
+          "name": "tube_with_end_caps",
+          "type": "SOP:tube",
+          "parameters": {
+            "pageindex": 1,
+            "rad1": 0.7,
+            "rad2": 0.4,
+            "height": 2.33,
+            "cap": "on"
+          }
+        },
+        {
+          "name": "tube_triangular_pyramid",
+          "type": "SOP:tube",
+          "parameters": {
+            "rad2": 1,
+            "cols": 3,
+            "cap": "on"
+          }
+        }
+      ],
+      "connections": [],
+      "network_pattern": {
+        "operator_count": 7,
+        "connection_count": 0,
+        "operator_types": {
+          "DAT:text": 1,
+          "SOP:tube": 6
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 1
+      }
+    }
+  ]
+}

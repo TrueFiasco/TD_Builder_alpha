@@ -1,0 +1,336 @@
+{
+  "operator": "MIDI_In_DAT",
+  "family": "DAT",
+  "td_create_name": "midiinDAT",
+  "param_count": 22,
+  "parameters": {
+    "pageindex": {
+      "value": {
+        "type": "unknown",
+        "value": "0"
+      },
+      "default": 3,
+      "page": "",
+      "label": "Page Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "active": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Connect",
+      "label": "Active",
+      "readOnly": false,
+      "expression": null
+    },
+    "device": {
+      "value": {
+        "type": "op",
+        "value": "/local/midi/device"
+      },
+      "default": "/local/midi/device",
+      "page": "Connect",
+      "label": "Device Table",
+      "readOnly": false,
+      "expression": null
+    },
+    "id": {
+      "value": {
+        "type": "string",
+        "value": "1"
+      },
+      "default": "1",
+      "page": "Connect",
+      "label": "Device ID",
+      "readOnly": false,
+      "expression": null
+    },
+    "skipsense": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Filter",
+      "label": "Skip Sense",
+      "readOnly": false,
+      "expression": null
+    },
+    "skiptiming": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Filter",
+      "label": "Skip Timing",
+      "readOnly": false,
+      "expression": null
+    },
+    "filter": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Filter",
+      "label": "Filter Messages",
+      "readOnly": false,
+      "expression": null
+    },
+    "message": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Filter",
+      "label": "Message",
+      "readOnly": false,
+      "expression": null
+    },
+    "channel": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Filter",
+      "label": "Channel",
+      "readOnly": false,
+      "expression": null
+    },
+    "index": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Filter",
+      "label": "Index",
+      "readOnly": false,
+      "expression": null
+    },
+    "value": {
+      "value": {
+        "type": "string",
+        "value": "*"
+      },
+      "default": "*",
+      "page": "Filter",
+      "label": "Value",
+      "readOnly": false,
+      "expression": null
+    },
+    "callbacks": {
+      "value": {
+        "type": "op",
+        "value": "op_default_callbacks"
+      },
+      "default": "",
+      "page": "Received Messages",
+      "label": "Callbacks DAT",
+      "readOnly": false,
+      "expression": null
+    },
+    "executeloc": {
+      "value": {
+        "type": "menu",
+        "value": "callbacks",
+        "menuIndex": 1,
+        "menuNames": [
+          "current",
+          "callbacks",
+          "op"
+        ],
+        "menuLabels": [
+          "Current Node",
+          "Callbacks DAT",
+          "Specified Operator"
+        ]
+      },
+      "default": "callbacks",
+      "page": "Received Messages",
+      "label": "Execute from",
+      "readOnly": false,
+      "expression": null
+    },
+    "fromop": {
+      "value": {
+        "type": "op",
+        "value": ""
+      },
+      "default": "..",
+      "page": "Received Messages",
+      "label": "From Operator",
+      "readOnly": false,
+      "expression": "parent()"
+    },
+    "clamp": {
+      "value": {
+        "type": "toggle",
+        "value": true
+      },
+      "default": true,
+      "page": "Received Messages",
+      "label": "Clamp Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "maxlines": {
+      "value": {
+        "type": "int",
+        "value": 10
+      },
+      "default": 10,
+      "page": "Received Messages",
+      "label": "Maximum Lines",
+      "readOnly": false,
+      "expression": null
+    },
+    "clear": {
+      "value": {
+        "type": "pulse",
+        "value": null
+      },
+      "default": false,
+      "page": "Received Messages",
+      "label": "Clear Output",
+      "readOnly": false,
+      "expression": null
+    },
+    "bytes": {
+      "value": {
+        "type": "toggle",
+        "value": false
+      },
+      "default": false,
+      "page": "Received Messages",
+      "label": "Bytes Column",
+      "readOnly": false,
+      "expression": null
+    },
+    "language": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "parameter",
+          "text",
+          "python",
+          "glsl",
+          "json",
+          "yaml",
+          "xml",
+          "tscript"
+        ],
+        "menuLabels": [
+          "From Input",
+          "From Parameter Language",
+          "Plain Text",
+          "Python",
+          "GLSL",
+          "JSON",
+          "YAML",
+          "XML / HTML",
+          "Tscript"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Content Language",
+      "readOnly": false,
+      "expression": null
+    },
+    "extension": {
+      "value": {
+        "type": "menu",
+        "value": "languageext",
+        "menuIndex": 16,
+        "menuNames": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "languageext",
+          "customext"
+        ],
+        "menuLabels": [
+          "csv",
+          "dat",
+          "frag",
+          "glsl",
+          "html",
+          "json",
+          "md",
+          "py",
+          "rtf",
+          "sdp",
+          "tsv",
+          "txt",
+          "vert",
+          "xml",
+          "yaml",
+          "yml",
+          "From Content Language",
+          "Custom Extension"
+        ]
+      },
+      "default": "languageext",
+      "page": "Common",
+      "label": "Edit/View Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "customext": {
+      "value": {
+        "type": "string",
+        "value": ""
+      },
+      "default": "",
+      "page": "Common",
+      "label": "Custom Extension",
+      "readOnly": false,
+      "expression": null
+    },
+    "wordwrap": {
+      "value": {
+        "type": "menu",
+        "value": "input",
+        "menuIndex": 0,
+        "menuNames": [
+          "input",
+          "on",
+          "off"
+        ],
+        "menuLabels": [
+          "Input",
+          "On",
+          "Off"
+        ]
+      },
+      "default": "input",
+      "page": "Common",
+      "label": "Word Wrap",
+      "readOnly": false,
+      "expression": null
+    }
+  }
+}

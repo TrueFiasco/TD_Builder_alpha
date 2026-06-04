@@ -1,0 +1,106 @@
+{
+  "case_id": "p02_heart_v2",
+  "build_path": "live via execute_python_script under /test/p02_heart_v2",
+  "operators": [
+    {
+      "name": "shader_code",
+      "type": "textDAT",
+      "language": "glsl"
+    },
+    {
+      "name": "glsl1",
+      "type": "glslTOP",
+      "pixeldat": "shader_code",
+      "resolution": [
+        1280,
+        1280
+      ],
+      "uniforms_vectors": [
+        {
+          "slot": 0,
+          "name": "clip_x",
+          "value": [
+            -2.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 1,
+          "name": "clip_y",
+          "value": [
+            -2.0,
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 2,
+          "name": "clip_z",
+          "value": [
+            -2.0,
+            2.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 3,
+          "name": "heart_xform",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "slot": 4,
+          "name": "cam_xform",
+          "value": [
+            0.25,
+            0.6,
+            0.0,
+            40.0
+          ]
+        },
+        {
+          "slot": 5,
+          "name": "heart_phase",
+          "value": [
+            0.02000901661813259,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "slot": 6,
+          "name": "beat_amplitude",
+          "value": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "heart_phase_binding": "EXPRESSION op('lfo1')['chan1']"
+    },
+    {
+      "name": "glsl1_info",
+      "type": "infoDAT",
+      "op": "glsl1"
+    },
+    {
+      "name": "lfo1",
+      "type": "lfoCHOP",
+      "wavetype": "ramp",
+      "amp": 0.5,
+      "offset": 0.5,
+      "frequency": 1.1
+    }
+  ]
+}

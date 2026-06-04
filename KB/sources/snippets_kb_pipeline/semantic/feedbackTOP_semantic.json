@@ -1,0 +1,571 @@
+{
+  "source_file": "C:\\TD_Projects\\td_builder_workspace\\output\\lossless\\feedbackTOP_lossless.json",
+  "operator_type": "feedbackTOP",
+  "examples": [
+    {
+      "name": "example1",
+      "description": "",
+      "operators": [
+        {
+          "name": "math1",
+          "type": "CHOP:math",
+          "parameters": {
+            "pageindex": 2,
+            "torange1": 0.9,
+            "torange2": 0.985
+          }
+        },
+        {
+          "name": "null1",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "null2",
+          "type": "CHOP:null",
+          "parameters": {
+            "exporttable": "null2_export"
+          }
+        },
+        {
+          "name": "cross1",
+          "type": "TOP:cross",
+          "parameters": {
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "moviein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "feedback1",
+          "type": "TOP:feedback",
+          "parameters": {
+            "top": "null1"
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "null2_export",
+          "type": "DAT:table",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text"
+          }
+        },
+        {
+          "name": "feedbackAmount",
+          "type": "COMP:slider",
+          "parameters": {
+            "label": "feedback",
+            "value0": 0.0505051,
+            "w": 100,
+            "h": 20,
+            "bgalpha": 1,
+            "topsmoothness": "mipmap",
+            "borderar": 0.43,
+            "borderag": 0.43,
+            "borderab": 0.43,
+            "leftborder": "bordera",
+            "rightborder": "bordera",
+            "bottomborder": "bordera",
+            "topborder": "bordera"
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "feedbackAmount/out1",
+          "to": "math1",
+          "to_input": "0"
+        },
+        {
+          "from": "cross1",
+          "to": "null1",
+          "to_input": "0"
+        },
+        {
+          "from": "math1",
+          "to": "null2",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "cross1",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback1",
+          "to": "cross1",
+          "to_input": "1"
+        },
+        {
+          "from": "transform1",
+          "to": "feedback1",
+          "to_input": "0"
+        },
+        {
+          "from": "moviein1",
+          "to": "transform1",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 10,
+        "connection_count": 7,
+        "operator_types": {
+          "CHOP:math": 1,
+          "TOP:null": 1,
+          "CHOP:null": 1,
+          "TOP:cross": 1,
+          "DAT:text": 1,
+          "TOP:moviefilein": 1,
+          "TOP:feedback": 1,
+          "TOP:transform": 1,
+          "DAT:table": 1,
+          "COMP:slider": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example2",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit1",
+          "type": "TOP:fit",
+          "parameters": {
+            "pageindex": 1,
+            "fit": "fitoutside",
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 512,
+            "resolutionh": 512,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "maximum",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "blends",
+          "type": "DAT:text",
+          "parameters": {
+            "pageindex": 1,
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rotate",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "source",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "constant1",
+          "type": "TOP:constant",
+          "parameters": {
+            "pageindex": 1,
+            "resolutionw": 512,
+            "resolutionh": 512
+          }
+        },
+        {
+          "name": "feedback1",
+          "type": "TOP:feedback",
+          "parameters": {
+            "top": "comp1"
+          }
+        },
+        {
+          "name": "rectangle1",
+          "type": "TOP:rectangle",
+          "parameters": {
+            "pageindex": 1,
+            "sizex": 0.9,
+            "sizey": 0.05,
+            "resolutionw": 512,
+            "resolutionh": 512
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "reduceOpacity",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "opacity": 0.95
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "fit1",
+          "to_input": "0"
+        },
+        {
+          "from": "source",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "reduceOpacity",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "fit1",
+          "to": "rotate",
+          "to_input": "0"
+        },
+        {
+          "from": "rotate",
+          "to": "source",
+          "to_input": "0"
+        },
+        {
+          "from": "constant1",
+          "to": "feedback1",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback1",
+          "to": "reduceOpacity",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 11,
+        "connection_count": 7,
+        "operator_types": {
+          "TOP:fit": 1,
+          "TOP:comp": 1,
+          "DAT:text": 2,
+          "TOP:transform": 1,
+          "TOP:null": 1,
+          "TOP:constant": 1,
+          "TOP:feedback": 1,
+          "TOP:rectangle": 1,
+          "TOP:moviefilein": 1,
+          "TOP:level": 1
+        },
+        "has_parallel_paths": false,
+        "has_feedback_loops": false,
+        "max_chain_length": 5
+      }
+    },
+    {
+      "name": "example3",
+      "description": "",
+      "operators": [
+        {
+          "name": "fit1",
+          "type": "TOP:fit",
+          "parameters": {
+            "pageindex": 1,
+            "fit": "fitoutside",
+            "legacyxform": "on",
+            "outputresolution": "custom",
+            "resolutionw": 512,
+            "resolutionh": 512,
+            "outputaspect": "resolution"
+          }
+        },
+        {
+          "name": "blur1",
+          "type": "TOP:blur",
+          "parameters": {
+            "size": 6
+          }
+        },
+        {
+          "name": "comp1",
+          "type": "TOP:comp",
+          "parameters": {
+            "operand": "screen",
+            "legacyxform": "on"
+          }
+        },
+        {
+          "name": "edge1",
+          "type": "TOP:edge",
+          "parameters": {
+            "strength": 0.2,
+            "compinput": "on"
+          }
+        },
+        {
+          "name": "level2",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "lowa": 1
+          }
+        },
+        {
+          "name": "noise1",
+          "type": "TOP:noise",
+          "parameters": {
+            "type": "perlin3d",
+            "amp": 0.36,
+            "format": "rgba8fixed"
+          }
+        },
+        {
+          "name": "readMe",
+          "type": "DAT:text",
+          "parameters": {
+            "defaultreadencoding": "cp1252",
+            "language": "text",
+            "wordwrap": "on"
+          }
+        },
+        {
+          "name": "rotate",
+          "type": "TOP:transform",
+          "parameters": {
+            "limittiles": "on"
+          }
+        },
+        {
+          "name": "source",
+          "type": "TOP:null",
+          "parameters": {}
+        },
+        {
+          "name": "hsvadj1",
+          "type": "TOP:hsvadj",
+          "parameters": {
+            "hueoffset": 5,
+            "saturationmult": 1.67,
+            "valuemult": 0.9
+          }
+        },
+        {
+          "name": "opacity",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "opacity": 0.975
+          }
+        },
+        {
+          "name": "displace1",
+          "type": "TOP:displace",
+          "parameters": {
+            "vertsource": "blue",
+            "displaceweightx": 0.03,
+            "displaceweighty": 0.03,
+            "displaceweightz": 1
+          }
+        },
+        {
+          "name": "feedback1",
+          "type": "TOP:feedback",
+          "parameters": {
+            "top": "comp1"
+          }
+        },
+        {
+          "name": "lumalevel1",
+          "type": "TOP:lumalevel",
+          "parameters": {
+            "gamma1": 0.97
+          }
+        },
+        {
+          "name": "transform1",
+          "type": "TOP:transform",
+          "parameters": {
+            "ty": 0.001,
+            "sx": 1.02,
+            "sy": 1.02
+          }
+        },
+        {
+          "name": "level_source",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 4,
+            "clampinput": "clamp",
+            "opacity": 0.858
+          }
+        },
+        {
+          "name": "moviefilein1",
+          "type": "TOP:moviefilein",
+          "parameters": {}
+        },
+        {
+          "name": "reduceHighRed",
+          "type": "TOP:level",
+          "parameters": {
+            "pageindex": 2,
+            "clampinput": "clamp",
+            "highr": 0.939
+          }
+        }
+      ],
+      "connections": [
+        {
+          "from": "moviefilein1",
+          "to": "fit1",
+          "to_input": "0"
+        },
+        {
+          "from": "edge1",
+          "to": "blur1",
+          "to_input": "0"
+        },
+        {
+          "from": "level_source",
+          "to": "comp1",
+          "to_input": "0"
+        },
+        {
+          "from": "blur1",
+          "to": "comp1",
+          "to_input": "1"
+        },
+        {
+          "from": "displace1",
+          "to": "edge1",
+          "to_input": "0"
+        },
+        {
+          "from": "comp1",
+          "to": "level2",
+          "to_input": "0"
+        },
+        {
+          "from": "fit1",
+          "to": "rotate",
+          "to_input": "0"
+        },
+        {
+          "from": "rotate",
+          "to": "source",
+          "to_input": "0"
+        },
+        {
+          "from": "reduceHighRed",
+          "to": "hsvadj1",
+          "to_input": "0"
+        },
+        {
+          "from": "feedback1",
+          "to": "opacity",
+          "to_input": "0"
+        },
+        {
+          "from": "transform1",
+          "to": "displace1",
+          "to_input": "0"
+        },
+        {
+          "from": "noise1",
+          "to": "displace1",
+          "to_input": "1"
+        },
+        {
+          "from": "rotate",
+          "to": "feedback1",
+          "to_input": "0"
+        },
+        {
+          "from": "opacity",
+          "to": "lumalevel1",
+          "to_input": "0"
+        },
+        {
+          "from": "hsvadj1",
+          "to": "transform1",
+          "to_input": "0"
+        },
+        {
+          "from": "source",
+          "to": "level_source",
+          "to_input": "0"
+        },
+        {
+          "from": "lumalevel1",
+          "to": "reduceHighRed",
+          "to_input": "0"
+        }
+      ],
+      "network_pattern": {
+        "operator_count": 18,
+        "connection_count": 17,
+        "operator_types": {
+          "TOP:fit": 1,
+          "TOP:blur": 1,
+          "TOP:comp": 1,
+          "TOP:edge": 1,
+          "TOP:level": 4,
+          "TOP:noise": 1,
+          "DAT:text": 1,
+          "TOP:transform": 2,
+          "TOP:null": 1,
+          "TOP:hsvadj": 1,
+          "TOP:displace": 1,
+          "TOP:feedback": 1,
+          "TOP:lumalevel": 1,
+          "TOP:moviefilein": 1
+        },
+        "has_parallel_paths": true,
+        "has_feedback_loops": false,
+        "max_chain_length": 14
+      }
+    }
+  ]
+}

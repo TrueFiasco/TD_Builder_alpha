@@ -1,0 +1,344 @@
+{
+  "operator": "Object_CHOP",
+  "family": "CHOP",
+  "td_create_name": "objectCHOP",
+  "param_count": 44,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "dat": {
+      "type": "op",
+      "value": ""
+    },
+    "target": {
+      "type": "op",
+      "value": ""
+    },
+    "reference": {
+      "type": "op",
+      "value": ""
+    },
+    "swaptargetreference": {
+      "type": "toggle",
+      "value": true
+    },
+    "compute": {
+      "type": "menu",
+      "value": "transformquat",
+      "menuIndex": 1,
+      "menuNames": [
+        "transform",
+        "transformquat",
+        "mat",
+        "mat3",
+        "measure"
+      ],
+      "menuLabels": [
+        "Transform (Euler)",
+        "Transform (Quaternion)",
+        "4x4 Matrix",
+        "3x3 Matrix",
+        "Measurements"
+      ]
+    },
+    "translate": {
+      "type": "toggle",
+      "value": false
+    },
+    "rotate": {
+      "type": "toggle",
+      "value": true
+    },
+    "scale": {
+      "type": "toggle",
+      "value": true
+    },
+    "quat": {
+      "type": "toggle",
+      "value": true
+    },
+    "bear": {
+      "type": "toggle",
+      "value": true
+    },
+    "singlebear": {
+      "type": "toggle",
+      "value": true
+    },
+    "distance": {
+      "type": "toggle",
+      "value": true
+    },
+    "invsqr": {
+      "type": "toggle",
+      "value": true
+    },
+    "xord": {
+      "type": "menu",
+      "value": "str",
+      "menuIndex": 1,
+      "menuNames": [
+        "srt",
+        "str",
+        "rst",
+        "rts",
+        "tsr",
+        "trs"
+      ],
+      "menuLabels": [
+        "Scale Rotate Translate",
+        "Scale Translate Rotate",
+        "Rotate Scale Translate",
+        "Rotate Translate Scale",
+        "Translate Scale Rotate",
+        "Translate Rotate Scale"
+      ]
+    },
+    "rord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "includeorderchans": {
+      "type": "toggle",
+      "value": false
+    },
+    "bearingref": {
+      "type": "menu",
+      "value": "vector",
+      "menuIndex": 3,
+      "menuNames": [
+        "x",
+        "y",
+        "z",
+        "vector"
+      ],
+      "menuLabels": [
+        "X Axis",
+        "Y Axis",
+        "Z Axis",
+        "Bearing Vector"
+      ]
+    },
+    "bearingx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bearingy": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bearingz": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tscopex": {
+      "type": "string",
+      "value": "tx rx sx px_perturbed"
+    },
+    "tscopey": {
+      "type": "string",
+      "value": "ty ry sy py_perturbed"
+    },
+    "tscopez": {
+      "type": "string",
+      "value": "tz rz sz pz_perturbed"
+    },
+    "appendattribs": {
+      "type": "toggle",
+      "value": true
+    },
+    "smoothrotate": {
+      "type": "toggle",
+      "value": true
+    },
+    "nameformat": {
+      "type": "menu",
+      "value": "target",
+      "menuIndex": 1,
+      "menuNames": [
+        "channel",
+        "target",
+        "reference"
+      ],
+      "menuLabels": [
+        "Channel Name",
+        "Target and Channel Names",
+        "Reference and Channel Names"
+      ]
+    },
+    "outputrange": {
+      "type": "menu",
+      "value": "timeslice",
+      "menuIndex": 1,
+      "menuNames": [
+        "currentframe",
+        "timeslice",
+        "startend"
+      ],
+      "menuLabels": [
+        "Current Frame",
+        "Current Time Slice",
+        "Start / End"
+      ]
+    },
+    "cookpast": {
+      "type": "toggle",
+      "value": true
+    },
+    "start": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "startunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "end": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "endunit": {
+      "type": "menu",
+      "value": "samples",
+      "menuIndex": 0,
+      "menuNames": [
+        "samples",
+        "frames",
+        "seconds"
+      ],
+      "menuLabels": [
+        "I",
+        "F",
+        "S"
+      ]
+    },
+    "left": {
+      "type": "menu",
+      "value": "slope",
+      "menuIndex": 1,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "right": {
+      "type": "menu",
+      "value": "slope",
+      "menuIndex": 1,
+      "menuNames": [
+        "hold",
+        "slope",
+        "cycle",
+        "mirror",
+        "default"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Slope",
+        "Cycle",
+        "Mirror",
+        "Default Value"
+      ]
+    },
+    "defval": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "timeslice": {
+      "type": "toggle",
+      "value": true
+    },
+    "scope": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "srselect": {
+      "type": "menu",
+      "value": "min",
+      "menuIndex": 2,
+      "menuNames": [
+        "first",
+        "max",
+        "min",
+        "err"
+      ],
+      "menuLabels": [
+        "Resample At First Input's Rate",
+        "Resample At Maximum Rate",
+        "Resample At Minimum Rate",
+        "Error If Rates Differ"
+      ]
+    },
+    "exportmethod": {
+      "type": "menu",
+      "value": "autoname",
+      "menuIndex": 2,
+      "menuNames": [
+        "datindex",
+        "datname",
+        "autoname"
+      ],
+      "menuLabels": [
+        "DAT Table by Index",
+        "DAT Table by Name",
+        "Channel Name is Path:Parameter"
+      ]
+    },
+    "autoexportroot": {
+      "type": "op",
+      "value": ""
+    },
+    "exporttable": {
+      "type": "op",
+      "value": ""
+    },
+    "renamefrom": {
+      "type": "string",
+      "value": "*_perturbed"
+    },
+    "renameto": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

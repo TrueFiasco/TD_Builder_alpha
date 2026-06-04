@@ -1,0 +1,78 @@
+expert_name: network_builder
+domain: TouchDesigner network building
+purpose: Plan and build TD networks from intent into validated specs and artifacts
+  (toe/tox/Text DAT) with evidence-backed decisions.
+version: '1.0'
+created: '2025-12-15'
+source_of_truth:
+- path: data/wiki_docs/td_universal_parsed.json
+  type: ground_truth
+- path: data/snippets/semantic/*.json
+  type: examples
+- path: data/snippets/index.tsv
+  type: curator_index
+expertise:
+  maintains:
+  - file: td_network_building.yaml
+    sections:
+    - working_patterns
+    - failing_patterns
+    - build_rules
+    - build_history
+    - default_overrides
+    - connection_rules
+    - naming_conventions
+  reads:
+  - td_operators.yaml
+  - td_parameters.yaml
+  - td_network_patterns.yaml
+  - td_problems.yaml
+validation:
+  strict: true
+  require_source: true
+  min_confidence: 0.6
+  min_examples: 3
+workflow:
+  plan:
+    max_tokens: 4000
+    timeout_seconds: 120
+  build:
+    max_tokens: 8000
+    timeout_seconds: 300
+  self_improve:
+    max_tokens: 2000
+    timeout_seconds: 60
+collaborators:
+- expert_id: td_designer
+  relationship: upstream
+  receives_from: design_spec
+  handoff_format: design_spec_v1
+  description: Receives network design with operators, hierarchy, connections, parameters
+- expert_id: creative_orchestrator
+  relationship: upstream_indirect
+  receives_from: creative_brief
+  handoff_format: creative_brief_v1
+  description: Creative brief flows through td_designer
+- expert_id: td_glsl_expert
+  relationship: peer
+  receives_from: glsl_shaders
+  handoff_format: glsl_shader_bundle
+  description: Receives GLSL shader code to embed in glslTOP operators
+design_spec_input:
+  enabled: true
+  format: design_spec_v1
+  fields_to_extract:
+  - operators
+  - hierarchy
+  - connections
+  - parameters
+  - expressions
+  - flags
+  - metadata.pattern_used
+  - metadata.creative_brief_id
+tox_builder:
+  enabled: true
+  path: tox_builder/builder.py
+  output_format: json
+  validation: true
+  collapse_after_build: true

@@ -1,0 +1,1846 @@
+{
+  "family": "COMP",
+  "count": 39,
+  "classes": [
+    {
+      "file": "ActorCOMP_Class.htm",
+      "class_name": "ActorCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "AmbientlightCOMP_Class.htm",
+      "class_name": "AmbientlightCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "AnimationCOMP_Class.htm",
+      "class_name": "AnimationCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "setKeyframe",
+          "signature": "setKeyframe(position, channel='*', value=None, function=None)",
+          "return_type": "None",
+          "description": "Add or set a keyframe in an animation channel."
+        },
+        {
+          "name": "deleteKeyframe",
+          "signature": "deleteKeyframe(position, channel='*', value=None, function=None)",
+          "return_type": "None",
+          "description": "Remove a keyframe from an animation channel."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "AnnotateCOMP_Class.htm",
+      "class_name": "AnnotateCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [
+        {
+          "name": "utility",
+          "signature": "utility",
+          "return_type": "bool",
+          "description": "Get or set utility flag. Controls whether or not it is found"
+        }
+      ],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "BaseCOMP_Class.htm",
+      "class_name": "BaseCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "BlendCOMP_Class.htm",
+      "class_name": "BlendCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "BoneCOMP_Class.htm",
+      "class_name": "BoneCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "BulletsolverCOMP_Class.htm",
+      "class_name": "BulletsolverCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ButtonCOMP_Class.htm",
+      "class_name": "ButtonCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "click",
+          "signature": "click(val, clickCount=1, force=False, left=False, middle=False, right=False)",
+          "return_type": "None",
+          "description": "Simulate a mouse click of a button panel."
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "CamerablendCOMP_Class.htm",
+      "class_name": "CamerablendCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "CameraCOMP_Class.htm",
+      "class_name": "CameraCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "projectionInverse",
+          "signature": "projectionInverse(x, y)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns the inverse projection matrix for the camera, given the X and Y aspect. In general these would be set to the width and height of your render."
+        },
+        {
+          "name": "projection",
+          "signature": "projection(x, y)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns the projection matrix for the camera, given the X and Y aspect. In general these would be set to the width and height of your render."
+        },
+        {
+          "name": "mpcdiRegion",
+          "signature": "mpcdiRegion(width, height)",
+          "return_type": "dict",
+          "description": "Returns a dictionary of its transform and projection for use in a MPCDI definition file."
+        },
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "COMP_Class.htm",
+      "class_name": "COMP",
+      "family": "COMP",
+      "inherits": "",
+      "callbacks": [],
+      "members": [
+        {
+          "name": "componentCloneImmune",
+          "signature": "componentCloneImmune",
+          "return_type": "bool",
+          "description": "Get or set"
+        },
+        {
+          "name": "pickable",
+          "signature": "pickable",
+          "return_type": "bool",
+          "description": "Get or set"
+        },
+        {
+          "name": "utility",
+          "signature": "utility",
+          "return_type": "bool",
+          "description": "Get or set utility flag."
+        }
+      ],
+      "methods": [
+        {
+          "name": "progressiveUnload",
+          "signature": "progressiveUnload(totalFrames=None, timePerFrame=None, nodesPerFrame=None, gpuMemPerFrame=None, opsToExclude=None)",
+          "return_type": "None",
+          "description": "This method allows you to try to release the CPU and"
+        },
+        {
+          "name": "initializeExtensions",
+          "signature": "initializeExtensions(index=None)",
+          "return_type": "Any",
+          "description": "Initialize the components"
+        },
+        {
+          "name": "reload",
+          "signature": "reload(filepath, password=None)",
+          "return_type": "None",
+          "description": "Reloads the component from the given file path. This will replace its children as well as top level parameters and update flags, node width/height, storage, comments and inputs (but keep original node x,y)."
+        },
+        {
+          "name": "resetNetworkView",
+          "signature": "resetNetworkView(recurse)",
+          "return_type": "None",
+          "description": "Reset the network view such that the network editor will be re-homed upon entering this component."
+        },
+        {
+          "name": "save",
+          "signature": "save(filepath, createFolders=False, password=None)",
+          "return_type": "str",
+          "description": "Saves the component to disk. If no path is provided, a default filename is used and the"
+        },
+        {
+          "name": "saveByteArray",
+          "signature": "saveByteArray(password=None)",
+          "return_type": "bytearray",
+          "description": "Save the component into a bytearray. The bytearray is the same data that is held in a"
+        },
+        {
+          "name": "saveExternalTox",
+          "signature": "saveExternalTox(recurse=False, password=None)",
+          "return_type": "int",
+          "description": "Save out the contents of any"
+        },
+        {
+          "name": "appendCustomPage",
+          "signature": "appendCustomPage(name)",
+          "return_type": "Page",
+          "description": "Add a new"
+        },
+        {
+          "name": "destroyCustomPars",
+          "signature": "destroyCustomPars()",
+          "return_type": "int",
+          "description": "Remove all custom parameters from"
+        },
+        {
+          "name": "sortCustomPages",
+          "signature": "sortCustomPages(*pages)",
+          "return_type": "None",
+          "description": "Reorder custom parameter pages by listing their page names."
+        },
+        {
+          "name": "accessPrivateContents",
+          "signature": "accessPrivateContents(key)",
+          "return_type": "bool",
+          "description": "Gain access to a private component. The component will still be private the next time it is saved or re-opened."
+        },
+        {
+          "name": "addPrivacy",
+          "signature": "addPrivacy(key, developerName=None)",
+          "return_type": "None",
+          "description": "Add privacy to a component with the given key."
+        },
+        {
+          "name": "addPrivacy",
+          "signature": "addPrivacy(firmCode, productCode, developerName=None, developerEmail=None)",
+          "return_type": "None",
+          "description": "Add privacy to a component with the given CodeMeter firm code and product code."
+        },
+        {
+          "name": "blockPrivateContents",
+          "signature": "blockPrivateContents(key)",
+          "return_type": "None",
+          "description": "Block access to a private component that was temporarily accessible."
+        },
+        {
+          "name": "removePrivacy",
+          "signature": "removePrivacy(key)",
+          "return_type": "bool",
+          "description": "Completely remove privacy from a component."
+        },
+        {
+          "name": "setVar",
+          "signature": "setVar(name, value)",
+          "return_type": "None",
+          "description": "Set a component variable to the specified value."
+        },
+        {
+          "name": "unsetVar",
+          "signature": "unsetVar(name)",
+          "return_type": "None",
+          "description": "Unset the specified component variable. This removes the entry from the '"
+        },
+        {
+          "name": "vars",
+          "signature": "vars(*patterns)",
+          "return_type": "List[str]",
+          "description": "Return a list of all component variables in this"
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "ContainerCOMP_Class.htm",
+      "class_name": "ContainerCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "click",
+          "signature": "click(u, v, clickCount=1, force=False, left=False, middle=False, right=False, group=None)",
+          "return_type": "None",
+          "description": "Simulate a mouse click on a container panel at a specific location."
+        },
+        {
+          "name": "clickChild",
+          "signature": "clickChild(childIndex, clickCount=1, force=False, left=False, middle=False, right=False, group=None)",
+          "return_type": "None",
+          "description": "Simulate a mouse click of a sub-panel within a container panel. This can be used to click radio buttons within a single container."
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "EngineCOMP_Class.htm",
+      "class_name": "EngineCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "goToDone",
+          "signature": "goToDone()",
+          "return_type": "None",
+          "description": "Go to Done. Equivalent to pulsing the Go to Done parameter on the Engine Page."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "EnvironmentlightCOMP_Class.htm",
+      "class_name": "EnvironmentlightCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FbxCOMP_Class.htm",
+      "class_name": "FbxCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [
+        "onImport"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FieldCOMP_Class.htm",
+      "class_name": "FieldCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "setKeyboardFocus",
+          "signature": "setKeyboardFocus(selectAll=False)",
+          "return_type": "None",
+          "description": "Set keyboard focus."
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "FlexsolverCOMP_Class.htm",
+      "class_name": "FlexsolverCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "FlowEmitterCOMP_Class.htm",
+      "class_name": "FlowEmitterCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "GeometryCOMP_Class.htm",
+      "class_name": "GeometryCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "bounds",
+          "signature": "bounds(display=False, render=False, selected=False, recurse=True)",
+          "return_type": "Tuple[Tuple[float, float, float], Tuple[float, float, float], Tuple[float, float, float], Tuple[float, float, float]]",
+          "description": "Calculate the bounding box of the child geometry of this component."
+        },
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "GeotextCOMP_Class.htm",
+      "class_name": "GeotextCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "evalTextSize",
+          "signature": "evalTextSize(str)",
+          "return_type": "Tuple[float, float]",
+          "description": "Return a tuple with the width and height of the given string based on the current font settings in the Geo Text"
+        },
+        {
+          "name": "layoutText",
+          "signature": "layoutText(str)",
+          "return_type": "List",
+          "description": "Returns a list of"
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "GlslCOMP_Class.htm",
+      "class_name": "GlslCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "HandleCOMP_Class.htm",
+      "class_name": "HandleCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "LightCOMP_Class.htm",
+      "class_name": "LightCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "projectionInverse",
+          "signature": "projectionInverse(x, y)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns the inverse projection matrix for the light's view, given the X and Y aspect. In general these would be set to the width and height of your render."
+        },
+        {
+          "name": "projection",
+          "signature": "projection(x, y)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns the projection"
+        },
+        {
+          "name": "mpcdiRegion",
+          "signature": "mpcdiRegion(width, height)",
+          "return_type": "dict",
+          "description": "Returns a dictionary of its transform and projection for use in a MPCDI definition file."
+        },
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "ListCOMP_Class.htm",
+      "class_name": "ListCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [
+        "onInitCell",
+        "onInitRow",
+        "onInitCol",
+        "onInitTable",
+        "onRollover",
+        "onSelect",
+        "onRadio",
+        "onFocus",
+        "onEdit",
+        "onHoverGetAccept",
+        "onDropGetAccept"
+      ],
+      "members": [
+        {
+          "name": "selectionBorderColor",
+          "signature": "selectionBorderColor",
+          "return_type": "Tuple[float, float, float, float]",
+          "description": "Get or set the border color for the separate selection, expressed as a 4-tuple (r,g,b,a), representing its red, green, blue and alpha value."
+        },
+        {
+          "name": "selectionColor",
+          "signature": "selectionColor",
+          "return_type": "Tuple[float, float, float, float]",
+          "description": "Get or set the background color for the separate selection, expressed as a 4-tuple (r,g,b,a), representing its red, green, blue and alpha value."
+        },
+        {
+          "name": "selections",
+          "signature": "selections",
+          "return_type": "List[Tuple[int, int, int, int]]",
+          "description": "Get or set the row and column coordinates for separate selection formatting, expressed as a list of 4-tuples, each containing: (startrow, startcol, endrow, endcol)."
+        }
+      ],
+      "methods": [
+        {
+          "name": "scroll",
+          "signature": "scroll(row, col)",
+          "return_type": "None",
+          "description": "Scroll List component to the row and column specified."
+        },
+        {
+          "name": "setKeyboardFocus",
+          "signature": "setKeyboardFocus(row, col, selectAll=False)",
+          "return_type": "None",
+          "description": "Selects and sets the keyboard focus in a cell of the table if the cell is a field."
+        },
+        {
+          "name": "reset",
+          "signature": "reset()",
+          "return_type": "None",
+          "description": "Reset the list by running its initialize callbacks."
+        },
+        {
+          "name": "displayColWidth",
+          "signature": "displlayColWidth()",
+          "return_type": "int",
+          "description": "Return the actual column width including stretching."
+        },
+        {
+          "name": "displayRowHeight",
+          "signature": "displayRowHeight()",
+          "return_type": "int",
+          "description": "Return the actual row height including stretching."
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "NullCOMP_Class.htm",
+      "class_name": "NullCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "NvidiaflexsolverCOMP_Class.htm",
+      "class_name": "NvidiaflexsolverCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ObjectCOMP_Class.htm",
+      "class_name": "ObjectCOMP",
+      "family": "COMP",
+      "inherits": "",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "OpviewerCOMP_Class.htm",
+      "class_name": "OpviewerCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "isViewable",
+          "signature": "isViewable(path)",
+          "return_type": "bool",
+          "description": "Returns true if this operator can view the specified operator without recursion issues.\""
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "PanelCOMP_Class.htm",
+      "class_name": "PanelCOMP",
+      "family": "COMP",
+      "inherits": "",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "ParameterCOMP_Class.htm",
+      "class_name": "ParameterCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "ReplicatorCOMP_Class.htm",
+      "class_name": "ReplicatorCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [
+        "onReplicate"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "SelectCOMP_Class.htm",
+      "class_name": "SelectCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "SharedmemoutCOMP_Class.htm",
+      "class_name": "SharedmemoutCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "transform",
+          "signature": "transform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Xform page."
+        },
+        {
+          "name": "setTransform",
+          "signature": "setTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Xform page from the given"
+        },
+        {
+          "name": "preTransform",
+          "signature": "preTransform()",
+          "return_type": "tdu.Matrix",
+          "description": "Gets the current transform of the Object as defined by the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page."
+        },
+        {
+          "name": "setPreTransform",
+          "signature": "setPreTransform(matrix)",
+          "return_type": "None",
+          "description": "Sets the Translate, Rotate, Scale and Pivot parameters on the Pre-Xform page from the given"
+        },
+        {
+          "name": "relativeTransform",
+          "signature": "relativeTransform(target)",
+          "return_type": "tdu.Matrix",
+          "description": "Returns a matrix that is the transform from the called object to the target object. This is, if you transform the called objects current transformation by the returned matrix, it will now be positioned at the target objects positions."
+        },
+        {
+          "name": "importABC",
+          "signature": "importABC(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load ABC files from the given file path."
+        },
+        {
+          "name": "importFBX",
+          "signature": "importFBX(filepath, lights=True, cameras=True, mergeGeometry=True, gpuDeform=True, rate=None, textureFolder=None, geometryFolder=None, animationFolder=None)",
+          "return_type": "None",
+          "description": "Load FBX files from the given file path."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "SliderCOMP_Class.htm",
+      "class_name": "SliderCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "click",
+          "signature": "click(uOrV, v, clickCount=1, force=False, left=False, middle=False, right=False, vOnly=False)",
+          "return_type": "None",
+          "description": "Simulate a mouse click of the slider."
+        },
+        {
+          "name": "panelParent",
+          "signature": "panelParent(n)",
+          "return_type": "OP | None",
+          "description": "The nth panel parent of this operator. If n not specified, returns the panel parent. If n = 2, returns the parent of the parent, etc. If no panel parent exists at that level, None is returned. A panel parent is the panel wired to the input of this operator, or if that does not exist, the panel containing this operator."
+        },
+        {
+          "name": "interactMouse",
+          "signature": "interactMouse(u, v, leftClick=0, middleClick=0, rightClick=0, left=False, middle=False, right=False, wheel=0, pixels=False, Screen=False, quiet=True)",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual mouse clicks, rollovers, moves and drags on a panel. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global as each panel can only have one interaction updating its state."
+        },
+        {
+          "name": "interactTouch",
+          "signature": "interactTouch(u, v, hover='id', start='id', move='id', end='id', pixels=False, screen=False, quiet=True, aux='data')",
+          "return_type": "PanelCOMP",
+          "description": "Simulates virtual multiple touches and hovers on a panel via user assigned id. It will also update the panel values: inside, insideu, insidev, state, u and v, in panels all the way up to the parent panel. The first (primary) mouse down/touch on a panel takes precedence over subsequent mouse downs and touches, and overrides any hovers. The primary state on a panel is global."
+        },
+        {
+          "name": "interactClear",
+          "signature": "interactClear()",
+          "return_type": "None",
+          "description": "Terminates any existing interactions. Touch or mouse interactions will end. Panels that are hovered over will end their rollover state."
+        },
+        {
+          "name": "interactStatus",
+          "signature": "interactStatus()",
+          "return_type": "list",
+          "description": "Returns a list of panel interactions. Each interaction is encapsulated in a list as follows: [id, panel, state, primary]."
+        },
+        {
+          "name": "locateMouse",
+          "signature": "locateMouse()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the mouse coordinates relative to the"
+        },
+        {
+          "name": "locateMouseUV",
+          "signature": "locateMouseUV()",
+          "return_type": "Tuple[float, float]",
+          "description": "Returns a tuple containing the normalized mouse coordinates relative to the"
+        },
+        {
+          "name": "setFocus",
+          "signature": "setFocus(moveMouse=False)",
+          "return_type": "None",
+          "description": "Set the hierarchical focus to this component, which sets the Panel value focusselect to 1. Focus will only be set successfully if the panel is open."
+        }
+      ],
+      "has_unique_members": false,
+      "has_unique_methods": true
+    },
+    {
+      "file": "TextCOMP_Class.htm",
+      "class_name": "TextCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    },
+    {
+      "file": "TimeCOMP_Class.htm",
+      "class_name": "TimeCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [
+        {
+          "name": "frame",
+          "signature": "frame",
+          "return_type": "float",
+          "description": "Get or set the current frame output by this component."
+        },
+        {
+          "name": "seconds",
+          "signature": "seconds",
+          "return_type": "float",
+          "description": "Get or set the current time output by this component (expressed in seconds)."
+        },
+        {
+          "name": "rate",
+          "signature": "rate",
+          "return_type": "float",
+          "description": "Get or set the frames per second, (or rate)."
+        },
+        {
+          "name": "play",
+          "signature": "play",
+          "return_type": "bool",
+          "description": "Get or set whether the component is playing."
+        },
+        {
+          "name": "timecode",
+          "signature": "timecode",
+          "return_type": "str",
+          "description": "Get or set the current timecode generated by this component."
+        },
+        {
+          "name": "start",
+          "signature": "start",
+          "return_type": "float",
+          "description": "Get or set start of main frame range."
+        },
+        {
+          "name": "end",
+          "signature": "end",
+          "return_type": "float",
+          "description": "Get or set end of main frame range."
+        },
+        {
+          "name": "rangeStart",
+          "signature": "rangeStart",
+          "return_type": "float",
+          "description": "Get or set start of sub frame range. Must be within main start, end range"
+        },
+        {
+          "name": "rangeEnd",
+          "signature": "rangeEnd",
+          "return_type": "float",
+          "description": "Get or set end of sub frame range. Must be within main start, end range."
+        },
+        {
+          "name": "loop",
+          "signature": "loop",
+          "return_type": "bool",
+          "description": "Get or set whether the timeline loops."
+        },
+        {
+          "name": "independent",
+          "signature": "independent",
+          "return_type": "float",
+          "description": "Get or set whether the timeline runs independently of other timelines."
+        },
+        {
+          "name": "tempo",
+          "signature": "tempo",
+          "return_type": "float",
+          "description": "Get or set beats per minute."
+        },
+        {
+          "name": "signature1",
+          "signature": "signature1",
+          "return_type": "int",
+          "description": "Get or set time signature, first value."
+        },
+        {
+          "name": "signature2",
+          "signature": "signature2",
+          "return_type": "int",
+          "description": "Get or set time signature, second value."
+        }
+      ],
+      "methods": [],
+      "has_unique_members": true,
+      "has_unique_methods": false
+    },
+    {
+      "file": "UsdCOMP_Class.htm",
+      "class_name": "UsdCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [
+        "onImport"
+      ],
+      "members": [],
+      "methods": [],
+      "has_unique_members": false,
+      "has_unique_methods": false
+    },
+    {
+      "file": "WindowCOMP_Class.htm",
+      "class_name": "WindowCOMP",
+      "family": "COMP",
+      "inherits": "COMP class",
+      "callbacks": [],
+      "members": [],
+      "methods": [
+        {
+          "name": "setForeground",
+          "signature": "setForeground()",
+          "return_type": "bool",
+          "description": "Activates the window, sets it to the foregound and other visual cues. Sets focus and increases process priority."
+        }
+      ],
+      "has_unique_members": true,
+      "has_unique_methods": true
+    }
+  ]
+}

@@ -1,0 +1,1328 @@
+{
+  "operator": "USD_COMP",
+  "family": "COMP",
+  "td_create_name": "usdCOMP",
+  "param_count": 190,
+  "parameters": {
+    "pageindex": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "file": {
+      "type": "string",
+      "value": "$TT/USD/Pixar/shot_import.usda_perturbed"
+    },
+    "importmethod": {
+      "type": "menu",
+      "value": "merge",
+      "menuIndex": 1,
+      "menuNames": [
+        "full",
+        "merge",
+        "reload"
+      ],
+      "menuLabels": [
+        "Full Replacement",
+        "Merge with Existing",
+        "Reload Assets (Import Selects)"
+      ]
+    },
+    "imp": {
+      "type": "pulse",
+      "value": null
+    },
+    "usematerial": {
+      "type": "toggle",
+      "value": false
+    },
+    "cameras": {
+      "type": "toggle",
+      "value": true
+    },
+    "genactors": {
+      "type": "toggle",
+      "value": true
+    },
+    "mergegeo": {
+      "type": "toggle",
+      "value": true
+    },
+    "mergelevel": {
+      "type": "int",
+      "value": 2
+    },
+    "maxwiredchildren": {
+      "type": "int",
+      "value": 6
+    },
+    "computenormals": {
+      "type": "toggle",
+      "value": true
+    },
+    "geocolorspace": {
+      "type": "menu",
+      "value": "srgb",
+      "menuIndex": 1,
+      "menuNames": [
+        "automatic",
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "rec2020st2084pq",
+        "rec2020hlg",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "displayp3d65linear",
+        "aces2065-1",
+        "acescg",
+        "acesproxy",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "Rec.2020 ST2084PQ",
+        "Rec.2020 HLG",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "Display P3 (D65) - Linear",
+        "ACES2065-1",
+        "ACEScg",
+        "ACESproxy",
+        "Passthrough"
+      ]
+    },
+    "matcolorspace": {
+      "type": "menu",
+      "value": "srgb",
+      "menuIndex": 1,
+      "menuNames": [
+        "automatic",
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "rec2020st2084pq",
+        "rec2020hlg",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "displayp3d65linear",
+        "aces2065-1",
+        "acescg",
+        "acesproxy",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "Automatic",
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "Rec.2020 ST2084PQ",
+        "Rec.2020 HLG",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "Display P3 (D65) - Linear",
+        "ACES2065-1",
+        "ACEScg",
+        "ACESproxy",
+        "Passthrough"
+      ]
+    },
+    "pops": {
+      "type": "toggle",
+      "value": false
+    },
+    "gpudirect": {
+      "type": "toggle",
+      "value": true
+    },
+    "keepparams": {
+      "type": "toggle",
+      "value": false
+    },
+    "keepconnections": {
+      "type": "toggle",
+      "value": false
+    },
+    "callbacks": {
+      "type": "op",
+      "value": "op_perturbed_callbacks"
+    },
+    "shiftanimationstart": {
+      "type": "toggle",
+      "value": true
+    },
+    "sampleratemode": {
+      "type": "menu",
+      "value": "custom",
+      "menuIndex": 1,
+      "menuNames": [
+        "filefps",
+        "custom"
+      ],
+      "menuLabels": [
+        "File FPS",
+        "Custom"
+      ]
+    },
+    "samplerate": {
+      "type": "float",
+      "value": 60.12345
+    },
+    "playmode": {
+      "type": "menu",
+      "value": "outputfullrange",
+      "menuIndex": 3,
+      "menuNames": [
+        "lockedtotimeline",
+        "specifyindex",
+        "sequential",
+        "outputfullrange"
+      ],
+      "menuLabels": [
+        "Locked to Timeline",
+        "Specify Index",
+        "Sequential",
+        "Output Full Range"
+      ]
+    },
+    "initialize": {
+      "type": "pulse",
+      "value": null
+    },
+    "start": {
+      "type": "pulse",
+      "value": null
+    },
+    "play": {
+      "type": "toggle",
+      "value": false
+    },
+    "speed": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "cue": {
+      "type": "toggle",
+      "value": true
+    },
+    "cuepulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "cuepoint": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "cuepointunit": {
+      "type": "menu",
+      "value": "indices",
+      "menuIndex": 3,
+      "menuNames": [
+        "frames",
+        "seconds",
+        "fraction",
+        "indices"
+      ],
+      "menuLabels": [
+        "F",
+        "S",
+        "%",
+        "I"
+      ]
+    },
+    "index": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "indexunit": {
+      "type": "menu",
+      "value": "seconds",
+      "menuIndex": 1,
+      "menuNames": [
+        "frames",
+        "seconds",
+        "fraction",
+        "indices"
+      ],
+      "menuLabels": [
+        "F",
+        "S",
+        "%",
+        "I"
+      ]
+    },
+    "trim": {
+      "type": "toggle",
+      "value": true
+    },
+    "tstart": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tstartunit": {
+      "type": "menu",
+      "value": "indices",
+      "menuIndex": 3,
+      "menuNames": [
+        "frames",
+        "seconds",
+        "fraction",
+        "indices"
+      ],
+      "menuLabels": [
+        "F",
+        "S",
+        "%",
+        "I"
+      ]
+    },
+    "tend": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "tendunit": {
+      "type": "menu",
+      "value": "indices",
+      "menuIndex": 3,
+      "menuNames": [
+        "frames",
+        "seconds",
+        "fraction",
+        "indices"
+      ],
+      "menuLabels": [
+        "F",
+        "S",
+        "%",
+        "I"
+      ]
+    },
+    "textendleft": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 2,
+      "menuNames": [
+        "hold",
+        "cycle",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Cycle",
+        "Mirror"
+      ]
+    },
+    "textendright": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 2,
+      "menuNames": [
+        "hold",
+        "cycle",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Cycle",
+        "Mirror"
+      ]
+    },
+    "xord": {
+      "type": "menu",
+      "value": "str",
+      "menuIndex": 1,
+      "menuNames": [
+        "srt",
+        "str",
+        "rst",
+        "rts",
+        "tsr",
+        "trs"
+      ],
+      "menuLabels": [
+        "Scale Rotate Translate",
+        "Scale Translate Rotate",
+        "Rotate Scale Translate",
+        "Rotate Translate Scale",
+        "Translate Scale Rotate",
+        "Translate Rotate Scale"
+      ]
+    },
+    "rord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "tx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ty": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "tz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ry": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "rz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "sx": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sy": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "sz": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "px": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "py": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "scale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "parentxformsrc": {
+      "type": "menu",
+      "value": "specify",
+      "menuIndex": 1,
+      "menuNames": [
+        "heirarchy",
+        "specify",
+        "worldorigin"
+      ],
+      "menuLabels": [
+        "From Parent Object (Hierarchy)",
+        "Specify Parent Object",
+        "World Origin"
+      ]
+    },
+    "parentobject": {
+      "type": "op",
+      "value": ""
+    },
+    "lookat": {
+      "type": "op",
+      "value": ""
+    },
+    "forwarddir": {
+      "type": "menu",
+      "value": "posx",
+      "menuIndex": 0,
+      "menuNames": [
+        "posx",
+        "negx",
+        "posy",
+        "negy",
+        "posz",
+        "negz"
+      ],
+      "menuLabels": [
+        "+X",
+        "-X",
+        "+Y",
+        "-Y",
+        "+Z",
+        "-Z"
+      ]
+    },
+    "lookup": {
+      "type": "string",
+      "value": "on_perturbed"
+    },
+    "pathsop": {
+      "type": "op",
+      "value": ""
+    },
+    "roll": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pos": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pathorient": {
+      "type": "toggle",
+      "value": false
+    },
+    "upx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "upy": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "upz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "bank": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "pxform": {
+      "type": "toggle",
+      "value": true
+    },
+    "pxord": {
+      "type": "menu",
+      "value": "str",
+      "menuIndex": 1,
+      "menuNames": [
+        "srt",
+        "str",
+        "rst",
+        "rts",
+        "tsr",
+        "trs"
+      ],
+      "menuLabels": [
+        "Scale Rotate Translate",
+        "Scale Translate Rotate",
+        "Rotate Scale Translate",
+        "Rotate Translate Scale",
+        "Translate Scale Rotate",
+        "Translate Rotate Scale"
+      ]
+    },
+    "prord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "ptx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pty": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ptz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "prx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pry": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "prz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "psx": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "psy": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "psz": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "ppx": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ppy": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "ppz": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pscale": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "preset": {
+      "type": "pulse",
+      "value": null
+    },
+    "pcommit": {
+      "type": "pulse",
+      "value": null
+    },
+    "xformmatrixop": {
+      "type": "op",
+      "value": ""
+    },
+    "material": {
+      "type": "op",
+      "value": ""
+    },
+    "render": {
+      "type": "toggle",
+      "value": false
+    },
+    "drawpriority": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "pickpriority": {
+      "type": "float",
+      "value": 0.12345
+    },
+    "wcolorr": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "wcolorg": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "wcolorb": {
+      "type": "float",
+      "value": 1.12345
+    },
+    "lightmask": {
+      "type": "op",
+      "value": ""
+    },
+    "ext": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "ext0object": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "ext0name": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "ext0promote": {
+      "type": "toggle",
+      "value": true
+    },
+    "reinitextensions": {
+      "type": "pulse",
+      "value": null
+    },
+    "initextonstart": {
+      "type": "toggle",
+      "value": true
+    },
+    "parentshortcut": {
+      "type": "string",
+      "value": "USD"
+    },
+    "opshortcut": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "iop": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "iop0shortcut": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "iop0op": {
+      "type": "op",
+      "value": ""
+    },
+    "nodeview": {
+      "type": "menu",
+      "value": "opviewer",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "opviewer"
+      ],
+      "menuLabels": [
+        "Default Viewer",
+        "Operator Viewer"
+      ]
+    },
+    "opviewer": {
+      "type": "op",
+      "value": "./out1"
+    },
+    "enablecloning": {
+      "type": "toggle",
+      "value": false
+    },
+    "enablecloningpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "clone": {
+      "type": "op",
+      "value": ""
+    },
+    "loadondemand": {
+      "type": "toggle",
+      "value": true
+    },
+    "enableexternaltox": {
+      "type": "toggle",
+      "value": false
+    },
+    "enableexternaltoxpulse": {
+      "type": "pulse",
+      "value": null
+    },
+    "externaltox": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "reloadcustom": {
+      "type": "toggle",
+      "value": false
+    },
+    "reloadbuiltin": {
+      "type": "toggle",
+      "value": false
+    },
+    "savebackup": {
+      "type": "toggle",
+      "value": false
+    },
+    "subcompname": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "relpath": {
+      "type": "menu",
+      "value": "project",
+      "menuIndex": 1,
+      "menuNames": [
+        "inherit",
+        "project",
+        "externaltox"
+      ],
+      "menuLabels": [
+        "Use Parent's Behavior",
+        "Relative to Project File (.toe)",
+        "Relative to External COMP File (.tox)"
+      ]
+    },
+    "parmcolorspace": {
+      "type": "menu",
+      "value": "srgblinear",
+      "menuIndex": 1,
+      "menuNames": [
+        "srgb",
+        "srgblinear",
+        "rec601ntsc",
+        "rec709",
+        "rec2020",
+        "dcip3",
+        "dcip3d60",
+        "displayp3d65",
+        "aces2065-1",
+        "acescg",
+        "passthrough"
+      ],
+      "menuLabels": [
+        "sRGB",
+        "sRGB - Linear",
+        "Rec.601 (NTSC)",
+        "Rec.709",
+        "Rec.2020",
+        "DCI-P3",
+        "DCI-P3 (D60)",
+        "Display P3 (D65)",
+        "ACES2065-1",
+        "ACEScg",
+        "Passthrough"
+      ]
+    },
+    "parmreferencewhite": {
+      "type": "menu",
+      "value": "useparent",
+      "menuIndex": 1,
+      "menuNames": [
+        "default",
+        "useparent",
+        "sdr",
+        "hdr",
+        "ui"
+      ],
+      "menuLabels": [
+        "Default For Color Space",
+        "Use Parent Panel",
+        "Standard (SDR)",
+        "High (HDR)",
+        "UI"
+      ]
+    },
+    "instancing": {
+      "type": "toggle",
+      "value": true
+    },
+    "instancecountmode": {
+      "type": "menu",
+      "value": "manual",
+      "menuIndex": 0,
+      "menuNames": [
+        "manual",
+        "oplength"
+      ],
+      "menuLabels": [
+        "Manual",
+        "Instance OP(s) Length"
+      ]
+    },
+    "numinstances": {
+      "type": "int",
+      "value": 2
+    },
+    "instanceop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancefirstrow": {
+      "type": "menu",
+      "value": "values",
+      "menuIndex": 2,
+      "menuNames": [
+        "ignored",
+        "names",
+        "values"
+      ],
+      "menuLabels": [
+        "Ignored",
+        "Names",
+        "Values"
+      ]
+    },
+    "instxord": {
+      "type": "menu",
+      "value": "str",
+      "menuIndex": 1,
+      "menuNames": [
+        "srt",
+        "str",
+        "rst",
+        "rts",
+        "tsr",
+        "trs"
+      ],
+      "menuLabels": [
+        "Scale Rotate Translate",
+        "Scale Translate Rotate",
+        "Rotate Scale Translate",
+        "Rotate Translate Scale",
+        "Translate Scale Rotate",
+        "Translate Rotate Scale"
+      ]
+    },
+    "instrord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "instancetop": {
+      "type": "op",
+      "value": ""
+    },
+    "instanceactive": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancetx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancety": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancetz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancerx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancery": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancesop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancesx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancesy": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancesz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancepop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancepx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancepy": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancepz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerottoorder": {
+      "type": "menu",
+      "value": "rotaterotto",
+      "menuIndex": 1,
+      "menuNames": [
+        "rottoxform",
+        "rotaterotto",
+        "rottorotate"
+      ],
+      "menuLabels": [
+        "Rotate to Vector, then Transform",
+        "Rotate, then Rotate to Vector",
+        "Rotate to Vector, then Rotate"
+      ]
+    },
+    "instancerottoforward": {
+      "type": "menu",
+      "value": "posx",
+      "menuIndex": 0,
+      "menuNames": [
+        "posx",
+        "negx",
+        "posy",
+        "negy",
+        "posz",
+        "negz"
+      ],
+      "menuLabels": [
+        "+X",
+        "-X",
+        "+Y",
+        "-Y",
+        "+Z",
+        "-Z"
+      ]
+    },
+    "instancerottoop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancerottox": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerottoy": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerottoz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotupop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancerotupx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotupy": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotupz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instanceorder": {
+      "type": "menu",
+      "value": "worldinstance",
+      "menuIndex": 1,
+      "menuNames": [
+        "instanceworld",
+        "worldinstance"
+      ],
+      "menuLabels": [
+        "Instance, then World Transform",
+        "World Transform, then Instance"
+      ]
+    },
+    "instancetexmode": {
+      "type": "menu",
+      "value": "transform",
+      "menuIndex": 1,
+      "menuNames": [
+        "replace",
+        "transform"
+      ],
+      "menuLabels": [
+        "Replace",
+        "Transform"
+      ]
+    },
+    "insttexxord": {
+      "type": "menu",
+      "value": "str",
+      "menuIndex": 1,
+      "menuNames": [
+        "srt",
+        "str",
+        "rst",
+        "rts",
+        "tsr",
+        "trs"
+      ],
+      "menuLabels": [
+        "Scale Rotate Translate",
+        "Scale Translate Rotate",
+        "Rotate Scale Translate",
+        "Rotate Translate Scale",
+        "Translate Scale Rotate",
+        "Translate Rotate Scale"
+      ]
+    },
+    "insttexrord": {
+      "type": "menu",
+      "value": "xzy",
+      "menuIndex": 1,
+      "menuNames": [
+        "xyz",
+        "xzy",
+        "yxz",
+        "yzx",
+        "zxy",
+        "zyx"
+      ],
+      "menuLabels": [
+        "Rx Ry Rz",
+        "Rx Rz Ry",
+        "Ry Rx Rz",
+        "Ry Rz Rx",
+        "Rz Rx Ry",
+        "Rz Ry Rx"
+      ]
+    },
+    "instancetexcoordop": {
+      "type": "op",
+      "value": ""
+    },
+    "instanceu": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancev": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancew": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotu": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotv": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancerotw": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancescaleu": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancescalev": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancescalew": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancecolormode": {
+      "type": "menu",
+      "value": "multiply",
+      "menuIndex": 1,
+      "menuNames": [
+        "replace",
+        "multiply",
+        "add",
+        "subtract"
+      ],
+      "menuLabels": [
+        "Replace",
+        "Multiply",
+        "Add",
+        "Subtract"
+      ]
+    },
+    "instancecolorpremult": {
+      "type": "menu",
+      "value": "alreadypremult",
+      "menuIndex": 0,
+      "menuNames": [
+        "alreadypremult",
+        "premultinshader"
+      ],
+      "menuLabels": [
+        "Already Pre-Multiplied By Alpha",
+        "Pre-Multiply By Alpha in Shader"
+      ]
+    },
+    "instancecolorop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancer": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instanceg": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instanceb": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancea": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instancetexs": {
+      "type": "op",
+      "value": ""
+    },
+    "instancetexextendu": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "instancetexextendv": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "instancetexextendw": {
+      "type": "menu",
+      "value": "mirror",
+      "menuIndex": 3,
+      "menuNames": [
+        "hold",
+        "zero",
+        "repeat",
+        "mirror"
+      ],
+      "menuLabels": [
+        "Hold",
+        "Zero",
+        "Repeat",
+        "Mirror"
+      ]
+    },
+    "instancetexfilter": {
+      "type": "menu",
+      "value": "nearest",
+      "menuIndex": 0,
+      "menuNames": [
+        "nearest",
+        "linear",
+        "mipmaplinear"
+      ],
+      "menuLabels": [
+        "Nearest",
+        "Linear",
+        "Mipmap Linear"
+      ]
+    },
+    "instancetexanisotropy": {
+      "type": "menu",
+      "value": "2x",
+      "menuIndex": 1,
+      "menuNames": [
+        "off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ],
+      "menuLabels": [
+        "Off",
+        "2x",
+        "4x",
+        "8x",
+        "16x"
+      ]
+    },
+    "instancetexindexop": {
+      "type": "op",
+      "value": ""
+    },
+    "instancetexindex": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instance": {
+      "type": "unknown",
+      "value": "0"
+    },
+    "instance0customop": {
+      "type": "op",
+      "value": ""
+    },
+    "instance0customx": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instance0customy": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instance0customz": {
+      "type": "string",
+      "value": "_perturbed"
+    },
+    "instance0customw": {
+      "type": "string",
+      "value": "_perturbed"
+    }
+  }
+}

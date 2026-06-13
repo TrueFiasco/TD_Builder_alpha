@@ -23,9 +23,8 @@ ROOT = Path(__file__).resolve().parent
 # meta_agentic, td_live_client, json_to_dir_LOSSLESS) the server imports.
 _PATHS = [
     ROOT,
-    ROOT / "unified_system",
-    ROOT / "META_AGENTIC_TOOL",
-    ROOT / "td-mcp",
+    ROOT / "MCP" / "engine",        # the TD-file engine (was unified_system)
+    ROOT / "MCP" / "server_core",   # the MCP server + search + meta_agentic (was META_AGENTIC_TOOL)
 ]
 
 

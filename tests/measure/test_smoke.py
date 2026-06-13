@@ -20,7 +20,7 @@ def test_server_identity(probe):
     data = r.json()
     assert isinstance(data, dict) and data.get("ok") is True
     sp = data["data"]["script_path"]
-    assert "TD_builder_alpha" in sp, f"unexpected script_path: {sp}"
+    assert "mcp_server.py" in sp, f"unexpected script_path: {sp}"
     print(f"\nserver {data['data']['version']} @ {sp} "
           f"(td_live={data['data']['td_live_enabled']}, "
           f"{r.latency_s*1000:.0f}ms, ~{r.resp_tokens}tok)")
@@ -29,7 +29,7 @@ def test_server_identity(probe):
 def test_tool_inventory(probe):
     tools = probe.list_tools()
     names = sorted(t.name for t in tools)
-    assert len(names) >= 18, f"expected >=18 base tools, got {len(names)}: {names}"
+    assert len(names) == 15, f"expected 15 offline tools, got {len(names)}: {names}"
     assert "get_server_info" in names
     assert "td_validate" in names and "td_build_project" in names
     print(f"\n{len(names)} tools exposed")

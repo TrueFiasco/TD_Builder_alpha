@@ -25,7 +25,7 @@ from pathlib import Path
 from types import ModuleType
 
 ALPHA_ROOT = Path(__file__).resolve().parents[2]  # C:\TD_builder_alpha
-SERVER_PATH = ALPHA_ROOT / "META_AGENTIC_TOOL" / "mcp_server.py"
+SERVER_PATH = ALPHA_ROOT / "MCP" / "server_core" / "mcp_server.py"
 
 _server_mod: ModuleType | None = None
 _load_error: BaseException | None = None
@@ -78,4 +78,31 @@ def load_server() -> ModuleType:
                     f"(MCP SDK decorator contract changed?)"
                 )
         _server_mod = mod
+        return mod
+
+
+LIVE_SERVER_PATH = ALPHA_ROOT / "MCP" / "live_server.py"
+_live_mod: ModuleType | None = None
+_live_lock = threading.Lock()
+
+
+def load_live_server() -> ModuleType:
+    """Import the live-TD server (MCP/live_server.py) once (process-wide)."""
+    global _live_mod
+    with _live_lock:
+        if _live_mod is not None:
+            return _live_mod
+        live_client = str(ALPHA_ROOT / "MCP" / "live_client")
+        if live_client not in sys.path:
+            sys.path.insert(0, live_client)
+        spec = importlib.util.spec_from_file_location("td_builder_live_server", str(LIVE_SERVER_PATH))
+        if spec is None or spec.loader is None:
+            raise ImportError(f"cannot create import spec for {LIVE_SERVER_PATH}")
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = mod
+        spec.loader.exec_module(mod)
+        for attr in ("call_tool", "list_tools"):
+            if not hasattr(mod, attr):
+                raise RuntimeError(f"live server missing '{attr}'")
+        _live_mod = mod
         return mod

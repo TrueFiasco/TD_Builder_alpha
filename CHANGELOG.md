@@ -1,45 +1,50 @@
 # Changelog
 
-## 0.1.0-alpha — first packaged alpha
+## 0.1.1 — key-free, consolidated, two-server release
 
-First installable/runnable/tryable packaging of the TD Builder system,
-prepared from the post-demo development tree.
-
-### Added
-- `get_server_info` MCP tool (`{ok,data,meta}` envelope; confirms which copy
-  is running) + startup `__file__` stderr banner.
-- Single consolidated knowledge base bundle `KB/` (operators / graphrag /
-  enhanced graph / vector_db + raw `sources/` + `manifest.json` + audit
-  report + reproducible completeness proof).
-- Consolidated package layout: `MCP/` (server launcher + TD WebServer asset),
-  `core/` (engine surface), `tools/` (CLI launchers), `KB/`,
-  `skills_expertise/`, `docs/` (README, PREREQUISITES, MODES, SETUP/,
-  DEMO_WALKTHROUGH, KNOWN_ISSUES).
-- `bootstrap.py` shared PYTHONPATH surface; `MCP/python/server.py` launcher;
-  `pyproject.toml` with `td-validate`/`td-convert`/`td-build` console scripts.
-- `MCP/COMM_LAYER.md` LLM-agnostic communication standard.
-- Mode-1/Mode-2 portability: `spawn_engineer`/`spawn_expert` degrade
-  gracefully with no API key (clean envelope, never block Mode-1).
-- Per-client setup guides (ChatGPT Desktop = pass criterion, Claude Desktop,
-  Cursor).
+A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.
 
 ### Changed
-- `OperatorRegistry` now loads the **enriched superset** KB (proven strict
-  superset; +14,375 typed parameters) — strictly richer validation, zero loss.
-- All KB loaders are bundle-aware (`KB/`) with legacy fallback.
+- **Two MCP servers** instead of one: `td-builder` (offline, **15 key-free tools**) and
+  `td-builder-live` (**19 live-TD tools**). Splitting the live tools out keeps offline sessions from
+  carrying ~19 unused tool schemas in context.
+- **Six-folder layout:** `MCP/` (`server.py` + `live_server.py` + `server_core/` + `engine/` +
+  `live_client/` + `td-webserver/`), `KB/`, `Agents/` (experts/expertise/skills — the server reads
+  them here), `Config/`, `LLM/Pre-Prompts/`, `Tools/`. (`unified_system` → `MCP/engine`;
+  `META_AGENTIC_TOOL` → `MCP/server_core`.)
+- **KB search is local-only / key-free:** forced `EMBEDDING_PROVIDER=local` (`all-MiniLM-L6-v2`,
+  matching the shipped vector store). This also **fixes a latent bug** where the `voyage` default
+  would dimension-mismatch the local store and break search.
+- `fetch_vector_db.py` now downloads over **public HTTPS** (no `gh` CLI / GitHub account needed).
+- All shipping paths resolve via `__file__` / `TD_BUILDER_ROOT` — the folder is relocatable.
 
-### Removed (quarantined → recoverable; full backup at `C:\TD_Projects\`)
-- ~549k files / ~34.9 GB of dev cruft, scratch, build artifacts, the retired
-  TypeScript `network-editor-mcp` server (its TD asset retained), redundant
-  KB stores (proven exact-dups/subsets), all tests, dev/KB-build scripts.
+### Removed
+- The **V0–V6 Python multi-agent strategy runner** (never reachable via MCP) and everything that only
+  served it (13 execution modules, `compaction`/`concurrency`/`history`/`meta` self-improvement infra,
+  `creative_expert` + `cg_expert`).
+- **All external-API surface:** `spawn_engineer` / `spawn_expert` / `td_compact_expertise` tools, the
+  `AgentWithTools` class, the `anthropic` dependency, and the cloud embedding-provider options
+  (Voyage/OpenAI/Cohere). `mcp_server.py` shrank ~2230 → ~1750 lines.
+- The legacy `td-mcp/` server, the `core/` stub, the `kb_pipeline/` build tool, all dev scripts,
+  internal reports/`CLAUDE.md` files, `.bak`s, the benchmark test suite, and `MODES.md` (only one
+  mode — key-free — remains).
+
+### Fixed
+- `find_operator_examples` no longer crashes when called with `operator_name` (now accepts both
+  `operator`/`operator_name`).
+- `find_parameter_usage` no longer crashes when `parameter_name` is omitted.
+
+### Added
+- `scripts/check_deps.py` — verifies Python version, runtime packages, and KB presence.
+- Authored docs throughout: per-folder READMEs, `Tools/TOOLS.md`, `Config/SETTINGS.md`,
+  `LLM/Pre-Prompts`, the two-server client-config template.
 
 ### Verified
-- Server loads 37 tools, KB graph 37,526 nodes, vector search live, after
-  every transformation (quarantine ×3, KBU, KB consolidation, layout).
-- Live-TD end-to-end: TD 099.2025.32460, WebServer :9981,
-  `mcp_webserver_base.tox`, `capture_op_viewer` returns real frames.
-- KBU completeness proof D.1/D.4/D.6: ALL PASS (zero knowledge loss).
+- 21-check acceptance + smoke gate green from the release folder *and* from a relocated copy.
+- Two servers load 15 (offline) + 19 (live) tools; live tools validated against TouchDesigner
+  099.2025 (WebServer DAT on :9981).
 
 ### Known limitations
-See `docs/KNOWN_ISSUES.md` (G1 stale builder-schema tests, BASIC-mode build,
-`find_similar_networks` W5.3 partial coverage). Alpha ships no test suite.
+- BASIC-mode `.toe` building emits parameter-format warnings (LOSSLESS round-trip is solid).
+- `td_build_project(palette=…)` is a known-broken path (deferred).
+- C++/shared-memory `wiki_supplemental` guides deferred to V0.2.

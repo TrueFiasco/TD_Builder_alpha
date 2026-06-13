@@ -1,7 +1,14 @@
 {
   "repo": "TrueFiasco/TD_Builder_alpha",
-  "tag": "v0.1.0-alpha",
-  "asset": "vector_db.zip",
-  "sha256": "175bef0d3346bb98b852bf907e7ff4c341d853c056515fdaeb8a9e94c86813e8",
-  "_note": "If you rebuild vector_db.zip, regenerate this hash with: Get-FileHash vector_db.zip -Algorithm SHA256"
+  "tag": "v0.1.1",
+  "asset": "td_builder_kb_v0.1.1.zip",
+  "sha256": "4c3b12e08d465bde13557781685693a8322a6b44acecdebe71530cc7dc2b3bbe",
+  "size_mb": 71.6,
+  "contents": [
+    "operators.json",
+    "graphrag.json",
+    "knowledge_graph_enhanced.gpickle",
+    "vector_db/"
+  ],
+  "_note": "fetch_vector_db.py downloads https://github.com/<repo>/releases/download/<tag>/<asset> (public, no auth) and extracts into KB/. If you publish under a different repo or tag, change those two fields. Set an explicit 'url' field to override the derived download link entirely."
 }

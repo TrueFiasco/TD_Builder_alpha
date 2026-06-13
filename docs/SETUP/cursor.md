@@ -1,37 +1,12 @@
-# Setup — Cursor (optional / nice-to-have)
+# Setup — Cursor
 
-Cursor is an optional target (not the alpha pass criterion, but commonly used).
+Cursor speaks MCP over stdio. Add the two servers to your MCP config (`.cursor/mcp.json` or Cursor's
+MCP settings) — same shape as `MCP/claude_desktop_config.json` (replace `<RELEASE_ROOT>`):
 
-## 1. Config file
+- **`td-builder`** → `python <RELEASE_ROOT>/MCP/server.py` — 15 offline tools, key-free.
+- **`td-builder-live`** → `python <RELEASE_ROOT>/MCP/live_server.py` — 19 live tools; only with
+  TouchDesigner open.
 
-Create or edit `.cursor/mcp.json` in your workspace (or the global
-`~/.cursor/mcp.json`):
-
-```jsonc
-{
-  "mcpServers": {
-    "td-builder-prealpha": {
-      "command": "C:\\Users\\Jake\\AppData\\Local\\Python\\pythoncore-3.11-64\\python.exe",
-      "args": ["C:\\TD_builder_pre_alpha\\META_AGENTIC_TOOL\\mcp_server.py"],
-      "env": {
-        "PYTHONPATH": "C:\\TD_builder_pre_alpha;C:\\TD_builder_pre_alpha\\td-mcp;C:\\TD_builder_pre_alpha\\META_AGENTIC_TOOL",
-        "PYTHONIOENCODING": "utf-8",
-        "PYTHONUTF8": "1"
-      }
-    }
-  }
-}
-```
-
-## 2. Enable + verify
-
-Open **Settings → MCP** in Cursor, confirm `td-builder-prealpha` shows green,
-then ask the agent to call **`get_server_info`** and check `script_path`.
-
-## 3. (Optional) live-TD tools
-
-Import `C:\TD_builder_pre_alpha\network-editor-mcp\td\mcp_webserver_base.tox`
-into TouchDesigner (WebServer DAT on `http://127.0.0.1:9981`).
-
-Same `mcpServers` shape works for Cline/Continue/Zed — only the config file
-location differs.
+Env: `PYTHONIOENCODING=utf-8`, `TD_BUILDER_ROOT=<RELEASE_ROOT>` (+ `TD_API_URL` for the live server).
+No API key. Run `python scripts/check_deps.py` to verify your install, then confirm with
+`get_server_info` (version `0.1.1`).

@@ -62,12 +62,14 @@ except ImportError:
 try:
     from td_live_client import TD_LIVE_TOOLS, TD_LIVE_HANDLERS
     TD_LIVE_ENABLED = True
-    print("TD Live Client enabled (20 tools for running TD)", file=sys.stderr)
-except ImportError as e:
+    print("Live TD tools enabled (19 tools for a running TouchDesigner).", file=sys.stderr)
+except ImportError:
     TD_LIVE_ENABLED = False
     TD_LIVE_TOOLS = []
     TD_LIVE_HANDLERS = {}
-    print(f"WARNING: TD Live Client not available: {e}", file=sys.stderr)
+    # Expected on the offline 'td-builder' server: the 19 live tools are served
+    # by the separate 'td-builder-live' server (MCP/live_server.py).
+    print("Offline server: live TD tools are served separately by td-builder-live.", file=sys.stderr)
 
 try:
     import importlib.util
@@ -880,7 +882,7 @@ async def list_tools() -> list[Tool]:
                         "default": False
                     }
                 },
-                "required": ["operator_type", "parameter_name"]
+                "required": ["operator_type"]
             }
         ),
         Tool(
@@ -1072,6 +1074,33 @@ async def list_tools() -> list[Tool]:
                 "properties": {},
                 "additionalProperties": False
             }
+        ),
+        Tool(
+            name="expand_toe_file",
+            description=(
+                "Expand a TouchDesigner .toe/.tox file (via toeexpand.exe) and parse it OFFLINE. "
+                "mode='summary' (default) returns each node's op_type plus its NON-DEFAULT parameters "
+                "with value + mode (constant/expression/reference/bind), and the connection list — "
+                "ideal for understanding/explaining an existing network. mode='full' returns the complete "
+                "lossless JSON (operator positions + raw files + .toc) that round-trips back into a "
+                ".toe.dir/.tox. Also accepts an already-expanded .toe.dir/.tox.dir (skips toeexpand)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "toe_path": {
+                        "type": "string",
+                        "description": "Absolute path to a .toe/.tox file, or to an already-expanded .toe.dir/.tox.dir."
+                    },
+                    "mode": {
+                        "type": "string",
+                        "enum": ["summary", "full"],
+                        "default": "summary",
+                        "description": "summary = node/connection map with non-default params; full = complete round-trippable lossless JSON."
+                    }
+                },
+                "required": ["toe_path"]
+            }
         )
     ]
 
@@ -1081,6 +1110,57 @@ async def list_tools() -> list[Tool]:
         print(f"Added {len(TD_LIVE_TOOLS)} TD Live tools to MCP server", file=sys.stderr)
 
     return tools
+
+
+# TD parameter modes (the integer stored in a .parm line; see lossless_parser
+# _parse_parameters). 0=constant, 1=expression, 2=export/reference, 3=bind.
+_TD_PARM_MODE = {0: "constant", 1: "expression", 2: "reference", 3: "bind"}
+
+
+def _summarize_td_network(network) -> dict:
+    """Compact node/connection summary of a parsed TDNetwork.
+
+    Lists each operator's op_type ("FAMILY:type") and only its NON-DEFAULT
+    parameters (TouchDesigner writes only changed params to .parm), each with
+    its value and mode (constant/expression/reference/bind).
+    """
+    from core.models import ParameterValue
+
+    operators = []
+    for op in network.operators:
+        params = []
+        for pname, pval in (op.parameters or {}).items():
+            if isinstance(pval, ParameterValue):
+                label = _TD_PARM_MODE.get(
+                    pval.td_mode, "expression" if pval.expression else "constant"
+                )
+                value = pval.value if label == "constant" else (
+                    pval.expression if pval.expression is not None else pval.value
+                )
+            else:
+                label, value = "constant", pval
+            params.append({"name": pname, "value": value, "mode": label})
+        operators.append({
+            "path": op.path,
+            "op_type": op.op_type or (f"{op.family.value}:{op.type}" if op.family else op.type),
+            "params": params,
+        })
+
+    connections = [
+        {"from": c.source, "to": c.target,
+         "source_output": c.source_output, "target_input": c.target_input}
+        for c in network.connections
+    ]
+    by_family = network.statistics.by_family if (network.statistics and network.statistics.by_family) else {}
+    return {
+        "project_name": network.metadata.project_name,
+        "mode": network.metadata.mode,
+        "node_count": len(network.operators),
+        "connection_count": len(network.connections),
+        "by_family": by_family,
+        "operators": operators,
+        "connections": connections,
+    }
 
 
 @app.call_tool()
@@ -1511,7 +1591,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                         "status": "ERROR",
                         "message": "Unknown operator types — not in registry",
                         "unknown_types": sorted(set(unknown)),
-                        "hint": "Use td_assistant or query_graph(command='family') to look up valid types.",
+                        "hint": "Use query_graph(command='family') or hybrid_search to look up valid types.",
                     }, indent=2))]
 
             # If network_design is provided, use ToeBuilderBridge for advanced features
@@ -1706,6 +1786,84 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 "meta": {"tool": "get_server_info", "server": SERVER_NAME},
             }
             return [TextContent(type="text", text=json.dumps(info, indent=2))]
+
+        elif name == "expand_toe_file":
+            import shutil as _shutil
+            import subprocess as _subprocess
+            import tempfile as _tempfile
+            import glob as _glob
+
+            def _expand_err(msg, hint=None):
+                err = {"message": msg}
+                if hint:
+                    err["hint"] = hint
+                return [TextContent(type="text", text=json.dumps({
+                    "ok": False, "data": None, "error": err,
+                    "meta": {"tool": "expand_toe_file", "server": SERVER_NAME},
+                }, indent=2))]
+
+            toe_path_arg = arguments.get("toe_path")
+            out_mode = (arguments.get("mode") or "summary").lower()
+            if not toe_path_arg:
+                return _expand_err("Missing required argument 'toe_path'.")
+            if out_mode not in ("summary", "full"):
+                return _expand_err(f"Invalid mode '{out_mode}'. Use 'summary' or 'full'.")
+            src = Path(toe_path_arg)
+            if not src.exists():
+                return _expand_err(f"Path not found: {src}",
+                                   "Pass an absolute path to a .toe/.tox file or an expanded .toe.dir/.tox.dir.")
+
+            cleanup_dir = None
+            if src.is_dir() and src.name.endswith(".dir"):
+                toe_dir = src
+            elif src.is_file() and src.suffix.lower() in (".toe", ".tox"):
+                exe = _shutil.which("toeexpand.exe") or _shutil.which("toeexpand")
+                if not exe:
+                    cands = _glob.glob(r"C:\Program Files\Derivative\TouchDesigner*\bin\toeexpand.exe")
+                    exe = cands[0] if cands else None
+                if not exe:
+                    return _expand_err(
+                        "toeexpand.exe not found.",
+                        "Install TouchDesigner (it provides toeexpand.exe), or pass an already-expanded .toe.dir.")
+                work = Path(_tempfile.mkdtemp(prefix="td_expand_"))
+                cleanup_dir = work
+                work_proj = work / src.name
+                _shutil.copy2(src, work_proj)
+                # toeexpand returns rc 1 even on success on some builds.
+                proc = _subprocess.run([str(exe), str(work_proj)], cwd=str(work),
+                                       capture_output=True, text=True)
+                toe_dir = work / f"{src.name}.dir"
+                if not toe_dir.exists():
+                    alts = list(work.glob("*.dir"))
+                    if alts:
+                        toe_dir = alts[0]
+                    else:
+                        _shutil.rmtree(work, ignore_errors=True)
+                        return _expand_err(
+                            f"toeexpand produced no .dir output (rc={proc.returncode}).",
+                            (proc.stderr or proc.stdout or "").strip()[:500] or None)
+            else:
+                return _expand_err(f"Unsupported input: {src}",
+                                   "Expected a .toe/.tox file or an expanded .toe.dir/.tox.dir.")
+
+            try:
+                from parsers.lossless_parser import parse_toe_lossless
+                network = parse_toe_lossless(toe_dir, registry=None, verbose=False)
+                if out_mode == "full":
+                    from core.lossless_json import to_lossless_json_dict
+                    data = to_lossless_json_dict(network)
+                else:
+                    data = _summarize_td_network(network)
+            except Exception as pe:
+                return _expand_err(f"Failed to parse expanded network: {pe}")
+            finally:
+                if cleanup_dir is not None:
+                    _shutil.rmtree(cleanup_dir, ignore_errors=True)
+
+            return [TextContent(type="text", text=json.dumps({
+                "ok": True, "data": data,
+                "meta": {"tool": "expand_toe_file", "server": SERVER_NAME, "mode": out_mode},
+            }, indent=2, default=str))]
 
         # TD Live Client tools (visual feedback + CRUD)
         elif TD_LIVE_ENABLED and name in TD_LIVE_HANDLERS:

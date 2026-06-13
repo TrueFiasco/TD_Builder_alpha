@@ -74,7 +74,7 @@ def main() -> int:
         for i, fix in enumerate(dict.fromkeys(problems), 1):
             print(f"  {i}. {fix}")
         return 1
-    print("All good - TD Builder is ready. Register MCP/python/server.py with your MCP client.")
+    print("All good - TD Builder is ready. Register MCP/server.py (offline) and MCP/live_server.py (live) with your MCP client.")
     return 0
 
 

@@ -1,6 +1,6 @@
 """Conventional pass/fail acceptance tests for the td-builder MCP server.
 
-Exercises the V0.1.1 key-free tool surface — 15 offline (`td-builder`) +
+Exercises the V0.1.1 key-free tool surface — 16 offline (`td-builder`) +
 19 live (`td-builder-live`) tools — across prompts P1-P19. Run it and every
 tool/feature shows PASSED or FAILED:
 
@@ -57,9 +57,10 @@ def test_p01_server_identity(probe):
 
 def test_p01b_tool_inventory(probe):
     names = sorted(t.name for t in probe.list_tools())
-    assert len(names) == 15, f"expected 15 offline tools, got {len(names)}: {names}"
+    assert len(names) == 16, f"expected 16 offline tools, got {len(names)}: {names}"
     for required in ("get_server_info", "td_validate", "td_convert",
-                     "td_build_project", "hybrid_search", "query_graph"):
+                     "td_build_project", "hybrid_search", "query_graph",
+                     "expand_toe_file"):
         assert required in names
     # API / agent-spawning tools removed for the key-free release
     for gone in ("spawn_engineer", "spawn_expert", "td_compact_expertise"):
@@ -160,6 +161,29 @@ def test_p13_build_offline(probe):
     # BASIC-mode parameter warnings are a documented limitation -> still PASS
     # as long as it produced output without an error envelope.
     assert r.ok, f"build errored: {r.text[:300]}"
+
+
+def test_p14_expand_toe_file(probe, tmp_path):
+    # Graceful error on a bad path (no TouchDesigner / no toeexpand needed):
+    # the tool reports an error envelope (probe .ok is False) rather than crashing.
+    bad = probe.call("expand_toe_file", {"toe_path": str(tmp_path / "nope.toe")})
+    assert not bad.ok, f"bad path should be a graceful error: {bad.text[:200]}"
+    assert "not found" in bad.text.lower(), bad.text[:200]
+    # Functional: build a tiny network offline, then summarize its expanded dir
+    # (passing the .toe.dir skips toeexpand, so this stays hermetic).
+    b = probe.call("td_build_project", {"design": BUILD_DESIGN,
+                                        "project_name": "expand_probe",
+                                        "mode": "tox", "output_dir": str(tmp_path)})
+    assert b.ok, f"build errored: {b.text[:300]}"
+    dirs = list(tmp_path.glob("*.dir"))
+    assert dirs, f"build produced no .dir: {list(tmp_path.iterdir())}"
+    s = probe.call("expand_toe_file", {"toe_path": str(dirs[0]), "mode": "summary"})
+    assert s.ok, s.text[:300]
+    sd = s.json()
+    assert sd.get("ok") is True, f"summary not ok: {sd}"
+    assert sd["data"]["node_count"] >= 1, f"no nodes: {sd['data']}"
+    print(f"\nexpand_toe_file: {sd['data']['node_count']} nodes, "
+          f"{sd['data']['connection_count']} connections")
 
 
 # --------------------------------------------------------------------------

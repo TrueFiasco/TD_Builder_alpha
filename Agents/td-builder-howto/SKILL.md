@@ -165,11 +165,11 @@ A lot of useful work does not need TD running. Use these whenever you can — th
 | Inspect a `.toe` / `.tox` structure | `toeexpand` CLI (TD's own) → produces `.toe.dir/` with `.n`/`.parm`/`.toc` files | Read the network as plain files instead of guessing from a screenshot |
 | Parse + summarise an existing network | `unified_system` `LosslessParser.parse()` (Python) — backs the `td-validate` / `td-convert` CLIs | Gives you a `TDNetwork` object you can introspect — node list, params, connections, no TD needed |
 | Validate a `.toe.dir` before importing | `td-validate <path>` CLI | 5-stage validator; catches mode-0/17 parm issues and orphan refs |
-| Convert format (LOSSLESS ↔ BASIC) | `td-convert` CLI | Same `unified_system` engine |
+| Convert format (LOSSLESS ↔ BASIC) | `td-convert` CLI | Same engine (`MCP/engine`) |
 | **Build a `.tox` offline, then import live** | `td-build` CLI or `TOEBuilder._build_lossless()` directly → produces `.toe.dir/` → `toecollapse` → `.tox` → drop into the live network | Useful when iterating on a small subnet without thrashing the live project |
 | KB lookups (operator info, param names, examples, patterns) | `hybrid_search`, `get_operator_info`, `get_parameter_detail`, `find_operator_examples`, `find_operator_combination`, `find_parameter_usage`, `find_similar_networks`, `get_network_patterns`, `list_pop_operators` | These query the local vector DB / graph — no TD round-trip |
 
-The repo's CLI entry points are in `unified_system/cli/` and the round-trip pipeline is `td_fixture_pipeline.py`. The 673-operator ground-truth JSON at `KB/operators.json` is the canonical reference if you need to read params directly (paths.py exposes it as `KB_OPERATORS`).
+The repo's CLI entry points are in `MCP/engine/cli/` (also exposed as the launchers in `Tools/offline Builder tools/`) and the round-trip pipeline is `td_fixture_pipeline.py`. The 673-operator ground-truth JSON at `KB/operators.json` is the canonical reference if you need to read params directly (paths.py exposes it as `KB_OPERATORS`).
 
 **Default heuristic:** if a task is "look at what's there" or "build something small in isolation", reach for offline tools first. Only go live when you need to see the result rendering or interact with running state.
 
@@ -259,12 +259,11 @@ Eyeballing the viewport will mislead you. When something looks wrong:
 
 This caught real bugs that visual inspection missed in the prior session: bake corruption (visible via flow magnitudes), bbox clipping mistaken for a topology hole (visible via Z-range vs bake bound), "circulation" being a bake artifact (visible via path-length analysis), scale drift (visible via culled-centroid).
 
-## Mode 1 vs Mode 2
+## Key-free — no API key, no modes
 
-- **Mode 1** (no `ANTHROPIC_API_KEY`): everything works except `spawn_engineer` and `spawn_expert`. This is the default and what you should assume.
-- **Mode 2** (key set): unlocks the two agentic tools. If the user wants Mode 2 work, confirm the key is set first.
-
-If a `spawn_*` tool returns "requires API key", you are in Mode 1 — tell the user and stop, don't retry.
+This release has no API key and a single mode. Every tool (16 offline + 19 live)
+works with no credentials; KB search uses a local embedding model. There are no
+agent-spawning tools.
 
 ## At session start
 

@@ -8,11 +8,12 @@ version: "1.0"
 created: "2025-12-15"
 
 source_of_truth:
-  - path: "data/wiki_docs/td_universal_parsed.json"
+  # Ground truth now comes from the MCP tools, not static JSON/TSV files.
+  - source: "get_operator_info / get_parameter_detail"
     type: "ground_truth"
-  - path: "data/snippets/semantic/*.json"
+  - source: "find_operator_examples / find_operator_combination / find_similar_networks"
     type: "examples"
-  - path: "data/snippets/index.tsv"
+  - source: "hybrid_search / query_graph / get_network_patterns"
     type: "curator_index"
 
 expertise:

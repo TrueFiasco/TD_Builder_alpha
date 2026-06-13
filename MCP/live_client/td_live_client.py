@@ -333,7 +333,7 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
 
 
 # =============================================================================
-# CORE TD CRUD TOOLS (13 tools)
+# CORE TD CRUD TOOLS (12 tools)
 # =============================================================================
 
 async def get_td_info(arguments: dict) -> Sequence[TextContent]:

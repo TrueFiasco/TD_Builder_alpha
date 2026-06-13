@@ -1,5 +1,5 @@
 {
-  "_comment": "TD Builder V0.1.1 client config template. Replace <RELEASE_ROOT> with the absolute path to this release folder (the parent of this MCP/ directory). Register td-builder always; add td-builder-live only when TouchDesigner is open.",
+  "_comment": "TD Builder V0.1.1 client config template. Replace <RELEASE_ROOT> with the absolute path to this release folder (the parent of this MCP/ directory). IMPORTANT: 'command' must be a Python 3.11-3.13 interpreter -- chromadb has no 3.14 wheel, so a bare 'python' that resolves to 3.14 will fail to start; put the full path to a 3.11-3.13 python if your default isn't one. Register td-builder always; add td-builder-live only when TouchDesigner is open.",
   "mcpServers": {
     "td-builder": {
       "command": "python",

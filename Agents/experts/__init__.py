@@ -1,5 +1,5 @@
 """
-Expert agent prompts for the META_AGENTIC_TOOL workflow.
+Expert agent prompts served by the `get_expert_prompt` MCP tool.
 
 Each expert directory contains:
     - plan.md: Planning step prompt
@@ -7,18 +7,10 @@ Each expert directory contains:
     - self_improve.md: Self-review step prompt
     - config.yaml: Expert configuration (optional)
 
-This is the canonical roster (8 experts). Strategy runner V2-V6 currently
-invokes 5 of them (creative_expert, cg_expert, td_designer,
-network_builder, critic). The other 3 (td_glsl_expert, td_python_expert,
-ui_expert) are reachable via the inactive MCP server's `spawn_expert`
-tool but are not part of any V2-V6 phase order yet.
-
-Five previously-registered experts (summary_generator,
-format_reverse_engineer, creative_orchestrator, claude_code_orchestrator,
-network_editor_expert) were never invoked by any strategy and have been
-moved to `archive/experts_unused/` as part of the H1/M20/M21 cleanup.
-The unique reverse-engineering content from `format_reverse_engineer/
-LEARNINGS.md` was preserved at `unified_system/docs/TOE_FORMAT_LEARNINGS.md`.
+The roster is the 6 experts in EXPERT_IDS below; the offline server exposes the
+same set via get_expert_prompt (see AVAILABLE_EXPERTS in
+MCP/server_core/mcp_server.py). Format reverse-engineering notes live in
+docs/TOE_FORMAT_LEARNINGS.md.
 """
 
 from pathlib import Path

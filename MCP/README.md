@@ -45,8 +45,8 @@ Use `claude_desktop_config.json` (template below — replace `<RELEASE_ROOT>` wi
 
 ## What each server exposes
 
-- **`td-builder` (offline, 15 tools):** KB search + `td_validate` / `td_convert` / `td_build_project`
-  + `get_expert_prompt` + `get_server_info`. 100% key-free.
+- **`td-builder` (offline, 16 tools):** KB search + `td_validate` / `td_convert` / `td_build_project`
+  + `expand_toe_file` + `get_expert_prompt` + `get_server_info`. 100% key-free.
 - **`td-builder-live` (19 tools):** capture / node CRUD / introspection of the running TD project.
 
 Full tool reference: [`../Tools/TOOLS.md`](../Tools/TOOLS.md).

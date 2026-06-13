@@ -17,10 +17,12 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
 
 ## Prerequisites
 
-**Required MCP Tools:**
-- `expand_toe_file` - Convert .toe to ASCII format
-- `list_directory` - Browse network structure
-- `view` (bash) - Read ASCII files
+**Required MCP Tools (all offline, key-free):**
+- `expand_toe_file` - Expand a .toe/.tox and parse it. `mode="summary"` returns the node/connection
+  map (each node's `op_type` + its non-default params with value + mode); `mode="full"` returns the
+  complete lossless JSON. Start here.
+- `get_operator_info` / `get_parameter_detail` - exact operator + parameter specs from the KB.
+- `hybrid_search` / `query_graph` / `find_operator_examples` - docs, relationships, real usage.
 
 **Required Knowledge:**
 - Operator documentation from project knowledge
@@ -84,36 +86,28 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
 
 ## Analysis Workflow
 
-### Step 1: Expand and Explore
+### Step 1: Expand and summarise
 
-```bash
-# Expand the .toe file
-expand_toe_file("path/to/project.toe")
-
-# List top-level structure
-list_directory("path/to/project.toe.dir")
-
-# Identify containers
-# Look for directories (COMPs) and files (.n, .parm)
+```
+# One call expands (toeexpand) + parses + returns the structure:
+expand_toe_file("path/to/project.toe", mode="summary")
+#   -> { project_name, node_count, connection_count, by_family,
+#        operators: [{ path, op_type ("FAMILY:type"), params: [{name, value, mode}] }],
+#        connections: [{ from, to }] }
+# Only NON-DEFAULT params are listed (that's what TD stores), each with its
+# mode: constant / expression / reference / bind.
+# Use mode="full" when you need positions + the complete round-trippable lossless JSON.
 ```
 
-### Step 2: Parse Operator Types
+### Step 2: Read the operator types
 
-**Read .n files to identify operators:**
-```
-Format: FAMILY:SPECIFIC_TYPE
-Examples:
-  TOP:noise      → Noise TOP
-  CHOP:audiodevicein → Audio Device In CHOP
-  SOP:box        → Box SOP
-  COMP:container → Container COMP
-```
+The summary already gives each node's `op_type` as `FAMILY:type` (e.g. `TOP:noise`,
+`CHOP:audiodevicein`, `SOP:box`, `COMP:container`) — no manual file parsing needed. For positions,
+flags, and node colour, call `expand_toe_file(..., mode="full")`.
 
-**Extract key info:**
-- Operator family and type
-- Network position (tile coordinates)
-- Viewport state (flags)
-- Node color (organizational hints)
+For what an operator or parameter means, look it up in the KB:
+- `get_operator_info("Noise TOP")` - summary + parameters
+- `get_parameter_detail("Noise TOP", "period")` - one parameter in depth
 
 ### Step 3: Analyze Data Flow
 
@@ -190,13 +184,13 @@ SOP geometry
 
 ### Loading Operator Info
 
-When you need details about an operator:
+When you need details about an operator, query the KB via the MCP tools (never guess):
 
-1. **Search project knowledge** for the operator type
-   - Example: "Noise TOP parameters"
-   - Example: "Math CHOP common uses"
+1. `get_operator_info("Noise TOP")` - summary, family, full parameter list
+2. `get_parameter_detail("Noise TOP", "period")` - one parameter (type, range, menu values)
+3. `hybrid_search("Noise TOP audio reactive")` - docs + real example usage
 
-2. **Use the database structure:**
+**The returned structure:**
    ```
    Operator Name: What it's called
    Summary: Brief description
@@ -454,7 +448,7 @@ Use it as the foundation for understanding any TD network before suggesting modi
 
 ---
 
-**Skill Version:** 1.0  
-**Created:** 2025-12-04  
-**Operator Database:** TouchDesigner 2025 (447 operators)  
-**Dependencies:** TD MCP Tools, Operator Documentation
+**Skill Version:** 1.1 (V0.1.1 — uses `expand_toe_file` + KB tools)  
+**Operator Database:** TouchDesigner 2025 (via `KB/operators.json`)  
+**Dependencies:** the offline `td-builder` MCP tools — `expand_toe_file`, `get_operator_info`,
+`get_parameter_detail`, `hybrid_search`, `query_graph`, `find_operator_examples`

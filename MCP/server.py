@@ -1,6 +1,6 @@
 """TD Builder MCP server — alpha consolidated entry point.
 
-Launches the verified MCP server (META_AGENTIC_TOOL/mcp_server.py) with the
+Launches the offline MCP server (MCP/server_core/mcp_server.py) with the
 correct engine import roots. The server module is intentionally left in place
 so its __file__-relative resolution of the consolidated KB bundle
 (<root>/KB via Path(__file__).parent.parent/"KB") and its sibling search-stack

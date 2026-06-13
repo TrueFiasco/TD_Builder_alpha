@@ -1,9 +1,11 @@
 # MCP Communication Layer (alpha standard)
 
-The TD Builder alpha ships **one** MCP server (Python, stdio). This document
-is the contract every tool conforms to so the server is portable across MCP
-clients (Claude Desktop, ChatGPT Desktop, Cursor, Cline, Continue, …) and
-LLM-agnostic (plain MCP + JSON-Schema; no Anthropic/OpenAI-specific shapes).
+TD Builder ships **two** MCP servers (Python, stdio): the offline `td-builder`
+(16 key-free tools) and the live `td-builder-live` (19 tools for a running
+TouchDesigner). This document is the contract every tool conforms to so the
+servers are portable across MCP clients (Claude Desktop, ChatGPT Desktop,
+Cursor, Cline, Continue, …) and LLM-agnostic (plain MCP + JSON-Schema; no
+Anthropic/OpenAI-specific shapes).
 
 ## Transport & protocol
 - stdio, Model Context Protocol. No client-specific extensions.
@@ -45,20 +47,15 @@ this spec return bare text/markdown; they remain functional and are migrated
 opportunistically — see "Conformance status".)
 
 ## Error / no-dependency conventions
-- Missing running TouchDesigner → tools return a clear text message
+- Missing running TouchDesigner → live tools return a clear text message
   ("TouchDesigner not running … import mcp_webserver_base.tox … port 9981"),
   never an unhandled exception.
-- Missing API key (Mode 1) → API-coupled tools (`spawn_engineer`,
-  `spawn_expert`) return an envelope with
-  `error.message = "requires an API key (Mode 2)"` and a `hint` pointing at
-  `docs/MODES.md`. They never crash the server or block Mode-1 tools.
 - Unknown tool name → `{"ok": false, "error": {"message": "Unknown tool …"}}`.
 
-## Modes (see ../docs/MODES.md)
-- **Mode 1 (no key):** every tool except `spawn_engineer`/`spawn_expert`.
-- **Mode 2 (BYO key):** set `ANTHROPIC_API_KEY` (or provider key) in the
-  server `env`; the two agentic tools activate. No provider SDK is imported
-  unless a key is present.
+## Key-free by design
+This release has **no API key and one mode**. KB search uses a local embedding
+model (all-MiniLM-L6-v2); there are no cloud providers and no agent-spawning
+tools. Every offline tool works with no credentials of any kind.
 
 ## Conformance status (alpha)
 - `get_server_info` — full envelope (reference).

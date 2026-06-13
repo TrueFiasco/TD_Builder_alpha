@@ -2,7 +2,7 @@
 
 The `KB/` folder is TD Builder's knowledge base. The large/generated artifacts are distributed via a
 GitHub Release (fetched by `scripts/fetch_vector_db.py`) rather than committed, to keep the repo
-lean. Copy this file into `KB/README.md` when you assemble the shipped KB bundle.
+lean. `KB/README.md` is the short, in-folder version of this document.
 
 | File / dir | What it is | Ships how |
 |---|---|---|

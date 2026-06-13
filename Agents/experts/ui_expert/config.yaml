@@ -4,28 +4,28 @@ created: '2024-12-23'
 description: Designs TouchDesigner UI layouts for performance and interactive applications
 
 expertise_inputs:
-  - path: meta_agentic/expertise/ui_design_patterns.yaml
+  - path: Agents/expertise/ui_design_patterns.yaml
     purpose: Widget catalog, layout templates, wiring patterns
-  - path: meta_agentic/expertise/palette_expertise.yaml
+  - path: Agents/expertise/palette_expertise.yaml
     purpose: Palette loading patterns, widget structure
-  - path: meta_agentic/expertise/palette_semantic_catalog.yaml
+  - path: Agents/expertise/palette_semantic_catalog.yaml
     purpose: All available palette components
-  - path: meta_agentic/expertise/td_operators.yaml
+  - path: Agents/expertise/td_operators.yaml
     purpose: Operator validation
 
 validation_sources:
-  - path: operator_ground_truth/operator_types.json
-    purpose: Validate operator types
-  - path: operator_ground_truth/param_catalog.json
-    purpose: Validate parameter names
+  # Ground truth now comes from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search),
+  # not from static operator_ground_truth/*.json files.
+  - source: mcp_tools
+    purpose: Validate operator types and parameter names via get_operator_info / get_parameter_detail
 
 expertise_outputs:
-  - path: meta_agentic/expertise/ui_design_patterns.yaml
+  - path: Agents/expertise/ui_design_patterns.yaml
     purpose: Update with new patterns
-  - path: meta_agentic/expertise/td_problems.yaml
+  - path: Agents/expertise/td_problems.yaml
     purpose: Log UI-specific problems
 
-event_log: meta_agentic/history/expertise_events.jsonl
+event_log: Agents/history/expertise_events.jsonl
 event_domain: ui_design
 
 collaborators:

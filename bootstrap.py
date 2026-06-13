@@ -1,16 +1,16 @@
-"""Shared PYTHONPATH bootstrap for the TD Builder alpha package.
+"""Shared PYTHONPATH bootstrap for the TD Builder package.
 
-The alpha is a single coherent package presented as:
-    MCP/             MCP server launcher + TD-side WebServer asset
-    core/            engine surface (unified_system + meta_agentic + td-mcp)
-    KB/              the single consolidated knowledge base bundle
-    tools/           CLI entry points (td-validate / td-convert / td-build)
-    skills_expertise/  skills + expert prompts
-    docs/            install / modes / demo walkthrough
+The release is presented as six folders:
+    MCP/      server launchers (server.py, live_server.py) + server_core/ + engine/ + TD-side WebServer asset
+    KB/       the consolidated knowledge base bundle (fetched on install)
+    Agents/   expert prompts + skills + expertise
+    Config/   .env + search_config.json + settings
+    LLM/      pre-prompts
+    Tools/    CLI launchers + tool docs
 
-The verified MCP server module stays at META_AGENTIC_TOOL/mcp_server.py so its
-__file__-relative resolution of the KB bundle (../KB) and its sibling search
-stack keeps working unchanged. This module just makes the engine import roots
+The offline server module lives at MCP/server_core/mcp_server.py; its
+__file__-relative resolution of the KB bundle (<root>/KB) and its sibling search
+stack keep working unchanged. This module just makes the engine import roots
 resolvable regardless of current working directory.
 """
 import sys

@@ -23,9 +23,9 @@ When receiving a design_spec from td_designer:
 4. Build .tox file via tox_builder
 
 ## Execution Rules
-1) Source-of-truth only: operator/parameter existence from `td_universal_parsed.json`; usage evidence from snippets/curator.
+1) Source-of-truth only: operator/parameter existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); usage evidence from find_operator_examples / find_operator_combination / find_similar_networks.
 2) No hallucinations: every operator/param/connection must trace to plan or evidence.
-3) Validate before build: run `ValidationPipeline` on builder JSON before any build attempt.
+3) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
 4) Output priority: attempt .toe, else .tox, else Text DAT; only return instructions if all builds blocked.
 5) **MANDATORY TOOL CALL**: You MUST call `td_build_project` MCP tool for every build. No exceptions.
 
@@ -58,7 +58,7 @@ td_build_project(
         "containers": [...]  # if any
     },
     project_name="descriptive_name",
-    output_dir="C:/TD_Projects/META_AGENTIC_TOOL/output"
+    output_dir="./output"
 )
 ```
 
@@ -209,14 +209,14 @@ When design_spec includes containers with `palette` field:
 ```
 
 The tox_builder will:
-1. Load palette from `kb_pipeline/data/palette_lossless/{name}.json.gz`
+1. Load the named palette component internally (by name)
 2. Embed all internal operators as the named container
 3. Preserve all palette connections and parameters
 4. Response includes `palettes_embedded: ["audioAnalysis"]`
 
 **CRITICAL**: Connect TO palette outputs (`audio/out1`), not internal operators!
 
-**278 palettes available** - see `palette_lossless/index.json` for full list.
+**278 palettes available** - use `hybrid_search` to discover and confirm palette names/capabilities.
 
 Top palettes by category:
 - **Audio**: audioAnalysis, equalizer, audioSet
@@ -235,7 +235,7 @@ Top palettes by category:
    - Enforce naming/layout conventions from `td_network_building.yaml`.
 
 2. Validate spec
-   - Run `ValidationPipeline` (schema, semantic, reference, logical, td_rules).
+   - Run the `td_validate` MCP tool (5-stage pipeline: schema, semantic, reference, logical, td_rules).
    - If FAIL: capture errors, attempt minimal safe fixes; if still failing, fall back to Text DAT plan.
 
 3. Build artifacts (in order)
@@ -307,7 +307,7 @@ When a build completes successfully:
 **Response format for successful builds:**
 ```
 Build complete!
-File: C:\TD_Projects\META_AGENTIC_TOOL\output\{name}.tox
+File: ./output/{name}.tox
 Open this file in TouchDesigner to use.
 ```
 
@@ -320,9 +320,9 @@ Open this file in TouchDesigner to use.
 ---
 
 ## Anti-Hallucination Checklist
-- [ ] Every operator exists in registry (td_universal_parsed.json).
-- [ ] Every parameter name/value comes from evidence or defaults.
+- [ ] Every operator exists - confirmed with `get_operator_info`.
+- [ ] Every parameter name/value comes from evidence (`get_parameter_detail` / `find_operator_examples`) or defaults.
 - [ ] Connections family-compatible or converted with known operator.
-- [ ] ValidationPipeline PASS before attempting .toe/.tox.
+- [ ] `td_validate` PASS before attempting .toe/.tox.
 - [ ] If returning instructions, include exact params/connections; no vague steps.
 - [ ] If GLSL code provided, embed in correct operator .text file.

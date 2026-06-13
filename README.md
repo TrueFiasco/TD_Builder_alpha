@@ -21,7 +21,7 @@ TouchDesigner editing/feedback tools. Everything runs locally — **no API key r
 
 | Server | Register as | Tools | When |
 |---|---|---|---|
-| `MCP/server.py` | `td-builder` | **15** key-free tools — KB search, `td_validate`/`td_convert`/`td_build_project`, `get_expert_prompt`, `get_server_info` | always |
+| `MCP/server.py` | `td-builder` | **16** key-free tools — KB search, `td_validate`/`td_convert`/`td_build_project`, `expand_toe_file`, `get_expert_prompt`, `get_server_info` | always |
 | `MCP/live_server.py` | `td-builder-live` | **19** live tools — capture / node CRUD / introspection of a running TouchDesigner | only when TouchDesigner is open |
 
 Keeping the live tools in a separate server means offline sessions don't carry their ~19 tool
@@ -47,7 +47,7 @@ python scripts\fetch_vector_db.py
 python scripts\check_deps.py        # expect all green
 
 # 5. Register the MCP server(s) with your client — see MCP/README.md
-#    Offline:  python MCP\server.py        (td-builder, 15 tools)
+#    Offline:  python MCP\server.py        (td-builder, 16 tools)
 #    Live:     python MCP\live_server.py   (td-builder-live, 19 tools — only with TD open)
 ```
 
@@ -64,7 +64,7 @@ multi-agent strategy runner were removed in this release; the experts ship as pr
 ## Run the gate
 
 ```powershell
-py -3.11 -m pytest tests\acceptance tests\measure -q   # ~21 checks; live tests need TD open
+py -3.11 -m pytest tests\acceptance tests\measure -q   # ~22 checks; live tests need TD open
 ```
 
 ## Known limitations

@@ -29,9 +29,10 @@ def test_server_identity(probe):
 def test_tool_inventory(probe):
     tools = probe.list_tools()
     names = sorted(t.name for t in tools)
-    assert len(names) == 15, f"expected 15 offline tools, got {len(names)}: {names}"
+    assert len(names) == 16, f"expected 16 offline tools, got {len(names)}: {names}"
     assert "get_server_info" in names
     assert "td_validate" in names and "td_build_project" in names
+    assert "expand_toe_file" in names
     print(f"\n{len(names)} tools exposed")
 
 

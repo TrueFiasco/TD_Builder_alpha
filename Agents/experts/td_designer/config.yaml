@@ -3,29 +3,29 @@ version: 1.0.0
 created: '2025-12-16'
 description: Translates high-level goals into correct TouchDesigner network architectures
 expertise_inputs:
-- path: meta_agentic/expertise/td_network_patterns.yaml
+- path: Agents/expertise/td_network_patterns.yaml
   purpose: Pattern templates for common TD workflows
-- path: meta_agentic/expertise/td_operators.yaml
+- path: Agents/expertise/td_operators.yaml
   purpose: Operator mental models and usage patterns
-- path: meta_agentic/expertise/td_parameters.yaml
+- path: Agents/expertise/td_parameters.yaml
   purpose: Parameter usage patterns by operator/family
-- path: meta_agentic/expertise/td_python.yaml
+- path: Agents/expertise/td_python.yaml
   purpose: Python expression and referencing patterns
-- path: meta_agentic/expertise/td_problems.yaml
+- path: Agents/expertise/td_problems.yaml
   purpose: Known problems and pitfalls to avoid
-- path: meta_agentic/expertise/td_glsl.yaml
+- path: Agents/expertise/td_glsl.yaml
   purpose: GLSL patterns (for delegation decisions)
 validation_sources:
-- path: operator_ground_truth/operator_types.json
-  purpose: Validate operator types exist
-- path: operator_ground_truth/param_catalog.json
-  purpose: Validate parameter names exist
+# Ground truth now comes from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search),
+# not from static operator_ground_truth/*.json files.
+- source: mcp_tools
+  purpose: Validate operator types and parameter names via get_operator_info / get_parameter_detail
 expertise_outputs:
-- path: meta_agentic/expertise/td_network_patterns.yaml
+- path: Agents/expertise/td_network_patterns.yaml
   purpose: Update patterns with new discoveries
-- path: meta_agentic/expertise/td_problems.yaml
+- path: Agents/expertise/td_problems.yaml
   purpose: Log new problems and pitfalls
-event_log: meta_agentic/history/expertise_events.jsonl
+event_log: Agents/history/expertise_events.jsonl
 event_domain: patterns
 collaborators:
 - expert_id: creative_orchestrator

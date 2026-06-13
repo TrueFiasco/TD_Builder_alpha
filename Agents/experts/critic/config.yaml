@@ -8,24 +8,25 @@ description: "Validates creative and technical specifications against quality cr
 
 # Expertise files this expert reads
 expertise_inputs:
-  - path: "meta_agentic/expertise/critique_patterns.yaml"
+  - path: "Agents/expertise/critique_patterns.yaml"
     purpose: "Quality criteria, scoring rubrics, feedback templates"
-  - path: "meta_agentic/expertise/creative_vision.yaml"
+  - path: "Agents/expertise/creative_vision.yaml"
     purpose: "Validate mood/aesthetic choices against vocabulary"
-  - path: "meta_agentic/expertise/cg_concepts.yaml"
+  - path: "Agents/expertise/cg_concepts.yaml"
     purpose: "Validate algorithm choices and feasibility"
 
-# No source of truth - critic validates against expertise files
+# No static source of truth - critic validates against expertise files; technical
+# operator/parameter facts come from the MCP tools (get_operator_info / hybrid_search).
 validation_sources: []
 
 # Expertise files this expert writes (limited)
 expertise_outputs:
-  - path: "meta_agentic/expertise/critique_patterns.yaml"
+  - path: "Agents/expertise/critique_patterns.yaml"
     purpose: "Update common_issues when new patterns discovered"
     sections: ["common_issues"]
 
 # Event logging
-event_log: "meta_agentic/history/expertise_events.jsonl"
+event_log: "Agents/history/expertise_events.jsonl"
 event_domain: "critique"
 
 # Upstream/downstream collaborators

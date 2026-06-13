@@ -1,13 +1,9 @@
 # TouchDesigner .toe / .tox format — reverse-engineering learnings
 
-> Provenance: this document was originally
-> `META_AGENTIC_TOOL/meta_agentic/experts/format_reverse_engineer/LEARNINGS.md`,
-> the unique artefact of an unused expert that was archived during the
-> H1/M20/M21 roster cleanup. The findings here materially informed the
-> mode-aware `.parm` parsing/writing in `unified_system/parsers/lossless_parser.py`
-> and `unified_system/builders/toe_builder.py` (commit `f6ccdfc`), which is
-> why this content lives at the top level of `unified_system/docs/` now —
-> any future work on `.toe` / `.tox` format internals should start here.
+> Provenance: this document is the reverse-engineering artefact that informed
+> the mode-aware `.parm` parsing/writing in
+> `MCP/engine/parsers/lossless_parser.py` and `MCP/engine/builders/toe_builder.py`.
+> Any future work on `.toe` / `.tox` format internals should start here.
 
 ## Key Insights About .tox/.toe Format
 

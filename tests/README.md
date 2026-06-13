@@ -5,11 +5,11 @@ quality-measurement harness lives in the dev repo, not the release).
 
 ## Run it
 ```powershell
-py -3.11 -m pytest tests\acceptance tests\measure -q     # ~21 checks
+py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
 ```
 
 - **Offline checks** (server identity, tool inventory, KB search, `td_validate`/`td_convert`/
-  `td_build_project`, `get_expert_prompt`) run against the **`td-builder`** server (15 tools).
+  `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (16 tools).
 - **Live checks** (identity / topology / capture / diagnostics / CRUD) run against the
   **`td-builder-live`** server (19 tools) and need TouchDesigner open (WebServer DAT on `:9981`).
   With TD down they still pass via the graceful "not running" path.

@@ -22,5 +22,5 @@
 
 ```powershell
 python scripts\check_deps.py     # green checklist: Python, deps, KB present
-py -3.11 -m pytest tests\acceptance tests\measure -q   # ~21 checks (live tests need TD open)
+py -3.11 -m pytest tests\acceptance tests\measure -q   # ~22 checks (live tests need TD open)
 ```

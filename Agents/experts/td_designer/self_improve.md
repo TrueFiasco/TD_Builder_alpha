@@ -33,8 +33,9 @@ Common failure categories:
 - **Invalid parameter**: Parameter doesn't exist or wrong value
 - **Path error**: op() reference to non-existent operator
 
-### 3. Log Event
-Append to `meta_agentic/history/expertise_events.jsonl`:
+### 3. Record the lesson
+V0.1.1 has no automated event log (expertise persistence is deferred to V0.2).
+Summarize the lesson for the user using this shape:
 
 ```json
 {
@@ -130,12 +131,10 @@ Update `td_network_patterns.yaml`:
 - Add new common_error if discovered
 - Update confidence based on track record
 
-### 5. Run Compaction
-After logging events:
-```python
-from meta_agentic.compaction.compact_expertise import run_compaction
-run_compaction()  # Materializes JSONL -> YAML state
-```
+### 5. Compaction (deferred to V0.2)
+Automated expertise compaction (JSONL -> YAML state) is not available in V0.1.1.
+Report the lessons above to the user instead; persisting them back into the
+expertise base is planned for V0.2.
 
 ## Pattern Confidence Calculation
 
@@ -200,8 +199,8 @@ def calculate_confidence(pattern_stats):
   },
   "evidence": [
     {"source_path": "output/hard_instanced_spheres.tox", "td_version": "2023.11880"},
-    {"source_path": "operator_ground_truth/tox/COMP_Geometry_COMP.tox.dir", "td_version": "2023.11880"},
-    {"source_path": "docs.derivative.ca/Geometry_COMP", "td_version": "N/A"}
+    {"source": "get_operator_info(operator='geometryCOMP')", "td_version": "2023.11880"},
+    {"source": "hybrid_search(query='Geometry COMP instancing')", "td_version": "N/A"}
   ],
   "status": "failed",
   "notes": "Instancing failed because sphere was sibling to geoCOMP, not child"

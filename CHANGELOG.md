@@ -5,7 +5,7 @@
 A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.
 
 ### Changed
-- **Two MCP servers** instead of one: `td-builder` (offline, **15 key-free tools**) and
+- **Two MCP servers** instead of one: `td-builder` (offline, **16 key-free tools**) and
   `td-builder-live` (**19 live-TD tools**). Splitting the live tools out keeps offline sessions from
   carrying ~19 unused tool schemas in context.
 - **Six-folder layout:** `MCP/` (`server.py` + `live_server.py` + `server_core/` + `engine/` +
@@ -35,13 +35,16 @@ A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public 
 - `find_parameter_usage` no longer crashes when `parameter_name` is omitted.
 
 ### Added
+- `expand_toe_file` tool — expand a `.toe`/`.tox` (via `toeexpand`) and parse it offline to a
+  node/connection **summary** (non-default params with value + mode) or the **full** lossless JSON;
+  powers the `td_network_analysis` skill.
 - `scripts/check_deps.py` — verifies Python version, runtime packages, and KB presence.
 - Authored docs throughout: per-folder READMEs, `Tools/TOOLS.md`, `Config/SETTINGS.md`,
   `LLM/Pre-Prompts`, the two-server client-config template.
 
 ### Verified
-- 21-check acceptance + smoke gate green from the release folder *and* from a relocated copy.
-- Two servers load 15 (offline) + 19 (live) tools; live tools validated against TouchDesigner
+- 22-check acceptance + smoke gate green from the release folder *and* from a relocated copy.
+- Two servers load 16 (offline) + 19 (live) tools; live tools validated against TouchDesigner
   099.2025 (WebServer DAT on :9981).
 
 ### Known limitations

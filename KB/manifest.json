@@ -1,30 +1,28 @@
 {
   "name": "td-builder-mega-kb",
-  "version": "0.1.0-prealpha",
+  "version": "0.1.1",
   "generated": "2026-05-16T10:15:10",
-  "note": "Canonical 4-axis KB bundle the live MCP server loads. See KB/KBU_REPORT.md.",
+  "note": "Canonical 4-axis KB bundle the MCP server loads. Fetched into KB/ by scripts/fetch_vector_db.py (release asset td_builder_kb_v0.1.1.zip).",
   "axes": {
     "operators": {
-      "path": "META_AGENTIC_TOOL/data/wiki_docs/td_universal_parsed_enriched.json",
+      "path": "KB/operators.json",
       "size": 35835036,
       "md5": "84dc9a055bbd6f651ab2527559273dcd"
     },
     "graphrag_chunks": {
-      "path": "META_AGENTIC_TOOL/data/td_graphrag.json",
+      "path": "KB/graphrag.json",
       "size": 58280950,
       "md5": "bd59b6057bc819e3808c69b17944c930"
     },
     "enhanced_graph": {
-      "path": "META_AGENTIC_TOOL/data/td_knowledge_graph_enhanced.gpickle",
+      "path": "KB/knowledge_graph_enhanced.gpickle",
       "size": 9296137,
       "md5": "cc16851a153016bcca1b798670b46391"
     },
     "vector_db": {
-      "path": "META_AGENTIC_TOOL/data/vector_db_merged",
+      "path": "KB/vector_db",
       "collection": "td_unified",
       "docs": 34350
     }
-  },
-  "completeness_proof": "KB/KBU_COMPLETENESS_PROOF.txt",
-  "proof_status": "ALL PASS"
+  }
 }

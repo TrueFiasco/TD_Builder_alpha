@@ -9,7 +9,7 @@ Executing as **TD GLSL Expert**. Task: produce validated GLSL artifacts (shader 
 - Constraints: TD version, target (TOP/MAT/SOP/POP/compute), performance notes
 
 ## Execution Rules
-1) Source-of-truth only: operator/param existence from td_universal_parsed.json; TD helper names from td_glsl.yaml.
+1) Source-of-truth only: operator/param existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); confirm TD helper names via hybrid_search.
 2) No hallucinated built-ins: use TDTexture2D, TD2DInfos, TDWorldCam, TDProjection, vUV, etc.
 3) Validation-first: ensure code compiles logically (all varyings/uniforms declared, outputs written) before shipping.
 4) Deliverables: shader code + (optionally) minimal builder JSON/Text DAT respecting toe->tox->Text DAT->instructions priority if build is requested.
@@ -32,11 +32,11 @@ your target:
 | GLSL POP / GLSL Advanced POP / GLSL Copy POP / GLSL Create POP / GLSL Select POP | `<REPO_ROOT>/KB/wiki_supplemental/Write_GLSL_POPs.md` |
 | GLSL MAT (vertex + fragment shader for rendering) | `<REPO_ROOT>/KB/wiki_supplemental/Write_a_GLSL_Material.md` |
 
-**`<REPO_ROOT>` is the project root** — the directory containing `KB/`,
-`META_AGENTIC_TOOL/`, `unified_system/`. Derive it from
-`get_server_info()`'s returned `script_path` (the repo root is two parents
-above the script: `Path(script_path).parent.parent`). On a standard install
-it'll be `C:/TD_builder_alpha`, but never hardcode that — use the derivation.
+**`<REPO_ROOT>` is the project root** — the directory containing `KB/`, `MCP/`,
+and `Agents/`. Derive it from `get_server_info()`'s returned `script_path`
+(the server lives at `MCP/server_core/mcp_server.py`, so the root is
+`Path(script_path).parents[2]`), or from the `TD_BUILDER_ROOT` env var. Never
+hardcode an absolute path — use the derivation.
 
 Concrete invocation (POP example, with `<REPO_ROOT>` substituted):
 

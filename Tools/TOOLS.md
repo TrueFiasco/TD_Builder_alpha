@@ -1,12 +1,12 @@
 # TD Builder — Tool Reference
 
-34 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
+35 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
 running TouchDesigner (WebServer DAT on `:9981`); with TD down they return a clear "not running"
 message rather than failing.
 
 ---
 
-## Offline server `td-builder` — 15 tools
+## Offline server `td-builder` — 16 tools
 
 ### KB tools (search the knowledge base)
 | Tool | Purpose | Key inputs |
@@ -22,12 +22,13 @@ message rather than failing.
 | `find_similar_networks` | Networks with similar structure | `example_id`, `limit` |
 | `get_network_patterns` | Common operator-chain patterns | `min_frequency` |
 
-### offline Builder tools (build/validate `.toe`·`.tox`)
+### offline Builder tools (build · validate · analyze `.toe`·`.tox`)
 | Tool | Purpose | Key inputs |
 |---|---|---|
 | `td_validate` | 5-stage validation (schema→semantic→reference→logical→TD-rules) | `network`, `format_layer`, `verbose` |
 | `td_convert` | Convert between format layers (builder/extended/canonical) | `network`, `source_layer`, `target_layer` |
 | `td_build_project` | Build a `.tox`/`.toe` from a design dict | `network_design`/`design`, `project_name`, `output_dir`, `mode` |
+| `expand_toe_file` | Expand + parse a `.toe`/`.tox` → node/connection **summary** (non-default params with value+mode) or **full** lossless JSON | `toe_path`, `mode` (summary/full) |
 
 *(Also available as command-line tools — see `Tools/offline Builder tools/`.)*
 
@@ -47,7 +48,7 @@ message rather than failing.
 | `capture_top_output` | Capture a TOP's rendered image (base64 JPEG/PNG) | `operator_path`, `format`, `resolution` |
 | `get_top_info` | TOP metadata (resolution, format, GPU mem) | `operator_path` |
 | `capture_op_viewer` | Capture an operator's viewer | `operator_path` |
-| `capture_network_layout` | Capture the network canvas + node positions | `parent_path` |
+| `capture_network_layout` | Capture the network canvas + node positions | `comp_path`, `depth` |
 
 ### Live tools — node CRUD + introspection
 | Tool | Purpose | Key inputs |

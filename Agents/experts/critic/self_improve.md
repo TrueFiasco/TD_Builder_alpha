@@ -58,8 +58,9 @@ If flagged issues weren't real problems:
 - Add exception conditions
 - Adjust severity classification
 
-### 3. Log Event
-Append to `meta_agentic/history/expertise_events.jsonl`:
+### 3. Record the lesson
+V0.1.1 has no automated event log (expertise persistence is deferred to V0.2).
+Summarize the lesson for the user using this shape:
 
 ```json
 {
@@ -213,12 +214,10 @@ Before updating critique_patterns.yaml:
 - [ ] Severity classifications match actual impact on builds
 - [ ] Confidence >= 0.6 for any additions
 
-### 6. Run Compaction
-After logging events:
-```python
-from meta_agentic.compaction.compact_expertise import run_compaction
-run_compaction()
-```
+### 6. Compaction (deferred to V0.2)
+Automated expertise compaction is not available in V0.1.1. Report the lessons
+above to the user instead; persisting them back into the expertise base is
+planned for V0.2.
 
 ## Learning Triggers
 

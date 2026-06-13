@@ -4,7 +4,7 @@ The servers speak plain MCP over stdio, so registration is the only step. **No A
 
 In ChatGPT Desktop's MCP settings, add two servers (replace `<RELEASE_ROOT>` with this folder's path):
 
-- **`td-builder`** — command `python`, args `<RELEASE_ROOT>/MCP/server.py` — 15 offline tools.
+- **`td-builder`** — command `python`, args `<RELEASE_ROOT>/MCP/server.py` — 16 offline tools.
 - **`td-builder-live`** — command `python`, args `<RELEASE_ROOT>/MCP/live_server.py` — 19 live tools;
   add only when TouchDesigner is open.
 

@@ -117,7 +117,7 @@ When you call `find_parameter_usage` and retrieve examples, extract **ALL** para
 
 Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (all 665+).
 
-**For operators NOT in Sweet 16:** Query `td_assistant query="OPNAME parameters"` before use.
+**For operators NOT in Sweet 16:** Query `get_operator_info(operator="OPNAME")` (and `get_parameter_detail` / `hybrid_search`) before use.
 
 Sweet 16 includes: noise, math, null, constant, analyze, filter, select, merge (CHOP) | noise, level, composite, blur, transform, feedback, render (TOP) | grid, sphere, box, transform, merge, copy (SOP) | text, table, select, execute (DAT)
 
@@ -1088,14 +1088,14 @@ Then wire: `select1 → level1` (same container connection works)
 
 | Priority | Source | Use For |
 |----------|--------|---------|
-| 1 | `operator_ground_truth/params/*.json` | Menu values, parameter types, defaults |
-| 2 | `kb_pipeline/data/wiki_docs/` | Parameter existence, descriptions |
-| 3 | Working .toe files in `gpt/` | Real-world examples |
+| 1 | `get_parameter_detail(operator, parameter)` | Menu values, parameter types, defaults |
+| 2 | `get_operator_info` / `hybrid_search` | Parameter existence, descriptions |
+| 3 | `find_operator_examples` / `find_similar_networks` | Real-world examples |
 
 ### Before Writing Any Menu Parameter
 
-1. Check if ground truth file exists: `operator_ground_truth/params/[FAMILY]_[OpName]_defaults.json`
-2. Find `menuNames` array (internal TD values)
+1. Call `get_parameter_detail(operator="[OpName]", parameter="[param]")`
+2. Find the `menuNames` array (internal TD values) it returns
 3. Use ONLY values from that array
 4. Display names (`menuLabels`) are for UI only - never write them to .parm
 
@@ -1310,20 +1310,19 @@ Before outputting design, verify ALL of these:
 
 Before final output:
 
-1. Run `kb.validate_design_structure(design)`
+1. Validate with the `td_validate` MCP tool (runs the 5-stage pipeline) on the design's network JSON
 2. Check result:
    - If `valid: true` → proceed to output
    - If `valid: false` → fix all `blocking` issues
    - If `score_cap < 0.65` → cannot pass critic, fix first
 3. Include validation result in output
 
-```python
-from meta_agentic.execution.kb_query import validate_structure
-
-result = validate_structure(design)
+```
+result = td_validate(network_json=design)
 if not result['valid']:
     for issue in result['blocking']:
-        print(f"BLOCKING: {issue['type']} - {issue}")
+        # BLOCKING: issue['type']
+        ...
     # FIX ISSUES BEFORE PROCEEDING
 ```
 
@@ -1378,13 +1377,13 @@ This produces: `/output/simple_noise.tox` via network_builder → td_build_proje
 
 | Request Type | Skip Creative? | Skip Validation? |
 |--------------|----------------|------------------|
-| **Simple** ("make a noise CHOP") | YES - skip creative_expert, cg_expert | **NO - NEVER** |
+| **Simple** ("make a noise CHOP") | YES - skip the creative ideation phase | **NO - NEVER** |
 | **Technical** ("audio reactive loop") | YES | **NO - NEVER** |
 | **Creative** ("make galaxies") | NO - full orchestration | **NO - NEVER** |
 
 The **build pipeline (td_designer → network_builder → td_build_project) is NEVER shortened.**
 
-Only the creative ideation phase (creative_expert → cg_expert → critics) is optional for simple/technical requests.
+Only the creative ideation phase is optional for simple/technical requests.
 
 ---
 

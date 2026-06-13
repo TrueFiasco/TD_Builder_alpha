@@ -9,10 +9,11 @@ is registered (see `SETUP/`).
 ## 0. Sanity check
 
 Ask the client to call **`get_server_info`**. Confirm `script_path` points at
-the tree you expect (`C:\TD_builder_pre_alpha\...`). This is the fastest way to
-know which copy of the server is actually live.
+your release tree (e.g. `C:\TD_Builder_Alpha_release_V0.1.1\...`, or wherever
+`TD_BUILDER_ROOT` points). This is the fastest way to know which copy of the
+server is actually live.
 
-## 1. Explore the knowledge base (Mode 1, no key)
+## 1. Explore the knowledge base (key-free)
 
 Ask the model to use these tools:
 
@@ -24,7 +25,7 @@ Ask the model to use these tools:
   479 parsed example networks.
 
 Expected: structured results drawn from the canonical 670-operator KB
-(`td_universal_parsed.json`) — real parameter names, no hallucination.
+(`KB/operators.json`) — real parameter names, no hallucination.
 
 ## 2. Build a network offline as a `.tox`
 
@@ -39,7 +40,7 @@ Then validate and convert without TD:
 - **`td_convert`** — converts the spec between Builder ↔ Extended ↔ Canonical
   layers.
 
-CLI equivalents (after `pip install -e .\unified_system`):
+CLI equivalents (after `pip install -e .` from the release root):
 
 ```powershell
 td-validate network.json --verbose
@@ -71,7 +72,7 @@ toecollapse project.toe.toc          # TD's CLI — final .toe.dir -> .toe
 > `mcp_webserver_base.tox`) so error-diagnostic prompts read zero at baseline.
 
 If TD is not running, these tools return a clear "TouchDesigner not running —
-import mcp_webserver_base.tox, WebServer on 9981" message; the Mode-1 KB/build
+import mcp_webserver_base.tox, WebServer on 9981" message; the key-free KB/build
 tools still work.
 
 ## What "success" looks like

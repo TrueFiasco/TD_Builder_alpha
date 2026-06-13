@@ -6,28 +6,23 @@ User has uploaded a .toe file and reports: "My project is running slow, around 1
 
 ## Analysis Workflow
 
-### Step 1: Expand and Explore Structure
+### Step 1: Expand and summarise
 
-```bash
-# Expand the network
-expand_toe_file("C:/TD_Projects/user_project.toe")
-
-# List top-level
-list_directory("C:/TD_Projects/user_project.toe.dir")
+```
+expand_toe_file("<path>/user_project.toe", mode="summary")
 ```
 
-**Result:**
+**Result (node/connection map):**
 ```
-Found:
-- project1/ (main container)
-- 15 TOP operators
-- 8 CHOP operators
-- 3 COMP operators
+project_name: user_project   node_count: 26
+by_family: { TOP: 15, CHOP: 8, COMP: 3 }
+operators: [{ path, op_type, params: [{name, value, mode}] }, ...]
+connections: [{ from, to }, ...]
 ```
 
 ### Step 2: Check TOP Resolutions
 
-**Parse each TOP's .parm file looking for resolution settings:**
+**Scan the summary's TOP nodes for non-default resolution params:**
 
 ```
 moviefilein1.parm:
@@ -47,7 +42,7 @@ resolution 1 2160
 
 ### Step 3: Identify Expensive Operators
 
-**From operator types in .n files:**
+**From each node's `op_type` in the summary:**
 
 ```
 blur1.n: TOP:blur          # Expensive!

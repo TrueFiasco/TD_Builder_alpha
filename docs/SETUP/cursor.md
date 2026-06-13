@@ -3,7 +3,7 @@
 Cursor speaks MCP over stdio. Add the two servers to your MCP config (`.cursor/mcp.json` or Cursor's
 MCP settings) — same shape as `MCP/claude_desktop_config.json` (replace `<RELEASE_ROOT>`):
 
-- **`td-builder`** → `python <RELEASE_ROOT>/MCP/server.py` — 15 offline tools, key-free.
+- **`td-builder`** → `python <RELEASE_ROOT>/MCP/server.py` — 16 offline tools, key-free.
 - **`td-builder-live`** → `python <RELEASE_ROOT>/MCP/live_server.py` — 19 live tools; only with
   TouchDesigner open.
 

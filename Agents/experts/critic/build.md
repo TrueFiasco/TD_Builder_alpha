@@ -293,12 +293,10 @@ Focus on:
 ### Network Design Review (for td_designer output)
 **CRITICAL: Structural Completeness Checks**
 
-Before approving a network design for building, run the KB validation function:
+Before approving a network design for building, validate with the `td_validate` MCP tool (runs the 5-stage pipeline):
 
-```python
-from meta_agentic.execution.kb_query import validate_structure
-
-result = validate_structure(design)
+```
+result = td_validate(network_json=design)
 # result = {
 #   "valid": false,
 #   "blocking": [...],
@@ -390,7 +388,7 @@ scoring:
 ## CRITIC WORKFLOW
 
 1. Receive design from td_designer
-2. Run `validate_design_structure(design)` from KB
+2. Validate with the `td_validate` MCP tool (runs the 5-stage pipeline) on the design's network JSON
 3. Check for blocking issues first
 4. If any blocking issues:
    - Cap score at `score_cap`

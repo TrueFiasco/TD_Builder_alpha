@@ -1,15 +1,16 @@
-"""Download and extract the vector DB bundle from the latest GitHub Release.
+"""Download and extract the TD Builder knowledge base from the public GitHub Release.
 
-Run from the repo root:  `python scripts/fetch_vector_db.py`
+Run from the repo root:  python scripts/fetch_vector_db.py
 
-Skips if `KB/vector_db/` already exists and is non-empty. Otherwise reads the
-expected release tag + SHA256 from `scripts/vector_db_release.json`, calls
-`gh release download` (private-repo friendly — uses your `gh auth` token),
-verifies the hash, and extracts to `KB/vector_db/`.
+The runtime KB — `operators.json`, `graphrag.json`, the knowledge graph, and the
+vector store (~210 MB) — is distributed as a single GitHub Release asset rather
+than committed to the repo (it would bloat every clone). The download uses a
+plain public HTTPS request: no `gh` CLI, no auth, no GitHub account needed. If
+the release is private it falls back to `gh release download` (your `gh` token).
 
-Prereqs:
-  - `gh` CLI installed and authenticated  (winget install GitHub.cli; gh auth login)
-  - Repo access (private repo: you must be a collaborator)
+Skips if `KB/` is already populated (`operators.json` + a non-empty `vector_db/`).
+Reads repo/tag/asset/sha256 (and optional direct `url`) from
+`scripts/vector_db_release.json`, verifies the hash, and extracts into `KB/`.
 """
 from __future__ import annotations
 
@@ -18,33 +19,25 @@ import json
 import shutil
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 import zipfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-TARGET_DIR = REPO_ROOT / "KB" / "vector_db"
+KB_DIR = REPO_ROOT / "KB"
 MANIFEST = Path(__file__).with_name("vector_db_release.json")
 
 
 def _load_manifest() -> dict:
     if not MANIFEST.exists():
-        sys.exit(
-            f"Missing release manifest at {MANIFEST}. "
-            "Expected JSON with keys: repo, tag, asset, sha256."
-        )
+        sys.exit(f"Missing release manifest at {MANIFEST}. Expected keys: repo, tag, asset, sha256.")
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def _gh_available() -> bool:
-    return shutil.which("gh") is not None
-
-
 def _already_populated() -> bool:
-    if not TARGET_DIR.exists():
-        return False
-    # Treat non-empty as already populated. ChromaDB drops several files;
-    # this is a coarse but reliable signal.
-    return any(TARGET_DIR.iterdir())
+    vdb = KB_DIR / "vector_db"
+    return (KB_DIR / "operators.json").exists() and vdb.exists() and any(vdb.iterdir())
 
 
 def _sha256(path: Path) -> str:
@@ -55,69 +48,75 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def main() -> int:
-    if _already_populated():
-        print(f"KB/vector_db/ already populated — nothing to do. ({TARGET_DIR})")
-        return 0
+def _download_https(url: str, dest: Path) -> bool:
+    """Plain public download. Returns True on success, False to allow fallback."""
+    try:
+        print(f"Downloading {url} ...")
+        req = urllib.request.Request(url, headers={"User-Agent": "td-builder-fetch"})
+        with urllib.request.urlopen(req) as resp, dest.open("wb") as out:  # noqa: S310
+            shutil.copyfileobj(resp, out)
+        return True
+    except (urllib.error.HTTPError, urllib.error.URLError, OSError) as e:
+        print(f"  HTTPS download failed ({e}); trying `gh` fallback if available.")
+        return False
 
-    manifest = _load_manifest()
-    repo = manifest["repo"]
-    tag = manifest["tag"]
-    asset = manifest["asset"]
-    expected_sha = manifest.get("sha256")
 
-    if not _gh_available():
-        sys.exit(
-            "`gh` CLI not found on PATH. Install it (winget install GitHub.cli) "
-            "and run `gh auth login` first."
-        )
-
-    download_dir = REPO_ROOT / ".vector_db_download"
-    download_dir.mkdir(exist_ok=True)
-    zip_path = download_dir / asset
-
-    print(f"Downloading {asset} from {repo}@{tag}...")
-    result = subprocess.run(
-        [
-            "gh", "release", "download", tag,
-            "--repo", repo,
-            "--pattern", asset,
-            "--dir", str(download_dir),
-            "--clobber",
-        ],
+def _download_gh(repo: str, tag: str, asset: str, out_dir: Path) -> bool:
+    if shutil.which("gh") is None:
+        return False
+    print(f"Downloading {asset} via gh from {repo}@{tag} ...")
+    r = subprocess.run(
+        ["gh", "release", "download", tag, "--repo", repo,
+         "--pattern", asset, "--dir", str(out_dir), "--clobber"],
         check=False,
     )
-    if result.returncode != 0:
-        sys.exit(
-            f"`gh release download` failed (exit {result.returncode}). "
-            "Confirm: repo access, gh auth status, and that the tag/asset exist."
-        )
+    return r.returncode == 0
+
+
+def main() -> int:
+    if _already_populated():
+        print(f"KB/ already populated - nothing to do. ({KB_DIR})")
+        return 0
+
+    m = _load_manifest()
+    repo, tag, asset = m["repo"], m["tag"], m["asset"]
+    expected_sha = m.get("sha256")
+    url = m.get("url") or f"https://github.com/{repo}/releases/download/{tag}/{asset}"
+
+    dl_dir = REPO_ROOT / ".kb_download"
+    dl_dir.mkdir(exist_ok=True)
+    zip_path = dl_dir / asset
+
+    if not _download_https(url, zip_path):
+        if not _download_gh(repo, tag, asset, dl_dir):
+            sys.exit(
+                "Could not download the KB bundle.\n"
+                f"  Tried: {url}\n"
+                "  Public HTTPS failed and `gh` is unavailable/unauthenticated.\n"
+                "  Fix: confirm the release asset exists and is public, or install +\n"
+                "       auth the GitHub CLI (winget install GitHub.cli; gh auth login)."
+            )
 
     if expected_sha:
         actual = _sha256(zip_path)
         if actual.lower() != expected_sha.lower():
-            sys.exit(
-                f"SHA256 mismatch for {asset}.\n"
-                f"  expected: {expected_sha}\n"
-                f"  actual:   {actual}\n"
-                "Refusing to extract. Delete the file and retry."
-            )
+            sys.exit(f"SHA256 mismatch for {asset}.\n  expected: {expected_sha}\n  actual:   {actual}\n"
+                     "Refusing to extract. Delete the file and retry.")
         print(f"SHA256 verified: {actual}")
     else:
-        print("WARNING: no sha256 in manifest — skipping verification.")
+        print("WARNING: no sha256 in manifest - skipping verification.")
 
-    TARGET_DIR.mkdir(parents=True, exist_ok=True)
-    print(f"Extracting to {TARGET_DIR}...")
+    KB_DIR.mkdir(parents=True, exist_ok=True)
+    print(f"Extracting the KB bundle into {KB_DIR} ...")
     with zipfile.ZipFile(zip_path) as zf:
-        zf.extractall(TARGET_DIR)
+        zf.extractall(KB_DIR)
 
-    zip_path.unlink()
+    zip_path.unlink(missing_ok=True)
     try:
-        download_dir.rmdir()
+        dl_dir.rmdir()
     except OSError:
         pass
-
-    print("Done.")
+    print("Done. KB/ now has operators.json, graphrag.json, the graph, and vector_db/.")
     return 0
 
 

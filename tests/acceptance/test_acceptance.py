@@ -1,14 +1,13 @@
 """Conventional pass/fail acceptance tests for the td-builder MCP server.
 
-Automates docs/ACCEPTANCE_TEST.md (P1-P19, 37 tools). Run it and every
+Exercises the V0.1.1 key-free tool surface — 15 offline (`td-builder`) +
+19 live (`td-builder-live`) tools — across prompts P1-P19. Run it and every
 tool/feature shows PASSED or FAILED:
 
     & $PY -m pytest tests/acceptance -v
 
-Rules (from ACCEPTANCE_TEST.md scoring):
+See tests/README.md for the gate overview. Scoring rules:
   - An unhandled exception / error envelope where success is expected = FAIL.
-  - Mode-1 (no API key): spawn_* returning the "requires an API key" envelope
-    is a PASS (graceful fallback).
   - Live-TD tools with TouchDesigner not running: a clear "not running"
     message is a PASS (graceful fallback); if TD is up they must return real
     data.
@@ -52,16 +51,19 @@ def test_p01_server_identity(probe):
     assert r.ok, f"errored: {r.text[:200]}"
     d = r.json()
     assert d["ok"] is True
-    assert "TD_builder_alpha" in d["data"]["script_path"]
-    assert d["data"]["version"] == "0.1.0-alpha"
+    assert "mcp_server.py" in d["data"]["script_path"]
+    assert d["data"]["version"] == "0.1.1"
 
 
 def test_p01b_tool_inventory(probe):
     names = sorted(t.name for t in probe.list_tools())
-    assert len(names) == 37, f"expected 37 tools, got {len(names)}"
+    assert len(names) == 15, f"expected 15 offline tools, got {len(names)}: {names}"
     for required in ("get_server_info", "td_validate", "td_convert",
                      "td_build_project", "hybrid_search", "query_graph"):
         assert required in names
+    # API / agent-spawning tools removed for the key-free release
+    for gone in ("spawn_engineer", "spawn_expert", "td_compact_expertise"):
+        assert gone not in names, f"{gone} should be removed"
 
 
 def test_p02_operator_info_and_param_detail(probe):
@@ -160,90 +162,60 @@ def test_p13_build_offline(probe):
     assert r.ok, f"build errored: {r.text[:300]}"
 
 
-def test_p14_compact_expertise(probe):
-    r = probe.call("td_compact_expertise", {"refresh_yaml": False})
-    assert r.ok, r.text[:200]
-    assert r.json().get("success") is True
-
-
-# --------------------------------------------------------------------------
-# P15  Mode-2 portability guard (Mode 1 = graceful envelope = PASS)
-# --------------------------------------------------------------------------
-
-def test_p15_spawn_engineer_mode_guard(probe, has_api_key):
-    r = probe.call("spawn_engineer", {"engineer_type": "knowledge_validator",
-                                      "task_spec": {}})
-    if has_api_key:
-        assert r.ok or "api key" not in r.text.lower(), r.text[:200]
-    else:
-        assert not r.ok
-        assert "requires an api key (mode 2)" in r.text.lower(), r.text[:200]
-
-
-def test_p15_spawn_expert_mode_guard(probe, has_api_key):
-    r = probe.call("spawn_expert", {"expert_type": "td_designer",
-                                    "task": "noop"})
-    if has_api_key:
-        assert r.ok or "api key" not in r.text.lower(), r.text[:200]
-    else:
-        assert not r.ok
-        assert "requires an api key (mode 2)" in r.text.lower(), r.text[:200]
-
-
 # --------------------------------------------------------------------------
 # P10 / P16-P19  live-TD tools
 #   TD up   -> must return real data
 #   TD down -> must degrade gracefully (clear "not running" message) = PASS
 # --------------------------------------------------------------------------
 
-def test_p10_td_python_class_docs(probe, td_live):
-    r = probe.call("get_td_classes", {})
+def test_p10_td_python_class_docs(live_probe, td_live):
+    r = live_probe.call("get_td_classes", {})
     if td_live:
         assert r.ok, r.text[:200]
     else:
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
 
 
-def test_p16_live_identity_topology(probe, td_live):
-    r = probe.call("get_td_info", {})
+def test_p16_live_identity_topology(live_probe, td_live):
+    r = live_probe.call("get_td_info", {})
     if td_live:
         assert r.ok, r.text[:200]
     else:
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
 
 
-def test_p17_live_capture(probe, td_live):
-    r = probe.call("get_top_info", {"operator_path": "/project1/out1"})
+def test_p17_live_capture(live_probe, td_live):
+    r = live_probe.call("get_top_info", {"operator_path": "/project1/out1"})
     if td_live:
         assert r.ok or r.images >= 1, r.text[:200]
     else:
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
 
 
-def test_p18_live_diagnostics(probe, td_live):
-    r = probe.call("get_error_summary", {})
+def test_p18_live_diagnostics(live_probe, td_live):
+    r = live_probe.call("get_error_summary", {})
     if td_live:
         assert r.ok, r.text[:200]
     else:
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
 
 
-def test_p19_live_crud_roundtrip(probe, td_live):
+def test_p19_live_crud_roundtrip(live_probe, td_live):
     if not td_live:
-        r = probe.call("create_td_node", {"parent_path": "/project1",
-                                          "node_type": "constantCHOP",
-                                          "node_name": "td_accept_probe"})
+        r = live_probe.call("create_td_node", {"parent_path": "/project1",
+                                               "node_type": "constantCHOP",
+                                               "node_name": "td_accept_probe"})
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
         return
     name = "td_accept_tmp"
     path = f"/project1/{name}"
     try:
-        c = probe.call("create_td_node", {"parent_path": "/project1",
-                                          "node_type": "constantCHOP",
-                                          "node_name": name})
+        c = live_probe.call("create_td_node", {"parent_path": "/project1",
+                                               "node_type": "constantCHOP",
+                                               "node_name": name})
         assert c.ok, c.text[:200]
-        u = probe.call("update_td_node_parameters",
-                        {"node_path": path, "parameters": {"value0": 0.5}})
+        u = live_probe.call("update_td_node_parameters",
+                            {"node_path": path, "properties": {"value0": 0.5}})
         assert u.ok, u.text[:200]
     finally:
-        probe.call("delete_td_node", {"node_path": path})
+        live_probe.call("delete_td_node", {"node_path": path})

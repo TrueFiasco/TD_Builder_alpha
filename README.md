@@ -1,90 +1,75 @@
-# TD Builder — Alpha
+# TD Builder — V0.1.1
 
-A Python system for AI-driven generation, validation, and conversion of
-TouchDesigner networks, exposed to LLM clients as an MCP server, plus live
-TouchDesigner editing/feedback tools.
+A **key-free** Python system for AI-driven generation, validation, and conversion of
+TouchDesigner networks, exposed to LLM clients as **two MCP servers**, plus live
+TouchDesigner editing/feedback tools. Everything runs locally — **no API key required**.
 
-## What's in here
+## Folder layout
 
-| Path | What it is |
+| Folder | What's in it |
 |---|---|
-| `MCP/python/server.py` | **The MCP server entry point** (thin launcher → `META_AGENTIC_TOOL/mcp_server.py`). 18 base tools + ~18 live-TouchDesigner tools when TD is reachable. |
-| `MCP/td-webserver/mcp_webserver_base.tox` | **TD-side asset** — import into TouchDesigner to enable the live tools. WebServer DAT listens on `http://127.0.0.1:9981`. |
-| `unified_system/` | The engine: lossless `.toe` parser, 5-stage validator, format converter, LOSSLESS/BASIC `.toe` builder. Backs the `td-validate` / `td-convert` / `td-build` CLIs. |
-| `td-mcp/` | Dependency layer on the server's import path (agents, builder, config, knowledge_base, validation, schemas). |
-| `kb_pipeline/` | Knowledge-base ingestion/embedding pipeline (rebuilds the vector store + graph). |
-| `META_AGENTIC_TOOL/meta_agentic/` | Multi-agent strategy runner (V0–V6). Python-only — **not** exposed via MCP. |
-| `META_AGENTIC_TOOL/data/wiki_docs/td_universal_parsed.json` | Canonical knowledge base — 670 operator specs (31.8 MB). The single source of truth. |
-| `KB/vector_db/` | Vector store for semantic search. **Not in git** — fetched on first install via `scripts/fetch_vector_db.py`. |
+| **`MCP/`** | The two MCP servers + all the code they run. `server.py` (offline) and `live_server.py` (live-TD) are the entry points; `server_core/` is the server brain, `engine/` is the TD-file engine, `live_client/` holds the live-TD client, `td-webserver/` is the TouchDesigner-side `.tox` asset. |
+| **`KB/`** | The knowledge base (operator specs, graph, vector store, wiki guides). Fetched/placed on install — see `KB/README.md`. |
+| **`Agents/`** | Expert prompts (`experts/`), learned expertise (`expertise/`), skills (`td-builder-howto/`, `td_network_analysis/`), and strategy notes (`Stratergies/`). The server reads experts/expertise from here. |
+| **`Tools/`** | LLM-facing documentation of every tool (`TOOLS.md` + the `KB tools/`, `Live tools/`, `offline Builder tools/`, `Other/` categories) and the offline CLI launchers. |
+| **`Config/`** | User configuration: `.env.template`, `search_config.json`, and `SETTINGS.md`. |
+| **`LLM/Pre-Prompts/`** | Reusable pre-prompts and when to use them. |
+| `scripts/` | `fetch_vector_db.py` (downloads the KB bundle), `check_deps.py` (verifies your install). |
+| `tests/` | Acceptance + smoke gate so you can confirm a working install. |
 
-See [PREREQUISITES.md](PREREQUISITES.md), [MODES.md](MODES.md), and
-[docs/DEMO_WALKTHROUGH.md](docs/DEMO_WALKTHROUGH.md).
+## The two MCP servers
+
+| Server | Register as | Tools | When |
+|---|---|---|---|
+| `MCP/server.py` | `td-builder` | **15** key-free tools — KB search, `td_validate`/`td_convert`/`td_build_project`, `get_expert_prompt`, `get_server_info` | always |
+| `MCP/live_server.py` | `td-builder-live` | **19** live tools — capture / node CRUD / introspection of a running TouchDesigner | only when TouchDesigner is open |
+
+Keeping the live tools in a separate server means offline sessions don't carry their ~19 tool
+schemas in the model's context. See [MCP/README.md](MCP/README.md) for the client config.
 
 ## Quick start (Windows + PowerShell)
 
-> **Prerequisites:** Python 3.11 (range `>=3.10,<3.14`), TouchDesigner 2023+
-> (needed only for the live tools and final `.toe` collapse), `gh` CLI
-> (`winget install GitHub.cli`) for the vector-DB download from a private
-> release.
+> **Prerequisites:** Python 3.10–3.13 (3.11 recommended), TouchDesigner 2023+ (only for the live
+> tools + final `.toe` collapse). See [PREREQUISITES.md](PREREQUISITES.md).
 
 ```powershell
-# 1. Clone (accept the repo invite first, then `gh auth login`)
-gh repo clone TrueFiasco/TD_Builder_alpha
-cd TD_Builder_alpha
-
-# 2. Create venv on Python 3.11
+# 1. Create a venv on Python 3.11
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
-# 3. Install (single editable install with optional Anthropic + dev deps)
-pip install -e ".[api,dev]"
+# 2. Install (single editable install + dev/test extras)
+pip install -e ".[dev]"
 
-# 4. Download the vector DB (~110 MB) from the latest release
-python scripts/fetch_vector_db.py
+# 3. Download the vector DB (~60 MB) — public HTTPS, no GitHub account needed
+python scripts\fetch_vector_db.py
 
-# 5. Copy env template and (optionally) fill in your VOYAGE_API_KEY
-Copy-Item .env.template .env
-# If you don't have one, FALLBACK_TO_LOCAL=true uses the local sentence-transformers model
+# 4. Verify your install
+python scripts\check_deps.py        # expect all green
 
-# 6. Verify the install
-pytest unified_system/tests/        # expect 55 passing
-python -c "from meta_agentic.execution.expert_executor import EXPERT_CONFIGS; print(list(EXPERT_CONFIGS.keys()))"
-# Expect: ['creative_expert','cg_expert','critic','td_designer','td_glsl_expert','network_builder','summary_generator','td_python_expert']
-
-# 7. Register the MCP server with your client
-#    See docs/SETUP/claude-desktop.md (or chatgpt-desktop.md / cursor.md).
-#    Point it at:  python MCP\python\server.py
+# 5. Register the MCP server(s) with your client — see MCP/README.md
+#    Offline:  python MCP\server.py        (td-builder, 15 tools)
+#    Live:     python MCP\live_server.py   (td-builder-live, 19 tools — only with TD open)
 ```
 
-> **First run heads-up:** the first time anything imports `sentence-transformers`
-> it downloads ~1.5 GB of model weights. The vector-DB step adds ~110 MB. Plan
-> for a ~5–15 minute first install on a fresh machine.
+> **First run:** the first KB-dependent call loads ~100 MB of knowledge + the local embedding model
+> (one-time, ~1–2 min), then every call is fast.
 
-## Live TouchDesigner setup (optional but assumed for live tools)
+## Modes
 
-The ~18 live-TD tools (`create_td_node`, `capture_op_viewer`, `execute_python_script`, …) talk to TouchDesigner over an HTTP WebServer DAT.
+There is **one mode: key-free**. KB semantic search uses a local embedding model
+(`all-MiniLM-L6-v2`) — no Voyage/OpenAI/Anthropic key, no cloud calls. (Agent-spawning and the
+multi-agent strategy runner were removed in this release; the experts ship as prompts you load via
+`get_expert_prompt`.)
 
-1. Open TouchDesigner 2023+.
-2. Drag `MCP/td-webserver/mcp_webserver_base.tox` into your project.
-3. Confirm its WebServer DAT is listening on `http://127.0.0.1:9981` (override with the `TD_API_URL` env var if you need a different port).
-4. Without this, the live tools return a clear "TouchDesigner not running" message and the rest still work.
-
-## Modes (key-free vs. Anthropic API)
-
-- **Mode 1 (default, key-free)** — everything except `spawn_engineer` / `spawn_expert` works without any API key.
-- **Mode 2 (Anthropic API)** — set `ANTHROPIC_API_KEY` to enable agent-spawning tools.
-
-See [MODES.md](MODES.md).
-
-## Run the tests
+## Run the gate
 
 ```powershell
-pytest unified_system/tests/          # 55 real tests: parser, validator, converter, round-trip
+py -3.11 -m pytest tests\acceptance tests\measure -q   # ~21 checks; live tests need TD open
 ```
 
 ## Known limitations
 
-- `find_similar_networks` — pattern coverage is partial (deferred item W5.3).
-- BASIC-mode `.toe` building (networks built from scratch with no parsed source) emits parameter-format errors; LOSSLESS round-trip is solid.
-- The multi-agent strategy runner (`meta_agentic/`) is Python-only; it is not reachable through the MCP tools.
-- `spawn_engineer` / `spawn_expert` require an Anthropic API key (Mode 2). Everything else runs key-free.
+- BASIC-mode `.toe` building (from-scratch networks) emits parameter-format warnings; the LOSSLESS
+  round-trip path (the CLIs / `td_fixture_pipeline`) is solid.
+- `td_build_project(palette=…)` is a known-broken path (deferred to a later release).
+- See [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md).

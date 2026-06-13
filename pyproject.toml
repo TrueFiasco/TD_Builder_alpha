@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "td-builder"
-version = "0.1.0-alpha"
-description = "AI-driven TouchDesigner network builder/validator + MCP server with a unified knowledge base"
+version = "0.1.1"
+description = "Key-free TouchDesigner network builder/validator + MCP server with a local knowledge base"
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
 license = { text = "See LICENSE" }
@@ -22,7 +22,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-api = ["anthropic>=0.18.0"]  # Mode 2 only (spawn_engineer / spawn_expert)
 dev = [
   "pytest>=8",
   "pytest-asyncio>=0.23",
@@ -37,23 +36,17 @@ timeout = 600
 markers = [
   "slow: first-run KB/model warm-up or large datasets",
   "live_td: requires TouchDesigner WebServer on 127.0.0.1:9981",
-  "mode2: requires ANTHROPIC_API_KEY (spawn_* / agent eval)",
   "promote: writes/updates a stored baseline",
 ]
 filterwarnings = ["ignore::DeprecationWarning"]
 
-[project.scripts]
-td-validate = "tools.td_validate:main"
-td-convert = "tools.td_convert:main"
-td-build = "tools.td_build:main"
-
 [tool.setuptools]
-# The engine code lives in subsystem dirs and is wired via bootstrap.py /
-# MCP/python/server.py rather than installed as flat packages (alpha hybrid
-# layout). Only the thin CLI launchers are packaged here.
-packages = ["tools"]
+# Deps-only install: the engine + servers are wired via bootstrap.py / sys.path
+# (see MCP/server.py), not installed as importable packages. The offline CLIs
+# live in "Tools/offline Builder tools/" and are run directly with python.
+packages = []
 
 [tool.td-builder]
 kb_bundle = "KB"
-mcp_server = "MCP/python/server.py"
+mcp_server = "MCP/server.py"
 td_webserver_asset = "MCP/td-webserver/mcp_webserver_base.tox"

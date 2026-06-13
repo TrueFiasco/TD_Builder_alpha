@@ -42,6 +42,32 @@ def server():
 @pytest.fixture(scope="session")
 def probe(server):
     p = Probe(server)
+    # The KB warm-up thread only starts in main(); when the server is imported
+    # in-process the tool handlers just report "kb_warming". Trigger the blocking
+    # load ourselves so KB-dependent tests see a ready KB (~1-2 min, one-time).
+    ensure = getattr(server, "_ensure_kb", None)
+    if callable(ensure):
+        try:
+            ensure()
+        except Exception:
+            pass
+    yield p
+    p.close()
+
+
+@pytest.fixture(scope="session")
+def live_server():
+    """The imported live-TD MCP server module (MCP/live_server.py)."""
+    try:
+        from measure._server import load_live_server
+        return load_live_server()
+    except Exception as exc:  # noqa: BLE001
+        pytest.skip(f"live MCP server unavailable: {exc}")
+
+
+@pytest.fixture(scope="session")
+def live_probe(live_server):
+    p = Probe(live_server)
     yield p
     p.close()
 

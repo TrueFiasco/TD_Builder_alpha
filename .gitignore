@@ -1,114 +1,66 @@
-# Alpha-prep quarantine (non-shipping; full backup at C:\TD_Projects\)
-_out_of_scope/
+# === TD Builder — V0.1.1 release .gitignore ===
+# Deliberately minimal: only caches, secrets, runtime scratch, and the fetched
+# KB artifacts. Everything else in the tree ships.
 
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
 .Python
-*.pyc
 
 # Virtual environments
+.venv/
 venv/
 env/
 ENV/
-.venv/
-.venv_*/
-kb_pipeline/.venv_py311/
 
-# IDE
+# Editor / IDE / OS
 .vscode/
 .idea/
 *.swp
-*.swo
 *~
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Large binary files
-*.gpickle
-*.pkl
-*.pickle
-
-# Vector databases (can be regenerated)
-td_vectordb/
-
-# Build outputs
+# Packaging / build outputs
 *.egg-info/
-dist/
 build/
+dist/
 
-# Test output dirs (NOT source tests/ dirs — those ship)
-**/test_output/
-**/test_results/
-
-# Temporary files
-*.tmp
-*.bak
-*.log
-*.dir/
-*.dir.rar
-
-# Archives
-*.zip
-*.rar
-*.tar.gz
-
-# TouchDesigner temp files
-*.toe.dir/
-
-# Large JSON files (optional - uncomment if too large)
-# td_graphrag.json
-# td_universal.json
-
-# Old/backup files
-*_old.*
-* old.*
-*_OLD.*
-*_COPY.*
-*_Copy.*
-* - Copy/
-*_BACKUP.*
-*_TEST.*
-*_FIXED.*
-*_FINAL.*
-*_WORKING.*
-*_CORRECT.*
-*_REAL.*
-*_SIMPLE.*
-*_VERIFIED.*
-
-# B0 merged ChromaDB store (build artefact; regenerate with META_AGENTIC_TOOL/scripts/merge_chromadb_stores.py)
-META_AGENTIC_TOOL/data/vector_db_merged/
-META_AGENTIC_TOOL/scripts/merge_log.txt
-
-# H17 eval results (timestamped JSON+md, regenerate via prompt_eval.py)
-unified_system/eval/results/post_*.json
-unified_system/eval/results/post_*.md
-
-# === Added for GitHub upload ===
-
-# Vector DB & generated KB artifacts (shipped via GitHub Releases)
-KB/vector_db/
-META_AGENTIC_TOOL/data/vector_db/
-
-# Historical data archives
-kb_pipeline/data_archive_*/
-
-# TouchDesigner per-cook scratch dirs (you have hundreds of these)
-*.tox.dir/
-
-# Real secrets (.env.template stays tracked; .env never does)
+# Secrets — .env.template ships in git; a real .env never does
 .env
 .env.local
-td-mcp/.env
-
-# Local tool config
 .claude/settings.local.json
 
-# Vector DB release artifact (uploaded to GitHub Releases, not tracked)
-vector_db.zip
-.vector_db_download/
+# Dev / runtime scratch
+*.bak
+*.tmp
+*.log
+.pytest_cache/
+# Builder default output dir (td_build_project writes <name>.tox here at runtime)
+MCP/server_core/output/
+# TouchDesigner per-build scratch dirs
+*.tox.dir/
+*.toe.dir/
+
+# === KB — fetched via scripts/fetch_vector_db.py, never committed ===
+# The runtime KB ships as one GitHub Release asset (td_builder_kb_v0.1.1.zip)
+# and is extracted into KB/ on the user's machine. Keep the generated artifacts
+# out of git so a clone never carries ~210 MB. The small KB files that DO ship
+# in git — KB/README.md, KB/manifest.json, KB/wiki_supplemental/ — are
+# intentionally NOT listed here.
+KB/operators.json
+KB/graphrag.json
+KB/knowledge_graph_enhanced.gpickle
+KB/vector_db/
+# Dev-only KB inputs (snippet/palette captures) — not shipped at all (V0.2 work)
+KB/sources/
+# Dev/QA artifacts present in the dev KB (via the local junction) but not part
+# of the public release — unreferenced by server code; also absent from the bundle.
+KB/meta/
+KB/KBU_COMPLETENESS_PROOF.txt
+KB/KBU_REPORT.md
+KB/run_completeness_proof.py
+# KB download scratch + the bundle itself if it ever lands in the tree
+.kb_download/
+td_builder_kb_*.zip

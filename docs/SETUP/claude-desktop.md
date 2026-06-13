@@ -1,47 +1,37 @@
-# Setup — Claude Desktop (control client)
+# Setup — Claude Desktop
 
-Claude Desktop is the **control** in our compatibility matrix (the demo ran
-here). Setup is one config edit.
+Register the two TD Builder MCP servers. Replace `<RELEASE_ROOT>` with this release folder's
+absolute path. **No API key is needed.**
 
-## 1. Locate the config
-
+## 1. Config location
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-## 2. Add the server
-
+## 2. Add the servers
+(Template: `MCP/claude_desktop_config.json`.)
 ```jsonc
 {
   "mcpServers": {
-    "td-builder-prealpha": {
-      "command": "C:\\Users\\Jake\\AppData\\Local\\Python\\pythoncore-3.11-64\\python.exe",
-      "args": ["C:\\TD_builder_pre_alpha\\META_AGENTIC_TOOL\\mcp_server.py"],
-      "env": {
-        "PYTHONPATH": "C:\\TD_builder_pre_alpha;C:\\TD_builder_pre_alpha\\td-mcp;C:\\TD_builder_pre_alpha\\META_AGENTIC_TOOL",
-        "PYTHONIOENCODING": "utf-8",
-        "PYTHONUTF8": "1"
-      }
+    "td-builder": {
+      "command": "python",
+      "args": ["<RELEASE_ROOT>/MCP/server.py"],
+      "env": { "PYTHONIOENCODING": "utf-8", "TD_BUILDER_ROOT": "<RELEASE_ROOT>" }
+    },
+    "td-builder-live": {
+      "command": "python",
+      "args": ["<RELEASE_ROOT>/MCP/live_server.py"],
+      "env": { "PYTHONIOENCODING": "utf-8", "TD_API_URL": "http://127.0.0.1:9981" }
     }
   }
 }
 ```
-
-- Use the full path to your Python 3.11 executable (or just `"python"` if 3.11
-  is first on `PATH`).
-- The three `PYTHONPATH` entries are **required** — the server imports from the
-  repo root, `td-mcp`, and `META_AGENTIC_TOOL`.
-- For Mode 2, add `"ANTHROPIC_API_KEY": "sk-..."` to `env`.
-- If you already have a `touchdesigner` server pointing at another tree
-  (e.g. `C:\TD_Projects\`), set its `"disabled": true` while testing this one.
+- Use your Python 3.11 path (or `"python"` if 3.11 is first on `PATH`). Run
+  `python scripts\check_deps.py` first to confirm deps + KB are in place.
+- Add **`td-builder-live`** only when TouchDesigner is open (it carries 19 extra tool schemas).
 
 ## 3. Restart Claude Desktop
+Fully quit and reopen. Confirm with **`get_server_info`** — `version` should be `0.1.1`.
 
-Fully quit and reopen. Confirm the tools loaded by calling **`get_server_info`** —
-it returns `{cwd, script_path, version, server_name}`; `script_path` must show
-`C:\TD_builder_pre_alpha\...` so you know which copy is live.
-
-## 4. (Optional) live-TD tools
-
-Open TouchDesigner, import
-`C:\TD_builder_pre_alpha\network-editor-mcp\td\mcp_webserver_base.tox`. The
-WebServer DAT listens on `http://127.0.0.1:9981`.
+## 4. Live-TD tools
+Open TouchDesigner 2023+ and import `<RELEASE_ROOT>/MCP/td-webserver/mcp_webserver_base.tox`. Its
+WebServer DAT listens on `http://127.0.0.1:9981` (override with the `TD_API_URL` env var).

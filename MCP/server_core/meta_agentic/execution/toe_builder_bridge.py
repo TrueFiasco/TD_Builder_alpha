@@ -1162,6 +1162,16 @@ flags =  parlanguage 0
             child_rel = f"{container_path}/{child}"
             if (self.project_dir / f"{child_rel}.n").exists():
                 continue  # don't clobber a DAT the design already provided
+            # Respect design-provided wiring: if the design already set this child's link
+            # param (e.g. pixeldat -> a hand-authored Text DAT), don't auto-dock a competing
+            # child for that role -- otherwise the host .parm gets two `pixeldat` lines and
+            # TD's last-wins leaves the host pointing at our stub. (The shader-field path
+            # doesn't set the link param, so it still auto-docks normally.)
+            hp = spec.get("host_param")
+            if hp and (op.get("parameters") or {}).get(hp):
+                self.log(f"    [docking] {host_name}: design sets {hp}={op['parameters'][hp]}; "
+                         f"skipping auto-dock of {spec['suffix']}")
+                continue
             ox, oy = offsets[i] if i < len(offsets) else (160 * i, -120)
             ix, iy = pos[0] + ox, pos[1] + oy
             flags = spec.get("flags", "viewer 1")

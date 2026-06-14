@@ -106,12 +106,37 @@ callback_dat.nodeX, callback_dat.nodeY = 0, -150   # sidecar, below
 script_sop.par.callbacks = callback_dat.path
 ```
 
+**Move an op *with* its docked children — they don't follow on their own.**
+
+When an op has docked DATs (GLSL shader/`info`, callback DATs, a Ramp's table, …),
+setting the host's `nodeX`/`nodeY` moves **only the host** — the docked children keep
+their own positions and visibly separate. TD's network editor moves the group when you
+*drag*, but the Python API has **no group-move**: you only get `op.docked` (read the
+children) plus per-op `nodeX`/`nodeY`. So the unit of layout is **the op plus its docked
+helpers**, and you position it with one primitive:
+
+```python
+def place(host, x, y):
+    """Position an op AND its docked children as a group (children laid out below)."""
+    host.nodeX, host.nodeY = x, y
+    for i, child in enumerate(host.docked):   # reads docking live — generic, no per-op data
+        child.nodeX, child.nodeY = x + i * 160, y - 120
+
+place(op('glsl1'), 0, 0)     # NOT `glsl1.nodeX = ...` directly when it has docked DATs
+```
+
+Prefer creating an op at its final position (the auto-docked children land correctly and
+you never move them); use `place()` for any *re-layout* of an existing group. (The offline
+builder already positions docked children at `host + offset` at build time — `place()` is
+the live-side equivalent.)
+
 **Anti-patterns to refuse:**
 
 - Creating multiple ops in one script without setting positions for any of them
 - Creating ops in a loop and giving them all the same position
 - Setting `nodeX`/`nodeY` but reversing the data direction (downstream op left of upstream)
 - Forgetting sidecar ops — leaving an Info DAT or callback DAT stacked on top of the op it serves
+- Setting `host.nodeX/nodeY` directly on an op that has docked children — it strands the children; move the group with `place(host, x, y)`
 
 **On `create_td_node`** (the MCP tool): it doesn't accept a position arg. Immediately follow up with a one-line `execute_python_script` (or batch several creates with positions in a single script) to position what you just created. Better: when creating more than one node, do them all in one `execute_python_script` so positions, connections, and params all land in the same call.
 

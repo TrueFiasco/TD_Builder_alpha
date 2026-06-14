@@ -36,6 +36,7 @@ REPO_ROOT: Path = (
 # ---------------------------------------------------------------------------
 KB_ROOT: Path = REPO_ROOT / "KB"
 KB_OPERATORS: Path = KB_ROOT / "operators.json"
+KB_DOCKED_DATS: Path = KB_ROOT / "docked_dats.json"
 KB_GRAPHRAG: Path = KB_ROOT / "graphrag.json"
 KB_VECTORDB: Path = KB_ROOT / "vector_db"
 KB_WIKI_SUPPL: Path = KB_ROOT / "wiki_supplemental"
@@ -64,6 +65,13 @@ def kb_operators_path() -> Path:
         if candidate.exists():
             return candidate
     return KB_OPERATORS
+
+
+def kb_docked_dats_path() -> Path:
+    """Path to the docked-DAT specs (KB/docked_dats.json) -- the per-op map of helper
+    DATs the builder auto-creates + docks (GLSL shader/info DATs, callback scripts,
+    table DATs, ...). Companion to operators.json; PR-reviewable."""
+    return KB_DOCKED_DATS
 
 
 def wiki_supplemental(name: str) -> Path:

@@ -12,6 +12,12 @@ Treat these tool results as the only source of truth.
 
 Source of truth = the MCP tools above (get_operator_info, get_parameter_detail, hybrid_search).
 
+**Docked DATs are the builder's job.** When `get_operator_info` lists a `docked_dats` block
+for a GLSL op, the **builder** auto-creates, docks, file-backs, and wires the `*_pixel` /
+`*_compute` / `*_vertex` shader DATs and the `*_info` DAT. Plan to author only the shader
+*content* (it lands in `shaders/<op>_*.glsl`); never plan to hand-create those DATs or set
+`pixeldat`/`computedat`/`vertexdat` — that wiring is automatic.
+
 Output priority for deliverables: toe -> tox -> Text DAT -> instructions (if a build is requested).
 
 ## Planning Steps
@@ -26,7 +32,7 @@ Output priority for deliverables: toe -> tox -> Text DAT -> instructions (if a b
    - Identify missing pieces and flag gaps.
 4. Plan spec
    - Inputs, uniforms, varyings, outputs.
-   - TD helpers to use (TDTexture2D, TD2DInfos, TDWorldCam/TDProjection).
+   - Input sampling: `texture(sTD2DInputs[i], vUV.st)` (there is no TDTexture2D); TD helpers (TDWorldCam/TDProjection).
    - Validation plan (compile, minimal render, anti-NAN safeguards).
 5. Fallback path
    - If TD build not possible, plan Text DAT script or instructions with exact shader text.
@@ -58,7 +64,7 @@ plan:
   validation_plan:
     - check: "Compile in TD with #version 450 core"
     - check: "No undefined varyings/uniforms"
-    - check: "TD helper usage correct (TDTexture2D, TD2DInfos)"
+    - check: "Inputs sampled via texture(sTD2DInputs[i], ...); no TDTexture2D; TD helpers correct"
     - check: "Outputs written for all code paths"
 
   risks:

@@ -521,6 +521,16 @@ class TouchDesignerApiService(IApiService):
 		# misleading (no node context; td.parent() resolves to /mcp_webserver_base).
 		# Names without `hasattr(td, ...)` (runEnv, clamp) are intentionally absent
 		# so users get a clean `NameError` instead of `AttributeError: 'NoneType'`.
+
+		# place(host, x, y): position an op AND its docked children as a group. TD has no
+		# native group-move (only op.docked + per-op nodeX/nodeY), so this is injected as a
+		# built-in layout helper. See the td-builder-howto skill, "Place every node".
+		def place(host, x, y):
+			host.nodeX, host.nodeY = x, y
+			for i, child in enumerate(host.docked):
+				child.nodeX, child.nodeY = x + i * 160, y - 120
+			return host
+
 		local_vars = {
 			# Workhorse functions
 			"op":        td.op,
@@ -556,6 +566,8 @@ class TouchDesignerApiService(IApiService):
 			),
 			# Output channel
 			"result":    None,
+			# Layout helper (def'd above): move an op + its docked children as a group.
+			"place":     place,
 		}
 
 		stdout_capture = io.StringIO()

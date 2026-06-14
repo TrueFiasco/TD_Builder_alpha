@@ -10,6 +10,25 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Set
 from collections import defaultdict
 
+# Docked-DAT specs (KB/docked_dats.json), loaded once and surfaced in get_operator_info
+# so experts see which helper DATs the builder auto-creates + docks for an op.
+_DOCKED_DATS_KB: Optional[Dict] = None
+
+
+def _load_docked_dats_kb() -> Dict:
+    """Load + cache the docked-DAT specs (KB/docked_dats.json). Returns {} if absent."""
+    global _DOCKED_DATS_KB
+    if _DOCKED_DATS_KB is None:
+        import json
+        try:
+            from paths import kb_docked_dats_path
+            with open(kb_docked_dats_path(), 'r', encoding='utf-8') as f:
+                _DOCKED_DATS_KB = json.load(f)
+        except Exception as e:
+            print(f"Warning: docked_dats.json not loaded: {e}")
+            _DOCKED_DATS_KB = {}
+    return _DOCKED_DATS_KB
+
 
 class UnifiedGraphQuery:
     """
@@ -338,7 +357,40 @@ class UnifiedGraphQuery:
         merged['family'] = (result.get('wiki_data') or {}).get('family',
                            (result.get('example_data') or {}).get('family', ''))
 
+        # Surface the docked-DAT spec: the helper DATs the *builder* auto-creates + docks
+        # for this op (GLSL shader/info DATs, callback scripts, table DATs, ...). Experts
+        # author only the content; they do not hand-create or wire these. See the builder
+        # (toe_builder_bridge._write_docked_dats) and KB/docked_dats.json.
+        key, specs = self._docked_dats_lookup(merged.get('family', ''), merged.get('name', ''))
+        if specs:
+            merged['docked_dats'] = specs
+            merged['docked_dats_key'] = key
+
         return merged
+
+    def _docked_dats_lookup(self, family: str, name: str):
+        """Find this op's docked-DAT spec in KB/docked_dats.json (keyed 'FAMILY:type',
+        e.g. 'TOP:glsl'). Resolves the type from the operator name robustly: lowercased,
+        spaces/underscores removed, any trailing family suffix stripped (so 'glslTOP',
+        'GLSL', 'glsl' and 'Web Server'/'webserverDAT' all resolve). Returns (key, specs)
+        or (None, None)."""
+        dd = _load_docked_dats_kb()
+        if not dd or not name:
+            return None, None
+        n = name.lower().replace(' ', '').replace('_', '')
+        type_cands = [n]
+        for suf in ('top', 'chop', 'sop', 'dat', 'comp', 'mat', 'pop'):
+            if n.endswith(suf) and len(n) > len(suf):
+                type_cands.append(n[:-len(suf)])
+        fam = (family or '').upper()
+        fam_cands = [fam] if fam and fam != 'UNKNOWN' else \
+            ['TOP', 'CHOP', 'SOP', 'DAT', 'COMP', 'MAT', 'POP']
+        for f in fam_cands:
+            for t in type_cands:
+                k = '%s:%s' % (f, t)
+                if k in dd:
+                    return k, dd[k]
+        return None, None
 
     def get_operator_parameters(self, operator_name: str) -> Optional[Dict[str, Any]]:
         """Return the parameter dict for an operator (extractor over get_operator_info).

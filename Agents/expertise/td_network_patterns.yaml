@@ -170,7 +170,7 @@ workflows:
       operators:
       - glslTOP
       role: Visualization (per-pixel particle rendering)
-      notes: "16x16 particles feasible for per-pixel iteration; use uTDOutputInfo.res.xy"
+      notes: "16x16 particles feasible for per-pixel iteration; use uTDOutputInfo.res.zw (resolution is .zw, not .xy)"
     - step: 5
       operators:
       - blurTOP

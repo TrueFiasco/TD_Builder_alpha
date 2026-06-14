@@ -9,6 +9,7 @@ Uses ground truth for parameter validation.
 import shutil
 import subprocess
 import re
+import json
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import yaml
@@ -24,6 +25,51 @@ TOECOLLAPSE = r"C:\Program Files\Derivative\TouchDesigner\bin\toecollapse.exe"
 TOEEXPAND = r"C:\Program Files\Derivative\TouchDesigner\bin\toeexpand.exe"
 TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
+
+# DOCKED_DATS: the helper DATs each op auto-creates + docks during a live create().
+# Live TD does this automatically; the offline builder didn't (F6 was a partial,
+# info-only stop-gap). The full per-op spec (all 73 docked ops, captured from a live
+# census) now lives in the KB at KB/docked_dats.json and is loaded by
+# _load_docked_dats(); this dict is only the fallback used if that file is missing.
+# Content DATs are file-backed (file + syncfile + loadonstart) so the shader/script
+# lives on disk and is edited there, not poked through the MCP.
+#   suffix/dat  : the docked op, named <host><suffix> to match TD
+#   host_param  : host parameter that points at the child (host.pixeldat = child)
+#   child_param : child parameter that points back at the host (info.op = host)
+#   file_*/extension/stub : file-backing for content DATs; file_dir None = fileless
+DOCKED_DATS = {
+    "TOP:glsl": [
+        {"suffix": "_pixel", "dat": "text", "host_param": "pixeldat",
+         "file_dir": "shaders", "file_ext": "glsl", "extension": "frag", "flags": "viewer 1",
+         "content": "pixel",
+         "stub": "out vec4 fragColor;\nvoid main()\n{\n\tfragColor = vec4(0.0, 0.0, 0.0, 1.0);\n}\n"},
+        {"suffix": "_info", "dat": "info", "child_param": "op",
+         "file_dir": None, "flags": "viewer 1"},
+        {"suffix": "_compute", "dat": "text", "host_param": "computedat",
+         "file_dir": "shaders", "file_ext": "glsl", "extension": "comp",
+         "flags": "viewer 1 showDocked off", "content": "compute",
+         "stub": "layout (local_size_x = 8, local_size_y = 8) in;\nvoid main()\n{\n}\n"},
+    ],
+}
+
+# KB path for the docked-DAT specs (companion to operators.json, PR-reviewable).
+DOCKED_DATS_PATH = Path(__file__).resolve().parents[4] / "KB" / "docked_dats.json"
+_DOCKED_DATS_CACHE = None
+
+
+def _load_docked_dats() -> dict:
+    """Load the per-op docked-DAT specs from KB/docked_dats.json (cached), mirroring
+    param_name_resolver._load_kb(). Keyed by 'FAMILY:type' (e.g. 'TOP:glsl'). Falls
+    back to the built-in DOCKED_DATS (TOP:glsl only) if the KB file is missing."""
+    global _DOCKED_DATS_CACHE
+    if _DOCKED_DATS_CACHE is None:
+        try:
+            with open(DOCKED_DATS_PATH, "r", encoding="utf-8") as f:
+                _DOCKED_DATS_CACHE = json.load(f)
+        except Exception as e:
+            logger.warning("docked_dats.json not loaded (%s); using built-in fallback", e)
+            _DOCKED_DATS_CACHE = DOCKED_DATS
+    return _DOCKED_DATS_CACHE
 
 
 def load_conversion_op_expertise() -> dict:
@@ -824,6 +870,21 @@ end
         glsl_uniforms = op.get("uniforms", [])
         is_glsl_top = td_type in ("TOP:glsl", "TOP:glslmulti", "TOP:glslTOP")
 
+        # Live create() auto-docks an op's helper DATs (GLSL shader/info DATs, callback
+        # script DATs, table DATs, ...); the offline builder must replicate it. Driven by
+        # the docked_dats KB (KB/docked_dats.json) for ANY op with a spec -- the builder
+        # creates + docks + file-links the children and wires the host's link params
+        # (callbacks/pixeldat/dat/...) to them; experts only author the content. Wiring is
+        # collected here and written raw into the host .parm below (see docked_wiring).
+        docked_wiring = {}
+        docked_specs = _load_docked_dats().get(td_type)
+        if docked_specs:
+            docked_wiring = self._write_docked_dats(name, container_path, position, td_type, op)
+            for hp, child in docked_wiring.items():
+                op.setdefault("parameters", {})[hp] = child   # for _build_glsl_parm (reads op[...])
+        elif "glsl" in td_type.lower():
+            self._write_docked_info_dat(name, container_path, position)  # defensive: glsl needs an info DAT
+
         # Get inputs from connection map
         full_path = f"{container_path}/{name}"
         # Try multiple path formats for connection lookup
@@ -1036,6 +1097,12 @@ flags =  parlanguage 0
                 # Mode 0 = constant
                 parm_lines.append(f"{td_param_name} 0 {td_value}")
 
+        # Wire host -> its docked children (callbacks/pixeldat/computedat/dat/...). Written
+        # raw (mode 0, sibling name) to match TD's serialization (e.g. `dat 0 ramp1_keys`),
+        # bypassing param validation -- these are builder-owned links, not authored params.
+        for hp, child in docked_wiring.items():
+            parm_lines.append(f"{hp} 0 {child}")
+
         parm_lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(parm_lines) + "\n")
 
@@ -1070,6 +1137,122 @@ flags =  parlanguage 0
             if custom_pars:
                 self._write_custom_parameters(full_path, custom_pars)
                 self.log(f"    Created {len(custom_pars)} custom parameters on {name}")
+
+    def _write_docked_dats(self, host_name, container_path, position, td_type, op):
+        """Create + dock the helper DATs a live create() makes for this op, per the
+        docked_dats KB spec (KB/docked_dats.json). Generalizes the original GLSL-only F6:
+          - text DATs  (shaders/scripts): file-backed, language spec-driven (glsl/python/text)
+          - table DATs (data):            file-backed (file + syncfile + loadonstart), no language
+          - info DATs:                    fileless, child.op -> host
+          - other (e.g. dmxmap):          fileless, child_param -> host (best-effort)
+        Content/table DATs are file-backed so they live on disk and are edited there. The
+        author-provided content (the expert's shader/script) goes to the matching role; every
+        other child gets the spec's default stub. Returns {host_param: child} for the caller
+        to wire the host's link params (written raw into the host .parm).
+        """
+        specs = _load_docked_dats().get(td_type, [])
+        wiring = {}
+        if not specs:
+            return wiring
+        family = td_type.split(":")[0] if ":" in td_type else "DAT"
+        pos = position or [0, 0]
+        offsets = [(0, -120), (160, -120), (320, -120), (480, -120)]
+        for i, spec in enumerate(specs):
+            child = host_name + spec["suffix"]
+            child_rel = f"{container_path}/{child}"
+            if (self.project_dir / f"{child_rel}.n").exists():
+                continue  # don't clobber a DAT the design already provided
+            ox, oy = offsets[i] if i < len(offsets) else (160 * i, -120)
+            ix, iy = pos[0] + ox, pos[1] + oy
+            flags = spec.get("flags", "viewer 1")
+            dat = spec["dat"]
+            if dat == "info":
+                n = (f"DAT:info\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
+                     f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
+                parm = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+            elif dat in ("text", "table"):
+                content = self._authored_for_role(op, spec.get("role", "")) or spec.get("stub", "")
+                fdir = self.output_dir / spec["file_dir"]
+                fdir.mkdir(parents=True, exist_ok=True)
+                fpath = fdir / f"{child}.{spec['file_ext']}"
+                fpath.write_text(content, encoding="utf-8", newline="\n")
+                fabs = str(fpath.resolve()).replace("\\", "/")
+                n = (f"DAT:{dat}\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
+                     f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
+                parm = f"?\nfile 0 {fabs}\nsyncfile 0 on\nloadonstart 0 on\n"
+                if dat == "text":
+                    parm += f"language 0 {spec.get('language') or 'text'}\n"
+                    if spec.get("extension"):
+                        parm += f"extension 0 {spec['extension']}\n"
+                parm += "?\n"
+            else:
+                # special docked op (e.g. dmxmap): fileless, child points back at host
+                n = (f"{family}:{dat}\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
+                     f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
+                parm = "?\n"
+                if spec.get("child_param"):
+                    parm += f"{spec['child_param']} 0 {host_name}\n"
+                parm += "?\n"
+                self.log(f"    [docking] note: special docked type '{dat}' on {host_name} "
+                         f"({child}) written best-effort -- verify")
+            self._write_file(f"{child_rel}.n", n)
+            self._write_file(f"{child_rel}.parm", parm)
+            if spec.get("host_param"):
+                wiring[spec["host_param"]] = child
+        self.log(f"    [docking] {host_name}: {[s['suffix'] for s in specs]}")
+        return wiring
+
+    def _authored_for_role(self, op: dict, role: str):
+        """Return the author-provided content for a docked child's role (the shader/script
+        the expert wrote in the design), or None to fall back to the spec's default stub.
+        The design may name it by role or a common alias (e.g. role 'pixel' <- op['shader'])."""
+        role_fields = {
+            "pixel":     ["shader", "pixel", "pixelshader", "fragment", "frag", "text"],
+            "compute":   ["compute", "computeshader"],
+            "vertex":    ["vertex", "vertexshader", "vert"],
+            "callbacks": ["callbacks", "script", "callback"],
+            "rules":     ["rules"],
+        }
+        for field in role_fields.get(role, [role]):
+            val = op.get(field)
+            if val:
+                return val
+        return None
+
+    def _write_docked_info_dat(self, host_name: str, container_path: str, host_position: list):
+        """Emit a docked Info DAT for a GLSL op (F6).
+
+        TouchDesigner auto-creates a docked Info DAT (plus the shader DATs) whenever
+        a GLSL TOP/POP/MAT is made via create(). The offline builder serializes the
+        .tox directly and never calls create(), so it omitted the Info DAT -- the one
+        place GLSL compile errors surface. This writes the same docked Info DAT the UI
+        would: a `.n` carrying `dock <host>` and a `.parm` carrying `op 0 <host>`, with
+        the host referenced by relative sibling name (matches TD's own serialization).
+        """
+        if not hasattr(self, "_auto_info_hosts"):
+            self._auto_info_hosts = set()
+        key = f"{container_path}/{host_name}"
+        if key in self._auto_info_hosts:
+            return
+        info_rel = f"{container_path}/{host_name}_info"
+        # Don't clobber an Info DAT the design already provided for this op.
+        if (self.project_dir / f"{info_rel}.n").exists():
+            return
+        self._auto_info_hosts.add(key)
+        pos = host_position or [0, 0]
+        ix, iy = pos[0] + 160, pos[1] - 120
+        n_content = (
+            "DAT:info\n"
+            f"tile {ix} {iy} 130 90\n"
+            "flags =  viewer 1 parlanguage 0\n"
+            "color 0.67 0.67 0.67 \n"
+            f"dock {host_name}\n"
+            "end\n"
+        )
+        parm_content = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+        self._write_file(f"{info_rel}.n", n_content)
+        self._write_file(f"{info_rel}.parm", parm_content)
+        self.log(f"    [F6] Auto-added docked Info DAT '{host_name}_info' -> {host_name}")
 
     def _build_glsl_parm(self, op: dict, full_path: str):
         """Build .parm file for GLSL TOP with uniforms.

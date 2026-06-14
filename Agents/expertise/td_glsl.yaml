@@ -10,9 +10,9 @@ overview:
   scope: "GLSL in TouchDesigner (TOP, MAT, SOP/particle pipelines) and general GLSL correctness."
   td_builtins:
     - vUV: "Fragment UV coords in GLSL TOP"
-    - TDTexture2D: "Helper to sample TD inputs; use TDTexture2D(sampler, uv) or TDTexture2D(sTD2DInputs[i], uv)"
+    - texture: "GLSL TOP samples an input TOP with texture(sTD2DInputs[i], vUV.st) -- the standard GLSL call. NOTE: there is no TDTexture2D helper (common hallucination); always use texture()."
     - sTD2DInputs: "Array of sampler2D inputs for GLSL TOP"
-    - uTD2DInfos: "Input sizing info (res, aspect); use TD2DInfos[i].res"
+    - uTD2DInfos: "Input sizing info; uTD2DInfos[i].res = vec4(1/w,1/h,w,h) -> resolution is .zw, inverse/texel is .xy"
     - vVert: "Vertex position in GLSL MAT VS"
     - vColor: "Per-vertex color in GLSL MAT VS"
     - vTexCoord0: "Primary UV set in GLSL MAT VS/PS"
@@ -41,14 +41,16 @@ builtin_uniforms:
     uTD2DInfos:
       type: "struct[]"
       description: "INPUT texture metadata (resolution, aspect ratio)"
-      usage: "uTD2DInfos[0].res.xy  // width, height of input 0"
+      usage: "uTD2DInfos[0].res.zw  // width, height of input 0"
+      res_layout: "res = vec4(1/w, 1/h, w, h) -- RESOLUTION is .zw (.z=width, .w=height); .xy is the inverse/texel size (1/w, 1/h). Verified live."
       context: "GLSL TOP"
       critical_warning: "This is for INPUT textures, NOT output resolution!"
 
     uTDOutputInfo:
       type: "struct"
       description: "OUTPUT texture metadata (resolution)"
-      usage: "uTDOutputInfo.res.xy  // width, height of output"
+      usage: "uTDOutputInfo.res.zw  // width, height of output"
+      res_layout: "res = vec4(1/w, 1/h, w, h) -- RESOLUTION is .zw; .xy is the inverse (1/w, 1/h). Same layout as uTD2DInfos."
       context: "GLSL TOP"
       note: "Use this when you need the OUTPUT resolution (most common case)"
 
@@ -94,7 +96,7 @@ builtin_uniforms:
 
     - name: "iResolution"
       reason: "Shadertoy convention, not available in TD"
-      correct_alternative: "Use uTDOutputInfo.res.xy or uTD2DInfos[0].res.xy"
+      correct_alternative: "Use uTDOutputInfo.res.zw or uTD2DInfos[0].res.zw (resolution is .zw; Shadertoy's own iResolution.xy does NOT map to .xy here)"
 
 # =========================================================================
 # CRITICAL: AUTO-PROVIDED - DO NOT REDECLARE THESE!
@@ -123,12 +125,12 @@ auto_provided_do_not_redeclare:
 
     - name: "uTD2DInfos[]"
       auto_declaration: "TD provides this struct array"
-      usage: "uTD2DInfos[0].res.xy"
+      usage: "uTD2DInfos[0].res.zw  // .zw = resolution (w,h); .xy = inverse (1/w,1/h)"
       note: "Input texture metadata"
 
     - name: "uTDOutputInfo"
       auto_declaration: "TD provides this struct"
-      usage: "uTDOutputInfo.res.xy"
+      usage: "uTDOutputInfo.res.zw  // .zw = resolution (w,h); .xy = inverse (1/w,1/h)"
       note: "Output texture metadata"
 
     - name: "#version directive"
@@ -232,18 +234,18 @@ anti_patterns:
           expr: "absTime.seconds"
 
   GLSL-002:
-    name: "Wrong resolution source for output"
+    name: "Wrong resolution swizzle or source"
     severity: "high"
     bad_code: |
-      vec2 res = uTD2DInfos[0].res.zw;  // WRONG: .zw is inverse, not size
-      vec2 res = uTD2DInfos[0].res.xy;  // WRONG for output resolution
+      vec2 res = uTD2DInfos[0].res.xy;   // WRONG: .xy is the INVERSE (1/w,1/h), not the size
+      vec2 res = uTDOutputInfo.res.xy;   // WRONG: same -- .xy is 1/w,1/h, not width,height
     good_code: |
-      vec2 res = uTDOutputInfo.res.xy;  // CORRECT for output resolution
-      vec2 inputRes = uTD2DInfos[0].res.xy;  // CORRECT for input 0 resolution
+      vec2 outRes = uTDOutputInfo.res.zw;  // CORRECT: .zw = output width,height
+      vec2 inRes  = uTD2DInfos[0].res.zw;  // CORRECT: .zw = input 0 width,height
     explanation: |
-      - uTD2DInfos is for INPUT textures
-      - uTDOutputInfo is for OUTPUT texture
-      - Most shaders want OUTPUT resolution for normalization
+      - res = vec4(1/w, 1/h, w, h): RESOLUTION is .zw; the inverse/texel size is .xy (verified live)
+      - uTD2DInfos[i] is for INPUT textures; uTDOutputInfo is for the OUTPUT texture
+      - Most shaders want the OUTPUT resolution (uTDOutputInfo.res.zw) for normalization
 
   GLSL-003:
     name: "Shadertoy syntax in TouchDesigner"
@@ -262,9 +264,9 @@ anti_patterns:
     severity: "high"
     bad_code: |
       // In standalone shader with NO inputs connected:
-      vec2 res = uTD2DInfos[0].res.xy;  // ERROR: no inputs!
+      vec2 res = uTD2DInfos[0].res.zw;  // ERROR: no inputs to read!
     good_code: |
-      vec2 res = uTDOutputInfo.res.xy;  // Works without inputs
+      vec2 res = uTDOutputInfo.res.zw;  // Works without inputs (.zw = resolution)
     explanation: "uTD2DInfos requires connected inputs; use uTDOutputInfo for standalone shaders"
 
   GLSL-005:
@@ -413,7 +415,7 @@ standalone_shader_pattern:
   # - in vec2 vUV (TD provides fragment UV coordinates)
 
   available_uniforms:
-    - "uTDOutputInfo.res.xy  // Output resolution"
+    - "uTDOutputInfo.res.zw  // Output resolution (.zw = w,h; .xy = inverse 1/w,1/h)"
     - "vUV  // Fragment UV coordinates (TD-provided, do NOT declare)"
     - "Custom uniforms from 'uniforms' array"
 
@@ -458,7 +460,7 @@ standalone_shader_pattern:
 
       void main() {
         vec2 uv = vUV.st;  // vUV is provided by TD
-        vec2 res = uTDOutputInfo.res.xy;
+        vec2 res = uTDOutputInfo.res.zw;  // .zw = output resolution (w,h)
         float aspect = res.x / res.y;
         uv.x *= aspect;
 
@@ -477,21 +479,21 @@ glsl_top:
         fragColor = c;
     }
   guidelines:
-    - Prefer TD helpers over manual sampler states (TDTexture2D, TD2DInfos).
+    - Sample inputs with texture(sTD2DInputs[i], vUV.st) -- there is no TDTexture2D helper.
     - Keep branches simple; avoid dynamic loops for performance.
     - Declare outputs explicitly: out vec4 fragColor;
     - For multi-input, document channel meaning (e.g., input0=color, input1=mask).
     - Validate compile logs in TD; ensure #version 450 core by default.
   resolution_uniforms:
-    input_resolution: "uTD2DInfos[0].res.xy"
-    output_resolution: "uTDOutputInfo.res.xy"
-    inverse_output: "uTDOutputInfo.res.zw"
-    note: "Use uTDOutputInfo for output res, NOT uTD2DInfos[0].res.zw"
+    input_resolution: "uTD2DInfos[0].res.zw"
+    output_resolution: "uTDOutputInfo.res.zw"
+    inverse_output: "uTDOutputInfo.res.xy"
+    note: "res = vec4(1/w,1/h,w,h): resolution is .zw, inverse is .xy. Use uTDOutputInfo for OUTPUT res, uTD2DInfos[i] for INPUT res."
   common_params:
     - name: resolution_uniform
-      example: "vec2 res = uTDOutputInfo.res.xy;  // For output resolution"
+      example: "vec2 res = uTDOutputInfo.res.zw;  // For output resolution"
     - name: input_resolution
-      example: "vec2 inputRes = uTD2DInfos[0].res.xy;  // For input 0 resolution"
+      example: "vec2 inputRes = uTD2DInfos[0].res.zw;  // For input 0 resolution"
     - name: channel_mask
       example: "fragColor = vec4(color.rgb * mask.r, 1.0);"
   templates:
@@ -686,11 +688,12 @@ problems:
       prevention: "Always use explicit uniforms for time, bound via parameter expressions."
       status: "validated"
     - id: "GLSL-TOP-RESOLUTION-WRONG"
-      description: "Using uTD2DInfos[0].res.zw for output resolution gives wrong values."
-      fix: "Use uTDOutputInfo.res.xy for output resolution."
+      description: "Two traps: (a) .res.xy is the INVERSE (1/w,1/h), not the resolution; (b) uTD2DInfos is INPUT info, not OUTPUT. Either gives wrong values."
+      fix: "Use uTDOutputInfo.res.zw for the OUTPUT resolution. res = vec4(1/w,1/h,w,h) so resolution is .zw (verified live)."
       prevention: |
-        - uTDOutputInfo.res.xy = OUTPUT resolution (what you usually want for viz shaders)
-        - uTD2DInfos[N].res.xy = INPUT N resolution (for reading input dimensions)
+        - uTDOutputInfo.res.zw = OUTPUT resolution (what you usually want for viz shaders)
+        - uTD2DInfos[N].res.zw = INPUT N resolution (for reading input dimensions)
+        - .res.xy = inverse / texel size (1/w, 1/h), NOT the resolution
       status: "validated"
     - id: "GLSL-TOP-ABSTIME-STEP"
       description: "absTime.step expression in GLSL TOP uniform may return unexpected value (1.0)."

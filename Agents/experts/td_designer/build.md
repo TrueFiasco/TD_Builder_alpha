@@ -119,6 +119,12 @@ Your expertise includes **Sweet 16** operators (full details) plus an **Operator
 
 **For operators NOT in Sweet 16:** Query `get_operator_info(operator="OPNAME")` (and `get_parameter_detail` / `hybrid_search`) before use.
 
+**Docked DATs (the `docked_dats` block in `get_operator_info`):** some ops carry helper DATs
+(GLSL `*_pixel`/`*_compute`/`*_info`, `*_callbacks` script DATs, table DATs, …). The builder
+auto-creates, docks, file-backs, and wires these — do **not** add them as separate operators
+or set their link params (`pixeldat`/`callbacks`/`dat`/…). Supply only the content (shader →
+`shader`, callbacks → `callbacks`/`script`); hand-adding the DATs creates duplicates.
+
 Sweet 16 includes: noise, math, null, constant, analyze, filter, select, merge (CHOP) | noise, level, composite, blur, transform, feedback, render (TOP) | grid, sphere, box, transform, merge, copy (SOP) | text, table, select, execute (DAT)
 
 ---

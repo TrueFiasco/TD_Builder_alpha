@@ -517,8 +517,11 @@ Warning: Uniform 'X' is not assigned. Please assign it on the Colors or Vectors 
 The info DAT does NOT carry this warning. You only see it on `op.warnings()`.
 
 **Use only the Vectors page or the Colors page for scalar/vec uniforms.** Their
-parameter codes are `vec0name` / `vec0type` / `vec0valuex..w`, etc. — they auto-
-declare the uniform in the shader namespace when populated.
+parameter codes are `vec0name` / `vec0valuex..w` (Vectors) and `color0name` /
+`color0rgbr/g/b` / `color0alpha` (Colors). Populating them sets the *value* only —
+on a GLSL TOP they do **NOT** auto-declare the uniform (see the next section); your
+shader source must declare it. (The GLSL POP differs: its Vectors page has a
+`vec0type` selector and it auto-declares — do not redeclare there.)
 
 When debugging a "compiled but output is wrong" case on a GLSL TOP, the
 **`op.warnings()` check is mandatory** alongside the info DAT read.

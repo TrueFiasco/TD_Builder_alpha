@@ -10,7 +10,7 @@ Executing as **TD GLSL Expert**. Task: produce validated GLSL artifacts (shader 
 
 ## Execution Rules
 1) Source-of-truth only: operator/param existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); confirm TD helper names via hybrid_search.
-2) No hallucinated built-ins: use TDTexture2D, TD2DInfos, TDWorldCam, TDProjection, vUV, etc.
+2) No hallucinated built-ins. Sample inputs with `texture(sTD2DInputs[i], vUV.st)` — there is NO `TDTexture2D` helper. Real TD built-ins: `sTD2DInputs[]`, `uTD2DInfos[]`/`uTDOutputInfo` (`res = vec4(1/w,1/h,w,h)` → resolution is `.zw`), `TDWorldCam`, `TDProjection`, `vUV`.
 3) Validation-first: ensure code compiles logically (all varyings/uniforms declared, outputs written) before shipping.
 4) Deliverables: shader code + (optionally) minimal builder JSON/Text DAT respecting toe->tox->Text DAT->instructions priority if build is requested.
 
@@ -97,7 +97,7 @@ execution:
       #version 450 core
       ...
     notes:
-      - "TDTexture2D input0 = color"
+      - "Sample input0 with texture(sTD2DInputs[0], vUV.st); input0 = color"
       - "Uniforms: uDt (seconds)"
 
   validation:
@@ -140,11 +140,22 @@ float aspect = uTDOutputInfo.res.z / uTDOutputInfo.res.w;
 
 **Rule:** If shader has NO texture inputs, use `uTDOutputInfo`. If shader samples inputs, use `uTD2DInfos[N]`.
 
+## How each GLSL op family receives data (verified live)
+The way data reaches the shader differs by family. You write the matching sampler/buffer call in the shader; if the design needs a Samplers/Buffers link the builder can wire that page.
+
+| Read… | from a GLSL **TOP** | from a GLSL **POP** |
+|---|---|---|
+| a **TOP** | wired input → `texture(sTD2DInputs[i], vUV.st)` | add the TOP on the **Samplers** page (`sampler0top` = the TOP, `sampler0name` = sampler name) → `texture(<name>, TDIn_Tex().st)` |
+| a **POP** | add the POP on the **Buffers** page (`buffer0pop`, `buffer0attr`, `buffer0attrclass`, `buffer0name`) → read the named buffer | wired input (**POP inputs are POPs only**) → `TDIn_<Attr>(i, TDIndex())` |
+
+- A GLSL **POP cannot wire a TOP** — its only wired inputs are other POPs. To read a TOP from a POP, add it as a **Sampler** and sample `texture(<samplerName>, TDIn_Tex().st)` (`TDIn_Tex()` gives the element's texcoord).
+- A GLSL **TOP cannot wire a POP** as a texture input — read it via the **Buffers** page.
+
 ---
 
 ## Anti-Hallucination Checklist
 - [ ] #version set; outputs declared (fragColor).
-- [ ] TD helpers used correctly (TDTexture2D, TD2DInfos, TDWorld/TDProjection).
+- [ ] Inputs sampled via `texture(sTD2DInputs[i], vUV.st)` — no `TDTexture2D`; TD helpers (TDWorld/TDProjection) used correctly.
 - [ ] **Standalone check**: No inputs? Use uTDOutputInfo, NOT uTD2DInfos.
 - [ ] Sampler indices documented; no implicit bindings.
 - [ ] If building artifacts, validation passes before .toe/.tox; otherwise supply shader + exact usage instructions.
@@ -178,6 +189,23 @@ float t = uPhase;
 ## GLSL Code Storage (BUG-D)
 
 **GLSL shader code MUST be stored in Text DAT, then referenced via parameter.**
+
+> **Auto-docked shader DATs (preferred — the builder does the wiring).**
+> `get_operator_info` returns a `docked_dats` block for every GLSL op. Those helper DATs
+> — the `*_pixel` / `*_compute` (and `*_vertex` for MATs) shader DATs plus the `*_info`
+> DAT — are created, **docked, file-backed, and wired by the BUILDER**, exactly as a live
+> `create()` would. **Do not hand-create them and do not set `pixeldat`/`computedat`/
+> `vertexdat` yourself.** Put your shader in the GLSL op's `shader` field (a vertex shader
+> in `vertex`); the builder writes `shaders/<op>_pixel.glsl` and links it:
+> ```json
+> { "name": "glsl1", "type": "glslTOP", "family": "TOP",
+>   "shader": "out vec4 fragColor;\nvoid main() { fragColor = vec4(1,0,0,1); }" }
+> ```
+> → the builder emits `glsl1_pixel` (file `shaders/glsl1_pixel.glsl`), `glsl1_compute`,
+> and `glsl1_info`, all docked to `glsl1`, with `pixeldat`/`computedat` set for you. The
+> manual "separate Text DAT + `pixeldat`" pattern below still works (the builder won't
+> clobber a DAT you supply), but prefer the `shader` field — the shader then lives on disk
+> where it's meant to be edited, not poked into TD live.
 
 ### WRONG - Inline Code in Parameters
 ```json
@@ -241,6 +269,50 @@ When creating Text DAT for GLSL code, set the language parameter:
   "textContent": "out vec4 fragColor;\nvoid main() { fragColor = vec4(1.0); }"
 }
 ```
+
+---
+
+## GLSL TOP uniforms — Vectors page (numeric) + Colors page (RGBA)
+
+A GLSL TOP does **not** auto-declare uniforms: declare `uniform <type> uName;` in your
+shader source **and** set the value on a UI page.
+
+**Vectors page** — one slot per uniform: `vec0name` = the uniform name, `vec0valuex/y/z/w`
+= up to four **float** value fields. There is no type selector on the TOP (unlike the POP).
+"Float-only" is misleading — the four fields are floats, but you choose **how many** and
+**which GLSL type** via your declaration, and TD coerces the floats to int/uint:
+
+| Declared in source | Fields used | Notes |
+|---|---|---|
+| `uniform float uGain;`     | x | scalar |
+| `uniform vec2  uShift;`    | x,y | |
+| `uniform vec3  uDir;`      | x,y,z | |
+| `uniform vec4  uParams;`   | x,y,z,w | |
+| `uniform ivec2 uCells;`    | x,y | float fields coerced to int |
+| `uniform uvec4 uMask;`     | x,y,z,w | coerced to uint |
+| `uniform double` / `dvec*` | — | the TOP's fields are float (no `vec0type`). For real double precision use a **GLSL POP** (its Vectors page has a `vec0type` incl. double). |
+
+**Colors page** — for an RGBA uniform declare `uniform vec4 uTint;` and set `color0name`
+= name, `color0rgbr/g/b` + `color0alpha` (a colour picker, for live authoring). Offline, a
+vec4 in the `uniforms` array goes to the Vectors page instead — both feed the same `uniform vec4`.
+
+### Setting uniforms — offline (builder) vs live
+- **Offline (preferred):** put a `uniforms` array on the GLSL op; the builder writes the
+  `vecNname` / `vecNvaluex..w` params for you:
+  ```json
+  { "name": "glsl1", "type": "glslTOP", "family": "TOP",
+    "shader": "uniform float uGain;\nuniform ivec2 uCells;\nuniform vec4 uTint;\nout vec4 fragColor;\nvoid main(){ fragColor = uTint * uGain; }",
+    "uniforms": [ {"name":"uGain","value":1.0},
+                  {"name":"uCells","value":[8,8]},
+                  {"name":"uTint","value":[0.3,0.9,1.0,1.0]} ] }
+  ```
+- **Live:** `g = op('glsl1'); g.par.vec0name = 'uGain'; g.par.vec0valuex = 1.0`
+  (then `vec1name = 'uCells'; g.par.vec1valuex = 8; g.par.vec1valuey = 8`, …).
+  Colour: `g.par.color0name = 'uTint'; g.par.color0rgbr = 0.3` (etc.).
+
+> A uniform declared in source but **not** assigned on a page reads silently as `0` — only
+> `op('glsl1').warnings()` reports it (not the info DAT). Always declare in source **and**
+> assign on a page. (The GLSL POP is the opposite — its pages auto-declare; see below.)
 
 ---
 

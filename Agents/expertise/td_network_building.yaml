@@ -5,6 +5,15 @@ validated_against: unified_system build results
 working_patterns: {}
 failing_patterns: {}
 build_rules:
+- rule: 'Docked DATs are builder-owned -- never hand-create them. When get_operator_info
+    lists a docked_dats block, the builder auto-creates, docks, file-backs, and wires
+    the helper DATs (GLSL *_pixel/*_compute/*_vertex/*_info, *_callbacks script DATs,
+    table DATs). Supply only the content (shader -> shader, callbacks -> callbacks/script,
+    table data); do NOT add the DATs as separate operators or set their link params
+    (pixeldat/computedat/callbacks/dat). Hand-adding them creates duplicates.'
+  confidence: 1.0
+  source: docked_dats census + builder verification (KB/docked_dats.json, 73 ops)
+  validated: true
 - rule: Always set timeslice=on for audio-connected analyze CHOP
   confidence: 0.8
   source: Known best practice

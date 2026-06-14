@@ -12,6 +12,13 @@ Treat these tool results as the only source of truth.
 
 Source of truth = the MCP tools above (get_operator_info, get_parameter_detail, hybrid_search).
 
+**Docked callback DATs are the builder's job.** Many comm/script ops (Web Server / WebSocket
+/ OSC In / TCP-IP / Serial / MIDI / Script CHOP|SOP|DAT, …) auto-dock a `*_callbacks` Text
+DAT — `get_operator_info` lists it under `docked_dats`. The **builder** creates, docks,
+file-backs (`scripts/<op>_callbacks.py`), and wires it (`host.callbacks`). Author only the
+callback *content* in the op's `callbacks` (or `script`) field; never hand-create the
+`*_callbacks` DAT or set the `callbacks` param yourself.
+
 Output priority for deliverables: toe -> tox -> Text DAT -> instructions (if a build is requested).
 
 ## Planning Steps

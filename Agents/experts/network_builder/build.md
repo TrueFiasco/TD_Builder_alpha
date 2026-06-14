@@ -25,9 +25,10 @@ When receiving a design_spec from td_designer:
 ## Execution Rules
 1) Source-of-truth only: operator/parameter existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); usage evidence from find_operator_examples / find_operator_combination / find_similar_networks.
 2) No hallucinations: every operator/param/connection must trace to plan or evidence.
-3) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
-4) Output priority: attempt .toe, else .tox, else Text DAT; only return instructions if all builds blocked.
-5) **MANDATORY TOOL CALL**: You MUST call `td_build_project` MCP tool for every build. No exceptions.
+3) Docked DATs are automatic: when `get_operator_info` lists a `docked_dats` block, the builder auto-creates + docks + file-backs + wires those helper DATs (GLSL `*_pixel`/`*_compute`/`*_info`, `*_callbacks` scripts, table DATs, …). Do NOT add them as separate operators or set their link params (`pixeldat`/`callbacks`/`dat`/…) — supply only the content (shader → `shader`, callbacks → `callbacks`/`script`). Hand-adding them creates duplicates.
+4) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
+5) Output priority: attempt .toe, else .tox, else Text DAT; only return instructions if all builds blocked.
+6) **MANDATORY TOOL CALL**: You MUST call `td_build_project` MCP tool for every build. No exceptions.
 
 ---
 

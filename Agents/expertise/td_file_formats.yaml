@@ -543,9 +543,9 @@ parameter_learnings:
       RECOMMENDATION: Use constants for deltaTime (0.016 for 60fps)
 
       '
-    glsl_uniforms: '- uTDOutputInfo.res.xy = output resolution
+    glsl_uniforms: '- uTDOutputInfo.res.zw = output resolution (.xy is the inverse 1/w,1/h)
 
-      - uTD2DInfos[0].res.xy = input 0 resolution
+      - uTD2DInfos[0].res.zw = input 0 resolution
 
       - sTD2DInputs[0] = sampler for input 0
 

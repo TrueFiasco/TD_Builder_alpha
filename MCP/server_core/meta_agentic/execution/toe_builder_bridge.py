@@ -25,6 +25,31 @@ TOEEXPAND = r"C:\Program Files\Derivative\TouchDesigner\bin\toeexpand.exe"
 TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
 
+# DOCKED_DATS: the helper DATs each op auto-creates + docks during a live create().
+# Live TD does this automatically; the offline builder didn't (F6 was a partial,
+# info-only stop-gap). This table is the per-op spec that will live in the KB
+# (operators.json `docked_dats`); kept here until the KB rebuild ingests it.
+# Content DATs are file-backed (file + syncfile + loadonstart) so the shader/script
+# lives on disk and is edited there, not poked through the MCP.
+#   suffix/dat  : the docked op, named <host><suffix> to match TD
+#   host_param  : host parameter that points at the child (host.pixeldat = child)
+#   child_param : child parameter that points back at the host (info.op = host)
+#   file_*/extension/stub : file-backing for content DATs; file_dir None = fileless
+DOCKED_DATS = {
+    "TOP:glsl": [
+        {"suffix": "_pixel", "dat": "text", "host_param": "pixeldat",
+         "file_dir": "shaders", "file_ext": "glsl", "extension": "frag", "flags": "viewer 1",
+         "content": "pixel",
+         "stub": "out vec4 fragColor;\nvoid main()\n{\n\tfragColor = vec4(0.0, 0.0, 0.0, 1.0);\n}\n"},
+        {"suffix": "_info", "dat": "info", "child_param": "op",
+         "file_dir": None, "flags": "viewer 1"},
+        {"suffix": "_compute", "dat": "text", "host_param": "computedat",
+         "file_dir": "shaders", "file_ext": "glsl", "extension": "comp",
+         "flags": "viewer 1 showDocked off", "content": "compute",
+         "stub": "layout (local_size_x = 8, local_size_y = 8) in;\nvoid main()\n{\n}\n"},
+    ],
+}
+
 
 def load_conversion_op_expertise() -> dict:
     """Load conversion operator requirements from expertise file.
@@ -824,6 +849,21 @@ end
         glsl_uniforms = op.get("uniforms", [])
         is_glsl_top = td_type in ("TOP:glsl", "TOP:glslmulti", "TOP:glslTOP")
 
+        # F6 + general docking: live create() auto-docks a GLSL op's helper DATs
+        # (shader pixel/compute + info); the offline builder must replicate it. For ops
+        # in DOCKED_DATS, create + dock the full set (shader DATs file-backed) and wire
+        # the host's pixeldat/computedat -> the docked DATs; otherwise fall back to just
+        # the Info DAT (the original F6 fix).
+        if "glsl" in td_type.lower():
+            if td_type in DOCKED_DATS:
+                authored = op.get("shader") or op.get("text")
+                wiring = self._write_docked_dats(name, container_path, position, td_type, authored)
+                for hp, child in wiring.items():
+                    params[hp] = child                            # for the normal param loop
+                    op.setdefault("parameters", {})[hp] = child   # for _build_glsl_parm (reads op[...])
+            else:
+                self._write_docked_info_dat(name, container_path, position)
+
         # Get inputs from connection map
         full_path = f"{container_path}/{name}"
         # Try multiple path formats for connection lookup
@@ -1070,6 +1110,84 @@ flags =  parlanguage 0
             if custom_pars:
                 self._write_custom_parameters(full_path, custom_pars)
                 self.log(f"    Created {len(custom_pars)} custom parameters on {name}")
+
+    def _write_docked_dats(self, host_name, container_path, position, td_type, authored_shader=None):
+        """Generalize F6: create + dock the helper DATs a live create() makes for this
+        op (shader pixel/compute + info), per the DOCKED_DATS spec (the per-op KB data).
+        Content DATs are file-backed (file + syncfile + loadonstart) so the shader/script
+        lives on disk and is edited there. Returns {host_param: child} so the caller can
+        wire the host's pixeldat/computedat -> the docked DATs.
+        """
+        specs = DOCKED_DATS.get(td_type, [])
+        wiring = {}
+        if not specs:
+            return wiring
+        pos = position or [0, 0]
+        offsets = [(0, -120), (160, -120), (320, -120), (480, -120)]
+        for i, spec in enumerate(specs):
+            child = host_name + spec["suffix"]
+            child_rel = f"{container_path}/{child}"
+            if (self.project_dir / f"{child_rel}.n").exists():
+                continue  # don't clobber a DAT the design already provided
+            ox, oy = offsets[i] if i < len(offsets) else (160 * i, -120)
+            ix, iy = pos[0] + ox, pos[1] + oy
+            flags = spec.get("flags", "viewer 1")
+            if spec["dat"] == "info":
+                n = (f"DAT:info\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
+                     f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
+                parm = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+            else:
+                content = authored_shader if (spec.get("content") == "pixel" and authored_shader) else spec.get("stub", "")
+                fdir = self.output_dir / spec["file_dir"]
+                fdir.mkdir(parents=True, exist_ok=True)
+                fpath = fdir / f"{child}.{spec['file_ext']}"
+                fpath.write_text(content, encoding="utf-8", newline="\n")
+                fabs = str(fpath.resolve()).replace("\\", "/")
+                n = (f"DAT:text\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
+                     f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
+                parm = (f"?\nfile 0 {fabs}\nsyncfile 0 on\nloadonstart 0 on\n"
+                        f"language 0 glsl\nextension 0 {spec['extension']}\n?\n")
+            self._write_file(f"{child_rel}.n", n)
+            self._write_file(f"{child_rel}.parm", parm)
+            if spec.get("host_param"):
+                wiring[spec["host_param"]] = child
+        self.log(f"    [docking] {host_name}: {[s['suffix'] for s in specs]}")
+        return wiring
+
+    def _write_docked_info_dat(self, host_name: str, container_path: str, host_position: list):
+        """Emit a docked Info DAT for a GLSL op (F6).
+
+        TouchDesigner auto-creates a docked Info DAT (plus the shader DATs) whenever
+        a GLSL TOP/POP/MAT is made via create(). The offline builder serializes the
+        .tox directly and never calls create(), so it omitted the Info DAT -- the one
+        place GLSL compile errors surface. This writes the same docked Info DAT the UI
+        would: a `.n` carrying `dock <host>` and a `.parm` carrying `op 0 <host>`, with
+        the host referenced by relative sibling name (matches TD's own serialization).
+        """
+        if not hasattr(self, "_auto_info_hosts"):
+            self._auto_info_hosts = set()
+        key = f"{container_path}/{host_name}"
+        if key in self._auto_info_hosts:
+            return
+        info_rel = f"{container_path}/{host_name}_info"
+        # Don't clobber an Info DAT the design already provided for this op.
+        if (self.project_dir / f"{info_rel}.n").exists():
+            return
+        self._auto_info_hosts.add(key)
+        pos = host_position or [0, 0]
+        ix, iy = pos[0] + 160, pos[1] - 120
+        n_content = (
+            "DAT:info\n"
+            f"tile {ix} {iy} 130 90\n"
+            "flags =  viewer 1 parlanguage 0\n"
+            "color 0.67 0.67 0.67 \n"
+            f"dock {host_name}\n"
+            "end\n"
+        )
+        parm_content = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+        self._write_file(f"{info_rel}.n", n_content)
+        self._write_file(f"{info_rel}.parm", parm_content)
+        self.log(f"    [F6] Auto-added docked Info DAT '{host_name}_info' -> {host_name}")
 
     def _build_glsl_parm(self, op: dict, full_path: str):
         """Build .parm file for GLSL TOP with uniforms.

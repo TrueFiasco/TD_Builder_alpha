@@ -1,7 +1,7 @@
 # KB — TD Builder knowledge base
 
 This folder is TD Builder's knowledge base. Most of it is **not committed to git** — the large
-generated artifacts (~210 MB) ship as a single GitHub Release asset and are fetched on install, which
+generated artifacts (~210 MB extracted, ~72 MB zipped) ship as a single GitHub Release asset and are fetched on install, which
 keeps the repo lean.
 
 ## Populate it (one command)
@@ -18,7 +18,7 @@ once populated. `python scripts/check_deps.py` confirms the result.
 
 | File / dir | What it is | Ships how |
 |---|---|---|
-| `operators.json` (~36 MB) | 670 enriched operator specs — the source of truth for validation + lookups | **fetched** |
+| `operators.json` (~36 MB) | 673 enriched operator specs — the source of truth for validation + lookups | **fetched** |
 | `graphrag.json` (~58 MB) | RAG chunks + wiki/operator graph used by semantic search | **fetched** |
 | `knowledge_graph_enhanced.gpickle` (~9 MB) | The ~37k-node knowledge graph (operators, params, examples, patterns) | **fetched** |
 | `vector_db/` (~110 MB) | ChromaDB vector store, embedded with **all-MiniLM-L6-v2** (local, key-free) | **fetched** |

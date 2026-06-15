@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 # 2. Install (single editable install + dev/test extras)
 pip install -e ".[dev]"
 
-# 3. Download the vector DB (~60 MB) — public HTTPS, no GitHub account needed
+# 3. Download the vector DB (~72 MB) — public HTTPS, no GitHub account needed
 python scripts\fetch_vector_db.py
 
 # 4. Verify your install

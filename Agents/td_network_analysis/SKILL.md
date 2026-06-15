@@ -4,7 +4,7 @@
 
 This skill enables AI agents to analyze, understand, and explain TouchDesigner networks by combining:
 - ASCII network structure parsing (via toeexpand)
-- Comprehensive operator documentation (~450 operators)
+- Comprehensive operator documentation (673 operators)
 - Performance analysis patterns
 - Best practice guidelines
 

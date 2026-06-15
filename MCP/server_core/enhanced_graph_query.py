@@ -431,6 +431,27 @@ class EnhancedGraphQuery:
             'sample_examples': examples
         }
 
+    def get_operators_by_family(self, family: str) -> List[Dict]:
+        """Return all distinct Operator nodes in a family. Each dict is the raw
+        Operator node (carries at least 'name' and 'family'). Backs
+        UnifiedGraphQuery.get_operators_by_family / query_graph(family=...)."""
+        fam = (family or "").strip().upper()
+        if not fam:
+            return []
+        seen: Set[str] = set()
+        out: List[Dict] = []
+        for node in self.nodes.values():
+            if node.get('type') != 'Operator':
+                continue
+            if (node.get('family') or '').upper() != fam:
+                continue
+            name = node.get('name', '')
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            out.append(node)
+        return out
+
     def _operators_connected(self, example_node: Dict, operator_types: List[str]) -> bool:
         """Check if specified operators are connected in the example"""
 

@@ -1767,14 +1767,13 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             if src.is_dir() and src.name.endswith(".dir"):
                 toe_dir = src
             elif src.is_file() and src.suffix.lower() in (".toe", ".tox"):
-                exe = _shutil.which("toeexpand.exe") or _shutil.which("toeexpand")
-                if not exe:
-                    cands = _glob.glob(r"C:\Program Files\Derivative\TouchDesigner*\bin\toeexpand.exe")
-                    exe = cands[0] if cands else None
+                from paths import resolve_td_tool
+                exe = resolve_td_tool("toeexpand")
                 if not exe:
                     return _expand_err(
-                        "toeexpand.exe not found.",
-                        "Install TouchDesigner (it provides toeexpand.exe), or pass an already-expanded .toe.dir.")
+                        "toeexpand not found.",
+                        "Install TouchDesigner (it provides toeexpand), set TD_TOEEXPAND/TD_BIN_DIR, "
+                        "or pass an already-expanded .toe.dir.")
                 work = Path(_tempfile.mkdtemp(prefix="td_expand_"))
                 cleanup_dir = work
                 work_proj = work / src.name

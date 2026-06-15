@@ -21,8 +21,7 @@ from .param_name_resolver import resolve_param_name, resolve_menu_value
 logger = logging.getLogger(__name__)
 
 # Paths
-TOECOLLAPSE = r"C:\Program Files\Derivative\TouchDesigner\bin\toecollapse.exe"
-TOEEXPAND = r"C:\Program Files\Derivative\TouchDesigner\bin\toeexpand.exe"
+from paths import resolve_td_tool, td_tool_missing_error
 TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
 
@@ -1895,8 +1894,12 @@ flags =  parlanguage 0
             shutil.copy(tox_file, temp_tox)
             
             # Expand the TOX
+            toeexpand = resolve_td_tool("toeexpand")
+            if toeexpand is None:
+                self.log(f"    [ERROR] {td_tool_missing_error('toeexpand')}")
+                return
             result = subprocess.run(
-                [TOEEXPAND, str(temp_tox)],
+                [str(toeexpand), str(temp_tox)],
                 capture_output=True,
                 text=True,
                 cwd=temp_path
@@ -2334,14 +2337,15 @@ execonstart 0 1
         if toe_path.exists():
             toe_path.unlink()
 
-        if not Path(TOECOLLAPSE).exists():
-            self.log(f"[ERROR] toecollapse not found at: {TOECOLLAPSE}")
+        toecollapse = resolve_td_tool("toecollapse")
+        if toecollapse is None:
+            self.log(f"[ERROR] {td_tool_missing_error('toecollapse')}")
             return None
 
         # Pass the .toc file path, not the .dir directory
         toc_path = self.output_dir / f"{project_name}.toe.toc"
         result = subprocess.run(
-            [TOECOLLAPSE, str(toc_path)],
+            [str(toecollapse), str(toc_path)],
             capture_output=True,
             text=True
         )

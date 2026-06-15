@@ -81,3 +81,62 @@ def wiki_supplemental(name: str) -> Path:
         wiki_supplemental("Write_a_GLSL_TOP.md")
     """
     return KB_WIKI_SUPPL / name
+
+
+# ---------------------------------------------------------------------------
+# TouchDesigner CLI binary resolver (toecollapse / toeexpand)
+# ---------------------------------------------------------------------------
+# Single source of truth for locating TD's command-line tools, so the project
+# works on any install / OS instead of hardcoding the Windows default path.
+import glob as _glob
+import shutil as _shutil
+import sys as _sys
+
+_TD_TOOL_ENV = {"toecollapse": "TD_TOECOLLAPSE", "toeexpand": "TD_TOEEXPAND"}
+
+
+def resolve_td_tool(name: str) -> "Path | None":
+    """Resolve a TouchDesigner CLI tool ('toecollapse' / 'toeexpand') to an
+    absolute Path, or None if not found. Resolution order:
+      1. per-tool env override (TD_TOECOLLAPSE / TD_TOEEXPAND)
+      2. TD_BIN_DIR / <tool>
+      3. PATH (shutil.which)
+      4. platform default install globs (newest version wins)
+    """
+    stem = name[:-4] if name.lower().endswith(".exe") else name
+    exe = stem + (".exe" if os.name == "nt" else "")
+    env_key = _TD_TOOL_ENV.get(stem)
+    if env_key and os.environ.get(env_key):
+        p = Path(os.environ[env_key])
+        if p.exists():
+            return p
+    bin_dir = os.environ.get("TD_BIN_DIR")
+    if bin_dir:
+        for cand in (Path(bin_dir) / exe, Path(bin_dir) / stem):
+            if cand.exists():
+                return cand
+    for candidate_name in (exe, stem):
+        found = _shutil.which(candidate_name)
+        if found:
+            return Path(found)
+    if os.name == "nt":
+        patterns = [r"C:\Program Files\Derivative\TouchDesigner*\bin\%s" % exe]
+    elif _sys.platform == "darwin":
+        patterns = ["/Applications/TouchDesigner*.app/Contents/MacOS/%s" % stem]
+    else:
+        patterns = [str(Path.home() / "TouchDesigner*" / "bin" / stem),
+                    "/opt/derivative/TouchDesigner*/bin/%s" % stem]
+    for pat in patterns:
+        hits = sorted(_glob.glob(pat))
+        if hits:
+            return Path(hits[-1])
+    return None
+
+
+def td_tool_missing_error(name: str) -> str:
+    """Actionable message to show when resolve_td_tool(name) returns None."""
+    stem = name[:-4] if name.lower().endswith(".exe") else name
+    env_key = _TD_TOOL_ENV.get(stem, "TD_BIN_DIR")
+    return (f"TouchDesigner '{stem}' tool not found. Install TouchDesigner, or set "
+            f"{env_key} (or TD_BIN_DIR) to the folder containing it. Looked on PATH "
+            f"and in the default install location.")

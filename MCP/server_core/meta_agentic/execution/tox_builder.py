@@ -10,7 +10,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-TOECOLLAPSE = "C:/Program Files/Derivative/TouchDesigner/bin/toecollapse.exe"
+from paths import resolve_td_tool, td_tool_missing_error
 
 from .toe_builder_bridge import ToeBuilderBridge
 
@@ -188,13 +188,14 @@ end
         if tox_path.exists():
             tox_path.unlink()
 
-        if not Path(TOECOLLAPSE).exists():
-            self.log(f"[ERROR] toecollapse not found at: {TOECOLLAPSE}")
+        toecollapse = resolve_td_tool("toecollapse")
+        if toecollapse is None:
+            self.log(f"[ERROR] {td_tool_missing_error('toecollapse')}")
             return None
 
         # Pass the .toc file path, not the .dir directory
         toc_path = self.output_dir / f"{component_name}.tox.toc"
-        result = subprocess.run([TOECOLLAPSE, str(toc_path)], capture_output=True, text=True)
+        result = subprocess.run([str(toecollapse), str(toc_path)], capture_output=True, text=True)
 
         # Check for subprocess errors
         if result.returncode != 0:

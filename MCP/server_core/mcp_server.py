@@ -600,65 +600,15 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 "message": "design must be a dictionary with 'operators' and 'connections'"
             }
 
-        # Handle palette embedding
+        # Handle palette embedding — deferred to V0.2 (planned via live import, or by
+        # referencing an external .tox from a base/container COMP, not bundled JSON).
         if 'palette' in design:
-            palette_name = design['palette']
-            palette_dir = Path(__file__).parent / "data" / "palette_lossless"
-            palette_file = palette_dir / f"{palette_name}.json.gz"
-
-            print(f"Loading palette: {palette_name} from {palette_file}", file=sys.stderr)
-
-            if not palette_file.exists():
-                # Palette embedding is deferred to V0.2 — planned via live import, or by
-                # referencing an external .tox from a base/container COMP (not bundled JSON).
-                return {
-                    "status": "ERROR",
-                    "message": ("Palette embedding is not available in V0.1.2 (planned for "
-                                "V0.2 via live import / external .tox reference). Build the "
-                                "network without the 'palette' key."),
-                }
-
-            # Load and decompress palette JSON
-            with gzip.open(palette_file, 'rt', encoding='utf-8') as f:
-                palette_data = json.load(f)
-
-            print(f"Loaded palette with {len(palette_data.get('operators', {}))} operators", file=sys.stderr)
-
-            # Build using lossless builder for palette
-            # Import the lossless builder
-            lossless_builder_path = Path(__file__).parent / "builders"
-            sys.path.insert(0, str(lossless_builder_path))
-            from json_to_dir_LOSSLESS import LosslessJsonToDirConverter
-
-            # Build palette TOX
-            tox_name = project_name or palette_name
-            converter = LosslessJsonToDirConverter(palette_data)
-            tox_path = Path(output_dir) / f"{tox_name}.tox"
-            converter.convert(str(tox_path))
-
-            # Collapse to .tox
-            import subprocess
-            toc_path = Path(output_dir) / f"{tox_name}.tox.toc"
-            if toc_path.exists():
-                subprocess.run([
-                    "C:/Program Files/Derivative/TouchDesigner/bin/toecollapse.exe",
-                    str(toc_path)
-                ], capture_output=True)
-
-            if tox_path.exists():
-                return {
-                    "status": "SUCCESS",
-                    "file": str(tox_path),
-                    "size": tox_path.stat().st_size,
-                    "operators": len(palette_data.get('operators', {})),
-                    "connections": len(palette_data.get('connections', [])),
-                    "palette": palette_name
-                }
-            else:
-                return {
-                    "status": "ERROR",
-                    "message": f"Failed to build palette TOX"
-                }
+            return {
+                "status": "ERROR",
+                "message": ("Palette embedding is not available in V0.1.2 (planned for "
+                            "V0.2 via live import / external .tox reference). Build the "
+                            "network without the 'palette' key."),
+            }
 
         if 'operators' not in design:
             design['operators'] = []

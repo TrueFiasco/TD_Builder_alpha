@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent
 
 # Engine import roots. Order matters: repo root first, then the subsystem
 # package roots whose top-level names (api, core, validation, builders,
-# meta_agentic, td_live_client, json_to_dir_LOSSLESS) the server imports.
+# meta_agentic, td_live_client) the server imports.
 _PATHS = [
     ROOT,
     ROOT / "MCP" / "engine",        # the TD-file engine (was unified_system)

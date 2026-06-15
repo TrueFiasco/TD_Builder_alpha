@@ -51,7 +51,10 @@ class OperatorRegistry:
     def _load_registry(self):
         """Load operator specifications from JSON."""
         if not self.registry_path.exists():
-            raise FileNotFoundError(f"Operator registry not found: {self.registry_path}")
+            raise FileNotFoundError(
+                f"Operator registry not found: {self.registry_path}. "
+                "Run `python scripts/fetch_vector_db.py` from the repo root to fetch the KB bundle."
+            )
 
         with open(self.registry_path, 'r', encoding='utf-8') as f:
             data = json.load(f)

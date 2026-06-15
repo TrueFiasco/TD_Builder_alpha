@@ -33,10 +33,23 @@ def promote(pytestconfig) -> bool:
 @pytest.fixture(scope="session")
 def server():
     """The imported MCP server module (heavy; loaded once)."""
+    # A missing KB is operator error, not a reason to silently skip the whole
+    # offline gate -- fail loudly with the fix. (Live-TD-down stays a real skip
+    # via the separate live_server fixture.)
+    repo_root = os.path.dirname(os.path.dirname(__file__))  # tests/ -> repo root
+    if repo_root not in sys.path:
+        sys.path.insert(0, repo_root)
+    from paths import KB_OPERATORS
+    if not KB_OPERATORS.exists():
+        pytest.fail(
+            f"KB not fetched (missing {KB_OPERATORS}). "
+            "Run `python scripts/fetch_vector_db.py` from the repo root, then re-run.",
+            pytrace=False,
+        )
     try:
         return load_server()
     except Exception as exc:  # noqa: BLE001
-        pytest.skip(f"MCP server unavailable: {exc}")
+        pytest.fail(f"MCP server failed to load: {exc}", pytrace=False)
 
 
 @pytest.fixture(scope="session")

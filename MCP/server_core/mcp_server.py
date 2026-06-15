@@ -132,7 +132,10 @@ try:
     _validator = ValidationPipeline(_registry)
     UNIFIED_SYSTEM_ENABLED = True
     print("Unified system validation/conversion enabled", file=sys.stderr)
-except ImportError as e:
+except (ImportError, FileNotFoundError) as e:
+    # FileNotFoundError: the KB (operators.json) isn't fetched yet. Degrade
+    # gracefully (the build/validate/convert tools emit their own unavailable
+    # message) instead of crashing the whole MCP import.
     UNIFIED_SYSTEM_ENABLED = False
     _registry = None
     _converter = None

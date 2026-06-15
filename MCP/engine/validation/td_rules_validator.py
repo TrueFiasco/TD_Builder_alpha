@@ -7,7 +7,7 @@ import sys
 from pathlib import Path as PathLib
 sys.path.insert(0, str(PathLib(__file__).parent.parent))
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 from core.models import ValidationError, StageReport, TDNetwork, OperatorFamily
 from core.operator_registry import OperatorRegistry
 
@@ -76,8 +76,9 @@ class TDRulesValidator:
 
         # Validate operators
         for idx, operator in enumerate(operators_data):
-            op_errors = self._validate_operator_rules(operator, idx)
+            op_errors, op_warnings = self._validate_operator_rules(operator, idx)
             errors.extend(op_errors)
+            warnings.extend(op_warnings)
 
         status = "PASS" if len(errors) == 0 else "FAIL"
 
@@ -88,9 +89,10 @@ class TDRulesValidator:
             warnings=warnings
         )
 
-    def _validate_operator_rules(self, operator: Dict[str, Any], index: int) -> List[ValidationError]:
-        """Validate TouchDesigner rules for single operator."""
+    def _validate_operator_rules(self, operator: Dict[str, Any], index: int) -> Tuple[List[ValidationError], List[ValidationError]]:
+        """Validate TouchDesigner rules for single operator. Returns (errors, warnings)."""
         errors = []
+        warnings = []
         path = operator.get("path", f"operator[{index}]")
         family_str = operator.get("family", "")
         type_name = operator.get("type", "")
@@ -148,7 +150,7 @@ class TDRulesValidator:
                 suggestion="Use absolute paths starting with /"
             ))
 
-        return errors
+        return errors, warnings
 
     def _operator_to_dict(self, operator) -> Dict[str, Any]:
         """Convert Operator object to dict."""

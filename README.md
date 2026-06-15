@@ -73,3 +73,10 @@ py -3.11 -m pytest tests\acceptance tests\measure -q   # ~22 checks; live tests 
   round-trip path (the CLIs / `td_fixture_pipeline`) is solid.
 - `td_build_project(palette=…)` is a known-broken path (deferred to a later release).
 - See [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md).
+
+## License
+
+TD Builder is licensed under the **GNU Affero General Public License v3.0 or later
+(AGPL-3.0-or-later)** — see [LICENSE](LICENSE). Note AGPL **§13 (Remote Network Interaction)**: if you
+run a modified version of these MCP servers for others to interact with over a network, you must offer
+those users the Corresponding Source of your modified version.

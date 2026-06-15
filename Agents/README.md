@@ -9,7 +9,7 @@ reads `experts/` and `expertise/` directly from here (via `TD_BUILDER_ROOT`/this
 | `expertise/` | Hand-curated YAML "working memory" (operator patterns, GLSL/Python templates, build rules, palette catalogs). | read by the builder (`td_build_project`) for conversion/build rules |
 | `td-builder-howto/` | The `SKILL.md` how-to skill. | Claude Code / skill-aware clients |
 | `td_network_analysis/` | A skill for analyzing TD networks (+ examples). | Claude Code / skill-aware clients |
-| `Stratergies/` | Notes on rules/enforcement for using the experts well (with and without orchestration). | humans + prompt authors |
+| `Strategies/` | Notes on rules/enforcement for using the experts well (with and without orchestration). | humans + prompt authors |
 
 ## How to use the experts
 There is no automatic multi-agent runner in this release. Instead, an LLM calls

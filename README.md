@@ -10,7 +10,7 @@ TouchDesigner editing/feedback tools. Everything runs locally — **no API key r
 |---|---|
 | **`MCP/`** | The two MCP servers + all the code they run. `server.py` (offline) and `live_server.py` (live-TD) are the entry points; `server_core/` is the server brain, `engine/` is the TD-file engine, `live_client/` holds the live-TD client, `td-webserver/` is the TouchDesigner-side `.tox` asset. |
 | **`KB/`** | The knowledge base (operator specs, graph, vector store, wiki guides). Fetched/placed on install — see `KB/README.md`. |
-| **`Agents/`** | Expert prompts (`experts/`), learned expertise (`expertise/`), skills (`td-builder-howto/`, `td_network_analysis/`), and strategy notes (`Stratergies/`). The server reads experts/expertise from here. |
+| **`Agents/`** | Expert prompts (`experts/`), learned expertise (`expertise/`), skills (`td-builder-howto/`, `td_network_analysis/`), and strategy notes (`Strategies/`). The server reads experts/expertise from here. |
 | **`Tools/`** | LLM-facing documentation of every tool (`TOOLS.md` + the `KB tools/`, `Live tools/`, `offline Builder tools/`, `Other/` categories) and the offline CLI launchers. |
 | **`Config/`** | User configuration: `.env.template`, `search_config.json`, and `SETTINGS.md`. |
 | **`LLM/Pre-Prompts/`** | Reusable pre-prompts and when to use them. |

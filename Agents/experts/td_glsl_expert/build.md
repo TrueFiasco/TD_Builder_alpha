@@ -203,8 +203,9 @@ float t = uPhase;
 > ```
 > → the builder emits `glsl1_pixel` (file `shaders/glsl1_pixel.glsl`), `glsl1_compute`,
 > and `glsl1_info`, all docked to `glsl1`, with `pixeldat`/`computedat` set for you. The
-> manual "separate Text DAT + `pixeldat`" pattern below still works (the builder won't
-> clobber a DAT you supply), but prefer the `shader` field — the shader then lives on disk
+> manual "separate Text DAT + `pixeldat`" pattern below still works (set `pixeldat` yourself
+> and the builder respects it, skipping its own pixel DAT), but prefer the `shader` field — the
+> shader then lives on disk
 > where it's meant to be edited, not poked into TD live.
 
 ### WRONG - Inline Code in Parameters

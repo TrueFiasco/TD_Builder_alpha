@@ -408,7 +408,7 @@ def _load_kb():
 app = Server("touchdesigner-mcp-server")
 
 SERVER_NAME = "touchdesigner-mcp-server"
-SERVER_VERSION = "0.1.1"
+SERVER_VERSION = "0.1.2"
 
 # Tools that need the heavy knowledge graph / vector search. Only these
 # trigger the one-time _ensure_kb() lazy load; everything else (get_server_info,
@@ -613,7 +613,7 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 # referencing an external .tox from a base/container COMP (not bundled JSON).
                 return {
                     "status": "ERROR",
-                    "message": ("Palette embedding is not available in V0.1.1 (planned for "
+                    "message": ("Palette embedding is not available in V0.1.2 (planned for "
                                 "V0.2 via live import / external .tox reference). Build the "
                                 "network without the 'palette' key."),
                 }

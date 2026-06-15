@@ -42,28 +42,14 @@ KB_VECTORDB: Path = KB_ROOT / "vector_db"
 KB_WIKI_SUPPL: Path = KB_ROOT / "wiki_supplemental"
 
 # ---------------------------------------------------------------------------
-# Legacy layout (pre-alpha META_AGENTIC_TOOL/data/wiki_docs)
-# ---------------------------------------------------------------------------
-# Kept only as fallback for consumers that haven't migrated to the alpha KB.
-# New code should NOT add paths here.
-LEGACY_DATA: Path = REPO_ROOT / "META_AGENTIC_TOOL" / "data"
-LEGACY_WIKI_DOCS: Path = LEGACY_DATA / "wiki_docs"
-LEGACY_OPERATORS_ENRICHED: Path = LEGACY_WIKI_DOCS / "td_universal_parsed_enriched.json"
-LEGACY_OPERATORS_BASE: Path = LEGACY_WIKI_DOCS / "td_universal_parsed.json"
-
-# ---------------------------------------------------------------------------
 # Resolver helpers
 # ---------------------------------------------------------------------------
 def kb_operators_path() -> Path:
-    """First existing operator-schema JSON in the alpha → enriched → legacy chain.
+    """Path to the canonical operator-schema JSON (KB/operators.json).
 
-    Returns:
-        Path to the chosen JSON. If nothing exists, returns the alpha path so
-        a downstream FileNotFoundError points at the canonical install location.
+    Returns the alpha KB path; if it doesn't exist yet, a downstream
+    FileNotFoundError points at the canonical install location.
     """
-    for candidate in (KB_OPERATORS, LEGACY_OPERATORS_ENRICHED, LEGACY_OPERATORS_BASE):
-        if candidate.exists():
-            return candidate
     return KB_OPERATORS
 
 

@@ -185,8 +185,8 @@ AVAILABLE_EXPERTS = {
 }
 # Roster cleanup (H1/M20/M21): summary_generator, format_reverse_engineer, and
 # creative_orchestrator were registered here historically but never invoked by
-# V2-V6 strategies and not reachable via the standard expert loader. Moved to
-# archive/experts_unused/ — keep this dict in sync with EXPERT_IDS.
+# V2-V6 strategies and not reachable via the standard expert loader; they were
+# removed from this roster.
 
 def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
     """Load expert prompt from meta_agentic/experts/{expert}/{phase}.md"""

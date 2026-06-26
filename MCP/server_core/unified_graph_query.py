@@ -578,11 +578,13 @@ class UnifiedGraphQuery:
             except Exception as e:
                 print(f"Warning: Could not query wiki data by family: {e}")
 
-        # Get from enhanced graph (real examples)
-        try:
-            enh_ops = self.enhanced_graph_query.get_operators_by_family(family)
-            if enh_ops:
-                for op in enh_ops:
+        # Get from enhanced graph (real examples). The hasattr guard makes a
+        # missing method an explicit, visible warning instead of a silently
+        # swallowed AttributeError (which previously made family queries wiki-only).
+        if hasattr(self.enhanced_graph_query, "get_operators_by_family"):
+            try:
+                enh_ops = self.enhanced_graph_query.get_operators_by_family(family)
+                for op in enh_ops or []:
                     op_name = op.get('name', op.get('operator_name'))
                     if op_name and op_name not in operators:
                         operators.add(op_name)
@@ -591,8 +593,10 @@ class UnifiedGraphQuery:
                             'source': 'examples',
                             'data': op
                         })
-        except Exception as e:
-            print(f"Warning: Could not query enhanced graph by family: {e}")
+            except Exception as e:
+                print(f"Warning: enhanced graph family query failed: {e}")
+        else:
+            print("Warning: enhanced_graph_query lacks get_operators_by_family (stale build?)")
 
         return results
 

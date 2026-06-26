@@ -6,7 +6,7 @@ lean. `KB/README.md` is the short, in-folder version of this document.
 
 | File / dir | What it is | Ships how |
 |---|---|---|
-| `operators.json` (~36 MB) | 670 enriched operator specs (the source of truth for validation + lookups) | in the bundle |
+| `operators.json` (~36 MB) | 673 enriched operator specs (the source of truth for validation + lookups) | in the bundle |
 | `graphrag.json` (~58 MB) | RAG chunks + wiki/operator graph used by semantic search | in the bundle |
 | `knowledge_graph_enhanced.gpickle` (~9 MB) | The 37k-node knowledge graph (operators, params, examples, patterns) | in the bundle |
 | `vector_db/` (~110 MB) | ChromaDB vector store, embedded with **all-MiniLM-L6-v2** (local, key-free) | **fetched** via `scripts/fetch_vector_db.py` (not in git) |

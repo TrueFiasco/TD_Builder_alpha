@@ -10,7 +10,7 @@ TouchDesigner editing/feedback tools. Everything runs locally — **no API key r
 |---|---|
 | **`MCP/`** | The two MCP servers + all the code they run. `server.py` (offline) and `live_server.py` (live-TD) are the entry points; `server_core/` is the server brain, `engine/` is the TD-file engine, `live_client/` holds the live-TD client, `td-webserver/` is the TouchDesigner-side `.tox` asset. |
 | **`KB/`** | The knowledge base (operator specs, graph, vector store, wiki guides). Fetched/placed on install — see `KB/README.md`. |
-| **`Agents/`** | Expert prompts (`experts/`), learned expertise (`expertise/`), skills (`td-builder-howto/`, `td_network_analysis/`), and strategy notes (`Stratergies/`). The server reads experts/expertise from here. |
+| **`Agents/`** | Expert prompts (`experts/`), learned expertise (`expertise/`), skills (`td-builder-howto/`, `td_network_analysis/`), and strategy notes (`Strategies/`). The server reads experts/expertise from here. |
 | **`Tools/`** | LLM-facing documentation of every tool (`TOOLS.md` + the `KB tools/`, `Live tools/`, `offline Builder tools/`, `Other/` categories) and the offline CLI launchers. |
 | **`Config/`** | User configuration: `.env.template`, `search_config.json`, and `SETTINGS.md`. |
 | **`LLM/Pre-Prompts/`** | Reusable pre-prompts and when to use them. |
@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 # 2. Install (single editable install + dev/test extras)
 pip install -e ".[dev]"
 
-# 3. Download the vector DB (~60 MB) — public HTTPS, no GitHub account needed
+# 3. Download the vector DB (~72 MB) — public HTTPS, no GitHub account needed
 python scripts\fetch_vector_db.py
 
 # 4. Verify your install
@@ -73,3 +73,10 @@ py -3.11 -m pytest tests\acceptance tests\measure -q   # ~22 checks; live tests 
   round-trip path (the CLIs / `td_fixture_pipeline`) is solid.
 - `td_build_project(palette=…)` is a known-broken path (deferred to a later release).
 - See [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md).
+
+## License
+
+TD Builder is licensed under the **GNU Affero General Public License v3.0 or later
+(AGPL-3.0-or-later)** — see [LICENSE](LICENSE). Note AGPL **§13 (Remote Network Interaction)**: if you
+run a modified version of these MCP servers for others to interact with over a network, you must offer
+those users the Corresponding Source of your modified version.

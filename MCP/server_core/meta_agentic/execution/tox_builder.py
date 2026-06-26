@@ -10,9 +10,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-TOECOLLAPSE = "C:/Program Files/Derivative/TouchDesigner/bin/toecollapse.exe"
+from paths import resolve_td_tool, td_tool_missing_error
 
 from .toe_builder_bridge import ToeBuilderBridge
+
+# Hang-guard for the toecollapse subprocess. Generous (toecollapse is normally fast);
+# this only catches a genuinely stuck process so the build can't block forever. NOTE:
+# the MCP *client* may impose a much shorter tool-call timeout (~45s) that the server
+# cannot override — on a client timeout the .tox usually still completes on disk.
+COLLAPSE_TIMEOUT_S = 300
 
 
 class ToxBuilder(ToeBuilderBridge):
@@ -95,16 +101,13 @@ end
                     parent_op = container_ops[parent_name]
                     container_path = f"{component_name}/{parent_name}"
 
-                    # Determine container type
-                    op_type = parent_op.get("type", "base").lower()
-                    family = parent_op.get("family", "COMP").upper()
+                    # Determine container type/position. Honour the declared type/family via
+                    # the shared resolver (BUG 2) instead of a blind COMP:{op_type}, so e.g.
+                    # type:"geometry" -> COMP:geo (not COMP:geometry).
+                    op_type = parent_op.get("type", "base")
+                    family = parent_op.get("family", "COMP")
                     position = parent_op.get("position", [0, 0])
-
-                    # Map to TD type
-                    if op_type in ["base", "container", "geo", "panel"]:
-                        td_type = f"COMP:{op_type}"
-                    else:
-                        td_type = f"COMP:{op_type}"
+                    td_type = self._map_op_type(op_type, component_name, family)
 
                     # Write container .n file
                     n_content = f"""{td_type}
@@ -113,7 +116,12 @@ flags =  parlanguage 0
 end
 """
                     self._write_file(f"{container_path}.n", n_content)
-                    self._write_file(f"{container_path}.parm", "?\n?\n")
+                    # Apply the parent container's own parameters (instancing/material/...).
+                    parm_lines = ["?"]
+                    parm_lines += self._param_lines(parent_op.get("parameters", {}) or {}, td_type,
+                                                    op_type, container_path, component_name, parent_name)
+                    parm_lines.append("?")
+                    self._write_file(f"{container_path}.parm", "\n".join(parm_lines) + "\n")
 
                     # Create container directory
                     (self.project_dir / container_path).mkdir(parents=True, exist_ok=True)
@@ -148,6 +156,7 @@ end
             self._write_container(container, component_name)
 
         toc_path = self._write_tox_toc(component_name)
+        self._write_component_summary(component_name)
         tox_path = self._collapse_tox(component_name)
 
         if tox_path:
@@ -188,13 +197,26 @@ end
         if tox_path.exists():
             tox_path.unlink()
 
-        if not Path(TOECOLLAPSE).exists():
-            self.log(f"[ERROR] toecollapse not found at: {TOECOLLAPSE}")
+        toecollapse = resolve_td_tool("toecollapse")
+        if toecollapse is None:
+            self.log(f"[ERROR] {td_tool_missing_error('toecollapse')}")
             return None
 
         # Pass the .toc file path, not the .dir directory
         toc_path = self.output_dir / f"{component_name}.tox.toc"
-        result = subprocess.run([TOECOLLAPSE, str(toc_path)], capture_output=True, text=True)
+        try:
+            result = subprocess.run(
+                [str(toecollapse), str(toc_path)],
+                capture_output=True, text=True, timeout=COLLAPSE_TIMEOUT_S,
+            )
+        except subprocess.TimeoutExpired:
+            # A genuinely stuck toecollapse — fail cleanly instead of blocking forever.
+            self.log(
+                f"[ERROR] toecollapse exceeded {COLLAPSE_TIMEOUT_S}s and was aborted. "
+                f"If your MCP client also reported a timeout (~45s) the build may still have "
+                f"completed on disk at {tox_path} — check there before rebuilding."
+            )
+            return None
 
         # Check for subprocess errors
         if result.returncode != 0:

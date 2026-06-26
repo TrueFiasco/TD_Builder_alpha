@@ -3,8 +3,8 @@
 # Updated by: All agents when encountering issues
 
 schema_version: "1.0"
-last_updated: "2025-12-20T20:00:00Z"
-update_count: 9
+last_updated: "2026-06-26T00:00:00Z"
+update_count: 13
 
 # Active problems
 problems:
@@ -202,6 +202,58 @@ problems:
       Content storage operators (Table DAT, Text DAT) store data in file, not parameters.
       For programmatic table creation, generate data upstream and convert to DAT.
 
+  PROB-014:
+    timestamp: "2026-06-26T00:00:00Z"
+    category: "build_failure"
+    description: "GLSL POP imported with outputattrs='' leaves P undeclared -> shader compile fail"
+    root_cause: "A live-created glslPOP defaults outputattrs to empty; offline designs that omit it ship a POP with no declared output attributes"
+    fix: "Builder defaults outputattrs='P' on a GLSL POP (POP:glsl/POP:glsladv) when the design omits it (mirrors the sopToCHOP attribscope='P' default); an explicit value is preserved"
+    prevention:
+      - expertise_file: "toe_builder_bridge.py"
+        update: "Auto-set outputattrs='P' for is_glsl_pop when omitted (Round-3 Stream 1)"
+    status: "fixed"
+    validated: true
+    learning: "A GLSL POP must declare at least P in outputattrs to output the position attribute it writes"
+
+  PROB-015:
+    timestamp: "2026-06-26T00:00:00Z"
+    category: "expertise_gap"
+    description: "instanceactive set as a boolean toggle makes TD hunt for an attribute literally named 'True'"
+    root_cause: "On a geometryCOMP, instanceactive is a per-instance attribute SELECTOR (StrMenu), not an on/off switch; the on/off switch is 'instancing'"
+    fix: "Use instancing=1 to enable instancing; leave instanceactive unset, or set it to an attribute name that gates per-instance visibility"
+    prevention:
+      - expertise_file: "td_problems.yaml"
+        update: "Documented instanceactive (StrMenu) vs instancing (toggle) distinction"
+    status: "documented"
+    validated: true
+    learning: "instancing = on/off; instanceactive = which attribute decides per-instance active state"
+
+  PROB-016:
+    timestamp: "2026-06-26T00:00:00Z"
+    category: "build_failure"
+    description: "GLSL POP scalar uniform reads as 0 / array uniform errors when set on the wrong UI page"
+    root_cause: "GLSL POP uniform pages are role-specific: scalars/vectors belong on the Vectors page (vec{N}name/type/value), arrays on the Arrays page; the Constants page does not bind for these"
+    fix: "Map scalar/vector uniforms to vec{N}name/vec{N}type/vec{N}value{x..} (Vectors page); use the Arrays page for float[]; never the Constants page"
+    prevention:
+      - expertise_file: "td_problems.yaml"
+        update: "Documented GLSL POP uniform page placement (Vectors / Arrays / never Constants)"
+    status: "documented"
+    validated: true
+    learning: "POP auto-declares Arrays-page uniforms as float[]; Vectors-page scalars are declared in-shader; the Constants page is ignored on POPs"
+
+  PROB-017:
+    timestamp: "2026-06-26T00:00:00Z"
+    category: "expertise_gap"
+    description: "A live-created geometryCOMP ships a default torus1 child that gets instanced alongside your geometry"
+    root_cause: "TouchDesigner's UI seeds a new geometryCOMP with a default torus1 (render flag on); this is a live-create convenience, not part of an offline-built .tox"
+    fix: "When building live, destroy torus1 in each geo. The offline builder writes only the design's declared children, so offline-built geos have no stray torus1"
+    prevention:
+      - expertise_file: "td_problems.yaml"
+        update: "Documented torus1 default as live-create-only (offline builder unaffected)"
+    status: "documented"
+    validated: true
+    learning: "torus1 in a geometryCOMP is a live-UI default; offline .tox builds don't add it"
+
 # Format:
 # PROB-001:
 #   timestamp: "2025-12-15T10:30:00Z"
@@ -311,10 +363,11 @@ root_cause_patterns:
 
 # Problem statistics
 statistics:
-  total_problems: 13
-  fixed_problems: 10  # PROB-001 to 007, PROB-008, PROB-009, PROB-010
+  total_problems: 17
+  fixed_problems: 11  # PROB-001..010, PROB-014 (glslPOP outputattrs default)
   new_problems: 1     # PROB-011 (conversion ops extraction)
   workarounds: 2      # PROB-012 (expression escaping), PROB-013 (Table DAT content)
+  documented: 3       # PROB-015 (instanceactive), PROB-016 (uniform pages), PROB-017 (torus1 live-only)
   recurrence_count: 0  # Problems that came back after "fix"
 
 # Prevention effectiveness tracking

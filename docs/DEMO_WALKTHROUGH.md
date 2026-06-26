@@ -24,7 +24,7 @@ Ask the model to use these tools:
 - `find_operator_examples` / `find_operator_combination` — real usage from the
   479 parsed example networks.
 
-Expected: structured results drawn from the canonical 670-operator KB
+Expected: structured results drawn from the canonical 673-operator KB
 (`KB/operators.json`) — real parameter names, no hallucination.
 
 ## 2. Build a network offline as a `.tox`

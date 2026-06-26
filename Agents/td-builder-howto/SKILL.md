@@ -1,11 +1,11 @@
 ---
 name: td-builder-howto
-description: Load when working in or with the TD Builder Alpha project — building, editing, or debugging TouchDesigner networks via the td-builder-alpha MCP. Triggers on TouchDesigner, TD, .toe, .tox, TouchDesigner operators (POP, TOP, CHOP, SOP, DAT, MAT, COMP), GLSL TOP/POP, compute shader, feedback POP, raymarch, SDF, or any mcp__td-builder-alpha__* tool call. Load BEFORE acting — these are gotchas you cannot recover from by trial and error.
+description: Load when working in or with the TD Builder Alpha project — building, editing, or debugging TouchDesigner networks via the td-builder MCP. Triggers on TouchDesigner, TD, .toe, .tox, TouchDesigner operators (POP, TOP, CHOP, SOP, DAT, MAT, COMP), GLSL TOP/POP, compute shader, feedback POP, raymarch, SDF, or any mcp__td-builder__* / mcp__td-builder-live__* tool call. Load BEFORE acting — these are gotchas you cannot recover from by trial and error.
 ---
 
 # Working in TD Builder Alpha
 
-You are working against a live TouchDesigner instance via the `td-builder-alpha` MCP. Read this whole file before your first tool call — most of the failures here are silent or misleading, and the cost of one wrong call is large (TD crashes, lost work, hours debugging the wrong layer).
+You are working against a live TouchDesigner instance via the `td-builder-live` MCP (and the offline `td-builder` MCP for build/validate/convert). Read this whole file before your first tool call — most of the failures here are silent or misleading, and the cost of one wrong call is large (TD crashes, lost work, hours debugging the wrong layer).
 
 ## The non-negotiables
 
@@ -162,7 +162,7 @@ This makes the project self-contained: it survives being moved, zipped, shared, 
 
 ## Tool preferences
 
-Always prefer `td-builder-alpha` namespace tools over generic ones. Within that namespace:
+Always prefer `td-builder` / `td-builder-live` namespace tools over generic ones. Within that namespace:
 
 | Job | Use | Don't use |
 |---|---|---|
@@ -188,7 +188,7 @@ A lot of useful work does not need TD running. Use these whenever you can — th
 | Job | Offline tool | Why |
 |---|---|---|
 | Inspect a `.toe` / `.tox` structure | `toeexpand` CLI (TD's own) → produces `.toe.dir/` with `.n`/`.parm`/`.toc` files | Read the network as plain files instead of guessing from a screenshot |
-| Parse + summarise an existing network | `unified_system` `LosslessParser.parse()` (Python) — backs the `td-validate` / `td-convert` CLIs | Gives you a `TDNetwork` object you can introspect — node list, params, connections, no TD needed |
+| Parse + summarise an existing network | `MCP/engine` lossless parser (`parsers/lossless_parser.py`) (Python) — backs the `td-validate` / `td-convert` CLIs | Gives you a `TDNetwork` object you can introspect — node list, params, connections, no TD needed |
 | Validate a `.toe.dir` before importing | `td-validate <path>` CLI | 5-stage validator; catches mode-0/17 parm issues and orphan refs |
 | Convert format (LOSSLESS ↔ BASIC) | `td-convert` CLI | Same engine (`MCP/engine`) |
 | **Build a `.tox` offline, then import live** | `td-build` CLI or `TOEBuilder._build_lossless()` directly → produces `.toe.dir/` → `toecollapse` → `.tox` → drop into the live network | Useful when iterating on a small subnet without thrashing the live project |

@@ -21,8 +21,7 @@ from .param_name_resolver import resolve_param_name, resolve_menu_value
 logger = logging.getLogger(__name__)
 
 # Paths
-TOECOLLAPSE = r"C:\Program Files\Derivative\TouchDesigner\bin\toecollapse.exe"
-TOEEXPAND = r"C:\Program Files\Derivative\TouchDesigner\bin\toeexpand.exe"
+from paths import resolve_td_tool, td_tool_missing_error
 TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
 
@@ -338,8 +337,10 @@ OP_TYPE_MAP = {
 
     # COMPs
     "container": "COMP:container",
-    "geo": "COMP:geometry",
-    "geometry": "COMP:geometry",
+    # TD's Geometry COMP OPType is "geo" (NOT "geometry"); writing COMP:geometry makes TD
+    # fall back to a base COMP on import (BUG 2). Both aliases resolve to the real token.
+    "geo": "COMP:geo",
+    "geometry": "COMP:geo",
     "camera": "COMP:camera",
     "light": "COMP:light",
     "base": "COMP:base",
@@ -531,6 +532,7 @@ class ToeBuilderBridge:
         self.expressions = {}  # op/param -> expression
         self.palette_io_map = {}  # Maps palette_name -> {"inputs": [...], "outputs": [...], "path": ...}
         self.container_io_map = {}  # BUG-C FIX: Maps container_name -> {"outputs": [...]} for regular containers
+        self.external_components = []  # Round-4 #1: external-tox refs, for the build-log summary
 
     def log(self, msg: str):
         if self.verbose:
@@ -582,6 +584,9 @@ class ToeBuilderBridge:
         # 2. Write project container
         self._write_project_container(network)
 
+        # 2b. Write the /perform Window COMP every TD project ships
+        self._write_perform_window()
+
         # 3. Write containers and operators
         containers = network.get("containers", [])
         for container in containers:
@@ -597,6 +602,9 @@ class ToeBuilderBridge:
         # 4. Write TOC
         toc_path = self._write_toc(project_name)
 
+        # 4b. External-tox component summary (build log)
+        self._write_component_summary(project_name)
+
         # 5. Collapse to TOE
         toe_path = self._collapse(project_name)
 
@@ -607,6 +615,21 @@ class ToeBuilderBridge:
             self.log("=" * 60)
 
         return toe_path
+
+    def _write_component_summary(self, project_name: str):
+        """Write a per-project build-log summary of the external-tox components a build
+        references (Round-4 #1) — `<project>.components.md` in the output dir. Each entry is
+        a reusable, file-backed component; this makes the project self-documenting and is the
+        place a component manifest (inputs/outputs/params) is surfaced (extended in #1b)."""
+        comps = getattr(self, "external_components", None)
+        if not comps:
+            return
+        lines = [f"# {project_name} — external components ({len(comps)})", ""]
+        for c in comps:
+            lines.append(f"- **{c['name']}** (`{c['td_type']}`) -> `{c['tox']}`  _(at `{c['path']}`)_")
+        summary_path = self.output_dir / f"{project_name}.components.md"
+        summary_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        self.log(f"  Wrote component summary: {summary_path.name} ({len(comps)} components)")
 
     def _build_connection_map(self, connections: list):
         """Build a map of target -> [sources] from connections list.
@@ -646,16 +669,29 @@ class ToeBuilderBridge:
                 self.expressions[param_path] = expression
 
     def _write_system_files(self):
-        """Write root-level system files for TOE."""
+        """Write root-level system files for a `.toe` project (Round-4 #8 — make `.toe`
+        first-class).
+
+        Ground-truthed against a real TD-saved `.toe`: `.start` is plain `cookrate`/`realtime`
+        lines (NOT a `?`-delimited .parm block, which the bridge used to write), and a
+        `.application` (desk/pane/winplacement) layout is REQUIRED — without it the project
+        opens with no network editor. The displayed pane targets `/project1` (the bridge nests
+        the build under a `project1` container)."""
         self.log("\n[1/5] Writing system files...")
 
         self._write_file(".build", "version 099\nbuild 2025.31760\ntime Fri Dec 20 10:00:00 2025\nosname Windows\nosversion 10\n")
-        self._write_file(".start", "?\nperform 0 on\nrealtime 0 on\ncookrate 0 60\n?\n")
+        self._write_file(".start", "cookrate 60\nrealtime on\n")
         self._write_file(".grps", "-2\n0\n")
         self._write_file(".root", "end\n")
         self._write_file(".parm", "?\n?\n")
+        self._write_file(".application",
+                         "\n#Desk..\n# layout \ndesk -c * \ndesk -n pane1 *\n\n"
+                         "#pane1\ndesk -p /project1 pane1\ndesk -t neteditor pane1\ndesk -k 0 pane1\n"
+                         "neteditor -c 0 -e 1 -G 0.75 -o 0 -r 1 -P 0.8 -s 0 -w 0 -x 0 -t 1 -d 1 -g 0 -p pane1\n\n"
+                         "winplacement ontop=0 mode=auto posx=0 posy=0 sizex=1280 sizey=720 "
+                         "enable=1 perform.path=/perform perform.start=0\n")
 
-        self.log("  Created 5 system files")
+        self.log("  Created 6 system files")
 
     def _write_project_container(self, network: dict):
         """Create main project container."""
@@ -681,6 +717,19 @@ screenh 0 {resolution[1]}
 
         (self.project_dir / "project1").mkdir(exist_ok=True)
         self.log("  Created project container")
+
+    def _write_perform_window(self):
+        """Write the /perform Window COMP at the project root (ground-truthed from a TD
+        save+expand). Every TD project ships one; its `winop` points at the project root
+        (project1) so the Performance window displays the build. Without it a built .toe
+        opens with no perform window."""
+        self._write_file("perform.n",
+                         "COMP:window\ntile -200 40 160 130\n"
+                         "flags =  viewer 1 parlanguage 0\ncolor 0.67 0.67 0.67 \nend\n")
+        self._write_file("perform.parm",
+                         "?\nwinop 0 project1\njustifyh 0 center\njustifyv 0 center\n?\n")
+        (self.project_dir / "perform").mkdir(exist_ok=True)
+        self.log("  Created /perform window COMP")
 
     def _write_container(self, container: dict, parent_path: str):
         """Write a container and its operators."""
@@ -709,17 +758,29 @@ screenh 0 {resolution[1]}
             else:
                 self.log(f"    [WARN] Failed to embed palette '{palette_name}', creating empty container")
 
-        self.log(f"  Creating container: {name} ({len(operators)} operators)")
+        # BUG 2: honour the container's type/family (e.g. type:"geometry",family:"COMP")
+        # instead of always writing a generic COMP:container, and apply its `parameters`
+        # (instancing/instanceop/instancetx.../material) the same way operators do. Falls
+        # back to COMP:container when no type is given (legacy copy-paste containers).
+        td_type = self._map_op_type(container.get("type", "container"),
+                                    parent_path, container.get("family"))
+
+        self.log(f"  Creating container: {name} ({td_type}, {len(operators)} operators)")
 
         # Write container .n file
-        self._write_file(f"{container_path}.n", f"""COMP:container
+        self._write_file(f"{container_path}.n", f"""{td_type}
 tile {position[0]} {position[1]} 200 150
 flags =  parlanguage 0
 end
 """)
 
-        # Write container .parm file
-        self._write_file(f"{container_path}.parm", "?\n?\n")
+        # Write container .parm file (apply the container's own parameters via the shared loop)
+        container_params = container.get("parameters", {}) or {}
+        parm_lines = ["?"]
+        parm_lines += self._param_lines(container_params, td_type, container.get("type", "container"),
+                                        container_path, parent_path, name)
+        parm_lines.append("?")
+        self._write_file(f"{container_path}.parm", "\n".join(parm_lines) + "\n")
 
         # BUG-K FIX: Write custom parameters if specified
         custom_pars = container.get("customPars", []) or container.get("custom_pars", [])
@@ -770,6 +831,136 @@ end
         for nested in nested_containers:
             self._write_container(nested, container_path)
 
+    def _param_lines(self, params, td_type, op_type, full_path, container_path, name) -> list:
+        """Build the .parm body lines (between the leading/trailing '?') from a builder
+        `parameters` dict: ground-truth validation + name resolution, vector/indexed
+        expansion, expression detection and the expression-map overlay. Shared by
+        _write_operator and _write_container so COMP containers apply their `parameters`
+        (instancing/instanceop/instancetx.../material) the same way operators do (BUG 2)."""
+        gt = get_ground_truth()
+        lines = []
+
+        for param_name, param_value in params.items():
+            # Handle resolution specially
+            if param_name.lower() == "resolution" and isinstance(param_value, (list, tuple)):
+                lines.append(f"resolutionw 0 {param_value[0]}")
+                lines.append(f"resolutionh 0 {param_value[1]}")
+                continue
+
+            # Handle vector parameter expansion: t, r, s, p, pivot → tx/ty/tz, rx/ry/rz, etc.
+            vector_params = {
+                # 3-component vectors (XYZ)
+                't': ['tx', 'ty', 'tz'],
+                'r': ['rx', 'ry', 'rz'],
+                's': ['sx', 'sy', 'sz'],
+                'p': ['px', 'py', 'pz'],
+                'pivot': ['pivotx', 'pivoty', 'pivotz'],
+                'scale': ['sx', 'sy', 'sz'],
+                'translate': ['tx', 'ty', 'tz'],
+                'rotate': ['rx', 'ry', 'rz'],
+                'center': ['centerx', 'centery', 'centerz'],
+                'size': ['sizex', 'sizey', 'sizez'],
+                # 4-component vectors (RGBA)
+                'color': ['colorr', 'colorg', 'colorb', 'colora'],
+                'rgb': ['colorr', 'colorg', 'colorb'],
+                'rgba': ['colorr', 'colorg', 'colorb', 'colora'],
+                'bgcolor': ['bgcolorr', 'bgcolorg', 'bgcolorb', 'bgcolora'],
+                # 2-component vectors (UV, WH)
+                'uv': ['u', 'v'],
+                'offset': ['offsetx', 'offsety'],
+            }
+            # Indexed params: fromrange, torange, const, fills → fromrange1/2, torange1/2, etc.
+            indexed_params = {
+                'fromrange': 'fromrange',
+                'torange': 'torange',
+                'const': 'const',
+                'fills': 'fills',
+            }
+            # Expression patterns for detecting expression strings
+            expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
+                             'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
+
+            if param_name.lower() in vector_params and isinstance(param_value, (list, tuple)):
+                component_names = vector_params[param_name.lower()]
+                for i, comp_name in enumerate(component_names):
+                    if i < len(param_value):
+                        comp_value = param_value[i]
+                        # Check if component value is an expression
+                        if isinstance(comp_value, str) and any(p in comp_value for p in expr_patterns):
+                            lines.append(f"{comp_name} 49 0 {comp_value}")
+                        else:
+                            td_value = self._format_param_value(comp_value)
+                            lines.append(f"{comp_name} 0 {td_value}")
+                continue
+
+            # Handle indexed params like fromrange: [0, 1] → fromrange1: 0, fromrange2: 1
+            if param_name.lower() in indexed_params and isinstance(param_value, (list, tuple)):
+                base_name = indexed_params[param_name.lower()]
+                for i, val in enumerate(param_value):
+                    indexed_name = f"{base_name}{i+1}"
+                    if isinstance(val, str) and any(p in val for p in expr_patterns):
+                        lines.append(f"{indexed_name} 49 0 {val}")
+                    else:
+                        td_value = self._format_param_value(val)
+                        lines.append(f"{indexed_name} 0 {td_value}")
+                continue
+
+            # Handle expression dict format: {"expr": "...", "value": ...} or {"expression": "..."}
+            inline_expression = None
+            if isinstance(param_value, dict):
+                inline_expression = param_value.get("expr") or param_value.get("expression")
+                if inline_expression:
+                    # Extract the constant value if provided, otherwise use 0
+                    param_value = param_value.get("value", 0)
+            elif isinstance(param_value, str):
+                # Auto-detect expression strings containing TD Python patterns
+                expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
+                                 'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
+                if any(pattern in param_value for pattern in expr_patterns):
+                    inline_expression = param_value
+                    param_value = 0  # Default value for expression parameters
+
+            # Extract family from TD type (e.g., "CHOP:analyze" -> "CHOP")
+            family = td_type.split(":")[0] if ":" in td_type else None
+
+            # BUG-001 FIX: Use KB-derived param name resolver
+            # Correctly maps user-friendly names to TD internal names
+            op_type_short = op_type.split(':')[-1] if ':' in op_type else op_type
+            td_param_name = resolve_param_name(op_type_short, family or "", param_name)
+
+            # Validate parameter against ground truth (using resolved name)
+            validation = gt.validate_param(op_type, td_param_name, param_value, family=family)
+
+            if not validation["valid"]:
+                # Use resolved name directly and format value
+                td_value = self._format_param_value(param_value)
+                # Handle menu values (convert int to string for menu params)
+                td_value = resolve_menu_value(td_param_name, param_value)
+            else:
+                td_param_name = validation["td_name"]
+                td_value = validation["td_value"]
+                if td_value is None:
+                    td_value = self._format_param_value(param_value)
+                elif isinstance(td_value, bool):
+                    td_value = "on" if td_value else "off"
+                else:
+                    td_value = str(td_value)
+
+            # Check if there's an expression for this param (inline or from expressions map)
+            expr_key = f"{full_path.replace('project1/', '')}/{param_name}"
+            alt_expr_key = f"{container_path.replace('project1/', '')}/{name}/{param_name}"
+
+            expression = inline_expression or self.expressions.get(expr_key) or self.expressions.get(alt_expr_key)
+
+            if expression:
+                # Mode 49 = Python expression (mode 17 is for CHOP expressions)
+                lines.append(f"{td_param_name} 49 {td_value} {expression}")
+            else:
+                # Mode 0 = constant
+                lines.append(f"{td_param_name} 0 {td_value}")
+
+        return lines
+
     def _write_operator(self, op: dict, container_path: str, idx: int):
         """Write a single operator."""
         name = op.get("name", f"op{idx}")
@@ -790,7 +981,7 @@ end
                         op_type.lower().startswith("comp:") or
                         (op_family and op_family.upper() == "COMP"))
 
-        if is_comp_type and has_children:
+        if is_comp_type and has_children and not (op.get("external_tox") or op.get("externaltox")):
             self.log(f"    Detected COMP with children: {name} - delegating to _write_container")
             self._write_container(op, container_path)
             return
@@ -857,6 +1048,24 @@ end
         # Map to TouchDesigner type (pass explicit family if provided)
         td_type = self._map_op_type(op_type, container_path, op_family)
 
+        # Round-4 #1 — external-tox component reference. The op points at an external .tox
+        # file instead of embedding it: write a COMP whose externaltox/enableexternaltox
+        # params load that file's contents on open (a compartmentalised, reusable, file-backed
+        # component). Defaults to a base COMP unless the design gives an explicit COMP type.
+        # Recorded for the per-project build-log component summary.
+        external_tox = op.get("external_tox") or op.get("externaltox")
+        if external_tox:
+            if not (op_family and op_family.upper() == "COMP"):
+                td_type = "COMP:base"
+            tox_ref = str(external_tox).replace("\\", "/")
+            params["externaltox"] = tox_ref
+            params.setdefault("enableexternaltox", "on")
+            comp_path = f"{container_path}/{name}".replace("project1/", "")
+            self.external_components.append(
+                {"name": name, "path": comp_path, "tox": tox_ref, "td_type": td_type})
+            # Contents load from the .tox at runtime; create an empty dir to load into.
+            (self.project_dir / f"{container_path}/{name}").mkdir(parents=True, exist_ok=True)
+
         # Warn if conversion operator is missing required source parameter
         if td_type in CONVERSION_OP_REQUIRED_PARAMS:
             req_info = CONVERSION_OP_REQUIRED_PARAMS[td_type]
@@ -869,6 +1078,12 @@ end
         # Check for GLSL TOP with uniforms - use special parm builder
         glsl_uniforms = op.get("uniforms", [])
         is_glsl_top = td_type in ("TOP:glsl", "TOP:glslmulti", "TOP:glslTOP")
+        # BUG 4: a GLSL POP's `uniforms` must also become Vectors-page uniforms. Unlike the
+        # GLSL TOP (which uses the _build_glsl_parm early-return path), a glslPOP keeps its
+        # normal parm flow (outputattrs / Create-Attributes / computedat wiring) and we
+        # append the uniform lines into it below. GLSL POP + GLSL Advanced POP carry the
+        # Vectors page.
+        is_glsl_pop = td_type in ("POP:glsl", "POP:glsladv")
 
         # Live create() auto-docks an op's helper DATs (GLSL shader/info DATs, callback
         # script DATs, table DATs, ...); the offline builder must replicate it. Driven by
@@ -937,6 +1152,13 @@ end
                 params["attribscope"] = "P"
                 self.log(f"    Auto-set {name}.attribscope = P (position-only default)")
 
+        # Builder-convenience: a GLSL POP imported with outputattrs='' leaves P undeclared
+        # and fails to compile. Default outputattrs='P' when the design omits it (mirrors the
+        # sopToCHOP attribscope default above); an explicit value is preserved.
+        if is_glsl_pop and "outputattrs" not in params:
+            params["outputattrs"] = "P"
+            self.log(f"    Auto-set {name}.outputattrs = P (GLSL POP default)")
+
         # Build .n file content
         n_content = f"""{td_type}
 tile {position[0]} {position[1]} 130 90
@@ -974,134 +1196,21 @@ flags =  parlanguage 0
             self._build_glsl_parm(op, full_path)
             return  # Skip regular parm generation
 
-        # Build .parm file content using ground truth validation
+        # Build .parm file content using ground truth validation. The per-param loop is
+        # shared with containers via _param_lines() so a geometry/base COMP applies its
+        # `parameters` the same way an operator does (BUG 2).
         parm_lines = ["?"]
-        gt = get_ground_truth()
-
-        for param_name, param_value in params.items():
-            # Handle resolution specially
-            if param_name.lower() == "resolution" and isinstance(param_value, (list, tuple)):
-                parm_lines.append(f"resolutionw 0 {param_value[0]}")
-                parm_lines.append(f"resolutionh 0 {param_value[1]}")
-                continue
-
-            # Handle vector parameter expansion: t, r, s, p, pivot → tx/ty/tz, rx/ry/rz, etc.
-            vector_params = {
-                # 3-component vectors (XYZ)
-                't': ['tx', 'ty', 'tz'],
-                'r': ['rx', 'ry', 'rz'],
-                's': ['sx', 'sy', 'sz'],
-                'p': ['px', 'py', 'pz'],
-                'pivot': ['pivotx', 'pivoty', 'pivotz'],
-                'scale': ['sx', 'sy', 'sz'],
-                'translate': ['tx', 'ty', 'tz'],
-                'rotate': ['rx', 'ry', 'rz'],
-                'center': ['centerx', 'centery', 'centerz'],
-                'size': ['sizex', 'sizey', 'sizez'],
-                # 4-component vectors (RGBA)
-                'color': ['colorr', 'colorg', 'colorb', 'colora'],
-                'rgb': ['colorr', 'colorg', 'colorb'],
-                'rgba': ['colorr', 'colorg', 'colorb', 'colora'],
-                'bgcolor': ['bgcolorr', 'bgcolorg', 'bgcolorb', 'bgcolora'],
-                # 2-component vectors (UV, WH)
-                'uv': ['u', 'v'],
-                'offset': ['offsetx', 'offsety'],
-            }
-            # Indexed params: fromrange, torange, const, fills → fromrange1/2, torange1/2, etc.
-            indexed_params = {
-                'fromrange': 'fromrange',
-                'torange': 'torange',
-                'const': 'const',
-                'fills': 'fills',
-            }
-            # Expression patterns for detecting expression strings
-            expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
-                             'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
-
-            if param_name.lower() in vector_params and isinstance(param_value, (list, tuple)):
-                component_names = vector_params[param_name.lower()]
-                for i, comp_name in enumerate(component_names):
-                    if i < len(param_value):
-                        comp_value = param_value[i]
-                        # Check if component value is an expression
-                        if isinstance(comp_value, str) and any(p in comp_value for p in expr_patterns):
-                            parm_lines.append(f"{comp_name} 49 0 {comp_value}")
-                        else:
-                            td_value = self._format_param_value(comp_value)
-                            parm_lines.append(f"{comp_name} 0 {td_value}")
-                continue
-
-            # Handle indexed params like fromrange: [0, 1] → fromrange1: 0, fromrange2: 1
-            if param_name.lower() in indexed_params and isinstance(param_value, (list, tuple)):
-                base_name = indexed_params[param_name.lower()]
-                for i, val in enumerate(param_value):
-                    indexed_name = f"{base_name}{i+1}"
-                    if isinstance(val, str) and any(p in val for p in expr_patterns):
-                        parm_lines.append(f"{indexed_name} 49 0 {val}")
-                    else:
-                        td_value = self._format_param_value(val)
-                        parm_lines.append(f"{indexed_name} 0 {td_value}")
-                continue
-
-            # Handle expression dict format: {"expr": "...", "value": ...} or {"expression": "..."}
-            inline_expression = None
-            if isinstance(param_value, dict):
-                inline_expression = param_value.get("expr") or param_value.get("expression")
-                if inline_expression:
-                    # Extract the constant value if provided, otherwise use 0
-                    param_value = param_value.get("value", 0)
-            elif isinstance(param_value, str):
-                # Auto-detect expression strings containing TD Python patterns
-                expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
-                                 'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
-                if any(pattern in param_value for pattern in expr_patterns):
-                    inline_expression = param_value
-                    param_value = 0  # Default value for expression parameters
-
-            # Extract family from TD type (e.g., "CHOP:analyze" -> "CHOP")
-            family = td_type.split(":")[0] if ":" in td_type else None
-
-            # BUG-001 FIX: Use KB-derived param name resolver
-            # Correctly maps user-friendly names to TD internal names
-            op_type_short = op_type.split(':')[-1] if ':' in op_type else op_type
-            td_param_name = resolve_param_name(op_type_short, family or "", param_name)
-
-            # Validate parameter against ground truth (using resolved name)
-            validation = gt.validate_param(op_type, td_param_name, param_value, family=family)
-
-            if not validation["valid"]:
-                # Use resolved name directly and format value
-                td_value = self._format_param_value(param_value)
-                # Handle menu values (convert int to string for menu params)
-                td_value = resolve_menu_value(td_param_name, param_value)
-            else:
-                td_param_name = validation["td_name"]
-                td_value = validation["td_value"]
-                if td_value is None:
-                    td_value = self._format_param_value(param_value)
-                elif isinstance(td_value, bool):
-                    td_value = "on" if td_value else "off"
-                else:
-                    td_value = str(td_value)
-
-            # Check if there's an expression for this param (inline or from expressions map)
-            expr_key = f"{full_path.replace('project1/', '')}/{param_name}"
-            alt_expr_key = f"{container_path.replace('project1/', '')}/{name}/{param_name}"
-
-            expression = inline_expression or self.expressions.get(expr_key) or self.expressions.get(alt_expr_key)
-
-            if expression:
-                # Mode 49 = Python expression (mode 17 is for CHOP expressions)
-                parm_lines.append(f"{td_param_name} 49 {td_value} {expression}")
-            else:
-                # Mode 0 = constant
-                parm_lines.append(f"{td_param_name} 0 {td_value}")
+        parm_lines += self._param_lines(params, td_type, op_type, full_path, container_path, name)
 
         # Wire host -> its docked children (callbacks/pixeldat/computedat/dat/...). Written
         # raw (mode 0, sibling name) to match TD's serialization (e.g. `dat 0 ramp1_keys`),
         # bypassing param validation -- these are builder-owned links, not authored params.
         for hp, child in docked_wiring.items():
             parm_lines.append(f"{hp} 0 {child}")
+
+        # BUG 4: GLSL POP Vectors-page uniforms (vec{N}name / vec{N}type / vec{N}value{x..}).
+        if is_glsl_pop and glsl_uniforms:
+            parm_lines.extend(self._glsl_pop_uniform_lines(glsl_uniforms))
 
         parm_lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(parm_lines) + "\n")
@@ -1154,6 +1263,11 @@ flags =  parlanguage 0
         wiring = {}
         if not specs:
             return wiring
+        # A compute-only GLSL op (e.g. glslPOP) may author its shader under the generic
+        # `shader`/`content` field; allow that fallback for the compute role ONLY when this
+        # op has no separate pixel DAT, so a GLSL TOP's pixel shader is never duplicated
+        # into its compute DAT (BUG 3).
+        has_pixel = any(s.get("role") == "pixel" for s in specs)
         family = td_type.split(":")[0] if ":" in td_type else "DAT"
         pos = position or [0, 0]
         offsets = [(0, -120), (160, -120), (320, -120), (480, -120)]
@@ -1181,7 +1295,7 @@ flags =  parlanguage 0
                      f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
                 parm = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
             elif dat in ("text", "table"):
-                content = self._authored_for_role(op, spec.get("role", "")) or spec.get("stub", "")
+                content = self._authored_for_role(op, spec.get("role", ""), allow_generic=not has_pixel) or spec.get("stub", "")
                 fdir = self.output_dir / spec["file_dir"]
                 fdir.mkdir(parents=True, exist_ok=True)
                 fpath = fdir / f"{child}.{spec['file_ext']}"
@@ -1212,10 +1326,17 @@ flags =  parlanguage 0
         self.log(f"    [docking] {host_name}: {[s['suffix'] for s in specs]}")
         return wiring
 
-    def _authored_for_role(self, op: dict, role: str):
+    def _authored_for_role(self, op: dict, role: str, allow_generic: bool = False):
         """Return the author-provided content for a docked child's role (the shader/script
         the expert wrote in the design), or None to fall back to the spec's default stub.
-        The design may name it by role or a common alias (e.g. role 'pixel' <- op['shader'])."""
+        The design may name it by role or a common alias (e.g. role 'pixel' <- op['shader']).
+
+        allow_generic: when True the compute role ALSO accepts the generic `shader`/
+        `content`/`text` fields. This is the GLSL-POP case (BUG 3) -- a compute-only op
+        whose shader the experts author under `shader`/`content` (the TOP `pixel` role
+        already accepts `shader`). It is gated off for ops that also have a separate pixel
+        DAT (a GLSL TOP) so a TOP's pixel `shader` is never duplicated into its compute
+        DAT -- the caller passes allow_generic=not has_pixel (see _write_docked_dats)."""
         role_fields = {
             "pixel":     ["shader", "pixel", "pixelshader", "fragment", "frag", "text"],
             "compute":   ["compute", "computeshader"],
@@ -1223,7 +1344,10 @@ flags =  parlanguage 0
             "callbacks": ["callbacks", "script", "callback"],
             "rules":     ["rules"],
         }
-        for field in role_fields.get(role, [role]):
+        fields = list(role_fields.get(role, [role]))
+        if allow_generic and role == "compute":
+            fields += ["shader", "content", "text"]
+        for field in fields:
             val = op.get(field)
             if val:
                 return val
@@ -1346,6 +1470,54 @@ flags =  parlanguage 0
 
         lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(lines) + "\n")
+
+    def _glsl_pop_uniform_lines(self, uniforms) -> list:
+        """Build GLSL POP Vectors-page uniform .parm lines (BUG 4).
+
+        Accepts the dict form ``{name: value}`` (what the GAPS report passes) and the list
+        form ``[{"name","value"[, "type","expr"]}]``. Scalars and component lists are both
+        supported. Emits, per uniform N:
+            vec{N}name 0 <name>
+            vec{N}type 0 <float|vec2|vec3|vec4>     # inferred from #components unless given
+            vec{N}value{x,y,z,w} <mode> <value> [expr]
+        `vec{N}type` is required on a GLSL POP to declare the uniform (the GLSL TOP path in
+        _build_glsl_parm omits it). Returns the lines (no leading/trailing `?`)."""
+        if isinstance(uniforms, dict):
+            items = [{"name": k, "value": v} for k, v in uniforms.items()]
+        elif isinstance(uniforms, list):
+            items = [u for u in uniforms if isinstance(u, dict)]
+        else:
+            return []
+
+        type_by_n = {1: "float", 2: "vec2", 3: "vec3", 4: "vec4"}
+        suffixes = ["x", "y", "z", "w"]
+        lines = []
+        for idx, uni in enumerate(items):
+            name = uni.get("name", f"uniform{idx}")
+            value = uni.get("value", 0)
+            expr = uni.get("expr") or uni.get("expression")
+
+            comps = list(value) if isinstance(value, (list, tuple)) else [value]
+            comps = comps[:4] if comps else [0]
+            utype = uni.get("type") or type_by_n.get(len(comps), "float")
+
+            lines.append(f"vec{idx}name 0 {name}")
+            lines.append(f"vec{idx}type 0 {utype}")
+            for i, comp in enumerate(comps):
+                # Per-component expression: a single string applies to x; a list/dict maps
+                # by index/component (mode 49 = Python expression, else mode 0 = constant).
+                comp_expr = None
+                if isinstance(expr, str) and i == 0:
+                    comp_expr = expr
+                elif isinstance(expr, (list, tuple)) and i < len(expr):
+                    comp_expr = expr[i]
+                elif isinstance(expr, dict):
+                    comp_expr = expr.get(suffixes[i])
+                if comp_expr:
+                    lines.append(f"vec{idx}value{suffixes[i]} 49 {comp} {comp_expr}")
+                else:
+                    lines.append(f"vec{idx}value{suffixes[i]} 0 {comp}")
+        return lines
 
     # =========================================================================
     # KB PALETTE EMBEDDING (Primary method - uses pre-parsed lossless JSON)
@@ -1895,8 +2067,12 @@ flags =  parlanguage 0
             shutil.copy(tox_file, temp_tox)
             
             # Expand the TOX
+            toeexpand = resolve_td_tool("toeexpand")
+            if toeexpand is None:
+                self.log(f"    [ERROR] {td_tool_missing_error('toeexpand')}")
+                return
             result = subprocess.run(
-                [TOEEXPAND, str(temp_tox)],
+                [str(toeexpand), str(temp_tox)],
                 capture_output=True,
                 text=True,
                 cwd=temp_path
@@ -2056,6 +2232,17 @@ execonstart 0 1
         "audiodevicein": "audiodevin",  # Audio Device In CHOP
         "audiodeviceout": "audiodevout",  # Audio Device Out CHOP
         "audiooscillator": "audioosc",  # Audio Oscillator CHOP
+        # POP operators whose TD .n token differs from the wiki/display-derived name
+        # (BUG 1). Verified against a live TD save+expand of all 100 POPs: only these 7
+        # differ; the rest match their basename. Without these, the builder writes e.g.
+        # POP:pointgenerator and TD imports it as a base COMP (dropping numpoints).
+        "pointgenerator": "pointgen",   # Point Generator POP
+        "glsladvanced": "glsladv",      # GLSL Advanced POP
+        "attributecombine": "attcombine",   # Attribute Combine POP
+        "attributeconvert": "attconvert",   # Attribute Convert POP
+        "lookupattribute": "lookupatt",     # Lookup Attribute POP
+        "lookupchannel": "lookupchan",      # Lookup Channel POP
+        "lookuptexture": "lookuptex",       # Lookup Texture POP
     }
 
     # Operators that exist in multiple families - require explicit family or alias
@@ -2105,11 +2292,18 @@ execonstart 0 1
 
         # PRIORITY 1: Explicit family OVERRIDES OP_TYPE_MAP for ambiguous operators
         # This fixes: {"type": "noise", "family": "CHOP"} -> CHOP:noise (not TOP:noise)
-        if explicit_family and (op_lower in self.AMBIGUOUS_OPERATORS or op_normalized_lower in self.AMBIGUOUS_OPERATORS):
+        # BUG 1: also override whenever family is POP. OP_TYPE_MAP has ZERO POP entries, so
+        # a POP basename that collides with a mapped SOP/TOP (box/tube/point/particle ->
+        # SOP:box ...) would otherwise mis-resolve to the wrong family despite family:"POP".
+        if explicit_family and (
+            op_lower in self.AMBIGUOUS_OPERATORS
+            or op_normalized_lower in self.AMBIGUOUS_OPERATORS
+            or explicit_family.upper() == "POP"
+        ):
             family_upper = explicit_family.upper()
             # BUG-011 FIX: Use internal name if different from user name
             internal_name = self.INTERNAL_NAME_MAP.get(op_lower, op_type)
-            self.log(f"  Using explicit family {family_upper} for ambiguous operator '{op_type}' -> {internal_name}")
+            self.log(f"  Using explicit family {family_upper} for operator '{op_type}' -> {internal_name}")
             return f"{family_upper}:{internal_name}"
 
         # PRIORITY 2: Direct lookup in OP_TYPE_MAP
@@ -2334,14 +2528,15 @@ execonstart 0 1
         if toe_path.exists():
             toe_path.unlink()
 
-        if not Path(TOECOLLAPSE).exists():
-            self.log(f"[ERROR] toecollapse not found at: {TOECOLLAPSE}")
+        toecollapse = resolve_td_tool("toecollapse")
+        if toecollapse is None:
+            self.log(f"[ERROR] {td_tool_missing_error('toecollapse')}")
             return None
 
         # Pass the .toc file path, not the .dir directory
         toc_path = self.output_dir / f"{project_name}.toe.toc"
         result = subprocess.run(
-            [TOECOLLAPSE, str(toc_path)],
+            [str(toecollapse), str(toc_path)],
             capture_output=True,
             text=True
         )

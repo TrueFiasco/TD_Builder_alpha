@@ -8,6 +8,8 @@ import sys
 import json
 import asyncio
 import os
+import re
+import uuid
 from pathlib import Path
 from typing import Any, Sequence, Dict, Callable, List, Optional, Union
 import base64
@@ -132,7 +134,10 @@ try:
     _validator = ValidationPipeline(_registry)
     UNIFIED_SYSTEM_ENABLED = True
     print("Unified system validation/conversion enabled", file=sys.stderr)
-except ImportError as e:
+except (ImportError, FileNotFoundError) as e:
+    # FileNotFoundError: the KB (operators.json) isn't fetched yet. Degrade
+    # gracefully (the build/validate/convert tools emit their own unavailable
+    # message) instead of crashing the whole MCP import.
     UNIFIED_SYSTEM_ENABLED = False
     _registry = None
     _converter = None
@@ -182,11 +187,64 @@ AVAILABLE_EXPERTS = {
 }
 # Roster cleanup (H1/M20/M21): summary_generator, format_reverse_engineer, and
 # creative_orchestrator were registered here historically but never invoked by
-# V2-V6 strategies and not reachable via the standard expert loader. Moved to
-# archive/experts_unused/ — keep this dict in sync with EXPERT_IDS.
+# V2-V6 strategies and not reachable via the standard expert loader; they were
+# removed from this roster.
+
+def _load_expert_expertise(expert_name: str, per_file_cap: int = 16000,
+                           total_cap: int = 48000) -> str:
+    """Load the curated expertise YAMLs an expert declares in its config.yaml
+    `expertise_inputs:` and return them as an appendable prompt block (Round-4 #3 slice).
+
+    These ~18 YAMLs were dormant — declared in every expert config but never read by any
+    code. Size-capped so the big catalogs (e.g. td_operators.yaml, 234 KB) don't blow the
+    prompt; the live MCP tools (get_operator_info / find_operator_examples / hybrid_search)
+    remain the source for exhaustive operator/param facts."""
+    config_path = EXPERTS_DIR / expert_name / "config.yaml"
+    if not config_path.exists():
+        return ""
+    try:
+        import yaml as _yaml
+        cfg = _yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return ""
+    inputs = cfg.get("expertise_inputs") or []
+    repo_root = EXPERTS_DIR.parent.parent  # <root>/Agents/experts -> <root>
+    chunks, total = [], 0
+    for i, item in enumerate(inputs):
+        if not isinstance(item, dict):
+            continue
+        rel = item.get("path")
+        if not rel:
+            continue
+        f = repo_root / rel
+        if not f.exists():
+            continue
+        try:
+            content = f.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if len(content) > per_file_cap:
+            content = content[:per_file_cap] + (
+                f"\n# ...[truncated to {per_file_cap} chars - full file at {rel}; "
+                "use the KB tools for exhaustive operator/param facts]")
+        chunk = f"### {Path(rel).name} - {item.get('purpose', '')}\n{content}"
+        if total + len(chunk) > total_cap:
+            remaining = ", ".join(
+                Path(x.get("path", "")).name for x in inputs[i:] if isinstance(x, dict))
+            chunks.append(f"### (further expertise omitted to fit context: {remaining})")
+            break
+        chunks.append(chunk)
+        total += len(chunk)
+    if not chunks:
+        return ""
+    return ("\n\n## Curated expertise (configured for this expert)\n"
+            "Use these alongside the live MCP tools for operator/param facts.\n\n"
+            + "\n\n".join(chunks))
+
 
 def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
-    """Load expert prompt from meta_agentic/experts/{expert}/{phase}.md"""
+    """Load expert prompt from meta_agentic/experts/{expert}/{phase}.md, with the expert's
+    declared expertise YAMLs appended (Round-4 #3 slice — previously dormant)."""
     expert_dir = EXPERTS_DIR / expert_name
     if not expert_dir.exists():
         return f"ERROR: Expert '{expert_name}' not found"
@@ -196,9 +254,11 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
         return f"ERROR: Phase '{phase}' not found for expert '{expert_name}'"
 
     try:
-        return prompt_file.read_text(encoding='utf-8')
+        base = prompt_file.read_text(encoding='utf-8')
     except Exception as e:
         return f"ERROR reading {prompt_file}: {e}"
+
+    return base + _load_expert_expertise(expert_name)
 
 
 
@@ -408,7 +468,7 @@ def _load_kb():
 app = Server("touchdesigner-mcp-server")
 
 SERVER_NAME = "touchdesigner-mcp-server"
-SERVER_VERSION = "0.1.1"
+SERVER_VERSION = "0.1.2"
 
 # Tools that need the heavy knowledge graph / vector search. Only these
 # trigger the one-time _ensure_kb() lazy load; everything else (get_server_info,
@@ -600,65 +660,15 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 "message": "design must be a dictionary with 'operators' and 'connections'"
             }
 
-        # Handle palette embedding
+        # Handle palette embedding — deferred to V0.2 (planned via live import, or by
+        # referencing an external .tox from a base/container COMP, not bundled JSON).
         if 'palette' in design:
-            palette_name = design['palette']
-            palette_dir = Path(__file__).parent / "data" / "palette_lossless"
-            palette_file = palette_dir / f"{palette_name}.json.gz"
-
-            print(f"Loading palette: {palette_name} from {palette_file}", file=sys.stderr)
-
-            if not palette_file.exists():
-                # Palette embedding is deferred to V0.2 — planned via live import, or by
-                # referencing an external .tox from a base/container COMP (not bundled JSON).
-                return {
-                    "status": "ERROR",
-                    "message": ("Palette embedding is not available in V0.1.1 (planned for "
-                                "V0.2 via live import / external .tox reference). Build the "
-                                "network without the 'palette' key."),
-                }
-
-            # Load and decompress palette JSON
-            with gzip.open(palette_file, 'rt', encoding='utf-8') as f:
-                palette_data = json.load(f)
-
-            print(f"Loaded palette with {len(palette_data.get('operators', {}))} operators", file=sys.stderr)
-
-            # Build using lossless builder for palette
-            # Import the lossless builder
-            lossless_builder_path = Path(__file__).parent / "builders"
-            sys.path.insert(0, str(lossless_builder_path))
-            from json_to_dir_LOSSLESS import LosslessJsonToDirConverter
-
-            # Build palette TOX
-            tox_name = project_name or palette_name
-            converter = LosslessJsonToDirConverter(palette_data)
-            tox_path = Path(output_dir) / f"{tox_name}.tox"
-            converter.convert(str(tox_path))
-
-            # Collapse to .tox
-            import subprocess
-            toc_path = Path(output_dir) / f"{tox_name}.tox.toc"
-            if toc_path.exists():
-                subprocess.run([
-                    "C:/Program Files/Derivative/TouchDesigner/bin/toecollapse.exe",
-                    str(toc_path)
-                ], capture_output=True)
-
-            if tox_path.exists():
-                return {
-                    "status": "SUCCESS",
-                    "file": str(tox_path),
-                    "size": tox_path.stat().st_size,
-                    "operators": len(palette_data.get('operators', {})),
-                    "connections": len(palette_data.get('connections', [])),
-                    "palette": palette_name
-                }
-            else:
-                return {
-                    "status": "ERROR",
-                    "message": f"Failed to build palette TOX"
-                }
+            return {
+                "status": "ERROR",
+                "message": ("Palette embedding is not available in V0.1.2 (planned for "
+                            "V0.2 via live import / external .tox reference). Build the "
+                            "network without the 'palette' key."),
+            }
 
         if 'operators' not in design:
             design['operators'] = []
@@ -693,6 +703,113 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
             "message": str(e),
             "traceback": traceback.format_exc()
         }
+
+
+# ---------------------------------------------------------------------------
+# Build core + async job registry (Round-3 Stream 3, R2-A)
+# ---------------------------------------------------------------------------
+# Shared by the synchronous td_build_project path and the opt-in async path. The background
+# pattern mirrors the KB warm-up thread: a daemon thread, a lock, and a module-level state
+# dict keyed by job id, polled via the td_build_status tool.
+_build_jobs = {}            # job_id -> {status, result?/error?, started, finished?}
+_build_lock = threading.Lock()
+
+
+def _prune_build_jobs(limit=50):
+    """Keep the registry bounded (oldest-first eviction). Call under _build_lock."""
+    if len(_build_jobs) > limit:
+        oldest = sorted(_build_jobs.items(), key=lambda kv: kv[1].get("started", 0))
+        for jid, _ in oldest[:len(_build_jobs) - limit]:
+            _build_jobs.pop(jid, None)
+
+
+async def _run_build(network_design, design, table_data, project_name, output_dir, mode) -> dict:
+    """Build a .tox/.toe and return the result envelope dict (callers run B08 pre-validation
+    first). network_design -> ToeBuilderBridge advanced path; otherwise the simple
+    td_build_project() path. Same envelopes the tool returned before the refactor."""
+    if network_design and EXPERT_WORKFLOW_ENABLED:
+        try:
+            if not output_dir:
+                output_dir = str(Path(__file__).parent / "output")
+            Path(output_dir).mkdir(parents=True, exist_ok=True)
+            if not project_name:
+                project_name = f"td_project_{int(time.time()) % 10000}"
+            if mode == "tox":
+                bridge = ToxBuilder(output_dir, verbose=True)
+                result_path = bridge.build_tox(network_design, project_name)
+            else:
+                bridge = ToeBuilderBridge(Path(output_dir))
+                result_path = bridge.build_from_design(network_design, project_name)
+            op_count = len(network_design.get("operators", []))
+            conn_count = len(network_design.get("connections", []))
+            for container in network_design.get("containers", []):
+                op_count += len(container.get("operators", []))
+                conn_count += len(container.get("connections", []))
+                conn_count += len(container.get("network", {}).get("connections", []))
+            if result_path and Path(result_path).exists():
+                return {
+                    "status": "SUCCESS",
+                    "builder": "ToeBuilderBridge",
+                    "output_file": str(result_path),
+                    "file_size": Path(result_path).stat().st_size,
+                    "operators": op_count,
+                    "connections": conn_count,
+                    "features_used": {
+                        "containers": len(network_design.get("containers", [])) > 0,
+                        "embed_tox": any(
+                            op.get("embed_tox")
+                            for container in network_design.get("containers", [])
+                            for op in container.get("operators", [])
+                        ),
+                    },
+                }
+            return {
+                "status": "ERROR",
+                "message": "Build completed but file was not created",
+                "attempted_path": str(result_path) if result_path else "None",
+            }
+        except Exception as e:
+            import traceback
+            return {
+                "status": "ERROR",
+                "builder": "ToeBuilderBridge",
+                "message": str(e),
+                "traceback": traceback.format_exc(),
+            }
+
+    # Simple design path
+    if table_data:
+        design = dict(design)
+        design["table_data"] = table_data
+    return await td_build_project(design, project_name, output_dir)
+
+
+def _start_build_job(network_design, design, table_data, project_name, output_dir, mode) -> str:
+    """Spawn a daemon thread that runs _run_build and records the result in _build_jobs.
+    Returns the new job id immediately (poll with td_build_status)."""
+    job_id = uuid.uuid4().hex[:12]
+    with _build_lock:
+        _build_jobs[job_id] = {"status": "running", "started": time.time()}
+        _prune_build_jobs()
+
+    def _worker():
+        try:
+            res = asyncio.run(_run_build(network_design, design, table_data,
+                                         project_name, output_dir, mode))
+            with _build_lock:
+                if job_id in _build_jobs:
+                    _build_jobs[job_id].update({"status": "done", "result": res,
+                                                "finished": time.time()})
+        except Exception as e:  # noqa: BLE001
+            import traceback
+            with _build_lock:
+                if job_id in _build_jobs:
+                    _build_jobs[job_id].update({"status": "error", "error": str(e),
+                                                "traceback": traceback.format_exc(),
+                                                "finished": time.time()})
+
+    threading.Thread(target=_worker, name=f"build-{job_id}", daemon=True).start()
+    return job_id
 
 
 @app.list_tools()
@@ -983,9 +1100,32 @@ async def list_tools() -> list[Tool]:
                         "enum": ["toe", "tox"],
                         "default": "tox",
                         "description": "Build mode: toe (project) or tox (component)"
+                    },
+                    "async_build": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "If true, build in the background and return immediately with a job_id; poll td_build_status. Use for large builds that may exceed the client's tool-call timeout."
                     }
                 },
                 "required": []
+            }
+        ),
+        Tool(
+            name="td_build_status",
+            description=(
+                "Poll an async build started with td_build_project(async_build=true). "
+                "Returns {status: running|done|error, result?/error?, elapsed}. Job ids are "
+                "in-memory and not persisted across server restarts."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "job_id": {
+                        "type": "string",
+                        "description": "The job_id returned by td_build_project(async_build=true)."
+                    }
+                },
+                "required": ["job_id"]
             }
         ),
         Tool(
@@ -1116,6 +1256,135 @@ async def list_tools() -> list[Tool]:
 # _parse_parameters). 0=constant, 1=expression, 2=export/reference, 3=bind.
 _TD_PARM_MODE = {0: "constant", 1: "expression", 2: "reference", 3: "bind"}
 
+_SEQ_PARAM_RE = re.compile(r"^(\D*?)(\d+)(.*)$")
+
+# toeexpand hang-guard (Round-3 Stream 2). Generous: the MCP client's own ~45s tool-call
+# timeout may fire first — this only stops a genuinely stuck toeexpand from blocking forever.
+EXPAND_TIMEOUT_S = 180
+
+# Cross-project reference lint (Round-3 Stream 2). _OP_REF_RE matches an op('/abs/path')
+# expression; _WHOLE_ABS_RE matches a param whose entire value is an absolute TD path. A ref
+# whose first path segment != the component root is "foreign" (e.g. a dormant /project1/...
+# reference that shipped inside a saved .tox).
+_OP_REF_RE = re.compile(r"""op\(\s*['"](/[^'"]+)['"]""")
+_WHOLE_ABS_RE = re.compile(r"^/[A-Za-z_]\w*(?:/[A-Za-z_.\w]+)*$")
+
+
+def _scan_foreign_refs(network):
+    """Flag cross-project references that leave the component root (Round-3 Stream 2).
+
+    Scans each operator's param values + expressions for `op('/abs/path')` refs and for param
+    values that are themselves an absolute TD path; a ref whose first segment !=
+    `network.metadata.project_name` is foreign. Conservative (only clear op() refs /
+    whole-value absolute paths) to avoid false positives. Returns [{path, param, ref}], empty
+    when clean."""
+    from core.models import ParameterValue
+    root = (getattr(network.metadata, "project_name", "") or "").strip("/")
+    found = []
+    for op in network.operators:
+        for pname, pval in (getattr(op, "parameters", None) or {}).items():
+            value_str = None
+            expr_str = None
+            if isinstance(pval, ParameterValue):
+                if isinstance(pval.value, str):
+                    value_str = pval.value
+                expr_str = pval.expression
+            elif isinstance(pval, str):
+                value_str = pval
+            refs = []
+            if expr_str:
+                refs += _OP_REF_RE.findall(expr_str)
+            if value_str:
+                refs += _OP_REF_RE.findall(value_str)
+                if _WHOLE_ABS_RE.match(value_str.strip()):
+                    refs.append(value_str.strip())
+            for ref in dict.fromkeys(refs):  # dedupe, preserve order
+                first = ref.lstrip("/").split("/")[0]
+                if root and first and first != root:
+                    found.append({"path": op.path, "param": pname, "ref": ref})
+    return found
+
+
+def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int = 1):
+    """Collapse long repeated TD sequence-param families in a summary.
+
+    TD sequence params look like ``attr0name, attr1name, …`` / ``vec0name, vec1name, …`` /
+    ``sampler0extendu, …`` — a glslPOP's Create-Attributes + Vectors pages alone can emit
+    dozens of rows, which blew the expand_toe_file(mode='summary') token budget. This keeps
+    the first ``keep_per_family`` index of each family and replaces the rest with an
+    explicit marker ``{name, collapsed: <count>, note}``. Families with
+    ``<= family_threshold`` members (e.g. fromrange1/2) and non-sequence params pass through
+    untouched. The omitted count is always reported — never a silent truncation.
+    """
+    buckets = {}      # family -> [(idx, param)], first-appearance order preserved via `rendered`
+    rendered = []     # ("plain", param) | ("seq", family)
+    for p in params:
+        m = _SEQ_PARAM_RE.match(p.get("name", ""))
+        if not m:
+            rendered.append(("plain", p))
+            continue
+        family = f"{m.group(1)}#{m.group(3)}"
+        if family not in buckets:
+            buckets[family] = []
+            rendered.append(("seq", family))
+        buckets[family].append((int(m.group(2)), p))
+
+    out = []
+    for kind, val in rendered:
+        if kind == "plain":
+            out.append(val)
+            continue
+        members = sorted(buckets[val], key=lambda t: t[0])
+        if len(members) <= family_threshold:
+            out.extend(p for _, p in members)
+        else:
+            out.extend(p for _, p in members[:keep_per_family])
+            omitted = len(members) - keep_per_family
+            out.append({
+                "name": val,
+                "collapsed": omitted,
+                "note": f"{omitted} repeated sequence params omitted in summary; use mode='full'",
+            })
+    return out
+
+
+_IN_NAME_RE = re.compile(r"^in\d*$")
+_OUT_NAME_RE = re.compile(r"^out\d*$")
+
+
+def _component_manifest(network) -> dict:
+    """Extract a reusable component's interface (Round-4 #1b).
+
+    A component .tox exposes its inputs/outputs via `in*`/`out*` operators (by op-type base
+    `in`/`out` or by name). The manifest (inputs, outputs, families, op/connection counts, a
+    one-line summary) lets an LLM wire a component referenced via `external_tox` without
+    re-expanding it. Surfaced as the `manifest` field of expand_toe_file(mode='summary')."""
+    inputs, outputs, families = [], [], {}
+    for op in network.operators:
+        ot = op.op_type or (f"{op.family.value}:{op.type}" if getattr(op, "family", None)
+                            else getattr(op, "type", "")) or ""
+        name = op.path.rstrip("/").split("/")[-1]
+        base = ot.split(":")[-1].lower() if ":" in ot else ot.lower()
+        if ":" in ot:
+            fam = ot.split(":")[0]
+            if fam:
+                families[fam] = families.get(fam, 0) + 1
+        if base == "in" or _IN_NAME_RE.match(name):
+            inputs.append({"name": name, "op_type": ot})
+        elif base == "out" or _OUT_NAME_RE.match(name):
+            outputs.append({"name": name, "op_type": ot})
+    inputs.sort(key=lambda x: x["name"])
+    outputs.sort(key=lambda x: x["name"])
+    return {
+        "inputs": inputs,
+        "outputs": outputs,
+        "families": families,
+        "operator_count": len(network.operators),
+        "connection_count": len(network.connections),
+        "summary": (f"{len(network.operators)} operators, {len(network.connections)} connections; "
+                    f"inputs={[i['name'] for i in inputs]}, outputs={[o['name'] for o in outputs]}"),
+    }
+
 
 def _summarize_td_network(network) -> dict:
     """Compact node/connection summary of a parsed TDNetwork.
@@ -1143,7 +1412,7 @@ def _summarize_td_network(network) -> dict:
         operators.append({
             "path": op.path,
             "op_type": op.op_type or (f"{op.family.value}:{op.type}" if op.family else op.type),
-            "params": params,
+            "params": _collapse_seq_params(params),
         })
 
     connections = [
@@ -1160,6 +1429,8 @@ def _summarize_td_network(network) -> dict:
         "by_family": by_family,
         "operators": operators,
         "connections": connections,
+        "foreign_refs": _scan_foreign_refs(network),
+        "manifest": _component_manifest(network),
     }
 
 
@@ -1594,76 +1865,42 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                         "hint": "Use query_graph(command='family') or hybrid_search to look up valid types.",
                     }, indent=2))]
 
-            # If network_design is provided, use ToeBuilderBridge for advanced features
-            if network_design and EXPERT_WORKFLOW_ENABLED:
-                try:
-                    if not output_dir:
-                        output_dir = str(Path(__file__).parent / "output")
-                    Path(output_dir).mkdir(parents=True, exist_ok=True)
+            # Opt-in async (R2-A): run the build in a background thread and return a job id
+            # immediately, so a long build never hits the MCP client's ~45s tool-call timeout.
+            # Pre-validation above already ran synchronously, so bad input still fails fast.
+            if bool(arguments.get("async_build")):
+                job_id = _start_build_job(network_design, design, table_data,
+                                          project_name, output_dir, mode)
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "STARTED",
+                    "job_id": job_id,
+                    "hint": "Poll td_build_status with this job_id; the .tox completes on disk.",
+                }, indent=2))]
 
-                    if not project_name:
-                        import time
-                        project_name = f"td_project_{int(time.time()) % 10000}"
+            # Synchronous (default, unchanged behavior).
+            result = await _run_build(network_design, design, table_data,
+                                      project_name, output_dir, mode)
+            return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-                    # Use ToeBuilderBridge for advanced features
-                    if mode == "tox":
-                        bridge = ToxBuilder(output_dir, verbose=True)
-                        result_path = bridge.build_tox(network_design, project_name)
-                    else:
-                        bridge = ToeBuilderBridge(Path(output_dir))
-                        result_path = bridge.build_from_design(network_design, project_name)
-
-                    # Count operators and connections
-                    op_count = len(network_design.get("operators", []))
-                    conn_count = len(network_design.get("connections", []))
-                    for container in network_design.get("containers", []):
-                        op_count += len(container.get("operators", []))
-                        conn_count += len(container.get("connections", []))
-                        network = container.get("network", {})
-                        conn_count += len(network.get("connections", []))
-
-                    if result_path and Path(result_path).exists():
-                        file_size = Path(result_path).stat().st_size
-                        result = {
-                            "status": "SUCCESS",
-                            "builder": "ToeBuilderBridge",
-                            "output_file": str(result_path),
-                            "file_size": file_size,
-                            "operators": op_count,
-                            "connections": conn_count,
-                            "features_used": {
-                                "containers": len(network_design.get("containers", [])) > 0,
-                                "embed_tox": any(
-                                    op.get("embed_tox")
-                                    for container in network_design.get("containers", [])
-                                    for op in container.get("operators", [])
-                                )
-                            }
-                        }
-                    else:
-                        result = {
-                            "status": "ERROR",
-                            "message": "Build completed but file was not created",
-                            "attempted_path": str(result_path) if result_path else "None"
-                        }
-                    return [TextContent(type="text", text=json.dumps(result, indent=2))]
-                except Exception as e:
-                    import traceback
-                    return [TextContent(type="text", text=json.dumps({
-                        "status": "ERROR",
-                        "builder": "ToeBuilderBridge",
-                        "message": str(e),
-                        "traceback": traceback.format_exc()
-                    }, indent=2))]
-
-            # Fall back to original td_build_project for simple design
-            if table_data:
-                design["table_data"] = table_data
-            result = await td_build_project(design, project_name, output_dir)
-            return [TextContent(
-                type="text",
-                text=json.dumps(result, indent=2)
-            )]
+        elif name == "td_build_status":
+            job_id = arguments.get("job_id")
+            if not job_id:
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "ERROR", "message": "Missing required argument 'job_id'."}, indent=2))]
+            with _build_lock:
+                job = _build_jobs.get(job_id)
+                snapshot = dict(job) if job else None
+            if snapshot is None:
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "ERROR",
+                    "message": f"Unknown job_id: {job_id}",
+                    "hint": "Job ids are not persisted across server restarts.",
+                }, indent=2))]
+            started = snapshot.get("started")
+            if started is not None:
+                end = snapshot.get("finished") or time.time()
+                snapshot["elapsed"] = round(end - started, 2)
+            return [TextContent(type="text", text=json.dumps(snapshot, indent=2, default=str))]
 
         elif name == "td_validate":
             if not UNIFIED_SYSTEM_ENABLED:
@@ -1817,21 +2054,27 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             if src.is_dir() and src.name.endswith(".dir"):
                 toe_dir = src
             elif src.is_file() and src.suffix.lower() in (".toe", ".tox"):
-                exe = _shutil.which("toeexpand.exe") or _shutil.which("toeexpand")
-                if not exe:
-                    cands = _glob.glob(r"C:\Program Files\Derivative\TouchDesigner*\bin\toeexpand.exe")
-                    exe = cands[0] if cands else None
+                from paths import resolve_td_tool
+                exe = resolve_td_tool("toeexpand")
                 if not exe:
                     return _expand_err(
-                        "toeexpand.exe not found.",
-                        "Install TouchDesigner (it provides toeexpand.exe), or pass an already-expanded .toe.dir.")
+                        "toeexpand not found.",
+                        "Install TouchDesigner (it provides toeexpand), set TD_TOEEXPAND/TD_BIN_DIR, "
+                        "or pass an already-expanded .toe.dir.")
                 work = Path(_tempfile.mkdtemp(prefix="td_expand_"))
                 cleanup_dir = work
                 work_proj = work / src.name
                 _shutil.copy2(src, work_proj)
                 # toeexpand returns rc 1 even on success on some builds.
-                proc = _subprocess.run([str(exe), str(work_proj)], cwd=str(work),
-                                       capture_output=True, text=True)
+                try:
+                    proc = _subprocess.run([str(exe), str(work_proj)], cwd=str(work),
+                                           capture_output=True, text=True, timeout=EXPAND_TIMEOUT_S)
+                except _subprocess.TimeoutExpired:
+                    _shutil.rmtree(work, ignore_errors=True)
+                    return _expand_err(
+                        f"toeexpand exceeded {EXPAND_TIMEOUT_S}s and was aborted.",
+                        "The .toe/.tox may be very large; note the MCP client's own ~45s "
+                        "tool-call timeout may also fire first.")
                 toe_dir = work / f"{src.name}.dir"
                 if not toe_dir.exists():
                     alts = list(work.glob("*.dir"))

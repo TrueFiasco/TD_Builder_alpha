@@ -35,18 +35,13 @@ from builders.toe_builder import TOEBuilder
 
 
 def _find_td_tool(exe_name: str) -> Optional[Path]:
-    found = shutil.which(exe_name)
-    if found:
-        return Path(found)
-
-    candidates = [
-        Path(r"C:\Program Files\Derivative\TouchDesigner\bin") / exe_name,
-        Path(r"C:\Program Files\Derivative\TouchDesigner.2025.30060\bin") / exe_name,
-    ]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    return None
+    # Delegate to the single resolver in paths.py (repo root). This CLI only puts
+    # MCP/engine on sys.path, so add the repo root before importing paths.
+    _repo_root = Path(__file__).resolve().parents[3]   # cli -> engine -> MCP -> repo root
+    if str(_repo_root) not in sys.path:
+        sys.path.insert(0, str(_repo_root))
+    from paths import resolve_td_tool
+    return resolve_td_tool(exe_name)
 
 
 def _run(args: list[str], cwd: Optional[Path] = None, ok_returncodes: set[int] | None = None) -> int:

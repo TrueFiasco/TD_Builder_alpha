@@ -1072,6 +1072,52 @@ _TD_PARM_MODE = {0: "constant", 1: "expression", 2: "reference", 3: "bind"}
 
 _SEQ_PARAM_RE = re.compile(r"^(\D*?)(\d+)(.*)$")
 
+# toeexpand hang-guard (Round-3 Stream 2). Generous: the MCP client's own ~45s tool-call
+# timeout may fire first — this only stops a genuinely stuck toeexpand from blocking forever.
+EXPAND_TIMEOUT_S = 180
+
+# Cross-project reference lint (Round-3 Stream 2). _OP_REF_RE matches an op('/abs/path')
+# expression; _WHOLE_ABS_RE matches a param whose entire value is an absolute TD path. A ref
+# whose first path segment != the component root is "foreign" (e.g. a dormant /project1/...
+# reference that shipped inside a saved .tox).
+_OP_REF_RE = re.compile(r"""op\(\s*['"](/[^'"]+)['"]""")
+_WHOLE_ABS_RE = re.compile(r"^/[A-Za-z_]\w*(?:/[A-Za-z_.\w]+)*$")
+
+
+def _scan_foreign_refs(network):
+    """Flag cross-project references that leave the component root (Round-3 Stream 2).
+
+    Scans each operator's param values + expressions for `op('/abs/path')` refs and for param
+    values that are themselves an absolute TD path; a ref whose first segment !=
+    `network.metadata.project_name` is foreign. Conservative (only clear op() refs /
+    whole-value absolute paths) to avoid false positives. Returns [{path, param, ref}], empty
+    when clean."""
+    from core.models import ParameterValue
+    root = (getattr(network.metadata, "project_name", "") or "").strip("/")
+    found = []
+    for op in network.operators:
+        for pname, pval in (getattr(op, "parameters", None) or {}).items():
+            value_str = None
+            expr_str = None
+            if isinstance(pval, ParameterValue):
+                if isinstance(pval.value, str):
+                    value_str = pval.value
+                expr_str = pval.expression
+            elif isinstance(pval, str):
+                value_str = pval
+            refs = []
+            if expr_str:
+                refs += _OP_REF_RE.findall(expr_str)
+            if value_str:
+                refs += _OP_REF_RE.findall(value_str)
+                if _WHOLE_ABS_RE.match(value_str.strip()):
+                    refs.append(value_str.strip())
+            for ref in dict.fromkeys(refs):  # dedupe, preserve order
+                first = ref.lstrip("/").split("/")[0]
+                if root and first and first != root:
+                    found.append({"path": op.path, "param": pname, "ref": ref})
+    return found
+
 
 def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int = 1):
     """Collapse long repeated TD sequence-param families in a summary.
@@ -1159,6 +1205,7 @@ def _summarize_td_network(network) -> dict:
         "by_family": by_family,
         "operators": operators,
         "connections": connections,
+        "foreign_refs": _scan_foreign_refs(network),
     }
 
 
@@ -1828,8 +1875,15 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 work_proj = work / src.name
                 _shutil.copy2(src, work_proj)
                 # toeexpand returns rc 1 even on success on some builds.
-                proc = _subprocess.run([str(exe), str(work_proj)], cwd=str(work),
-                                       capture_output=True, text=True)
+                try:
+                    proc = _subprocess.run([str(exe), str(work_proj)], cwd=str(work),
+                                           capture_output=True, text=True, timeout=EXPAND_TIMEOUT_S)
+                except _subprocess.TimeoutExpired:
+                    _shutil.rmtree(work, ignore_errors=True)
+                    return _expand_err(
+                        f"toeexpand exceeded {EXPAND_TIMEOUT_S}s and was aborted.",
+                        "The .toe/.tox may be very large; note the MCP client's own ~45s "
+                        "tool-call timeout may also fire first.")
                 toe_dir = work / f"{src.name}.dir"
                 if not toe_dir.exists():
                     alts = list(work.glob("*.dir"))

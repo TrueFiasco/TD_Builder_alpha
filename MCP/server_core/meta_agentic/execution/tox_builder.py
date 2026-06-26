@@ -156,6 +156,7 @@ end
             self._write_container(container, component_name)
 
         toc_path = self._write_tox_toc(component_name)
+        self._write_component_summary(component_name)
         tox_path = self._collapse_tox(component_name)
 
         if tox_path:

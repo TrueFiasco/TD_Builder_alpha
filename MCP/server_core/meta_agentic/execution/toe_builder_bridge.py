@@ -532,6 +532,7 @@ class ToeBuilderBridge:
         self.expressions = {}  # op/param -> expression
         self.palette_io_map = {}  # Maps palette_name -> {"inputs": [...], "outputs": [...], "path": ...}
         self.container_io_map = {}  # BUG-C FIX: Maps container_name -> {"outputs": [...]} for regular containers
+        self.external_components = []  # Round-4 #1: external-tox refs, for the build-log summary
 
     def log(self, msg: str):
         if self.verbose:
@@ -598,6 +599,9 @@ class ToeBuilderBridge:
         # 4. Write TOC
         toc_path = self._write_toc(project_name)
 
+        # 4b. External-tox component summary (build log)
+        self._write_component_summary(project_name)
+
         # 5. Collapse to TOE
         toe_path = self._collapse(project_name)
 
@@ -608,6 +612,21 @@ class ToeBuilderBridge:
             self.log("=" * 60)
 
         return toe_path
+
+    def _write_component_summary(self, project_name: str):
+        """Write a per-project build-log summary of the external-tox components a build
+        references (Round-4 #1) — `<project>.components.md` in the output dir. Each entry is
+        a reusable, file-backed component; this makes the project self-documenting and is the
+        place a component manifest (inputs/outputs/params) is surfaced (extended in #1b)."""
+        comps = getattr(self, "external_components", None)
+        if not comps:
+            return
+        lines = [f"# {project_name} — external components ({len(comps)})", ""]
+        for c in comps:
+            lines.append(f"- **{c['name']}** (`{c['td_type']}`) -> `{c['tox']}`  _(at `{c['path']}`)_")
+        summary_path = self.output_dir / f"{project_name}.components.md"
+        summary_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        self.log(f"  Wrote component summary: {summary_path.name} ({len(comps)} components)")
 
     def _build_connection_map(self, connections: list):
         """Build a map of target -> [sources] from connections list.
@@ -946,7 +965,7 @@ end
                         op_type.lower().startswith("comp:") or
                         (op_family and op_family.upper() == "COMP"))
 
-        if is_comp_type and has_children:
+        if is_comp_type and has_children and not (op.get("external_tox") or op.get("externaltox")):
             self.log(f"    Detected COMP with children: {name} - delegating to _write_container")
             self._write_container(op, container_path)
             return
@@ -1012,6 +1031,24 @@ end
 
         # Map to TouchDesigner type (pass explicit family if provided)
         td_type = self._map_op_type(op_type, container_path, op_family)
+
+        # Round-4 #1 — external-tox component reference. The op points at an external .tox
+        # file instead of embedding it: write a COMP whose externaltox/enableexternaltox
+        # params load that file's contents on open (a compartmentalised, reusable, file-backed
+        # component). Defaults to a base COMP unless the design gives an explicit COMP type.
+        # Recorded for the per-project build-log component summary.
+        external_tox = op.get("external_tox") or op.get("externaltox")
+        if external_tox:
+            if not (op_family and op_family.upper() == "COMP"):
+                td_type = "COMP:base"
+            tox_ref = str(external_tox).replace("\\", "/")
+            params["externaltox"] = tox_ref
+            params.setdefault("enableexternaltox", "on")
+            comp_path = f"{container_path}/{name}".replace("project1/", "")
+            self.external_components.append(
+                {"name": name, "path": comp_path, "tox": tox_ref, "td_type": td_type})
+            # Contents load from the .tox at runtime; create an empty dir to load into.
+            (self.project_dir / f"{container_path}/{name}").mkdir(parents=True, exist_ok=True)
 
         # Warn if conversion operator is missing required source parameter
         if td_type in CONVERSION_OP_REQUIRED_PARAMS:

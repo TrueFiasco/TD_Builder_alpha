@@ -1293,6 +1293,44 @@ def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int
     return out
 
 
+_IN_NAME_RE = re.compile(r"^in\d*$")
+_OUT_NAME_RE = re.compile(r"^out\d*$")
+
+
+def _component_manifest(network) -> dict:
+    """Extract a reusable component's interface (Round-4 #1b).
+
+    A component .tox exposes its inputs/outputs via `in*`/`out*` operators (by op-type base
+    `in`/`out` or by name). The manifest (inputs, outputs, families, op/connection counts, a
+    one-line summary) lets an LLM wire a component referenced via `external_tox` without
+    re-expanding it. Surfaced as the `manifest` field of expand_toe_file(mode='summary')."""
+    inputs, outputs, families = [], [], {}
+    for op in network.operators:
+        ot = op.op_type or (f"{op.family.value}:{op.type}" if getattr(op, "family", None)
+                            else getattr(op, "type", "")) or ""
+        name = op.path.rstrip("/").split("/")[-1]
+        base = ot.split(":")[-1].lower() if ":" in ot else ot.lower()
+        if ":" in ot:
+            fam = ot.split(":")[0]
+            if fam:
+                families[fam] = families.get(fam, 0) + 1
+        if base == "in" or _IN_NAME_RE.match(name):
+            inputs.append({"name": name, "op_type": ot})
+        elif base == "out" or _OUT_NAME_RE.match(name):
+            outputs.append({"name": name, "op_type": ot})
+    inputs.sort(key=lambda x: x["name"])
+    outputs.sort(key=lambda x: x["name"])
+    return {
+        "inputs": inputs,
+        "outputs": outputs,
+        "families": families,
+        "operator_count": len(network.operators),
+        "connection_count": len(network.connections),
+        "summary": (f"{len(network.operators)} operators, {len(network.connections)} connections; "
+                    f"inputs={[i['name'] for i in inputs]}, outputs={[o['name'] for o in outputs]}"),
+    }
+
+
 def _summarize_td_network(network) -> dict:
     """Compact node/connection summary of a parsed TDNetwork.
 
@@ -1337,6 +1375,7 @@ def _summarize_td_network(network) -> dict:
         "operators": operators,
         "connections": connections,
         "foreign_refs": _scan_foreign_refs(network),
+        "manifest": _component_manifest(network),
     }
 
 

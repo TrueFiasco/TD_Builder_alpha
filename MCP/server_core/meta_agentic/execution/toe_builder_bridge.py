@@ -1086,6 +1086,13 @@ end
                 params["attribscope"] = "P"
                 self.log(f"    Auto-set {name}.attribscope = P (position-only default)")
 
+        # Builder-convenience: a GLSL POP imported with outputattrs='' leaves P undeclared
+        # and fails to compile. Default outputattrs='P' when the design omits it (mirrors the
+        # sopToCHOP attribscope default above); an explicit value is preserved.
+        if is_glsl_pop and "outputattrs" not in params:
+            params["outputattrs"] = "P"
+            self.log(f"    Auto-set {name}.outputattrs = P (GLSL POP default)")
+
         # Build .n file content
         n_content = f"""{td_type}
 tile {position[0]} {position[1]} 130 90

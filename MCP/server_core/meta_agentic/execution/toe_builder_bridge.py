@@ -584,6 +584,9 @@ class ToeBuilderBridge:
         # 2. Write project container
         self._write_project_container(network)
 
+        # 2b. Write the /perform Window COMP every TD project ships
+        self._write_perform_window()
+
         # 3. Write containers and operators
         containers = network.get("containers", [])
         for container in containers:
@@ -714,6 +717,19 @@ screenh 0 {resolution[1]}
 
         (self.project_dir / "project1").mkdir(exist_ok=True)
         self.log("  Created project container")
+
+    def _write_perform_window(self):
+        """Write the /perform Window COMP at the project root (ground-truthed from a TD
+        save+expand). Every TD project ships one; its `winop` points at the project root
+        (project1) so the Performance window displays the build. Without it a built .toe
+        opens with no perform window."""
+        self._write_file("perform.n",
+                         "COMP:window\ntile -200 40 160 130\n"
+                         "flags =  viewer 1 parlanguage 0\ncolor 0.67 0.67 0.67 \nend\n")
+        self._write_file("perform.parm",
+                         "?\nwinop 0 project1\njustifyh 0 center\njustifyv 0 center\n?\n")
+        (self.project_dir / "perform").mkdir(exist_ok=True)
+        self.log("  Created /perform window COMP")
 
     def _write_container(self, container: dict, parent_path: str):
         """Write a container and its operators."""

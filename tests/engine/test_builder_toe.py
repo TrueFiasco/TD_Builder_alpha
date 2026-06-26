@@ -56,3 +56,14 @@ def test_toe_project_structure_intact(tmp_path):
     toc = (Path(tmp_path) / "proj3.toe.toc").read_text(encoding="utf-8")
     for f in (".application", ".start", ".root", ".grps", ".parm", ".build"):
         assert f in toc, f"{f} missing from .toc"
+
+
+def test_toe_includes_perform_window(tmp_path):
+    # Every TD project ships a /perform Window COMP; the build must include it.
+    d = _build_dir(tmp_path, {"operators": [{"name": "n1", "type": "noise", "family": "CHOP"}]}, "pw")
+    perf = d / "perform.n"
+    assert perf.exists(), "no /perform window COMP written"
+    assert perf.read_text(encoding="utf-8").splitlines()[0] == "COMP:window"
+    parm = (d / "perform.parm").read_text(encoding="utf-8")
+    assert "winop 0 project1" in parm, parm  # the perform window displays the project root
+    assert "perform.n" in (Path(tmp_path) / "pw.toe.toc").read_text(encoding="utf-8")

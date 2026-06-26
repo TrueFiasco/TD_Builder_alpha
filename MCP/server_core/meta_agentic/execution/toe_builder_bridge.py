@@ -647,16 +647,29 @@ class ToeBuilderBridge:
                 self.expressions[param_path] = expression
 
     def _write_system_files(self):
-        """Write root-level system files for TOE."""
+        """Write root-level system files for a `.toe` project (Round-4 #8 — make `.toe`
+        first-class).
+
+        Ground-truthed against a real TD-saved `.toe`: `.start` is plain `cookrate`/`realtime`
+        lines (NOT a `?`-delimited .parm block, which the bridge used to write), and a
+        `.application` (desk/pane/winplacement) layout is REQUIRED — without it the project
+        opens with no network editor. The displayed pane targets `/project1` (the bridge nests
+        the build under a `project1` container)."""
         self.log("\n[1/5] Writing system files...")
 
         self._write_file(".build", "version 099\nbuild 2025.31760\ntime Fri Dec 20 10:00:00 2025\nosname Windows\nosversion 10\n")
-        self._write_file(".start", "?\nperform 0 on\nrealtime 0 on\ncookrate 0 60\n?\n")
+        self._write_file(".start", "cookrate 60\nrealtime on\n")
         self._write_file(".grps", "-2\n0\n")
         self._write_file(".root", "end\n")
         self._write_file(".parm", "?\n?\n")
+        self._write_file(".application",
+                         "\n#Desk..\n# layout \ndesk -c * \ndesk -n pane1 *\n\n"
+                         "#pane1\ndesk -p /project1 pane1\ndesk -t neteditor pane1\ndesk -k 0 pane1\n"
+                         "neteditor -c 0 -e 1 -G 0.75 -o 0 -r 1 -P 0.8 -s 0 -w 0 -x 0 -t 1 -d 1 -g 0 -p pane1\n\n"
+                         "winplacement ontop=0 mode=auto posx=0 posy=0 sizex=1280 sizey=720 "
+                         "enable=1 perform.path=/perform perform.start=0\n")
 
-        self.log("  Created 5 system files")
+        self.log("  Created 6 system files")
 
     def _write_project_container(self, network: dict):
         """Create main project container."""

@@ -1,0 +1,58 @@
+"""Round-4 #8 — make `.toe` (full project) builds first-class.
+
+ToeBuilderBridge.build_from_design used to write thin project metadata: a `?`-delimited
+`.start` (wrong format) and NO `.application`, so a built `.toe` opened with no network
+editor. Ground-truthed against a real TD save+expand: `.start` is plain `cookrate`/
+`realtime` lines and a `.application` desk/pane/winplacement layout is required.
+
+Inspects the generated `.toe.dir/` (written before toecollapse, so no TD binary needed).
+KB-gated by tests/conftest.py.
+"""
+import sys
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+import bootstrap  # noqa: E402
+bootstrap.setup()
+
+from meta_agentic.execution.toe_builder_bridge import ToeBuilderBridge  # noqa: E402
+
+
+def _build_dir(tmp_path, design, name):
+    ToeBuilderBridge(Path(tmp_path), verbose=False).build_from_design(design, name)
+    return Path(tmp_path) / f"{name}.toe.dir"
+
+
+def test_toe_writes_application_layout(tmp_path):
+    d = _build_dir(tmp_path, {"operators": [{"name": "n1", "type": "noise", "family": "CHOP"}]}, "proj")
+    app_file = d / ".application"
+    assert app_file.exists(), ".toe build wrote no .application (project opens with no UI)"
+    app = app_file.read_text(encoding="utf-8")
+    assert "neteditor" in app and "desk -p /project1" in app, app
+
+
+def test_toe_start_is_correct_format(tmp_path):
+    d = _build_dir(tmp_path, {"operators": [{"name": "n1", "type": "noise", "family": "CHOP"}]}, "proj2")
+    start = (d / ".start").read_text(encoding="utf-8")
+    assert "cookrate 60" in start and "realtime on" in start, start
+    assert "?" not in start, f".start must not be a ?-delimited .parm block: {start!r}"
+
+
+def test_toe_project_structure_intact(tmp_path):
+    design = {
+        "operators": [
+            {"name": "noise1", "type": "noise", "family": "CHOP"},
+            {"name": "null1", "type": "null", "family": "CHOP"},
+        ],
+        "connections": [{"from": "noise1", "to": "null1"}],
+    }
+    d = _build_dir(tmp_path, design, "proj3")
+    assert (d / "project1" / "noise1.n").exists()
+    assert (d / "project1" / "null1.n").exists()
+    # metadata files all present in the TOC
+    toc = (Path(tmp_path) / "proj3.toe.toc").read_text(encoding="utf-8")
+    for f in (".application", ".start", ".root", ".grps", ".parm", ".build"):
+        assert f in toc, f"{f} missing from .toc"

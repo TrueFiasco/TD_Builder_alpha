@@ -190,8 +190,61 @@ AVAILABLE_EXPERTS = {
 # V2-V6 strategies and not reachable via the standard expert loader; they were
 # removed from this roster.
 
+def _load_expert_expertise(expert_name: str, per_file_cap: int = 16000,
+                           total_cap: int = 48000) -> str:
+    """Load the curated expertise YAMLs an expert declares in its config.yaml
+    `expertise_inputs:` and return them as an appendable prompt block (Round-4 #3 slice).
+
+    These ~18 YAMLs were dormant — declared in every expert config but never read by any
+    code. Size-capped so the big catalogs (e.g. td_operators.yaml, 234 KB) don't blow the
+    prompt; the live MCP tools (get_operator_info / find_operator_examples / hybrid_search)
+    remain the source for exhaustive operator/param facts."""
+    config_path = EXPERTS_DIR / expert_name / "config.yaml"
+    if not config_path.exists():
+        return ""
+    try:
+        import yaml as _yaml
+        cfg = _yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return ""
+    inputs = cfg.get("expertise_inputs") or []
+    repo_root = EXPERTS_DIR.parent.parent  # <root>/Agents/experts -> <root>
+    chunks, total = [], 0
+    for i, item in enumerate(inputs):
+        if not isinstance(item, dict):
+            continue
+        rel = item.get("path")
+        if not rel:
+            continue
+        f = repo_root / rel
+        if not f.exists():
+            continue
+        try:
+            content = f.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if len(content) > per_file_cap:
+            content = content[:per_file_cap] + (
+                f"\n# ...[truncated to {per_file_cap} chars - full file at {rel}; "
+                "use the KB tools for exhaustive operator/param facts]")
+        chunk = f"### {Path(rel).name} - {item.get('purpose', '')}\n{content}"
+        if total + len(chunk) > total_cap:
+            remaining = ", ".join(
+                Path(x.get("path", "")).name for x in inputs[i:] if isinstance(x, dict))
+            chunks.append(f"### (further expertise omitted to fit context: {remaining})")
+            break
+        chunks.append(chunk)
+        total += len(chunk)
+    if not chunks:
+        return ""
+    return ("\n\n## Curated expertise (configured for this expert)\n"
+            "Use these alongside the live MCP tools for operator/param facts.\n\n"
+            + "\n\n".join(chunks))
+
+
 def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
-    """Load expert prompt from meta_agentic/experts/{expert}/{phase}.md"""
+    """Load expert prompt from meta_agentic/experts/{expert}/{phase}.md, with the expert's
+    declared expertise YAMLs appended (Round-4 #3 slice — previously dormant)."""
     expert_dir = EXPERTS_DIR / expert_name
     if not expert_dir.exists():
         return f"ERROR: Expert '{expert_name}' not found"
@@ -201,9 +254,11 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
         return f"ERROR: Phase '{phase}' not found for expert '{expert_name}'"
 
     try:
-        return prompt_file.read_text(encoding='utf-8')
+        base = prompt_file.read_text(encoding='utf-8')
     except Exception as e:
         return f"ERROR reading {prompt_file}: {e}"
+
+    return base + _load_expert_expertise(expert_name)
 
 
 

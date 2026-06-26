@@ -17,6 +17,12 @@ from collections import defaultdict
 # find_examples_by_operator (B24 family disambiguation).
 _OP_FAMILIES: Tuple[str, ...] = ("COMP", "CHOP", "TOP", "SOP", "MAT", "DAT", "POP")
 
+# Operator type-bases that are ubiquitous plumbing rather than meaningful structure.
+# A NetworkPattern whose operators are ALL drawn from this set is treated as noise by
+# get_network_patterns (Round-4 #7) — e.g. a bare "null + out" pattern that appears in
+# almost every network and tells you nothing.
+_UNIVERSAL_PATTERN_OPS: frozenset = frozenset({"null", "out", "in", "select"})
+
 
 def _normalize_op_type_for_filter(name: str) -> Tuple[Optional[str], str]:
     """Normalise an operator type spec to (family_or_None, type_base_lower).
@@ -316,58 +322,117 @@ class EnhancedGraphQuery:
         return results
 
     def find_similar_patterns(self, example_id: str, limit: int = 5) -> List[Dict]:
-        """Find examples with similar network patterns"""
+        """Find examples similar to `example_id` (Round-4 #5).
 
-        example_node_id = f"ex:{example_id}" if not example_id.startswith('ex:') else example_id
-        example_node = self.nodes.get(example_node_id)
-
-        if not example_node:
+        Resolves the example id whether the caller passes the bare id or the `ex:`-prefixed
+        node key. Ranks similarity in two passes: (1) examples sharing an IMPLEMENTS_PATTERN
+        tag (the sharper signal, but only ~12.6% of examples carry one), then (2) a
+        shared-operator-overlap fallback over the rest so the ~87% of untagged examples
+        still return useful neighbours instead of []."""
+        # Resolve the node key (accept "ex:foo" or "foo").
+        resolved_id = None
+        candidates = [example_id] if example_id.startswith("ex:") else [f"ex:{example_id}", example_id]
+        for cand in candidates:
+            if cand in self.nodes:
+                resolved_id = cand
+                break
+        if resolved_id is None:
             return []
+        example_node = self.nodes[resolved_id]
 
-        results = []
+        results: List[Dict] = []
+        seen: Set[str] = {resolved_id}
 
-        # Find patterns this example implements
-        for edge in self.outgoing_edges.get(example_node_id, []):
-            if edge['type'] == 'IMPLEMENTS_PATTERN':
-                pattern_id = edge['to']
+        # Pass 1 — shared network pattern (IMPLEMENTS_PATTERN).
+        for edge in self.outgoing_edges.get(resolved_id, []):
+            if edge.get('type') != 'IMPLEMENTS_PATTERN':
+                continue
+            for other_edge in self.incoming_edges.get(edge['to'], []):
+                if other_edge.get('type') != 'IMPLEMENTS_PATTERN':
+                    continue
+                oid = other_edge['from']
+                if oid in seen:
+                    continue
+                other = self.nodes.get(oid)
+                if other and other.get('is_useful'):
+                    seen.add(oid)
+                    results.append(self._enrich_example(other))
+                    if len(results) >= limit:
+                        return results
 
-                # Find other examples implementing the same pattern
-                for other_edge in self.incoming_edges.get(pattern_id, []):
-                    if other_edge['type'] == 'IMPLEMENTS_PATTERN':
-                        other_example_id = other_edge['from']
+        # Pass 2 — shared-operator-overlap fallback (uses the dense CONTAINS_OPERATOR data).
+        query_ops = self._example_op_types(example_node)
+        if query_ops:
+            scored: List[Tuple[int, str, Dict]] = []
+            for nid, node in self.nodes.items():
+                if nid in seen or node.get('type') != 'ExampleNetwork' or not node.get('is_useful'):
+                    continue
+                overlap = len(query_ops & self._example_op_types(node))
+                if overlap > 0:
+                    scored.append((overlap, nid, node))
+            # Most overlap first; stable by id for determinism.
+            scored.sort(key=lambda s: (-s[0], s[1]))
+            for _, nid, node in scored:
+                if len(results) >= limit:
+                    break
+                seen.add(nid)
+                results.append(self._enrich_example(node))
 
-                        if other_example_id != example_node_id:
-                            other_example = self.nodes.get(other_example_id)
-                            if other_example and other_example.get('is_useful'):
-                                results.append(self._enrich_example(other_example))
+        return results[:limit]
 
-                                if len(results) >= limit:
-                                    return results
+    def _example_op_types(self, example_node: Dict) -> Set[str]:
+        """Set of normalized operator type-bases (e.g. 'noise', 'level') in an example."""
+        out: Set[str] = set()
+        for op in example_node.get('operators', []):
+            _, t = _normalize_op_type_for_filter(op.get('type', ''))
+            if t:
+                out.add(t)
+        return out
 
-        return results
+    def get_network_patterns(self, min_frequency: int = 5,
+                             exclude_universal: bool = True) -> List[Dict]:
+        """Get common network patterns (Round-4 #7).
 
-    def get_network_patterns(self, min_frequency: int = 5) -> List[Dict]:
-        """Get common network patterns"""
-
-        patterns = []
+        Two query-time cleanups on top of the raw NetworkPattern nodes:
+          - **dedup** repeated pattern signatures (the graph can hold several nodes for the
+            same signature) — keep the highest-frequency one, summing example counts;
+          - **noise filter** (`exclude_universal`): drop patterns whose operators are ALL
+            ubiquitous plumbing (null/in/out/select), which otherwise dominate at high
+            `min_frequency`."""
+        by_sig: Dict[Any, Dict] = {}
 
         for node in self.nodes.values():
-            if node['type'] != 'NetworkPattern':
+            if node.get('type') != 'NetworkPattern':
+                continue
+            if node.get('frequency', 0) < min_frequency:
                 continue
 
-            if node.get('frequency', 0) >= min_frequency:
-                # Get example count
-                example_count = len(self.incoming_edges.get(node['id'], []))
+            op_types = node.get('operator_types', []) or []
+            if exclude_universal and op_types:
+                bases = [_normalize_op_type_for_filter(t)[1] for t in op_types]
+                if all(b in _UNIVERSAL_PATTERN_OPS for b in bases):
+                    continue
 
-                patterns.append({
-                    'pattern_signature': node['pattern_signature'],
-                    'operator_types': node['operator_types'],
-                    'frequency': node['frequency'],
-                    'example_count': example_count,
-                    'canonical_example_id': node['canonical_example']
-                })
+            sig = node.get('pattern_signature')
+            key = sig if sig is not None else tuple(sorted(op_types))
+            entry = {
+                'pattern_signature': sig,
+                'operator_types': op_types,
+                'frequency': node.get('frequency', 0),
+                'example_count': len(self.incoming_edges.get(node['id'], [])),
+                'canonical_example_id': node.get('canonical_example'),
+            }
+            prev = by_sig.get(key)
+            if prev is None:
+                by_sig[key] = entry
+            else:
+                # Same signature seen again: keep the richer one, accumulate example counts.
+                merged_count = prev['example_count'] + entry['example_count']
+                keep = entry if entry['frequency'] > prev['frequency'] else prev
+                keep['example_count'] = merged_count
+                by_sig[key] = keep
 
-        return sorted(patterns, key=lambda p: p['frequency'], reverse=True)
+        return sorted(by_sig.values(), key=lambda p: p['frequency'], reverse=True)
 
     def search_by_text(self, query: str, limit: int = 10) -> List[Dict]:
         """Search examples by text (simple keyword matching)"""
@@ -395,14 +460,30 @@ class EnhancedGraphQuery:
         return [r[1] for r in results[:limit]]
 
     def get_operator_info(self, operator_name: str) -> Optional[Dict]:
-        """Get comprehensive info about an operator"""
+        """Get comprehensive info about an operator (Round-4 #6).
 
-        # Find operator node
+        hybrid_search passes operator DISPLAY names ("Feedback TOP"); the graph's Operator
+        nodes are suffixed ("feedbackTOP"). The old plain-substring match failed on that
+        (reported "not found in enhanced graph"), so normalise both sides to (family, type)
+        first, then fall back to the legacy substring match."""
+        req_fam, req_type = _normalize_op_type_for_filter(operator_name)
+
         op_node = None
-        for node in self.nodes.values():
-            if node['type'] == 'Operator' and operator_name.lower() in node['name'].lower():
-                op_node = node
-                break
+        # Pass 1 — normalized (family, type) match.
+        if req_type:
+            for node in self.nodes.values():
+                if node.get('type') != 'Operator':
+                    continue
+                nf, nt = _normalize_op_type_for_filter(node.get('name', ''))
+                if nt == req_type and (req_fam is None or req_fam == nf):
+                    op_node = node
+                    break
+        # Pass 2 — legacy substring fallback (backwards compatible).
+        if not op_node:
+            for node in self.nodes.values():
+                if node.get('type') == 'Operator' and operator_name.lower() in node.get('name', '').lower():
+                    op_node = node
+                    break
 
         if not op_node:
             return None

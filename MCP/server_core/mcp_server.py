@@ -8,6 +8,7 @@ import sys
 import json
 import asyncio
 import os
+import re
 from pathlib import Path
 from typing import Any, Sequence, Dict, Callable, List, Optional, Union
 import base64
@@ -1069,6 +1070,51 @@ async def list_tools() -> list[Tool]:
 # _parse_parameters). 0=constant, 1=expression, 2=export/reference, 3=bind.
 _TD_PARM_MODE = {0: "constant", 1: "expression", 2: "reference", 3: "bind"}
 
+_SEQ_PARAM_RE = re.compile(r"^(\D*?)(\d+)(.*)$")
+
+
+def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int = 1):
+    """Collapse long repeated TD sequence-param families in a summary.
+
+    TD sequence params look like ``attr0name, attr1name, …`` / ``vec0name, vec1name, …`` /
+    ``sampler0extendu, …`` — a glslPOP's Create-Attributes + Vectors pages alone can emit
+    dozens of rows, which blew the expand_toe_file(mode='summary') token budget. This keeps
+    the first ``keep_per_family`` index of each family and replaces the rest with an
+    explicit marker ``{name, collapsed: <count>, note}``. Families with
+    ``<= family_threshold`` members (e.g. fromrange1/2) and non-sequence params pass through
+    untouched. The omitted count is always reported — never a silent truncation.
+    """
+    buckets = {}      # family -> [(idx, param)], first-appearance order preserved via `rendered`
+    rendered = []     # ("plain", param) | ("seq", family)
+    for p in params:
+        m = _SEQ_PARAM_RE.match(p.get("name", ""))
+        if not m:
+            rendered.append(("plain", p))
+            continue
+        family = f"{m.group(1)}#{m.group(3)}"
+        if family not in buckets:
+            buckets[family] = []
+            rendered.append(("seq", family))
+        buckets[family].append((int(m.group(2)), p))
+
+    out = []
+    for kind, val in rendered:
+        if kind == "plain":
+            out.append(val)
+            continue
+        members = sorted(buckets[val], key=lambda t: t[0])
+        if len(members) <= family_threshold:
+            out.extend(p for _, p in members)
+        else:
+            out.extend(p for _, p in members[:keep_per_family])
+            omitted = len(members) - keep_per_family
+            out.append({
+                "name": val,
+                "collapsed": omitted,
+                "note": f"{omitted} repeated sequence params omitted in summary; use mode='full'",
+            })
+    return out
+
 
 def _summarize_td_network(network) -> dict:
     """Compact node/connection summary of a parsed TDNetwork.
@@ -1096,7 +1142,7 @@ def _summarize_td_network(network) -> dict:
         operators.append({
             "path": op.path,
             "op_type": op.op_type or (f"{op.family.value}:{op.type}" if op.family else op.type),
-            "params": params,
+            "params": _collapse_seq_params(params),
         })
 
     connections = [

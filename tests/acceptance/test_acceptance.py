@@ -1,6 +1,6 @@
 """Conventional pass/fail acceptance tests for the td-builder MCP server.
 
-Exercises the V0.1.1 key-free tool surface — 16 offline (`td-builder`) +
+Exercises the key-free tool surface — 17 offline (`td-builder`) +
 19 live (`td-builder-live`) tools — across prompts P1-P19. Run it and every
 tool/feature shows PASSED or FAILED:
 
@@ -57,10 +57,10 @@ def test_p01_server_identity(probe):
 
 def test_p01b_tool_inventory(probe):
     names = sorted(t.name for t in probe.list_tools())
-    assert len(names) == 16, f"expected 16 offline tools, got {len(names)}: {names}"
+    assert len(names) == 17, f"expected 17 offline tools, got {len(names)}: {names}"
     for required in ("get_server_info", "td_validate", "td_convert",
-                     "td_build_project", "hybrid_search", "query_graph",
-                     "expand_toe_file"):
+                     "td_build_project", "td_build_status", "hybrid_search",
+                     "query_graph", "expand_toe_file"):
         assert required in names
     # API / agent-spawning tools removed for the key-free release
     for gone in ("spawn_engineer", "spawn_expert", "td_compact_expertise"):

@@ -9,6 +9,7 @@ import json
 import asyncio
 import os
 import re
+import uuid
 from pathlib import Path
 from typing import Any, Sequence, Dict, Callable, List, Optional, Union
 import base64
@@ -649,6 +650,113 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
         }
 
 
+# ---------------------------------------------------------------------------
+# Build core + async job registry (Round-3 Stream 3, R2-A)
+# ---------------------------------------------------------------------------
+# Shared by the synchronous td_build_project path and the opt-in async path. The background
+# pattern mirrors the KB warm-up thread: a daemon thread, a lock, and a module-level state
+# dict keyed by job id, polled via the td_build_status tool.
+_build_jobs = {}            # job_id -> {status, result?/error?, started, finished?}
+_build_lock = threading.Lock()
+
+
+def _prune_build_jobs(limit=50):
+    """Keep the registry bounded (oldest-first eviction). Call under _build_lock."""
+    if len(_build_jobs) > limit:
+        oldest = sorted(_build_jobs.items(), key=lambda kv: kv[1].get("started", 0))
+        for jid, _ in oldest[:len(_build_jobs) - limit]:
+            _build_jobs.pop(jid, None)
+
+
+async def _run_build(network_design, design, table_data, project_name, output_dir, mode) -> dict:
+    """Build a .tox/.toe and return the result envelope dict (callers run B08 pre-validation
+    first). network_design -> ToeBuilderBridge advanced path; otherwise the simple
+    td_build_project() path. Same envelopes the tool returned before the refactor."""
+    if network_design and EXPERT_WORKFLOW_ENABLED:
+        try:
+            if not output_dir:
+                output_dir = str(Path(__file__).parent / "output")
+            Path(output_dir).mkdir(parents=True, exist_ok=True)
+            if not project_name:
+                project_name = f"td_project_{int(time.time()) % 10000}"
+            if mode == "tox":
+                bridge = ToxBuilder(output_dir, verbose=True)
+                result_path = bridge.build_tox(network_design, project_name)
+            else:
+                bridge = ToeBuilderBridge(Path(output_dir))
+                result_path = bridge.build_from_design(network_design, project_name)
+            op_count = len(network_design.get("operators", []))
+            conn_count = len(network_design.get("connections", []))
+            for container in network_design.get("containers", []):
+                op_count += len(container.get("operators", []))
+                conn_count += len(container.get("connections", []))
+                conn_count += len(container.get("network", {}).get("connections", []))
+            if result_path and Path(result_path).exists():
+                return {
+                    "status": "SUCCESS",
+                    "builder": "ToeBuilderBridge",
+                    "output_file": str(result_path),
+                    "file_size": Path(result_path).stat().st_size,
+                    "operators": op_count,
+                    "connections": conn_count,
+                    "features_used": {
+                        "containers": len(network_design.get("containers", [])) > 0,
+                        "embed_tox": any(
+                            op.get("embed_tox")
+                            for container in network_design.get("containers", [])
+                            for op in container.get("operators", [])
+                        ),
+                    },
+                }
+            return {
+                "status": "ERROR",
+                "message": "Build completed but file was not created",
+                "attempted_path": str(result_path) if result_path else "None",
+            }
+        except Exception as e:
+            import traceback
+            return {
+                "status": "ERROR",
+                "builder": "ToeBuilderBridge",
+                "message": str(e),
+                "traceback": traceback.format_exc(),
+            }
+
+    # Simple design path
+    if table_data:
+        design = dict(design)
+        design["table_data"] = table_data
+    return await td_build_project(design, project_name, output_dir)
+
+
+def _start_build_job(network_design, design, table_data, project_name, output_dir, mode) -> str:
+    """Spawn a daemon thread that runs _run_build and records the result in _build_jobs.
+    Returns the new job id immediately (poll with td_build_status)."""
+    job_id = uuid.uuid4().hex[:12]
+    with _build_lock:
+        _build_jobs[job_id] = {"status": "running", "started": time.time()}
+        _prune_build_jobs()
+
+    def _worker():
+        try:
+            res = asyncio.run(_run_build(network_design, design, table_data,
+                                         project_name, output_dir, mode))
+            with _build_lock:
+                if job_id in _build_jobs:
+                    _build_jobs[job_id].update({"status": "done", "result": res,
+                                                "finished": time.time()})
+        except Exception as e:  # noqa: BLE001
+            import traceback
+            with _build_lock:
+                if job_id in _build_jobs:
+                    _build_jobs[job_id].update({"status": "error", "error": str(e),
+                                                "traceback": traceback.format_exc(),
+                                                "finished": time.time()})
+
+    threading.Thread(target=_worker, name=f"build-{job_id}", daemon=True).start()
+    return job_id
+
+
 @app.list_tools()
 async def list_tools() -> list[Tool]:
     """List available tools"""
@@ -937,9 +1045,32 @@ async def list_tools() -> list[Tool]:
                         "enum": ["toe", "tox"],
                         "default": "tox",
                         "description": "Build mode: toe (project) or tox (component)"
+                    },
+                    "async_build": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "If true, build in the background and return immediately with a job_id; poll td_build_status. Use for large builds that may exceed the client's tool-call timeout."
                     }
                 },
                 "required": []
+            }
+        ),
+        Tool(
+            name="td_build_status",
+            description=(
+                "Poll an async build started with td_build_project(async_build=true). "
+                "Returns {status: running|done|error, result?/error?, elapsed}. Job ids are "
+                "in-memory and not persisted across server restarts."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "job_id": {
+                        "type": "string",
+                        "description": "The job_id returned by td_build_project(async_build=true)."
+                    }
+                },
+                "required": ["job_id"]
             }
         ),
         Tool(
@@ -1640,76 +1771,42 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                         "hint": "Use query_graph(command='family') or hybrid_search to look up valid types.",
                     }, indent=2))]
 
-            # If network_design is provided, use ToeBuilderBridge for advanced features
-            if network_design and EXPERT_WORKFLOW_ENABLED:
-                try:
-                    if not output_dir:
-                        output_dir = str(Path(__file__).parent / "output")
-                    Path(output_dir).mkdir(parents=True, exist_ok=True)
+            # Opt-in async (R2-A): run the build in a background thread and return a job id
+            # immediately, so a long build never hits the MCP client's ~45s tool-call timeout.
+            # Pre-validation above already ran synchronously, so bad input still fails fast.
+            if bool(arguments.get("async_build")):
+                job_id = _start_build_job(network_design, design, table_data,
+                                          project_name, output_dir, mode)
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "STARTED",
+                    "job_id": job_id,
+                    "hint": "Poll td_build_status with this job_id; the .tox completes on disk.",
+                }, indent=2))]
 
-                    if not project_name:
-                        import time
-                        project_name = f"td_project_{int(time.time()) % 10000}"
+            # Synchronous (default, unchanged behavior).
+            result = await _run_build(network_design, design, table_data,
+                                      project_name, output_dir, mode)
+            return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-                    # Use ToeBuilderBridge for advanced features
-                    if mode == "tox":
-                        bridge = ToxBuilder(output_dir, verbose=True)
-                        result_path = bridge.build_tox(network_design, project_name)
-                    else:
-                        bridge = ToeBuilderBridge(Path(output_dir))
-                        result_path = bridge.build_from_design(network_design, project_name)
-
-                    # Count operators and connections
-                    op_count = len(network_design.get("operators", []))
-                    conn_count = len(network_design.get("connections", []))
-                    for container in network_design.get("containers", []):
-                        op_count += len(container.get("operators", []))
-                        conn_count += len(container.get("connections", []))
-                        network = container.get("network", {})
-                        conn_count += len(network.get("connections", []))
-
-                    if result_path and Path(result_path).exists():
-                        file_size = Path(result_path).stat().st_size
-                        result = {
-                            "status": "SUCCESS",
-                            "builder": "ToeBuilderBridge",
-                            "output_file": str(result_path),
-                            "file_size": file_size,
-                            "operators": op_count,
-                            "connections": conn_count,
-                            "features_used": {
-                                "containers": len(network_design.get("containers", [])) > 0,
-                                "embed_tox": any(
-                                    op.get("embed_tox")
-                                    for container in network_design.get("containers", [])
-                                    for op in container.get("operators", [])
-                                )
-                            }
-                        }
-                    else:
-                        result = {
-                            "status": "ERROR",
-                            "message": "Build completed but file was not created",
-                            "attempted_path": str(result_path) if result_path else "None"
-                        }
-                    return [TextContent(type="text", text=json.dumps(result, indent=2))]
-                except Exception as e:
-                    import traceback
-                    return [TextContent(type="text", text=json.dumps({
-                        "status": "ERROR",
-                        "builder": "ToeBuilderBridge",
-                        "message": str(e),
-                        "traceback": traceback.format_exc()
-                    }, indent=2))]
-
-            # Fall back to original td_build_project for simple design
-            if table_data:
-                design["table_data"] = table_data
-            result = await td_build_project(design, project_name, output_dir)
-            return [TextContent(
-                type="text",
-                text=json.dumps(result, indent=2)
-            )]
+        elif name == "td_build_status":
+            job_id = arguments.get("job_id")
+            if not job_id:
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "ERROR", "message": "Missing required argument 'job_id'."}, indent=2))]
+            with _build_lock:
+                job = _build_jobs.get(job_id)
+                snapshot = dict(job) if job else None
+            if snapshot is None:
+                return [TextContent(type="text", text=json.dumps({
+                    "status": "ERROR",
+                    "message": f"Unknown job_id: {job_id}",
+                    "hint": "Job ids are not persisted across server restarts.",
+                }, indent=2))]
+            started = snapshot.get("started")
+            if started is not None:
+                end = snapshot.get("finished") or time.time()
+                snapshot["elapsed"] = round(end - started, 2)
+            return [TextContent(type="text", text=json.dumps(snapshot, indent=2, default=str))]
 
         elif name == "td_validate":
             if not UNIFIED_SYSTEM_ENABLED:

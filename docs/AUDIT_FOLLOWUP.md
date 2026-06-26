@@ -104,3 +104,52 @@ whether to wire it or drop it during the wiring work.
 - **`docs/TOE_FORMAT_LEARNINGS.md`** documents a builder + generated files that no longer exist (and an
   operator count — 685 — for a build-pipeline artifact, left untouched in the #8 reconciliation). →
   Rewrite or archive.
+
+---
+
+# Round-2 (Penrose GAPS offline-builder remediation) — deferred items
+
+> The round-2 pass fixed and tested GAPS **BUG 1–4** (POP type tokens, geometry-COMP container
+> type+params, glslPOP `shader`→docked compute DAT, glslPOP `uniforms`→Vectors page), a build-timeout
+> hang-guard, and the `expand_toe_file` summary-verbosity easy-win — each with a failing→green repro
+> test, verified end-to-end against live TD 2025.32820. The items below were judged out-of-scope for
+> that pass and need an owner decision.
+
+## R2-A — `td_build_project` ~45 s timeout is **client-side** (not server-fixable)
+GAPS notes `td_build_project` "times out at ~45 s while the `.tox` still completes on disk." Verified:
+there is **no server-side timeout** in the build path — `_collapse_tox` shelled `toecollapse` with no
+bound. The ~45 s cutoff is the **MCP client's** tool-call timeout, which the server cannot raise.
+**Done this round:** added a generous hang-guard (`COLLAPSE_TIMEOUT_S=300`) so a stuck `toecollapse`
+fails cleanly, and the message points at the deterministic on-disk path
+(`<output_dir>/<project_name>.tox`) to check after a client timeout. **Deferred (owner decision):**
+either (a) raise the client tool-call timeout in the MCP client config, or (b) add an **async/poll**
+build API (`td_build_project` returns a job id immediately; a `td_build_status` tool reports
+completion) so long builds never hit the client cutoff.
+
+## R2-B — `expand_toe_file` 45 s timeout on real glslPOP-heavy files (self-review BUG 6)
+`expand_toe_file` (toeexpand + parse) can exceed the client budget on real 16 KB+ / glslPOP-heavy
+files. The summary-verbosity fix (collapse sequence params) reduces *output* size but not the
+*toeexpand+parse* time. → Decide: stream/paginate the expand, run it in a thread with progress, or
+document the size ceiling.
+
+## R2-C — `expand_toe_file` cross-project-reference lint (self-review BUG 8)
+A saved `.tox` can embed dormant cross-project path refs (e.g. an expression still pointing at
+`/project1/...` after the par was set to constant but its `.expr` wasn't cleared). → Add an optional
+"foreign references" lint to `expand_toe_file` that flags absolute paths leaving the component root.
+
+## R2-D — Live-TD-only behaviours → KB doc-notes (not builder bugs)
+Confirmed live during the round-2 probe; the offline builder is not at fault:
+- A freshly-*instantiated* `geometryCOMP` ships a default **`torus1`** child (now a `POP:torus`). The
+  offline builder does **not** create it (it writes the user's children), so this only bites when
+  geos are made live. → KB note: "destroy `torus1` after live-creating a geometryCOMP."
+- Live-created glslPOP comes in with `outputattrs=''`; `instanceactive` is a per-instance StrMenu (not
+  a toggle); GLSL POP uniforms belong on the Vectors page (scalars) / Arrays page (arrays), never
+  Constants. → KB notes (the offline builder already honours explicit `outputattrs`/`uniforms`).
+- **Builder-convenience candidates (decide):** default `outputattrs='P'` when a glslPOP design omits
+  it; optionally strip a stray `torus1` from a design's geometryCOMP children.
+
+## R2-E — GLSL POP variants beyond the main glslPOP (BUG 3/4 scope note)
+The live audit found **GLSL Copy POP** docks **three** compute DATs (`ptcomputedat` /
+`vertcomputedat` / `primcomputedat`, roles not `compute`) and **GLSL Create POP** has no `td.` create
+class in 2025.32820. The round-2 BUG 3/4 fixes target the single-`compute` ops (`POP:glsl`,
+`POP:glsladv`); wiring `shader`/`uniforms` through the multi-compute Copy variant is deferred.

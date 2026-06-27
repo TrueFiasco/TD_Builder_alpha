@@ -1,14 +1,19 @@
 """Regression: .parm serialization must match TouchDesigner's whitespace-quoting.
 
 Reproduces the "knotted looped line" session bug. TD's .parm parser is
-whitespace-delimited, so the offline builder must:
+whitespace-delimited. The single root cause was unquoted whitespace; verified
+live (TD 2025.32820) an unquoted space value does two things:
 
-  * double-quote any value/expression containing spaces, or TD truncates it at
-    the first space -- ``[3, 2, 7][me.chanIndex]`` -> ``[3,`` ("'[' was never
+  * self-truncates -- ``[3, 2, 7][me.chanIndex]`` -> ``[3,`` ("'[' was never
     closed"); ``tx ty tz`` -> ``tx``;
-  * write toggles as ``on``/``off``, not ``True``/``False`` -- otherwise TD
-    fails the toggle parse and the parameter silently reverts to its default
-    (which inverted ``specifypos`` and ``closed`` in the session).
+  * DESYNCS the line parser -- the leftover tokens drop the *following* params
+    in the same .parm to their defaults. That (not the bool spelling) is what
+    inverted ``specifypos``/``closed`` in the session: they sit right after an
+    unquoted ``chanscope 0 tx ty tz``.
+
+So the fix is quoting. We additionally normalize Python bools to ``on``/``off``
+to match TD's own output, but TD accepts ``True``/``False``/``1``/``0`` too --
+that part is hygiene, asserted below for output stability, not correctness.
 
 Ground truth, from expanding TD's own save of the fixed component:
 

@@ -43,11 +43,11 @@ def _td_quote_token(token: str) -> str:
 def _td_format_value(value: Any) -> str:
     """Format a constant .parm value token as TouchDesigner writes it.
 
-    Python booleans map to TD toggle literals (``True`` -> ``on``,
-    ``False`` -> ``off``). Without this, ``True``/``False`` strings fail TD's
-    toggle parse and the parameter silently falls back to its *default* (which
-    is how ``specifypos`` and ``closed`` came out inverted). All other values
-    are whitespace-quoted via :func:`_td_quote_token`.
+    Python booleans map to TD's canonical toggle literals (``True`` -> ``on``,
+    ``False`` -> ``off``) to match TD's own output. (TD's loader also accepts
+    ``True``/``False``/``1``/``0``, so this is hygiene, not a correctness fix --
+    the real corruption is unquoted whitespace, see :func:`_td_quote_token`.)
+    All other values are whitespace-quoted via :func:`_td_quote_token`.
     """
     if isinstance(value, bool):
         return 'on' if value else 'off'

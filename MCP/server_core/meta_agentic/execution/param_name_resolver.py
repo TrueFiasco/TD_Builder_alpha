@@ -401,9 +401,11 @@ def resolve_menu_value(param_name: str, value) -> str:
     Returns:
         TD internal menu value string
     """
-    # Python booleans are TD toggle values, never menu indices: True -> "on",
-    # False -> "off". Without this, str(value) yields "True"/"False", which fails
-    # TD's toggle parse so the parameter silently reverts to its default. Handled
+    # Python booleans -> TD's canonical toggle literals: True -> "on", False ->
+    # "off". TD's loader actually accepts "on"/"off", "1"/"0" and even
+    # "True"/"False" interchangeably for toggles, so this is output hygiene (match
+    # what TD itself writes), NOT a correctness fix -- the real .parm corruption is
+    # unquoted whitespace (see _td_quote_token), not the bool spelling. Handled
     # before the menu lookup so a bool never accidentally matches an int menu key
     # (False == 0, True == 1).
     if isinstance(value, bool):

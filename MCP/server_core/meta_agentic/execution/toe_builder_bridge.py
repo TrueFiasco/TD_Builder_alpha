@@ -524,11 +524,17 @@ def _td_quote_token(token: str) -> str:
     """Quote a .parm value/expression token the way TouchDesigner does.
 
     TD's .parm parser is whitespace-delimited, so any value or expression that
-    contains a space must be wrapped in double quotes or TD truncates it at the
-    first space -- e.g. the expression ``[3, 2, 7][me.chanIndex]`` becomes
-    ``[3,`` ("'[' was never closed") and the channel scope ``tx ty tz`` becomes
-    ``tx``. Tokens that are already quoted are returned untouched so we never
-    double-quote a pre-quoted value. Verified against TD's own output:
+    contains a space must be wrapped in double quotes. Two failures result from an
+    unquoted space, verified live against TD 2025.32820:
+      1. self-truncation -- ``[3, 2, 7][me.chanIndex]`` becomes ``[3,`` ("'[' was
+         never closed"); ``tx ty tz`` becomes ``tx``;
+      2. parser DESYNC -- the leftover tokens (``2, 7]...`` / ``ty tz``) knock the
+         line parser out of sync, so the *following* params in the same .parm are
+         dropped and silently revert to their defaults. This is what actually
+         inverted ``specifypos``/``closed`` in the knot session -- they sit right
+         after an unquoted ``chanscope 0 tx ty tz`` line.
+    Tokens that are already quoted are returned untouched so we never double-quote
+    a pre-quoted value. Verified against TD's own output:
     ``numcycles 49 3 "[3, 2, 7][me.chanIndex]"`` and ``chanscope 0 "tx ty tz"``.
     """
     s = str(token)
@@ -542,11 +548,11 @@ def _td_quote_token(token: str) -> str:
 def _td_emit_token(value: Any) -> str:
     """Normalize a constant .parm value token to TouchDesigner's on-disk form.
 
-    Python booleans become TD toggle literals (``True`` -> ``on``,
-    ``False`` -> ``off``); without this a stray bool reaches the file as the
-    string ``True``/``False``, fails TD's toggle parse, and the parameter
-    silently falls back to its *default* (how ``specifypos``/``closed`` came out
-    inverted). All other values are whitespace-quoted via :func:`_td_quote_token`.
+    Python booleans become TD's canonical toggle literals (``True`` -> ``on``,
+    ``False`` -> ``off``) to match what TD itself writes. (TD's loader also
+    accepts ``True``/``False``/``1``/``0`` for toggles, so this is output hygiene,
+    not a correctness fix -- the real corruption is unquoted whitespace, see
+    :func:`_td_quote_token`.) All other values are whitespace-quoted.
     """
     if isinstance(value, bool):
         return 'on' if value else 'off'

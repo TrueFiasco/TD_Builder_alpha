@@ -21,6 +21,39 @@ from datetime import datetime
 from core.models import TDNetwork, Operator, Connection, FormatLayer, OperatorFamily
 
 
+def _td_quote_token(token: str) -> str:
+    """Quote a .parm value/expression token the way TouchDesigner does.
+
+    TD's .parm parser is whitespace-delimited, so any value or expression that
+    contains a space must be wrapped in double quotes or TD truncates it at the
+    first space -- e.g. the expression ``[3, 2, 7][me.chanIndex]`` becomes
+    ``[3,`` ("'[' was never closed") and ``tx ty tz`` becomes ``tx``. Tokens
+    that are already quoted -- e.g. values parsed verbatim from a real TD file
+    during a lossless round-trip -- are returned untouched so we never
+    double-quote them.
+    """
+    s = str(token)
+    if len(s) >= 2 and s[0] == '"' and s[-1] == '"':
+        return s  # already quoted (lossless round-trip value)
+    if s == '' or any(ch.isspace() for ch in s):
+        return '"' + s.replace('"', '\\"') + '"'
+    return s
+
+
+def _td_format_value(value: Any) -> str:
+    """Format a constant .parm value token as TouchDesigner writes it.
+
+    Python booleans map to TD toggle literals (``True`` -> ``on``,
+    ``False`` -> ``off``). Without this, ``True``/``False`` strings fail TD's
+    toggle parse and the parameter silently falls back to its *default* (which
+    is how ``specifypos`` and ``closed`` came out inverted). All other values
+    are whitespace-quoted via :func:`_td_quote_token`.
+    """
+    if isinstance(value, bool):
+        return 'on' if value else 'off'
+    return _td_quote_token(str(value))
+
+
 class TOEBuilder:
     """Build .toe/.tox files from TDNetwork objects."""
 
@@ -551,20 +584,22 @@ screenh 300
                     # Format: paramname <mode:int> <constant> <expression>
                     mode_num = param_value.td_mode if getattr(param_value, "td_mode", None) is not None else 17
                     const_val = param_value.value if param_value.value is not None else 0
-                    lines.append(f"{param_name} {mode_num} {const_val} {param_value.expression}")
+                    const_tok = _td_format_value(const_val)
+                    expr_tok = _td_quote_token(str(param_value.expression))
+                    lines.append(f"{param_name} {mode_num} {const_tok} {expr_tok}")
                 else:
                     # Constant mode - usually mode 0, but preserve TD's numeric mode when present.
                     mode_num = param_value.td_mode if getattr(param_value, "td_mode", None) is not None else 0
-                    lines.append(f"{param_name} {mode_num} {param_value.value}")
+                    lines.append(f"{param_name} {mode_num} {_td_format_value(param_value.value)}")
 
             # Handle dict (multi-component parameters)
             elif isinstance(param_value, dict):
                 for index, value in param_value.items():
-                    lines.append(f"{param_name} {index} {value}")
+                    lines.append(f"{param_name} {index} {_td_format_value(value)}")
 
             # Handle simple values
             else:
-                lines.append(f"{param_name} 0 {param_value}")
+                lines.append(f"{param_name} 0 {_td_format_value(param_value)}")
 
         lines.append('?')
         return '\n'.join(lines) + '\n'

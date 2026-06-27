@@ -520,6 +520,39 @@ OP_TYPE_MAP = {
 # NOTE: CONVERSION_OP_REQUIRED_PARAMS is loaded from expertise at module init (see top of file)
 
 
+def _td_quote_token(token: str) -> str:
+    """Quote a .parm value/expression token the way TouchDesigner does.
+
+    TD's .parm parser is whitespace-delimited, so any value or expression that
+    contains a space must be wrapped in double quotes or TD truncates it at the
+    first space -- e.g. the expression ``[3, 2, 7][me.chanIndex]`` becomes
+    ``[3,`` ("'[' was never closed") and the channel scope ``tx ty tz`` becomes
+    ``tx``. Tokens that are already quoted are returned untouched so we never
+    double-quote a pre-quoted value. Verified against TD's own output:
+    ``numcycles 49 3 "[3, 2, 7][me.chanIndex]"`` and ``chanscope 0 "tx ty tz"``.
+    """
+    s = str(token)
+    if len(s) >= 2 and s[0] == '"' and s[-1] == '"':
+        return s  # already quoted
+    if s == '' or any(ch.isspace() for ch in s):
+        return '"' + s.replace('"', '\\"') + '"'
+    return s
+
+
+def _td_emit_token(value: Any) -> str:
+    """Normalize a constant .parm value token to TouchDesigner's on-disk form.
+
+    Python booleans become TD toggle literals (``True`` -> ``on``,
+    ``False`` -> ``off``); without this a stray bool reaches the file as the
+    string ``True``/``False``, fails TD's toggle parse, and the parameter
+    silently falls back to its *default* (how ``specifypos``/``closed`` came out
+    inverted). All other values are whitespace-quoted via :func:`_td_quote_token`.
+    """
+    if isinstance(value, bool):
+        return 'on' if value else 'off'
+    return _td_quote_token(str(value))
+
+
 class ToeBuilderBridge:
     """Bridge between TD Designer JSON and TOE file generation."""
 
@@ -887,10 +920,10 @@ end
                         comp_value = param_value[i]
                         # Check if component value is an expression
                         if isinstance(comp_value, str) and any(p in comp_value for p in expr_patterns):
-                            lines.append(f"{comp_name} 49 0 {comp_value}")
+                            lines.append(f"{comp_name} 49 0 {_td_quote_token(str(comp_value))}")
                         else:
                             td_value = self._format_param_value(comp_value)
-                            lines.append(f"{comp_name} 0 {td_value}")
+                            lines.append(f"{comp_name} 0 {_td_emit_token(td_value)}")
                 continue
 
             # Handle indexed params like fromrange: [0, 1] → fromrange1: 0, fromrange2: 1
@@ -899,10 +932,10 @@ end
                 for i, val in enumerate(param_value):
                     indexed_name = f"{base_name}{i+1}"
                     if isinstance(val, str) and any(p in val for p in expr_patterns):
-                        lines.append(f"{indexed_name} 49 0 {val}")
+                        lines.append(f"{indexed_name} 49 0 {_td_quote_token(str(val))}")
                     else:
                         td_value = self._format_param_value(val)
-                        lines.append(f"{indexed_name} 0 {td_value}")
+                        lines.append(f"{indexed_name} 0 {_td_emit_token(td_value)}")
                 continue
 
             # Handle expression dict format: {"expr": "...", "value": ...} or {"expression": "..."}
@@ -953,11 +986,13 @@ end
             expression = inline_expression or self.expressions.get(expr_key) or self.expressions.get(alt_expr_key)
 
             if expression:
-                # Mode 49 = Python expression (mode 17 is for CHOP expressions)
-                lines.append(f"{td_param_name} 49 {td_value} {expression}")
+                # Mode 49 = Python expression (mode 17 is for CHOP expressions).
+                # The expression is whitespace-quoted so TD does not truncate it
+                # at the first space; the constant fallback is normalized too.
+                lines.append(f"{td_param_name} 49 {_td_emit_token(td_value)} {_td_quote_token(str(expression))}")
             else:
                 # Mode 0 = constant
-                lines.append(f"{td_param_name} 0 {td_value}")
+                lines.append(f"{td_param_name} 0 {_td_emit_token(td_value)}")
 
         return lines
 

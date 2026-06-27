@@ -401,6 +401,14 @@ def resolve_menu_value(param_name: str, value) -> str:
     Returns:
         TD internal menu value string
     """
+    # Python booleans are TD toggle values, never menu indices: True -> "on",
+    # False -> "off". Without this, str(value) yields "True"/"False", which fails
+    # TD's toggle parse so the parameter silently reverts to its default. Handled
+    # before the menu lookup so a bool never accidentally matches an int menu key
+    # (False == 0, True == 1).
+    if isinstance(value, bool):
+        return "on" if value else "off"
+
     if param_name not in MENU_VALUE_MAP:
         return str(value)
 

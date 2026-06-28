@@ -1,0 +1,483 @@
+{
+  "harness_version": "0.1.0",
+  "kb_root": "C:\\TD_Builder_Alpha_Build_V0.1.2\\KB",
+  "engine": "UnifiedGraphQuery (offline, in-process)",
+  "n_queries": 60,
+  "results": {
+    "get_operator_info": {
+      "n": 15,
+      "resolved": 15,
+      "name_correct": 15,
+      "has_params": 15,
+      "retokenized": 0,
+      "detail": [
+        {
+          "op": "Noise TOP",
+          "from": "ol-01",
+          "resolved": true,
+          "returned_name": "Noise TOP",
+          "name_correct": true,
+          "n_params": 40,
+          "retokenized_name": false
+        },
+        {
+          "op": "Blur TOP",
+          "from": "ol-02",
+          "resolved": true,
+          "returned_name": "Blur TOP",
+          "name_correct": true,
+          "n_params": 22,
+          "retokenized_name": false
+        },
+        {
+          "op": "Analyze CHOP",
+          "from": "ol-03",
+          "resolved": true,
+          "returned_name": "Analyze CHOP",
+          "name_correct": true,
+          "n_params": 13,
+          "retokenized_name": false
+        },
+        {
+          "op": "Feedback TOP",
+          "from": "ol-04",
+          "resolved": true,
+          "returned_name": "Feedback TOP",
+          "name_correct": true,
+          "n_params": 16,
+          "retokenized_name": false
+        },
+        {
+          "op": "Composite TOP",
+          "from": "ol-05",
+          "resolved": true,
+          "returned_name": "Composite TOP",
+          "name_correct": true,
+          "n_params": 33,
+          "retokenized_name": false
+        },
+        {
+          "op": "Geometry COMP",
+          "from": "ol-06",
+          "resolved": true,
+          "returned_name": "Geometry COMP",
+          "name_correct": true,
+          "n_params": 120,
+          "retokenized_name": false
+        },
+        {
+          "op": "Audio File In CHOP",
+          "from": "ol-07",
+          "resolved": true,
+          "returned_name": "Audio File In CHOP",
+          "name_correct": true,
+          "n_params": 29,
+          "retokenized_name": false
+        },
+        {
+          "op": "Transform TOP",
+          "from": "ol-08",
+          "resolved": true,
+          "returned_name": "Transform TOP",
+          "name_correct": true,
+          "n_params": 31,
+          "retokenized_name": false
+        },
+        {
+          "op": "Render TOP",
+          "from": "ol-09",
+          "resolved": true,
+          "returned_name": "Render TOP",
+          "name_correct": true,
+          "n_params": 69,
+          "retokenized_name": false
+        },
+        {
+          "op": "Constant CHOP",
+          "from": "ol-10",
+          "resolved": true,
+          "returned_name": "Constant CHOP",
+          "name_correct": true,
+          "n_params": 20,
+          "retokenized_name": false
+        },
+        {
+          "op": "Math CHOP",
+          "from": "ol-11",
+          "resolved": true,
+          "returned_name": "Math CHOP",
+          "name_correct": true,
+          "n_params": 21,
+          "retokenized_name": false
+        },
+        {
+          "op": "Camera COMP",
+          "from": "ol-12",
+          "resolved": true,
+          "returned_name": "Camera COMP",
+          "name_correct": true,
+          "n_params": 89,
+          "retokenized_name": false
+        },
+        {
+          "op": "Level TOP",
+          "from": "pa-04",
+          "resolved": true,
+          "returned_name": "Level TOP",
+          "name_correct": true,
+          "n_params": 44,
+          "retokenized_name": false
+        },
+        {
+          "op": "Lag CHOP",
+          "from": "pa-11",
+          "resolved": true,
+          "returned_name": "Lag CHOP",
+          "name_correct": true,
+          "n_params": 20,
+          "retokenized_name": false
+        },
+        {
+          "op": "Trail CHOP",
+          "from": "pa-12",
+          "resolved": true,
+          "returned_name": "Trail CHOP",
+          "name_correct": true,
+          "n_params": 19,
+          "retokenized_name": false
+        }
+      ]
+    },
+    "get_parameter_detail": {
+      "n": 13,
+      "param_found": 13,
+      "default_present": 12,
+      "default_correct": 12,
+      "verifiable": 12,
+      "inconclusive": 1,
+      "gt_file_missing": 0,
+      "detail": [
+        {
+          "op": "Blur TOP",
+          "code": "size",
+          "from": "pa-01",
+          "param_found": true,
+          "tool_default": 7,
+          "gt_default": 7,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Noise TOP",
+          "code": "amp",
+          "from": "pa-02",
+          "param_found": true,
+          "tool_default": 0.5,
+          "gt_default": 0.5,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Noise TOP",
+          "code": "period",
+          "from": "pa-03",
+          "param_found": true,
+          "tool_default": 1.0,
+          "gt_default": 1.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Level TOP",
+          "code": "opacity",
+          "from": "pa-04",
+          "param_found": true,
+          "tool_default": 1.0,
+          "gt_default": 1.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Level TOP",
+          "code": "blacklevel",
+          "from": "pa-05",
+          "param_found": true,
+          "tool_default": 0.0,
+          "gt_default": 0.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Transform TOP",
+          "code": "rotate",
+          "from": "pa-06",
+          "param_found": true,
+          "tool_default": 0.0,
+          "gt_default": 0.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Composite TOP",
+          "code": "operand",
+          "from": "pa-07",
+          "param_found": true,
+          "tool_default": "multiply",
+          "gt_default": "multiply",
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Feedback TOP",
+          "code": "top",
+          "from": "pa-08",
+          "param_found": true,
+          "tool_default": "",
+          "gt_default": "",
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Math CHOP",
+          "code": "gain",
+          "from": "pa-09",
+          "param_found": true,
+          "tool_default": 1.0,
+          "gt_default": 1.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Audio File In CHOP",
+          "code": "file",
+          "from": "pa-10",
+          "param_found": true,
+          "tool_default": "$TT/Audio/JeremyCaulfield_www.dumb-unit.com.mp3",
+          "gt_default": "$TT/Audio/JeremyCaulfield_www.dumb-unit.com.mp3",
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Lag CHOP",
+          "code": "lag",
+          "from": "pa-11",
+          "param_found": true,
+          "tool_default": null,
+          "gt_default": null,
+          "gt_file_found": true,
+          "status": "inconclusive_gt_null"
+        },
+        {
+          "op": "Trail CHOP",
+          "code": "wlength",
+          "from": "pa-12",
+          "param_found": true,
+          "tool_default": 4.0,
+          "gt_default": 4.0,
+          "gt_file_found": true,
+          "status": "correct"
+        },
+        {
+          "op": "Trail CHOP",
+          "code": "samples",
+          "from": "pa-12",
+          "param_found": true,
+          "tool_default": 10,
+          "gt_default": 10,
+          "gt_file_found": true,
+          "status": "correct"
+        }
+      ]
+    },
+    "find_operator_examples": {
+      "n": 15,
+      "has_example": 14,
+      "detail": [
+        {
+          "op": "Noise TOP",
+          "n_examples": 4
+        },
+        {
+          "op": "Blur TOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Analyze CHOP",
+          "n_examples": 5
+        },
+        {
+          "op": "Feedback TOP",
+          "n_examples": 3
+        },
+        {
+          "op": "Composite TOP",
+          "n_examples": 4
+        },
+        {
+          "op": "Geometry COMP",
+          "n_examples": 5
+        },
+        {
+          "op": "Audio File In CHOP",
+          "n_examples": 0
+        },
+        {
+          "op": "Transform TOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Render TOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Constant CHOP",
+          "n_examples": 5
+        },
+        {
+          "op": "Math CHOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Camera COMP",
+          "n_examples": 2
+        },
+        {
+          "op": "Level TOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Lag CHOP",
+          "n_examples": 10
+        },
+        {
+          "op": "Trail CHOP",
+          "n_examples": 5
+        }
+      ]
+    },
+    "find_operator_combination": {
+      "n": 8,
+      "has_hit_connected": 4,
+      "has_hit_cooccur": 4,
+      "detail": [
+        {
+          "intent": "feedback-trails",
+          "ops": [
+            "TOP:feedback",
+            "TOP:composite",
+            "TOP:level"
+          ],
+          "howto": "ho-02",
+          "n_connected": 0,
+          "n_cooccur": 0,
+          "token_unresolved_ops": [
+            "TOP:composite"
+          ]
+        },
+        {
+          "intent": "instance-from-chop",
+          "ops": [
+            "COMP:geometry",
+            "CHOP:constant",
+            "CHOP:null"
+          ],
+          "howto": "ho-05",
+          "n_connected": 0,
+          "n_cooccur": 0,
+          "token_unresolved_ops": [
+            "COMP:geometry"
+          ]
+        },
+        {
+          "intent": "render-3d-scene",
+          "ops": [
+            "COMP:geometry",
+            "COMP:camera",
+            "TOP:render"
+          ],
+          "howto": "ho-10",
+          "n_connected": 0,
+          "n_cooccur": 0,
+          "token_unresolved_ops": [
+            "COMP:geometry",
+            "COMP:camera"
+          ]
+        },
+        {
+          "intent": "audio-reactive",
+          "ops": [
+            "CHOP:audiofilein",
+            "CHOP:analyze",
+            "CHOP:trail"
+          ],
+          "howto": "ho-04",
+          "n_connected": 1,
+          "n_cooccur": 1,
+          "token_unresolved_ops": []
+        },
+        {
+          "intent": "blur-composite",
+          "ops": [
+            "TOP:blur",
+            "TOP:composite"
+          ],
+          "howto": "ho-12",
+          "n_connected": 0,
+          "n_cooccur": 0,
+          "token_unresolved_ops": [
+            "TOP:composite"
+          ]
+        },
+        {
+          "intent": "noise-displace",
+          "ops": [
+            "TOP:noise",
+            "TOP:displace"
+          ],
+          "howto": "ho-09",
+          "n_connected": 4,
+          "n_cooccur": 5,
+          "token_unresolved_ops": []
+        },
+        {
+          "intent": "lfo-drive-param",
+          "ops": [
+            "CHOP:lfo",
+            "CHOP:null"
+          ],
+          "howto": "ho-11",
+          "n_connected": 5,
+          "n_cooccur": 5,
+          "token_unresolved_ops": []
+        },
+        {
+          "intent": "movie-to-level",
+          "ops": [
+            "TOP:moviefilein",
+            "TOP:level"
+          ],
+          "howto": "\u2014",
+          "n_connected": 5,
+          "n_cooccur": 5,
+          "token_unresolved_ops": []
+        }
+      ],
+      "token_unresolved_ops": [
+        "COMP:camera",
+        "COMP:geometry",
+        "TOP:composite"
+      ]
+    },
+    "get_network_patterns": {
+      "min_freq_5": {
+        "count": 11,
+        "polluted": 11
+      },
+      "min_freq_2": {
+        "count": 45,
+        "polluted": 45
+      }
+    }
+  },
+  "notes": "Tool-behavior baseline for the KB-dependent MCP tools other than hybrid_search (gated by run_eval.py). Defaults compared against operator_ground_truth (live-TD). Deterministic: graph/dict lookups, no HNSW. Re-run after each Phase-1 section."
+}

@@ -75,6 +75,7 @@ def main():
     ap.add_argument("--sections", default="all", help="comma list, or 'all' implemented")
     ap.add_argument("--out", default=str(C.OUT))
     ap.add_argument("--no-vectordb", action="store_true", help="assemble rows + report only (no embed)")
+    ap.add_argument("--no-models", action="store_true", help="skip the one-time cross-encoder fetch/bundle")
     args = ap.parse_args()
 
     out_dir = Path(args.out)
@@ -130,11 +131,28 @@ def main():
         print("\n[embed] building vector_db (MiniLM, single-thread)...")
         count = C.build_vector_db(rows, out_dir)
         print(f"[ok] vector_db collection '{C.COLLECTION}' = {count} docs")
+
+        # Phase-2 retrieval-stack artifacts (id-aligned to the vector DB just built).
+        try:
+            import build_bm25
+            bm = build_bm25.build_from_vectordb(out_dir)
+            print(f"[bm25] lexical_index = {bm['count']} rows ({bm['size_bytes']/1e6:.2f} MB)")
+        except Exception as e:
+            print(f"[bm25] SKIPPED ({e}) — retrieval_stack will fall back to dense-only")
+        if not args.no_models:
+            try:
+                import build_models
+                mr = build_models.build_models(out_dir)
+                print(f"[models] cross-encoder {mr['status']}: {mr['path']}")
+            except Exception as e:
+                print(f"[models] SKIPPED ({e}) — bundle the reranker before enabling rerank")
     else:
         count = 0
 
+    lex_pkl = out_dir / "lexical_index" / "bm25.pkl"
+    ce_dir = out_dir / "models" / "ms-marco-MiniLM-L-6-v2"
     manifest = {
-        "phase": "1-anatomy-rebuild",
+        "phase": "2-retrieval-stack",
         "generated": datetime.now(timezone.utc).isoformat(),
         "td_build": C.TD_BUILD,
         "embedding_model": C.MODEL_ID,
@@ -144,9 +162,17 @@ def main():
         "sections": section_counts,
         "chunk_type_histogram": dict(ctype_hist),
         "store_histogram": dict(store_hist),
-        "source_pipeline": "kb_build (v0.2 condensed pointer chunks)",
+        # Phase-2 retrieval-stack artifacts (id-aligned to the vector DB).
+        "retrieval_stack": {
+            "bm25_index": "lexical_index/bm25.pkl" if lex_pkl.exists() else None,
+            "reranker": "models/ms-marco-MiniLM-L-6-v2" if (ce_dir / "config.json").exists() else None,
+            "pipeline": "dense + BM25 -> RRF(k=60) -> operator-aware router -> cross-encoder rerank "
+                        "-> score-floor(calibrated) + dedup",
+        },
+        "source_pipeline": "kb_build (v0.2 condensed pointer chunks + Phase-2 retrieval artifacts)",
         "notes": "Condensed pointer chunks hydrate from operators.json + Resources via MCP tools. "
-                 "gpickle is the reused shipped graph (adapter load only); graph rebuild deferred.",
+                 "graph (gpickle) rebuilt (canonical identity, readMe-clean). lexical_index/ + models/ "
+                 "back the Phase-2 retrieval stack in MCP/server_core/search/retrieval_stack.py.",
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     write_sources_lock(inputs, out_dir)

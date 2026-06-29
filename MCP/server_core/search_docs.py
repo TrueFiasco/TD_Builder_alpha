@@ -7,29 +7,157 @@ Search through all TD docs using natural language queries
 from sentence_transformers import SentenceTransformer
 import chromadb
 from typing import List, Dict, Optional
+import json
+import os
 import sys
+from pathlib import Path
+
+# Phase-3 embedder A/B: the embedder + regime (model id, L2-normalize, query
+# instruction prefix) are NOT hardcoded — they are resolved PER-KB so that
+# pointing the adapter at a different KB (--kb KB_bge / KB_minilm_norm / …) selects
+# the matching query-time embedder automatically. Resolution order:
+#   explicit env EMBEDDING_MODEL  >  <kb_root>/manifest.json  >  search_config.json  >  default
+# A KB built by kb_build/reembed.py ALWAYS records embedding_model + normalize +
+# query_prefix in its manifest, so its regime is authoritative. Legacy KBs that
+# predate Phase-3 (no embedding_model in the manifest) fall back to the shipped
+# MiniLM / un-normalized regime with a warning (the historical safe default).
+_DEFAULT_MODEL = "all-MiniLM-L6-v2"
+_BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
+
+
+def _truthy(v) -> bool:
+    return str(v).strip().lower() in ("1", "true", "yes", "on")
+
+
+def _derive_regime(model_id: str):
+    """(normalize, query_prefix) inferred from a model id — a safety net used only
+    when the KB manifest does not record them explicitly."""
+    m = (model_id or "").lower()
+    if "bge" in m:
+        return True, _BGE_QUERY_PREFIX
+    if "e5" in m:
+        return True, "query: "
+    if "gte" in m:
+        return True, ""
+    return False, ""            # MiniLM and unknowns: shipped un-normalized regime
+
+
+def _resolve_embedding(kb_root: Path) -> dict:
+    """Resolve (model_id, normalize, query_prefix) for the KB at kb_root."""
+    manifest = {}
+    mpath = kb_root / "manifest.json"
+    if mpath.exists():
+        try:
+            manifest = json.loads(mpath.read_text(encoding="utf-8")) or {}
+        except Exception as e:
+            print(f"[search_docs] WARNING: unreadable manifest {mpath} ({e})")
+
+    env_model = os.environ.get("EMBEDDING_MODEL")
+    man_model = manifest.get("embedding_model")
+
+    # mismatch guardrail: an explicit env model that disagrees with the KB's own
+    # manifest means the query embedder would not match the indexed vectors.
+    if (env_model and man_model and env_model != man_model
+            and not _truthy(os.environ.get("EMBEDDING_ALLOW_MISMATCH"))):
+        raise RuntimeError(
+            f"EMBEDDING_MODEL={env_model!r} disagrees with the KB manifest "
+            f"({man_model!r}) at {kb_root}. The query embedder must match the "
+            f"indexed vectors. Set EMBEDDING_ALLOW_MISMATCH=1 only if you mean to.")
+
+    if env_model:
+        model_id = env_model
+    elif man_model:
+        model_id = man_model
+    else:
+        # No KB self-declaration. Honor the config-json indirection, else default.
+        cfg_model = None
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from config import SearchConfig          # search_config.json / env
+            cfg_model = SearchConfig.EMBEDDING_MODEL
+        except Exception:
+            cfg_model = None
+        model_id = cfg_model or _DEFAULT_MODEL
+        if (kb_root / "vector_db").exists():
+            print(f"[search_docs] WARNING: {kb_root} has a vector_db but its manifest does not "
+                  f"declare embedding_model; assuming {model_id!r} (legacy regime). Phase-3 KBs "
+                  f"must record embedding_model — rebuild via reembed.py if this is one.")
+
+    # normalize + query_prefix: env override > manifest > model-id-derived default
+    d_norm, d_prefix = _derive_regime(model_id)
+    if os.environ.get("EMBEDDING_NORMALIZE") is not None:
+        normalize = _truthy(os.environ.get("EMBEDDING_NORMALIZE"))
+    elif "normalize" in manifest:
+        normalize = bool(manifest.get("normalize"))
+    else:
+        normalize = d_norm
+    if os.environ.get("EMBEDDING_QUERY_PREFIX") is not None:
+        query_prefix = os.environ.get("EMBEDDING_QUERY_PREFIX")
+    elif "query_prefix" in manifest:
+        query_prefix = manifest.get("query_prefix") or ""
+    else:
+        query_prefix = d_prefix
+    return {"model_id": model_id, "normalize": normalize, "query_prefix": query_prefix}
+
+
+class _QueryEncoder:
+    """Wraps a SentenceTransformer so QUERY embeddings get the model's regime
+    (instruction prefix + L2-normalization) while leaving the underlying model
+    otherwise untouched. retrieval_stack.py borrows ``TDDocSearch.model`` and calls
+    ``.encode(query, …)``; search_docs.py's own ``search()`` does the same — so this
+    single wrapper covers BOTH query paths. Passages are embedded at BUILD time by a
+    raw model (kb_build), so they never receive the query prefix. For the shipped
+    MiniLM / un-normalized regime (prefix='' , normalize=False) this is a
+    pass-through → byte-identical to the pre-Phase-3 behavior."""
+
+    def __init__(self, model, query_prefix: str = "", normalize: bool = False):
+        self._model = model
+        self._prefix = query_prefix or ""
+        self._normalize = bool(normalize)
+
+    def encode(self, text, **kw):
+        if self._normalize:
+            kw.setdefault("normalize_embeddings", True)   # never collide with a caller's kwarg
+        if self._prefix:
+            text = self._prefix + text if isinstance(text, str) else [self._prefix + t for t in text]
+        return self._model.encode(text, **kw)
+
+    def __getattr__(self, name):
+        return getattr(self._model, name)   # delegate every non-overridden attribute
+
 
 class TDDocSearch:
     """Semantic search for TouchDesigner documentation"""
-    
+
     def __init__(self, vectordb_path: Optional[str] = None):
         # Default to the merged store next to this file so standalone use works
         # without configuration. Callers can override (e.g. mcp_server.py does).
         if vectordb_path is None:
-            from pathlib import Path
             vectordb_path = str(Path(__file__).parent / "data" / "vector_db_merged")
         print("🔍 Loading TouchDesigner documentation search...")
-        
-        # Load model
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        
+
+        # Resolve the embedder + regime from the KB this adapter points at.
+        kb_root = Path(vectordb_path).parent
+        regime = _resolve_embedding(kb_root)
+        self.embedding_model = regime["model_id"]
+        self.embedding_normalize = regime["normalize"]
+        self.embedding_query_prefix = regime["query_prefix"]
+        print(f"  Embedder: {self.embedding_model} (normalize={self.embedding_normalize}, "
+              f"query_prefix={self.embedding_query_prefix!r})")
+
+        # Load model, wrapped so QUERIES get the regime (prefix + normalize). The
+        # wrapper is a pass-through for the shipped MiniLM/un-normalized control.
+        self.model = _QueryEncoder(SentenceTransformer(self.embedding_model),
+                                   query_prefix=self.embedding_query_prefix,
+                                   normalize=self.embedding_normalize)
+
         # Connect to Chroma
         client = chromadb.PersistentClient(path=vectordb_path)
         self.collection = client.get_collection("td_unified")
-        
+
         count = self.collection.count()
         print(f"✓ Ready! Loaded {count:,} documentation chunks\n")
-    
+
     def search(self, query: str, n_results: int = 5, filter_family: str = None) -> List[Dict]:
         """
         Search documentation with natural language query

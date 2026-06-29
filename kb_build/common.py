@@ -165,24 +165,42 @@ def make_row(rid: str, text: str, ctype: str, store: str,
 
 
 # ---------------------------------------------------------------------------
+# Embedding — the ONE encode path shared by the build (build_vector_db) and the
+# Phase-3 re-embed (reembed.py), so determinism + the normalize regime live in a
+# single place. ``normalize=True`` writes unit-norm passage vectors (the cosine
+# regime: ranking by Chroma's squared-L2 then equals ranking by cosine); the
+# default ``False`` reproduces the shipped MiniLM build byte-for-byte (passing
+# ``normalize_embeddings=False`` is identical to omitting it).
+# ---------------------------------------------------------------------------
+def _encode(model, texts, normalize: bool = False, batch_size: int = 256, threads: int = 1):
+    """``threads`` = torch intra-op thread count for the forward pass. Default 1 keeps
+    ``build_vector_db``'s canonical single-thread reproducibility; the Phase-3 re-embed
+    passes a higher count because passage embedding is a one-shot build artifact and the
+    QUERY-side determinism that matters for the eval is pinned by the harness, not here —
+    so multi-thread passage embedding is safe and ~10x faster on the larger models."""
+    try:
+        import torch
+        if threads and threads > 0:
+            torch.set_num_threads(threads)
+    except Exception:
+        pass
+    return model.encode(texts, convert_to_numpy=True, show_progress_bar=False,
+                        batch_size=batch_size, normalize_embeddings=normalize)
+
+
+# ---------------------------------------------------------------------------
 # Vector DB build — replicates the shipped search_docs round-trip exactly.
 # ---------------------------------------------------------------------------
 def build_vector_db(rows: list[dict], out_dir: Path,
                     collection: str = COLLECTION, model_id: str = MODEL_ID,
-                    batch: int = 512) -> int:
+                    batch: int = 512, normalize: bool = False) -> int:
     import shutil
     import chromadb
     from sentence_transformers import SentenceTransformer
 
-    try:
-        import torch
-        torch.set_num_threads(1)          # reproducible embeddings across runs
-    except Exception:
-        pass
-
     model = SentenceTransformer(model_id)
     texts = [r["text"] for r in rows]
-    embs = model.encode(texts, convert_to_numpy=True, show_progress_bar=False, batch_size=256)
+    embs = _encode(model, texts, normalize=normalize)
 
     vdb = out_dir / "vector_db"
     if vdb.exists():

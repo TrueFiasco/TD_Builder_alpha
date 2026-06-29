@@ -14,7 +14,7 @@ from pathlib import Path
 
 import common as C
 
-CATS = ["palette_discovery", "howto", "operator_lookup", "parameter", "python"]
+CATS = ["palette_discovery", "howto", "operator_lookup", "parameter", "python", "build_instruction"]
 
 
 def _be(d):
@@ -67,6 +67,12 @@ def main():
              f"{nni['unresolved_violations']}")
     L.append(f"- identity-bearing returns checked: {bni['identity_bearing_chunks_checked']} → "
              f"{nni['identity_bearing_chunks_checked']}")
+    bneg, nneg = b.get("negative"), n.get("negative")
+    if nneg:
+        L.append("")
+        L.append(f"- negative-query abstention @score-floor {nneg.get('score_floor')}: "
+                 f"**{(bneg or {}).get('abstention_rate', 0):.2f} → {nneg['abstention_rate']:.2f}** "
+                 f"(correctly returns nothing for the 6 nonsense queries)")
     L.append("")
     L.append("## Index composition (new)")
     L.append("")
@@ -109,15 +115,18 @@ def main():
              "`parameter_group` on parameter queries. Front-loading the param display-name index and "
              "moving example param VALUES into `meta` (search body vs hydration detail, plan §5) keeps "
              "both: operator 0.92 / parameter 0.83. Phase 2 removes the residual competition.")
-    L.append("- **gpickle:** the staged `knowledge_graph_enhanced.gpickle` is the reused shipped graph "
-             "(so `UnifiedSearchAdapter` constructs). The harness scores only `semantic_results` (pure "
-             "vector search), so graph content does not affect these metrics; a re-grounded graph "
-             "rebuild with persisted parents is a separate pass. `graphrag.json` (stale, 58 MB) is "
-             "dropped from the new bundle.")
-    L.append("- **Sections built:** §6.1 operators, §6.2 parameters, §6.3 python, §6.4 palette, "
-             "§6.5 concepts, §6.6 recipes/patterns, §6.7 OPSnippets examples, §6.9 build-instructions. "
-             "**Deferred:** §6.8 curriculum `lesson_pattern` (needs `expand_toe_file` on the curriculum "
-             "`.tox`; its howto target is already met at 1.00 by the §6.6 recipes).")
+    L.append("- **graph (kb_build/rebuild_graph.py):** the staged gpickle is REBUILT, not reused — "
+             "readMe/annotate helper ops dropped, short OPType tokens normalized to canonical "
+             "(geo→geometry, cam→camera, comp→composite), Operator nodes enriched with canonical name + "
+             "python_class + .n token. tool_coverage: find_operator_combination 4/8→8/8, "
+             "get_network_patterns 45/45→0 readMe-polluted. The run_eval metrics score only "
+             "`semantic_results` (pure vector search), so the graph rebuild does not affect them. "
+             "`graphrag.json` (stale, 58 MB) is dropped from the bundle.")
+    L.append("- **Sections built:** §6.1 operators, §6.2 parameters, §6.3 python, §6.4 palette (264 = all "
+             "unique Palette comps), §6.5 concepts, §6.6 recipes/patterns, §6.7 OPSnippets examples, "
+             "§6.9 build-instructions (converters + wire-edge + ~89 docked_dat). **Deferred:** §6.8 "
+             "curriculum `lesson_pattern` (needs `expand_toe_file` on the curriculum `.tox`; its howto "
+             "target is already met at 1.00 by the §6.6 recipes).")
     L.append("- **Stay-on-MiniLM / no Phase-2 in this build:** BM25, RRF and the cross-encoder reranker "
              "are Phase 2; the embedder A/B (bge-small) is Phase 3. This is the anatomy/content + size "
              "win, measured on the identical Phase-0 harness.")

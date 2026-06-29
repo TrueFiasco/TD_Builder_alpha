@@ -112,11 +112,19 @@ def main():
     for ct, n in ctype_hist.most_common():
         print(f"    {ct:24s} {n}")
 
-    # --- emit registry + graph (reused) for adapter construction ---
+    # --- emit registry + graph for adapter construction ---
     shutil.copy2(C.SHIPPED_KB / "operators.json", out_dir / "operators.json")
     gp = C.SHIPPED_KB / "knowledge_graph_enhanced.gpickle"
     if gp.exists():
-        shutil.copy2(gp, out_dir / "knowledge_graph_enhanced.gpickle")
+        # Rebuild the graph (canonical identity + OPType normalization + readMe filter,
+        # §6.11) rather than reuse the stale shipped one. Falls back to a plain copy.
+        try:
+            import rebuild_graph
+            gres = rebuild_graph.build(idn)
+            print(f"[graph] rebuilt gpickle: {gres['stats']}")
+        except Exception as e:
+            print(f"[graph] rebuild failed ({e}); copying shipped gpickle")
+            shutil.copy2(gp, out_dir / "knowledge_graph_enhanced.gpickle")
 
     if not args.no_vectordb:
         print("\n[embed] building vector_db (MiniLM, single-thread)...")

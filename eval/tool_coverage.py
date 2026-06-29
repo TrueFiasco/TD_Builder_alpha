@@ -123,17 +123,37 @@ class ParamDefaults:
     def _file(self, family: str, name: str) -> Path:
         return self.dir / f"{family}_{name.replace(' ', '_')}_defaults.json"
 
-    def get(self, family: str, name: str, code: str):
-        """Return (found_file, default_value_or_None)."""
+    def _params(self, family: str, name: str):
         key = (family, name)
         if key not in self._cache:
             f = self._file(family, name)
             self._cache[key] = json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
         rec = self._cache[key]
-        if not rec:
-            return False, None
-        p = (rec.get("parameters") or {}).get(code)
-        return True, (p.get("default") if isinstance(p, dict) else None)
+        return (rec.get("parameters") or {}) if rec else None
+
+    def resolve(self, family: str, name: str, code: str):
+        """Resolve a label's param code to the value-bearing live-TD code + default.
+
+        Returns (probe_code, gt_default, status). status is:
+          scalar     -- code exists with a concrete default
+          tuplet     -- code is a multi-value parent (e.g. Lag's 'lag'); the real
+                        value lives on code+'1' (e.g. 'lag1'=0.2). Probe THAT.
+          null       -- code exists but its default is null (op-ref/empty param)
+          no_gt_file -- no ground-truth file for the operator
+          missing    -- the code is not in the live-TD capture at all
+        """
+        params = self._params(family, name)
+        if params is None:
+            return code, None, "no_gt_file"
+        p = params.get(code)
+        if isinstance(p, dict) and p.get("default") is not None:
+            return code, p.get("default"), "scalar"
+        comp = params.get(code + "1")  # tuplet parent -> first component (lag -> lag1)
+        if isinstance(comp, dict) and comp.get("default") is not None:
+            return code + "1", comp.get("default"), "tuplet"
+        if isinstance(p, dict):
+            return code, None, "null"
+        return code, None, "missing"
 
 
 def _eq_default(a, b) -> bool:
@@ -178,7 +198,9 @@ def derive_probes(queries):
             seen_ops[name]["python_class"] = pyc
 
     for row in queries:
-        cl = row["relevant_predicate"]["clauses"]
+        if row["category"] not in ("operator_lookup", "parameter"):
+            continue  # build_instruction/negative/etc. carry no operator/param probe
+        cl = row.get("relevant_predicate", {}).get("clauses", [])
         name = _first(cl, "op_name_any")
         pyc = _first(cl, "python_class_any")
         if row["category"] == "operator_lookup":
@@ -229,33 +251,36 @@ def _run_checks_inner(kg, probes, gt, defaults):
     # "verifiable" = GT has a concrete (non-null) default to check against; a GT
     # default of null (op-reference/empty params) is INCONCLUSIVE, not a failure.
     pd = {"n": 0, "param_found": 0, "default_present": 0, "default_correct": 0,
-          "verifiable": 0, "inconclusive": 0, "gt_file_missing": 0, "detail": []}
+          "verifiable": 0, "inconclusive": 0, "gt_file_missing": 0, "tuplet": 0, "detail": []}
     for pr in probes["params"]:
         info = info_cache.get(pr["op"]) or kg.get_operator_info(pr["op"])
         for code in pr["codes"]:
             pd["n"] += 1
-            det = tool_get_parameter_detail(info, code)
+            probe_code, gt_default, gt_status = (
+                defaults.resolve(pr["family"], pr["op"], code) if pr["family"] else (code, None, "no_gt_file"))
+            # probe the tool with the REAL value-bearing code (lag -> lag1 for tuplets)
+            det = tool_get_parameter_detail(info, probe_code)
             found = det is not None
             tool_default = det.get("default") if det else None
             present = tool_default is not None
-            have_gt, gt_default = defaults.get(pr["family"], pr["op"], code) if pr["family"] else (False, None)
-            if not have_gt:
-                pd["gt_file_missing"] += 1
-                status = "no_gt_file"
-            elif gt_default is None:
-                pd["inconclusive"] += 1
-                status = "inconclusive_gt_null"
-            else:
+            if gt_status == "tuplet":
+                pd["tuplet"] += 1
+            if gt_status in ("scalar", "tuplet"):
                 pd["verifiable"] += 1
                 correct = _eq_default(tool_default, gt_default)
                 pd["default_correct"] += correct
                 status = "correct" if correct else "wrong"
+            elif gt_status == "no_gt_file":
+                pd["gt_file_missing"] += 1
+                status = "no_gt_file"
+            else:  # null / missing -> can't verify a value
+                pd["inconclusive"] += 1
+                status = f"inconclusive_{gt_status}"
             pd["param_found"] += found
             pd["default_present"] += present
-            pd["detail"].append({"op": pr["op"], "code": code, "from": pr["from"],
-                                "param_found": found, "tool_default": tool_default,
-                                "gt_default": gt_default, "gt_file_found": have_gt,
-                                "status": status})
+            pd["detail"].append({"op": pr["op"], "label_code": code, "probe_code": probe_code,
+                                "from": pr["from"], "param_found": found, "tool_default": tool_default,
+                                "gt_default": gt_default, "gt_status": gt_status, "status": status})
     results["get_parameter_detail"] = pd
 
     # 3) find_operator_examples coverage
@@ -373,11 +398,13 @@ def write_markdown(md_path: Path, payload: dict):
         f"| get_network_patterns | freq>=2 count (readMe-polluted) | {npat['min_freq_2']['count']} ({npat['min_freq_2']['polluted']}) |",
         "",
         "## What this baselines (and what Phase 1+ must fix)",
-        f"- **get_operator_info + get_parameter_detail already work for the common core.** All {oi['resolved']}/{oi['n']} "
-        f"operators resolve with canonical names + parameters, and param defaults match the live-TD capture on "
-        f"**{pd['default_correct']}/{pd['verifiable']}** verifiable params (1 inconclusive: GT default is null). So the "
-        "operators.json hydration path is in good shape on common ops — §6.2 re-grounding should target the long tail "
-        "(rare ops, menu-label cases), not these. NOTE: the sample is the labeled common params; widen to confirm tail behavior.",
+        f"- **get_operator_info + get_parameter_detail work for common SCALAR params, but tuplet params break.** "
+        f"All {oi['resolved']}/{oi['n']} operators resolve with canonical names + parameters, and scalar defaults match "
+        f"the live-TD capture on **{pd['default_correct']}/{pd['verifiable']}** verifiable params. The miss(es) are "
+        f"**multi-value tuplet params** ({pd['tuplet']} probed): e.g. Lag CHOP's `lag` is really `lag1`/`lag2`=0.2, but the "
+        "wiki only has the value-less grouping `lag` (default null), so `get_parameter_detail('Lag CHOP','lag1')` returns "
+        "*not found* — the tool can't hydrate the code a builder actually uses. §6.2 must re-ground tuplet params from "
+        "`operator_ground_truth`. (Sample is the labeled common params; widen to quantify the long tail.)",
         f"- **find_operator_combination is token-brittle.** With natural canonical tokens it discovers only "
         f"{fc['has_hit_connected']}/{fc['n']} intents; the misses come from operators whose examples are keyed by TD's "
         f"short OPType ({', '.join(fc['token_unresolved_ops']) or 'none here'} → comp/geo/cam), which the tool does not "
@@ -402,15 +429,19 @@ def main():
     ap.add_argument("--queries", default=str(EVAL_DIR / "labeled_queries.jsonl"))
     ap.add_argument("--out", default=str(EVAL_DIR / "tool_baseline.json"))
     ap.add_argument("--stage-dir", default=None)
+    ap.add_argument("--gt-operators", default=None, help="authoritative operators.json (default: stable, independent of --kb)")
+    ap.add_argument("--gt-types", default=None, help="authoritative operator_types.json (default: stable Resources)")
+    ap.add_argument("--params-dir", default=None, help="operator_ground_truth/params dir (default: stable Resources)")
     args = ap.parse_args()
 
     kb_root = run_eval.resolve_kb_root(args.kb).resolve()
     stage_dir = run_eval.resolve_stage_dir(args.stage_dir, kb_root).resolve()
     out_path = Path(args.out).resolve()
-    params_dir = kb_root.parent / "New KB build" / "Resources" / "operator_ground_truth" / "params"
-    gt_types = kb_root.parent / "New KB build" / "Resources" / "operator_ground_truth" / "operator_types.json"
+    # GT resolved INDEPENDENTLY of --kb (flags win) so it stays valid for a rebuilt KB.
+    gt_ops, gt_types = run_eval.resolve_gt_paths(args.gt_operators, args.gt_types, kb_root)
+    params_dir = (Path(args.params_dir) if args.params_dir else gt_types.parent / "params").resolve()
 
-    gt = GroundTruth(operators_json=kb_root / "operators.json", operator_types_json=gt_types)
+    gt = GroundTruth(operators_json=gt_ops, operator_types_json=gt_types)
     defaults = ParamDefaults(params_dir)
     queries = [json.loads(ln) for ln in Path(args.queries).read_text(encoding="utf-8").splitlines() if ln.strip()]
     probes = derive_probes(queries)

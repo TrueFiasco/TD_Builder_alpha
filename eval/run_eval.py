@@ -114,29 +114,38 @@ def resolve_stage_dir(cli_stage: str | None, kb_root: Path) -> Path:
     if cli_stage:
         return Path(cli_stage)
     # default: the main tree's "New KB build/Output/eval"
-    main_tree = kb_root.parent
+    main_tree = _main_tree() or kb_root.parent
     return main_tree / "New KB build" / "Output" / "eval"
 
 
-def resolve_gt_paths(args, kb_root: Path) -> tuple[Path, Path]:
-    """Resolve the name-integrity ground-truth paths (operators.json + operator_types.json).
+def _main_tree() -> Path | None:
+    """The real project root (strip the .claude/worktrees/<name> tail if present)."""
+    parts = REPO_ROOT.parts
+    if ".claude" in parts:
+        return Path(*parts[: parts.index(".claude")])
+    return None
 
-    * operators.json: ``--gt-operators`` if given, else ``<kb_root>/operators.json``
-      (so pointing ``--kb`` at the new build output reads the NEW operators.json).
-    * operator_types.json (the live-TD capture): ``--gt-types`` if given, else probe
-      ``New KB build/Resources/operator_ground_truth/operator_types.json`` from kb_root
-      upward. Deriving solely from ``kb_root.parent`` breaks when ``--kb`` is the new
-      output (``New KB build/Output/KB``), so we walk ancestors and take the first hit.
-    """
-    gt_ops = Path(args.gt_operators).resolve() if args.gt_operators else (kb_root / "operators.json")
-    if args.gt_types:
-        return gt_ops, Path(args.gt_types).resolve()
-    rel = Path("New KB build") / "Resources" / "operator_ground_truth" / "operator_types.json"
-    for anc in [kb_root, *kb_root.parents]:
-        cand = anc / rel
-        if cand.exists():
-            return gt_ops, cand
-    return gt_ops, kb_root.parent / rel  # let GroundTruth raise a clear error if truly missing
+
+def resolve_gt_paths(cli_ops, cli_types, kb_root: Path):
+    """Resolve the name-integrity ground truth INDEPENDENTLY of --kb (flags win),
+    so the gate stays authoritative when --kb points at a rebuilt KB output."""
+    mt = _main_tree()
+    if cli_ops:
+        gt_ops = Path(cli_ops)
+    else:
+        cands = [kb_root / "operators.json"]
+        if mt:
+            cands.append(mt / "KB" / "operators.json")
+        gt_ops = next((c for c in cands if c.exists()), cands[0])
+    if cli_types:
+        gt_types = Path(cli_types)
+    else:
+        cands = []
+        if mt:
+            cands.append(mt / "New KB build" / "Resources" / "operator_ground_truth" / "operator_types.json")
+        cands.append(kb_root.parent / "New KB build" / "Resources" / "operator_ground_truth" / "operator_types.json")
+        gt_types = next((c for c in cands if c.exists()), cands[-1])
+    return gt_ops.resolve(), gt_types.resolve()
 
 
 # ---------------------------------------------------------------------------
@@ -214,14 +223,13 @@ def _mean(xs: list[float]) -> float:
 # name-integrity) are invariant; only borderline operator/parameter numbers jitter.
 # ---------------------------------------------------------------------------
 def _run_trial(name, adapter, queries, gt, args, trial_idx):
-    per_query = []
+    per_query = []                       # scored (predicate) queries only
+    neg_query = []                       # negative / expect_no_match queries
     integrity = {"checked": 0, "unresolved": [], "retokenized": []}
 
     for row in queries:
         hits = search(adapter, row["query"], args.retrieve)
-        rels = [1 if is_relevant(h, row["relevant_predicate"]) else 0 for h in hits]
-        sc = score_query(rels, args.k, args.ndcg_k)
-        # name-integrity over EVERY returned chunk
+        # name-integrity over EVERY returned chunk (all rows, incl. negative)
         for rank, h in enumerate(hits, 1):
             verdict = check_name_integrity(h, gt)
             if verdict is None:
@@ -231,6 +239,21 @@ def _run_trial(name, adapter, queries, gt, args, trial_idx):
                 integrity["unresolved"].append({"query_id": row["id"], "rank": rank, **verdict})
             elif verdict["status"] == "retokenized":
                 integrity["retokenized"].append({"query_id": row["id"], "rank": rank, **verdict})
+
+        # negative queries: no relevant set -- measure ABSTENTION (does the system
+        # correctly NOT surface a confident match?). Rewards Phase 2's score-floor.
+        if row.get("expect_no_match"):
+            topk = hits[:args.k]
+            top1 = round(float(hits[0].get("score", 0.0)), 4) if hits else None
+            abstained = not any(float(h.get("score", 0.0)) >= args.score_floor for h in topk)
+            neg_query.append({"id": row["id"], "category": "negative", "abstained": abstained,
+                              "top1_score": top1, "floor": args.score_floor})
+            print(f"  [{name} t{trial_idx}] {row['id']:6s} {'negative':18s} "
+                  f"abstained={int(abstained)} top1={top1}", file=sys.stderr)
+            continue
+
+        rels = [1 if is_relevant(h, row["relevant_predicate"]) else 0 for h in hits]
+        sc = score_query(rels, args.k, args.ndcg_k)
         top5 = [{
             "rank": i + 1,
             "relevant": bool(rels[i]),
@@ -246,8 +269,8 @@ def _run_trial(name, adapter, queries, gt, args, trial_idx):
               f"recall@{args.k}={sc['recall_at_k']:.0f} rr={sc['rr']:.3f} "
               f"ndcg@{args.ndcg_k}={sc['ndcg_at_n']:.3f}", file=sys.stderr)
 
-    # aggregate
-    cats = sorted({q["category"] for q in queries})
+    # aggregate (scored categories only)
+    cats = sorted({q["category"] for q in per_query})
     per_category = {}
     for c in cats:
         rows = [q for q in per_query if q["category"] == c]
@@ -263,6 +286,13 @@ def _run_trial(name, adapter, queries, gt, args, trial_idx):
         "mrr": _mean([r["rr"] for r in per_query]),
         f"ndcg_at_{args.ndcg_k}": _mean([r["ndcg_at_n"] for r in per_query]),
     }
+    negative = {
+        "n": len(neg_query),
+        "abstention_rate": _mean([1.0 if q["abstained"] else 0.0 for q in neg_query]) if neg_query else 0.0,
+        "mean_top1_score": round(sum(q["top1_score"] or 0.0 for q in neg_query) / len(neg_query), 4) if neg_query else 0.0,
+        "score_floor": args.score_floor,
+        "detail": neg_query,
+    }
 
     def _distinct(items):
         return sorted({i.get("asserted") for i in items if i.get("asserted")})
@@ -277,7 +307,7 @@ def _run_trial(name, adapter, queries, gt, args, trial_idx):
         "retokenized_examples": integrity["retokenized"][:10],
     }
     return {"per_category": per_category, "aggregate": aggregate,
-            "name_integrity": name_integrity, "per_query": per_query}
+            "name_integrity": name_integrity, "negative": negative, "per_query": per_query}
 
 
 def _median(xs):
@@ -302,11 +332,12 @@ def _spawn_trial(name, kb_root, args, trial_idx):
     """
     cmd = [sys.executable, str(Path(__file__).resolve()), "--_emit-trial",
            "--backend", name, "--kb", str(kb_root), "--queries", str(args.queries),
-           "--k", str(args.k), "--ndcg-k", str(args.ndcg_k), "--retrieve", str(args.retrieve)]
-    if args.gt_types:
-        cmd += ["--gt-types", str(args.gt_types)]
+           "--k", str(args.k), "--ndcg-k", str(args.ndcg_k), "--retrieve", str(args.retrieve),
+           "--score-floor", str(args.score_floor)]
     if args.gt_operators:
         cmd += ["--gt-operators", str(args.gt_operators)]
+    if args.gt_types:
+        cmd += ["--gt-types", str(args.gt_types)]
     print(f"[{name}] trial {trial_idx}/{args.repeats} (subprocess, fresh index load)...", file=sys.stderr)
     proc = subprocess.run(cmd, capture_output=True, text=True, env=os.environ)
     for ln in proc.stdout.splitlines():
@@ -362,11 +393,22 @@ def evaluate_backend(name, use_legacy, queries, gt, kb_root, args):
             kk: [min(t["name_integrity"][kk] for t in trials),
                  max(t["name_integrity"][kk] for t in trials)] for kk in ni_keys}
 
+    negative = None
+    if trials[0].get("negative", {}).get("n"):
+        negative = {
+            "n": trials[0]["negative"]["n"],
+            "score_floor": trials[0]["negative"]["score_floor"],
+            "abstention_rate": _median([t["negative"]["abstention_rate"] for t in trials]),
+            "mean_top1_score": _median([t["negative"]["mean_top1_score"] for t in trials]),
+            "detail": rep.get("negative", {}).get("detail", []),
+        }
+
     return {
         "repeats": args.repeats,
         "per_category": per_category,
         "aggregate": aggregate,
         "name_integrity": name_integrity,
+        "negative": negative,
         "per_query": rep["per_query"],
         "trial_aggregates": [{mk: t["aggregate"][mk] for mk in metric_keys} for t in trials],
         "deterministic": all(t["aggregate"] == trials[0]["aggregate"] for t in trials),
@@ -417,6 +459,20 @@ def write_markdown(md_path: Path, result: dict, args):
     agg = b["aggregate"]
     lines.append(f"| **AGGREGATE** | {agg['n']} | **{agg[f'recall_at_{rk}']:.2f}** | "
                  f"**{agg['mrr']:.2f}** | **{agg[f'ndcg_at_{nk}']:.2f}** |")
+    lines.append("")
+    lines.append("_(palette_discovery & howto are the broken categories the redesign targets; "
+                 "build_instruction is §6.9, mostly un-indexed today.)_")
+    if b.get("negative"):
+        ng = b["negative"]
+        lines += [
+            "",
+            "## Negative queries (abstention)",
+            f"- {ng['n']} out-of-domain queries; the system should return **no confident match**. "
+            f"abstention@{rk} (no top-{rk} hit ≥ {ng['score_floor']}): **{ng['abstention_rate']:.2f}**, "
+            f"mean top-1 score **{ng['mean_top1_score']:.3f}**.",
+            "- Rewards Phase 2's score-floor + dedup: today the dense-only stack returns filler for anything; "
+            "a real abstention path should drive this toward 1.0.",
+        ]
     if b.get("repeats", 1) > 1:
         tas = b.get("trial_aggregates", [])
         rec_vals = ", ".join(f"{t[f'recall_at_{rk}']:.3f}" for t in tas)
@@ -480,10 +536,6 @@ def main():
     ap.add_argument("--backend", choices=["enhanced", "legacy", "both"], default="both",
                     help="which backend(s) to measure; baseline is always 'enhanced' (the shipped path)")
     ap.add_argument("--kb", default=None, help="KB root containing vector_db/ + gpickle (default: auto / main tree)")
-    ap.add_argument("--gt-types", default=None,
-                    help="operator_ground_truth/operator_types.json (default: probe New KB build/Resources from --kb upward)")
-    ap.add_argument("--gt-operators", default=None,
-                    help="operators.json used for name-integrity ground truth (default: <kb>/operators.json)")
     ap.add_argument("--queries", default=str(EVAL_DIR / "labeled_queries.jsonl"))
     ap.add_argument("--k", type=int, default=5, help="recall@k / top-k")
     ap.add_argument("--ndcg-k", type=int, default=10, help="nDCG@n cutoff")
@@ -493,6 +545,14 @@ def main():
                          "jitters ~1 borderline result across index loads). Use 1 for a quick single run.")
     ap.add_argument("--out", default=str(EVAL_DIR / "baseline.json"), help="canonical baseline.json (repo)")
     ap.add_argument("--stage-dir", default=None, help="staging dir for BASELINE.md + copies (default: New KB build/Output/eval)")
+    ap.add_argument("--gt-operators", default=None,
+                    help="authoritative operators.json for the name-integrity gate (default: stable, "
+                         "independent of --kb — so it stays valid when --kb points at a rebuilt KB)")
+    ap.add_argument("--gt-types", default=None,
+                    help="authoritative operator_ground_truth/operator_types.json (default: stable, main-tree Resources)")
+    ap.add_argument("--score-floor", type=float, default=0.2,
+                    help="negative-query abstention threshold: a top-k result at/above this score counts as a (wrong) match")
+    ap.add_argument("--compare", default=None, help="path to a prior baseline.json to diff per-category deltas against")
     ap.add_argument("--_emit-trial", action="store_true", dest="emit_trial", help=argparse.SUPPRESS)
     args = ap.parse_args()
     if args.retrieve is None:
@@ -500,13 +560,14 @@ def main():
 
     kb_root = resolve_kb_root(args.kb).resolve()
     args.queries = str(Path(args.queries).resolve())
-    # ground truth: live-TD operator_types.json + operators.json, resolved robustly so
-    # --kb can point at the new build output. Freeze the RESOLVED paths back onto args so
-    # subprocess trials (_spawn_trial) inherit the identical ground truth.
-    gt_ops_path, gt_types_path = resolve_gt_paths(args, kb_root)
-    args.gt_operators = str(gt_ops_path)
-    args.gt_types = str(gt_types_path)
-    gt = GroundTruth(operators_json=gt_ops_path, operator_types_json=gt_types_path)
+    if args.compare:  # resolve now — adapter construction chdir's to server_core later
+        args.compare = str(Path(args.compare).resolve())
+    # Ground truth is resolved INDEPENDENTLY of --kb (flags override) so the gate stays
+    # authoritative when measuring a rebuilt KB. operator_types.json (live-TD) is pinned
+    # to the stable Resources capture; operators.json defaults to the measured KB's own
+    # registry but falls back to the main tree.
+    gt_ops, gt_types = resolve_gt_paths(args.gt_operators, args.gt_types, kb_root)
+    gt = GroundTruth(operators_json=gt_ops, operator_types_json=gt_types)
     queries = [json.loads(ln) for ln in Path(args.queries).read_text(encoding="utf-8").splitlines() if ln.strip()]
 
     # --- subprocess trial mode: run ONE in-process trial, emit JSON, exit ------
@@ -539,7 +600,10 @@ def main():
         "collection_count": count,
         "kb_root": str(kb_root),
         "code_root": str(SERVER_CORE),
-        "config": {"k": args.k, "ndcg_k": args.ndcg_k, "retrieve": args.retrieve, "n_queries": len(queries)},
+        "gt_operators": str(gt_ops),
+        "gt_types": str(gt_types),
+        "config": {"k": args.k, "ndcg_k": args.ndcg_k, "retrieve": args.retrieve,
+                   "n_queries": len(queries), "score_floor": args.score_floor},
         "baseline_backend": base,
         "backends": {n: {kk: vv for kk, vv in r.items() if kk != "per_query"} for n, r in backends.items()},
         "baseline": {kk: vv for kk, vv in backends[base].items() if kk != "per_query"} if "error" not in backends.get(base, {}) else backends.get(base),
@@ -575,11 +639,43 @@ def main():
         agg = b["aggregate"]
         print(f"  {'AGGREGATE':18s} recall@{args.k}={agg[f'recall_at_{args.k}']:.2f}  "
               f"MRR={agg['mrr']:.2f}  nDCG@{args.ndcg_k}={agg[f'ndcg_at_{args.ndcg_k}']:.2f}  (n={agg['n']})")
+        if b.get("negative"):
+            ng = b["negative"]
+            print(f"  {'negative':18s} abstention@{args.k}={ng['abstention_rate']:.2f}  "
+                  f"mean-top1-score={ng['mean_top1_score']:.3f}  (n={ng['n']}, floor={ng['score_floor']})")
         ni = b["name_integrity"]
         print(f"  name-integrity: {ni['unresolved_violations']} unresolved, "
               f"{ni['retokenized_name_surfaced']} retokenized-name surfaced "
               f"(of {ni['identity_bearing_chunks_checked']} identity-bearing returns)")
     print("=" * 64)
+
+    # --- optional diff vs a prior baseline.json --------------------------------
+    if args.compare and "error" not in backends.get(base, {}):
+        try:
+            prev = json.loads(Path(args.compare).read_text(encoding="utf-8"))
+            pj = prev.get("baseline", prev.get("backends", {}).get(prev.get("baseline_backend", base), {}))
+            print(f"\nDELTA vs {args.compare} (this - prior; d = delta):")
+            rk, nk = args.k, args.ndcg_k
+            for cat in sorted(b["per_category"]):
+                cur = b["per_category"][cat]
+                old = pj.get("per_category", {}).get(cat)
+                if not old:
+                    print(f"  {cat:18s} (new category)")
+                    continue
+                dr = cur[f"recall_at_{rk}"] - old.get(f"recall_at_{rk}", 0)
+                dm = cur["mrr"] - old.get("mrr", 0)
+                dn = cur[f"ndcg_at_{nk}"] - old.get(f"ndcg_at_{nk}", 0)
+                if abs(dr) + abs(dm) + abs(dn) > 1e-9:
+                    print(f"  {cat:18s} d_recall@{rk}={dr:+.2f}  d_MRR={dm:+.2f}  d_nDCG@{nk}={dn:+.2f}")
+            ca, oa = b["aggregate"], pj.get("aggregate", {})
+            print(f"  {'AGGREGATE':18s} d_recall@{rk}={ca[f'recall_at_{rk}']-oa.get(f'recall_at_{rk}',0):+.2f}  "
+                  f"d_MRR={ca['mrr']-oa.get('mrr',0):+.2f}  d_nDCG@{nk}={ca[f'ndcg_at_{nk}']-oa.get(f'ndcg_at_{nk}',0):+.2f}")
+            oni = pj.get("name_integrity", {})
+            print(f"  name-integrity   d_retokenized={b['name_integrity']['retokenized_name_surfaced']-oni.get('retokenized_name_surfaced',0):+d}  "
+                  f"d_unresolved={b['name_integrity']['unresolved_violations']-oni.get('unresolved_violations',0):+d}")
+        except Exception as e:
+            print(f"\n(could not diff against {args.compare}: {e})")
+
     print(f"\nwrote:\n  {out_path}\n  {stage_dir / 'baseline.json'}\n  "
           f"{stage_dir / 'BASELINE.md'}\n  {stage_dir / 'details.json'}")
 

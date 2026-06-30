@@ -57,27 +57,32 @@ def _build_param_map(op_name: str, family: str) -> Dict[str, str]:
 
     for operator in kb.get('operators', []):
         if operator.get('name', '').lower() == op_name.lower():
-            for param in operator.get('parameters', []):
+            params = operator.get('parameters', [])
+
+            # PASS 1 — code IDENTITIES (code -> code). These WIN: a real TD param code
+            # must always resolve to itself, never be shadowed by another param's
+            # display-name. (Several ops carry multiple params whose display normalizes
+            # to the same token, e.g. Camera COMP has codes s / scale / ps / pscale all
+            # labelled "Scale"/"Uniform Scale"; without identity precedence the user's
+            # real `scale` was remapped to `ps` and dropped.)
+            for param in params:
+                code = param.get('code', '')
+                if code:
+                    param_map[code.lower()] = code
+
+            # PASS 2 — display-name aliases, only where they don't shadow a real code.
+            for param in params:
                 code = param.get('code', '')
                 display_name = param.get('display_name', '')
-
-                if not code:
+                if not code or not display_name:
                     continue
-
-                # Add identity mapping (code -> code)
-                param_map[code.lower()] = code
-
-                if display_name:
-                    # Add display_name -> code (normalized)
-                    norm = display_name.lower().replace(' ', '').replace('-', '').replace('_', '')
+                norm = display_name.lower().replace(' ', '').replace('-', '').replace('_', '')
+                if norm and norm not in param_map:
                     param_map[norm] = code
-
-                    # Also add without trailing numbers for user convenience
-                    # BUT prefer "1" suffix versions for primary parameters
-                    norm_no_num = re.sub(r'\d+$', '', norm)
-                    if norm_no_num and norm_no_num not in param_map:
-                        # Only add if not already mapped (so "brightness1" gets priority over "brightness2")
-                        param_map[norm_no_num] = code
+                # Also add without trailing numbers for user convenience (gap-fill only).
+                norm_no_num = re.sub(r'\d+$', '', norm)
+                if norm_no_num and norm_no_num not in param_map:
+                    param_map[norm_no_num] = code
 
             break
 
@@ -277,8 +282,16 @@ def resolve_param_name(op_type: str, op_family: str, user_param: str) -> str:
     # 2. Check if it's already a valid TD param name (identity)
     # Build KB param map if not cached
     if op_key not in _param_cache:
-        # Try to find the operator in KB
-        op_name = f"{op_type} {op_family}".replace('_', ' ').title()
+        # Try to find the operator in KB. Strip a trailing family suffix first so a
+        # td_create-style op_type ("renameCHOP") yields "Rename CHOP" and not the
+        # title()-mangled "Renamechop Chop" (which failed the KB lookup and silently
+        # disabled param-name resolution for that op).
+        _ot = op_type
+        for _fam in ("CHOP", "TOP", "SOP", "COMP", "DAT", "MAT", "POP"):
+            if _ot.lower().endswith(_fam.lower()) and len(_ot) > len(_fam):
+                _ot = _ot[:-len(_fam)]
+                break
+        op_name = f"{_ot} {op_family}".replace('_', ' ').strip().title()
         _param_cache[op_key] = _build_param_map(op_name, op_family)
 
     kb_map = _param_cache.get(op_key, {})

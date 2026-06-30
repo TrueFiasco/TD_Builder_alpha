@@ -21,7 +21,7 @@ from .param_name_resolver import resolve_param_name, resolve_menu_value
 logger = logging.getLogger(__name__)
 
 # Paths
-from paths import resolve_td_tool, td_tool_missing_error
+from paths import resolve_td_tool, td_tool_missing_error, KB_OPERATORS
 TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
 
@@ -69,6 +69,48 @@ def _load_docked_dats() -> dict:
             logger.warning("docked_dats.json not loaded (%s); using built-in fallback", e)
             _DOCKED_DATS_CACHE = DOCKED_DATS
     return _DOCKED_DATS_CACHE
+
+
+# Build-token grounding index (the SOURCE fix): KB/operators.json carries the live-real
+# `.n` token per op as `build_token` (added by the re-grounding step from operator_ground_truth).
+# We index (FAMILY, alnum-alias) -> build_token so _map_op_type can return the live-faithful
+# token instead of the wiki-display-derived one. Empty when operators.json predates re-grounding
+# (no build_token field) -> grounding is a no-op and the builder falls back to its old logic
+# (fully backward-compatible).
+_BUILD_TOKEN_INDEX = None
+
+
+def _alnum(s) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(s or "").lower())
+
+
+def _load_build_token_index() -> dict:
+    global _BUILD_TOKEN_INDEX
+    if _BUILD_TOKEN_INDEX is None:
+        _BUILD_TOKEN_INDEX = {}
+        try:
+            with open(KB_OPERATORS, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for o in data.get("operators", []):
+                bt = o.get("build_token")
+                fam = o.get("family")
+                name = o.get("name")
+                if not bt or not fam or not name or ":" not in bt:
+                    continue
+                aliases = set()
+                base = name[: -len(fam)].strip() if name.endswith(fam) else name
+                aliases.add(_alnum(base))                       # display-derived token
+                aliases.add(_alnum(bt.split(":", 1)[1]))        # the build token's own type
+                tdc = o.get("python_class") or ""
+                if tdc.endswith("_Class"):
+                    aliases.add(_alnum(tdc[:-len("_Class")].replace(fam, "")))  # td_create base
+                for a in aliases:
+                    if a:
+                        _BUILD_TOKEN_INDEX[(fam.upper(), a)] = bt
+        except Exception as e:
+            logger.warning("build_token index not loaded (%s); grounding disabled", e)
+            _BUILD_TOKEN_INDEX = {}
+    return _BUILD_TOKEN_INDEX
 
 
 def load_conversion_op_expertise() -> dict:
@@ -894,7 +936,9 @@ end
                 's': ['sx', 'sy', 'sz'],
                 'p': ['px', 'py', 'pz'],
                 'pivot': ['pivotx', 'pivoty', 'pivotz'],
-                'scale': ['sx', 'sy', 'sz'],
+                # NOTE: 'scale' intentionally NOT expanded -- on many ops (Camera COMP,
+                # Transform COMP, ...) `scale` is a SCALAR "Uniform Scale" param; mapping it
+                # to sx/sy/sz clobbered/dropped it (gate finding). Use 's' for a 3-vector.
                 'translate': ['tx', 'ty', 'tz'],
                 'rotate': ['rx', 'ry', 'rz'],
                 'center': ['centerx', 'centery', 'centerz'],
@@ -919,7 +963,7 @@ end
             expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
                              'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
 
-            if param_name.lower() in vector_params and isinstance(param_value, (list, tuple)):
+            if param_name.lower() in vector_params and isinstance(param_value, (list, tuple)) and len(param_value) > 1:
                 component_names = vector_params[param_name.lower()]
                 for i, comp_name in enumerate(component_names):
                     if i < len(param_value):
@@ -2306,13 +2350,39 @@ execonstart 0 1
     }
 
     def _map_op_type(self, op_type: str, container_path: str, explicit_family: str = None) -> str:
-        """Map TD Designer type to TouchDesigner family:type.
+        """Resolve a TD Designer type to the TouchDesigner ``FAMILY:type`` token written
+        to the op's ``.n`` file.
 
-        Args:
-            op_type: The operator type (e.g., "noise", "noiseCHOP", "CHOP:noise")
-            container_path: Container path for context-based inference
-            explicit_family: Explicit family field from design JSON (e.g., "CHOP")
-        """
+        GROUNDING (the source fix): first consult the live-real ``build_token`` index
+        (from the re-grounded ``operators.json``). When the op is grounded, return the
+        captured live token directly -- this fixes BOTH the abbreviation mismatches
+        (Camera ``COMP:camera`` -> ``COMP:cam``) and the wrong-family mismatches
+        (Add ``SOP:add`` -> ``TOP:add``, where ``OP_TYPE_MAP`` used to override the
+        explicit family). Falls back to the legacy derivation when the op isn't grounded
+        (e.g. operators.json predates re-grounding, or a brand-new op)."""
+        grounded = self._grounded_build_token(op_type, explicit_family)
+        if grounded:
+            self.log(f"  _map_op_type: grounded '{op_type}'/{explicit_family} -> {grounded}")
+            return grounded
+        return self._map_op_type_raw(op_type, container_path, explicit_family)
+
+    def _grounded_build_token(self, op_type: str, explicit_family: str = None):
+        """Look up the live-real build token for (family, op_type) in the grounding index.
+        Returns None when not grounded (index empty or op absent)."""
+        idx = _load_build_token_index()
+        if not idx:
+            return None
+        fam = (explicit_family or "").upper()
+        t = op_type.split(":", 1)[1] if ":" in op_type else op_type
+        if not fam and ":" in op_type:
+            fam = op_type.split(":", 1)[0].upper()
+        if not fam:
+            return None
+        return idx.get((fam, _alnum(t)))
+
+    def _map_op_type_raw(self, op_type: str, container_path: str, explicit_family: str = None) -> str:
+        """Legacy wiki-display-derived resolver (INTERNAL_NAME_MAP + OP_TYPE_MAP + family
+        inference). Used as the fallback when grounding has no entry for the op."""
         families = ["CHOP", "TOP", "SOP", "DAT", "COMP", "MAT", "POP"]
 
         self.log(f"  _map_op_type: input='{op_type}' family='{explicit_family}'")

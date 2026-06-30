@@ -9,4 +9,4 @@ MCP settings) — same shape as `MCP/claude_desktop_config.json` (replace `<RELE
 
 Env: `PYTHONIOENCODING=utf-8`, `TD_BUILDER_ROOT=<RELEASE_ROOT>` (+ `TD_API_URL` for the live server).
 No API key. Run `python scripts/check_deps.py` to verify your install, then confirm with
-`get_server_info` (version `0.1.1`).
+`get_server_info` (version `0.2.0`).

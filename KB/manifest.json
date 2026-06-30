@@ -1,28 +1,62 @@
 {
   "name": "td-builder-mega-kb",
-  "version": "0.1.1",
-  "generated": "2026-05-16T10:15:10",
-  "note": "Canonical 4-axis KB bundle the MCP server loads. Fetched into KB/ by scripts/fetch_vector_db.py (release asset td_builder_kb_v0.1.1.zip).",
-  "axes": {
-    "operators": {
-      "path": "KB/operators.json",
-      "size": 35835036,
-      "md5": "84dc9a055bbd6f651ab2527559273dcd"
-    },
-    "graphrag_chunks": {
-      "path": "KB/graphrag.json",
-      "size": 58280950,
-      "md5": "bd59b6057bc819e3808c69b17944c930"
-    },
-    "enhanced_graph": {
-      "path": "KB/knowledge_graph_enhanced.gpickle",
-      "size": 9296137,
-      "md5": "cc16851a153016bcca1b798670b46391"
-    },
-    "vector_db": {
-      "path": "KB/vector_db",
-      "collection": "td_unified",
-      "docs": 34350
-    }
-  }
+  "version": "0.2.0",
+  "release": {
+    "tag": "v0.2.0",
+    "asset": "td_builder_kb_v0.2.0.zip",
+    "note": "Large artifacts are fetched into KB/ by scripts/fetch_vector_db.py (sha256-pinned in scripts/vector_db_release.json). Small files that DO ship in git: README.md, manifest.json, wiki_supplemental/, docked_dats.json."
+  },
+  "phase": "2-retrieval-stack",
+  "generated": "2026-06-30T16:17:23.796596+00:00",
+  "td_build": "0.99.2025.32460",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "collection": "td_unified",
+  "chunk_count": 6447,
+  "vectordb_count": 6447,
+  "sections": {
+    "palette": 791,
+    "recipes": 17,
+    "guides": 133,
+    "examples": 1395,
+    "operators": 2500,
+    "python": 844,
+    "concepts": 543,
+    "build": 224
+  },
+  "chunk_type_histogram": {
+    "block_overview": 264,
+    "block_usecase": 264,
+    "block_io": 263,
+    "recipe": 12,
+    "pattern": 5,
+    "guide_overview": 10,
+    "guide_section": 123,
+    "real_example": 1395,
+    "operator_overview": 663,
+    "parameter_group": 1837,
+    "class_method": 811,
+    "python_pattern": 20,
+    "callback": 13,
+    "concept": 543,
+    "build_instruction": 135,
+    "docked_dat": 89
+  },
+  "store_histogram": {
+    "td_block": 791,
+    "td_recipe": 17,
+    "td_guide": 133,
+    "td_example": 1395,
+    "td_operator": 663,
+    "td_param": 1837,
+    "td_python": 844,
+    "td_concept": 543,
+    "td_build": 224
+  },
+  "retrieval_stack": {
+    "bm25_index": "lexical_index/bm25.pkl",
+    "reranker": "models/ms-marco-MiniLM-L-6-v2",
+    "pipeline": "dense + BM25 -> RRF(k=60) -> operator-aware router -> cross-encoder rerank -> score-floor(calibrated) + dedup"
+  },
+  "source_pipeline": "kb_build (v0.2 condensed pointer chunks + Phase-2 retrieval artifacts)",
+  "notes": "Condensed pointer chunks hydrate from operators.json + Resources via MCP tools. graph (gpickle) rebuilt (canonical identity, readMe-clean). lexical_index/ + models/ back the Phase-2 retrieval stack in MCP/server_core/search/retrieval_stack.py."
 }

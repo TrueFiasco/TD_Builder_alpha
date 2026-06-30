@@ -50,9 +50,10 @@ def main() -> int:
             print(f"{BAD} import {mod} - {e}")
             problems.append(fix)
 
-    # Pre-built KB artifacts (ship in-tree)
+    # Fetched KB artifacts (not in git — downloaded by scripts/fetch_vector_db.py).
+    # This set mirrors fetch_vector_db._already_populated().
     kb = REPO_ROOT / "KB"
-    for rel in ("operators.json", "graphrag.json", "knowledge_graph_enhanced.gpickle"):
+    for rel in ("operators.json", "knowledge_graph_enhanced.gpickle"):
         p = kb / rel
         if p.exists():
             print(f"{OK} KB/{rel} ({p.stat().st_size // (1024 * 1024)} MB)")
@@ -60,12 +61,27 @@ def main() -> int:
             print(f"{BAD} KB/{rel} missing")
             problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
 
-    # Vector DB (fetched, not in git)
+    # Vector store
     vdb = kb / "vector_db"
     if vdb.exists() and any(vdb.iterdir()):
         print(f"{OK} KB/vector_db/ populated")
     else:
         print(f"{BAD} KB/vector_db/ empty - semantic search unavailable")
+        problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
+
+    # Phase-2 retrieval stack: BM25 lexical index + bundled cross-encoder reranker
+    bm25 = kb / "lexical_index" / "bm25.pkl"
+    if bm25.exists():
+        print(f"{OK} KB/lexical_index/bm25.pkl ({bm25.stat().st_size // (1024 * 1024)} MB)")
+    else:
+        print(f"{BAD} KB/lexical_index/bm25.pkl missing - hybrid (BM25) retrieval unavailable")
+        problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
+
+    reranker = kb / "models" / "ms-marco-MiniLM-L-6-v2" / "config.json"
+    if reranker.exists():
+        print(f"{OK} KB/models/ms-marco-MiniLM-L-6-v2/ (bundled reranker)")
+    else:
+        print(f"{BAD} KB/models/ms-marco-MiniLM-L-6-v2/ missing - reranking unavailable")
         problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
 
     print()

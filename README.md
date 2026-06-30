@@ -1,4 +1,4 @@
-# TD Builder — V0.1.1
+# TD Builder — v0.2.0
 
 A **key-free** Python system for AI-driven generation, validation, and conversion of
 TouchDesigner networks, exposed to LLM clients as **two MCP servers**, plus live
@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 # 2. Install (single editable install + dev/test extras)
 pip install -e ".[dev]"
 
-# 3. Download the vector DB (~72 MB) — public HTTPS, no GitHub account needed
+# 3. Download the knowledge base (~108 MB zip) — public HTTPS, no GitHub account needed
 python scripts\fetch_vector_db.py
 
 # 4. Verify your install
@@ -51,8 +51,8 @@ python scripts\check_deps.py        # expect all green
 #    Live:     python MCP\live_server.py   (td-builder-live, 19 tools — only with TD open)
 ```
 
-> **First run:** the first KB-dependent call loads ~100 MB of knowledge + the local embedding model
-> (one-time, ~1–2 min), then every call is fast.
+> **First run:** the first KB-dependent call loads the knowledge base (~180 MB) + the local embedding
+> model + the bundled reranker (one-time, ~1–2 min), then every call is fast.
 
 ## Modes
 

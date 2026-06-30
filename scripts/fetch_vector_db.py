@@ -2,11 +2,12 @@
 
 Run from the repo root:  python scripts/fetch_vector_db.py
 
-The runtime KB — `operators.json`, `graphrag.json`, the knowledge graph, and the
-vector store (~210 MB) — is distributed as a single GitHub Release asset rather
-than committed to the repo (it would bloat every clone). The download uses a
-plain public HTTPS request: no `gh` CLI, no auth, no GitHub account needed. If
-the release is private it falls back to `gh release download` (your `gh` token).
+The runtime KB — `operators.json`, the knowledge graph, the vector store, the
+BM25 lexical index, and the bundled cross-encoder reranker (~180 MB) — is
+distributed as a single GitHub Release asset rather than committed to the repo
+(it would bloat every clone). The download uses a plain public HTTPS request:
+no `gh` CLI, no auth, no GitHub account needed. If the release is private it
+falls back to `gh release download` (your `gh` token).
 
 Skips if `KB/` is already populated (`operators.json` + a non-empty `vector_db/` +
 the Phase-2 `lexical_index/bm25.pkl` and bundled `models/` reranker).
@@ -123,7 +124,7 @@ def main() -> int:
         dl_dir.rmdir()
     except OSError:
         pass
-    print("Done. KB/ now has operators.json, graphrag.json, the graph, and vector_db/.")
+    print("Done. KB/ now has operators.json, the graph, vector_db/, lexical_index/, and models/.")
     return 0
 
 

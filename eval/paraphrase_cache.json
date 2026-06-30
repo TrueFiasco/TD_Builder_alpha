@@ -1,0 +1,15 @@
+{
+  "_README": "Dev/build-time LLM paraphrases for naturalness ONLY — the GOLD never changes. Key = '<seed>:<item_id>'. Used only with `gen_coverage.py --paraphrase` (default OFF; the cached set is what ships). Each paraphrase is re-gated at apply time (gold still resolves, no name leak, still UNIQUE to the same gold, not malformed); a failing paraphrase falls back to the deterministic template. To extend: dump the per-item capability SEED, have an LLM reword it WITHOUT seeing the gold, append here, regenerate with the same --seed (byte-stable, no live LLM). Populated for seed 0 as a representative sample.",
+  "0:cov-ol-001": "which operator carves jagged, mountain-like divisions into the input geometry",
+  "0:cov-ol-002": "which component lays out a grid of user-interface gadgets",
+  "0:cov-pa-001": "on a Luma Level TOP, what is the default Source setting",
+  "0:cov-pa-002": "what does the Joystick CHOP's Slider 1 default to",
+  "0:cov-pd-001": "is there a palette component that builds 2D and 3D SOP geometry from the equations proposed by Johan Gielis",
+  "0:cov-pd-002": "a palette component that outputs a video stream tagged with a frame index over SDI or NDI",
+  "0:cov-py-001": "in python, how do I get the filename of the loaded media file",
+  "0:cov-py-002": "in python, a custom callback that supplies values for the operators that were found",
+  "0:cov-bi-001": "I have a SOP and need it as a CHOP — how do I connect them",
+  "0:cov-bi-002": "turn a CHOP into a SOP — what is the wiring",
+  "0:cov-cn-001": "in touchdesigner, the Intel depth-sensing camera technology that captures color, depth, and infrared data",
+  "0:cov-cn-002": "the guide to CPU requirements for touchdesigner — single-thread performance and core speed for real-time visual computation"
+}

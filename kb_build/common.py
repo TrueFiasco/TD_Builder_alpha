@@ -36,13 +36,24 @@ RES = MAIN / "New KB build" / "Resources"
 OUT = MAIN / "New KB build" / "Output" / "KB"
 SHIPPED_KB = MAIN / "KB"
 
+# Build-gate regrounded registry (eval/build_gate/reground_operators.py): the
+# shipped operators.json corrected to live TD — build_token added, common-prefix
+# param codes fixed (commonrenamefrom->renamefrom), Write_a_*/Anatomy_of_* wiki
+# PAGES dropped from the operator set, dup display-names removed. Staged (never
+# committed). When present it is the authoritative registry base; else fall back
+# to the shipped operators.json so the build still runs standalone.
+REGROUNDED = MAIN / "New KB build" / "Output" / "build_gate" / "operators.regrounded.json"
+
 HAIKU = RES / "haiku_output"
 EXPERT = RES / "expertise"
 PAL_LOSSLESS = RES / "palette_lossless"
 SNIPPETS = RES / "snippets"
 GT = RES / "operator_ground_truth"
+PARAMS_GT = GT / "params"               # live-TD param captures ({FAM}_{Name}_defaults.json)
 CONFIG = RES / "Config"
 WIKI = RES / "Learn" / "OfflineHelp"
+WIKI_DOCS = WIKI / "https.docs.derivative.ca"      # Write_a_*.htm guide pages
+WIKI_SUPPL = SHIPPED_KB / "wiki_supplemental"      # clean markdown GLSL guides
 
 TD_BUILD = "0.99.2025.32460"
 COLLECTION = "td_unified"
@@ -57,6 +68,7 @@ STORE_CONCEPT = "td_concept"
 STORE_RECIPE = "td_recipe"
 STORE_EXAMPLE = "td_example"
 STORE_BUILD = "td_build"
+STORE_GUIDE = "td_guide"
 
 
 def _norm(s: Optional[str]) -> str:
@@ -88,6 +100,77 @@ def coerce_meta(meta: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Tuplet param grounding — inject value-bearing COMPONENTS for null-default
+# headers from the live-TD capture (operator_ground_truth/params). The wiki
+# documents a multi-value param as ONE value-less grouping header (Lag CHOP `lag`,
+# default null); the real defaults live on the captured components `lag1`/`lag2`
+# (=0.2). Adding those component entries lets the parameter_group chunk show real
+# defaults AND lets get_parameter_detail('Lag CHOP','lag1') resolve at runtime
+# (wiki_parameters is keyed by code). Mirrors the suffix convention in
+# eval/tool_coverage.ParamDefaults.resolve / build_gate (header -> header+'1','2',…).
+# Additive + orthogonal to the build-gate's code regrounding (it renames existing
+# codes; this only ADDS components), so the two compose without conflict.
+# ---------------------------------------------------------------------------
+def _gt_params(family: str, name: str) -> dict:
+    """Live-TD param specs for an operator, or {} if no capture file."""
+    f = PARAMS_GT / f"{family}_{str(name).replace(' ', '_')}_defaults.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text(encoding="utf-8")).get("parameters") or {}
+    except Exception:
+        return {}
+
+
+def enrich_tuplets(operators: list[dict]) -> int:
+    """Inject tuplet COMPONENTS for null-default header params. Mutates in place;
+    returns the number of component entries added. A header qualifies only when its
+    own default is None — the value-less wiki grouping (every default-None param is
+    also type-None; an empty STRING default like Tablet CHOP `button2`=''/'string'
+    is a real param, NOT a header, so it must be excluded) — AND the GT capture has
+    `code1` (so op-reference params like Feedback TOP `top` — null but no `top1` —
+    get nothing)."""
+    injected = 0
+    for o in operators:
+        fam, name = o.get("family"), o.get("name")
+        if not fam or not name:
+            continue
+        params = o.get("parameters")
+        if not params:
+            continue
+        existing = {p.get("code") for p in params}
+        gtp = None
+        add: list[dict] = []
+        for p in params:
+            code = p.get("code")
+            if not code or p.get("default") is not None or f"{code}1" in existing:
+                continue
+            if gtp is None:
+                gtp = _gt_params(fam, name)
+            i = 1
+            while True:
+                spec = gtp.get(f"{code}{i}")
+                if not isinstance(spec, dict) or spec.get("default") is None:
+                    break
+                if f"{code}{i}" not in existing:
+                    val = spec.get("value") if isinstance(spec.get("value"), dict) else {}
+                    add.append({
+                        "code": f"{code}{i}",
+                        "display_name": spec.get("label") or f"{code}{i}",
+                        "type": val.get("type") or p.get("type"),
+                        "default": spec.get("default"),
+                        "page": spec.get("page") or p.get("page"),
+                        "section": p.get("section"),
+                        "source": "ground_truth",
+                    })
+                    injected += 1
+                i += 1
+        if add:
+            params.extend(add)
+    return injected
+
+
+# ---------------------------------------------------------------------------
 # Identity registry — the ground-truth join (operator_ground_truth + operators.json).
 # ---------------------------------------------------------------------------
 class Identity:
@@ -100,10 +183,20 @@ class Identity:
     """
 
     def __init__(self):
-        oj = json.loads((SHIPPED_KB / "operators.json").read_text(encoding="utf-8"))
+        # Prefer the build-gate's regrounded registry (live-TD corrected); fall back
+        # to the shipped operators.json so the build still runs without the gate.
+        self.source_path = REGROUNDED if REGROUNDED.exists() else (SHIPPED_KB / "operators.json")
+        oj = json.loads(self.source_path.read_text(encoding="utf-8"))
+        self.raw: dict = oj                       # full dict (classes/concepts/metadata) for emit
         self.operators: list[dict] = oj["operators"]
         self.classes: list = oj.get("classes", [])
         self.concepts: list = oj.get("concepts", [])
+
+        # Ground null-default tuplet headers to their value-bearing components
+        # (mutates self.operators AND self.raw, since raw["operators"] is the same
+        # list) so BOTH the parameter_group chunks and the emitted operators.json
+        # carry e.g. lag1/lag2=0.2.
+        self.tuplets_injected: int = enrich_tuplets(self.operators)
 
         self.by_pyclass: dict[str, dict] = {}
         self.by_name_norm: dict[str, dict] = {}

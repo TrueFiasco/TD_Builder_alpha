@@ -34,7 +34,8 @@ import common as C
 # can grow one section at a time). §6.1 + §6.2 share ingest_operators.
 SECTION_ORDER = [
     ("ingest_palette", "palette"),          # §6.4
-    ("ingest_recipes", "recipes"),          # §6.6 recipes/patterns/guides
+    ("ingest_recipes", "recipes"),          # §6.6 recipes/patterns
+    ("ingest_guides", "guides"),            # §6.x Write_a_* authoring guides (type:guide)
     ("ingest_examples", "examples"),        # §6.7 OPSnippets real_example
     ("ingest_curriculum", "curriculum"),    # §6.8 lesson_pattern
     ("ingest_operators", "operators"),      # §6.1 operator_overview + §6.2 parameter_group
@@ -87,7 +88,7 @@ def main():
     print(f"  operators={len(idn.operators)} classes={len(idn.classes)} concepts={len(idn.concepts)}")
 
     rows: list[dict] = []
-    inputs: list[Path] = [C.SHIPPED_KB / "operators.json", C.GT / "operator_types.json"]
+    inputs: list[Path] = [idn.source_path, C.GT / "operator_types.json"]
     section_counts: dict[str, int] = {}
 
     for mod_name, label in SECTION_ORDER:
@@ -113,8 +114,15 @@ def main():
     for ct, n in ctype_hist.most_common():
         print(f"    {ct:24s} {n}")
 
-    # --- emit registry + graph for adapter construction ---
-    shutil.copy2(C.SHIPPED_KB / "operators.json", out_dir / "operators.json")
+    # --- emit registry (regrounded + tuplet-enriched) + graph for adapter construction ---
+    # Was a verbatim copy of the shipped operators.json; now writes the Identity's
+    # registry — regrounded base (build-gate) + injected tuplet components — so the
+    # runtime get_parameter_detail resolves tuplet codes (lag1=0.2) and the staged
+    # registry matches the chunks. Classes/concepts/metadata are preserved.
+    (out_dir / "operators.json").write_text(
+        json.dumps(idn.raw, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"[operators] registry source={idn.source_path.name}  "
+          f"operators={len(idn.operators)}  tuplet components injected={idn.tuplets_injected}")
     gp = C.SHIPPED_KB / "knowledge_graph_enhanced.gpickle"
     if gp.exists():
         # Rebuild the graph (canonical identity + OPType normalization + readMe filter,

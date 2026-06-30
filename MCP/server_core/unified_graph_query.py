@@ -52,14 +52,17 @@ class UnifiedGraphQuery:
         self.enriched_wiki = {}
         self.enriched_loaded = False
 
-        # B04 indices — populated inside the wiki-load try block if it succeeds.
-        # Pre-init here so get_related_operators returns [] cleanly when wiki load fails.
+        # B04 cross-op indices — built from td_graphrag.json when present, ELSE
+        # rebuilt from operators.json (_build_indices_from_enriched) so dropping the
+        # 58MB graphrag dump doesn't disable get_related_operators. Pre-init here so it
+        # returns [] cleanly only when NEITHER source is available.
         self.op_id_to_name: Dict[str, str] = {}
         self.op_id_to_family: Dict[str, str] = {}
         self.op_name_to_id: Dict[str, str] = {}
         self.related_to_index: Dict[str, List[str]] = defaultdict(list)
         self.param_to_ops: Dict[str, List[str]] = defaultdict(list)
         self.universal_params: Set[str] = set()
+        self.indices_loaded = False   # True once EITHER source populates the indices
 
         try:
             print("  Loading wiki documentation (td_graphrag.json)...")
@@ -135,6 +138,7 @@ class UnifiedGraphQuery:
             }
 
             self.wiki_loaded = True
+            self.indices_loaded = True
             print(f"    [OK] Wiki documentation loaded: {len(self.wiki_data)} operators")
             print(f"    [OK] Cross-op indices: {len(self.related_to_index)} ops with related_to, "
                   f"{len(self.param_to_ops)} param codes, "
@@ -169,7 +173,8 @@ class UnifiedGraphQuery:
                             'operator_name': name,
                             'family': op.get('family', ''),
                             'summary': op.get('summary', ''),
-                            'parameters': params
+                            'parameters': params,
+                            'related_operators': op.get('related_operators', []),
                         }
 
                 self.enriched_loaded = True
@@ -177,6 +182,11 @@ class UnifiedGraphQuery:
                 print(f"    [OK] Enriched wiki loaded: {len(self.enriched_wiki)} operators, +{enrichment_meta.get('params_added', 0)} params from ground truth")
         except Exception as e:
             print(f"    [INFO] Enriched wiki not loaded: {e}")
+
+        # If td_graphrag.json was absent (v0.2 KB drops the 58MB wiki dump), rebuild the
+        # cross-op indices from operators.json so get_related_operators keeps working.
+        if not self.wiki_loaded and self.enriched_wiki:
+            self._build_indices_from_enriched()
 
         # Load enhanced graph (examples with network topology)
         print("  Loading enhanced graph (real examples)...")
@@ -187,6 +197,43 @@ class UnifiedGraphQuery:
         print(f"    [OK] Enhanced graph loaded: {len(self.enhanced_graph_query.nodes)} nodes")
 
         print("[OK] Unified Graph Query ready!\n")
+
+    def _build_indices_from_enriched(self) -> None:
+        """Rebuild the cross-op indices from operators.json when td_graphrag.json is
+        absent (the v0.2 KB drops the 58MB wiki dump). op_id = lowercased operator name,
+        which is self-consistent with _resolve_op_id (it only maps name.lower() -> op_id).
+
+        Restores all three get_related_operators signals without graphrag:
+          - param_to_ops / universal_params  -> 'shared_parameters' (B). Rebuilt from the
+            REGROUNDED params, so it's cleaner than the wiki's.
+          - related_to_index                 -> 'mentioned_together' (A). From operators.json
+            `related_operators`, FILTERED to ops that resolve to a real record (drops the
+            wiki-parser noise like "A pulse from a CHOP").
+          - (co_occurs_in_examples (C) needs only the gpickle, already loaded.)
+        """
+        for nl, info in self.enriched_wiki.items():
+            self.op_id_to_name[nl] = info.get('operator_name', nl)
+            self.op_id_to_family[nl] = info.get('family', 'Unknown')
+            self.op_name_to_id[nl] = nl
+        for nl, info in self.enriched_wiki.items():
+            for code in (info.get('parameters') or {}):
+                self.param_to_ops[code].append(nl)
+        # universal-noise params: any code on > 50% of ops (matches the graphrag threshold)
+        threshold = max(1, len(self.enriched_wiki) // 2)
+        self.universal_params = {
+            code for code, ops in self.param_to_ops.items() if len(set(ops)) > threshold
+        }
+        rel_edges = 0
+        for nl, info in self.enriched_wiki.items():
+            for rel in (info.get('related_operators') or []):
+                rid = self._resolve_op_id(str(rel))
+                if rid and rid != nl and rid not in self.related_to_index[nl]:
+                    self.related_to_index[nl].append(rid)
+                    rel_edges += 1
+        self.indices_loaded = True
+        print(f"    [OK] Cross-op indices rebuilt from operators.json (no graphrag): "
+              f"{len(self.op_name_to_id)} ops, {len(self.param_to_ops)} param codes, "
+              f"{len(self.universal_params)} universal-noise, {rel_edges} related_to edges")
 
     @property
     def nodes(self):
@@ -439,7 +486,7 @@ class UnifiedGraphQuery:
         Ranking: descending by len(sources), then by max(scores.values()).
         Returns [] for unknown operators (rather than None).
         """
-        if not self.wiki_loaded:
+        if not self.indices_loaded:   # graphrag OR the operators.json fallback
             return []
 
         target_id = self._resolve_op_id(operator_name)

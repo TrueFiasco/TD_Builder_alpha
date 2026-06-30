@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.2.0 — knowledge-base redesign + hybrid retrieval
+
+A ground-up rebuild of the knowledge base and its search stack. The MCP tool surface is unchanged;
+this release is about retrieval quality, build correctness, and a leaner, fully-offline bundle.
+
+### Changed
+- **KB rebuilt from condensed pointer chunks:** the vector store went from ~34,350 docs to **6,447**
+  condensed chunks that hydrate from `operators.json` + Resources at query time (~110 MB → ~41 MB
+  store). `operators.json` was **re-grounded against live TouchDesigner** (correct `.n` build tokens +
+  parameter coverage).
+- **Hybrid retrieval stack** (`MCP/server_core/search/retrieval_stack.py`): dense (`all-MiniLM-L6-v2`)
+  + BM25 → RRF(k=60) → operator-aware router → cross-encoder rerank → calibrated score-floor + dedup.
+- **Bundle is now offline end-to-end:** the cross-encoder reranker ships inside the bundle
+  (`KB/models/ms-marco-MiniLM-L-6-v2/`), so first-run search needs no network/model download.
+- `scripts/check_deps.py` now verifies the Phase-2 artifacts (`lexical_index/bm25.pkl`, the bundled
+  reranker) instead of the removed `graphrag.json`.
+- Version bumped to **0.2.0** (`pyproject.toml`, `SERVER_VERSION`, acceptance test).
+
+### Added
+- `KB/lexical_index/bm25.pkl` — BM25 lexical index for hybrid retrieval.
+- `KB/models/ms-marco-MiniLM-L-6-v2/` — bundled cross-encoder reranker.
+- `KB/sources.lock.json` — build provenance (pinned source revisions).
+- `kb_build/` pipeline (condensed-chunk ingest + Phase-2 artifact builders) and an `eval/` harness
+  (search-ranking, coverage, and build-correctness gates).
+
+### Removed
+- `KB/graphrag.json` (~58 MB): its chunks now live as condensed pointer chunks in `vector_db/`.
+
+### Fixed
+- **Build-correctness gate:** the KB now provably builds valid TouchDesigner (token-exact operator
+  build tokens + parameter maps), fixing 64 wrong `.n` tokens and dropped parameters in the core builder.
+
+### Verified
+- Search-ranking, coverage, and build-correctness eval tiers green; offline-built `.tox` imports
+  validated in live TouchDesigner.
+
 ## 0.1.1 — key-free, consolidated, two-server release
 
 A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.

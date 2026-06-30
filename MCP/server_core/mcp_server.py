@@ -392,14 +392,16 @@ def _load_kb():
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
         if not graphrag_json_path.exists():
-            _KB_STATUS = "failed"
-            _KB_REASON = (
-                f"Knowledge graphrag JSON not found at {graphrag_json_path}. "
-                f"Fix: run `python scripts/fetch_vector_db.py` from the repo "
-                f"root, then restart the MCP server."
+            # graphrag.json is OPTIONAL, not a boot blocker. UnifiedGraphQuery wraps
+            # its load in try/except and runs ENRICHED-ONLY (operators.json supersedes
+            # the wiki dump for params/identity). The v0.2 KB ships WITHOUT the ~58MB
+            # graphrag.json, so a fresh install must still boot — warn and continue.
+            # (The gpickle check above stays fatal: the enhanced graph IS required.)
+            print(
+                f"INFO: graphrag.json not found at {graphrag_json_path}; running "
+                f"enriched-only (operators.json). Expected for a v0.2 KB bundle.",
+                file=sys.stderr,
             )
-            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
-            return
 
         # --- load knowledge_graph (required) ---
         try:
@@ -468,7 +470,7 @@ def _load_kb():
 app = Server("touchdesigner-mcp-server")
 
 SERVER_NAME = "touchdesigner-mcp-server"
-SERVER_VERSION = "0.1.2"
+SERVER_VERSION = "0.2.0"
 
 # Tools that need the heavy knowledge graph / vector search. Only these
 # trigger the one-time _ensure_kb() lazy load; everything else (get_server_info,

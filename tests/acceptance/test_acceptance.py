@@ -52,7 +52,7 @@ def test_p01_server_identity(probe):
     d = r.json()
     assert d["ok"] is True
     assert "mcp_server.py" in d["data"]["script_path"]
-    assert d["data"]["version"] == "0.1.2"
+    assert d["data"]["version"] == "0.2.0"
 
 
 def test_p01b_tool_inventory(probe):

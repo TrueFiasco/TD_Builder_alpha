@@ -30,7 +30,7 @@ absolute path. **No API key is needed.**
 - Add **`td-builder-live`** only when TouchDesigner is open (it carries 19 extra tool schemas).
 
 ## 3. Restart Claude Desktop
-Fully quit and reopen. Confirm with **`get_server_info`** — `version` should be `0.1.1`.
+Fully quit and reopen. Confirm with **`get_server_info`** — `version` should be `0.2.0`.
 
 ## 4. Live-TD tools
 Open TouchDesigner 2023+ and import `<RELEASE_ROOT>/MCP/td-webserver/mcp_webserver_base.tox`. Its

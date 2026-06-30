@@ -40,7 +40,10 @@ def test_explicit_outputattrs_preserved(tmp_path):
                         "parameters": {"outputattrs": "P N"}}]},
         "d2",
     )
-    assert "outputattrs 0 P N" in parm, f"explicit outputattrs was overwritten:\n{parm}"
+    # "P N" is a space-separated attribute list, so it must be double-quoted or
+    # TD's whitespace-delimited .parm parser truncates it to "P" (same rule that
+    # quotes chanscope "tx ty tz"). The value is preserved, now correctly quoted.
+    assert 'outputattrs 0 "P N"' in parm, f"explicit outputattrs was overwritten:\n{parm}"
 
 
 def test_non_glsl_pop_unaffected(tmp_path):

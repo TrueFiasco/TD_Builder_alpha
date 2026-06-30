@@ -115,6 +115,18 @@ class OperatorRegistry:
                 self._family_index[family] = []
             self._family_index[family].append(op_type)
 
+            # Also register under the live-real build token (re-grounded operators.json
+            # carries `build_token` = the captured live .n token, e.g. "COMP:cam"). The
+            # display-derived op_type (e.g. "COMP:camera") and the real token differ for
+            # ~64 ops; without this, a CORRECTLY-built op (real token) fails validation
+            # because the registry only knew the display token. setdefault so a genuine
+            # op already at that key is never clobbered.
+            build_token = op_data.get("build_token")
+            if build_token and ":" in build_token and build_token != op_type:
+                if build_token not in self.operators:
+                    self.operators[build_token] = operator_spec
+                    self._family_index[family].append(build_token)
+
         # Post-process known gaps (e.g., Constant CHOP multi-channel params)
         self._extend_constant_params()
 

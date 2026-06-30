@@ -1,0 +1,42 @@
+# build_gate — TD Builder build-correctness gate
+
+Pre-release gate: proves the KB's build-critical data (op names, `.n` `FAMILY:type`
+tokens, parameter codes, defaults) actually **BUILDS valid TouchDesigner** through both
+the offline builder (`ToxBuilder`/`td_build_project`) and live TD, against the
+live-TD ground truth (`operator_ground_truth`, captured on TD 099.2025.32820).
+
+It is the build-side complement to the retrieval gates (`eval/run_eval.py`,
+`eval/tool_coverage.py`) and reuses their scaffolding (offline env, KB resolvers that
+read the gitignored KB from the MAIN tree, `GroundTruth`, `ParamDefaults`).
+
+## Prerequisites
+- `py -3.11` (3.14 has no chromadb wheel).
+- In a worktree, hardlink the KB from the main tree first (OperatorRegistry resolves
+  `KB/operators.json` relative to its own `__file__`): hardlink `operators.json`,
+  `graphrag.json`, `knowledge_graph_enhanced.gpickle` + junction `vector_db`.
+- TouchDesigner running with the `td-builder-live` MCP for Track B.
+
+## Files
+| file | role |
+|---|---|
+| `gate_common.py` | shared foundation: KB/GT resolvers, **`CanonicalMap`** (name→{builder_token, n_token, td_create}), raw `.n`/`.parm` readers (bypass the tolerant lossless_parser). `python gate_common.py` builds + sanity-checks the map. |
+| `track_a_offline.py` | offline build-correctness: build via `ToxBuilder` → real `toeexpand` → compare `.n` token + params vs the live capture + `td_validate`. `--seed` / `--all` / `--families` / `--resume`. |
+| `track_b_driver.py` | live round-trip (runs INSIDE TD via `execute_python_script`): create via `td_create` → read back `n.type`/`n.family` → set perturbed params → record to a resumable JSONL → destroy. Driven in slices (set `_B_START`/`_B_END`/`_B_RESET`, then `exec` it in a merged globals+locals namespace). |
+| `track_c_smoke.py` | search→build handoff: `hybrid_search`→`get_operator_info`→`get_parameter_detail`→build→`td_validate` over realistic briefs. |
+| `grounding_validator.py` | **Track D guardrail prototype (report-only, NOT wired)**: grounds a builder design's tokens against the captured ground truth; `check_design` (D2 validator) + `ground_design` (D1 build-time auto-correct). |
+| `build_gate.py` | merger: unifies A+B, generates `proposed_fixes`, emits `grounding_token_map.json`, computes the release verdict. |
+
+## Run
+```
+py -3.11 eval/build_gate/gate_common.py            # canonical map + sanity
+py -3.11 eval/build_gate/track_a_offline.py --all  # offline, all ops (resumable)
+# Track B: in TD, slice-by-slice exec track_b_driver.py (see its docstring)
+py -3.11 eval/build_gate/track_c_smoke.py          # handoff smoke
+py -3.11 eval/build_gate/build_gate.py             # merge + verdict + fixes
+py -3.11 eval/build_gate/grounding_validator.py    # guardrail demo
+```
+
+## Outputs (staged to `New KB build/Output/build_gate/`, never committed)
+`canonical_op_map.json`, `track_a_offline.json`+`TRACK_A.md`+`track_a_results.jsonl`,
+`track_b_results.jsonl`, `track_c_smoke.json`+`TRACK_C.md`, `grounding_token_map.json`,
+`BUILD_GATE.json`+`BUILD_GATE.md` (verdict), `proposed_fixes.json`+`PROPOSED_FIXES.md`.

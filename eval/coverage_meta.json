@@ -1,0 +1,1319 @@
+{
+  "seed": 0,
+  "total_items": 1107,
+  "max_total": 1800,
+  "operators_total_by_family": {
+    "CHOP": 175,
+    "TOP": 153,
+    "SOP": 113,
+    "DAT": 74,
+    "COMP": 42,
+    "MAT": 13,
+    "POP": 100
+  },
+  "operators_covered_by_family": {
+    "CHOP": 166,
+    "TOP": 146,
+    "SOP": 109,
+    "DAT": 68,
+    "COMP": 40,
+    "MAT": 13,
+    "POP": 99
+  },
+  "operator_lookup_emit_by_family": {
+    "CHOP": 131,
+    "TOP": 102,
+    "SOP": 95,
+    "DAT": 59,
+    "COMP": 15,
+    "MAT": 9,
+    "POP": 73
+  },
+  "coverage_pct_by_family": {
+    "CHOP": 94.9,
+    "TOP": 95.4,
+    "SOP": 96.5,
+    "DAT": 91.9,
+    "COMP": 95.2,
+    "MAT": 100.0,
+    "POP": 99.0
+  },
+  "worst_family_coverage_pct": 91.9,
+  "param_kind_by_family": {
+    "CHOP": {
+      "scalar": 10,
+      "menu": 10,
+      "toggle": 10,
+      "tuplet": 8,
+      "string": 8,
+      "op": 5
+    },
+    "TOP": {
+      "menu": 19,
+      "toggle": 11,
+      "string": 8,
+      "scalar": 10,
+      "tuplet": 8,
+      "op": 4
+    },
+    "SOP": {
+      "scalar": 8,
+      "toggle": 8,
+      "menu": 8,
+      "tuplet": 8,
+      "string": 8
+    },
+    "DAT": {
+      "menu": 8,
+      "toggle": 8,
+      "op": 8,
+      "string": 8,
+      "scalar": 8
+    },
+    "COMP": {
+      "toggle": 8,
+      "scalar": 15,
+      "menu": 8,
+      "op": 8,
+      "string": 8,
+      "tuplet": 5
+    },
+    "MAT": {
+      "string": 6,
+      "menu": 7,
+      "op": 5,
+      "scalar": 4,
+      "toggle": 4
+    },
+    "POP": {
+      "scalar": 8,
+      "toggle": 8,
+      "string": 8,
+      "menu": 9,
+      "tuplet": 8
+    }
+  },
+  "param_kinds_present": [
+    "menu",
+    "op",
+    "scalar",
+    "string",
+    "toggle",
+    "tuplet"
+  ],
+  "chunk_type_counts": {
+    "operator_overview": 487,
+    "parameter_group": 310,
+    "block_overview": 60,
+    "class_method": 130,
+    "build_instruction": 16,
+    "concept": 80
+  },
+  "category_counts": {
+    "operator_lookup": 487,
+    "parameter": 310,
+    "palette_discovery": 60,
+    "python": 130,
+    "build_instruction": 16,
+    "concept": 80,
+    "negative": 24
+  },
+  "palette_categories": [
+    "Generators",
+    "ImageFilters",
+    "Mapping",
+    "POPs",
+    "TDBitwig",
+    "TDSynchro",
+    "TDVR",
+    "TDVS",
+    "Techniques",
+    "ThreadManager",
+    "Tools",
+    "UI"
+  ],
+  "unambiguous_rate_by_category": {
+    "operator_lookup": 1.0,
+    "parameter": 1.0,
+    "palette_discovery": 1.0,
+    "python": 1.0,
+    "build_instruction": 1.0,
+    "concept": 1.0
+  },
+  "answer_leaks": 0,
+  "kb_matchable": {
+    "operator_lookup": [
+      487,
+      487
+    ],
+    "parameter": [
+      310,
+      310
+    ],
+    "palette_discovery": [
+      60,
+      60
+    ],
+    "python": [
+      130,
+      130
+    ],
+    "build_instruction": [
+      16,
+      16
+    ],
+    "concept": [
+      80,
+      80
+    ]
+  },
+  "skipped_operators": [
+    {
+      "operator": "Body Track CHOP",
+      "family": "CHOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Face Track CHOP",
+      "family": "CHOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Sync In CHOP",
+      "family": "CHOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Sync Out CHOP",
+      "family": "CHOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio File In CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio NDI CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Web Render CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Band EQ CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Bullet Solver CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Clip CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Cycle CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Delay CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Extend CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Function CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Hokuyo CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Laser Device CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "MIDI In Map CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "POP to CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Pangolin CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Parametric EQ CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Rename CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "S Curve CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Time Slice CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Transform XYZ CHOP",
+      "family": "CHOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "EtherDream CHOP",
+      "family": "CHOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "Helios DAC CHOP",
+      "family": "CHOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "RealSense CHOP",
+      "family": "CHOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "Scan CHOP",
+      "family": "CHOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "DAT to CHOP",
+      "family": "CHOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null CHOP",
+      "family": "CHOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Band EQ CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Device In CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Device Out CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Para EQ CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Audio Play CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Blob Track CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Clip Blender CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "File In CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "File Out CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Import Select CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render Pick CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Touch In CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Touch Out CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Write a Shared Memory CHOP",
+      "family": "CHOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Ambient Light COMP",
+      "family": "COMP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Geo Text COMP",
+      "family": "COMP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Nvidia Flex Solver COMP",
+      "family": "COMP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Widget COMP",
+      "family": "COMP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Field COMP",
+      "family": "COMP",
+      "reason": "deprecated",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Animation COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Base COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Blend COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Bone COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Build a List COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Button COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Camera Blend COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Camera COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Container COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Environment Light COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Force COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Geometry COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Handle COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Light COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "List COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Parameter COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Select COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Slider COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Table COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Time COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Window COMP",
+      "family": "COMP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "OP Execute DAT",
+      "family": "DAT",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Parameter Execute DAT",
+      "family": "DAT",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "In DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Media File Info DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Out DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "ParGroup Execute DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Transpose DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "UDT In DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "UDT Out DAT",
+      "family": "DAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Web DAT",
+      "family": "DAT",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "SOP to DAT",
+      "family": "DAT",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "File In DAT",
+      "family": "DAT",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render Pick DAT",
+      "family": "DAT",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Touch Out DAT",
+      "family": "DAT",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "In MAT",
+      "family": "MAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null MAT",
+      "family": "MAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Out MAT",
+      "family": "MAT",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point Sprite MAT",
+      "family": "MAT",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Alembic In POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Attribute POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Box POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Dimension POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "GLSL Advanced POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Line Metrics POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Line Resample POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Math Mix POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "SOP to POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Sphere POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Subdivide POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "ZED POP",
+      "family": "POP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "GLSL Create POP",
+      "family": "POP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "Histogram POP",
+      "family": "POP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Attribute Combine POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "CHOP to POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Cache Blend POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Cache Select POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Force Radial POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Line Divide POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Line Smooth POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Lookup Attribute POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Lookup Channel POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point File In POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point Generator POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Skin Deform POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Texture Map POP",
+      "family": "POP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Box SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Delete SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Extrude SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "In SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Line SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Line Thick SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Out SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "POP to SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Rectangle SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Superquad SOP",
+      "family": "SOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Font SOP",
+      "family": "SOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "CHOP to SOP",
+      "family": "SOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Sprinkle SOP",
+      "family": "SOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Transform SOP",
+      "family": "SOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Bone Group SOP",
+      "family": "SOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Capture Region SOP",
+      "family": "SOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Iso Surface SOP",
+      "family": "SOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Nvidia Background TOP",
+      "family": "TOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Nvidia Denoise TOP",
+      "family": "TOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Nvidia Upscaler TOP",
+      "family": "TOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "ST2110 In TOP",
+      "family": "TOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "ST2110 Out TOP",
+      "family": "TOP",
+      "reason": "ambiguous_capability",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Anti Alias TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Blob Track TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "CHOP to TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Corner Pin TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Flip TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "GLSL Multi TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "HSV to RGB TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "In TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Layer TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Null TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Out TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Over TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "POP to TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Photoshop In TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render Select TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "RenderStream Out TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Resolution TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Texture 3D TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Tone Map TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Under TOP",
+      "family": "TOP",
+      "reason": "boilerplate_or_thin_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "SVG TOP",
+      "family": "TOP",
+      "reason": "deprecated",
+      "covered_via": null
+    },
+    {
+      "operator": "DirectX Out TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Kinect Azure Select TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "OP Viewer TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Ouster Select TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point File Select TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Projection TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Touch Out TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "ZED Select TOP",
+      "family": "TOP",
+      "reason": "malformed_query",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Channel Mix TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Direct Display Out TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Layer Mix TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Lens Distort TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Luma Blur TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Movie File In TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point File In TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Point Transform TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "PreFilter Map TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render Pass TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Render Simple TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Simple Render TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "Video Device Out TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Web Render TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": "parameter"
+    },
+    {
+      "operator": "Write a Shared Memory TOP",
+      "family": "TOP",
+      "reason": "name_leak_in_summary",
+      "covered_via": null
+    },
+    {
+      "operator": "NVIDIA RTX Video TOP",
+      "family": "TOP",
+      "reason": "no_summary",
+      "covered_via": null
+    }
+  ],
+  "skipped_uncovered": [
+    "Audio Web Render CHOP",
+    "Band EQ CHOP",
+    "Base COMP",
+    "Build a List COMP",
+    "EtherDream CHOP",
+    "Font SOP",
+    "GLSL Create POP",
+    "HSV to RGB TOP",
+    "Helios DAC CHOP",
+    "In DAT",
+    "In SOP",
+    "NVIDIA RTX Video TOP",
+    "Null DAT",
+    "Null SOP",
+    "Null TOP",
+    "Out SOP",
+    "Out TOP",
+    "Parametric EQ CHOP",
+    "RealSense CHOP",
+    "Rename CHOP",
+    "SVG TOP",
+    "Scan CHOP",
+    "Simple Render TOP",
+    "Transpose DAT",
+    "UDT In DAT",
+    "UDT Out DAT",
+    "Web DAT",
+    "Write a Shared Memory CHOP",
+    "Write a Shared Memory TOP"
+  ]
+}

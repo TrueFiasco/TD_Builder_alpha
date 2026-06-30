@@ -11,4 +11,4 @@ In ChatGPT Desktop's MCP settings, add two servers (replace `<RELEASE_ROOT>` wit
 Set env `PYTHONIOENCODING=utf-8` (and `TD_BUILDER_ROOT=<RELEASE_ROOT>` for relocatability;
 `TD_API_URL=http://127.0.0.1:9981` for the live server). The full config shape is in
 [`../../MCP/README.md`](../../MCP/README.md) / `MCP/claude_desktop_config.json`. Confirm with
-`get_server_info` (version `0.1.1`).
+`get_server_info` (version `0.2.0`).

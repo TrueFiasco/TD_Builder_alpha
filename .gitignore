@@ -1,4 +1,4 @@
-# === TD Builder — V0.1.1 release .gitignore ===
+# === TD Builder — v0.2.0 release .gitignore ===
 # Deliberately minimal: only caches, secrets, runtime scratch, and the fetched
 # KB artifacts. Everything else in the tree ships.
 
@@ -44,15 +44,19 @@ MCP/server_core/output/
 *.toe.dir/
 
 # === KB — fetched via scripts/fetch_vector_db.py, never committed ===
-# The runtime KB ships as one GitHub Release asset (td_builder_kb_v0.1.1.zip)
+# The runtime KB ships as one GitHub Release asset (td_builder_kb_v0.2.0.zip)
 # and is extracted into KB/ on the user's machine. Keep the generated artifacts
-# out of git so a clone never carries ~210 MB. The small KB files that DO ship
-# in git — KB/README.md, KB/manifest.json, KB/wiki_supplemental/ — are
-# intentionally NOT listed here.
+# out of git so a clone never carries ~180 MB. The small KB files that DO ship
+# in git — KB/README.md, KB/manifest.json, KB/wiki_supplemental/,
+# KB/docked_dats.json — are intentionally NOT listed here.
 KB/operators.json
-KB/graphrag.json
 KB/knowledge_graph_enhanced.gpickle
 KB/vector_db/
+# Phase-2 retrieval stack (BM25 lexical index + bundled cross-encoder reranker)
+KB/lexical_index/
+KB/models/
+# Build provenance shipped inside the bundle
+KB/sources.lock.json
 # Dev-only KB inputs (snippet/palette captures) — not shipped at all (V0.2 work)
 KB/sources/
 # Dev/QA artifacts present in the dev KB (via the local junction) but not part
@@ -64,3 +68,6 @@ KB/run_completeness_proof.py
 # KB download scratch + the bundle itself if it ever lands in the tree
 .kb_download/
 td_builder_kb_*.zip
+# v0.2 KB rebuild — local build corpus + staged build output (incl. model weights,
+# lexical_index, vector_db, eval reports). Staged for review, NEVER committed as a KB.
+New KB build/

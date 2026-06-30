@@ -10,6 +10,7 @@ Provides backward-compatible API with HybridGraphRAG while supporting:
 This adapter maintains 100% API compatibility with the original HybridGraphRAG class.
 """
 
+import os
 import sys
 from pathlib import Path
 from typing import List, Dict, Optional
@@ -112,7 +113,34 @@ class UnifiedSearchAdapter:
         print(f"  Loading vector search ({SearchConfig.EMBEDDING_PROVIDER})...")
         self._init_vector_search()
 
+        # Phase 2: hybrid retrieval stack (dense + BM25 + RRF + router + rerank +
+        # floor/dedup). Resolves lexical_index/ + models/ relative to the KB root.
+        # Degrades to dense-only if those artifacts are absent.
+        self._init_retrieval_stack()
+
         self.backend_type = "enhanced"
+
+    def _init_retrieval_stack(self):
+        """Construct the Phase-2 RetrievalStack behind the enhanced search path."""
+        self.retrieval_stack = None
+        if os.environ.get("RS_DISABLE", "").strip().lower() in ("1", "true", "yes", "on"):
+            print("  Retrieval stack DISABLED (RS_DISABLE) — dense-only enhanced path")
+            return
+        try:
+            spec = importlib.util.spec_from_file_location(
+                "retrieval_stack", str(Path(__file__).parent / "retrieval_stack.py"))
+            rs_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(rs_module)
+            kb_root = Path(self.vectordb_path).parent
+            self.retrieval_stack = rs_module.RetrievalStack(
+                kb_root=kb_root,
+                vector_search=self.vector_search,
+                knowledge_graph=self.knowledge_graph,
+            )
+            print("  Retrieval stack ready (Phase 2 hybrid)")
+        except Exception as e:
+            print(f"  Warning: retrieval stack init failed ({e}); dense-only fallback")
+            self.retrieval_stack = None
 
     def _init_vector_search(self):
         """Initialize vector search with configured embedding provider."""
@@ -217,8 +245,11 @@ class UnifiedSearchAdapter:
     def _enhanced_search(self, query: str, n_results: int,
                         include_relationships: bool, relationship_depth: int) -> Dict:
         """Enhanced search implementation with new backend."""
-        # 1. Vector search for semantic similarity
-        semantic_results = self.vector_search.search(query, n_results)
+        # 1. Semantic retrieval: Phase-2 hybrid stack if available, else dense-only.
+        if getattr(self, "retrieval_stack", None) is not None:
+            semantic_results = self.retrieval_stack.search(query, n_results)
+        else:
+            semantic_results = self.vector_search.search(query, n_results)
 
         # 2. Extract operator names from results
         operator_names = set()

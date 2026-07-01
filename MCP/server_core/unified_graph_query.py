@@ -172,6 +172,7 @@ class UnifiedGraphQuery:
                         self.enriched_wiki[name.lower()] = {
                             'operator_name': name,
                             'family': op.get('family', ''),
+                            'python_class': op.get('python_class', ''),
                             'summary': op.get('summary', ''),
                             'parameters': params,
                             'related_operators': op.get('related_operators', []),
@@ -406,10 +407,23 @@ class UnifiedGraphQuery:
         merged['has_enriched'] = result.get('has_enriched', False)
         merged['has_examples'] = result['has_examples']
 
-        # BUG-019 FIX: Ensure top-level name and family are always set
+        # BUG-019 FIX: Ensure top-level name and family are always set.
+        # Fall through to enriched_data: the cross-family converter/execute DATs
+        # (DAT to CHOP, POP to CHOP, CHOP/Parameter Execute) have no wiki/example
+        # family, so compact mode returned family:"" for exactly the ops most
+        # involved in wiring.
+        enr = result.get('enriched_data') or {}
         merged['name'] = result.get('operator_name', merged.get('operator_name', ''))
-        merged['family'] = (result.get('wiki_data') or {}).get('family',
-                           (result.get('example_data') or {}).get('family', ''))
+        merged['family'] = ((result.get('wiki_data') or {}).get('family')
+                            or (result.get('example_data') or {}).get('family')
+                            or enr.get('family', ''))
+        # compact mode reads op_type/type; nothing upstream sets either, so
+        # derive it from the ground-truth python class ("feedbackTOP_Class"
+        # -> "feedbackTOP") when available.
+        if not (merged.get('op_type') or merged.get('type')):
+            pyc = enr.get('python_class') or ''
+            if pyc.endswith('_Class'):
+                merged['op_type'] = pyc[:-len('_Class')]
 
         # Surface the docked-DAT spec: the helper DATs the *builder* auto-creates + docks
         # for this op (GLSL shader/info DATs, callback scripts, table DATs, ...). Experts

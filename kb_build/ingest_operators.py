@@ -121,7 +121,11 @@ def build(idn: C.Identity) -> list[dict]:
                 seg += f", {dr})" if dr else ")"
                 # menu LABELS (Add/Subtract/Multiply, RMS Power, …) — the operation vocab
                 seg += _menu_labels(p)
-                if g:
+                rule = C.PARAM_RULES.get((family, name, p["code"]))
+                if rule:
+                    # grounded write-rule verbatim (the 5-word gist would truncate it)
+                    seg += f" — {rule}"
+                elif g:
                     seg += f": {g}"
                 parts.append(seg)
             more = f" (+{len(params) - 12} more)" if len(params) > 12 else ""

@@ -488,12 +488,19 @@ class EnhancedGraphQuery:
         if not op_node:
             return None
 
-        # Count examples
-        example_count = len([e for e in self.outgoing_edges.get(op_node['id'], [])
-                           if e['type'] == 'DEMONSTRATES'])
+        # Count examples as what find_examples_by_operator will actually serve.
+        # Counting raw DEMONSTRATES edges used a different identity key and lied
+        # in both directions (Feedback TOP count 0 vs 3 served; GLSL POP count 4
+        # vs 0 served). Scope to the resolved node's family so a bare name can't
+        # come back as the multi-family bucketed dict.
+        served = self.find_examples_by_operator(
+            operator_name, limit=50, family=op_node.get('family'))
+        if isinstance(served, dict):
+            served = [ex for exs in served.get('results_by_family', {}).values() for ex in exs]
+        example_count = len(served)
 
         # Get sample examples
-        examples = self.find_examples_by_operator(operator_name, limit=3)
+        examples = served[:3]
 
         # Collect common parameters
         common_params = defaultdict(set)

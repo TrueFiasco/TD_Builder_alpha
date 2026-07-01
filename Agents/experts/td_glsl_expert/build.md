@@ -60,10 +60,10 @@ rebuild ingests them.
 The `wiki_supplemental/Write_*.md` files are clean conversions of TD's
 official wiki — they reflect the actual current TD behaviour. This
 expert prompt is hand-curated and can drift between TD releases. Live
-testing has confirmed cases where the expert prompt's GLSL POP guidance
-(e.g. `#version 450`, `int me = TDIndex();`, `outP = ...`) does NOT
-match the current build's reality. The wiki guide is correct:
-`const uint id = TDIndex();`, `P[id] = ...`, `TDIn_P()`.
+testing confirmed a past drift where this prompt's GLSL POP guidance
+showed `#version 450`, `int me = TDIndex();`, `outP = ...` (since
+corrected to the wiki form used throughout below:
+`const uint id = TDIndex();`, `P[id] = ...`, `TDIn_P()`).
 
 If you spot a conflict during a build, use the wiki form and note the
 conflict in `plan.md` under "wiki-vs-expert drift" so the discrepancy
@@ -71,7 +71,7 @@ can be fixed in this prompt later. Don't second-guess the wiki.
 
 ## Steps
 1. Draft shader skeleton
-   - Set #version 450 core
+   - Set #version 450 core (GLSL TOP/MAT source only — NOT GLSL POPs, where TD injects the version)
    - Declare inputs/uniforms/outputs per plan
    - Include TD helper usage
 2. Fill logic per pattern
@@ -341,27 +341,35 @@ other particles directly.
 ### Element index / count helpers
 
 ```glsl
-int   me        = TDIndex();        // current particle id (0..N-1)
-int   N         = TDNumElements();  // total particles
+const uint id = TDIndex();          // current element id (0..N-1)
+if (id >= TDNumElements())          // threads are rounded UP to the workgroup
+    return;                         // size, so ALWAYS guard before writing
 ```
 
-Use these instead of `gl_VertexID` / hard-coded loop bounds — they always
-match the live POP's element count.
+Both helpers return `uint`. Use them instead of `gl_VertexID` / hard-coded
+loop bounds — they always match the live POP's element count. Do NOT add a
+`#version` directive to POP shader source: TD injects it (GLSL 4.60).
 
 ### Output attribute writes
 
-Outputs are indexed by particle id, same as inputs. Write to TD-declared
-output attributes by name. The exact API is `TDOut_<AttribName>` for explicit
-declarations, OR the standard `outP` / `outV` / `outColor` variables for
-the common position / velocity / colour attributes, depending on the POP's
-Output Attributes config.
+Write an output attribute by indexing its named SSBO with the element id:
+`P[id] = ...`, `v[id] = ...`. There are NO `outP` / `outV` / `outColor`
+variables and no `TDOut_<Name>` functions — those are stale forms that do not
+compile in current builds.
+
+**The attribute must be allocated for writing first**: select it in the POP's
+**Output Attributes** parameter (`outputattrs` — e.g. `outputattrs='P'` to
+write `P[id]`) or create it on the Create Attributes page. Writing `P[id]`
+without selecting `P` fails to compile with `'P' : undeclared identifier`.
 
 ```glsl
-vec3 pos = TDIn_P(0, me);
-vec3 vel = TDIn_v(0, me);
+const uint id = TDIndex();
+if (id >= TDNumElements()) return;
+vec3 pos = TDIn_P(0, id);
+vec3 vel = TDIn_v(0, id);
 pos += vel * uDt;
-outP = pos;          // standard output for Position
-outV = vel * 0.99;   // standard output for Velocity
+P[id] = pos;         // 'P' selected in Output Attributes
+v[id] = vel * 0.99;  // 'v' selected in Output Attributes
 ```
 
 ### UI pages and uniform declarations — DO NOT double-declare
@@ -401,18 +409,18 @@ attribute setup (e.g., `smooth` → `smoothing`).
 ### Worked example — Reynolds boids (cohesion + alignment) using Nebr
 
 ```glsl
-#version 450
-
-uniform float uCohesionWeight;   // declared via Vectors page
-uniform float uAlignWeight;      // declared via Vectors page
-uniform float uDt;               // declared via Vectors page
-uniform int   uNeighbourCount;   // declared via Constants page
+// no #version line — TD injects it (GLSL 4.60)
+// uCohesionWeight, uAlignWeight, uDt : declared via Vectors page
+// uNeighbourCount                     : declared via Constants page
 
 void main()
 {
-    int   me  = TDIndex();
-    vec3  pos = TDIn_P(0, me);
-    vec3  vel = TDIn_v(0, me);
+    const uint id = TDIndex();
+    if (id >= TDNumElements())
+        return;
+
+    vec3 pos = TDIn_P(0, id);
+    vec3 vel = TDIn_v(0, id);
 
     vec3 avgPos = vec3(0);
     vec3 avgVel = vec3(0);
@@ -420,10 +428,10 @@ void main()
 
     for (int k = 0; k < uNeighbourCount; ++k)
     {
-        int nbr = int(TDIn_Nebr(0, me, k));  // 3-arg form: array attribute
+        int nbr = int(TDIn_Nebr(0, id, k));  // 3-arg form: array attribute
         if (nbr < 0) continue;               // sentinel for "no neighbour"
-        avgPos += TDIn_P(0, nbr);
-        avgVel += TDIn_v(0, nbr);
+        avgPos += TDIn_P(0, uint(nbr));
+        avgVel += TDIn_v(0, uint(nbr));
         count  += 1;
     }
 
@@ -438,8 +446,8 @@ void main()
 
     pos += vel * uDt;
 
-    outP = pos;
-    outV = vel;
+    P[id] = pos;   // 'P' and 'v' selected in Output Attributes (outputattrs)
+    v[id] = vel;
 }
 ```
 
@@ -449,6 +457,8 @@ Notes on the example:
   (verify against your specific POP's attribute list).
 - `TDIn_Nebr` is the 3-arg array form for the Neighbour POP's neighbour-id
   attribute. Returns a float; cast to int explicitly.
+- `P` and `v` MUST be selected in the POP's Output Attributes for the
+  `P[id]` / `v[id]` writes to compile.
 - All four uniforms are declared via UI pages — none redeclared in source.
 
 ### Anti-hallucination checklist for GLSL POPs
@@ -456,10 +466,13 @@ Notes on the example:
 - [ ] Attribute reads use `TDIn_<Name>(input, element)` or 3-arg array form,
   NOT `texelFetch` / `TDFetchChan` / string literals.
 - [ ] `TDIndex()` / `TDNumElements()` used for element id / count — no
-  hard-coded loop bounds.
+  hard-coded loop bounds — and the `if (id >= TDNumElements()) return;`
+  guard is present.
 - [ ] Uniforms declared in EITHER the source OR a UI page, never both.
-- [ ] Output attributes match the POP's Output Attributes config
-  (`outP`, `outV`, `outColor`, or explicit `TDOut_<Name>`).
+- [ ] Every written attribute uses `<Attr>[id] = ...` AND is selected in the
+  POP's Output Attributes (`outputattrs`) or created on Create Attributes —
+  no stale `outP` / `outV` / `outColor` / `TDOut_<Name>` forms.
+- [ ] No `#version` directive in POP shader source (TD injects it).
 - [ ] No `centroid` / `flat` / `smooth` / `noperspective` as identifier names.
 - [ ] Validation: shader compiles (no "redefinition" errors), all outputs
   assigned for every element, sentinel cases handled (e.g. `nbr < 0`).

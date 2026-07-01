@@ -170,6 +170,61 @@ def enrich_tuplets(operators: list[dict]) -> int:
     return injected
 
 
+# Grounded param write-rules the wiki param text omits but a builder MUST know.
+# Applied to the registry param descriptions (-> staged operators.json ->
+# get_operator_info / get_parameter_detail) and surfaced verbatim in the
+# parameter_group chunks by ingest_operators (-> hybrid_search). Source:
+# KB/wiki_supplemental/Write_GLSL_POPs.md ("selected for writing in Output
+# Attributes"), confirmed live: P[id] = ... without outputattrs='P' fails to
+# compile with "'P' : undeclared identifier".
+PARAM_RULES: dict[tuple[str, str, str], str] = {
+    ("POP", "GLSL POP", "outputattrs"):
+        "WRITE RULE: to write an attribute in the shader (e.g. P[id] = ...), that "
+        "attribute must be selected here — set outputattrs='P' to write P[id]; "
+        "otherwise the shader fails to compile with \"'P' : undeclared identifier\".",
+    ("POP", "GLSL Advanced POP", "ptoutputattrs"):
+        "WRITE RULE: to write a point attribute in the shader (e.g. P[id] = ...), "
+        "it must be selected here; otherwise the shader fails to compile with "
+        "\"'P' : undeclared identifier\".",
+}
+
+# Wrong-token prose fixes: the Script CHOP/DAT/SOP wiki summaries say the docked
+# callback is `cook`, but the correct (and stub-emitted) callback is `onCook`.
+# TARGETED phrases only — a blind replace('cook','onCook') would corrupt every
+# existing 'onCook' to 'ononCook' and mangle unrelated words ("re-cook").
+SUMMARY_FIXES: list[tuple[str, str]] = [
+    ("methods: cook ,", "methods: onCook ,"),
+    ("methods: cook,", "methods: onCook,"),
+    ("The cook method", "The onCook method"),
+    # Script SOP phrases the same drift with parentheses
+    ("methods: cook() ,", "methods: onCook() ,"),
+    ("The cook() method", "The onCook() method"),
+]
+
+
+def enrich_param_rules(operators: list[dict]) -> int:
+    """Append PARAM_RULES to the matching params' descriptions and apply the
+    SUMMARY_FIXES phrase corrections. Mutates in place; returns the number of
+    edits. Idempotent (skips text already present/corrected)."""
+    applied = 0
+    for o in operators:
+        fam, name = o.get("family"), o.get("name")
+        for p in o.get("parameters", []) or []:
+            rule = PARAM_RULES.get((fam, name, p.get("code")))
+            if rule and rule not in (p.get("description") or ""):
+                p["description"] = ((p.get("description") or "").rstrip() + " " + rule).strip()
+                applied += 1
+        summ = o.get("summary") or ""
+        fixed = summ
+        for old, new in SUMMARY_FIXES:
+            if old in fixed:
+                fixed = fixed.replace(old, new)
+        if fixed != summ:
+            o["summary"] = fixed
+            applied += 1
+    return applied
+
+
 # ---------------------------------------------------------------------------
 # Identity registry — the ground-truth join (operator_ground_truth + operators.json).
 # ---------------------------------------------------------------------------
@@ -197,6 +252,8 @@ class Identity:
         # list) so BOTH the parameter_group chunks and the emitted operators.json
         # carry e.g. lag1/lag2=0.2.
         self.tuplets_injected: int = enrich_tuplets(self.operators)
+        # Grounded write-rules + wrong-token prose fixes (same mutate-raw contract)
+        self.param_rules_applied: int = enrich_param_rules(self.operators)
 
         self.by_pyclass: dict[str, dict] = {}
         self.by_name_norm: dict[str, dict] = {}

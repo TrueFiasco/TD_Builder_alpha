@@ -94,6 +94,12 @@ Read direction in TD networks is **left → right** (data) with **control/ancill
 g = parent().create(td.geometryCOMP, 'jelly_geo')
 g.nodeX, g.nodeY = 0, 0
 
+# A live-created geometryCOMP ships with a default torus1 child (render flag ON)
+# that gets rendered/instanced alongside your geometry — destroy it FIRST.
+# (Live-create only: offline-built .tox geos have no stray torus1. PROB-017.)
+if g.op('torus1'):
+    g.op('torus1').destroy()
+
 script_sop = g.create(td.scriptSOP, 'build')
 script_sop.nodeX, script_sop.nodeY = 0, 0
 

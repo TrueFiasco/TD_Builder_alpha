@@ -48,7 +48,8 @@ def build(idn: C.Identity) -> list[dict]:
 
     for path in sorted(glob.glob(str(C.SNIPPETS / "semantic" / "*.json"))):
         try:
-            data = json.loads(open(path, encoding="utf-8").read())
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
         except Exception:
             continue
         optype = data.get("operator_type") or ""

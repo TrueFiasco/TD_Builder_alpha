@@ -2,11 +2,11 @@
   "harness_version": "0.1.0",
   "embedding_model": "all-MiniLM-L6-v2",
   "collection": "td_unified",
-  "collection_count": 34350,
-  "kb_root": "C:\\TD_Builder_Alpha_Build_V0.1.2\\KB",
-  "code_root": "C:\\TD_Builder_Alpha_Build_V0.1.2\\.claude\\worktrees\\tender-albattani-e4e04d\\MCP\\server_core",
-  "gt_operators": "C:\\TD_Builder_Alpha_Build_V0.1.2\\KB\\operators.json",
-  "gt_types": "C:\\TD_Builder_Alpha_Build_V0.1.2\\New KB build\\Resources\\operator_ground_truth\\operator_types.json",
+  "collection_count": 6447,
+  "kb_root": "KB",
+  "code_root": "MCP/server_core",
+  "gt_operators": "KB/operators.json",
+  "gt_types": "New KB build/Resources/operator_ground_truth/operator_types.json",
   "config": {
     "k": 5,
     "ndcg_k": 10,
@@ -17,49 +17,109 @@
   "baseline_backend": "enhanced",
   "backends": {
     "enhanced": {
-      "repeats": 5,
+      "repeats": 3,
       "per_category": {
         "build_instruction": {
           "n": 12,
-          "recall_at_5": 0.1667,
+          "recall_at_5": 0.6667,
           "_band": {
             "recall_at_5": [
-              0.1667,
-              0.1667
+              0.6667,
+              0.6667
             ],
             "mrr": [
-              0.1125,
-              0.1125
+              0.5625,
+              0.5625
             ],
             "ndcg_at_10": [
-              0.1433,
-              0.1433
+              0.4913,
+              0.4913
             ]
           },
-          "mrr": 0.1125,
-          "ndcg_at_10": 0.1433
+          "mrr": 0.5625,
+          "ndcg_at_10": 0.4913
         },
         "howto": {
           "n": 12,
-          "recall_at_5": 0.25,
+          "recall_at_5": 1.0,
           "_band": {
             "recall_at_5": [
-              0.1667,
-              0.25
+              1.0,
+              1.0
             ],
             "mrr": [
-              0.1125,
-              0.1403
+              1.0,
+              1.0
             ],
             "ndcg_at_10": [
-              0.1293,
-              0.1709
+              0.7228,
+              0.7228
             ]
           },
-          "mrr": 0.1403,
-          "ndcg_at_10": 0.1709
+          "mrr": 1.0,
+          "ndcg_at_10": 0.7228
         },
         "operator_lookup": {
+          "n": 12,
+          "recall_at_5": 1.0,
+          "_band": {
+            "recall_at_5": [
+              1.0,
+              1.0
+            ],
+            "mrr": [
+              0.8264,
+              0.8264
+            ],
+            "ndcg_at_10": [
+              0.1999,
+              0.1999
+            ]
+          },
+          "mrr": 0.8264,
+          "ndcg_at_10": 0.1999
+        },
+        "palette_discovery": {
+          "n": 12,
+          "recall_at_5": 1.0,
+          "_band": {
+            "recall_at_5": [
+              1.0,
+              1.0
+            ],
+            "mrr": [
+              0.8194,
+              0.8194
+            ],
+            "ndcg_at_10": [
+              0.7023,
+              0.7023
+            ]
+          },
+          "mrr": 0.8194,
+          "ndcg_at_10": 0.7023
+        },
+        "parameter": {
+          "n": 12,
+          "recall_at_5": 1.0,
+          "_band": {
+            "recall_at_5": [
+              1.0,
+              1.0
+            ],
+            "mrr": [
+              0.9444,
+              0.9444
+            ],
+            "ndcg_at_10": [
+              0.9414,
+              0.9414
+            ]
+          },
+          "mrr": 0.9444,
+          "ndcg_at_10": 0.9414
+        },
+        "python": {
           "n": 12,
           "recall_at_5": 0.9167,
           "_band": {
@@ -68,38 +128,154 @@
               0.9167
             ],
             "mrr": [
-              0.6,
-              0.6
+              0.8869,
+              0.8869
             ],
             "ndcg_at_10": [
-              0.6747,
-              0.6747
+              0.727,
+              0.727
             ]
           },
-          "mrr": 0.6,
-          "ndcg_at_10": 0.6747
+          "mrr": 0.8869,
+          "ndcg_at_10": 0.727
+        }
+      },
+      "aggregate": {
+        "n": 72,
+        "recall_at_5": 0.9306,
+        "_band": {
+          "recall_at_5": [
+            0.9306,
+            0.9306
+          ],
+          "mrr": [
+            0.8399,
+            0.8399
+          ],
+          "ndcg_at_10": [
+            0.6308,
+            0.6308
+          ]
         },
-        "palette_discovery": {
+        "mrr": 0.8399,
+        "ndcg_at_10": 0.6308
+      },
+      "name_integrity": {
+        "identity_bearing_chunks_checked": 389,
+        "unresolved_violations": 0,
+        "unresolved_distinct": [],
+        "unresolved_examples": [],
+        "retokenized_name_surfaced": 0,
+        "retokenized_distinct": [],
+        "retokenized_examples": [],
+        "_band": {
+          "identity_bearing_chunks_checked": [
+            388,
+            389
+          ],
+          "unresolved_violations": [
+            0,
+            0
+          ],
+          "retokenized_name_surfaced": [
+            0,
+            0
+          ]
+        }
+      },
+      "negative": {
+        "n": 6,
+        "score_floor": 0.2,
+        "abstention_rate": 1.0,
+        "mean_top1_score": 0.0234,
+        "detail": [
+          {
+            "id": "ne-01",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.0,
+            "floor": 0.2
+          },
+          {
+            "id": "ne-02",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.0,
+            "floor": 0.2
+          },
+          {
+            "id": "ne-03",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.1406,
+            "floor": 0.2
+          },
+          {
+            "id": "ne-04",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.0001,
+            "floor": 0.2
+          },
+          {
+            "id": "ne-05",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.0,
+            "floor": 0.2
+          },
+          {
+            "id": "ne-06",
+            "category": "negative",
+            "abstained": true,
+            "top1_score": 0.0,
+            "floor": 0.2
+          }
+        ]
+      },
+      "trial_aggregates": [
+        {
+          "recall_at_5": 0.9306,
+          "mrr": 0.8399,
+          "ndcg_at_10": 0.6308
+        },
+        {
+          "recall_at_5": 0.9306,
+          "mrr": 0.8399,
+          "ndcg_at_10": 0.6308
+        },
+        {
+          "recall_at_5": 0.9306,
+          "mrr": 0.8399,
+          "ndcg_at_10": 0.6308
+        }
+      ],
+      "deterministic": true
+    },
+    "legacy": {
+      "repeats": 3,
+      "per_category": {
+        "build_instruction": {
           "n": 12,
-          "recall_at_5": 0.0,
+          "recall_at_5": 0.5,
           "_band": {
             "recall_at_5": [
-              0.0,
-              0.0
+              0.5,
+              0.5833
             ],
             "mrr": [
-              0.0,
-              0.0
+              0.3396,
+              0.4229
             ],
             "ndcg_at_10": [
-              0.0,
-              0.0
+              0.3075,
+              0.3586
             ]
           },
-          "mrr": 0.0,
-          "ndcg_at_10": 0.0
+          "mrr": 0.3396,
+          "ndcg_at_10": 0.3075
         },
-        "parameter": {
+        "howto": {
           "n": 12,
           "recall_at_5": 1.0,
           "_band": {
@@ -108,795 +284,138 @@
               1.0
             ],
             "mrr": [
-              0.8542,
-              0.8542
+              1.0,
+              1.0
             ],
             "ndcg_at_10": [
-              0.891,
-              0.891
+              0.702,
+              0.702
             ]
           },
-          "mrr": 0.8542,
-          "ndcg_at_10": 0.891
-        },
-        "python": {
-          "n": 12,
-          "recall_at_5": 0.75,
-          "_band": {
-            "recall_at_5": [
-              0.75,
-              0.75
-            ],
-            "mrr": [
-              0.5355,
-              0.5355
-            ],
-            "ndcg_at_10": [
-              0.5979,
-              0.5979
-            ]
-          },
-          "mrr": 0.5355,
-          "ndcg_at_10": 0.5979
-        }
-      },
-      "aggregate": {
-        "n": 72,
-        "recall_at_5": 0.5139,
-        "_band": {
-          "recall_at_5": [
-            0.5,
-            0.5139
-          ],
-          "mrr": [
-            0.3691,
-            0.3737
-          ],
-          "ndcg_at_10": [
-            0.406,
-            0.413
-          ]
-        },
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
-      },
-      "name_integrity": {
-        "identity_bearing_chunks_checked": 442,
-        "unresolved_violations": 0,
-        "unresolved_distinct": [],
-        "unresolved_examples": [],
-        "retokenized_name_surfaced": 369,
-        "retokenized_distinct": [
-          "Ableton_Link_CHOP",
-          "Add_TOP",
-          "Analyze_CHOP",
-          "Analyze_POP",
-          "Analyze_TOP",
-          "Anatomy_of_a_CHOP",
-          "Audio_Device_In_CHOP",
-          "Audio_File_In_CHOP",
-          "Audio_File_Out_CHOP",
-          "Audio_Filter_CHOP",
-          "Audio_NDI_CHOP",
-          "Audio_Oscillator_CHOP",
-          "Audio_Para_EQ_CHOP",
-          "Audio_Play_CHOP",
-          "Audio_Render_CHOP",
-          "Bind_CHOP",
-          "Blur_TOP",
-          "Button_COMP",
-          "CHOP_Execute_DAT",
-          "CHOP_to_DAT",
-          "CHOP_to_SOP",
-          "CHOP_to_TOP",
-          "Camera_COMP",
-          "Channel_Mix_TOP",
-          "Chroma_Key_TOP",
-          "Circle_TOP",
-          "Clip_Blender_CHOP",
-          "Clock_CHOP",
-          "Composite_TOP",
-          "Constant_CHOP",
-          "Constant_TOP",
-          "Convert_SOP",
-          "Corner_Pin_TOP",
-          "Count_CHOP",
-          "DAT_to_CHOP",
-          "DAT_to_SOP",
-          "DMX_In_CHOP",
-          "DMX_Out_CHOP",
-          "Displace_TOP",
-          "Edge_TOP",
-          "Evaluate_DAT",
-          "Examine_DAT",
-          "Feedback_CHOP",
-          "Feedback_POP",
-          "Feedback_TOP",
-          "File_In_CHOP",
-          "Flip_TOP",
-          "Force_Radial_POP",
-          "Fractal_SOP",
-          "GLSL_Multi_TOP",
-          "GLSL_POP",
-          "GLSL_TOP",
-          "Geometry_COMP",
-          "Interpolate_CHOP",
-          "Joystick_CHOP",
-          "Kinect_Azure_TOP",
-          "Kinect_CHOP",
-          "Kinect_TOP",
-          "LFO_CHOP",
-          "Lag_CHOP",
-          "Layer_Mix_TOP",
-          "Leap_Motion_TOP",
-          "Level_TOP",
-          "Limit_SOP",
-          "Logic_CHOP",
-          "Luma_Blur_TOP",
-          "Luma_Level_TOP",
-          "MIDI_In_CHOP",
-          "MIDI_Out_CHOP",
-          "Math_CHOP",
-          "Math_TOP",
-          "Movie_File_Out_TOP",
-          "NDI_In_TOP",
-          "NDI_Out_TOP",
-          "Noise_CHOP",
-          "Noise_POP",
-          "Noise_SOP",
-          "Noise_TOP",
-          "OP_Execute_DAT",
-          "OP_Find_DAT",
-          "OP_Viewer_COMP",
-          "Object_CHOP",
-          "Oculus_Audio_CHOP",
-          "Oculus_Rift_CHOP",
-          "Oculus_Rift_TOP",
-          "OpenVR_CHOP",
-          "OpenVR_TOP",
-          "PBR_MAT",
-          "Pangolin_CHOP",
-          "ParGroup_Execute_DAT",
-          "Parameter_CHOP",
-          "Parameter_COMP",
-          "Parameter_DAT",
-          "Parameter_Execute_DAT",
-          "Particle_POP",
-          "Pattern_CHOP",
-          "Phong_MAT",
-          "Pipe_Out_CHOP",
-          "Point_Transform_TOP",
-          "Project_SOP",
-          "Projection_POP",
-          "Projection_TOP",
-          "Ramp_TOP",
-          "Rectangle_TOP",
-          "Render_Pass_TOP",
-          "Render_Simple_TOP",
-          "Render_TOP",
-          "Reorder_TOP",
-          "SOP_to_CHOP",
-          "SOP_to_DAT",
-          "S_Curve_CHOP",
-          "Script_CHOP",
-          "Select_CHOP",
-          "Select_COMP",
-          "Shared_Mem_Out_TOP",
-          "Syphon_Spout_In_TOP",
-          "Syphon_Spout_Out_TOP",
-          "TOP_to_CHOP",
-          "TOP_to_POP",
-          "Table_DAT",
-          "Text_TOP",
-          "Texture_3D_TOP",
-          "Texture_Map_POP",
-          "Texture_SOP",
-          "Timer_CHOP",
-          "Trail_CHOP",
-          "Transform_POP",
-          "Transform_TOP",
-          "Video_Stream_In_TOP",
-          "Video_Stream_Out_TOP",
-          "Widget_COMP",
-          "Write_a_GLSL_TOP",
-          "ZED_POP"
-        ],
-        "retokenized_examples": [
-          {
-            "query_id": "ol-01",
-            "rank": 1,
-            "status": "retokenized",
-            "asserted": "Noise_TOP",
-            "canonical": "Noise TOP",
-            "python_class": "noiseTOP_Class",
-            "family": "TOP",
-            "type": "operator"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 4,
-            "status": "retokenized",
-            "asserted": "Noise_TOP",
-            "canonical": "Noise TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 5,
-            "status": "retokenized",
-            "asserted": "Noise_CHOP",
-            "canonical": "Noise CHOP",
-            "python_class": null,
-            "family": "CHOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 10,
-            "status": "retokenized",
-            "asserted": "Noise_SOP",
-            "canonical": "Noise SOP",
-            "python_class": "noiseSOP_Class",
-            "family": "SOP",
-            "type": "operator"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 1,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 2,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 3,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 7,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 9,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 10,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": "lumablurTOP_Class",
-            "family": "TOP",
-            "type": "operator"
-          }
-        ],
-        "_band": {
-          "identity_bearing_chunks_checked": [
-            439,
-            449
-          ],
-          "unresolved_violations": [
-            0,
-            0
-          ],
-          "retokenized_name_surfaced": [
-            367,
-            376
-          ]
-        }
-      },
-      "negative": {
-        "n": 6,
-        "score_floor": 0.2,
-        "abstention_rate": 1.0,
-        "mean_top1_score": -0.3767,
-        "detail": [
-          {
-            "id": "ne-01",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.2261,
-            "floor": 0.2
-          },
-          {
-            "id": "ne-02",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.5528,
-            "floor": 0.2
-          },
-          {
-            "id": "ne-03",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.06,
-            "floor": 0.2
-          },
-          {
-            "id": "ne-04",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.4113,
-            "floor": 0.2
-          },
-          {
-            "id": "ne-05",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.4378,
-            "floor": 0.2
-          },
-          {
-            "id": "ne-06",
-            "category": "negative",
-            "abstained": true,
-            "top1_score": -0.5725,
-            "floor": 0.2
-          }
-        ]
-      },
-      "trial_aggregates": [
-        {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
-        },
-        {
-          "recall_at_5": 0.5,
-          "mrr": 0.3691,
-          "ndcg_at_10": 0.406
-        },
-        {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
-        },
-        {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
-        },
-        {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
-        }
-      ],
-      "deterministic": false
-    },
-    "legacy": {
-      "repeats": 5,
-      "per_category": {
-        "build_instruction": {
-          "n": 12,
-          "recall_at_5": 0.1667,
-          "_band": {
-            "recall_at_5": [
-              0.1667,
-              0.1667
-            ],
-            "mrr": [
-              0.1125,
-              0.1125
-            ],
-            "ndcg_at_10": [
-              0.1433,
-              0.1433
-            ]
-          },
-          "mrr": 0.1125,
-          "ndcg_at_10": 0.1433
-        },
-        "howto": {
-          "n": 12,
-          "recall_at_5": 0.25,
-          "_band": {
-            "recall_at_5": [
-              0.25,
-              0.25
-            ],
-            "mrr": [
-              0.1403,
-              0.1403
-            ],
-            "ndcg_at_10": [
-              0.1709,
-              0.1709
-            ]
-          },
-          "mrr": 0.1403,
-          "ndcg_at_10": 0.1709
+          "mrr": 1.0,
+          "ndcg_at_10": 0.702
         },
         "operator_lookup": {
+          "n": 12,
+          "recall_at_5": 0.8333,
+          "_band": {
+            "recall_at_5": [
+              0.8333,
+              0.8333
+            ],
+            "mrr": [
+              0.8001,
+              0.8001
+            ],
+            "ndcg_at_10": [
+              0.2923,
+              0.3038
+            ]
+          },
+          "mrr": 0.8001,
+          "ndcg_at_10": 0.3038
+        },
+        "palette_discovery": {
           "n": 12,
           "recall_at_5": 0.9167,
           "_band": {
             "recall_at_5": [
-              0.8333,
+              0.9167,
               0.9167
             ],
             "mrr": [
-              0.5722,
-              0.6
+              0.65,
+              0.65
             ],
             "ndcg_at_10": [
-              0.6192,
-              0.6747
+              0.5692,
+              0.5692
             ]
           },
-          "mrr": 0.6,
-          "ndcg_at_10": 0.6747
-        },
-        "palette_discovery": {
-          "n": 12,
-          "recall_at_5": 0.0,
-          "_band": {
-            "recall_at_5": [
-              0.0,
-              0.0
-            ],
-            "mrr": [
-              0.0,
-              0.0
-            ],
-            "ndcg_at_10": [
-              0.0,
-              0.0
-            ]
-          },
-          "mrr": 0.0,
-          "ndcg_at_10": 0.0
+          "mrr": 0.65,
+          "ndcg_at_10": 0.5692
         },
         "parameter": {
           "n": 12,
-          "recall_at_5": 1.0,
+          "recall_at_5": 0.8333,
           "_band": {
             "recall_at_5": [
-              1.0,
-              1.0
+              0.8333,
+              0.8333
             ],
             "mrr": [
-              0.8542,
-              0.8542
+              0.5425,
+              0.5425
             ],
             "ndcg_at_10": [
-              0.891,
-              0.891
+              0.5397,
+              0.5397
             ]
           },
-          "mrr": 0.8542,
-          "ndcg_at_10": 0.891
+          "mrr": 0.5425,
+          "ndcg_at_10": 0.5397
         },
         "python": {
           "n": 12,
-          "recall_at_5": 0.75,
+          "recall_at_5": 0.9167,
           "_band": {
             "recall_at_5": [
-              0.75,
-              0.75
+              0.9167,
+              0.9167
             ],
             "mrr": [
-              0.5355,
-              0.5355
+              0.7917,
+              0.7917
             ],
             "ndcg_at_10": [
-              0.5979,
-              0.5979
+              0.6438,
+              0.6438
             ]
           },
-          "mrr": 0.5355,
-          "ndcg_at_10": 0.5979
+          "mrr": 0.7917,
+          "ndcg_at_10": 0.6438
         }
       },
       "aggregate": {
         "n": 72,
-        "recall_at_5": 0.5139,
+        "recall_at_5": 0.8333,
         "_band": {
           "recall_at_5": [
-            0.5,
-            0.5139
+            0.8333,
+            0.8472
           ],
           "mrr": [
-            0.3691,
-            0.3737
+            0.6873,
+            0.7012
           ],
           "ndcg_at_10": [
-            0.4037,
-            0.413
+            0.5091,
+            0.5195
           ]
         },
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
+        "mrr": 0.6873,
+        "ndcg_at_10": 0.511
       },
       "name_integrity": {
-        "identity_bearing_chunks_checked": 442,
+        "identity_bearing_chunks_checked": 408,
         "unresolved_violations": 0,
         "unresolved_distinct": [],
         "unresolved_examples": [],
-        "retokenized_name_surfaced": 369,
-        "retokenized_distinct": [
-          "Ableton_Link_CHOP",
-          "Add_TOP",
-          "Analyze_CHOP",
-          "Analyze_POP",
-          "Analyze_TOP",
-          "Anatomy_of_a_CHOP",
-          "Audio_Device_In_CHOP",
-          "Audio_File_In_CHOP",
-          "Audio_File_Out_CHOP",
-          "Audio_Filter_CHOP",
-          "Audio_NDI_CHOP",
-          "Audio_Oscillator_CHOP",
-          "Audio_Para_EQ_CHOP",
-          "Audio_Play_CHOP",
-          "Audio_Render_CHOP",
-          "Bind_CHOP",
-          "Blur_TOP",
-          "Button_COMP",
-          "CHOP_Execute_DAT",
-          "CHOP_to_DAT",
-          "CHOP_to_SOP",
-          "CHOP_to_TOP",
-          "Camera_COMP",
-          "Channel_Mix_TOP",
-          "Chroma_Key_TOP",
-          "Circle_TOP",
-          "Clip_Blender_CHOP",
-          "Clock_CHOP",
-          "Composite_TOP",
-          "Constant_CHOP",
-          "Constant_TOP",
-          "Convert_SOP",
-          "Corner_Pin_TOP",
-          "Count_CHOP",
-          "DAT_to_CHOP",
-          "DAT_to_SOP",
-          "DMX_In_CHOP",
-          "DMX_Out_CHOP",
-          "Displace_TOP",
-          "Edge_TOP",
-          "Evaluate_DAT",
-          "Examine_DAT",
-          "Feedback_CHOP",
-          "Feedback_POP",
-          "Feedback_TOP",
-          "File_In_CHOP",
-          "Flip_TOP",
-          "Force_Radial_POP",
-          "Fractal_SOP",
-          "GLSL_Multi_TOP",
-          "GLSL_POP",
-          "GLSL_TOP",
-          "Geometry_COMP",
-          "Interpolate_CHOP",
-          "Joystick_CHOP",
-          "Kinect_Azure_TOP",
-          "Kinect_CHOP",
-          "Kinect_TOP",
-          "LFO_CHOP",
-          "Lag_CHOP",
-          "Layer_Mix_TOP",
-          "Leap_Motion_TOP",
-          "Level_TOP",
-          "Limit_SOP",
-          "Logic_CHOP",
-          "Luma_Blur_TOP",
-          "Luma_Level_TOP",
-          "MIDI_In_CHOP",
-          "MIDI_Out_CHOP",
-          "Math_CHOP",
-          "Math_TOP",
-          "Movie_File_Out_TOP",
-          "NDI_In_TOP",
-          "NDI_Out_TOP",
-          "Noise_CHOP",
-          "Noise_POP",
-          "Noise_SOP",
-          "Noise_TOP",
-          "OP_Execute_DAT",
-          "OP_Find_DAT",
-          "OP_Viewer_COMP",
-          "Object_CHOP",
-          "Oculus_Audio_CHOP",
-          "Oculus_Rift_CHOP",
-          "Oculus_Rift_TOP",
-          "OpenVR_CHOP",
-          "OpenVR_TOP",
-          "PBR_MAT",
-          "Pangolin_CHOP",
-          "ParGroup_Execute_DAT",
-          "Parameter_CHOP",
-          "Parameter_COMP",
-          "Parameter_DAT",
-          "Parameter_Execute_DAT",
-          "Particle_POP",
-          "Pattern_CHOP",
-          "Phong_MAT",
-          "Pipe_Out_CHOP",
-          "Point_Transform_TOP",
-          "Project_SOP",
-          "Projection_POP",
-          "Projection_TOP",
-          "Ramp_TOP",
-          "Rectangle_TOP",
-          "Render_Pass_TOP",
-          "Render_Simple_TOP",
-          "Render_TOP",
-          "Reorder_TOP",
-          "SOP_to_CHOP",
-          "SOP_to_DAT",
-          "S_Curve_CHOP",
-          "Script_CHOP",
-          "Select_CHOP",
-          "Select_COMP",
-          "Shared_Mem_Out_TOP",
-          "Syphon_Spout_In_TOP",
-          "Syphon_Spout_Out_TOP",
-          "TOP_to_CHOP",
-          "TOP_to_POP",
-          "Table_DAT",
-          "Text_TOP",
-          "Texture_3D_TOP",
-          "Texture_Map_POP",
-          "Texture_SOP",
-          "Timer_CHOP",
-          "Trail_CHOP",
-          "Transform_POP",
-          "Transform_TOP",
-          "Video_Stream_In_TOP",
-          "Video_Stream_Out_TOP",
-          "Widget_COMP",
-          "Wireframe_SOP",
-          "Write_a_GLSL_TOP",
-          "ZED_POP"
-        ],
-        "retokenized_examples": [
-          {
-            "query_id": "ol-01",
-            "rank": 1,
-            "status": "retokenized",
-            "asserted": "Noise_TOP",
-            "canonical": "Noise TOP",
-            "python_class": "noiseTOP_Class",
-            "family": "TOP",
-            "type": "operator"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 4,
-            "status": "retokenized",
-            "asserted": "Noise_TOP",
-            "canonical": "Noise TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 5,
-            "status": "retokenized",
-            "asserted": "Noise_CHOP",
-            "canonical": "Noise CHOP",
-            "python_class": null,
-            "family": "CHOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-01",
-            "rank": 10,
-            "status": "retokenized",
-            "asserted": "Noise_SOP",
-            "canonical": "Noise SOP",
-            "python_class": "noiseSOP_Class",
-            "family": "SOP",
-            "type": "operator"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 1,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 2,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 3,
-            "status": "retokenized",
-            "asserted": "Blur_TOP",
-            "canonical": "Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 7,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 9,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": null,
-            "family": "TOP",
-            "type": "parameter"
-          },
-          {
-            "query_id": "ol-02",
-            "rank": 10,
-            "status": "retokenized",
-            "asserted": "Luma_Blur_TOP",
-            "canonical": "Luma Blur TOP",
-            "python_class": "lumablurTOP_Class",
-            "family": "TOP",
-            "type": "operator"
-          }
-        ],
+        "retokenized_name_surfaced": 0,
+        "retokenized_distinct": [],
+        "retokenized_examples": [],
         "_band": {
           "identity_bearing_chunks_checked": [
-            412,
-            449
+            407,
+            408
           ],
           "unresolved_violations": [
             0,
             0
           ],
           "retokenized_name_surfaced": [
-            345,
-            376
+            0,
+            0
           ]
         }
       },
@@ -904,164 +423,154 @@
         "n": 6,
         "score_floor": 0.2,
         "abstention_rate": 1.0,
-        "mean_top1_score": -0.3767,
+        "mean_top1_score": -0.3661,
         "detail": [
           {
             "id": "ne-01",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.2261,
+            "top1_score": -0.2588,
             "floor": 0.2
           },
           {
             "id": "ne-02",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.5528,
+            "top1_score": -0.6036,
             "floor": 0.2
           },
           {
             "id": "ne-03",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.06,
+            "top1_score": -0.0577,
             "floor": 0.2
           },
           {
             "id": "ne-04",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.4113,
+            "top1_score": -0.2425,
             "floor": 0.2
           },
           {
             "id": "ne-05",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.4378,
+            "top1_score": -0.4584,
             "floor": 0.2
           },
           {
             "id": "ne-06",
             "category": "negative",
             "abstained": true,
-            "top1_score": -0.5725,
+            "top1_score": -0.5756,
             "floor": 0.2
           }
         ]
       },
       "trial_aggregates": [
         {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
+          "recall_at_5": 0.8333,
+          "mrr": 0.6873,
+          "ndcg_at_10": 0.5091
         },
         {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
+          "recall_at_5": 0.8472,
+          "mrr": 0.7012,
+          "ndcg_at_10": 0.5195
         },
         {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
-        },
-        {
-          "recall_at_5": 0.5,
-          "mrr": 0.3691,
-          "ndcg_at_10": 0.4037
-        },
-        {
-          "recall_at_5": 0.5139,
-          "mrr": 0.3737,
-          "ndcg_at_10": 0.413
+          "recall_at_5": 0.8333,
+          "mrr": 0.6873,
+          "ndcg_at_10": 0.511
         }
       ],
       "deterministic": false
     }
   },
   "baseline": {
-    "repeats": 5,
+    "repeats": 3,
     "per_category": {
       "build_instruction": {
         "n": 12,
-        "recall_at_5": 0.1667,
+        "recall_at_5": 0.6667,
         "_band": {
           "recall_at_5": [
-            0.1667,
-            0.1667
+            0.6667,
+            0.6667
           ],
           "mrr": [
-            0.1125,
-            0.1125
+            0.5625,
+            0.5625
           ],
           "ndcg_at_10": [
-            0.1433,
-            0.1433
+            0.4913,
+            0.4913
           ]
         },
-        "mrr": 0.1125,
-        "ndcg_at_10": 0.1433
+        "mrr": 0.5625,
+        "ndcg_at_10": 0.4913
       },
       "howto": {
         "n": 12,
-        "recall_at_5": 0.25,
+        "recall_at_5": 1.0,
         "_band": {
           "recall_at_5": [
-            0.1667,
-            0.25
+            1.0,
+            1.0
           ],
           "mrr": [
-            0.1125,
-            0.1403
+            1.0,
+            1.0
           ],
           "ndcg_at_10": [
-            0.1293,
-            0.1709
+            0.7228,
+            0.7228
           ]
         },
-        "mrr": 0.1403,
-        "ndcg_at_10": 0.1709
+        "mrr": 1.0,
+        "ndcg_at_10": 0.7228
       },
       "operator_lookup": {
         "n": 12,
-        "recall_at_5": 0.9167,
+        "recall_at_5": 1.0,
         "_band": {
           "recall_at_5": [
-            0.9167,
-            0.9167
+            1.0,
+            1.0
           ],
           "mrr": [
-            0.6,
-            0.6
+            0.8264,
+            0.8264
           ],
           "ndcg_at_10": [
-            0.6747,
-            0.6747
+            0.1999,
+            0.1999
           ]
         },
-        "mrr": 0.6,
-        "ndcg_at_10": 0.6747
+        "mrr": 0.8264,
+        "ndcg_at_10": 0.1999
       },
       "palette_discovery": {
         "n": 12,
-        "recall_at_5": 0.0,
+        "recall_at_5": 1.0,
         "_band": {
           "recall_at_5": [
-            0.0,
-            0.0
+            1.0,
+            1.0
           ],
           "mrr": [
-            0.0,
-            0.0
+            0.8194,
+            0.8194
           ],
           "ndcg_at_10": [
-            0.0,
-            0.0
+            0.7023,
+            0.7023
           ]
         },
-        "mrr": 0.0,
-        "ndcg_at_10": 0.0
+        "mrr": 0.8194,
+        "ndcg_at_10": 0.7023
       },
       "parameter": {
         "n": 12,
@@ -1072,313 +581,78 @@
             1.0
           ],
           "mrr": [
-            0.8542,
-            0.8542
+            0.9444,
+            0.9444
           ],
           "ndcg_at_10": [
-            0.891,
-            0.891
+            0.9414,
+            0.9414
           ]
         },
-        "mrr": 0.8542,
-        "ndcg_at_10": 0.891
+        "mrr": 0.9444,
+        "ndcg_at_10": 0.9414
       },
       "python": {
         "n": 12,
-        "recall_at_5": 0.75,
+        "recall_at_5": 0.9167,
         "_band": {
           "recall_at_5": [
-            0.75,
-            0.75
+            0.9167,
+            0.9167
           ],
           "mrr": [
-            0.5355,
-            0.5355
+            0.8869,
+            0.8869
           ],
           "ndcg_at_10": [
-            0.5979,
-            0.5979
+            0.727,
+            0.727
           ]
         },
-        "mrr": 0.5355,
-        "ndcg_at_10": 0.5979
+        "mrr": 0.8869,
+        "ndcg_at_10": 0.727
       }
     },
     "aggregate": {
       "n": 72,
-      "recall_at_5": 0.5139,
+      "recall_at_5": 0.9306,
       "_band": {
         "recall_at_5": [
-          0.5,
-          0.5139
+          0.9306,
+          0.9306
         ],
         "mrr": [
-          0.3691,
-          0.3737
+          0.8399,
+          0.8399
         ],
         "ndcg_at_10": [
-          0.406,
-          0.413
+          0.6308,
+          0.6308
         ]
       },
-      "mrr": 0.3737,
-      "ndcg_at_10": 0.413
+      "mrr": 0.8399,
+      "ndcg_at_10": 0.6308
     },
     "name_integrity": {
-      "identity_bearing_chunks_checked": 442,
+      "identity_bearing_chunks_checked": 389,
       "unresolved_violations": 0,
       "unresolved_distinct": [],
       "unresolved_examples": [],
-      "retokenized_name_surfaced": 369,
-      "retokenized_distinct": [
-        "Ableton_Link_CHOP",
-        "Add_TOP",
-        "Analyze_CHOP",
-        "Analyze_POP",
-        "Analyze_TOP",
-        "Anatomy_of_a_CHOP",
-        "Audio_Device_In_CHOP",
-        "Audio_File_In_CHOP",
-        "Audio_File_Out_CHOP",
-        "Audio_Filter_CHOP",
-        "Audio_NDI_CHOP",
-        "Audio_Oscillator_CHOP",
-        "Audio_Para_EQ_CHOP",
-        "Audio_Play_CHOP",
-        "Audio_Render_CHOP",
-        "Bind_CHOP",
-        "Blur_TOP",
-        "Button_COMP",
-        "CHOP_Execute_DAT",
-        "CHOP_to_DAT",
-        "CHOP_to_SOP",
-        "CHOP_to_TOP",
-        "Camera_COMP",
-        "Channel_Mix_TOP",
-        "Chroma_Key_TOP",
-        "Circle_TOP",
-        "Clip_Blender_CHOP",
-        "Clock_CHOP",
-        "Composite_TOP",
-        "Constant_CHOP",
-        "Constant_TOP",
-        "Convert_SOP",
-        "Corner_Pin_TOP",
-        "Count_CHOP",
-        "DAT_to_CHOP",
-        "DAT_to_SOP",
-        "DMX_In_CHOP",
-        "DMX_Out_CHOP",
-        "Displace_TOP",
-        "Edge_TOP",
-        "Evaluate_DAT",
-        "Examine_DAT",
-        "Feedback_CHOP",
-        "Feedback_POP",
-        "Feedback_TOP",
-        "File_In_CHOP",
-        "Flip_TOP",
-        "Force_Radial_POP",
-        "Fractal_SOP",
-        "GLSL_Multi_TOP",
-        "GLSL_POP",
-        "GLSL_TOP",
-        "Geometry_COMP",
-        "Interpolate_CHOP",
-        "Joystick_CHOP",
-        "Kinect_Azure_TOP",
-        "Kinect_CHOP",
-        "Kinect_TOP",
-        "LFO_CHOP",
-        "Lag_CHOP",
-        "Layer_Mix_TOP",
-        "Leap_Motion_TOP",
-        "Level_TOP",
-        "Limit_SOP",
-        "Logic_CHOP",
-        "Luma_Blur_TOP",
-        "Luma_Level_TOP",
-        "MIDI_In_CHOP",
-        "MIDI_Out_CHOP",
-        "Math_CHOP",
-        "Math_TOP",
-        "Movie_File_Out_TOP",
-        "NDI_In_TOP",
-        "NDI_Out_TOP",
-        "Noise_CHOP",
-        "Noise_POP",
-        "Noise_SOP",
-        "Noise_TOP",
-        "OP_Execute_DAT",
-        "OP_Find_DAT",
-        "OP_Viewer_COMP",
-        "Object_CHOP",
-        "Oculus_Audio_CHOP",
-        "Oculus_Rift_CHOP",
-        "Oculus_Rift_TOP",
-        "OpenVR_CHOP",
-        "OpenVR_TOP",
-        "PBR_MAT",
-        "Pangolin_CHOP",
-        "ParGroup_Execute_DAT",
-        "Parameter_CHOP",
-        "Parameter_COMP",
-        "Parameter_DAT",
-        "Parameter_Execute_DAT",
-        "Particle_POP",
-        "Pattern_CHOP",
-        "Phong_MAT",
-        "Pipe_Out_CHOP",
-        "Point_Transform_TOP",
-        "Project_SOP",
-        "Projection_POP",
-        "Projection_TOP",
-        "Ramp_TOP",
-        "Rectangle_TOP",
-        "Render_Pass_TOP",
-        "Render_Simple_TOP",
-        "Render_TOP",
-        "Reorder_TOP",
-        "SOP_to_CHOP",
-        "SOP_to_DAT",
-        "S_Curve_CHOP",
-        "Script_CHOP",
-        "Select_CHOP",
-        "Select_COMP",
-        "Shared_Mem_Out_TOP",
-        "Syphon_Spout_In_TOP",
-        "Syphon_Spout_Out_TOP",
-        "TOP_to_CHOP",
-        "TOP_to_POP",
-        "Table_DAT",
-        "Text_TOP",
-        "Texture_3D_TOP",
-        "Texture_Map_POP",
-        "Texture_SOP",
-        "Timer_CHOP",
-        "Trail_CHOP",
-        "Transform_POP",
-        "Transform_TOP",
-        "Video_Stream_In_TOP",
-        "Video_Stream_Out_TOP",
-        "Widget_COMP",
-        "Write_a_GLSL_TOP",
-        "ZED_POP"
-      ],
-      "retokenized_examples": [
-        {
-          "query_id": "ol-01",
-          "rank": 1,
-          "status": "retokenized",
-          "asserted": "Noise_TOP",
-          "canonical": "Noise TOP",
-          "python_class": "noiseTOP_Class",
-          "family": "TOP",
-          "type": "operator"
-        },
-        {
-          "query_id": "ol-01",
-          "rank": 4,
-          "status": "retokenized",
-          "asserted": "Noise_TOP",
-          "canonical": "Noise TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-01",
-          "rank": 5,
-          "status": "retokenized",
-          "asserted": "Noise_CHOP",
-          "canonical": "Noise CHOP",
-          "python_class": null,
-          "family": "CHOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-01",
-          "rank": 10,
-          "status": "retokenized",
-          "asserted": "Noise_SOP",
-          "canonical": "Noise SOP",
-          "python_class": "noiseSOP_Class",
-          "family": "SOP",
-          "type": "operator"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 1,
-          "status": "retokenized",
-          "asserted": "Blur_TOP",
-          "canonical": "Blur TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 2,
-          "status": "retokenized",
-          "asserted": "Blur_TOP",
-          "canonical": "Blur TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 3,
-          "status": "retokenized",
-          "asserted": "Blur_TOP",
-          "canonical": "Blur TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 7,
-          "status": "retokenized",
-          "asserted": "Luma_Blur_TOP",
-          "canonical": "Luma Blur TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 9,
-          "status": "retokenized",
-          "asserted": "Luma_Blur_TOP",
-          "canonical": "Luma Blur TOP",
-          "python_class": null,
-          "family": "TOP",
-          "type": "parameter"
-        },
-        {
-          "query_id": "ol-02",
-          "rank": 10,
-          "status": "retokenized",
-          "asserted": "Luma_Blur_TOP",
-          "canonical": "Luma Blur TOP",
-          "python_class": "lumablurTOP_Class",
-          "family": "TOP",
-          "type": "operator"
-        }
-      ],
+      "retokenized_name_surfaced": 0,
+      "retokenized_distinct": [],
+      "retokenized_examples": [],
       "_band": {
         "identity_bearing_chunks_checked": [
-          439,
-          449
+          388,
+          389
         ],
         "unresolved_violations": [
           0,
           0
         ],
         "retokenized_name_surfaced": [
-          367,
-          376
+          0,
+          0
         ]
       }
     },
@@ -1386,80 +660,70 @@
       "n": 6,
       "score_floor": 0.2,
       "abstention_rate": 1.0,
-      "mean_top1_score": -0.3767,
+      "mean_top1_score": 0.0234,
       "detail": [
         {
           "id": "ne-01",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.2261,
+          "top1_score": 0.0,
           "floor": 0.2
         },
         {
           "id": "ne-02",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.5528,
+          "top1_score": 0.0,
           "floor": 0.2
         },
         {
           "id": "ne-03",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.06,
+          "top1_score": 0.1406,
           "floor": 0.2
         },
         {
           "id": "ne-04",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.4113,
+          "top1_score": 0.0001,
           "floor": 0.2
         },
         {
           "id": "ne-05",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.4378,
+          "top1_score": 0.0,
           "floor": 0.2
         },
         {
           "id": "ne-06",
           "category": "negative",
           "abstained": true,
-          "top1_score": -0.5725,
+          "top1_score": 0.0,
           "floor": 0.2
         }
       ]
     },
     "trial_aggregates": [
       {
-        "recall_at_5": 0.5139,
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
+        "recall_at_5": 0.9306,
+        "mrr": 0.8399,
+        "ndcg_at_10": 0.6308
       },
       {
-        "recall_at_5": 0.5,
-        "mrr": 0.3691,
-        "ndcg_at_10": 0.406
+        "recall_at_5": 0.9306,
+        "mrr": 0.8399,
+        "ndcg_at_10": 0.6308
       },
       {
-        "recall_at_5": 0.5139,
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
-      },
-      {
-        "recall_at_5": 0.5139,
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
-      },
-      {
-        "recall_at_5": 0.5139,
-        "mrr": 0.3737,
-        "ndcg_at_10": 0.413
+        "recall_at_5": 0.9306,
+        "mrr": 0.8399,
+        "ndcg_at_10": 0.6308
       }
     ],
-    "deterministic": false
+    "deterministic": true
   },
   "notes": "Baseline = the shipped enhanced path (use_legacy=False), the gate later phases must beat. Today enhanced==legacy ranking (same dense MiniLM TDDocSearch); they diverge once Phase 2 edits _enhanced_search. recall@k is hit-rate (success@k). Name-integrity ground truth is operators.json + operator_ground_truth/operator_types.json."
 }

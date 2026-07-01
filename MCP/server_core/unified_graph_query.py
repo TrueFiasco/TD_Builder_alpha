@@ -187,6 +187,13 @@ class UnifiedGraphQuery:
         # cross-op indices from operators.json so get_related_operators keeps working.
         if not self.wiki_loaded and self.enriched_wiki:
             self._build_indices_from_enriched()
+        if not self.indices_loaded:
+            # BOTH sources failed (graphrag absent AND operators.json unreadable):
+            # every graph query will return empty -- say so once instead of
+            # letting related-operator lookups look silently broken.
+            print("    [WARN] No graph indices loaded (graphrag.json absent AND "
+                  "operators.json unavailable); get_related_operators and graph "
+                  "queries will return EMPTY. Check the KB install.")
 
         # Load enhanced graph (examples with network topology)
         print("  Loading enhanced graph (real examples)...")

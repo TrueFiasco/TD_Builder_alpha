@@ -82,7 +82,13 @@ change to get the attributable delta.
   (Predicates label an open set, not an enumerated gold set, so this is what the plan's
   "recall@5" table reports.)
 - **MRR** — 1 / rank of the first relevant chunk.
-- **nDCG@n** — binary-gain DCG over top-n ÷ ideal DCG (all found-relevant first).
+- **nDCG@n** — binary-gain DCG over top-n ÷ ideal DCG normalized by `min(corpus gold
+  count, n)`. The gold count comes from a one-off full chunk-store predicate scan per
+  trial (`_gold_counts`). NOTE (2026-07-01): the formula previously normalized by the
+  *retrieved*-relevant count, which scored 1.0 for any query whose few hits ranked
+  first regardless of misses — absolute nDCG values in a `baseline.json` captured
+  before this fix are inflated and should be recaptured (recall@k and MRR are
+  unaffected; cross-arm deltas within one baseline remain internally consistent).
 
 ## Labels survive re-chunking
 

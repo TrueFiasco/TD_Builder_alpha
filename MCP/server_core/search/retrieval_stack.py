@@ -170,7 +170,8 @@ class RetrievalStack:
 
         self._load_bm25()
         self._load_identity()
-        # reranker is lazy-loaded on first search (heavy); preload only if enabled
+        # the reranker is heavy, so load it at init only when rerank is enabled
+        # (_load_reranker itself no-ops on repeat calls / after a failed load)
         if self.cfg.use_rerank:
             self._load_reranker()
 
@@ -345,7 +346,13 @@ class RetrievalStack:
     def _inject(self, pool: Dict[str, dict], where: dict):
         try:
             got = self.collection.get(where=where, include=["documents", "metadatas"])
-        except Exception:
+        except Exception as e:
+            # a failed injection silently loses the named-operator parameter_group
+            # chunks -- surface the first failure instead of degrading invisibly
+            if not getattr(self, "_inject_warned", False):
+                self._inject_warned = True
+                print(f"[retrieval_stack] WARNING: chunk injection failed ({e}); "
+                      f"named-operator results degraded for this session")
             return
         for cid, doc, meta in zip(got.get("ids", []), got.get("documents", []), got.get("metadatas", [])):
             if cid not in pool:
@@ -472,6 +479,8 @@ class RetrievalStack:
         The RRF prior keeps a strong dense+lexical signal from being overridden by
         the cross-encoder (which can over-prefer verbose chunks / near-synonym ops).
         """
+        if not cands:
+            return []
         use_rr = self.cfg.use_rerank and self._reranker is not None
         prior_w = self.cfg.rrf_prior
         floor = self.cfg.use_floor

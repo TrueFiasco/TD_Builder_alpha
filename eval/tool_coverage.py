@@ -455,7 +455,7 @@ def main():
 
     payload = {
         "harness_version": HARNESS_VERSION,
-        "kb_root": str(kb_root),
+        "kb_root": run_eval.redact_path(kb_root),
         "engine": "UnifiedGraphQuery (offline, in-process)",
         "n_queries": len(queries),
         "results": results,

@@ -28,20 +28,22 @@ _start = globals().get("_B_START", 0)
 _end = globals().get("_B_END", 9999)
 _reset = globals().get("_B_RESET", False)
 
-cmap = json.load(open(CMAP_PATH, encoding="utf-8"))["operators"]
+with open(CMAP_PATH, encoding="utf-8") as _f:
+    cmap = json.load(_f)["operators"]
 names = sorted(cmap.keys(), key=lambda k: (cmap[k]["family"], k))
 
 if _reset and os.path.exists(OUT):
     os.remove(OUT)
 done = set()
 if os.path.exists(OUT):
-    for ln in open(OUT, encoding="utf-8"):
-        ln = ln.strip()
-        if ln:
-            try:
-                done.add(json.loads(ln)["op"])
-            except Exception:
-                pass
+    with open(OUT, encoding="utf-8") as _f:
+        for ln in _f:
+            ln = ln.strip()
+            if ln:
+                try:
+                    done.add(json.loads(ln)["op"])
+                except Exception:
+                    pass
 
 scratch = op("/td_gate_scratch")
 if scratch is None:
@@ -100,7 +102,8 @@ for _nm in names[_start:_end]:
     errored = []
     pfile = os.path.join(PARAMS_DIR, "%s_%s_perturbed.json" % (r["family"], r["gt_name"]))
     if os.path.exists(pfile):
-        pdata = json.load(open(pfile, encoding="utf-8")).get("parameters", {})
+        with open(pfile, encoding="utf-8") as _f:
+            pdata = json.load(_f).get("parameters", {})
         for code in pdata:
             spec = pdata[code]
             if not isinstance(spec, dict):

@@ -94,6 +94,27 @@ def _get_op_key(op_type: str, family: str) -> str:
     return f"{op_type.lower()}_{family.lower()}"
 
 
+def _kb_op_name(op_type: str, op_family: str) -> str:
+    """Build the KB operator-name lookup key from a td_create-style op_type.
+
+    Strips a trailing family suffix so "renameCHOP" yields "Rename Chop" (matched
+    case-insensitively against the KB's "Rename CHOP") and not the title()-mangled
+    "Renamechop Chop". A bare-family op_type ("CHOP") names no specific operator;
+    return the family alone so the KB lookup misses cleanly instead of on a
+    nonsense "Chop Chop" key. Both resolve_param_name and get_all_aliases MUST
+    build their _param_cache entries through this helper: they share the cache,
+    so a divergent key construction lets whichever runs first poison the other.
+    """
+    _ot = op_type
+    for _fam in ("CHOP", "TOP", "SOP", "COMP", "DAT", "MAT", "POP"):
+        if _ot.lower().endswith(_fam.lower()) and len(_ot) > len(_fam):
+            _ot = _ot[:-len(_fam)]
+            break
+    if _ot.lower() == op_family.lower():
+        return op_family
+    return f"{_ot} {op_family}".replace('_', ' ').strip().title()
+
+
 # ============================================================================
 # USER-FRIENDLY ALIASES
 # These are explicit overrides for common user inputs that don't match
@@ -282,17 +303,7 @@ def resolve_param_name(op_type: str, op_family: str, user_param: str) -> str:
     # 2. Check if it's already a valid TD param name (identity)
     # Build KB param map if not cached
     if op_key not in _param_cache:
-        # Try to find the operator in KB. Strip a trailing family suffix first so a
-        # td_create-style op_type ("renameCHOP") yields "Rename CHOP" and not the
-        # title()-mangled "Renamechop Chop" (which failed the KB lookup and silently
-        # disabled param-name resolution for that op).
-        _ot = op_type
-        for _fam in ("CHOP", "TOP", "SOP", "COMP", "DAT", "MAT", "POP"):
-            if _ot.lower().endswith(_fam.lower()) and len(_ot) > len(_fam):
-                _ot = _ot[:-len(_fam)]
-                break
-        op_name = f"{_ot} {op_family}".replace('_', ' ').strip().title()
-        _param_cache[op_key] = _build_param_map(op_name, op_family)
+        _param_cache[op_key] = _build_param_map(_kb_op_name(op_type, op_family), op_family)
 
     kb_map = _param_cache.get(op_key, {})
 
@@ -316,8 +327,7 @@ def get_all_aliases(op_type: str, op_family: str) -> Dict[str, str]:
 
     # Add KB mappings
     if op_key not in _param_cache:
-        op_name = f"{op_type} {op_family}".replace('_', ' ').title()
-        _param_cache[op_key] = _build_param_map(op_name, op_family)
+        _param_cache[op_key] = _build_param_map(_kb_op_name(op_type, op_family), op_family)
 
     result.update(_param_cache.get(op_key, {}))
 

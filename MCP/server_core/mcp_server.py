@@ -291,6 +291,19 @@ except Exception as e:
     print(f"WARNING: Could not resolve KB paths: {e}", file=sys.stderr)
     enhanced_graph_path = graphrag_json_path = enriched_wiki_path = vectordb_path = Path("___missing___")
 
+# KB identity for get_server_info: SERVER_VERSION is a code constant decoupled
+# from the installed KB, and that decoupling has already caused version
+# confusion (server reported one version while the KB was another). Surface the
+# KB manifest's own version next to it.
+_KB_ROOT = Path(__file__).resolve().parents[2] / "KB"
+_KB_MANIFEST_VERSION = None
+try:
+    _KB_MANIFEST_VERSION = json.loads(
+        (_KB_ROOT / "manifest.json").read_text(encoding="utf-8")).get("version")
+except Exception as _e:
+    print(f"WARNING: KB manifest unreadable at {_KB_ROOT / 'manifest.json'} ({_e}); "
+          f"get_server_info will report kb_version=null", file=sys.stderr)
+
 knowledge_graph = None
 hybrid_search = None
 # _KB_STATUS values: "pending" | "warming" | "ready" | "partial" | "failed"
@@ -2017,6 +2030,8 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 "data": {
                     "server_name": SERVER_NAME,
                     "version": SERVER_VERSION,
+                    "kb_version": _KB_MANIFEST_VERSION,
+                    "kb_root": str(_KB_ROOT),
                     "script_path": str(Path(__file__).resolve()),
                     "cwd": os.getcwd(),
                     "python": sys.version.split()[0],

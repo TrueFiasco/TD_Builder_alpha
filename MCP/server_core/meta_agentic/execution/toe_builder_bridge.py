@@ -103,13 +103,30 @@ def _load_build_token_index() -> dict:
                 aliases.add(_alnum(bt.split(":", 1)[1]))        # the build token's own type
                 tdc = o.get("python_class") or ""
                 if tdc.endswith("_Class"):
-                    aliases.add(_alnum(tdc[:-len("_Class")].replace(fam, "")))  # td_create base
+                    cls_base = tdc[: -len("_Class")]
+                    # strip the family only as a trailing suffix; a global replace would
+                    # mangle any class name containing the family string mid-word
+                    if cls_base.endswith(fam):
+                        cls_base = cls_base[: -len(fam)]
+                    aliases.add(_alnum(cls_base))               # td_create base
                 for a in aliases:
-                    if a:
-                        _BUILD_TOKEN_INDEX[(fam.upper(), a)] = bt
+                    if not a:
+                        continue
+                    key = (fam.upper(), a)
+                    prev = _BUILD_TOKEN_INDEX.setdefault(key, bt)   # first-wins
+                    if prev != bt:
+                        logger.warning(
+                            "build_token alias collision: %s -> %s kept, %s (from %r) ignored"
+                            " — check python_class grounding in operators.json",
+                            key, prev, bt, name)
         except Exception as e:
-            logger.warning("build_token index not loaded (%s); grounding disabled", e)
+            logger.error("build_token index not loaded (%s); grounded build tokens DISABLED"
+                         " — builder falls back to legacy OP_TYPE_MAP tokens", e)
             _BUILD_TOKEN_INDEX = {}
+        if not _BUILD_TOKEN_INDEX:
+            logger.error("build_token index is EMPTY (operators.json missing build_token"
+                         " fields?); grounded build tokens DISABLED — builder falls back"
+                         " to legacy OP_TYPE_MAP tokens")
     return _BUILD_TOKEN_INDEX
 
 
@@ -2378,7 +2395,17 @@ execonstart 0 1
             fam = op_type.split(":", 1)[0].upper()
         if not fam:
             return None
-        return idx.get((fam, _alnum(t)))
+        key = _alnum(t)
+        hit = idx.get((fam, key))
+        if hit:
+            return hit
+        # OPType-style types carry the family as a suffix ("renameCHOP"); the
+        # grounding aliases are family-stripped, so retry without it. Otherwise
+        # the lookup misses and the legacy map emits an invalid .n token
+        # (proven live: type "renameCHOP" imported as a baseCOMP placeholder).
+        if key.endswith(fam.lower()) and len(key) > len(fam):
+            return idx.get((fam, key[: -len(fam)]))
+        return None
 
     def _map_op_type_raw(self, op_type: str, container_path: str, explicit_family: str = None) -> str:
         """Legacy wiki-display-derived resolver (INTERNAL_NAME_MAP + OP_TYPE_MAP + family

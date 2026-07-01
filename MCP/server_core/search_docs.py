@@ -57,7 +57,10 @@ def _resolve_embedding(kb_root: Path) -> dict:
 
     # mismatch guardrail: an explicit env model that disagrees with the KB's own
     # manifest means the query embedder would not match the indexed vectors.
-    if (env_model and man_model and env_model != man_model
+    # HF model ids are case-insensitive in practice ("all-MiniLM-L6-v2" ==
+    # "all-minilm-l6-v2"), so compare casefolded: a case-only difference must
+    # not hard-fail the boot.
+    if (env_model and man_model and env_model.casefold() != man_model.casefold()
             and not _truthy(os.environ.get("EMBEDDING_ALLOW_MISMATCH"))):
         raise RuntimeError(
             f"EMBEDDING_MODEL={env_model!r} disagrees with the KB manifest "

@@ -72,6 +72,30 @@ for _v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXP
 EVAL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_DIR.parent                            # the (worktree) repo root
 SERVER_CORE = REPO_ROOT / "MCP" / "server_core"
+_MAIN_TREE = (Path(*REPO_ROOT.parts[: REPO_ROOT.parts.index(".claude")])
+              if ".claude" in REPO_ROOT.parts else None)
+
+
+def redact_path(p) -> str:
+    """Tree-relative form of a provenance path for the COMMITTED baselines.
+
+    Absolute local paths in eval/baseline.json leaked the build machine's
+    directory layout into the public repo. Record paths relative to the tree
+    that contains them (worktree repo root, or the main tree above .claude/),
+    falling back to the basename for anything outside both."""
+    p = Path(p)
+    parts = list(p.parts)
+    if ".claude" in parts:
+        i = parts.index(".claude")
+        # inside a worktree: .../.claude/worktrees/<name>/<rel> -> <rel>
+        rel = parts[i + 3:] if len(parts) > i + 2 and parts[i + 1] == "worktrees" else parts[i:]
+        return "/".join(rel) or p.name
+    for root in (REPO_ROOT,) + ((_MAIN_TREE,) if _MAIN_TREE else ()):
+        try:
+            return p.relative_to(root).as_posix()
+        except ValueError:
+            pass
+    return p.name
 
 sys.path.insert(0, str(EVAL_DIR))
 from predicates import GroundTruth, check_name_integrity, is_relevant  # noqa: E402
@@ -89,21 +113,34 @@ def _has_vdb(kb_root: Path) -> bool:
     return (kb_root / "vector_db" / "chroma.sqlite3").exists()
 
 
+def _warn_if_partial(kb_root: Path) -> Path:
+    """A KB with a vector_db but no Phase-2 artifacts makes the enhanced stack
+    silently degrade to dense-only, so the reported metrics would not measure
+    the shipped hybrid path. Warn loudly (worktrees often carry partial KBs)."""
+    missing = [rel for rel in ("lexical_index/bm25.pkl", "models")
+               if not (kb_root / rel).exists()]
+    if missing:
+        print(f"[run_eval] WARNING: KB at {kb_root} is missing {missing} -- "
+              f"the enhanced backend will run DENSE-ONLY and its metrics will "
+              f"not reflect the Phase-2 hybrid stack.", file=sys.stderr)
+    return kb_root
+
+
 def resolve_kb_root(cli_kb: str | None) -> Path:
     if cli_kb:
-        return Path(cli_kb)
+        return _warn_if_partial(Path(cli_kb))
     env = os.environ.get("EVAL_KB_ROOT") or os.environ.get("UNIFIED_KB_ROOT")
     if env:
-        return Path(env)
+        return _warn_if_partial(Path(env))
     # 1) this repo's own KB (works outside a worktree)
     if _has_vdb(REPO_ROOT / "KB"):
-        return REPO_ROOT / "KB"
+        return _warn_if_partial(REPO_ROOT / "KB")
     # 2) main tree: strip the .claude/worktrees/<name> tail
     parts = REPO_ROOT.parts
     if ".claude" in parts:
         main_tree = Path(*parts[: parts.index(".claude")])
         if _has_vdb(main_tree / "KB"):
-            return main_tree / "KB"
+            return _warn_if_partial(main_tree / "KB")
     raise FileNotFoundError(
         "Could not locate a KB with vector_db/chroma.sqlite3. "
         "Pass --kb <path-to-KB> or set EVAL_KB_ROOT."
@@ -182,6 +219,33 @@ def search(adapter, query: str, n: int) -> list[dict]:
     return res or []
 
 
+_GOLD_COUNTS: dict | None = None
+
+
+def _gold_counts(kb_root: Path, queries: list[dict]) -> dict:
+    """Per-query corpus gold counts (query id -> n relevant chunks in the KB).
+
+    nDCG's ideal ranking needs the number of relevant chunks in the CORPUS,
+    which the retrieved list cannot reveal. One full chunk-store scan per
+    trial process (~78 predicates x ~6k chunks, a few seconds), evaluated
+    with the same is_relevant() the scorer uses.
+    """
+    global _GOLD_COUNTS
+    if _GOLD_COUNTS is None:
+        import chromadb
+        col = chromadb.PersistentClient(path=str(kb_root / "vector_db")).get_collection(COLLECTION)
+        got = col.get(include=["documents", "metadatas"])
+        chunks = [{"content": d, "metadata": m or {}}
+                  for d, m in zip(got["documents"], got["metadatas"])]
+        _GOLD_COUNTS = {}
+        for row in queries:
+            if row.get("expect_no_match"):
+                continue
+            _GOLD_COUNTS[row["id"]] = sum(
+                1 for c in chunks if is_relevant(c, row["relevant_predicate"]))
+    return _GOLD_COUNTS
+
+
 # ---------------------------------------------------------------------------
 # Metrics
 # ---------------------------------------------------------------------------
@@ -189,8 +253,15 @@ def _dcg(rels: list[int]) -> float:
     return sum(r / math.log2(i + 2) for i, r in enumerate(rels))
 
 
-def score_query(rels: list[int], k: int, ndcg_k: int) -> dict:
-    """rels = binary relevance in rank order over the retrieved list."""
+def score_query(rels: list[int], k: int, ndcg_k: int, n_gold: int | None = None) -> dict:
+    """rels = binary relevance in rank order over the retrieved list.
+
+    n_gold = relevant-chunk count in the WHOLE corpus (from _gold_counts). The
+    ideal DCG must be normalized by min(n_gold, ndcg_k); normalizing by the
+    retrieved-relevant count made nDCG 1.0 for any query whose few hits ranked
+    first, however many gold chunks were missed. Falls back to the retrieved
+    count when the corpus count is unavailable.
+    """
     topk = rels[:k]
     recall_at_k = 1.0 if any(topk) else 0.0
     rr = 0.0
@@ -199,8 +270,8 @@ def score_query(rels: list[int], k: int, ndcg_k: int) -> dict:
             rr = 1.0 / (i + 1)
             break
     top_n = rels[:ndcg_k]
-    n_rel = sum(top_n)
-    idcg = _dcg([1] * n_rel) if n_rel else 0.0
+    ideal_n = min(n_gold, ndcg_k) if n_gold else sum(top_n)
+    idcg = _dcg([1] * ideal_n) if ideal_n else 0.0
     ndcg = (_dcg(top_n) / idcg) if idcg > 0 else 0.0
     first_rel_rank = next((i + 1 for i, r in enumerate(rels) if r), None)
     return {"recall_at_k": recall_at_k, "rr": rr, "ndcg_at_n": ndcg,
@@ -222,10 +293,11 @@ def _mean(xs: list[float]) -> float:
 # MEDIAN plus the observed (min,max) band. The documented gaps (palette/howto/
 # name-integrity) are invariant; only borderline operator/parameter numbers jitter.
 # ---------------------------------------------------------------------------
-def _run_trial(name, adapter, queries, gt, args, trial_idx):
+def _run_trial(name, adapter, queries, gt, args, trial_idx, gold=None):
     per_query = []                       # scored (predicate) queries only
     neg_query = []                       # negative / expect_no_match queries
     integrity = {"checked": 0, "unresolved": [], "retokenized": []}
+    gold = gold or {}
 
     for row in queries:
         hits = search(adapter, row["query"], args.retrieve)
@@ -253,7 +325,7 @@ def _run_trial(name, adapter, queries, gt, args, trial_idx):
             continue
 
         rels = [1 if is_relevant(h, row["relevant_predicate"]) else 0 for h in hits]
-        sc = score_query(rels, args.k, args.ndcg_k)
+        sc = score_query(rels, args.k, args.ndcg_k, n_gold=gold.get(row["id"]))
         top5 = [{
             "rank": i + 1,
             "relevant": bool(rels[i]),
@@ -319,7 +391,8 @@ def _single_trial(name, use_legacy, queries, gt, kb_root, args, trial_idx):
     vectordb_path = kb_root / "vector_db"
     graph_path = kb_root / "knowledge_graph_enhanced.gpickle"
     adapter = build_adapter(use_legacy, vectordb_path, graph_path)
-    return _run_trial(name, adapter, queries, gt, args, trial_idx)
+    gold = _gold_counts(kb_root, queries)
+    return _run_trial(name, adapter, queries, gt, args, trial_idx, gold=gold)
 
 
 def _spawn_trial(name, kb_root, args, trial_idx):
@@ -598,10 +671,10 @@ def main():
         "embedding_model": os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2"),
         "collection": COLLECTION,
         "collection_count": count,
-        "kb_root": str(kb_root),
-        "code_root": str(SERVER_CORE),
-        "gt_operators": str(gt_ops),
-        "gt_types": str(gt_types),
+        "kb_root": redact_path(kb_root),
+        "code_root": redact_path(SERVER_CORE),
+        "gt_operators": redact_path(gt_ops),
+        "gt_types": redact_path(gt_types),
         "config": {"k": args.k, "ndcg_k": args.ndcg_k, "retrieve": args.retrieve,
                    "n_queries": len(queries), "score_floor": args.score_floor},
         "baseline_backend": base,

@@ -122,7 +122,15 @@ def main():
     (out_dir / "operators.json").write_text(
         json.dumps(idn.raw, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"[operators] registry source={idn.source_path.name}  "
-          f"operators={len(idn.operators)}  tuplet components injected={idn.tuplets_injected}")
+          f"operators={len(idn.operators)}  tuplet components injected={idn.tuplets_injected}  "
+          f"rules/fixes={idn.param_rules_applied}  docked summaries={idn.docked_attached}")
+    # Deduped docked-DAT default templates (live-TD harvest): registry docked_dats
+    # entries reference these by default_md5.
+    dd_defaults = C.GT / "docked_dats" / "docked_dat_defaults.json"
+    if dd_defaults.exists():
+        shutil.copy2(dd_defaults, out_dir / "docked_contents.json")
+        print(f"[docked] staged docked_contents.json "
+              f"({len(json.loads(dd_defaults.read_text(encoding='utf-8')))} unique templates)")
     gp = C.SHIPPED_KB / "knowledge_graph_enhanced.gpickle"
     if gp.exists():
         # Rebuild the graph (canonical identity + OPType normalization + readMe filter,

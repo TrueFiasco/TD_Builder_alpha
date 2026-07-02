@@ -198,4 +198,5 @@ def build(idn: C.Identity) -> list[dict]:
     return rows
 
 
-INPUTS = [C.EXPERT / "td_network_patterns.yaml", C.EXPERT / "td_glsl.yaml"]
+# td_glsl.yaml was pinned here but never read (dead pin polluting sources.lock)
+INPUTS = [C.EXPERT / "td_network_patterns.yaml"]

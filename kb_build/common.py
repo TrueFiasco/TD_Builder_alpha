@@ -186,6 +186,51 @@ PARAM_RULES: dict[tuple[str, str, str], str] = {
         "WRITE RULE: to write a point attribute in the shader (e.g. P[id] = ...), "
         "it must be selected here; otherwise the shader fails to compile with "
         "\"'P' : undeclared identifier\".",
+    # --- migrated from Agents/expertise (2026-07-02 review; sources noted) ---
+    ("CHOP", "Select CHOP", "channames"):
+        "Space-separated name lists can fail in offline .tox builds (only the first "
+        "channel selected) — prefer wildcard patterns ('t*') over 'tx ty'; never "
+        "comma-separate.",  # PROB-002, validated
+    ("DAT", "Table DAT", "cellexpr"):
+        "Python expressions with parentheses may not serialize correctly into "
+        ".toe/.tox — prefer simple literals in cell expressions, or verify the "
+        "built file.",  # PROB-012, validated workaround
+    ("COMP", "Geometry COMP", "instanceactive"):
+        "Per-instance active SELECTOR (StrMenu naming an attribute), NOT an on/off "
+        "switch — a boolean here makes TD hunt for an attribute literally named "
+        "'True'. Enable instancing with the 'instancing' toggle; leave this unset "
+        "unless gating per-instance visibility by attribute.",  # PROB-015
+    ("CHOP", "POP to CHOP", "pop"):
+        "Reads its source POP via this op-reference param (a param-plug, not a "
+        "wired input).",  # td-builder-howto gotcha, live-verified in run1
+    ("CHOP", "POP to CHOP", "attribscope"):
+        "Set attribscope='*' together with scope='*' or channels can come through "
+        "empty.",
+    ("CHOP", "POP to CHOP", "scope"):
+        "Set scope='*' together with attribscope='*' to receive all channels.",
+    ("CHOP", "Speed CHOP", "timeslice"):
+        "Continuous accumulation requires Time Slice ON (the live default, verified "
+        "2026-07-02) — turning it off breaks accumulation across frames.",
+}
+
+# Op-level summary notes (appended to the operator summary): live-behavior facts
+# a builder must know that no single param carries.
+OP_SUMMARY_NOTES: dict[tuple[str, str], str] = {
+    ("COMP", "Geometry COMP"):
+        "NOTE: a live-created Geometry COMP ships with a default torus1 child "
+        "(render flag ON) that renders/instances alongside your geometry — destroy "
+        "it after live-create. Offline-built .tox geos have no torus1.",  # PROB-017
+    ("POP", "Delete POP"):
+        "NOTE: downstream reads can be stale by one cook after changing this op "
+        "live — force-cook the reader (cook(force=True)) before trusting counts.",
+}
+
+# Registry python_class corrections, live-verified 2026-07-02 (type(n).__name__ in
+# TD 2025.32820): the shipped registry carried serialDAT_Class for all three
+# serial-ish ops, which collided their derived build-token aliases.
+PYTHON_CLASS_FIXES: dict[tuple[str, str], str] = {
+    ("CHOP", "Hokuyo CHOP"): "hokuyoCHOP_Class",
+    ("CHOP", "Serial CHOP"): "serialCHOP_Class",
 }
 
 # Wrong-token prose fixes: the Script CHOP/DAT/SOP wiki summaries say the docked
@@ -203,9 +248,9 @@ SUMMARY_FIXES: list[tuple[str, str]] = [
 
 
 def enrich_param_rules(operators: list[dict]) -> int:
-    """Append PARAM_RULES to the matching params' descriptions and apply the
-    SUMMARY_FIXES phrase corrections. Mutates in place; returns the number of
-    edits. Idempotent (skips text already present/corrected)."""
+    """Apply PARAM_RULES (param descriptions), SUMMARY_FIXES + OP_SUMMARY_NOTES
+    (summaries) and PYTHON_CLASS_FIXES (registry identity) in place; returns the
+    number of edits. Idempotent (skips text already present/corrected)."""
     applied = 0
     for o in operators:
         fam, name = o.get("family"), o.get("name")
@@ -219,9 +264,40 @@ def enrich_param_rules(operators: list[dict]) -> int:
         for old, new in SUMMARY_FIXES:
             if old in fixed:
                 fixed = fixed.replace(old, new)
+        note = OP_SUMMARY_NOTES.get((fam, name))
+        if note and note not in fixed:
+            fixed = (fixed.rstrip() + " " + note).strip()
         if fixed != summ:
             o["summary"] = fixed
             applied += 1
+        pyc = PYTHON_CLASS_FIXES.get((fam, name))
+        if pyc and o.get("python_class") != pyc:
+            o["python_class"] = pyc
+            applied += 1
+    return applied
+
+
+def enrich_docked_dats(operators: list[dict]) -> int:
+    """Attach a LIGHTWEIGHT per-op docked-DAT summary from the live-TD harvest
+    (operator_ground_truth/docked_dats/docked_dats_ground_truth.json) so the
+    registry + retrieval answer "what ships docked to this op, and where is its
+    default template". Full stubs stay in the deduped defaults store (staged as
+    docked_contents.json); creation-time specs stay in KB/docked_dats.json."""
+    gt_path = GT / "docked_dats" / "docked_dats_ground_truth.json"
+    if not gt_path.exists():
+        return 0
+    gt = json.loads(gt_path.read_text(encoding="utf-8")).get("operators", {})
+    applied = 0
+    for o in operators:
+        rec = gt.get(o.get("name") or "")
+        if not rec or o.get("family") != rec.get("family"):
+            continue
+        o["docked_dats"] = [
+            {k: v for k, v in d.items() if k in
+             ("suffix", "optype", "kind", "host_params", "language", "default_md5", "chars")}
+            for d in rec.get("docked", [])
+        ]
+        applied += 1
     return applied
 
 
@@ -254,6 +330,8 @@ class Identity:
         self.tuplets_injected: int = enrich_tuplets(self.operators)
         # Grounded write-rules + wrong-token prose fixes (same mutate-raw contract)
         self.param_rules_applied: int = enrich_param_rules(self.operators)
+        # Live-harvested docked-DAT summaries (same mutate-raw contract)
+        self.docked_attached: int = enrich_docked_dats(self.operators)
 
         self.by_pyclass: dict[str, dict] = {}
         self.by_name_norm: dict[str, dict] = {}

@@ -11,7 +11,7 @@ tools (`get_td_nodes`, `create_td_node`, `capture_op_viewer`,
 - `modules/`, `templates/` — supporting code/templates
 
 ## Use
-1. Open TouchDesigner (2023+).
+1. Open TouchDesigner (2025+).
 2. Import `mcp_webserver_base.tox` into your project (top level is fine).
 3. Its WebServer DAT listens on `http://127.0.0.1:9981`
    (override via the `TD_API_URL` env var on the MCP server).

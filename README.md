@@ -29,7 +29,7 @@ schemas in the model's context. See [MCP/README.md](MCP/README.md) for the clien
 
 ## Quick start (Windows + PowerShell)
 
-> **Prerequisites:** Python 3.10–3.13 (3.11 recommended), TouchDesigner 2023+ (only for the live
+> **Prerequisites:** Python 3.10–3.13 (3.11 recommended), TouchDesigner 2025+ (only for the live
 > tools + final `.toe` collapse). See [PREREQUISITES.md](PREREQUISITES.md).
 
 ```powershell

@@ -16,6 +16,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import json
+import os
 import sys
 import types
 from pathlib import Path
@@ -170,6 +171,51 @@ def test_script_assigns_result_detection(api_service_mod):
     assert svc_cls._script_assigns_result(ast.parse("result: int = 1"))
     assert not svc_cls._script_assigns_result(ast.parse("x = 1\nop('a')"))
     assert not svc_cls._script_assigns_result(ast.parse("d['result'] = 1"))
+
+
+# --------------------------------------------------------------------------
+# session restore-point: always SILENT (never a modal Save-As dialog)
+# --------------------------------------------------------------------------
+
+def test_session_restore_point_unsaved_saves_silently(api_service_mod, tmp_path):
+    """Unsaved project (no .toe on disk) → save to an EXPLICIT path, which is
+    silent. A no-arg save would open the modal Save-As dialog that hangs the
+    WebServer thread."""
+    td = sys.modules["td"]
+    td.project.folder = str(tmp_path)
+    td.project.name = "scratch.toe"  # does NOT exist yet
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    expected = os.path.join(str(tmp_path), "scratch.toe")
+    td.project.save.assert_called_once_with(expected)  # explicit path == no dialog
+
+
+def test_session_restore_point_saved_increments_silently(api_service_mod, tmp_path):
+    """Project already on disk → silent incremental project.save() (no args)."""
+    td = sys.modules["td"]
+    f = tmp_path / "saved.toe"
+    f.write_text("x", encoding="utf-8")
+    td.project.folder = str(tmp_path)
+    td.project.name = "saved.toe"
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_called_once_with()  # no-arg == silent increment
+
+
+def test_session_restore_point_only_once(api_service_mod, tmp_path):
+    """The flag makes it a no-op after the first call, even if it saved."""
+    td = sys.modules["td"]
+    f = tmp_path / "saved.toe"
+    f.write_text("x", encoding="utf-8")
+    td.project.folder = str(tmp_path)
+    td.project.name = "saved.toe"
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_called_once()
 
 
 # --------------------------------------------------------------------------

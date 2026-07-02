@@ -8,6 +8,7 @@ import contextlib
 import importlib
 import inspect
 import io
+import os
 import pydoc
 from typing import Any, Optional, Protocol
 
@@ -78,24 +79,46 @@ class TouchDesignerApiService(IApiService):
 		self._session_saved = False
 
 	def _ensure_session_restore_point(self) -> None:
-		"""Save an incremented .toe once, before the first mutation of a session.
+		"""Silently checkpoint the project once, before the first mutation of a session.
 
-		project.save() with no args auto-increments (proj.01.toe, proj.02.toe, …).
-		A save failure (e.g. an untitled project) must NEVER block the mutation —
-		it is only a safety net — so it is logged and swallowed.
+		API mutations skip TD's undo stack and auto-backup only fires on save, so
+		we save a .toe restore point. This is a whole-project snapshot — it does
+		NOT touch the .tox the component was imported from.
+
+		The save is ALWAYS silent (never a modal dialog):
+		  - saved project   -> project.save()          incremental .toe (proj.2.toe)
+		  - unsaved project -> project.save(<toe_path>) explicit path = no dialog;
+		                       gives the untitled project a home at its expected path
+
+		`project.save()` with NO args on an unsaved project is the one form that
+		opens a modal "Save As" dialog, which stalls the WebServer DAT thread until
+		a human dismisses it (observed ~60 s hang). Passing an explicit path avoids
+		that entirely. A scripted save runs to its natural (short) completion, so
+		the mutation proceeds right after; a true forced 30 s cap is not applied
+		because project.save() must run on TD's main thread and cannot be
+		interrupted from another thread — removing the dialog is what removes the
+		hang. Best-effort: any failure is logged and the mutation still proceeds.
 		"""
 		if self._session_saved:
 			return
-		# Set the flag first: a repeatedly-failing save must not run on every
-		# mutation (once-per-session semantics regardless of outcome).
+		# Set the flag first: once-per-session regardless of outcome.
 		self._session_saved = True
 		try:
-			td.project.save()
-			log_message(
-				"Session restore point: saved an incremented project file "
-				"before the first mutating API call.",
-				LogLevel.INFO,
-			)
+			toe_path = os.path.join(td.project.folder, td.project.name)
+			if os.path.exists(toe_path):
+				td.project.save()  # silent incremental save; keeps their file + naming
+				log_message(
+					"Session restore point: incremental project save.",
+					LogLevel.INFO,
+				)
+			else:
+				# Never saved to disk — save SILENTLY to the explicit expected path
+				# (no-arg save would pop a modal dialog here).
+				td.project.save(toe_path)
+				log_message(
+					f"Session restore point: saved project to {toe_path}.",
+					LogLevel.INFO,
+				)
 		except Exception as e:  # noqa: BLE001 — safety net must not block work
 			log_message(
 				f"Session restore-point save failed (continuing): {e}",

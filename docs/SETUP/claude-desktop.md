@@ -36,7 +36,7 @@ absolute path. **No API key is needed.**
 Fully quit and reopen. Confirm with **`get_server_info`** — `version` should be `0.2.0`.
 
 ## 4. Live-TD tools
-Open TouchDesigner 2023+ and import `<RELEASE_ROOT>/MCP/td-webserver/mcp_webserver_base.tox`. Its
+Open TouchDesigner 2025+ and import `<RELEASE_ROOT>/MCP/td-webserver/mcp_webserver_base.tox`. Its
 WebServer DAT listens on `http://127.0.0.1:9981` (override with the `TD_API_URL` env var).
 
 ## 5. Get better results

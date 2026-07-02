@@ -13,7 +13,7 @@
 | Feature | Needs |
 |---|---|
 | The knowledge base (semantic search + operator/graph data) | `python scripts/fetch_vector_db.py` (public HTTPS download, ~108 MB zip → ~180 MB extracted) |
-| Live-TD tools (`create_td_node`, `capture_top_output`, …) via the `td-builder-live` server | **TouchDesigner 2023+** running, with `MCP/td-webserver/mcp_webserver_base.tox` imported (WebServer DAT on `http://127.0.0.1:9981`; override via `TD_API_URL`). |
+| Live-TD tools (`create_td_node`, `capture_top_output`, …) via the `td-builder-live` server | **TouchDesigner 2025+** running, with `MCP/td-webserver/mcp_webserver_base.tox` imported (WebServer DAT on `http://127.0.0.1:9981`; override via `TD_API_URL`). |
 | Final `.toe` file (not just `.toe.dir`) | TouchDesigner's `toecollapse` CLI (ships with TD). |
 
 > There is **no API key** anywhere in this release. KB search uses a local embedding model.

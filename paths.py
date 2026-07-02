@@ -37,6 +37,7 @@ REPO_ROOT: Path = (
 KB_ROOT: Path = REPO_ROOT / "KB"
 KB_OPERATORS: Path = KB_ROOT / "operators.json"
 KB_DOCKED_DATS: Path = KB_ROOT / "docked_dats.json"
+KB_PALETTE_COMPONENTS: Path = KB_ROOT / "palette_components.json"
 KB_GRAPHRAG: Path = KB_ROOT / "graphrag.json"
 KB_VECTORDB: Path = KB_ROOT / "vector_db"
 KB_WIKI_SUPPL: Path = KB_ROOT / "wiki_supplemental"
@@ -58,6 +59,14 @@ def kb_docked_dats_path() -> Path:
     DATs the builder auto-creates + docks (GLSL shader/info DATs, callback scripts,
     table DATs, ...). Companion to operators.json; PR-reviewable."""
     return KB_DOCKED_DATS
+
+
+def kb_palette_components_path() -> Path:
+    """Path to the pre-built component registry (KB/palette_components.json) -- per-item
+    reference + interface metadata for the builder's `palette` field (source root,
+    tox_path, wrapper/subcompname, inner type, in/out connector op names). Companion to
+    docked_dats.json; PR-reviewable."""
+    return KB_PALETTE_COMPONENTS
 
 
 def wiki_supplemental(name: str) -> Path:

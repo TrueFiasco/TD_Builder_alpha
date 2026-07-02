@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "description": "Pre-built component registry for the offline builder's `palette` field. Each entry describes how to reference a component .tox WITHOUT redistributing it (the file loads from the user's own TD install / palette / project at open time via enableexternaltox + externaltox + subcompname) and carries the interface metadata the builder needs to wire it TD-natively: inner root type for the placeholder .n token, inner in-op names/families per input connector (compinputs .network blocks), and inner out-op names per output connector (consumer .n path-form refs like 'name/out1'). Harvested from live TD (wrapper items MUST be live-harvested; offline #1b manifests are only trustworthy for single-COMP-root raw components). Companion to docked_dats.json; PR-reviewable.",
+  "sources": {
+    "derivative": {
+      "root_expr": "app.samplesFolder + '/Palette/'",
+      "comment": "Derivative palette items ship with TD; externaltox is emitted as a parameter EXPRESSION so the path tracks the RUNNING install (machines routinely have several TD versions installed). These .tox are metadata-wrapper shaped: root COMP holds help/icon plus the real component nested under the same name; subcompname loads the inner comp directly and TD retypes the placeholder."
+    },
+    "user": {
+      "root_expr": "app.userPaletteFolder + '/'",
+      "comment": "User-palette components (My Components). Resolved via TD so OneDrive-redirected Documents folders work; never hardcode a Documents path. Typically raw (non-wrapper): no subcompname."
+    },
+    "project": {
+      "root_expr": null,
+      "comment": "Project-local .tox referenced by a project-relative CONSTANT path (mode 0), keeping the project folder self-contained and portable."
+    }
+  },
+  "components": {
+    "audioAnalysis": {
+      "source": "derivative",
+      "tox_path": "Tools/audioAnalysis.tox",
+      "wrapper": true,
+      "subcompname": "audioAnalysis",
+      "inner_type": "COMP:container",
+      "inputs": [
+        {"index": 0, "in_op": "in1", "family": "CHOP"}
+      ],
+      "outputs": [
+        {"index": 0, "out_op": "out1", "family": "CHOP"},
+        {"index": 1, "out_op": "out2", "family": "CHOP"}
+      ],
+      "custom_pages": ["Controls", "Analysis Data", "Neutone", "About"],
+      "category": "Tools",
+      "purpose": "Real-time audio analysis: band levels (low/mid/high), kick/snare detection, rhythm and spectral features exposed as custom parameters and two CHOP outputs.",
+      "harvest": {"method": "live", "td_build": "2025.32820", "date": "2026-07-02"}
+    }
+  }
+}

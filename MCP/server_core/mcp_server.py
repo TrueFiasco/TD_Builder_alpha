@@ -781,10 +781,20 @@ async def _run_build(network_design, design, table_data, project_name, output_di
                     "connections": conn_count,
                     "features_used": {
                         "containers": len(network_design.get("containers", [])) > 0,
-                        "embed_tox": any(
-                            op.get("embed_tox")
+                        "palette": any(
+                            item.get("palette")
+                            for item in (network_design.get("operators", [])
+                                         + network_design.get("containers", []))
+                        ) or any(
+                            op.get("palette")
                             for container in network_design.get("containers", [])
                             for op in container.get("operators", [])
+                        ),
+                        "external_tox": any(
+                            op.get("external_tox") or op.get("externaltox")
+                            for op in (network_design.get("operators", [])
+                                       + [op for container in network_design.get("containers", [])
+                                          for op in container.get("operators", [])])
                         ),
                     },
                 }

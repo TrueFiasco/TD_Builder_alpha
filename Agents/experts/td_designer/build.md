@@ -1113,12 +1113,27 @@ Then wire: `select1 → level1` (same container connection works)
 
 ---
 
-## Palette Components — NOT available in this release
+## Palette Components — pre-built building blocks
 
-Palette embedding is **not available in this release**: `td_build_project` rejects designs
-with a `palette` key, and container-level `palette` / `embed_tox` fields are unreliable.
-Do not emit them. Build the capability from standard operators instead — grounded via
-`get_operator_info` / `find_operator_combination`.
+Give an operator (or container) a `palette` field naming a registered component:
+
+```yaml
+operators:
+  - name: "analysis"
+    palette: "audioAnalysis"    # name from KB/palette_components.json (277 items)
+  - name: "src"
+    type: "audiodevicein"
+    family: "CHOP"
+connections:
+  - {from: "src", to: "analysis"}        # wire in/out like any op
+  - {from: "analysis/out2", to: "trail1"}  # a 2nd output by inner out-op name
+```
+
+The builder writes an external-tox placeholder that loads the real component from the
+user's own TD install on open — populated, retyped, real custom par pages, wires intact.
+Rules: names must match the registry exactly (unknown names fail with a hint); many items
+are par/UI-driven with no connectors (drive them via custom parameters); for `.tox` files
+NOT in the registry use `external_tox: <path>`; `embed_tox` is removed.
 
 ### Full Example: Audio-Reactive Visual (built from operators)
 

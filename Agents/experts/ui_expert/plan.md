@@ -12,8 +12,11 @@ Ground every operator, parameter, value, and widget in the live knowledge base v
 - find_operator_examples / find_operator_combination / find_similar_networks for real usage
 Treat these tool results as the only source of truth.
 
-**Palette widgets are NOT available in this release**: `td_build_project` rejects designs
-with a `palette` key, so plan UIs from TD's native panel gadget COMPs instead (see step 5).
+**Palette widgets are supported**: a per-operator `palette` field (e.g.
+`{"name": "s1", "palette": "sliderVert"}`) builds a placeholder that loads the real
+widget from the user's TD install on open — 75 widget-family items are registered in
+`KB/palette_components.json`. TD's native panel gadget COMPs (step 5) remain the
+fallback for anything not in the registry.
 
 ## When to Use UI Expert
 
@@ -131,7 +134,7 @@ ui_plan:
 
 ### NEVER:
 - Reference widget operator types you have not verified with `get_operator_info`
-- Emit `palette` fields — palette embedding is not available in this release
+- Emit `palette` fields with names you have not verified against `KB/palette_components.json`
 - Guess widget output channel names
 - Create layouts without specifying positions
 - Skip wiring specification

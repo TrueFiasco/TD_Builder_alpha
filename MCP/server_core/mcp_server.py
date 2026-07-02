@@ -639,8 +639,9 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
         design: Network design dict with:
             - operators: list of {name, type, position, parameters}
             - connections: list of {from, to}
-            (Palette embedding is not available in this release — designs with a
-            'palette' key are rejected; build from standard operators.)
+            An operator may instead carry a 'palette' field naming a registered
+            pre-built component (KB/palette_components.json) — it becomes an
+            external-tox placeholder that loads from the user's own TD install.
         project_name: Optional project name (auto-generated if not provided)
         output_dir: Optional output directory (defaults to mcp_server/output)
 
@@ -685,14 +686,14 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 "message": "design must be a dictionary with 'operators' and 'connections'"
             }
 
-        # Handle palette embedding — not available in this release (planned via live
-        # import, or by referencing an external .tox from a base/container COMP).
+        # Palette components are per-OPERATOR fields ({"name": ..., "palette": "bloom"}),
+        # not a design-level key — catch the old design-level form with a pointer.
         if 'palette' in design:
             return {
                 "status": "ERROR",
-                "message": ("Palette embedding is not available in this release. "
-                            "Remove the 'palette' key and build the network from "
-                            "standard operators instead (see docs/KNOWN_ISSUES.md)."),
+                "message": ("'palette' is a per-operator field, not a design-level key. "
+                            "Use {\"operators\": [{\"name\": \"glow\", \"palette\": \"bloom\"}], ...} — "
+                            "names come from KB/palette_components.json (277 registered components)."),
             }
 
         if 'operators' not in design:
@@ -1104,9 +1105,14 @@ async def list_tools() -> list[Tool]:
                 "2. Look up operator-specific parameter values via `get_operator_info` "
                 "or `find_parameter_usage` rather than guessing — invented types are "
                 "now rejected (Wave 3 B08) so build will fail noisily if you fabricate one.\n"
-                "3. Palette embedding is not available in this release: do not use "
-                "`palette` fields or `embed_tox` — build the network from standard "
-                "operators instead (see docs/KNOWN_ISSUES.md)."
+                "3. Pre-built components: give an operator a `palette` field naming a "
+                "registered component (e.g. {\"name\": \"glow\", \"palette\": \"bloom\"}) — "
+                "it loads from the user's own TD install at open time, arrives fully wired "
+                "(wire to/from it like any op; `\"from\": \"glow/out2\"` selects a second "
+                "output), and exposes its real custom parameter pages. 277 Derivative "
+                "palette items are registered in KB/palette_components.json; unknown names "
+                "fail with the registered-name hint. For an unregistered .tox file use "
+                "`external_tox` with a path instead. (`embed_tox` is removed.)"
             ),
             inputSchema={
                 "type": "object",
@@ -1117,7 +1123,7 @@ async def list_tools() -> list[Tool]:
                     },
                     "network_design": {
                         "type": "object",
-                        "description": "Advanced network design with containers and hierarchical paths. Takes precedence over 'design' if both provided. Palette embedding is not available in this release — do not add 'palette' or 'embed_tox' fields."
+                        "description": "Advanced network design with containers and hierarchical paths. Takes precedence over 'design' if both provided. Operators and containers may carry a 'palette' field naming a registered pre-built component (see caveat 3); 'embed_tox' is removed."
                     },
                     "table_data": {
                         "type": "object",

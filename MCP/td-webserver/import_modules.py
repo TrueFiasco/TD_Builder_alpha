@@ -1,7 +1,18 @@
+"""THIN BOOTSTRAP — the ONE piece embedded inside mcp_webserver_base.tox.
+
+It does only the bare minimum that MUST run inside the DAT context: it calls TD's
+`parent()` builtin to locate the .tox on disk, puts `<tox_dir>/modules` and
+`modules/td_server` on sys.path, then delegates ALL real work to the disk module
+`modules/bootstrap_mcp.py`.
+
+Keep this file tiny and stable. After the v0.2.0 .tox rebuild that installs this
+bootstrap, every other module change is disk-delivered — this is intended to be
+the last `.tox` touch. This on-disk copy is the CANONICAL SOURCE for the embedded
+DAT text: to update the embedded DAT, paste this file's contents verbatim.
+"""
+
 import os
 import sys
-
-import yaml
 
 
 def setup():
@@ -16,37 +27,8 @@ def setup():
 	if td_server_path not in sys.path:
 		sys.path.append(td_server_path)
 
-	schema_path = find_openapi_schema_path(modules_path)
-	try:
-		if schema_path is None:
-			raise FileNotFoundError(
-				"OpenAPI schema file not found in any known location."
-			)
-		with open(schema_path) as f:
-			openapi_schema = yaml.safe_load(f)
-	except Exception as e:
-		openapi_schema = {}
-		print("Failed to load OpenAPI schema:", e)
+	# Delegate to the disk module (importable now that modules_path is on sys.path).
+	# All boot logic lives there, so it can change without touching this .tox.
+	import bootstrap_mcp
 
-	import mcp
-
-	mcp.openapi_schema = openapi_schema
-
-
-def find_openapi_schema_path(modules_path):
-	candidates = [
-		os.path.join(
-			modules_path, "td_server", "openapi_server", "openapi", "openapi.yaml"
-		),
-		os.path.join(
-			os.path.dirname(os.path.dirname(modules_path)),
-			"td_server",
-			"openapi_server",
-			"openapi",
-			"openapi.yaml",
-		),
-	]
-	for path in candidates:
-		if os.path.exists(path):
-			return path
-	return None
+	bootstrap_mcp.setup(modules_path)

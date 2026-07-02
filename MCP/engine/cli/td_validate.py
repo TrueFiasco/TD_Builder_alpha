@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-td-validate: Validate TouchDesigner network JSON
+td_validate: Validate TouchDesigner network JSON
 
 Command-line tool for validating TD network JSON files using the
 5-stage validation pipeline.
 
-Usage:
-    td-validate network.json
-    td-validate network.json --verbose
-    td-validate network.json --format builder
+Usage (run directly — no console command is installed):
+    python "Tools/offline Builder tools/td_validate.py" network.json
+    python "Tools/offline Builder tools/td_validate.py" network.json --verbose
+    python "Tools/offline Builder tools/td_validate.py" network.json --format builder
 """
 
 import sys
@@ -32,10 +32,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  td-validate network.json
-  td-validate network.json --verbose
-  td-validate network.json --format builder
-  td-validate network.json -v --no-color
+  td_validate.py network.json
+  td_validate.py network.json --verbose
+  td_validate.py network.json --format builder
+  td_validate.py network.json -v --no-color
 
 Exit codes:
   0 - Network is valid
@@ -52,9 +52,9 @@ Exit codes:
 
     parser.add_argument(
         "--format", "-f",
-        choices=["builder", "extended", "canonical"],
+        choices=["builder", "canonical"],
         default="builder",
-        help="Input format layer (default: builder)"
+        help="Input format layer (default: builder; 'extended' is internal-only, not implemented as a JSON layer)"
     )
 
     parser.add_argument(
@@ -106,11 +106,8 @@ Exit codes:
     try:
         if args.format == "builder":
             network = converter.from_builder(network_json)
-        elif args.format == "canonical":
+        else:  # canonical
             network = converter.from_canonical(network_json)
-        else:  # extended
-            # TODO: Implement proper Extended JSON deserialization
-            network = converter.from_builder(network_json)
     except Exception as e:
         print(f"Error: Failed to convert network: {e}", file=sys.stderr)
         return 2

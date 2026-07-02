@@ -15,8 +15,9 @@ MCP/
 
 ## Registering the servers
 
-Both servers are plain `python <file>` stdio servers. Register **`td-builder`** always, and
-**`td-builder-live`** only when you'll have TouchDesigner open (it carries 19 extra tool schemas).
+Both servers are plain stdio servers launched with a Python interpreter. Register **`td-builder`**
+always, and **`td-builder-live`** only when you'll have TouchDesigner open (it carries 19 extra
+tool schemas).
 
 Use `claude_desktop_config.json` (template below — replace `<RELEASE_ROOT>` with this folder's path):
 
@@ -24,18 +25,23 @@ Use `claude_desktop_config.json` (template below — replace `<RELEASE_ROOT>` wi
 {
   "mcpServers": {
     "td-builder": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/server.py"],
       "env": { "PYTHONIOENCODING": "utf-8", "TD_BUILDER_ROOT": "<RELEASE_ROOT>" }
     },
     "td-builder-live": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/live_server.py"],
       "env": { "PYTHONIOENCODING": "utf-8", "TD_API_URL": "http://127.0.0.1:9981" }
     }
   }
 }
 ```
+
+- **`command` must be the venv's interpreter** — the one the quick start installed the deps into:
+  `<RELEASE_ROOT>\.venv\Scripts\python.exe` (Windows) / `<RELEASE_ROOT>/.venv/bin/python`
+  (macOS/Linux). A bare `"python"` is the system interpreter: no deps installed there, so the
+  server exits with `ImportError` before registering.
 
 - Setting **`TD_BUILDER_ROOT`** makes the install fully relocatable (the server resolves `KB/`,
   `Agents/`, etc. from there). Without it, paths are inferred from the file location.
@@ -45,8 +51,8 @@ Use `claude_desktop_config.json` (template below — replace `<RELEASE_ROOT>` wi
 
 ## What each server exposes
 
-- **`td-builder` (offline, 16 tools):** KB search + `td_validate` / `td_convert` / `td_build_project`
-  + `expand_toe_file` + `get_expert_prompt` + `get_server_info`. 100% key-free.
+- **`td-builder` (offline, 17 tools):** KB search + `td_validate` / `td_convert` / `td_build_project`
+  / `td_build_status` + `expand_toe_file` + `get_expert_prompt` + `get_server_info`. 100% key-free.
 - **`td-builder-live` (19 tools):** capture / node CRUD / introspection of the running TD project.
 
 Full tool reference: [`../Tools/TOOLS.md`](../Tools/TOOLS.md).

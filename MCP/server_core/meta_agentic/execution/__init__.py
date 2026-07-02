@@ -1,4 +1,4 @@
-"""Execution layer (trimmed for the V0.1.1 release).
+"""Execution layer (trimmed for the key-free release).
 
 Only the modules the MCP server uses remain:
     blackboard, metrics, orchestrator, tox_builder, toe_builder_bridge,

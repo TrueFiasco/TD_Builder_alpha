@@ -9,7 +9,7 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
 ```
 
 - **Offline checks** (server identity, tool inventory, KB search, `td_validate`/`td_convert`/
-  `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (16 tools).
+  `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (17 tools).
 - **Live checks** (identity / topology / capture / diagnostics / CRUD) run against the
   **`td-builder-live`** server (19 tools) and need TouchDesigner open (WebServer DAT on `:9981`).
   With TD down they still pass via the graceful "not running" path.
@@ -21,4 +21,5 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
 | `acceptance/test_acceptance.py` | The main probes P01–P19 (offline + live). |
 | `measure/test_smoke.py` | Server-loads + tool-inventory + 5-stage validate smoke. |
 | `measure/_server.py`, `measure/probe.py` | In-process loaders for the two servers + the probe used by `conftest.py`. |
+| `engine/` | Unit tests for the TD-file engine (builder, expand, quoting, validators, …). Not part of the quick gate above — run with `py -3.11 -m pytest tests\engine -q`. |
 | `conftest.py` | `probe` (offline) + `live_probe` (live) fixtures; warms the KB before KB tests. |

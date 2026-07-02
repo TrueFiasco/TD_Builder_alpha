@@ -1,8 +1,8 @@
 {
-  "_comment": "TD Builder V0.1.1 client config template. Replace <RELEASE_ROOT> with the absolute path to this release folder (the parent of this MCP/ directory). IMPORTANT: 'command' must be a Python 3.11-3.13 interpreter -- chromadb has no 3.14 wheel, so a bare 'python' that resolves to 3.14 will fail to start; put the full path to a 3.11-3.13 python if your default isn't one. Register td-builder always; add td-builder-live only when TouchDesigner is open.",
+  "_comment": "TD Builder v0.2.0 client config template. Replace <RELEASE_ROOT> with the absolute path to this release folder (the parent of this MCP/ directory). IMPORTANT: 'command' must be the SAME interpreter the dependencies were installed into. The quick start installs them into a venv at <RELEASE_ROOT>/.venv, so point 'command' at that venv's python: <RELEASE_ROOT>/.venv/Scripts/python.exe on Windows, <RELEASE_ROOT>/.venv/bin/python on macOS/Linux. A bare 'python' resolves to the system interpreter, which does NOT have the deps (the server dies with ImportError) and may be an unsupported 3.14+ (chromadb has no 3.14 wheel). Register td-builder always; add td-builder-live only when TouchDesigner is open.",
   "mcpServers": {
     "td-builder": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/server.py"],
       "env": {
         "PYTHONIOENCODING": "utf-8",
@@ -10,7 +10,7 @@
       }
     },
     "td-builder-live": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/live_server.py"],
       "env": {
         "PYTHONIOENCODING": "utf-8",

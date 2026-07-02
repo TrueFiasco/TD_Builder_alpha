@@ -156,8 +156,18 @@ except Exception as e:
     print(f"WARNING: Compaction not available: {e}", file=sys.stderr)
 
 
+# Release root: honor the documented TD_BUILDER_ROOT relocation knob (see
+# MCP/README.md / Config/SETTINGS.md), else infer from this file's location
+# (<root>/MCP/server_core/mcp_server.py). Everything the offline server
+# resolves on disk (Agents/, KB/) hangs off this.
+_RELEASE_ROOT = (
+    Path(os.environ["TD_BUILDER_ROOT"]).resolve()
+    if os.environ.get("TD_BUILDER_ROOT")
+    else Path(__file__).resolve().parents[2]
+)
+
 # Expert prompts for td_designer, network_builder, etc.
-EXPERTS_DIR = Path(__file__).resolve().parents[2] / "Agents" / "experts"
+EXPERTS_DIR = _RELEASE_ROOT / "Agents" / "experts"
 
 AVAILABLE_EXPERTS = {
     "td_designer": {
@@ -273,9 +283,9 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
 # Fix: resolve bundle paths now (cheap) and DEFER the heavy construction to
 # the first KB-dependent tool call via _ensure_kb().
 try:
-    # Prefer the consolidated alpha KB/ bundle (repo-root/KB); fall back to the
-    # legacy META_AGENTIC_TOOL/data layout (pre_alpha baseline).
-    _kb = Path(__file__).resolve().parents[2] / "KB"
+    # Prefer the consolidated alpha KB/ bundle (release-root/KB); fall back to
+    # the legacy META_AGENTIC_TOOL/data layout (pre_alpha baseline).
+    _kb = _RELEASE_ROOT / "KB"
     _data = Path(__file__).parent / "data"
     if (_kb / "operators.json").exists():
         enhanced_graph_path = _kb / "knowledge_graph_enhanced.gpickle"
@@ -295,7 +305,7 @@ except Exception as e:
 # from the installed KB, and that decoupling has already caused version
 # confusion (server reported one version while the KB was another). Surface the
 # KB manifest's own version next to it.
-_KB_ROOT = Path(__file__).resolve().parents[2] / "KB"
+_KB_ROOT = _RELEASE_ROOT / "KB"
 _KB_MANIFEST_VERSION = None
 try:
     _KB_MANIFEST_VERSION = json.loads(
@@ -1155,11 +1165,11 @@ async def list_tools() -> list[Tool]:
                 "properties": {
                     "network": {
                         "type": "object",
-                        "description": "TD network JSON (builder, extended, or canonical format)"
+                        "description": "TD network JSON (builder or canonical format)"
                     },
                     "format_layer": {
                         "type": "string",
-                        "enum": ["builder", "extended", "canonical"],
+                        "enum": ["builder", "canonical"],
                         "default": "builder",
                         "description": "Input format layer"
                     },
@@ -1176,8 +1186,9 @@ async def list_tools() -> list[Tool]:
             name="td_convert",
             description=(
                 "Convert TouchDesigner network JSON between format layers. "
-                "Supports: builder (AI-friendly) <-> extended (ground truth) <-> canonical (compact). "
-                "Always converts through Extended as hub - never directly between Builder and Canonical."
+                "Supports: builder (AI-friendly) <-> canonical (compact). "
+                "Conversion passes through the internal in-memory Extended representation "
+                "(TDNetwork) as hub; 'extended' is not an importable/exportable JSON layer."
             ),
             inputSchema={
                 "type": "object",
@@ -1188,12 +1199,12 @@ async def list_tools() -> list[Tool]:
                     },
                     "source_layer": {
                         "type": "string",
-                        "enum": ["builder", "extended", "canonical"],
+                        "enum": ["builder", "canonical"],
                         "description": "Source format layer"
                     },
                     "target_layer": {
                         "type": "string",
-                        "enum": ["builder", "extended", "canonical"],
+                        "enum": ["builder", "canonical"],
                         "description": "Target format layer"
                     }
                 },
@@ -1932,13 +1943,20 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 format_layer = arguments.get("format_layer", "builder")
                 verbose = arguments.get("verbose", False)
 
-                # Convert to TDNetwork if needed
+                # Convert to TDNetwork if needed. 'extended' exists only as the
+                # in-memory TDNetwork hub — there is no Extended JSON (de)serializer,
+                # so refuse it honestly instead of silently parsing as builder.
                 if format_layer == "builder":
                     network = _converter.from_builder(network_json)
                 elif format_layer == "canonical":
                     network = _converter.from_canonical(network_json)
-                else:  # extended
-                    network = _converter.from_builder(network_json)
+                else:
+                    return [TextContent(type="text", text=json.dumps({
+                        "status": "NOT_IMPLEMENTED",
+                        "error": f"format_layer '{format_layer}' is not implemented in this release.",
+                        "hint": "Use 'builder' or 'canonical'. 'extended' is the internal in-memory "
+                                "representation and has no JSON form to validate.",
+                    }, indent=2))]
 
                 # Validate
                 project_name = network_json.get("meta", {}).get("project_name", "network")
@@ -1990,22 +2008,29 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 if not source_layer or not target_layer:
                     return [TextContent(type="text", text="Error: 'source_layer' and 'target_layer' are required")]
 
-                # Convert source -> Extended (ground truth)
+                # 'extended' is the internal in-memory hub (TDNetwork) — there is no
+                # Extended JSON (de)serializer, so refuse it with a clear error
+                # instead of mislabeling builder JSON as extended.
+                if source_layer not in ("builder", "canonical") or target_layer not in ("builder", "canonical"):
+                    bad = source_layer if source_layer not in ("builder", "canonical") else target_layer
+                    return [TextContent(type="text", text=json.dumps({
+                        "status": "NOT_IMPLEMENTED",
+                        "error": f"format layer '{bad}' is not implemented in this release.",
+                        "hint": "Use 'builder' or 'canonical'. Conversion already passes through the "
+                                "internal Extended (TDNetwork) hub; it has no JSON form to emit or ingest.",
+                    }, indent=2))]
+
+                # Convert source -> Extended hub (in-memory)
                 if source_layer == "builder":
                     network = _converter.from_builder(network_json)
-                elif source_layer == "canonical":
+                else:  # canonical
                     network = _converter.from_canonical(network_json)
-                else:  # already extended
-                    network = _converter.from_builder(network_json)
 
-                # Convert Extended -> target
+                # Convert Extended hub -> target
                 if target_layer == "builder":
                     result_json = _converter.to_builder(network)
-                elif target_layer == "canonical":
+                else:  # canonical
                     result_json = _converter.to_canonical(network)
-                else:  # extended
-                    result_json = _converter.to_builder(network)
-                    result_json["format_layer"] = "extended"
 
                 return [TextContent(type="text", text=json.dumps(result_json, indent=2))]
             except Exception as e:

@@ -1,4 +1,4 @@
-"""`td-convert` launcher — bootstraps the engine and runs the format converter."""
+"""td_convert launcher — bootstraps the engine and runs the format converter. Run directly with python (no console command is installed)."""
 import sys
 from pathlib import Path
 

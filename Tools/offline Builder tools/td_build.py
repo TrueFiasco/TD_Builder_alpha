@@ -1,4 +1,4 @@
-"""`td-build` launcher — bootstraps the engine and runs the .toe/.tox builder."""
+"""td_build launcher — bootstraps the engine and runs the .toe/.tox builder. Run directly with python (no console command is installed)."""
 import sys
 from pathlib import Path
 

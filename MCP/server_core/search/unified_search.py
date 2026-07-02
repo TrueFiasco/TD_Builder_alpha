@@ -1,11 +1,10 @@
 """
 Unified Search Adapter
 
-Provides backward-compatible API with HybridGraphRAG while supporting:
-- Multiple embedding providers (Voyage, OpenAI, Cohere, local)
-- Query caching
-- Feature flags for gradual rollout
-- Performance monitoring
+Backward-compatible API with HybridGraphRAG over the enhanced backend:
+local (key-free) embeddings + the Phase-2 hybrid retrieval stack
+(dense + BM25 + RRF + router + rerank), degrading to dense-only when the
+Phase-2 artifacts are absent.
 
 This adapter maintains 100% API compatibility with the original HybridGraphRAG class.
 """
@@ -26,10 +25,8 @@ class UnifiedSearchAdapter:
     """
     Drop-in replacement for HybridGraphRAG with enhanced capabilities.
 
-    Maintains identical API signatures while using improved backend:
-    - Better embedding models (Voyage-code-2, OpenAI, Cohere)
-    - Query caching for performance
-    - Configuration-driven provider selection
+    Maintains identical API signatures while using the improved backend:
+    local embeddings + the Phase-2 hybrid retrieval stack.
     """
 
     def __init__(self,
@@ -55,7 +52,6 @@ class UnifiedSearchAdapter:
         print(f"  Embedding model: {SearchConfig.EMBEDDING_MODEL}")
         print(f"  Vector DB path: {self.vectordb_path}")
         print(f"  Graph path: {self.graph_path}")
-        print(f"  Cache enabled: {SearchConfig.CACHE_ENABLED}")
 
         # Initialize backend
         if use_legacy:
@@ -65,10 +61,8 @@ class UnifiedSearchAdapter:
             print("  Using ENHANCED backend with new embeddings")
             self._init_enhanced_backend()
 
-        # Initialize cache if enabled
+        # No query cache in this release (kept as an attribute for API compat).
         self.cache = None
-        if SearchConfig.CACHE_ENABLED and not use_legacy:
-            self._init_cache()
 
         print("[OK] Unified Search Adapter ready!\n")
 
@@ -143,23 +137,11 @@ class UnifiedSearchAdapter:
             self.retrieval_stack = None
 
     def _init_vector_search(self):
-        """Initialize vector search with configured embedding provider."""
-        provider = SearchConfig.EMBEDDING_PROVIDER
-
-        if provider == "local":
-            # Use existing sentence-transformers implementation
-            self._init_local_vector_search()
-        else:
-            # Try API-based provider, fall back to local if needed
-            try:
-                self._init_api_vector_search(provider)
-            except Exception as e:
-                if SearchConfig.FALLBACK_TO_LOCAL:
-                    print(f"  Warning: {provider} initialization failed: {e}")
-                    print("  Falling back to local embeddings...")
-                    self._init_local_vector_search()
-                else:
-                    raise
+        """Initialize vector search — local embeddings only (key-free release)."""
+        if SearchConfig.EMBEDDING_PROVIDER != "local":
+            print(f"  Warning: EMBEDDING_PROVIDER={SearchConfig.EMBEDDING_PROVIDER!r} is not "
+                  "supported (key-free/local-only release); using local embeddings")
+        self._init_local_vector_search()
 
     def _init_local_vector_search(self):
         """Initialize local sentence-transformers vector search."""
@@ -176,28 +158,6 @@ class UnifiedSearchAdapter:
             self.embedding_provider = "local"
         except Exception as e:
             raise ImportError(f"Could not load local vector search: {e}")
-
-    def _init_api_vector_search(self, provider: str):
-        """
-        Initialize API-based vector search (Voyage, OpenAI, Cohere).
-
-        For Phase 1, we fall back to local. This will be implemented in Phase 3.
-        """
-        # TODO: Implement in Phase 3 with new embedding providers
-        raise NotImplementedError(
-            f"API-based vector search ({provider}) will be implemented in Phase 3. "
-            "Using fallback for now."
-        )
-
-    def _init_cache(self):
-        """Initialize query cache."""
-        try:
-            from cache.query_cache import QueryCache
-            self.cache = QueryCache(SearchConfig.CACHE_PATH)
-            print("  Query cache initialized")
-        except Exception as e:
-            print(f"  Warning: Could not initialize cache: {e}")
-            self.cache = None
 
     # ==================================================================
     # PUBLIC API - Maintains backward compatibility with HybridGraphRAG
@@ -220,12 +180,6 @@ class UnifiedSearchAdapter:
         Returns:
             Dict with 'semantic_results' and 'relationships'
         """
-        # Check cache first (if enabled and not using legacy)
-        if self.cache and not self.use_legacy:
-            cached = self.cache.get(query, n_results)
-            if cached:
-                return cached
-
         # Delegate to backend
         if self.use_legacy:
             result = self.backend.search(
@@ -235,10 +189,6 @@ class UnifiedSearchAdapter:
             result = self._enhanced_search(
                 query, n_results, include_relationships, relationship_depth
             )
-
-        # Cache result (if enabled)
-        if self.cache and not self.use_legacy:
-            self.cache.set(query, n_results, result)
 
         return result
 
@@ -422,15 +372,12 @@ class UnifiedSearchAdapter:
             'embedding_model': SearchConfig.EMBEDDING_MODEL,
             'vector_db_path': self.vectordb_path,
             'graph_path': self.graph_path,
-            'cache_enabled': SearchConfig.CACHE_ENABLED and self.cache is not None,
+            'cache_enabled': False,
             'use_legacy': self.use_legacy
         }
 
     def clear_cache(self):
-        """Clear query cache."""
-        if self.cache:
-            self.cache.clear()
-            return True
+        """No query cache in this release — kept for API compatibility."""
         return False
 
 

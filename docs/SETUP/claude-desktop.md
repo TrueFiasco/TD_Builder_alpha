@@ -13,20 +13,23 @@ absolute path. **No API key is needed.**
 {
   "mcpServers": {
     "td-builder": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/server.py"],
       "env": { "PYTHONIOENCODING": "utf-8", "TD_BUILDER_ROOT": "<RELEASE_ROOT>" }
     },
     "td-builder-live": {
-      "command": "python",
+      "command": "<RELEASE_ROOT>/.venv/Scripts/python.exe",
       "args": ["<RELEASE_ROOT>/MCP/live_server.py"],
       "env": { "PYTHONIOENCODING": "utf-8", "TD_API_URL": "http://127.0.0.1:9981" }
     }
   }
 }
 ```
-- Use your Python 3.11 path (or `"python"` if 3.11 is first on `PATH`). Run
-  `python scripts\check_deps.py` first to confirm deps + KB are in place.
+- **`command` must be the venv's python** — the interpreter the quick start installed the
+  dependencies into: `<RELEASE_ROOT>\.venv\Scripts\python.exe` (Windows) or
+  `<RELEASE_ROOT>/.venv/bin/python` (macOS/Linux). A bare `"python"` is the system interpreter,
+  which doesn't have the deps — the server dies with `ImportError` before it ever registers.
+  Verify with `.venv\Scripts\python.exe scripts\check_deps.py` (all green) before restarting.
 - Add **`td-builder-live`** only when TouchDesigner is open (it carries 19 extra tool schemas).
 
 ## 3. Restart Claude Desktop

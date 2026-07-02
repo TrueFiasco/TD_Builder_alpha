@@ -292,7 +292,7 @@ This caught real bugs that visual inspection missed in the prior session: bake c
 
 ## Key-free — no API key, no modes
 
-This release has no API key and a single mode. Every tool (16 offline + 19 live)
+This release has no API key and a single mode. Every tool (17 offline + 19 live)
 works with no credentials; KB search uses a local embedding model. There are no
 agent-spawning tools.
 

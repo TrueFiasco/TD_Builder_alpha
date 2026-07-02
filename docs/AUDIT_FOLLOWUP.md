@@ -10,13 +10,13 @@
 
 **Concern (audit):** `mcp_server.py` ends `list_tools` with
 `if TD_LIVE_ENABLED and TD_LIVE_TOOLS: tools.extend(TD_LIVE_TOOLS)`, supposedly undercutting the clean
-"16 offline / 19 live" split.
+offline / live split (17 offline / 19 live as of Round-3's `td_build_status`).
 
 **What's actually true.** The offline entry point `MCP/server.py` calls `bootstrap.setup()`, which puts
 only the repo root, `MCP/engine`, and `MCP/server_core` on `sys.path` — **not** `MCP/live_client`. So the
 guarded import `from td_live_client import TD_LIVE_TOOLS, …` (mcp_server.py, ~line 62) raises `ImportError`,
 `TD_LIVE_ENABLED` is set `False`, and the `tools.extend(...)` line is never reached. A normal offline
-launch advertises **16 tools**, not 35. The live tools are served only by `MCP/live_server.py`
+launch advertises **the 17 offline tools only**, never the live set. The live tools are served only by `MCP/live_server.py`
 (`td-builder-live`), which explicitly adds `live_client` to `sys.path`.
 
 **Recommendation (optional, defense-in-depth):** either have the offline entry point force live-off
@@ -46,6 +46,10 @@ for full fidelity, or **Builder** (`to_builder`, re-enrichable via `from_builder
 **Recommendation (owner decision):** either (a) implement a genuine `to_extended()` / `from_extended()`
 pair, or (b) **reject `extended` with a clear "not supported — use builder or lossless" error** instead of
 silently mislabeling. Option (b) is the smaller, honest fix.
+
+**Resolved (v0.2.0) — option (b) implemented.** `extended` was removed from the `td_validate` /
+`td_convert` tool schemas and the CLI `choices`; an explicit `extended` request to the MCP tools now
+returns a structured `NOT_IMPLEMENTED` error, and the dead `to_extended()` call path was deleted.
 
 ---
 
@@ -94,8 +98,12 @@ whether to wire it or drop it during the wiring work.
 - **Duplicate `search_config.json`.** Code loads `MCP/server_core/config/search_config.json`
   (`MCP/server_core/config/__init__.py:18`). The `Config/search_config.json` copy is the **unused
   duplicate** → keep the server_core copy, remove/redirect the `Config/` one (confirm identical first).
+  **Resolved (v0.2.0) the other way around:** the code now loads the documented locations — root
+  `.env` and `Config/search_config.json` (with `MCP/server_core/` as legacy fallback) — and the
+  server_core copy was deleted. See `Config/SETTINGS.md`.
 - **Duplicate `.env.template`** (`./.env.template` vs `Config/.env.template`) → determine which the setup
-  docs point at, keep one, redirect the other.
+  docs point at, keep one, redirect the other. **Resolved (v0.2.0):** the stale root `./.env.template`
+  was deleted; `Config/.env.template` is the one template, copied to a root `.env` which the code loads.
 - **Process-wide `sys.stdout = sys.stderr` swaps** (`mcp_server.py:~39-40, ~320-321, ~406`) — a workaround
   for leftover `print()`s in the search modules. → Convert those prints to `logging`/stderr and remove the
   swaps.

@@ -1,92 +1,94 @@
 """
-Configuration management for MCP search system.
-Loads settings from search_config.json and environment variables.
+Configuration for the KB search stack — ONE config story (see Config/SETTINGS.md).
+
+Precedence, highest first:
+  1. Real environment variables (e.g. set in the MCP client config's "env" block)
+  2. `.env` at the release root (copy of Config/.env.template)
+     — legacy fallback: MCP/server_core/.env
+  3. `Config/search_config.json`
+     — legacy fallback: MCP/server_core/config/search_config.json
+  4. The code defaults below
+
+The release root is TD_BUILDER_ROOT if set, else three levels above this file
+(config/ -> server_core -> MCP -> root). Relative configured paths resolve
+against the release root, never the process CWD.
+
+Key-free: local embeddings only. There are no cloud providers and no API keys.
 """
 
 import os
 import json
 from pathlib import Path
-from typing import Dict, Any, Optional
-from dotenv import load_dotenv
+from typing import Any, Dict, Optional
 
-# Load environment variables from .env file
-env_path = Path(__file__).parent.parent / ".env"
-if env_path.exists():
-    load_dotenv(env_path)
+_ROOT = (
+    Path(os.environ["TD_BUILDER_ROOT"]).resolve()
+    if os.environ.get("TD_BUILDER_ROOT")
+    else Path(__file__).resolve().parents[3]
+)
 
-# Load JSON configuration
-config_path = Path(__file__).parent / "search_config.json"
-if config_path.exists():
-    with open(config_path, 'r') as f:
-        _CONFIG = json.load(f)
-else:
-    _CONFIG = {}
+
+def _load_env_file(path: Path) -> None:
+    """Minimal KEY=VALUE .env loader ('#' comments, optional quotes). Values only
+    fill unset keys, so real environment variables keep precedence. Deliberately
+    dependency-free — python-dotenv is not a declared dependency."""
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            key, value = key.strip(), value.strip().strip('"').strip("'")
+            if key:
+                os.environ.setdefault(key, value)
+    except Exception as e:  # noqa: BLE001 — config must never kill the server
+        print(f"Warning: could not read {path}: {e}")
+
+
+for _env_path in (_ROOT / ".env", Path(__file__).parent.parent / ".env"):
+    if _env_path.exists():
+        _load_env_file(_env_path)
+        break
+
+_CONFIG: Dict[str, Any] = {}
+for _cfg_path in (_ROOT / "Config" / "search_config.json",
+                  Path(__file__).parent / "search_config.json"):
+    if _cfg_path.exists():
+        try:
+            with open(_cfg_path, "r", encoding="utf-8") as f:
+                _CONFIG = json.load(f)
+        except Exception as e:  # noqa: BLE001
+            print(f"Warning: could not parse {_cfg_path}: {e}")
+        break
+
+
+def _resolve(p: str) -> Path:
+    path = Path(p)
+    return path if path.is_absolute() else _ROOT / path
 
 
 class SearchConfig:
-    """Configuration for search and embedding system."""
+    """Configuration for the search/embedding system (key-free, local-only)."""
 
-    # Embedding Provider
+    # Embedding — local only. The shipped vector store was built with
+    # all-MiniLM-L6-v2; KB/manifest.json is authoritative for the model id,
+    # these values are the fallback when the manifest doesn't self-declare.
     EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER", _CONFIG.get("embedding_provider", "local"))
     EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", _CONFIG.get("embedding_model", "all-MiniLM-L6-v2"))
 
-    # API Keys
-    VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY")
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    COHERE_API_KEY = os.getenv("COHERE_API_KEY")
-
-    # Paths
-    VECTOR_DB_PATH = Path(
-        os.getenv("UNIFIED_VECTORDB_PATH", _CONFIG.get("vector_db_path", "C:/TD_Projects/kb_pipeline/vector_db"))
-    )
-    GRAPH_DATA_PATH = Path(
-        os.getenv("GRAPH_DATA_PATH", _CONFIG.get("graph_path", "C:/TD_Projects/kb_pipeline/graph/td_knowledge_graph_merged.gpickle"))
-    )
-
-    # Fallback options
-    FALLBACK_TO_LOCAL = os.getenv("FALLBACK_TO_LOCAL", str(_CONFIG.get("fallback_to_local", True))).lower() == "true"
-
-    # Performance settings
-    MAX_CONCURRENT_CALLS = int(os.getenv("MAX_CONCURRENT_API_CALLS", _CONFIG.get("performance", {}).get("max_concurrent_api_calls", 5)))
-    QUERY_TIMEOUT = int(os.getenv("QUERY_TIMEOUT_MS", _CONFIG.get("performance", {}).get("query_timeout_ms", 5000)))
-    PARALLEL_QUERIES = _CONFIG.get("performance", {}).get("parallel_queries", True)
-
-    # Cache settings
-    CACHE_ENABLED = os.getenv("CACHE_ENABLED", str(_CONFIG.get("cache_enabled", True))).lower() == "true"
-    CACHE_TTL = int(os.getenv("CACHE_TTL_HOURS", _CONFIG.get("cache_ttl_hours", 24))) * 3600
-    CACHE_PATH = Path(__file__).parent.parent / "cache" / "search_cache.db"
-
-    # Search settings
-    DEFAULT_N_RESULTS = _CONFIG.get("search", {}).get("default_n_results", 5)
-    VECTOR_SEARCH_MULTIPLIER = _CONFIG.get("search", {}).get("vector_search_multiplier", 4)
-    RERANK_ENABLED = _CONFIG.get("search", {}).get("rerank_enabled", False)
-    QUERY_EXPANSION_ENABLED = _CONFIG.get("search", {}).get("query_expansion_enabled", True)
-
-    # Metadata settings
-    SEMANTIC_TAGS_ENABLED = _CONFIG.get("metadata", {}).get("semantic_tags_enabled", True)
-    POPULARITY_TRACKING_ENABLED = _CONFIG.get("metadata", {}).get("popularity_tracking_enabled", True)
+    # Paths (relative entries resolve against the release root)
+    VECTOR_DB_PATH = _resolve(os.getenv("UNIFIED_VECTORDB_PATH", _CONFIG.get("vector_db_path", "KB/vector_db")))
+    GRAPH_DATA_PATH = _resolve(os.getenv("GRAPH_DATA_PATH", _CONFIG.get("graph_path", "KB/knowledge_graph_enhanced.gpickle")))
 
     @classmethod
     def validate(cls) -> tuple[bool, Optional[str]]:
-        """
-        Validate configuration settings.
-        Returns (is_valid, error_message).
-        """
-        # Check if embedding provider is valid
-        if cls.EMBEDDING_PROVIDER not in ["voyage", "openai", "cohere", "local"]:
-            return False, f"Invalid embedding provider: {cls.EMBEDDING_PROVIDER}"
-
-        # Check API keys for non-local providers
-        if cls.EMBEDDING_PROVIDER == "voyage" and not cls.VOYAGE_API_KEY:
-            if not cls.FALLBACK_TO_LOCAL:
-                return False, "VOYAGE_API_KEY not set and fallback disabled"
-        elif cls.EMBEDDING_PROVIDER == "openai" and not cls.OPENAI_API_KEY:
-            if not cls.FALLBACK_TO_LOCAL:
-                return False, "OPENAI_API_KEY not set and fallback disabled"
-        elif cls.EMBEDDING_PROVIDER == "cohere" and not cls.COHERE_API_KEY:
-            if not cls.FALLBACK_TO_LOCAL:
-                return False, "COHERE_API_KEY not set and fallback disabled"
-
+        """Returns (is_valid, error_message)."""
+        if cls.EMBEDDING_PROVIDER != "local":
+            return False, (
+                f"EMBEDDING_PROVIDER={cls.EMBEDDING_PROVIDER!r} is not supported: this release "
+                "is key-free/local-only (the shipped vector store was embedded with a local "
+                "model, so cloud query embeddings would not match it). Set EMBEDDING_PROVIDER=local."
+            )
         return True, None
 
     @classmethod
@@ -97,9 +99,6 @@ class SearchConfig:
             "embedding_model": cls.EMBEDDING_MODEL,
             "vector_db_path": str(cls.VECTOR_DB_PATH),
             "graph_path": str(cls.GRAPH_DATA_PATH),
-            "fallback_to_local": cls.FALLBACK_TO_LOCAL,
-            "cache_enabled": cls.CACHE_ENABLED,
-            "parallel_queries": cls.PARALLEL_QUERIES,
         }
 
 
@@ -107,5 +106,4 @@ class SearchConfig:
 is_valid, error = SearchConfig.validate()
 if not is_valid:
     print(f"Warning: Configuration validation failed: {error}")
-    if SearchConfig.FALLBACK_TO_LOCAL:
-        print("Will fall back to local embeddings (all-MiniLM-L6-v2)")
+    print("Continuing with local embeddings (all-MiniLM-L6-v2)")

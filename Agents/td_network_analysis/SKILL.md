@@ -448,7 +448,7 @@ Use it as the foundation for understanding any TD network before suggesting modi
 
 ---
 
-**Skill Version:** 1.1 (V0.1.1 — uses `expand_toe_file` + KB tools)  
+**Skill Version:** 1.1 (release v0.2.0 — uses `expand_toe_file` + KB tools)  
 **Operator Database:** TouchDesigner 2025 (via `KB/operators.json`)  
 **Dependencies:** the offline `td-builder` MCP tools — `expand_toe_file`, `get_operator_info`,
 `get_parameter_detail`, `hybrid_search`, `query_graph`, `find_operator_examples`

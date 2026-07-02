@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-td-build: Build TouchDesigner .toe/.tox files from network JSON
+td_build: Build TouchDesigner .toe/.tox files from network JSON
 
 Command-line tool for building TouchDesigner project files (.toe) or
 component files (.tox) from network JSON.
 
-Usage:
-    td-build network.json --output project.toe
-    td-build network.json -o component.tox --mode tox
-    td-build network.json -o project.toe --format builder --verbose
+Usage (run directly — no console command is installed):
+    python "Tools/offline Builder tools/td_build.py" network.json --output project.toe
+    python "Tools/offline Builder tools/td_build.py" network.json -o component.tox --mode tox
+    python "Tools/offline Builder tools/td_build.py" network.json -o project.toe --format builder --verbose
 """
 
 import sys
@@ -34,10 +34,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  td-build network.json --output project.toe
-  td-build network.json -o component.tox --mode tox
-  td-build network.json -o project.toe --format builder --verbose
-  td-build network.json -o project.toe -v
+  td_build.py network.json --output project.toe
+  td_build.py network.json -o component.tox --mode tox
+  td_build.py network.json -o project.toe --format builder --verbose
+  td_build.py network.json -o project.toe -v
 
 Output:
   Creates .toe.dir/ directory with all operator files
@@ -66,9 +66,9 @@ Exit codes:
 
     parser.add_argument(
         "--format", "-f",
-        choices=["builder", "extended", "canonical", "lossless"],
+        choices=["builder", "canonical", "lossless"],
         default="builder",
-        help="Input format layer (default: builder)"
+        help="Input format layer (default: builder; 'extended' is internal-only, not implemented as a JSON layer)"
     )
 
     parser.add_argument(

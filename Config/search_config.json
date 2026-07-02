@@ -2,23 +2,5 @@
   "embedding_provider": "local",
   "embedding_model": "all-MiniLM-L6-v2",
   "vector_db_path": "KB/vector_db",
-  "graph_path": "KB/knowledge_graph_enhanced.gpickle",
-  "fallback_to_local": true,
-  "cache_enabled": true,
-  "cache_ttl_hours": 24,
-  "performance": {
-    "parallel_queries": true,
-    "max_concurrent_api_calls": 5,
-    "query_timeout_ms": 5000
-  },
-  "search": {
-    "default_n_results": 5,
-    "vector_search_multiplier": 4,
-    "rerank_enabled": false,
-    "query_expansion_enabled": true
-  },
-  "metadata": {
-    "semantic_tags_enabled": true,
-    "popularity_tracking_enabled": true
-  }
+  "graph_path": "KB/knowledge_graph_enhanced.gpickle"
 }

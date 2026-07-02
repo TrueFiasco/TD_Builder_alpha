@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-td-convert: Convert TouchDesigner network JSON between format layers
+td_convert: Convert TouchDesigner network JSON between format layers
 
-Command-line tool for converting TD network JSON files between different
-format layers (builder, extended, canonical).
+Command-line tool for converting TD network JSON files between the builder and
+canonical format layers (via the internal in-memory Extended hub).
 
-Usage:
-    td-convert network.json --from builder --to canonical
-    td-convert network.json --from builder --to canonical --output out.json
-    td-convert network.json --from canonical --to builder --pretty
+Usage (run directly — no console command is installed):
+    python "Tools/offline Builder tools/td_convert.py" network.json --from builder --to canonical
+    python "Tools/offline Builder tools/td_convert.py" network.json --from builder --to canonical --output out.json
+    python "Tools/offline Builder tools/td_convert.py" network.json --from canonical --to builder --pretty
 """
 
 import sys
@@ -31,15 +31,14 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  td-convert network.json --from builder --to canonical
-  td-convert network.json --from builder --to extended -o output.json
-  td-convert network.json --from canonical --to builder --pretty
-  td-convert network.json -f builder -t canonical
+  td_convert.py network.json --from builder --to canonical
+  td_convert.py network.json --from canonical --to builder --pretty
+  td_convert.py network.json -f builder -t canonical
 
 Format Layers:
   builder    - AI-friendly, simple paths, minimal structure
-  extended   - Ground truth, complete operator data with defaults
   canonical  - Compact, string-table compression
+  (extended  - internal in-memory hub only; not implemented as a JSON layer)
 
 Exit codes:
   0 - Conversion successful
@@ -56,17 +55,17 @@ Exit codes:
     parser.add_argument(
         "--from", "-f",
         dest="source_layer",
-        choices=["builder", "extended", "canonical"],
+        choices=["builder", "canonical"],
         required=True,
-        help="Source format layer"
+        help="Source format layer ('extended' is internal-only, not implemented as a JSON layer)"
     )
 
     parser.add_argument(
         "--to", "-t",
         dest="target_layer",
-        choices=["builder", "extended", "canonical"],
+        choices=["builder", "canonical"],
         required=True,
-        help="Target format layer"
+        help="Target format layer ('extended' is internal-only, not implemented as a JSON layer)"
     )
 
     parser.add_argument(
@@ -118,23 +117,19 @@ Exit codes:
         if args.source_layer == args.target_layer:
             output_json = input_json
         else:
-            # Convert to TDNetwork (via Extended as hub)
+            # Convert to TDNetwork (the in-memory Extended hub). 'extended' has no
+            # JSON (de)serializer in this release, so argparse restricts the
+            # choices to builder/canonical above.
             if args.source_layer == "builder":
                 network = converter.from_builder(input_json)
-            elif args.source_layer == "canonical":
+            else:  # canonical
                 network = converter.from_canonical(input_json)
-            else:  # extended
-                # TODO: Implement proper Extended JSON deserialization
-                # For now, assume builder format
-                network = converter.from_builder(input_json)
 
             # Convert to target format
             if args.target_layer == "builder":
                 output_json = converter.to_builder(network)
-            elif args.target_layer == "canonical":
+            else:  # canonical
                 output_json = converter.to_canonical(network)
-            else:  # extended
-                output_json = converter.to_extended(network)
 
     except Exception as e:
         print(f"Error: Conversion failed: {e}", file=sys.stderr)

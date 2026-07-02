@@ -9,9 +9,9 @@ is registered (see `SETUP/`).
 ## 0. Sanity check
 
 Ask the client to call **`get_server_info`**. Confirm `script_path` points at
-your release tree (e.g. `C:\TD_Builder_Alpha_release_V0.1.1\...`, or wherever
-`TD_BUILDER_ROOT` points). This is the fastest way to know which copy of the
-server is actually live.
+your release tree (e.g. `C:\TD_Builder\...`, or wherever `TD_BUILDER_ROOT`
+points). This is the fastest way to know which copy of the server is actually
+live.
 
 ## 1. Explore the knowledge base (key-free)
 
@@ -37,15 +37,15 @@ Then validate and convert without TD:
 
 - **`td_validate`** — runs the 5-stage pipeline (schema → semantic → reference
   → logical → TD-rules) and reports errors/warnings.
-- **`td_convert`** — converts the spec between Builder ↔ Extended ↔ Canonical
-  layers.
+- **`td_convert`** — converts the spec between the Builder ↔ Canonical layers.
 
-CLI equivalents (after `pip install -e .` from the release root):
+CLI equivalents (run with the venv's python from the release root — the install
+is deps-only, so there are no `td-*` console commands):
 
 ```powershell
-td-validate network.json --verbose
-td-convert  network.json --from builder --to canonical --output out.json
-td-build    network.json --output project.toe --verbose
+python "Tools\offline Builder tools\td_validate.py" network.json --verbose
+python "Tools\offline Builder tools\td_convert.py"  network.json --from builder --to canonical --output out.json
+python "Tools\offline Builder tools\td_build.py"    network.json --output project.toe --verbose
 toecollapse project.toe.toc          # TD's CLI — final .toe.dir -> .toe
 ```
 

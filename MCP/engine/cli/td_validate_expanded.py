@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-td-validate-expanded: Validate that a TouchDesigner expanded folder matches its `.toc`.
+td_validate_expanded: Validate that a TouchDesigner expanded folder matches its `.toc`.
 
 This checks the most common "why won't toecollapse work" issue:
 - `.toc` references files that do not exist in the `.toe/.tox.dir` directory

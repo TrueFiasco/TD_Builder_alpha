@@ -41,6 +41,7 @@ def main() -> int:
         "yaml": "pip install -e .   (provides pyyaml)",
         "jsonschema": "pip install -e .",
         "httpx": "pip install -e .",
+        "rank_bm25": "pip install -e .   (provides rank-bm25; without it hybrid BM25 retrieval is dead)",
     }
     for mod, fix in pkgs.items():
         try:

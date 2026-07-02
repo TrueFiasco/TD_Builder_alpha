@@ -34,7 +34,7 @@ Common failure categories:
 - **Path error**: op() reference to non-existent operator
 
 ### 3. Record the lesson
-V0.1.1 has no automated event log (expertise persistence is deferred to V0.2).
+This release has no automated event log (expertise persistence is deferred to a later release).
 Summarize the lesson for the user using this shape:
 
 ```json
@@ -131,10 +131,10 @@ Update `td_network_patterns.yaml`:
 - Add new common_error if discovered
 - Update confidence based on track record
 
-### 5. Compaction (deferred to V0.2)
-Automated expertise compaction (JSONL -> YAML state) is not available in V0.1.1.
+### 5. Compaction (deferred to a later release)
+Automated expertise compaction (JSONL -> YAML state) is not available in this release.
 Report the lessons above to the user instead; persisting them back into the
-expertise base is planned for V0.2.
+expertise base is planned for a later release.
 
 ## Pattern Confidence Calculation
 

@@ -43,9 +43,9 @@ there regardless of where you run them from — so you can move/copy the folder 
 ## TouchDesigner endpoint (live server only)
 - `TD_API_URL` (default `http://127.0.0.1:9981`) — the WebServer DAT the live tools talk to.
 - `TD_API_TOKEN` — shared-secret token the live server presents to the TD webserver (local
-  authentication).
+  authentication). Generated automatically on first run if absent.
 - `TD_API_TOKEN_FILE` — path to a file holding that token instead of the env var (default:
-  `~/.td_builder_mcp/token`).
+  `~/.td_builder/api_token`; see `MCP/COMM_LAYER.md` for the full auth story).
 
 Set all three in the MCP client config's `"env"` block for `td-builder-live` (see `MCP/README.md`).
 The **live server reads only the process environment** — it does not load the root `.env` (that

@@ -225,12 +225,22 @@ OP_SUMMARY_NOTES: dict[tuple[str, str], str] = {
         "live — force-cook the reader (cook(force=True)) before trusting counts.",
 }
 
-# Registry python_class corrections, live-verified 2026-07-02 (type(n).__name__ in
-# TD 2025.32820): the shipped registry carried serialDAT_Class for all three
-# serial-ish ops, which collided their derived build-token aliases.
+# Registry python_class corrections. First two live-verified 2026-07-02
+# (type(n).__name__ in TD 2025.32820): the shipped registry carried
+# serialDAT_Class for all three serial-ish ops, which collided their derived
+# build-token aliases. The remaining six are the same wiki-parse defect (the
+# parser grabbed a related page's class or a prose fragment); corrected values
+# verified against the offline wiki class pages (Learn/OfflineHelp, e.g.
+# ExecuteDAT_Class.htm title "executeDAT Class").
 PYTHON_CLASS_FIXES: dict[tuple[str, str], str] = {
     ("CHOP", "Hokuyo CHOP"): "hokuyoCHOP_Class",
     ("CHOP", "Serial CHOP"): "serialCHOP_Class",
+    ("DAT", "CHOP Execute DAT"): "chopexecuteDAT_Class",   # was "default python method placeholders"
+    ("DAT", "Execute DAT"): "executeDAT_Class",            # was "default python method placeholders"
+    ("DAT", "OSC In DAT"): "oscinDAT_Class",               # was "Peer Class"
+    ("DAT", "UDP In DAT"): "udpinDAT_Class",               # was "Peer Class"
+    ("SOP", "Script SOP"): "scriptSOP_Class",              # was "Point Class"
+    ("DAT", "SOP to DAT"): "soptoDAT_Class",               # was "Point Class"
 }
 
 # Wrong-token prose fixes: the Script CHOP/DAT/SOP wiki summaries say the docked

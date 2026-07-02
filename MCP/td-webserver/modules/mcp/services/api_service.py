@@ -8,6 +8,7 @@ import contextlib
 import importlib
 import inspect
 import io
+import os
 import pydoc
 from typing import Any, Optional, Protocol
 
@@ -78,18 +79,33 @@ class TouchDesignerApiService(IApiService):
 		self._session_saved = False
 
 	def _ensure_session_restore_point(self) -> None:
-		"""Save an incremented .toe once, before the first mutation of a session.
+		"""Checkpoint the project once, before the first mutation of a session.
 
-		project.save() with no args auto-increments (proj.01.toe, proj.02.toe, …).
-		A save failure (e.g. an untitled project) must NEVER block the mutation —
-		it is only a safety net — so it is logged and swallowed.
+		API mutations skip TD's undo stack and auto-backup only fires on save, so
+		we save an incremented .toe (proj.1.toe, proj.2.toe, …) as a known-good
+		restore point.
+
+		IMPORTANT: `project.save()` with no args opens a modal "Save As" dialog
+		when the project has never been saved to disk — that BLOCKS the WebServer
+		DAT thread until a human dismisses it (observed ~60 s hang on the first
+		mutating call). So we only checkpoint when the project already has an
+		on-disk file to increment; otherwise we skip (there is nothing to restore
+		to yet) and log. The save is best-effort and must NEVER block the mutation.
 		"""
 		if self._session_saved:
 			return
-		# Set the flag first: a repeatedly-failing save must not run on every
-		# mutation (once-per-session semantics regardless of outcome).
+		# Set the flag first: once-per-session regardless of outcome.
 		self._session_saved = True
 		try:
+			toe_path = os.path.join(td.project.folder, td.project.name)
+			if not os.path.exists(toe_path):
+				log_message(
+					"Session restore point skipped: project not saved to disk yet "
+					"(project.save() would open a modal dialog and stall the server). "
+					"Save the .toe once to enable auto-checkpoints.",
+					LogLevel.WARNING,
+				)
+				return
 			td.project.save()
 			log_message(
 				"Session restore point: saved an incremented project file "

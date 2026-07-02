@@ -173,6 +173,50 @@ def test_script_assigns_result_detection(api_service_mod):
 
 
 # --------------------------------------------------------------------------
+# session restore-point: never pops a modal dialog (unsaved project → skip)
+# --------------------------------------------------------------------------
+
+def test_session_restore_point_skips_unsaved_project(api_service_mod, tmp_path):
+    """Unsaved project (no .toe on disk) → skip project.save() so it can't open a
+    modal Save-As dialog that blocks the WebServer thread."""
+    td = sys.modules["td"]
+    td.project.folder = str(tmp_path)
+    td.project.name = "never_saved.toe"  # does NOT exist under tmp_path
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_not_called()
+    assert svc._session_saved is True  # still once-per-session
+
+
+def test_session_restore_point_saves_existing_project(api_service_mod, tmp_path):
+    """Project already on disk → project.save() is called exactly once."""
+    td = sys.modules["td"]
+    f = tmp_path / "saved.toe"
+    f.write_text("x", encoding="utf-8")
+    td.project.folder = str(tmp_path)
+    td.project.name = "saved.toe"
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_called_once()
+
+
+def test_session_restore_point_only_once(api_service_mod, tmp_path):
+    """The flag makes it a no-op after the first call, even if it saved."""
+    td = sys.modules["td"]
+    f = tmp_path / "saved.toe"
+    f.write_text("x", encoding="utf-8")
+    td.project.folder = str(tmp_path)
+    td.project.name = "saved.toe"
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_called_once()
+
+
+# --------------------------------------------------------------------------
 # client _resolve_token — never raises; None on any file error
 # --------------------------------------------------------------------------
 

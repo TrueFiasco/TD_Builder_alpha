@@ -17,7 +17,7 @@ User shows working widget configuration not in catalog.
 ```yaml
 widget_catalog:
   new_widget:
-    palette_name: "widgetName"
+    operator_type: "sliderCOMP"
     outputs:
       - channel: "v1"
         range: [0, 1]
@@ -91,7 +91,7 @@ feedback_sources:
     action: "Add to widget_catalog with full analysis"
     update: "ui_design_patterns.yaml#widget_catalog"
 
-  - type: "palette_update"
+  - type: "kb_update"
     action: "Check for new widgets in KB"
     update: "ui_design_patterns.yaml#widget_catalog"
 ```
@@ -102,7 +102,7 @@ feedback_sources:
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| Widget validation rate | 100% | All widgets exist in palette |
+| Widget validation rate | 100% | All widget operator types verified in KB |
 | Layout success rate | >95% | Layouts render correctly in TD |
 | Output channel accuracy | 100% | All promised channels present |
 | Touch responsiveness | <16ms | Panel responds within frame |
@@ -130,13 +130,11 @@ event:
 
 ### 1. Widget Output Names
 
-Different widgets use different channel names:
-- sliderVert: `v1`
-- sliderHorz: `u`
-- slider2D: `u`, `v`
-- buttonRadio: `Value0`
+Different widgets use different channel names depending on mode (a slider in X mode vs
+XY mode outputs different channels).
 
-**Solution**: Always check widget_catalog for exact output names.
+**Solution**: Always check the KB (`get_operator_info` / `get_parameter_detail`) for exact
+output names — never guess.
 
 ### 2. Panel Scaling
 
@@ -159,16 +157,16 @@ When updating ui_design_patterns.yaml:
 1. Read current file
 2. Add new entry with `verified: false`
 3. After 3 successful uses, set `verified: true`
-4. Log update in expertise_events.jsonl
 
-```python
-def log_learning(event_type, description, file_updated):
-    event = {
-        "timestamp": datetime.now().isoformat(),
-        "expert": "ui_expert",
-        "type": event_type,
-        "description": description,
-        "file": file_updated
-    }
-    append_to_jsonl("history/expertise_events.jsonl", event)
+This release has no automated event log (expertise persistence is planned for a future
+release). Report the learning event to the user in this shape instead:
+
+```json
+{
+  "timestamp": "{{ISO8601}}",
+  "expert": "ui_expert",
+  "type": "{{event_type}}",
+  "description": "{{what was learned}}",
+  "file": "{{expertise file it applies to}}"
+}
 ```

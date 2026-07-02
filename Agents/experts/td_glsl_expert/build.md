@@ -50,10 +50,10 @@ three files together total ~120 KB of clean markdown — well within
 context budget.
 
 **Cite the guide you Read in plan.md.** State which sections were
-relevant for your specific build. Note: these markdown files are NOT
-yet in the vector KB and CANNOT be retrieved via `hybrid_search` —
-direct file Read is the canonical access path until the pre-beta KB
-rebuild ingests them.
+relevant for your specific build. These guides are also ingested into
+the KB (chunk type `guide`, retrievable via `hybrid_search`), but the
+direct file Read remains the canonical access path — it gives you the
+complete guide in order, not retrieval excerpts.
 
 ### When the wiki guide and THIS expert prompt disagree, trust the wiki
 
@@ -75,7 +75,8 @@ can be fixed in this prompt later. Don't second-guess the wiki.
    - Declare inputs/uniforms/outputs per plan
    - Include TD helper usage
 2. Fill logic per pattern
-   - If glsl_pop (ping-pong TOP): texelFetch prev state, update pos/vel, write out; clamp bounds.
+   - If particle state via ping-pong GLSL **TOP** (a TOP-based technique — NOT a GLSL POP): texelFetch prev state, update pos/vel, write out; clamp bounds.
+   - If actual GLSL **POP**: follow the "GLSL POPs" section below — `TDIn_<Attr>()` reads, `P[id] = ...` writes, no texelFetch.
    - If glsl_mat: VS passes UV/position, PS samples inputs, writes fragColor.
    - If glsl_top: sample inputs, apply effect, write fragColor.
 3. Validate statically

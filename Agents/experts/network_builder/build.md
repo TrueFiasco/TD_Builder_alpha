@@ -11,12 +11,11 @@ Executing as **Network Builder** expert. Task: turn the plan/design_spec into a 
 - Constraints: TD version {{td_version_or_unknown}}, allowed families/operators, module boundaries.
 - Expertise: loaded in plan step (operators, patterns, parameters, network_building, problems).
 
-### Creative Orchestration Input (when upstream is td_designer)
-- Design spec: {{design_spec}} - from td_designer with operators, hierarchy, connections
-- Creative brief: {{creative_brief}} - artistic intent and technical approach
-- GLSL shaders: {{glsl_shaders}} - if td_glsl_expert produced shader code
+### Design-Spec Input (when an earlier td_designer step produced one)
+- Design spec: {{design_spec}} - from the td_designer step with operators, hierarchy, connections
+- GLSL shaders: {{glsl_shaders}} - if a td_glsl_expert step produced shader code
 
-When receiving a design_spec from td_designer:
+When receiving a design_spec from a td_designer step:
 1. Extract operator list, connections, parameters from design_spec
 2. Convert to tox_builder JSON format
 3. Embed GLSL shader code if provided
@@ -182,49 +181,13 @@ When td_glsl_expert provides shader code, embed in glslTOP/glslMAT:
 
 The "content" field populates the .text file for glslTOP/glslMAT operators.
 
-### Palette Component Integration
+### Palette Components — NOT available in this release
 
-When design_spec includes containers with `palette` field:
-
-```json
-{
-  "containers": [
-    {
-      "name": "audio",
-      "palette": "audioAnalysis",
-      "position": [0, 0]
-    },
-    {
-      "name": "viz",
-      "type": "container",
-      "operators": [
-        {"name": "noise1", "type": "noise", "family": "TOP"}
-      ],
-      "position": [300, 0]
-    }
-  ],
-  "connections": [
-    {"from": "audio/out1", "to": "viz/noise1"}
-  ]
-}
-```
-
-The tox_builder will:
-1. Load the named palette component internally (by name)
-2. Embed all internal operators as the named container
-3. Preserve all palette connections and parameters
-4. Response includes `palettes_embedded: ["audioAnalysis"]`
-
-**CRITICAL**: Connect TO palette outputs (`audio/out1`), not internal operators!
-
-**278 palettes available** - use `hybrid_search` to discover and confirm palette names/capabilities.
-
-Top palettes by category:
-- **Audio**: audioAnalysis, equalizer, audioSet
-- **Visual**: julia, mandelbrot, noise, bloom, chromaKey
-- **UI**: slider2D, buttonCheckbox, dropDownMenu, lister
-- **Video**: moviePlayer, opticalFlow
-- **Tools**: probe, graphPlot, vectorScope
+Palette embedding is **not available in this release**: `td_build_project` rejects designs
+with a `palette` key, and container-level `palette` / `embed_tox` fields are unreliable —
+do not pass them to the builder. If a design_spec arrives containing `palette` fields,
+replace each one with an equivalent chain of standard operators (ground the chain via
+`get_operator_info` / `find_operator_combination`) before building.
 
 ## Execution Steps
 
@@ -256,7 +219,6 @@ Top palettes by category:
    - validation report summary
    - build results (success/failure, path)
    - evidence pointers used
-   - creative_brief_id if from creative orchestration
 
 ## Output Format
 ```yaml
@@ -264,8 +226,6 @@ execution:
   expert: "network_builder"
   status: "success|partial|failed"
 
-  # Creative orchestration tracking
-  creative_brief_id: "{{creative_brief.id if provided}}"
   design_spec_id: "{{design_spec.id if provided}}"
 
   artifacts:

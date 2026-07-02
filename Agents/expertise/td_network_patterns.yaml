@@ -1282,7 +1282,7 @@ design_patterns:
         param: "pixeldat"
         value: "path/to/shader_dat"
     delegate_to: "td_glsl_expert"
-    notes: "For full shader work, delegate to td_glsl_expert"
+    notes: "For full shader work, load get_expert_prompt('td_glsl_expert') and follow it"
     common_errors:
       - error: "Compile error"
         cause: "Missing #version or syntax error"

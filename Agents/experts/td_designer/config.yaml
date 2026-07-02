@@ -28,12 +28,6 @@ expertise_outputs:
 event_log: Agents/history/expertise_events.jsonl
 event_domain: patterns
 collaborators:
-- expert_id: creative_orchestrator
-  relationship: upstream
-  receives_from: creative_brief
-  handoff_format: creative_brief_v1
-  description: Receives approved creative briefs with artistic intent and technical
-    approach
 - expert_id: td_glsl_expert
   relationship: downstream
   delegation_trigger: GLSL shader work required
@@ -42,10 +36,6 @@ collaborators:
   relationship: downstream
   delegation_trigger: Design complete, ready for assembly
   handoff_format: Design spec YAML
-- expert_id: format_reverse_engineer
-  relationship: downstream
-  delegation_trigger: Unknown file format question
-  handoff_format: Format investigation request
 supported_patterns:
 - name: instancing
   complexity: medium
@@ -113,16 +103,3 @@ learning:
   update_problems_on_failure: true
   run_compaction_after_update: true
   min_samples_for_pattern_update: 3
-creative_brief_input:
-  enabled: true
-  format: creative_brief_v1
-  fields_to_extract:
-  - artistic_intent.core_concept
-  - artistic_intent.mood
-  - artistic_intent.aesthetics
-  - technical_approach.primary_algorithm
-  - technical_approach.data_flow
-  - td_recommendations.suggested_pattern
-  - td_recommendations.key_operators
-  - td_recommendations.glsl_required
-  - validation.overall_score

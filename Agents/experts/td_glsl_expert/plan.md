@@ -62,7 +62,7 @@ plan:
     confidence: 0.0-1.0
 
   validation_plan:
-    - check: "Compile in TD with #version 450 core"
+    - check: "Compile in TD with #version 450 core (TOP/MAT source only — GLSL POPs get NO #version line; TD injects it)"
     - check: "No undefined varyings/uniforms"
     - check: "Inputs sampled via texture(sTD2DInputs[i], ...); no TDTexture2D; TD helpers correct"
     - check: "Outputs written for all code paths"

@@ -49,11 +49,6 @@ collaborators:
   receives_from: design_spec
   handoff_format: design_spec_v1
   description: Receives network design with operators, hierarchy, connections, parameters
-- expert_id: creative_orchestrator
-  relationship: upstream_indirect
-  receives_from: creative_brief
-  handoff_format: creative_brief_v1
-  description: Creative brief flows through td_designer
 - expert_id: td_glsl_expert
   relationship: peer
   receives_from: glsl_shaders
@@ -70,7 +65,6 @@ design_spec_input:
   - expressions
   - flags
   - metadata.pattern_used
-  - metadata.creative_brief_id
 tox_builder:
   enabled: true
   path: tox_builder/builder.py

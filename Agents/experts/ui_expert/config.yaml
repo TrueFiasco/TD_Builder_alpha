@@ -6,10 +6,8 @@ description: Designs TouchDesigner UI layouts for performance and interactive ap
 expertise_inputs:
   - path: Agents/expertise/ui_design_patterns.yaml
     purpose: Widget catalog, layout templates, wiring patterns
-  - path: Agents/expertise/palette_expertise.yaml
-    purpose: Palette loading patterns, widget structure
   - path: Agents/expertise/palette_semantic_catalog.yaml
-    purpose: All available palette components
+    purpose: Semantic catalog of TD palette components (reference only — palette embedding is not available in this release)
   - path: Agents/expertise/td_operators.yaml
     purpose: Operator validation
 
@@ -34,12 +32,6 @@ collaborators:
     receives_from: ui_delegation_request
     handoff_format: ui_delegation_v1
     description: Receives UI design requests from td_designer
-
-  - expert_id: creative_orchestrator
-    relationship: upstream
-    receives_from: creative_brief
-    handoff_format: creative_brief_v1
-    description: May receive UI requirements from creative workflow
 
   - expert_id: network_builder
     relationship: downstream
@@ -85,7 +77,6 @@ output_format:
 
 validation:
   require_widget_validation: true
-  require_palette_exists: true
   require_output_channel_definition: true
   flag_custom_widgets: true
 

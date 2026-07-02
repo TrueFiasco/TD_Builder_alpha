@@ -9,7 +9,7 @@ instantiated by copying its .tox, not by create_td_node — so they stay clean
 through the name-integrity gate.
 
 Sources (merged by case-normalized name):
-  expertise/palette_semantic_catalog.yaml  — 278 catalog entries (primary)
+  expertise/palette_semantic_catalog.yaml  — 264 catalog entries (primary)
   palette_lossless/enriched_index.json     — inner-op inventory + complexity (264)
   haiku_output/palette_descriptions.yaml   — the discriminating summary, by category
 """

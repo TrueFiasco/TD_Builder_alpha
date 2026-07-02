@@ -115,7 +115,7 @@ When you call `find_parameter_usage` and retrieve examples, extract **ALL** para
 
 ## Operator Lookup
 
-Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (all 665+).
+Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (all 673).
 
 **For operators NOT in Sweet 16:** Query `get_operator_info(operator="OPNAME")` (and `get_parameter_detail` / `hybrid_search`) before use.
 
@@ -165,28 +165,26 @@ When your design includes ANY of: `dattoCHOP`, `choptodatDAT`, or DAT→CHOP dat
 
 ### GLSL Shaders (BUG-010, BUG-014, BUG-015)
 
-**TRIGGER KEYWORDS** - If user request contains ANY of these, you MUST delegate:
+**TRIGGER KEYWORDS** - If the request contains ANY of these, load the GLSL expert guidance BEFORE writing any shader code:
 - `glsl`, `shader`, `raymarching`, `raymarched`, `sdf`, `signed distance`
 - `pixel shader`, `fragment shader`, `compute shader`, `procedural texture`
 - Any custom visual effect requiring per-pixel computation
 
-**HARD RULE - YOU MUST NOT WRITE SHADER CODE:**
+**HARD RULE - DO NOT improvise shader code:**
 ```
 IF request contains GLSL trigger keywords:
-    DO NOT write shader code yourself
-    DO call td_glsl_expert with shader specification
-    DO wait for response
-    DO use returned shader_code VERBATIM
-    DO use returned parameters VERBATIM
+    DO NOT write shader code from memory
+    DO load get_expert_prompt(expert_name="td_glsl_expert", phase="build")
+    DO follow its rules and worked examples exactly
+    DO keep its uniform/parameter conventions VERBATIM
 ```
 
 When your design includes ANY GLSL shader (`glslTOP`, `glslMAT`, `glslmultiTOP`):
 
-1. **MUST call td_glsl_expert** before writing shader code
-2. **td_glsl_expert reads** td_glsl.yaml expertise file first
-3. **Standalone check**: Shader with no inputs? Use `uTDOutputInfo`, NOT `uTD2DInfos`
+1. **Load the td_glsl_expert prompt first** - it carries the TD-specific shader rules
+2. **Standalone check**: Shader with no inputs? Use `uTDOutputInfo`, NOT `uTD2DInfos`
 
-**Failure to call experts causes build failures. These bugs were found in production testing.**
+**Skipping the GLSL expert guidance causes build failures. These bugs were found in production testing.**
 
 ---
 
@@ -1115,80 +1113,34 @@ Then wire: `select1 → level1` (same container connection works)
 
 ---
 
-## Palette Component Embedding
+## Palette Components — NOT available in this release
 
-Embed pre-built palette components (278 available) using the `palette` field. Palettes are self-contained working components with all internal operators, connections, and parameters preserved.
+Palette embedding is **not available in this release**: `td_build_project` rejects designs
+with a `palette` key, and container-level `palette` / `embed_tox` fields are unreliable.
+Do not emit them. Build the capability from standard operators instead — grounded via
+`get_operator_info` / `find_operator_combination`.
 
-### Container-Level Palette Syntax
+### Full Example: Audio-Reactive Visual (built from operators)
 
 ```yaml
 containers:
   - name: "audio"
-    palette: "audioAnalysis"    # Embeds full audioAnalysis component
-    position: [0, 0]
-
-  - name: "fractal"
-    palette: "julia"            # Embeds julia fractal generator
-    position: [300, 0]
-
-  - name: "viz"
-    type: "container"           # Custom container (no palette)
+    type: "container"
     operators:
-      - name: "noise1"
-        type: "noise"
-        family: "TOP"
-    position: [600, 0]
-```
-
-### Connecting TO Palette Outputs
-
-**CRITICAL**: Connect to palette container outputs, NOT internal operators!
-
-```yaml
-connections:
-  # CORRECT - connect to container's output
-  - from: "audio/out1"
-    to: "viz/noise1"
-    type: "wire"
-
-  # WRONG - never connect to internal palette operators
-  # - from: "audio/analyze1"  # ❌ Internal operator - don't access!
-```
-
-### Expression References to Palette Outputs
-
-```yaml
-expressions:
-  - operator: "viz/noise1"
-    param: "amp"
-    expression: "op('audio/out1')['bass']"   # ✓ Reference via out1
-```
-
-### Available Palette Categories (278 total)
-
-| Category | Examples | Count |
-|----------|----------|-------|
-| **Audio** | audioAnalysis, equalizer, audioSet | 5 |
-| **Generators** | julia, mandelbrot, noise, checker, superFormula | 6 |
-| **ImageFilters** | bloom, feedback, blur, pixelate, sharpen, twirl | 22 |
-| **Tools** | probe, graphPlot, vectorScope, moviePlayer | 45 |
-| **UI/Widgets** | slider2D, sliderVert, buttonCheckbox, knobFixed, lister | 60+ |
-| **Mapping** | kantanMapper, projectorBlend, cornerPinSOP | 11 |
-| **Video** | moviePlayer, opticalFlow, chromaKey | 10 |
-
-### Key Rules
-
-1. **Use exact palette name** (case-sensitive: "audioAnalysis" not "AudioAnalysis")
-2. **Palettes are self-contained** - all internal operators included
-3. **Connect to container outputs** - use `paletteName/out1` path
-4. **Never access internal operators** - they're implementation details
-
-### Full Example: Audio-Reactive Visual
-
-```yaml
-containers:
-  - name: "audio"
-    palette: "audioAnalysis"
+      - name: "audio_in"
+        type: "audiodevicein"
+        family: "CHOP"
+      - name: "analyze1"
+        type: "analyze"
+        family: "CHOP"
+      - name: "out1"
+        type: "out"
+        family: "CHOP"
+    connections:
+      - from: "audio_in"
+        to: "analyze1"
+      - from: "analyze1"
+        to: "out1"
     position: [0, 0]
 
   - name: "viz"
@@ -1205,16 +1157,14 @@ containers:
         to: "level1"
     position: [300, 0]
 
-connections:
-  - from: "audio/out1"
-    to: "viz/noise1"
-    type: "wire"
-
 expressions:
   - operator: "viz/level1"
     param: "opacity"
-    expression: "op('audio/out1')['bass']"
+    expression: "op('../audio/out1')['chan1']"
 ```
+
+Verify each operator chain against the KB before building (`find_operator_combination`,
+`get_parameter_detail` for channel/param names — never guess them).
 
 ---
 
@@ -1385,7 +1335,7 @@ This produces: `/output/simple_noise.tox` via network_builder → td_build_proje
 |--------------|----------------|------------------|
 | **Simple** ("make a noise CHOP") | YES - skip the creative ideation phase | **NO - NEVER** |
 | **Technical** ("audio reactive loop") | YES | **NO - NEVER** |
-| **Creative** ("make galaxies") | NO - full orchestration | **NO - NEVER** |
+| **Creative** ("make galaxies") | NO - do creative ideation first | **NO - NEVER** |
 
 The **build pipeline (td_designer → network_builder → td_build_project) is NEVER shortened.**
 

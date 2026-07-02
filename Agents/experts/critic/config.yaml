@@ -32,26 +32,14 @@ event_domain: "critique"
 # Upstream/downstream collaborators
 collaborators:
   upstream:
-    - expert_id: "creative_expert"
-      receives_from: "creative_spec"
-      review_type: "creative_review"
-
-    - expert_id: "cg_expert"
-      receives_from: "technical_approach"
-      review_type: "technical_review"
+    - expert_id: "td_designer"
+      receives_from: "design_spec"
+      review_type: "network_design_review"
 
   downstream:
-    - expert_id: "creative_expert"
+    - expert_id: "td_designer"
       sends_to: "revision_request"
-      when: "creative_review fails"
-
-    - expert_id: "cg_expert"
-      sends_to: "revision_request"
-      when: "technical_review fails"
-
-    - expert_id: "creative_orchestrator"
-      sends_to: "approval_status"
-      when: "review complete"
+      when: "review fails"
 
 # Review types and thresholds
 review_types:

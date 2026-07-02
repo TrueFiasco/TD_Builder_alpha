@@ -195,10 +195,9 @@ AVAILABLE_EXPERTS = {
         "files": ["build.md"]
     },
 }
-# Roster cleanup (H1/M20/M21): summary_generator, format_reverse_engineer, and
-# creative_orchestrator were registered here historically but never invoked by
-# V2-V6 strategies and not reachable via the standard expert loader; they were
-# removed from this roster.
+# Roster cleanup (H1/M20/M21): three legacy multi-agent-era expert ids were
+# registered here historically but never invoked by V2-V6 strategies and not
+# reachable via the standard expert loader; they were removed from this roster.
 
 def _load_expert_expertise(expert_name: str, per_file_cap: int = 16000,
                            total_cap: int = 48000) -> str:
@@ -640,7 +639,8 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
         design: Network design dict with:
             - operators: list of {name, type, position, parameters}
             - connections: list of {from, to}
-            - palette: Optional palette name to embed (e.g., "audioAnalysis")
+            (Palette embedding is not available in this release — designs with a
+            'palette' key are rejected; build from standard operators.)
         project_name: Optional project name (auto-generated if not provided)
         output_dir: Optional output directory (defaults to mcp_server/output)
 
@@ -685,14 +685,14 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 "message": "design must be a dictionary with 'operators' and 'connections'"
             }
 
-        # Handle palette embedding — deferred to V0.2 (planned via live import, or by
-        # referencing an external .tox from a base/container COMP, not bundled JSON).
+        # Handle palette embedding — not available in this release (planned via live
+        # import, or by referencing an external .tox from a base/container COMP).
         if 'palette' in design:
             return {
                 "status": "ERROR",
-                "message": ("Palette embedding is not available in V0.1.2 (planned for "
-                            "V0.2 via live import / external .tox reference). Build the "
-                            "network without the 'palette' key."),
+                "message": ("Palette embedding is not available in this release. "
+                            "Remove the 'palette' key and build the network from "
+                            "standard operators instead (see docs/KNOWN_ISSUES.md)."),
             }
 
         if 'operators' not in design:
@@ -1094,8 +1094,9 @@ async def list_tools() -> list[Tool]:
                 "2. Look up operator-specific parameter values via `get_operator_info` "
                 "or `find_parameter_usage` rather than guessing — invented types are "
                 "now rejected (Wave 3 B08) so build will fail noisily if you fabricate one.\n"
-                "3. `embed_tox` is unreliable; prefer the `palette` field or inline builds.\n"
-                "See `docs/td_build_project_guide.md` for the full rule set."
+                "3. Palette embedding is not available in this release: do not use "
+                "`palette` fields or `embed_tox` — build the network from standard "
+                "operators instead (see docs/KNOWN_ISSUES.md)."
             ),
             inputSchema={
                 "type": "object",
@@ -1106,7 +1107,7 @@ async def list_tools() -> list[Tool]:
                     },
                     "network_design": {
                         "type": "object",
-                        "description": "Advanced network design with containers, embed_tox support for palette components, and hierarchical paths. Takes precedence over 'design' if both provided."
+                        "description": "Advanced network design with containers and hierarchical paths. Takes precedence over 'design' if both provided. Palette embedding is not available in this release — do not add 'palette' or 'embed_tox' fields."
                     },
                     "table_data": {
                         "type": "object",

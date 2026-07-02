@@ -42,9 +42,10 @@ Structural completeness review of td_designer output:
 
 ### 1. Identify Review Type
 Determine which review is needed:
-- creative_spec input → creative_review
-- technical_approach input → technical_review
-- creative_brief (combined) input → final_approval
+- creative/artistic spec → creative_review
+- technical approach → technical_review
+- combined creative + technical spec → final_approval
+- td_designer design_spec → network_design_review
 
 ### 2. Load Review Criteria
 From `critique_patterns.yaml#quality_criteria`:

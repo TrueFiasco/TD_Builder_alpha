@@ -35,33 +35,34 @@ operators:
 
 ### 2. Generate Widget Operators
 
-For each widget in plan, use the `palette` field to embed:
+**Palette embedding is not available in this release** — do not emit `palette` fields
+(`td_build_project` rejects them). Build each widget from TD's native panel gadget COMPs,
+verified via `get_operator_info` before use:
 
 ```yaml
 operators:
   # Sliders
   - name: "brightness"
-    palette: "sliderVert"       # Embeds complete widget from KB
+    type: "sliderCOMP"
     parent: "ui_panel"
     position: [50, 50]
 
   - name: "fx1"
-    palette: "sliderVert"
+    type: "sliderCOMP"
     parent: "ui_panel"
     position: [150, 50]
 
   # Buttons
   - name: "scene1"
-    palette: "buttonToggle"
+    type: "buttonCOMP"        # set button type param for toggle behavior
     parent: "ui_panel"
     position: [300, 50]
 ```
 
-**Key**: Use `palette` field, not `type`. The palette field loads the complete widget from KB lossless JSON.
-
-**Connecting to Widget Outputs**: Each palette widget has internal outputs. Access via:
-- `brightness/out1` - Widget's CHOP output
-- `op('brightness/out1')['v1']` - Expression reference
+**Reading Widget Values**: gadget COMPs output their panel values as CHOP channels —
+a Slider COMP outputs 1-2 channels; a Panel CHOP (`type: "panel"`, family CHOP) reads any
+panel component's values by path. Confirm exact channel names via `get_operator_info` /
+`get_parameter_detail` — never guess them.
 
 ### 3. Generate Wiring Operators
 
@@ -120,21 +121,20 @@ connections:
 
 ---
 
-## Available Widgets (Palette)
+## Available Widgets (Native Gadget COMPs)
 
-| Widget Name | Type | Outputs | Notes |
-|-------------|------|---------|-------|
-| sliderVert | Vertical slider | v1 (0-1) | Standard fader |
-| sliderHorz | Horizontal slider | u (0-1) | Crossfader style |
-| slider2D | XY pad | u, v (0-1 each) | 2-axis control |
-| buttonToggle | Toggle button | v1 (0/1) | On/off state |
-| buttonMomentary | Momentary button | v1 (0/1) | Press and hold |
-| buttonRadio | Radio group | Value0 (index) | Single selection |
-| buttonCheckbox | Checkbox | v1 (0/1) | On/off with check |
-| knobFixed | Fixed knob | v1 (0-1) | Limited rotation |
-| knobEndless | Endless knob | v1 (cumulative) | Infinite rotation |
-| float1/2/3/4 | Numeric field | v1-v4 | Direct number entry |
-| dropDownMenu | Dropdown | menuIndex | Menu selection |
+| Control | Operator | Notes |
+|---------|----------|-------|
+| Vertical / horizontal slider, XY pad | `sliderCOMP` | X, Y, or XY mode; outputs 1-2 channels |
+| Toggle / momentary / radio button | `buttonCOMP` | button type set by parameter |
+| Text or numeric entry | `fieldCOMP` | string/numeric field |
+| List / menu selection | `listCOMP` | |
+| Grouping / panel background | `containerCOMP` | |
+| Parameter editing surface | `parameterCOMP` | |
+
+Verify each operator's parameters and output channels with `get_operator_info` /
+`get_parameter_detail` before emitting the design — modes and channel names are
+parameter-driven, not implied by the type name.
 
 ---
 
@@ -160,14 +160,14 @@ design:
         bgg: 0.1
         bgb: 0.12
 
-    # Palette widgets
+    # Widgets (native gadget COMPs)
     - name: "brightness"
-      palette: "sliderVert"
+      type: "sliderCOMP"
       parent: "ui_panel"
       position: [50, 100]
 
     - name: "contrast"
-      palette: "sliderVert"
+      type: "sliderCOMP"
       parent: "ui_panel"
       position: [150, 100]
 
@@ -190,10 +190,10 @@ design:
   ui_metadata:
     widget_manifest:
       - name: "brightness"
-        palette: "sliderVert"
+        type: "sliderCOMP"
         output_channel: "v1"
       - name: "contrast"
-        palette: "sliderVert"
+        type: "sliderCOMP"
         output_channel: "v1"
 
     output_channels:
@@ -205,7 +205,6 @@ design:
   validation_summary:
     widgets_validated: 2
     widgets_unvalidated: 0
-    palette_embeds: 2
     output_channels_defined: true
 ```
 
@@ -237,7 +236,7 @@ parameters:
 
 Before outputting design:
 
-- [ ] All widgets use `palette` field (not `type` for palette widgets)
+- [ ] All widgets use verified native operator types (NO `palette` fields — not available in this release)
 - [ ] All widgets have `parent` set to container
 - [ ] All positions specified for layout
 - [ ] Wiring chain complete (widget → merge → out)
@@ -249,8 +248,7 @@ Before outputting design:
 ## Handoff to network_builder
 
 The output design spec is compatible with network_builder:
-1. Operators with `palette` field → embedded from KB lossless JSON (278 palettes available)
-2. Operators with `type` field → created directly
-3. Connections use `widgetName/out1` paths to reference palette outputs
-4. network_builder builds .tox file
-5. Response includes `palettes_embedded: [...]` list for verification
+1. Every operator uses a `type` field (verified via `get_operator_info`) — never `palette`
+   (palette embedding is not available in this release)
+2. Connections reference widget CHOP outputs (confirm paths/channels via the KB)
+3. network_builder builds the .tox file

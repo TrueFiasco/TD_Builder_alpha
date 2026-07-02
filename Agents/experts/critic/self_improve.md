@@ -59,8 +59,8 @@ If flagged issues weren't real problems:
 - Adjust severity classification
 
 ### 3. Record the lesson
-This release has no automated event log (expertise persistence is deferred to a later release).
-Summarize the lesson for the user using this shape:
+This release has no automated event log (expertise persistence is planned for a
+future release). Summarize the lesson for the user using this shape:
 
 ```json
 {
@@ -214,10 +214,10 @@ Before updating critique_patterns.yaml:
 - [ ] Severity classifications match actual impact on builds
 - [ ] Confidence >= 0.6 for any additions
 
-### 6. Compaction (deferred to a later release)
-Automated expertise compaction is not available in this release. Report the lessons
-above to the user instead; persisting them back into the expertise base is
-planned for a later release.
+### 6. Compaction (not available in this release)
+Automated expertise compaction is not available in this release. Report the
+lessons above to the user instead; persisting them back into the expertise base
+is planned for a future release.
 
 ## Learning Triggers
 

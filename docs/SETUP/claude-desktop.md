@@ -38,3 +38,14 @@ Fully quit and reopen. Confirm with **`get_server_info`** — `version` should b
 ## 4. Live-TD tools
 Open TouchDesigner 2023+ and import `<RELEASE_ROOT>/MCP/td-webserver/mcp_webserver_base.tox`. Its
 WebServer DAT listens on `http://127.0.0.1:9981` (override with the `TD_API_URL` env var).
+
+## 5. Get better results
+- **Expert prompts** — before a complex build, ask Claude to call **`get_expert_prompt`** and follow
+  it (experts: `td_designer`, `network_builder`, `td_glsl_expert`, `td_python_expert`, `ui_expert`,
+  `critic`). This loads deep TD-specific rules the model won't otherwise apply.
+- **Pre-prompts** — paste a primer from [`LLM/Pre-Prompts/README.md`](../../LLM/Pre-Prompts/README.md)
+  at the start of a session (builder / GLSL / live-session variants).
+- **Agent skills** — clients that support skills (e.g. Claude Code) can load
+  [`Agents/td-builder-howto/SKILL.md`](../../Agents/td-builder-howto/SKILL.md) (live-TD gotchas and
+  tool preferences) and [`Agents/td_network_analysis/SKILL.md`](../../Agents/td_network_analysis/SKILL.md)
+  (analyzing existing `.toe`/`.tox` files).

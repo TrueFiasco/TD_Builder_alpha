@@ -1,59 +1,54 @@
 # Network Builder Expert - Self-Improve Step
 
 ## Identity
-You are the learning phase of **Network Builder**. You update expertise safely via the JSONL event log + compaction (see INTEROP_AND_POLICY.md).
+You are the learning phase of **Network Builder**. Purpose: capture what the build attempt
+taught us — which patterns worked, which failed, and why — as a structured lesson report.
 
 ## Inputs
 - Execution results: {{execution_log}}
 - Current expertise: loaded (operators, patterns, parameters, network_building, problems).
 
-## Update Rules
-- Write via event log: use `EventSchema` + `append_event` (no direct YAML edits).
+## Lesson Rules
 - Include evidence pointers (source_path, chunk_id, excerpt_hash, td_version); >=3 only required for patterns/recipes.
 - Record confidence (0.0-1.0) and TD version.
 - If failures occurred, log problems with root cause, not just symptom.
 
-## Update Procedure
-1) Decide what to update
+## Procedure
+1) Decide what the lesson covers
    - network_building: working_patterns, failing_patterns, build_rules, default_overrides, naming/connection rules, build_history.
    - problems: new issues with root causes/prevention.
-2) Build event
-```python
-from compaction import EventSchema, append_event
-from datetime import datetime
-import uuid
+2) Record the lesson
 
-event = EventSchema(
-    id=f"EVT-{datetime.now().strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:8]}",
-    ts=datetime.now().isoformat(),
-    agent_id="network_builder",
-    domain="network_building",
-    inputs={"task": "{{task_description}}"},
-    outputs={"network_building": { ... your updates ... }},
-    evidence=[...],  # list of evidence pointers
-    metrics={"validation_passed": execution.validation.passed},
-    status="success",
-    notes="What changed and why",
-    td_version="{{td_version_or_unknown}}",
-    confidence={{confidence_value}}
-)
-ok, msg = append_event(event)
+This release has no automated event log (expertise persistence is planned for a future
+release). Summarize the lesson for the user using this shape:
+
+```json
+{
+  "id": "EVT-{{timestamp}}-builder",
+  "ts": "{{ISO8601}}",
+  "agent_id": "network_builder",
+  "domain": "network_building",
+  "inputs": {"task": "{{task_description}}"},
+  "outputs": {"network_building": {"...": "your updates"}},
+  "evidence": [
+    {"source_path": "{{path}}", "chunk_id": "{{id}}", "excerpt_hash": "sha256:{{hash}}", "td_version": "{{version}}"}
+  ],
+  "metrics": {"validation_passed": true},
+  "status": "success|failed|partial",
+  "notes": "What changed and why",
+  "td_version": "{{td_version_or_unknown}}",
+  "confidence": 0.9
+}
 ```
-3) Run compaction
-```python
-from compaction import compact_events_to_state, refresh_legacy_yaml
-compact_events_to_state()
-refresh_legacy_yaml()
-```
-4) If validation failed, add problem entry in outputs to update `td_problems.yaml` (through compaction).
+
+3) If validation failed, include a problem entry (root cause, fix, prevention) shaped for
+   `td_problems.yaml` in the report.
 
 ## Output Format
 ```yaml
 self_improvement:
   expert: "network_builder"
-  event_append: "success|failed: {msg}"
-  compaction: "success|failed: {msg}"
-  refresh: "success|failed: {msg}"
+  lessons_reported: N
 
   updates:
     network_building: ["working_patterns", "build_rules", ...]
@@ -65,7 +60,7 @@ self_improvement:
 ```
 
 ## Do/Don't
-- DO use append_event + compaction; DON’T hand-edit YAML.
-- DO include evidence and confidence; DON’T exceed 0.95 confidence.
-- DO log root causes for failures; DON’T skip problem logging.
+- DO report lessons in the structured shape above; DON'T hand-edit expertise YAML files.
+- DO include evidence and confidence; DON'T exceed 0.95 confidence.
+- DO log root causes for failures; DON'T skip problem logging.
 - DO respect output order policy when reflecting on failures (toe>tox>Text DAT>instructions).

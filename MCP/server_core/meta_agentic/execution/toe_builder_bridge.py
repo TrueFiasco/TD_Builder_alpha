@@ -618,6 +618,31 @@ def _td_emit_token(value: Any) -> str:
     return _td_quote_token(str(value))
 
 
+# Auto-promotion of plain-string params to mode-49 expressions. The old check was a
+# loose substring list ('ext.', 'me.', 'op(', ...) that corrupted constant file paths:
+# 'C:/components/text.tox' contains 'ext.', 'Tools/theme.tox' contains 'me.' -- both
+# were silently emitted as Python expressions and the external tox never loaded. The
+# lookbehind excludes identifier, filename and path characters (the ``\\`` covers
+# ``C:\`` paths -- load-bearing, do not simplify away), so a TD global only counts
+# when it starts a token: 'me.time.frame' promotes, 'theme.tox' does not.
+_EXPR_TOKEN_RE = re.compile(
+    r"(?<![A-Za-z0-9_./\\:])"
+    r"(?:(?:op|parent|chop)\s*\(|(?:me|parent|mod|ext|iop|ipar|tdu|absTime)\.)"
+)
+
+# File-path params are never auto-promoted, even for values that START with a TD
+# global token ('ext.assets/x.tox', 'me.tox'). Explicit {"expr": ...} remains the
+# escape hatch for expression-driven paths (e.g. app.samplesFolder-relative loads).
+_NEVER_EXPR_PARAMS = {"externaltox"}
+
+
+def _is_expression(value: str, *param_names: str) -> bool:
+    """True when a plain string param value should auto-promote to a mode-49 expression."""
+    if any(n.lower() in _NEVER_EXPR_PARAMS for n in param_names):
+        return False
+    return bool(_EXPR_TOKEN_RE.search(value))
+
+
 class ToeBuilderBridge:
     """Bridge between TD Designer JSON and TOE file generation."""
 
@@ -976,17 +1001,13 @@ end
                 'const': 'const',
                 'fills': 'fills',
             }
-            # Expression patterns for detecting expression strings
-            expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
-                             'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
-
             if param_name.lower() in vector_params and isinstance(param_value, (list, tuple)) and len(param_value) > 1:
                 component_names = vector_params[param_name.lower()]
                 for i, comp_name in enumerate(component_names):
                     if i < len(param_value):
                         comp_value = param_value[i]
                         # Check if component value is an expression
-                        if isinstance(comp_value, str) and any(p in comp_value for p in expr_patterns):
+                        if isinstance(comp_value, str) and _is_expression(comp_value):
                             lines.append(f"{comp_name} 49 0 {_td_quote_token(str(comp_value))}")
                         else:
                             td_value = self._format_param_value(comp_value)
@@ -998,12 +1019,20 @@ end
                 base_name = indexed_params[param_name.lower()]
                 for i, val in enumerate(param_value):
                     indexed_name = f"{base_name}{i+1}"
-                    if isinstance(val, str) and any(p in val for p in expr_patterns):
+                    if isinstance(val, str) and _is_expression(val):
                         lines.append(f"{indexed_name} 49 0 {_td_quote_token(str(val))}")
                     else:
                         td_value = self._format_param_value(val)
                         lines.append(f"{indexed_name} 0 {_td_emit_token(td_value)}")
                 continue
+
+            # Extract family from TD type (e.g., "CHOP:analyze" -> "CHOP")
+            family = td_type.split(":")[0] if ":" in td_type else None
+
+            # BUG-001 FIX: Use KB-derived param name resolver
+            # Correctly maps user-friendly names to TD internal names
+            op_type_short = op_type.split(':')[-1] if ':' in op_type else op_type
+            td_param_name = resolve_param_name(op_type_short, family or "", param_name)
 
             # Handle expression dict format: {"expr": "...", "value": ...} or {"expression": "..."}
             inline_expression = None
@@ -1013,20 +1042,12 @@ end
                     # Extract the constant value if provided, otherwise use 0
                     param_value = param_value.get("value", 0)
             elif isinstance(param_value, str):
-                # Auto-detect expression strings containing TD Python patterns
-                expr_patterns = ['op(', 'me.', 'parent.', 'parent(', 'mod.', 'ext.', 'iop.', 'ipar.',
-                                 'tdu.', 'absTime', 'me.time', "op('", 'op("', "chop('", 'chop("']
-                if any(pattern in param_value for pattern in expr_patterns):
+                # Auto-detect expression strings containing TD Python patterns; both
+                # the raw and resolved names are checked against _NEVER_EXPR_PARAMS
+                # so constant file paths (externaltox) are never promoted.
+                if _is_expression(param_value, param_name, td_param_name):
                     inline_expression = param_value
                     param_value = 0  # Default value for expression parameters
-
-            # Extract family from TD type (e.g., "CHOP:analyze" -> "CHOP")
-            family = td_type.split(":")[0] if ":" in td_type else None
-
-            # BUG-001 FIX: Use KB-derived param name resolver
-            # Correctly maps user-friendly names to TD internal names
-            op_type_short = op_type.split(':')[-1] if ':' in op_type else op_type
-            td_param_name = resolve_param_name(op_type_short, family or "", param_name)
 
             # Validate parameter against ground truth (using resolved name)
             validation = gt.validate_param(op_type, td_param_name, param_value, family=family)

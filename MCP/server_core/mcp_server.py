@@ -1375,31 +1375,76 @@ def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int
     return out
 
 
-_IN_NAME_RE = re.compile(r"^in\d*$")
-_OUT_NAME_RE = re.compile(r"^out\d*$")
-
-
 def _component_manifest(network) -> dict:
     """Extract a reusable component's interface (Round-4 #1b).
 
-    A component .tox exposes its inputs/outputs via `in*`/`out*` operators (by op-type base
-    `in`/`out` or by name). The manifest (inputs, outputs, families, op/connection counts, a
-    one-line summary) lets an LLM wire a component referenced via `external_tox` without
-    re-expanding it. Surfaced as the `manifest` field of expand_toe_file(mode='summary')."""
-    inputs, outputs, families = [], [], {}
+    A component .tox exposes its inputs/outputs via in/out operators. Connectors are
+    matched by op-type family suffix (`:in`/`:out`) ONLY — names are reporting-only, so
+    an op merely NAMED `in5` or `integrate1` is never a phantom connector. inputs/outputs
+    are scoped to the DIRECT children of the interface COMP: normally the root COMP, but
+    a Derivative palette wrapper (connector-less root + icon/help + same-name inner COMP)
+    redirects to the inner comp — previously every nested in*/out* at any depth leaked in
+    (a wrapper tox reported 14 bogus inputs). families and op/connection counts stay
+    whole-network. The manifest lets an LLM wire a component referenced via `external_tox`
+    without re-expanding it. Surfaced as the `manifest` field of
+    expand_toe_file(mode='summary')."""
+    ops, families = [], {}
     for op in network.operators:
         ot = op.op_type or (f"{op.family.value}:{op.type}" if getattr(op, "family", None)
                             else getattr(op, "type", "")) or ""
-        name = op.path.rstrip("/").split("/")[-1]
-        base = ot.split(":")[-1].lower() if ":" in ot else ot.lower()
-        if ":" in ot:
-            fam = ot.split(":")[0]
-            if fam:
-                families[fam] = families.get(fam, 0) + 1
-        if base == "in" or _IN_NAME_RE.match(name):
-            inputs.append({"name": name, "op_type": ot})
-        elif base == "out" or _OUT_NAME_RE.match(name):
-            outputs.append({"name": name, "op_type": ot})
+        path = op.path.rstrip("/")
+        if not path.startswith("/"):
+            path = "/" + path
+        fam = ot.split(":")[0] if ":" in ot else ""
+        if fam:
+            families[fam] = families.get(fam, 0) + 1
+        ops.append({
+            "path": path,
+            "parent": path.rsplit("/", 1)[0],   # "" for depth-1 ops
+            "name": path.split("/")[-1],
+            "base": ot.split(":")[-1].lower() if ":" in ot else ot.lower(),
+            "fam": fam.upper(),
+            "op_type": ot,
+            "depth": path.count("/"),
+        })
+
+    # Interface COMP: the root COMP. For a parsed .toe prefer the declared root
+    # (metadata.root_comp, usually project1) so utility trees like /local can't win
+    # the tie-break; otherwise the shallowest COMP, ties broken by most descendants.
+    root = None
+    comps = [o for o in ops if o["fam"] == "COMP"]
+    if comps:
+        if getattr(getattr(network, "metadata", None), "mode", None) == "toe":
+            root_name = getattr(network.metadata, "root_comp", None) or "project1"
+            root = next((o for o in comps if o["depth"] == 1 and o["name"] == root_name), None)
+        if root is None:
+            min_depth = min(o["depth"] for o in comps)
+            top = [o for o in comps if o["depth"] == min_depth]
+            root = max(top, key=lambda c: sum(
+                1 for o in ops if o["path"].startswith(c["path"] + "/")))
+
+    wrapper = False
+    if root is not None:
+        scope = root["path"]
+        direct = [o for o in ops if o["parent"] == scope]
+        # Wrapper redirect ONLY when the root has no connectors of its own — a root
+        # with real in/out children is the interface even if a same-name child exists.
+        if not any(o["base"] in ("in", "out") for o in direct):
+            inner = next((o for o in direct
+                          if o["fam"] == "COMP" and o["name"] == root["name"]), None)
+            if inner is not None:
+                scope, wrapper = inner["path"], True
+    elif ops:
+        # No COMP in the list (already-scoped fragment): direct children of the
+        # shallowest level are the interface candidates.
+        scope = min(ops, key=lambda o: o["depth"])["parent"]
+    else:
+        scope = ""
+
+    inputs = [{"name": o["name"], "op_type": o["op_type"]}
+              for o in ops if o["parent"] == scope and o["base"] == "in"]
+    outputs = [{"name": o["name"], "op_type": o["op_type"]}
+               for o in ops if o["parent"] == scope and o["base"] == "out"]
     inputs.sort(key=lambda x: x["name"])
     outputs.sort(key=lambda x: x["name"])
     return {
@@ -1408,8 +1453,11 @@ def _component_manifest(network) -> dict:
         "families": families,
         "operator_count": len(network.operators),
         "connection_count": len(network.connections),
+        "interface_path": scope,
+        "wrapper": wrapper,
         "summary": (f"{len(network.operators)} operators, {len(network.connections)} connections; "
-                    f"inputs={[i['name'] for i in inputs]}, outputs={[o['name'] for o in outputs]}"),
+                    f"inputs={[i['name'] for i in inputs]}, outputs={[o['name'] for o in outputs]}"
+                    + (f" (wrapper: interface at {scope})" if wrapper else "")),
     }
 
 

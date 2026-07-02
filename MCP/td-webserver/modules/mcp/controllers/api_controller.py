@@ -9,12 +9,19 @@ import json
 import traceback
 from typing import Any, Optional, Protocol
 
+import mcp
 from mcp.controllers.generated_handlers import *
 from mcp.controllers.openapi_router import OpenAPIRouter
+from utils import auth
 from utils.error_handling import ErrorCategory
 from utils.logging import log_message
 from utils.serialization import safe_serialize
 from utils.types import LogLevel, Result
+
+# Routes reachable WITHOUT a token. Exactly one: the server-identity/health probe
+# (no node/project/exec capability) so "is TD up + what version" stays graceful
+# for a tokenless client. Every other route requires the Bearer token.
+PUBLIC_ROUTES = {("GET", "/api/td/server/td")}
 
 
 class ApiServiceProtocol(Protocol):
@@ -211,6 +218,14 @@ class APIControllerOpenAPI(IController):
 		else:
 			self._service = service
 
+		# Materialize the shared secret at boot (disk-loaded module → runs before
+		# the first request), so the very first authenticated call does not 401
+		# on a not-yet-created token file. See utils/auth.py.
+		try:
+			auth.get_expected_token()
+		except Exception as e:  # noqa: BLE001 — never let auth init block boot
+			log_message(f"Token init at boot failed: {e}", LogLevel.ERROR)
+
 		self.router = OpenAPIRouter()
 		self.register_handlers()
 
@@ -248,13 +263,11 @@ class APIControllerOpenAPI(IController):
 		if "headers" not in response:
 			response["headers"] = {}
 
-		response["headers"]["Access-Control-Allow-Origin"] = "*"
-		response["headers"]["Access-Control-Allow-Methods"] = (
-			"GET, POST, PUT, DELETE, PATCH, OPTIONS"
-		)
-		response["headers"]["Access-Control-Allow-Headers"] = (
-			"Content-Type, Authorization"
-		)
+		# CORS: intentionally NO Access-Control-Allow-Origin. Dropping the former
+		# wildcard means a browser cannot read cross-origin responses or complete
+		# a preflight for the Authorization header — the cross-origin browser
+		# vector is rejected. Non-browser clients (httpx) are unaffected; CORS is
+		# browser-enforced, and requests still carry the Bearer token.
 		response["headers"]["Content-Type"] = "application/json"
 
 		try:
@@ -278,7 +291,53 @@ class APIControllerOpenAPI(IController):
 				response["data"] = "{}"
 				return response
 
+			# Shared-secret auth — fail closed BEFORE routing (covers the LAN
+			# vector). Inside this try, so any extract/compare exception is
+			# caught below and becomes a 500 (still denied). Exactly one route
+			# (PUBLIC_ROUTES) is reachable tokenless for a graceful "is TD up".
+			if (method, path) not in PUBLIC_ROUTES and not auth.token_matches(
+				auth.token_from_request(request)
+			):
+				token_path = auth.default_token_path()
+				log_message(
+					f"401 unauthorized {method} {path} from "
+					f"{request.get('clientAddress', '?')}",
+					LogLevel.WARNING,
+				)
+				response["statusCode"] = 401
+				response["statusReason"] = "Unauthorized"
+				response["data"] = json.dumps(
+					{
+						"success": False,
+						"data": None,
+						"error": "Unauthorized: missing or invalid "
+						"'Authorization: Bearer <token>' header.",
+						"hint": (
+							f"The MCP client and TouchDesigner share a secret at "
+							f"{token_path}. On the same machine the client reads it "
+							f"automatically (restart the client if it started before "
+							f"TouchDesigner). For a remote client, copy that file's "
+							f"value and set the {auth.TOKEN_ENV} env var in the MCP "
+							f"client config."
+						),
+						"errorCategory": str(ErrorCategory.PERMISSION),
+					}
+				)
+				return response
+
 			result = self.router.route_request(method, path, query_params, body)
+
+			# Surface a failed schema load instead of a silent 404 (no-op on a
+			# healthy boot; only relevant once the Section-3 .tox rebuild ships).
+			if (
+				not result.get("success")
+				and result.get("errorCategory") == ErrorCategory.NOT_FOUND
+				and getattr(mcp, "schema_load_error", None)
+			):
+				result["error"] = (
+					f"MCP OpenAPI schema failed to load "
+					f"({mcp.schema_load_error}); CRUD/exec endpoints unavailable."
+				)
 
 			if result["success"]:
 				response["statusCode"] = 200
@@ -317,8 +376,11 @@ class APIControllerOpenAPI(IController):
 				}
 			)
 
+		# Never log response['data'] — capture responses carry multi-MB base64
+		# payloads. Log only the status and byte length.
+		_data = response.get("data") or ""
 		log_message(
-			f"Response status: {response['statusCode']}, {response['data']}",
+			f"Response status: {response['statusCode']} ({len(_data)} bytes)",
 			LogLevel.DEBUG,
 		)
 		return response

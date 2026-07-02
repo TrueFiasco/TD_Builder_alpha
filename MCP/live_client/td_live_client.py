@@ -11,11 +11,47 @@ Date: 2024-12-27
 import os
 import json
 import httpx
+from pathlib import Path
 from typing import Sequence, Dict, Any, List, Optional, Union
 from mcp.types import Tool, TextContent, ImageContent
 
 # Configuration
 TD_API_URL = os.environ.get("TD_API_URL", "http://127.0.0.1:9981")
+
+# Shared-secret auth. These env names + the token-file location MUST match the TD
+# side (MCP/td-webserver/modules/utils/auth.py); kept as constants so a rename is
+# a one-line change on both sides.
+TD_API_TOKEN_ENV = "TD_API_TOKEN"
+TD_API_TOKEN_FILE_ENV = "TD_API_TOKEN_FILE"
+
+
+def _default_token_path() -> Path:
+    override = os.environ.get(TD_API_TOKEN_FILE_ENV)
+    if override and override.strip():
+        return Path(override.strip())
+    return Path.home() / ".td_builder" / "api_token"
+
+
+def _resolve_token() -> Optional[str]:
+    """Resolve the shared secret: TD_API_TOKEN env → token file (per request, so a
+    token generated after this client started is still picked up).
+
+    NEVER raises: any file-read error returns None. An exception in
+    TDClient.__aenter__ would surface as a non-graceful "Error: ..." string that
+    does not match the TD-down acceptance check, breaking the graceful path.
+    """
+    env = os.environ.get(TD_API_TOKEN_ENV)
+    if env and env.strip():
+        return env.strip()
+    try:
+        path = _default_token_path()
+        if path.exists():
+            tok = path.read_text(encoding="utf-8").strip()
+            if tok:
+                return tok
+    except OSError:
+        pass
+    return None
 
 
 class TDClient:
@@ -27,9 +63,14 @@ class TDClient:
         self._client: Optional[httpx.AsyncClient] = None
 
     async def __aenter__(self):
+        headers = {}
+        token = _resolve_token()
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
         self._client = httpx.AsyncClient(
             base_url=self.base_url,
-            timeout=httpx.Timeout(self._read_timeout, connect=5.0)
+            timeout=httpx.Timeout(self._read_timeout, connect=5.0),
+            headers=headers or None,
         )
         return self
 

@@ -31,6 +31,10 @@ dist/
 .env
 .env.local
 .claude/settings.local.json
+# Live-server shared secret. The real token lives at ~/.td_builder/api_token
+# (outside the repo); these guard against an in-repo TD_API_TOKEN_FILE.
+**/api_token
+.td_builder/
 
 # Dev / runtime scratch
 *.bak

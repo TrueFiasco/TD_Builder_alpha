@@ -3,6 +3,7 @@ TouchDesigner MCP Web Server API Service Implementation
 Provides API functionality related to TouchDesigner
 """
 
+import ast
 import contextlib
 import importlib
 import inspect
@@ -68,6 +69,38 @@ class _NoContextSentinel:
 
 class TouchDesignerApiService(IApiService):
 	"""Implementation of the TouchDesigner API service"""
+
+	def __init__(self):
+		# Session-start safety net: TD's auto-backup only fires on save, and API
+		# mutations skip the undo stack. Before the FIRST mutating call per server
+		# process we trigger one incremented project.save() so a known-good
+		# restore point exists. Guarded by this flag → at most one save.
+		self._session_saved = False
+
+	def _ensure_session_restore_point(self) -> None:
+		"""Save an incremented .toe once, before the first mutation of a session.
+
+		project.save() with no args auto-increments (proj.01.toe, proj.02.toe, …).
+		A save failure (e.g. an untitled project) must NEVER block the mutation —
+		it is only a safety net — so it is logged and swallowed.
+		"""
+		if self._session_saved:
+			return
+		# Set the flag first: a repeatedly-failing save must not run on every
+		# mutation (once-per-session semantics regardless of outcome).
+		self._session_saved = True
+		try:
+			td.project.save()
+			log_message(
+				"Session restore point: saved an incremented project file "
+				"before the first mutating API call.",
+				LogLevel.INFO,
+			)
+		except Exception as e:  # noqa: BLE001 — safety net must not block work
+			log_message(
+				f"Session restore-point save failed (continuing): {e}",
+				LogLevel.WARNING,
+			)
 
 	def get_td_info(self) -> Result:
 		"""Get information about the TouchDesigner server"""
@@ -407,6 +440,7 @@ class TouchDesignerApiService(IApiService):
 	) -> Result:
 		"""Create a new node under the specified parent path"""
 
+		self._ensure_session_restore_point()
 		parent_node = td.op(parent_path)
 		if parent_node is None or not parent_node.valid:
 			return error_result(
@@ -459,6 +493,7 @@ class TouchDesignerApiService(IApiService):
 	def delete_node(self, node_path: str) -> Result:
 		"""Delete the node at the specified path"""
 
+		self._ensure_session_restore_point()
 		node = td.op(node_path)
 		if node is None or not node.valid:
 			return error_result(f"Node not found at path: {node_path}")
@@ -480,6 +515,7 @@ class TouchDesignerApiService(IApiService):
 	) -> Result:
 		"""Call method on the specified node"""
 
+		self._ensure_session_restore_point()
 		node = td.op(node_path)
 		if node is None or not node.valid:
 			return error_result(f"Node not found at path: {node_path}")
@@ -515,6 +551,8 @@ class TouchDesignerApiService(IApiService):
 		Returns:
 		    Result: Success result with execution output or error result with message
 		"""
+
+		self._ensure_session_restore_point()
 
 		# B16 — verified-available globals (probed via hasattr(td, ...) in live TD,
 		# 2026-05-14). `me` and `parent` get sentinels — they would otherwise be
@@ -573,79 +611,79 @@ class TouchDesignerApiService(IApiService):
 		stdout_capture = io.StringIO()
 		stderr_capture = io.StringIO()
 
+		# Parse once, then run the script EXACTLY once. The previous implementation
+		# re-eval()'d the last source line to capture a return value, which
+		# double-executed a side-effectful final statement — e.g. a script ending
+		# in `op('/x').create(...)` created TWO nodes. Instead: if the last
+		# top-level statement is a bare expression AND the script doesn't bind
+		# `result` itself, rewrite that expression to `result = <expr>` in the AST
+		# so its value is captured with no second execution.
+		try:
+			tree = ast.parse(script, mode="exec")
+		except SyntaxError as exec_error:
+			raise Exception(f"Script execution failed: {str(exec_error)}")
+
+		if (
+			tree.body
+			and isinstance(tree.body[-1], ast.Expr)
+			and not self._script_assigns_result(tree)
+		):
+			last = tree.body[-1]
+			assign = ast.Assign(
+				targets=[ast.Name(id="result", ctx=ast.Store())],
+				value=last.value,
+			)
+			ast.copy_location(assign, last)
+			tree.body[-1] = assign
+			ast.fix_missing_locations(tree)
+
+		try:
+			code = compile(tree, "<exec_python_script>", "exec")
+		except SyntaxError as exec_error:
+			raise Exception(f"Script execution failed: {str(exec_error)}")
+
 		with (
 			contextlib.redirect_stdout(stdout_capture),
 			contextlib.redirect_stderr(stderr_capture),
 		):
-			if "\n" not in script and ";" not in script:
-				try:
-					result = eval(script, globals(), local_vars)
-					local_vars["result"] = result
-					processed_result = self._process_method_result(result)
-
-					log_message(
-						f"Script evaluated. Raw result: {repr(result)}",
-						LogLevel.DEBUG,
-					)
-
-					stdout_val = stdout_capture.getvalue()
-					stderr_val = stderr_capture.getvalue()
-
-					return success_result(
-						{
-							"result": processed_result,
-							"stdout": stdout_val,
-							"stderr": stderr_val,
-						}
-					)
-				except SyntaxError:
-					pass
-
 			try:
-				exec(script, globals(), local_vars)
-
-				if "result" not in local_vars:
-					lines = script.strip().split("\n")
-					if lines:
-						last_expr = lines[-1].strip()
-						if last_expr and not last_expr.startswith(
-							(
-								"import",
-								"from",
-								"#",
-								"if",
-								"def",
-								"class",
-								"for",
-								"while",
-							)
-						):
-							try:
-								local_vars["result"] = eval(
-									last_expr, globals(), local_vars
-								)
-								log_message(
-									f"Extracted result from last line: {last_expr}",
-									LogLevel.DEBUG,
-								)
-							except Exception:
-								pass
-
-				result = local_vars.get("result")
-				processed_result = self._process_method_result(result)
-
-				stdout_val = stdout_capture.getvalue()
-				stderr_val = stderr_capture.getvalue()
-
-				return success_result(
-					{
-						"result": processed_result,
-						"stdout": stdout_val,
-						"stderr": stderr_val,
-					}
-				)
+				exec(code, globals(), local_vars)
 			except Exception as exec_error:
 				raise Exception(f"Script execution failed: {str(exec_error)}")
+
+			result = local_vars.get("result")
+			processed_result = self._process_method_result(result)
+
+			stdout_val = stdout_capture.getvalue()
+			stderr_val = stderr_capture.getvalue()
+
+			return success_result(
+				{
+					"result": processed_result,
+					"stdout": stdout_val,
+					"stderr": stderr_val,
+				}
+			)
+
+	@staticmethod
+	def _script_assigns_result(tree: ast.Module) -> bool:
+		"""True if the script explicitly binds a top-level name ``result``.
+
+		When it does, a trailing bare expression must NOT overwrite that value —
+		the explicit ``result`` is authoritative (matches the old behavior, which
+		only ran the last-line capture when ``result`` was unset). Handles plain,
+		annotated, augmented, and tuple/list-unpacking assignments.
+		"""
+		for node in tree.body:
+			if isinstance(node, ast.Assign):
+				for target in node.targets:
+					for sub in ast.walk(target):
+						if isinstance(sub, ast.Name) and sub.id == "result":
+							return True
+			elif isinstance(node, (ast.AnnAssign, ast.AugAssign)):
+				if isinstance(node.target, ast.Name) and node.target.id == "result":
+					return True
+		return False
 
 	def _apply_property(self, par, value):
 		"""Apply a property value to a Par, handling expression / constant / bind / export modes.
@@ -715,6 +753,7 @@ class TouchDesignerApiService(IApiService):
 	def update_node(self, node_path: str, properties: dict[str, Any]) -> Result:
 		"""Update properties of the node at the specified path"""
 
+		self._ensure_session_restore_point()
 		node = td.op(node_path)
 
 		if node is None or not node.valid:

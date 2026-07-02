@@ -114,9 +114,12 @@ plan:
 - Flag any evidence gaps or TD-version mismatches.
 - When design_spec provided, validate don't reinvent.
 
-## Palette Components — NOT available in this release
+## Palette Components — pre-built building blocks
 
-Palette embedding is **not available in this release**: `td_build_project` rejects designs
-with a `palette` key. If a design_spec contains `palette` fields, plan an equivalent chain
-of standard operators for each one (ground it via `get_operator_info` /
-`find_operator_combination`) instead of passing the field through to the builder.
+Per-operator `palette` fields are supported: `{"name": "glow", "palette": "bloom"}` builds
+an external-tox placeholder that loads the component from the user's own TD install on
+open, fully wired (wires to/from it survive; `"from": "glow/out2"` picks a second output).
+If a design_spec carries `palette` fields, pass them through — verify each name exists in
+`KB/palette_components.json` (277 registered items; unknown names fail the build with a
+hint) and note connector counts: par/UI-driven items have none and take no wires. For
+unregistered `.tox` files plan an `external_tox` reference instead.

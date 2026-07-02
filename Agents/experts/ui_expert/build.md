@@ -35,9 +35,12 @@ operators:
 
 ### 2. Generate Widget Operators
 
-**Palette embedding is not available in this release** — do not emit `palette` fields
-(`td_build_project` rejects them). Build each widget from TD's native panel gadget COMPs,
-verified via `get_operator_info` before use:
+**Two widget sources.** Prefer a registered palette widget when one matches — a
+per-operator `palette` field (`{"name": "s1", "palette": "sliderVert"}`) loads the real
+Derivative widget from the user's TD install on open, with its designed custom parameter
+pages (75 widget items in `KB/palette_components.json`; verify the name there — most are
+par-driven with no connectors). Otherwise build the widget from TD's native panel gadget
+COMPs, verified via `get_operator_info` before use:
 
 ```yaml
 operators:
@@ -236,7 +239,7 @@ parameters:
 
 Before outputting design:
 
-- [ ] All widgets use verified native operator types (NO `palette` fields — not available in this release)
+- [ ] Every widget is either a `palette` name verified in `KB/palette_components.json` or a verified native operator type
 - [ ] All widgets have `parent` set to container
 - [ ] All positions specified for layout
 - [ ] Wiring chain complete (widget → merge → out)
@@ -248,7 +251,7 @@ Before outputting design:
 ## Handoff to network_builder
 
 The output design spec is compatible with network_builder:
-1. Every operator uses a `type` field (verified via `get_operator_info`) — never `palette`
-   (palette embedding is not available in this release)
+1. Every operator uses either a `type` field (verified via `get_operator_info`) or a
+   `palette` field (name verified in `KB/palette_components.json`)
 2. Connections reference widget CHOP outputs (confirm paths/channels via the KB)
 3. network_builder builds the .tox file

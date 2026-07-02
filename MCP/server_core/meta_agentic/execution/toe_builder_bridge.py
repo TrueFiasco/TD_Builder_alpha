@@ -21,8 +21,7 @@ from .param_name_resolver import resolve_param_name, resolve_menu_value
 logger = logging.getLogger(__name__)
 
 # Paths
-from paths import resolve_td_tool, td_tool_missing_error, KB_OPERATORS
-TD_PALETTE_DIR = Path(r"C:\Program Files\Derivative\TouchDesigner\Samples\Palette")
+from paths import resolve_td_tool, td_tool_missing_error, KB_OPERATORS, KB_PALETTE_COMPONENTS
 EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
 
 # DOCKED_DATS: the helper DATs each op auto-creates + docks during a live create().
@@ -69,6 +68,31 @@ def _load_docked_dats() -> dict:
             logger.warning("docked_dats.json not loaded (%s); using built-in fallback", e)
             _DOCKED_DATS_CACHE = DOCKED_DATS
     return _DOCKED_DATS_CACHE
+
+
+# Pre-built component registry (KB/palette_components.json): per-item reference +
+# interface metadata for the `palette` field. The builder writes a PLACEHOLDER COMP
+# (enableexternaltox/externaltox/subcompname) that loads the component from the user's
+# own TD install / palette / project when the file opens -- no Derivative content is
+# embedded or redistributed. The interface metadata (inner in/out op names + families)
+# is what lets wires to/from the placeholder survive external loading: TD re-binds
+# compinputs .network entries and 'name/out1' path-form input refs by INNER op name
+# (verified live 2025.32820; sibling-name refs to a not-yet-loaded COMP are dropped).
+_PALETTE_COMPONENTS_CACHE = None
+
+
+def _load_palette_components() -> dict:
+    """Load the pre-built component registry (cached). Returns the full spec dict
+    ({"sources": ..., "components": ...}); empty components when the file is missing."""
+    global _PALETTE_COMPONENTS_CACHE
+    if _PALETTE_COMPONENTS_CACHE is None:
+        try:
+            with open(KB_PALETTE_COMPONENTS, "r", encoding="utf-8") as f:
+                _PALETTE_COMPONENTS_CACHE = json.load(f)
+        except Exception as e:
+            logger.warning("palette_components.json not loaded (%s); palette field disabled", e)
+            _PALETTE_COMPONENTS_CACHE = {"components": {}}
+    return _PALETTE_COMPONENTS_CACHE
 
 
 # Build-token grounding index (the SOURCE fix): KB/operators.json carries the live-real
@@ -871,15 +895,13 @@ screenh 0 {resolution[1]}
 
         container_path = f"{parent_path}/{name}"
 
-        # Handle palette field - embed from KB lossless JSON
+        # Palette / pre-built component reference: the container IS a registered
+        # component -> write the external-tox placeholder instead (raises on unknown).
         palette_name = container.get("palette")
         if palette_name:
-            self.log(f"  Embedding palette '{palette_name}' as container '{name}'")
-            success = self._embed_palette_from_kb(palette_name, name, parent_path, position)
-            if success:
-                return  # Palette embedded, no need to create empty container
-            else:
-                self.log(f"    [WARN] Failed to embed palette '{palette_name}', creating empty container")
+            self.log(f"  Palette component '{palette_name}' as '{name}'")
+            self._embed_palette_v2(palette_name, name, parent_path, position)
+            return
 
         # BUG 2: honour the container's type/family (e.g. type:"geometry",family:"COMP")
         # instead of always writing a generic COMP:container, and apply its `parameters`
@@ -1126,42 +1148,15 @@ end
                 params[param_name] = {"expr": expr, "value": params[param_name]}
 
         # =================================================================
-        # PALETTE EMBEDDING - Three options in priority order
-        # =================================================================
-
-        # Option 1: "palette" field - PRIMARY method using KB lossless JSON (264 components)
+        # PALETTE / PRE-BUILT COMPONENT REFERENCE
         # Usage: {"name": "audio", "palette": "audioAnalysis"}
+        # Writes an external-tox placeholder from KB/palette_components.json; raises
+        # on unknown names. (The legacy embed_tox / palette_runtime fields are gone --
+        # reference unregistered .tox files with 'external_tox' instead.)
+        # =================================================================
         palette_component = op.get("palette")
         if palette_component:
-            success = self._embed_palette_from_kb(palette_component, name, container_path, position)
-            if success:
-                return
-            else:
-                self.log(f"    [WARN] Palette '{palette_component}' not in KB, trying legacy embed_tox")
-                # Fall through to try legacy method or create placeholder
-
-        # Option 2: "embed_tox" field - LEGACY method (unreliable, requires tox expansion)
-        # Usage: {"name": "audio", "embed_tox": "Tools/audioAnalysis.tox"}
-        embed_tox = op.get("embed_tox")
-        if embed_tox:
-            self.log(f"    [WARN] embed_tox is UNRELIABLE - prefer 'palette' field for KB embedding")
-            self._embed_palette_tox(embed_tox, name, container_path, position)
-            return
-
-        # Option 3: "palette_runtime" field - Python script loading at TD startup
-        # Usage: {"name": "audio", "palette_runtime": {"component": "audioAnalysis", "path": "Tools/audioAnalysis.tox"}}
-        # This creates a Text DAT that loads the palette when the project opens
-        palette_runtime = op.get("palette_runtime")
-        if palette_runtime:
-            self._create_palette_loader_dat(container_path, [
-                {
-                    "name": palette_runtime.get("component", name),
-                    "path": palette_runtime.get("path", f"Tools/{name}.tox"),
-                    "target_name": name,
-                    "x": position[0],
-                    "y": position[1]
-                }
-            ])
+            self._embed_palette_v2(palette_component, name, container_path, position)
             return
 
         # =================================================================
@@ -1176,13 +1171,17 @@ end
         # params load that file's contents on open (a compartmentalised, reusable, file-backed
         # component). Defaults to a base COMP unless the design gives an explicit COMP type.
         # Recorded for the per-project build-log component summary.
+        # The path is emitted RAW (mode 0, quoted), NOT through _param_lines: its expression
+        # auto-detection false-positives on substrings like 'ext.' in 'text.tox' and would
+        # silently promote a constant file path to a broken mode-49 expression.
+        external_raw_lines = []
         external_tox = op.get("external_tox") or op.get("externaltox")
         if external_tox:
             if not (op_family and op_family.upper() == "COMP"):
                 td_type = "COMP:base"
             tox_ref = str(external_tox).replace("\\", "/")
-            params["externaltox"] = tox_ref
-            params.setdefault("enableexternaltox", "on")
+            external_raw_lines.append(f"externaltox 0 {_td_quote_token(tox_ref)}")
+            external_raw_lines.append("enableexternaltox 0 on")
             comp_path = f"{container_path}/{name}".replace("project1/", "")
             self.external_components.append(
                 {"name": name, "path": comp_path, "tox": tox_ref, "td_type": td_type})
@@ -1330,6 +1329,9 @@ flags =  parlanguage 0
         # bypassing param validation -- these are builder-owned links, not authored params.
         for hp, child in docked_wiring.items():
             parm_lines.append(f"{hp} 0 {child}")
+
+        # external-tox reference lines (raw, see the external_tox block above).
+        parm_lines.extend(external_raw_lines)
 
         # BUG 4: GLSL POP Vectors-page uniforms (vec{N}name / vec{N}type / vec{N}value{x..}).
         if is_glsl_pop and glsl_uniforms:
@@ -1643,132 +1645,105 @@ flags =  parlanguage 0
         return lines
 
     # =========================================================================
-    # KB PALETTE EMBEDDING (Primary method - uses pre-parsed lossless JSON)
+    # PALETTE / PRE-BUILT COMPONENT REFERENCE (v2 -- external-tox placeholder)
     # =========================================================================
 
-    def _load_palette_from_kb(self, component_name: str) -> dict:
-        """Load pre-parsed palette component from KB lossless JSON.
+    def _embed_palette_v2(self, component_name: str, target_name: str, container_path: str, position: list) -> bool:
+        """Write a placeholder COMP that loads a registered pre-built component.
 
-        Args:
-            component_name: Name of the palette component (e.g., 'audioAnalysis', 'noise', 'bloom')
+        The placeholder carries enableexternaltox + externaltox + subcompname, so the
+        component's contents load from the USER'S OWN TD install / palette / project
+        when the file opens (nothing is embedded -- no redistribution). subcompname
+        loads the inner comp of Derivative's metadata-wrapper .tox directly and TD
+        retypes the node; the KB inner_type keeps the offline .n token truthful.
 
-        Returns:
-            dict: Lossless JSON data or None if not found
+        Wiring survives external loading ONLY in TD's native serialization (verified
+        live, TD 2025.32820):
+          - wires INTO the comp   -> compinputs block in <comp>.network, re-bound by
+                                     INNER in-op name (_write_palette_network_file);
+          - wires OUT of the comp -> consumers reference '<comp>/<inner out-op>' in
+                                     their .n inputs (_resolve_palette_source via
+                                     palette_io_map).
+        A plain sibling-name wire to the placeholder is silently DROPPED by TD (its
+        connectors don't exist until the external tox loads), so the placeholder .n
+        carries NO inputs block.
+
+        The externaltox value is emitted RAW (never through _param_lines expression
+        auto-detection, which false-positives on paths like 'text.tox'): derivative and
+        user sources are parameter EXPRESSIONS off app.samplesFolder /
+        app.userPaletteFolder (portable across installs and OneDrive-redirected
+        Documents folders); project sources are project-relative constants.
+
+        Raises ValueError when the component is not in KB/palette_components.json --
+        a silently-empty placeholder would be a wrong-output trap.
         """
-        # Local KB path (self-contained in META_AGENTIC_TOOL/data/)
-        # Use relative path from this file's location
-        project_root = Path(__file__).parent.parent.parent
-        kb_path = project_root / "data" / "palette_lossless"
+        registry = _load_palette_components().get("components", {})
+        spec = registry.get(component_name)
+        if spec is None:
+            known = sorted(registry.keys())
+            hint = ", ".join(known[:10]) + ("..." if len(known) > 10 else "")
+            raise ValueError(
+                f"Unknown palette component '{component_name}': not in KB/palette_components.json "
+                f"({len(known)} registered{': ' + hint if known else ''}). Use an exact registered "
+                f"name, or reference an unregistered .tox file directly with 'external_tox'."
+            )
 
-        # Try gzipped format first (new format), then plain JSON (legacy)
-        import gzip
-        import json
-        gz_file = kb_path / f"{component_name}.json.gz"
-        json_file = kb_path / f"{component_name}_lossless.json"
+        source = spec.get("source", "derivative")
+        tox_path = str(spec.get("tox_path", f"{component_name}.tox")).replace("\\", "/")
+        inner_type = spec.get("inner_type") or "COMP:base"
+        full_path = f"{container_path}/{target_name}"
 
-        if gz_file.exists():
-            try:
-                with gzip.open(gz_file, 'rt', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.log(f"    Loaded palette from KB: {gz_file.name}")
-                    return data
-            except Exception as e:
-                self.log(f"    [WARN] Failed to load KB palette: {e}")
-        elif json_file.exists():
-            try:
-                with open(json_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.log(f"    Loaded palette from KB: {json_file.name}")
-                    return data
-            except Exception as e:
-                self.log(f"    [WARN] Failed to load KB palette: {e}")
+        self.log(f"    Palette '{component_name}' -> placeholder '{target_name}' "
+                 f"({inner_type}, source={source})")
 
-        self.log(f"    [WARN] Palette component '{component_name}' not found in KB")
-        return None
+        # Placeholder .n: inner-type token, NO inputs block (see docstring).
+        self._write_file(f"{full_path}.n",
+                         f"{inner_type}\ntile {position[0]} {position[1]} 130 90\n"
+                         f"flags =  parlanguage 0\nend\n")
 
-    def _embed_palette_from_kb(self, component_name: str, target_name: str, container_path: str, position: list):
-        """Embed palette component from KB lossless JSON.
+        # Placeholder .parm: RAW lines, bypassing _param_lines auto-detection.
+        parm_lines = ["?"]
+        if source == "user":
+            expr = f"app.userPaletteFolder + '/{tox_path}'"
+            parm_lines.append(f'externaltox 49 "" {_td_quote_token(expr)}')
+        elif source == "project":
+            parm_lines.append(f"externaltox 0 {_td_quote_token(tox_path)}")
+        else:  # derivative (default)
+            expr = f"app.samplesFolder + '/Palette/{tox_path}'"
+            parm_lines.append(f'externaltox 49 "" {_td_quote_token(expr)}')
+        parm_lines.append("enableexternaltox 0 on")
+        if spec.get("wrapper") and spec.get("subcompname"):
+            parm_lines.append(f"subcompname 0 {_td_quote_token(str(spec['subcompname']))}")
+        parm_lines.append("?")
+        self._write_file(f"{full_path}.parm", "\n".join(parm_lines) + "\n")
 
-        This is the PRIMARY method for embedding palette components. It uses
-        pre-parsed lossless JSON from the knowledge base which contains all
-        operator data, parameters, and extra files (text content, etc.).
+        # Contents load from the external .tox at open; create the empty dir to load into.
+        (self.project_dir / full_path).mkdir(parents=True, exist_ok=True)
 
-        Args:
-            component_name: KB palette component name (e.g., 'audioAnalysis')
-            target_name: Name to give the component in the network
-            container_path: Parent container path (e.g., 'project1')
-            position: [x, y] position in the network
-        """
-        palette_data = self._load_palette_from_kb(component_name)
-        if not palette_data:
-            self.log(f"    [ERROR] Cannot embed '{component_name}' - not found in KB")
-            return False
-
-        operators = palette_data.get("operators", {})
-        if not operators:
-            self.log(f"    [ERROR] No operators in palette data for '{component_name}'")
-            return False
-
-        # Palette structure: /componentName is root, /componentName/... are children
-        root_path = f"/{component_name}"
-
-        # Target path for embedded component
-        full_target_path = f"{container_path}/{target_name}"
-        target_dir = self.project_dir / full_target_path
-        target_dir.mkdir(parents=True, exist_ok=True)
-
-        self.log(f"    Embedding palette from KB: {component_name} -> {target_name}")
-
-        # Detect in/out operators from direct children (path depth = 2, e.g., /audioAnalysis/in1)
+        # Interface metadata -> palette_io_map, so downstream consumers resolve
+        # 'name' -> 'name/out1' and the compinputs .network block can be written.
         in_operators = []
+        for item in sorted(spec.get("inputs", []) or [], key=lambda x: x.get("index", 0)):
+            in_operators.append({"name": item.get("in_op"), "family": item.get("family", "")})
         out_operators = []
-        for op_path, op_data in operators.items():
-            # Only check direct children (2 path segments: /root/child)
-            if op_path.count('/') == 2 and op_path.startswith(root_path + "/"):
-                op_type = op_data.get('op_type', '')
-                op_name = op_data.get('name', '')
-
-                # Detect input operators (CHOP:in, TOP:in, etc.) but not info operators
-                if ':in' in op_type.lower() and 'info' not in op_type.lower():
-                    family = op_type.split(':')[0]
-                    in_operators.append({'name': op_name, 'family': family, 'type': op_type})
-                # Detect output operators (CHOP:out, TOP:out, etc.)
-                elif ':out' in op_type.lower():
-                    family = op_type.split(':')[0]
-                    out_operators.append({'name': op_name, 'family': family, 'type': op_type})
-
-        # Store palette I/O info for connection resolution
+        for item in sorted(spec.get("outputs", []) or [], key=lambda x: x.get("index", 0)):
+            out_operators.append({"name": item.get("out_op"), "family": item.get("family", "")})
         self.palette_io_map[target_name] = {
-            'inputs': sorted(in_operators, key=lambda x: x['name']),  # Sort by name (in1, in2, etc.)
-            'outputs': sorted(out_operators, key=lambda x: x['name']),
-            'path': full_target_path
+            "inputs": in_operators,
+            "outputs": out_operators,
+            "path": full_path,
         }
 
-        if in_operators or out_operators:
-            self.log(f"    Detected I/O: {len(in_operators)} inputs, {len(out_operators)} outputs")
-
-        # Process each operator from the lossless JSON
-        ops_written = 0
-        for op_path, op_data in operators.items():
-            if op_path == root_path:
-                # Root component - write with position
-                self._write_operator_from_lossless(
-                    full_target_path, op_data, position, is_root=True
-                )
-                ops_written += 1
-            elif op_path.startswith(root_path + "/"):
-                # Child operator - strip root prefix and write
-                rel_path = op_path[len(root_path) + 1:]  # Strip "/componentName/"
-                child_path = f"{full_target_path}/{rel_path}"
-                self._write_operator_from_lossless(child_path, op_data, None)
-                ops_written += 1
-            # else: skip paths that don't match (shouldn't happen)
-
-        self.log(f"    Wrote {ops_written} operators from palette KB")
-
-        # Write .network file to route external connections to internal in operators
+        # Wires INTO the placeholder: TD-native compinputs block in <comp>.network.
         self._write_palette_network_file(target_name, container_path, in_operators)
 
+        # Build-log component summary (same record the external_tox path keeps).
+        self.external_components.append({
+            "name": target_name,
+            "path": full_path.replace("project1/", ""),
+            "tox": f"palette:{component_name} ({source}: {tox_path})",
+            "td_type": inner_type,
+        })
         return True
 
     def _write_palette_network_file(self, palette_name: str, container_path: str, in_operators: list):
@@ -1943,408 +1918,6 @@ flags =  parlanguage 0
 
         self._write_file(f"{container_path}.cparm", "\n".join(lines) + "\n")
         self.log(f"    Created custom parameters: {len(custom_pars)} params on {len(pages)} page(s)")
-
-    def _write_operator_from_lossless(self, op_path: str, op_data: dict, position: list = None, is_root: bool = False):
-        """Write operator files from lossless JSON data.
-
-        Args:
-            op_path: Full path for the operator (e.g., 'project1/audio')
-            op_data: Operator data from lossless JSON
-            position: Optional [x, y] position (for root component)
-            is_root: Whether this is the root component
-        """
-        name = op_data.get("name", op_path.split("/")[-1])
-        op_type = op_data.get("op_type", "COMP:base")
-
-        # Track written paths for case collision detection (Windows is case-insensitive)
-        if not hasattr(self, '_written_paths_lower'):
-            self._written_paths_lower = {}
-        if not hasattr(self, '_path_renames'):
-            self._path_renames = {}  # Maps old_prefix -> new_prefix for children
-        if not hasattr(self, '_written_types'):
-            self._written_types = {}  # Maps path -> op_type for collision decision
-        if not hasattr(self, '_name_renames'):
-            self._name_renames = {}  # Maps old_name -> new_name for expression fixing
-
-        # Apply any parent renames to this path
-        for old_prefix, new_prefix in self._path_renames.items():
-            if op_path.startswith(old_prefix + '/') or op_path == old_prefix:
-                op_path = new_prefix + op_path[len(old_prefix):]
-                name = op_path.split('/')[-1]
-                break
-
-        # Check for case collision
-        op_path_lower = op_path.lower()
-        if op_path_lower in self._written_paths_lower:
-            existing = self._written_paths_lower[op_path_lower]
-            if existing != op_path:
-                # Case collision! Rename the simpler operator (non-COMP preferred to rename)
-                existing_type = self._written_types.get(existing, '')
-                current_is_comp = op_type.startswith('COMP:')
-                existing_is_comp = existing_type.startswith('COMP:')
-
-                if current_is_comp and not existing_is_comp:
-                    # Current is COMP, existing is simpler - rename existing (already written)
-                    # Can't rename already written, so rename current but note this is suboptimal
-                    pass  # Fall through to rename current
-
-                # Append type suffix to avoid overwrite
-                type_suffix = op_type.split(':')[1].lower() if ':' in op_type else op_type.lower()
-                new_name = f"{name}_{type_suffix}"
-                old_path = op_path
-                op_path = op_path.rsplit('/', 1)[0] + '/' + new_name if '/' in op_path else new_name
-                # Track rename so children get updated too
-                self._path_renames[old_path] = op_path
-                # Track simple name rename for expression fixing
-                self._name_renames[name] = new_name
-                self.log(f"    [WARN] Case collision: '{name}' renamed to '{new_name}' (Windows case-insensitive)")
-
-        self._written_paths_lower[op_path.lower()] = op_path
-        self._written_types[op_path] = op_type
-
-        # Ensure parent directory exists
-        parent_dir = self.project_dir / Path(op_path).parent
-        parent_dir.mkdir(parents=True, exist_ok=True)
-
-        # Get position from op_data or use provided
-        # Lossless format uses tile_pos: [x, y, width, height]
-        if position:
-            x, y = position[0], position[1]
-            tile_w, tile_h = (160, 130) if op_type.startswith("COMP:") else (130, 90)
-        else:
-            tile_pos = op_data.get("tile_pos", [0, 0, 130, 90])
-            if tile_pos and len(tile_pos) >= 4:
-                x, y, tile_w, tile_h = tile_pos[0], tile_pos[1], tile_pos[2], tile_pos[3]
-            else:
-                x, y = 0, 0
-                tile_w, tile_h = (160, 130) if op_type.startswith("COMP:") else (130, 90)
-
-        # Write .n file with actual operator type
-        flags_data = op_data.get("flags", {})
-        if isinstance(flags_data, dict):
-            # Convert {"viewer": "1", "parlanguage": "0"} to "viewer 1 parlanguage 0"
-            flags_str = " ".join(f"{k} {v}" for k, v in flags_data.items())
-        else:
-            flags_str = str(flags_data) if flags_data else "viewer 1 parlanguage 0"
-
-        n_lines = [
-            op_type,
-            f"tile {x} {y} {tile_w} {tile_h}",
-            f"flags = {flags_str}",
-        ]
-
-        # Add inputs if present (lossless format: {"0": "opname", "1": "opname2"} or empty {})
-        inputs_data = op_data.get("inputs", {})
-        if inputs_data and isinstance(inputs_data, dict) and len(inputs_data) > 0:
-            n_lines.append("inputs")
-            n_lines.append("{")
-            for idx, inp_name in sorted(inputs_data.items(), key=lambda x: int(x[0]) if x[0].isdigit() else 0):
-                n_lines.append(f"{idx}\t{inp_name}")
-            n_lines.append("}")
-
-        # Add exports if present (format: exports\n{\nexport_name\n})
-        exports = op_data.get("exports", [])
-        if exports:
-            n_lines.append("exports")
-            n_lines.append("{")
-            for exp in exports:
-                n_lines.append(exp)
-            n_lines.append("}")
-            n_lines.append("")  # Empty line after exports block
-
-        # Add color if present (lossless format: [0.55, 0.55, 0.55])
-        color = op_data.get("color")
-        if color and isinstance(color, list):
-            color_str = " ".join(str(c) for c in color)
-            n_lines.append(f"color {color_str}")
-
-        # Add dict if present (instance data - hex encoded pickle)
-        dict_data = op_data.get("dict_data")
-        if dict_data:
-            n_lines.append(f"dict {dict_data}")
-
-        n_lines.append("end")
-        self._write_file(f"{op_path}.n", "\n".join(n_lines) + "\n")
-
-        # Write .parm file from parameters
-        parameters = op_data.get("parameters", {})
-        if parameters:
-            self._write_parm_from_lossless(op_path, parameters)
-
-        # Write extra files (text content, etc.)
-        extra_files = op_data.get("extra_files", {})
-        for ext, file_data in extra_files.items():
-            self._write_extra_file_from_lossless(op_path, ext, file_data)
-
-    def _fix_expression_renames(self, value: str) -> str:
-        """Fix operator references in expressions after case collision renames.
-
-        Replaces op('oldname') and op("oldname") with renamed operator names.
-        """
-        if not hasattr(self, '_name_renames') or not self._name_renames:
-            return value
-
-        import re
-        result = value
-        for old_name, new_name in self._name_renames.items():
-            # Match op('name') or op("name") patterns
-            # Also handle op('./name') and op("./name") for relative refs
-            patterns = [
-                (rf"op\('{re.escape(old_name)}'\)", f"op('{new_name}')"),
-                (rf'op\("{re.escape(old_name)}"\)', f'op("{new_name}")'),
-                (rf"op\('\./'{re.escape(old_name)}'\)", f"op('./{new_name}')"),
-                (rf'op\("\./"{re.escape(old_name)}"\)', f'op("./{new_name}")'),
-            ]
-            for pattern, replacement in patterns:
-                result = re.sub(pattern, replacement, result)
-
-        return result
-
-    def _write_parm_from_lossless(self, op_path: str, parameters: dict):
-        """Write .parm file from lossless parameter data.
-
-        Lossless format uses: {"parm_name": {"mode": value}} or {"parm_name": {"mode": "value expr"}}
-        Where mode is the TD parameter mode as a string key (e.g., "67108864" for constant, "0" for default).
-        """
-        lines = ["?"]  # Start with ?
-
-        for parm_name, parm_data in parameters.items():
-            if isinstance(parm_data, dict):
-                # Lossless format: {"67108864": value} or {"0": value} or {"49": "value expr"}
-                for mode_str, value in parm_data.items():
-                    try:
-                        mode = int(mode_str)
-                        # Mode 67108864 is constant mode in TD internal format, treat as 0
-                        if mode == 67108864:
-                            mode = 0
-
-                        # Fix any renamed operator references in expressions
-                        if isinstance(value, str):
-                            value = self._fix_expression_renames(value)
-
-                        if isinstance(value, str) and ' ' in value and mode in [17, 49]:
-                            # Expression mode with space - value includes expression
-                            lines.append(f"{parm_name} {mode} {value}")
-                        else:
-                            lines.append(f"{parm_name} {mode} {value}")
-                    except ValueError:
-                        # Non-numeric key, treat as simple value
-                        if isinstance(value, str):
-                            value = self._fix_expression_renames(value)
-                        lines.append(f"{parm_name} 0 {value}")
-            else:
-                # Simple value
-                if isinstance(parm_data, str):
-                    parm_data = self._fix_expression_renames(parm_data)
-                lines.append(f"{parm_name} 0 {parm_data}")
-
-        lines.append("?")
-        self._write_file(f"{op_path}.parm", "\n".join(lines) + "\n")
-
-    def _write_extra_file_from_lossless(self, op_path: str, ext: str, file_data: dict):
-        """Write extra file (text, network, etc.) from lossless data."""
-        if isinstance(file_data, dict):
-            content = file_data.get("content", "")
-            is_binary = file_data.get("is_binary", False)
-
-            if is_binary and content:
-                # Decode base64 binary content
-                import base64
-                try:
-                    binary_data = base64.b64decode(content)
-                    file_path = self.project_dir / f"{op_path}.{ext}"
-                    file_path.parent.mkdir(parents=True, exist_ok=True)
-                    with open(file_path, 'wb') as f:
-                        f.write(binary_data)
-                    self.toc_entries.append(f"{op_path}.{ext}")
-                except Exception as e:
-                    self.log(f"    [WARN] Failed to write binary file {ext}: {e}")
-            elif content:
-                self._write_file(f"{op_path}.{ext}", content)
-        elif isinstance(file_data, str):
-            self._write_file(f"{op_path}.{ext}", file_data)
-
-    # =========================================================================
-    # LEGACY TOX EMBEDDING (Fallback when KB not available)
-    # =========================================================================
-
-    def _embed_palette_tox(self, tox_path: str, name: str, container_path: str, position: list):
-        """Embed a palette TOX component by copying its expanded structure."""
-        import tempfile
-        
-        # Resolve the tox path
-        tox_file = Path(tox_path)
-        if not tox_file.exists():
-            # Try TD palette directory
-            tox_file = TD_PALETTE_DIR / tox_path
-        if not tox_file.exists():
-            self.log(f"    [WARN] TOX not found: {tox_path}")
-            return
-        
-        self.log(f"    Embedding palette TOX: {tox_file.name} as {name}")
-        
-        # Create temp directory for expansion
-        with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path = Path(temp_dir)
-            temp_tox = temp_path / tox_file.name
-            shutil.copy(tox_file, temp_tox)
-            
-            # Expand the TOX
-            toeexpand = resolve_td_tool("toeexpand")
-            if toeexpand is None:
-                self.log(f"    [ERROR] {td_tool_missing_error('toeexpand')}")
-                return
-            result = subprocess.run(
-                [str(toeexpand), str(temp_tox)],
-                capture_output=True,
-                text=True,
-                cwd=temp_path
-            )
-            
-            expanded_dir = temp_path / f"{tox_file.name}.dir"
-            if not expanded_dir.exists():
-                self.log(f"    [ERROR] Failed to expand TOX: {result.stderr}")
-                return
-            
-            # Find the root component directory (e.g., "julia")
-            root_dirs = [d for d in expanded_dir.iterdir() if d.is_dir()]
-            if not root_dirs:
-                self.log("    [ERROR] No root component found in expanded TOX")
-                return
-            
-            root_comp = root_dirs[0]
-            root_comp_name = root_comp.name
-            
-            # Target path for the embedded component
-            full_path = f"{container_path}/{name}"
-            target_dir = self.project_dir / full_path
-            target_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Copy the inner content (e.g., julia/julia/* -> target/)
-            inner_dir = root_comp / root_comp_name
-            if inner_dir.exists() and inner_dir.is_dir():
-                for item in inner_dir.iterdir():
-                    if item.is_file():
-                        rel_path = item.relative_to(expanded_dir)
-                        # Adjust path: replace root/root with our target
-                        dest_path = target_dir / item.name
-                        shutil.copy(item, dest_path)
-                        self.toc_entries.append(f"{full_path}/{item.name}")
-                    elif item.is_dir():
-                        dest_subdir = target_dir / item.name
-                        shutil.copytree(item, dest_subdir)
-                        for f in dest_subdir.rglob("*"):
-                            if f.is_file():
-                                rel = f.relative_to(self.project_dir)
-                                self.toc_entries.append(str(rel).replace("\\", "/"))
-            
-            # Write the component .n file
-            n_content = f"""COMP:base
-tile {position[0]} {position[1]} 160 130
-flags =  parlanguage 0
-end
-"""
-            self._write_file(f"{full_path}.n", n_content)
-            
-            # Copy .cparm and .parm from root component (in root_comp/)
-            for ext in [".cparm", ".parm", ".panel", ".network"]:
-                src_file = root_comp / f"{root_comp_name}{ext}"
-                if src_file.exists():
-                    dest_file = self.project_dir / f"{full_path}{ext}"
-                    shutil.copy(src_file, dest_file)
-                    self.toc_entries.append(f"{full_path}{ext}")
-
-    # =========================================================================
-    # PYTHON RUNTIME LOADING (Alternative fallback for interactive use)
-    # =========================================================================
-
-    def _generate_palette_init_script(self, components: list) -> str:
-        """Generate Text DAT init script that loads palettes at runtime.
-
-        This is a FALLBACK method for when:
-        1. KB lossless JSON is not available for the component
-        2. Dynamic loading is preferred over static embedding
-
-        Args:
-            components: List of dicts with keys:
-                - name: Palette component name (e.g., 'audioAnalysis')
-                - path: Relative path in TD palette (e.g., 'Tools/audioAnalysis.tox')
-                - target_name: Name to give the component
-                - x, y: Optional position coordinates
-
-        Returns:
-            str: Python script content for Text DAT
-        """
-        script_lines = [
-            "# Auto-generated palette loader - runs at project start",
-            "# Generated by TD Builder",
-            "",
-            "def onStart():",
-            "    root = parent()",
-            "    palette_base = 'C:/Program Files/Derivative/TouchDesigner/Palette'",
-            "",
-        ]
-
-        for comp in components:
-            name = comp.get('name', '')
-            path = comp.get('path', f"Tools/{name}.tox")
-            target = comp.get('target_name', name)
-            x = comp.get('x', 0)
-            y = comp.get('y', 0)
-
-            script_lines.extend([
-                f"    # Load {name}",
-                f"    try:",
-                f"        tox_path = f'{{palette_base}}/{path}'",
-                f"        loaded = root.loadTox(tox_path)",
-                f"        if loaded:",
-                f"            # Navigate to inner component if nested",
-                f"            inner = loaded.op('{name}') if loaded.op('{name}') else loaded",
-                f"            inner.name = '{target}'",
-                f"            inner.nodeX = {x}",
-                f"            inner.nodeY = {y}",
-                f"            debug(f'Loaded palette: {name} -> {target}')",
-                f"    except Exception as e:",
-                f"        debug(f'Failed to load {name}: {{e}}')",
-                "",
-            ])
-
-        script_lines.append("    debug('Palette components loaded')")
-        return "\n".join(script_lines)
-
-    def _create_palette_loader_dat(self, container_path: str, components: list):
-        """Create a Text DAT with palette loading script.
-
-        Args:
-            container_path: Container to add the Text DAT
-            components: List of palette components to load
-        """
-        script_content = self._generate_palette_init_script(components)
-
-        # Write the script content as a text file
-        dat_name = "palette_loader"
-        full_path = f"{container_path}/{dat_name}"
-
-        # Write .n file for Text DAT
-        n_content = """DAT:text
-tile -200 -200 130 90
-flags =  viewer 1 parlanguage 0
-end
-"""
-        self._write_file(f"{full_path}.n", n_content)
-
-        # Write .text file with the script
-        self._write_file(f"{full_path}.text", script_content)
-
-        # Write .parm to enable execOnStart (this makes it run on project load)
-        parm_content = """syncfile 0
-loadonstartpulse 0
-execonstart 0 1
-?
-"""
-        self._write_file(f"{full_path}.parm", parm_content)
-
-        self.log(f"    Created palette loader DAT: {dat_name}")
 
     # Internal name overrides - user name -> TD internal name (BUG-011 fix)
     # These are operators where the user-friendly name differs from TD's internal name

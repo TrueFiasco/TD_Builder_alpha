@@ -181,13 +181,14 @@ When td_glsl_expert provides shader code, embed in glslTOP/glslMAT:
 
 The "content" field populates the .text file for glslTOP/glslMAT operators.
 
-### Palette Components — NOT available in this release
+### Palette Components — pre-built building blocks
 
-Palette embedding is **not available in this release**: `td_build_project` rejects designs
-with a `palette` key, and container-level `palette` / `embed_tox` fields are unreliable —
-do not pass them to the builder. If a design_spec arrives containing `palette` fields,
-replace each one with an equivalent chain of standard operators (ground the chain via
-`get_operator_info` / `find_operator_combination`) before building.
+Per-operator `palette` fields build an external-tox placeholder that loads the component
+from the user's own TD install on open, fully wired: `{"name": "glow", "palette": "bloom"}`.
+Wire to/from it like any op (`"from": "glow/out2"` selects a second output by inner
+out-op name). Names must exist in `KB/palette_components.json` (277 items — unknown names
+fail the build with a hint); par/UI-driven items have no connectors and take no wires.
+For unregistered `.tox` files use `external_tox: <path>`; `embed_tox` is removed.
 
 ## Execution Steps
 

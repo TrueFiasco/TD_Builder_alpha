@@ -182,14 +182,24 @@ Common patterns and their chain structures:
 
 ---
 
-## Palette Components — NOT available in this release
+## Palette Components — pre-built building blocks
 
-Palette embedding (a `palette` field in the design) is **not available in this release** —
-the builder rejects designs that contain it. Always design the network from standard
-operators instead: pick the operator chain that implements the capability (e.g. audio
-analysis = `audiodevicein → audiofilter → analyze → math`), ground each operator via
-`get_operator_info` / `find_operator_combination`, and build that. Do not emit `palette`
-keys in containers or operators.
+An operator (or container) may carry a `palette` field naming a registered pre-built
+component: `{"name": "analysis", "palette": "audioAnalysis"}`. The builder writes an
+external-tox placeholder that loads the real component from the **user's own TD install**
+when the file opens — it arrives fully populated, with its real custom parameter pages,
+and **wired like any other operator** (wires into it and out of it survive loading;
+`"from": "analysis/out2"` selects a second output by inner out-op name).
+
+Planning rules:
+- Prefer a palette component when one directly implements a requested capability
+  (audio analysis, bloom, camera rigs, UI widgets, …) — it is Derivative-maintained and
+  arrives with a designed parameter interface. Otherwise design from standard operators.
+- Names must match `KB/palette_components.json` exactly (277 registered items; unknown
+  names fail the build with a hint). Many items are par/UI-driven with **no connectors**
+  — drive those via their custom parameters, not wires.
+- For a `.tox` file that is NOT in the registry (user/project components), reference it
+  with `external_tox: <path>` instead of `palette`.
 
 ---
 

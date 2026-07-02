@@ -61,6 +61,19 @@ There is **one mode: key-free**. KB semantic search uses a local embedding model
 multi-agent strategy runner were removed in this release; the experts ship as prompts you load via
 `get_expert_prompt`.)
 
+## Measured, not promised
+
+The KB and builder are gated by a published eval harness ([eval/](eval/)) — every release must pass:
+
+- **Build correctness**: offline-generated operators re-expanded through TD's own `toeexpand` and
+  diffed against live-TD ground truth — **636/636 operator tokens exact** (verified by importing
+  offline `.tox` files into a running TouchDesigner).
+- **Retrieval quality**: labeled benchmark (recall@k / MRR / nDCG) with a frozen trend gate,
+  held-out paraphrases against overfitting, and a coverage tier spanning **≥90% of operators in
+  every family** (all 673 operators enumerated). Hybrid retrieval (dense + BM25 + reranker) took
+  the aggregate score from 0.86 → 0.93 over dense-only.
+- **Name integrity**: zero retokenized operator names in returned chunks (was 294 pre-redesign).
+
 ## Run the gate
 
 ```powershell

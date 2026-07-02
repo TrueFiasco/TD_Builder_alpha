@@ -121,10 +121,9 @@ there is **no server-side timeout** in the build path — `_collapse_tox` shelle
 bound. The ~45 s cutoff is the **MCP client's** tool-call timeout, which the server cannot raise.
 **Done this round:** added a generous hang-guard (`COLLAPSE_TIMEOUT_S=300`) so a stuck `toecollapse`
 fails cleanly, and the message points at the deterministic on-disk path
-(`<output_dir>/<project_name>.tox`) to check after a client timeout. **Deferred (owner decision):**
-either (a) raise the client tool-call timeout in the MCP client config, or (b) add an **async/poll**
-build API (`td_build_project` returns a job id immediately; a `td_build_status` tool reports
-completion) so long builds never hit the client cutoff.
+(`<output_dir>/<project_name>.tox`) to check after a client timeout. **Resolved (v0.2.0):** option
+(b) shipped — `td_build_project(async_build=true)` returns a job id immediately and the
+`td_build_status` tool polls completion, so long builds never hit the client cutoff.
 
 ## R2-B — `expand_toe_file` 45 s timeout on real glslPOP-heavy files (self-review BUG 6)
 `expand_toe_file` (toeexpand + parse) can exceed the client budget on real 16 KB+ / glslPOP-heavy

@@ -41,7 +41,15 @@ Set `TD_BUILDER_ROOT` to this release folder's absolute path (in the MCP client 
 there regardless of where you run them from — so you can move/copy the folder anywhere.
 
 ## TouchDesigner endpoint (live server only)
-`TD_API_URL` (default `http://127.0.0.1:9981`) — the WebServer DAT the live tools talk to.
+- `TD_API_URL` (default `http://127.0.0.1:9981`) — the WebServer DAT the live tools talk to.
+- `TD_API_TOKEN` — shared-secret token the live server presents to the TD webserver (local
+  authentication).
+- `TD_API_TOKEN_FILE` — path to a file holding that token instead of the env var (default:
+  `~/.td_builder_mcp/token`).
+
+Set all three in the MCP client config's `"env"` block for `td-builder-live` (see `MCP/README.md`).
+The **live server reads only the process environment** — it does not load the root `.env` (that
+file feeds the offline server's search stack).
 
 ## Debug/dev switches (env only, rarely needed)
 - `RS_DISABLE=1` — bypass the Phase-2 hybrid retrieval stack (dense-only search).

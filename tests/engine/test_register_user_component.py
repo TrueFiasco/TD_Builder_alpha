@@ -22,10 +22,13 @@ bootstrap.setup()
 from paths import resolve_td_tool  # noqa: E402
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
 
-pytestmark = pytest.mark.skipif(
-    resolve_td_tool("toeexpand") is None or resolve_td_tool("toecollapse") is None,
-    reason="TouchDesigner tools (toeexpand/toecollapse) not installed",
-)
+pytestmark = [
+    pytest.mark.requires_kb,
+    pytest.mark.skipif(
+        resolve_td_tool("toeexpand") is None or resolve_td_tool("toecollapse") is None,
+        reason="TouchDesigner tools (toeexpand/toecollapse) not installed",
+    ),
+]
 
 SCRIPT = _REPO_ROOT / "kb_build" / "register_user_component.py"
 

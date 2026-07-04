@@ -28,6 +28,10 @@ import bootstrap  # noqa: E402
 
 bootstrap.setup()
 
+# The child interpreter imports the real server module, whose registry init
+# reads KB/operators.json — the KB-free CI lane deselects this via the marker.
+pytestmark = pytest.mark.requires_kb
+
 # Runs in a fresh interpreter. Poisons sys.modules (a None entry makes `import X`
 # raise ImportError) before the server module executes its import-time try blocks,
 # then drives _run_build for both modes — the same entry point the sync and async

@@ -28,6 +28,8 @@ Builds offline via the real ToxBuilder path (the one td_build_project uses). KB-
 import sys
 from pathlib import Path
 
+import pytest
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
@@ -37,6 +39,8 @@ bootstrap.setup()
 
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
 from meta_agentic.execution.toe_builder_bridge import _td_quote_token, _td_emit_token  # noqa: E402
+
+pytestmark = pytest.mark.requires_kb
 
 
 KNOT_DESIGN = {

@@ -25,6 +25,20 @@ def pytest_addoption(parser):
     )
 
 
+# Anything driving the in-process servers needs the fetched KB (the `server`
+# fixture fails loudly without it), so the KB-free CI lane must deselect those
+# tests via `-m "not requires_kb"`. Builder tests that read the KB directly
+# (no fixture) carry an explicit module-level pytestmark instead — fixture
+# inspection cannot see a ToxBuilder(...) call inside the test body.
+_KB_FIXTURES = {"server", "probe", "live_server", "live_probe"}
+
+
+def pytest_collection_modifyitems(items):
+    for item in items:
+        if _KB_FIXTURES & set(getattr(item, "fixturenames", ())):
+            item.add_marker(pytest.mark.requires_kb)
+
+
 @pytest.fixture(scope="session")
 def promote(pytestconfig) -> bool:
     return bool(pytestconfig.getoption("--promote"))

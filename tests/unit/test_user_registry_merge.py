@@ -27,9 +27,13 @@ from meta_agentic.execution import toe_builder_bridge as bridge  # noqa: E402
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
 
 # The shipped registry is committed; skip cleanly if a stripped checkout lacks it.
+# The builds themselves resolve types against the fetched KB/operators.json.
 _SHIPPED = REPO / "KB" / "palette_components.json"
-pytestmark = pytest.mark.skipif(not _SHIPPED.is_file(),
-                                reason="shipped KB/palette_components.json not present")
+pytestmark = [
+    pytest.mark.requires_kb,
+    pytest.mark.skipif(not _SHIPPED.is_file(),
+                       reason="shipped KB/palette_components.json not present"),
+]
 
 
 @pytest.fixture()

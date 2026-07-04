@@ -8,6 +8,8 @@ findings as *warnings* (not errors), so they don't crash and don't fail the stag
 import sys
 from pathlib import Path
 
+import pytest
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
@@ -16,6 +18,8 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from validation.td_rules_validator import TDRulesValidator  # noqa: E402
+
+pytestmark = pytest.mark.requires_kb
 
 
 def test_relative_path_and_bad_name_are_warnings_not_crash():

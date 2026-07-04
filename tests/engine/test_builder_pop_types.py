@@ -23,6 +23,8 @@ bootstrap.setup()
 
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
 
+pytestmark = pytest.mark.requires_kb
+
 
 def _first_line(tmp_path, design, name, op_name):
     ToxBuilder(str(tmp_path), verbose=False).build_tox(design, name)

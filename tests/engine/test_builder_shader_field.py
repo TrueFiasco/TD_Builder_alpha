@@ -15,6 +15,8 @@ KB-gated by tests/conftest.py (the builder reads ground truth + docked_dats from
 import sys
 from pathlib import Path
 
+import pytest
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
@@ -23,6 +25,8 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
+
+pytestmark = pytest.mark.requires_kb
 
 POP_MARKER = "// CUSTOM_MARKER_BUG3_POP"
 POP_SHADER = POP_MARKER + "\nvoid main() { P[TDIndex()] = vec3(1.0); }\n"

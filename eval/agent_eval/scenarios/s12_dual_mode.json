@@ -1,0 +1,47 @@
+{
+  "id": "s12_dual_mode",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "penrose:P09-c",
+    "regression:BUG-1",
+    "toe-mode"
+  ],
+  "budgets": {
+    "timeout_s": 1200
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Final-assembly rehearsal, offline. A little noise viewer: noise1 (a Noise TOP) into null1 (a Null TOP). I want it built TWICE from the same design: once as a component — tile_mini as a .tox — and once as a standalone project version — tile_mini as a .toe. Both with output_dir {{RUN_DIR}}, both validated. Then confirm from disk that both files really exist with their expanded directories — I've been handed a .tox wearing a .toe name before, so check, don't assume.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "td_build_project"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "tile_mini.tox",
+      "toe": "tile_mini.toe",
+      "ops_present": [
+        {
+          "family": "TOP",
+          "type": "noise",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "null",
+          "min": 1
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

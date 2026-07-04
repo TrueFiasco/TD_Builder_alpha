@@ -5,10 +5,11 @@
 #   1. offline acceptance + measure (the canonical gate; live/live-auth tests
 #      skip without TouchDesigner — zero failures enforced, plus a pass-count
 #      floor so silent shrink can't hide behind skips)
-#   2. retrieval eval (median of 3) with ALL writes redirected off-repo
-#      (run_eval.py overwrites eval/baseline.json by default — known wart,
-#      real fix rides work item 2c), then a git-clean guard, then the
-#      tolerance gate scripts/ci_compare_eval.py vs the committed baseline.
+#   2. retrieval eval (median of 3) with ALL writes redirected off-repo, then a
+#      git-clean guard, then the tolerance gate scripts/ci_compare_eval.py vs the
+#      committed baseline. (W2c fixed the overwrite wart: run_eval no longer
+#      defaults --out onto eval/baseline.json — --write-baseline is the explicit
+#      opt-in — so the redirect + guard are now belt-and-braces, not load-bearing.)
 #
 # windows-latest on purpose: local truth is Windows py3.11 and the committed
 # baseline numbers were measured on Windows — minimizes float-drift vs the
@@ -93,6 +94,30 @@ jobs:
           python scripts/ci_compare_eval.py eval/baseline.json "$RUNNER_TEMP/candidate.json" \
             | tee -a "$GITHUB_STEP_SUMMARY"
 
+      # Seeded scorer tests (design acceptance 4/5 + §12 R-1/R-2/R-3): pure
+      # scoring logic over synthetic transcripts + ToxBuilder-built artifacts
+      # (needs the KB for type grounding, so it lives on this lane, not the
+      # hermetic one). No pinned floor — additive, not part of the 143.
+      - name: Agent-eval scorer tests (seeded acceptance demos)
+        shell: bash
+        run: python -m pytest eval/agent_eval/tests -q
+
+      # Agent-eval Lane R (replay-gate): deterministic, key-free, in-process.
+      # It re-executes the blessed tool-call traces against the same cached KB
+      # and scores the built artifacts with the same 5-stage validator the
+      # product uses. This is the REPLAY-gate only — NOT the agent-gate (Lane M,
+      # model-in-the-loop) which stays on the maintainer machine (D-F) and never
+      # runs in hosted CI. continue-on-error: this lane is ADVISORY at bring-up
+      # (matching how every kb-full lane starts); promotion to blocking is a
+      # documented one-line flip once it is green on hosted runners twice — see
+      # eval/agent_eval/README.md "CI placement & promotion path".
+      - name: Agent-eval Lane R (replay-gate; advisory at bring-up)
+        continue-on-error: true
+        shell: bash
+        run: |
+          python eval/agent_eval/run_agent_eval.py --lane replay --no-stage \
+            --run-id "ci-${GITHUB_RUN_ID}" | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -102,9 +127,5 @@ jobs:
           path: |
             ${{ runner.temp }}/candidate.json
             acceptance.log
-
-      # ------------------------------------------------------------------
-      # Extension point (do not build yet): Lane R of the agent eval (work
-      # item 2c, eval/agent_eval/) joins here as a follow-on job once it
-      # lands — needs an ANTHROPIC_API_KEY secret decision at that time.
-      # ------------------------------------------------------------------
+            eval/agent_eval/runs/ci-${{ github.run_id }}/report.json
+            eval/agent_eval/runs/ci-${{ github.run_id }}/verdicts.json

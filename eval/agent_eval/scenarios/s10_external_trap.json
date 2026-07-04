@@ -1,0 +1,51 @@
+{
+  "id": "s10_external_trap",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "penrose:P09-a",
+    "regression:a2ce003",
+    "external-tox"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [
+    "text.tox"
+  ],
+  "prompt": "A collaborator sent me a little timing util and I dropped it at {{RUN_DIR}}/assets/text.tox — offline build a monitor rig around it: add it to the network as an external component called textref (reference the file from disk, don't embed or rebuild it), and wire its output to a Null CHOP called textmon so I can watch its channels once it's live. Build as monitor_rig (mode tox) with output_dir {{RUN_DIR}} and validate. Then tell me exactly how the file reference is stored in the built output.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "monitor_rig.tox",
+      "parm_line_re": [
+        {
+          "file_glob": "**/textref.parm",
+          "re": "^externaltox 0 \\S*assets/text\\.tox",
+          "not_re": "^externaltox 49"
+        },
+        {
+          "file_glob": "**/textref.parm",
+          "re": "^enableexternaltox 0 on"
+        }
+      ],
+      "n_file": [
+        {
+          "file_glob": "**/textmon.n",
+          "re": "textref/out1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "validate=null (not PASS): td_validate/ValidationPipeline cannot resolve wires that cross a palette/external_tox placeholder boundary (inner out-ops are invisible at design level) — verified 2026-07-04. The artifact-level .parm/.n/.network assertions are the ground truth here; product gap flagged in the W2c report."
+}

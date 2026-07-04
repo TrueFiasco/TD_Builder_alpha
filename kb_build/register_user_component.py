@@ -118,13 +118,27 @@ def main(argv=None) -> int:
         return 2
     name = args.name or tox.stem
 
+    emitted = (args.tox_path or str(tox)).replace("\\", "/")
+    # G6: user/derivative sources emit an app.userPaletteFolder/app.samplesFolder-relative
+    # EXPRESSION; an absolute path there produces a broken `app.userPaletteFolder +
+    # '/C:/Users/...'`. Require an explicit relative --tox-path (the default is the file's
+    # absolute path, so choosing user/derivative without --tox-path is caught here).
+    # Checked BEFORE the expand so a bad invocation fails fast without needing TD tools.
+    if args.source in ("user", "derivative") and (
+            Path(emitted).is_absolute() or (len(emitted) > 1 and emitted[1] == ":")):
+        root = "app.userPaletteFolder" if args.source == "user" else "app.samplesFolder"
+        print(f"error: --source {args.source} emits a {root}-relative expression, so "
+              f"--tox-path must be RELATIVE to that palette root (got '{emitted}'). "
+              f"Pass e.g. --tox-path {name}.tox, or use --source project for a plain "
+              f"absolute path constant.", file=sys.stderr)
+        return 2
+
     try:
         res = manifest_from_tox(tox)
     except ComponentManifestError as e:
         print(f"error [{e.kind}]: {e}", file=sys.stderr)
         return 1
 
-    emitted = (args.tox_path or str(tox)).replace("\\", "/")
     entry = offline_entry(res["manifest"], res["inner_type"], source=args.source,
                           tox_path=emitted, subcompname=res.get("subcompname"))
     entry["harvest"] = {"method": "offline_manifest",

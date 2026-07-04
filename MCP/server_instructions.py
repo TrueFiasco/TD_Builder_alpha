@@ -65,6 +65,19 @@ MINIMAL = (
 )
 
 
+def scope_for_server(serves_live_tools: bool) -> str:
+    """Scope FOLLOWS TOOLS SERVED.
+
+    A server that exposes the live-TD tools must ship the live rules — including
+    the catastrophic-silent ones (GLSL-invisible-errors, flat-exec-scope) — even
+    when it is the "offline" ``td-builder`` server co-loading them via
+    ``TD_LIVE_ENABLED``. Shipping a live-tool surface without its live safety
+    rules is exactly the silent-footgun class these rules warn against. A pure
+    offline server (no live tools) ships the ``[always]`` scope only.
+    """
+    return "live" if serves_live_tools else "offline"
+
+
 def _release_root() -> Path:
     """Repo/release root: honor the documented TD_BUILDER_ROOT knob, else infer
     from this module's location (``<root>/MCP/server_instructions.py``)."""

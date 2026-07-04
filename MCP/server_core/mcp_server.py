@@ -469,14 +469,17 @@ def _load_kb():
 
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
-# cowork; see docs/NON_NEGOTIABLES.md). This is the OFFLINE `td-builder` server,
-# so it loads scope="offline" -> the [always] rules only (grounding + build; the
-# running-TD gotchas are carried by td-builder-live). The loader fails soft to a
-# baked-in minimal string, so a partial install still starts.
+# cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this is the
+# `td-builder` server, normally offline ([always] rules only) — but when it
+# co-loads the live tools (TD_LIVE_ENABLED, see list_tools/`tools.extend`), it
+# must ship the live scope too, or a model driving TD through it would miss the
+# catastrophic-silent live rules (GLSL-invisible, flat-exec-scope). The loader
+# fails soft to a baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
-from server_instructions import load_instructions  # noqa: E402
+from server_instructions import load_instructions, scope_for_server  # noqa: E402
 
-_NON_NEGOTIABLES = load_instructions(_RELEASE_ROOT, scope="offline")
+_NON_NEGOTIABLES = load_instructions(
+    _RELEASE_ROOT, scope=scope_for_server(bool(TD_LIVE_ENABLED and TD_LIVE_TOOLS)))
 app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
 
 SERVER_NAME = "touchdesigner-mcp-server"

@@ -98,6 +98,17 @@ def test_loader_failsoft(tmp_path):
     assert len(si.MINIMAL.encode("utf-8")) <= CAP
 
 
+def test_scope_follows_tools_served():
+    """A server co-loading the live tools ships the live scope; a pure offline
+    server ships offline. Guards the silent-footgun gap: a live-tool surface must
+    never ship without its live safety rules."""
+    assert si.scope_for_server(True) == "live"
+    assert si.scope_for_server(False) == "offline"
+    # A co-loaded offline server therefore carries the [live-only] rules.
+    coloaded = si.load_instructions(REPO, scope=si.scope_for_server(True))
+    assert all(m in coloaded for m in LIVE_ONLY_MARKERS)
+
+
 # --------------------------------------------------------------------------
 # Both servers: InitializeResult.instructions is the correct scope
 # (engine-kb lane, every PR)
@@ -114,10 +125,16 @@ def _server_instructions(mod) -> str:
 
 def test_offline_server_scope(server):
     instr = _server_instructions(server)
-    # Offline server must carry the [always] set only.
-    for m in LIVE_ONLY_MARKERS:
-        assert m not in instr, f"offline server leaked [live-only] text {m!r}"
-    assert instr == si.load_instructions(REPO, scope="offline")
+    # Scope follows tools served: whatever this offline server actually co-loads
+    # (TD_LIVE_ENABLED) decides its scope. In the standard offline harness it
+    # serves no live tools -> offline scope, zero [live-only] text.
+    serves_live = bool(getattr(server, "TD_LIVE_ENABLED", False)
+                       and getattr(server, "TD_LIVE_TOOLS", None))
+    expected = si.load_instructions(REPO, scope=si.scope_for_server(serves_live))
+    assert instr == expected
+    if not serves_live:
+        for m in LIVE_ONLY_MARKERS:
+            assert m not in instr, f"pure-offline server leaked [live-only] text {m!r}"
 
 
 def test_live_server_scope(live_server):

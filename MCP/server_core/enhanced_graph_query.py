@@ -93,27 +93,37 @@ class EnhancedGraphQuery:
         if not graph_file.exists():
             raise FileNotFoundError(f"Enhanced graph not found: {graph_path}")
 
-        # W2d trust boundary: pickle.load of a tampered gpickle is arbitrary
-        # code execution. Hash the exact bytes against the KB receipt / pinned
-        # release manifest BEFORE unpickling (kb_root = the gpickle's directory:
-        # the graph sits at the KB root in every supported layout). Refusal
-        # degrades to an EMPTY graph — graph-backed features go dark, loudly,
+        # W2d trust boundary: verify the exact bytes against the KB receipt /
+        # pinned release manifest BEFORE unpickling (kb_root = the gpickle's
+        # directory: the graph sits at the KB root in every supported layout).
+        # A refuse verdict — or ANY unexpected error in the check itself —
+        # degrades to an EMPTY graph so graph-backed features go dark loudly
         # while the rest of the server (vector search, registry, builders)
-        # keeps working. Missing-file behavior (raise above) is unchanged.
+        # keeps working. The whole verify+load is wrapped so the integrity
+        # check can never take the server down, mirroring the bm25 site.
+        # Missing-file behavior (raise above) is unchanged.
         self.integrity_failed = False
         self.integrity_reason = ""
-        graph_bytes = graph_file.read_bytes()
-        verdict = _kb_integrity().verify_pickle_bytes(graph_bytes, graph_file, graph_file.parent)
-        if not verdict.ok:
-            print(f"[SECURITY] {verdict.reason}", file=sys.stderr)
-            print("[SECURITY] Enhanced graph REFUSED (integrity); loading EMPTY graph - "
-                  "example/pattern/graph tools will return no results until the KB is "
-                  "re-fetched or receipted.", file=sys.stderr)
+        try:
+            graph_bytes = graph_file.read_bytes()
+            verdict = _kb_integrity().verify_pickle_bytes(graph_bytes, graph_file, graph_file.parent)
+            if verdict.ok:
+                self.graph_data = pickle.loads(graph_bytes)
+            else:
+                self.integrity_failed = True
+                self.integrity_reason = verdict.reason
+                print(f"[SECURITY] {verdict.reason}", file=sys.stderr)
+                print("[SECURITY] Enhanced graph REFUSED (integrity); loading EMPTY graph - "
+                      "example/pattern/graph tools will return no results until the KB is "
+                      "re-fetched or receipted.", file=sys.stderr)
+                self.graph_data = {"nodes": {}, "edges": []}
+        except Exception as e:
             self.integrity_failed = True
-            self.integrity_reason = verdict.reason
+            self.integrity_reason = f"integrity check error: {e}"
+            print(f"[SECURITY] Enhanced graph integrity check errored ({e}); loading EMPTY "
+                  "graph - graph tools disabled until the KB is re-fetched or receipted.",
+                  file=sys.stderr)
             self.graph_data = {"nodes": {}, "edges": []}
-        else:
-            self.graph_data = pickle.loads(graph_bytes)
 
         self.nodes = self.graph_data['nodes']
         self.edges = self.graph_data['edges']

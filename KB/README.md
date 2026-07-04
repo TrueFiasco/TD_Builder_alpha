@@ -47,11 +47,17 @@ system key-free. (The bundled `models/` reranker is a *cross-encoder*, not the e
 
 The server **refuses to unpickle** `lexical_index/bm25.pkl` and
 `knowledge_graph_enhanced.gpickle` unless their sha256 matches `kb_receipt.json` here or the
-pinned `artifact_sha256` map in `scripts/vector_db_release.json` (a tampered pickle is arbitrary
-code execution). A fetched release KB verifies automatically; if you rebuilt or hand-edited the KB,
-bless it with `python scripts/receipt_kb.py` (`--check` audits without writing). On refusal the
-server keeps running with that channel off: BM25 refused → dense-only search, graph refused →
-graph features off — the fix is a re-fetch or a receipt, never ignoring the error.
+pinned `artifact_sha256` map in `scripts/vector_db_release.json`. A fetched release KB verifies
+automatically; if you rebuilt or hand-edited the KB, bless it with `python scripts/receipt_kb.py`
+(`--check` audits without writing). On refusal the server keeps running with that channel off:
+BM25 refused → dense-only search, graph refused → graph features off — the fix is a re-fetch or a
+receipt, never ignoring the error.
+
+**Scope:** this is defense-in-depth against a KB that arrived **corrupted through the distribution
+path** (a bad download — caught by the zip sha256 before extraction — or a poisoned build cache —
+caught here at load time). It is **not** protection against someone who can already write this
+folder: such an attacker can forge `kb_receipt.json` too, and write access to the install already
+means the machine is compromised.
 
 ## Notes
 

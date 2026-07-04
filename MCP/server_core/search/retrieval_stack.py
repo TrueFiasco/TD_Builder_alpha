@@ -202,11 +202,12 @@ class RetrievalStack:
             print(f"[retrieval_stack] no BM25 index at {pkl}; dense-only lexical channel disabled")
             return
         try:
-            # W2d trust boundary: pickle.load of a tampered file is arbitrary
-            # code execution, so the bytes are hashed against the KB receipt /
-            # pinned release manifest BEFORE unpickling (same bytes — no
-            # verify-then-reopen race). Refusal degrades to the dense-only
-            # ladder below instead of loading.
+            # W2d trust boundary: a bm25.pkl that arrived corrupted through the
+            # distribution path (bad download / poisoned cache) would execute
+            # arbitrary objects at unpickle time, so the bytes are hashed against
+            # the KB receipt / pinned release manifest BEFORE unpickling (same
+            # bytes — no verify-then-reopen race). Refusal degrades to the
+            # dense-only ladder below instead of loading.
             data, verdict = _kb_integrity().load_verified_pickle(pkl, self.kb_root)
             if data is None:
                 print(f"[retrieval_stack] SECURITY: {verdict.reason}")

@@ -6,6 +6,7 @@ reranker disabled, no chromadb/sentence-transformers imports. NEVER points at
 the fetched KB/ — tamper fixtures are copies in tmp dirs by construction.
 """
 import importlib.util
+import json
 import pickle
 import sys
 import types
@@ -21,6 +22,7 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 import kb_integrity as ki  # noqa: E402
+import enhanced_graph_query as egq  # noqa: E402
 from enhanced_graph_query import EnhancedGraphQuery  # noqa: E402
 
 
@@ -134,6 +136,39 @@ def test_missing_gpickle_still_raises_filenotfound(tmp_path):
     """Missing-file semantics are unchanged (mcp_server's pre-flight relies on it)."""
     with pytest.raises(FileNotFoundError):
         EnhancedGraphQuery(str(tmp_path / "absent.gpickle"))
+
+
+def test_malformed_receipt_gpickle_degrades_not_crashes(tmp_path, capsys):
+    """W2d review regression: a receipt whose entry value is a bare scalar (not
+    {"sha256":...}) must NOT crash EnhancedGraphQuery.__init__ (the gpickle site
+    has no per-call try/except around unpickle otherwise) — it must degrade to an
+    empty graph like any other refuse verdict."""
+    gp = _graph_kb(tmp_path)
+    (gp.parent / ki.RECEIPT_NAME).write_text(
+        json.dumps({"schema": 1, "artifacts": {gp.name: "deadbeef"}}), encoding="utf-8")
+    eq = EnhancedGraphQuery(str(gp))           # must NOT raise AttributeError
+    assert eq.integrity_failed and eq.nodes == {}
+    assert "malformed" in eq.integrity_reason
+    assert eq.find_examples_by_operator("noiseTOP") == []
+
+
+def test_gpickle_integrity_error_degrades_not_crashes(tmp_path, monkeypatch, capsys):
+    """Belt-and-suspenders: if the integrity check itself raises an unexpected
+    error, the gpickle site degrades to graph-off rather than taking the server
+    down (mirrors the bm25 site's exception handling)."""
+    gp = _graph_kb(tmp_path)
+
+    def boom(*a, **k):
+        raise RuntimeError("synthetic verifier failure")
+
+    # patch the SAME module object the runtime calls (td_kb_integrity, loaded
+    # file-relative via egq._kb_integrity()), not the test's own kb_integrity import
+    monkeypatch.setattr(egq._kb_integrity(), "verify_pickle_bytes", boom)
+    eq = EnhancedGraphQuery(str(gp))           # must NOT propagate the RuntimeError
+    err = capsys.readouterr().err
+    assert eq.integrity_failed and eq.nodes == {}
+    assert "integrity check error" in eq.integrity_reason
+    assert "[SECURITY]" in err
 
 
 def test_poisoned_gpickle_payload_never_executes(tmp_path):

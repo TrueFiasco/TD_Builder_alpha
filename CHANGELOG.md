@@ -3,14 +3,18 @@
 ## Unreleased
 
 ### Security
-- **Load-time trust boundary for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
+- **Load-time integrity check for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
   longer unpickles whatever sits in `KB/`. Both runtime unpicklers (`lexical_index/bm25.pkl`,
   `knowledge_graph_enhanced.gpickle`) hash the exact bytes before `pickle.loads` and require a match
   against `KB/kb_receipt.json` or the pinned `artifact_sha256` map now committed in
-  `scripts/vector_db_release.json`. Tampered or unreceipted files are **refused** and the server
-  degrades loudly instead of executing pickled code: BM25 refused → dense-only retrieval; graph
-  refused → graph features off. `fetch_vector_db.py` pin-checks the extracted artifacts and writes
-  the receipt; `kb_build`/`reembed`/`build_bm25`/`rebuild_graph` receipt their outputs; a new
+  `scripts/vector_db_release.json`. Non-matching or unreceipted files are **refused** and the server
+  degrades loudly instead of loading them: BM25 refused → dense-only retrieval; graph refused →
+  graph features off. This is defense-in-depth against a KB **corrupted through the distribution
+  path** — a bad/substituted download (caught at fetch time by the zip sha256) or a poisoned build
+  cache (caught here at load time, the cache being a separate trust domain from the committed pins).
+  It is **not** protection against a local adversary who can already write `KB/` (they could forge
+  the receipt too). `fetch_vector_db.py` pin-checks the extracted artifacts and writes the receipt;
+  `kb_build`/`reembed`/`build_bm25`/`rebuild_graph` receipt their outputs; a new
   `scripts/receipt_kb.py` blesses (`--check` audits, `--print-pins` pins) an existing KB.
   `TD_BUILDER_TRUST_KB=1` bypasses verification with a loud warning (maintainer iteration only).
   **Upgrade note:** a KB fetched before this change verifies via the committed pins automatically;

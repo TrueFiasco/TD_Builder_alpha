@@ -2,17 +2,30 @@
 r"""
 KB pickle trust boundary (harness remediation W2d).
 
-``pickle.load`` of a tampered file is arbitrary code execution, and the two
-runtime unpicklers (``search/retrieval_stack.py`` bm25.pkl,
+``pickle.load`` deserializes arbitrary objects, so a KB pickle that does not
+match what was published can execute code at load time. The two runtime
+unpicklers (``search/retrieval_stack.py`` bm25.pkl,
 ``enhanced_graph_query.py`` knowledge_graph_enhanced.gpickle) used to load
-whatever bytes sat in KB/. The release zip is sha256-verified at FETCH time
-(scripts/fetch_vector_db.py), but nothing re-checked the artifacts at LOAD
-time — a swapped file after extraction (or a poisoned CI cache restore) ran
-with full server privileges.
+whatever bytes sat in KB/ with no check.
 
-This module closes that gap. ``verify_pickle_bytes`` hashes the exact bytes
-that will be unpickled (read once — no hash-then-reopen TOCTOU window) and
-requires a match against one of two anchors, in order:
+THREAT MODEL — what this defends, and what it does NOT.
+  This is defense-in-depth against TRANSPORT and SUPPLY-CHAIN corruption of
+  the KB pickles as they travel the distribution path:
+    * a corrupted / truncated / substituted DOWNLOAD — caught at fetch time by
+      the release-zip sha256 (scripts/fetch_vector_db.py) before extraction;
+    * a poisoned build-CACHE restore — caught at LOAD time here, because the
+      restored bytes are re-hashed against a git-committed pin that lives in a
+      different trust domain than the cache.
+  It does NOT defend against a local adversary who can already write your
+  ``KB/`` folder: such an attacker can also forge ``kb_receipt.json``, and
+  write access to the install directory means the machine is already
+  compromised (they could edit the server code itself). The value is catching
+  a bad artifact that arrived through the distribution channel — not stopping
+  local RCE. Treat this as a corruption/integrity guard, not a local sandbox.
+
+``verify_pickle_bytes`` hashes the exact bytes that will be unpickled (read
+once — no hash-then-reopen TOCTOU window) and requires a match against one of
+two anchors, in order:
 
   1. **Receipt** — ``<kb_root>/kb_receipt.json``, written by a trusted local
      producer at a moment the content was known-good: ``fetch_vector_db.py``
@@ -109,6 +122,13 @@ def _load_receipt(kb_root: Path) -> Optional[dict]:
         return {"__malformed__": True}
     if not isinstance(data, dict) or not isinstance(data.get("artifacts"), dict):
         return {"__malformed__": True}
+    # Each entry value must itself be a dict ({"sha256":..., "size":...}). A bare
+    # scalar (e.g. {"artifacts": {"...gpickle": "deadbeef"}}) would slip past the
+    # guards above and then raise AttributeError at entry.get("sha256") in
+    # verify_pickle_bytes — flag the whole receipt malformed so the caller
+    # returns a clean refuse-verdict instead of crashing the loader.
+    if any(not isinstance(v, dict) for v in data["artifacts"].values()):
+        return {"__malformed__": True}
     return data
 
 
@@ -186,8 +206,8 @@ def verify_pickle_bytes(data: bytes, artifact_path: Path, kb_root: Path) -> Verd
 
     Order: trust-env override -> receipt entry -> pinned release manifest ->
     refuse. Mismatch against an anchor that HAS an entry refuses immediately
-    (tampered beats unreceipted in the error text); a missing entry falls
-    through to the next anchor.
+    (a "changed after receipt" message is more actionable than "unreceipted");
+    a missing entry falls through to the next anchor.
     """
     artifact_path = Path(artifact_path)
     kb_root = Path(kb_root)
@@ -233,8 +253,8 @@ def verify_pickle_bytes(data: bytes, artifact_path: Path, kb_root: Path) -> Verd
             False, "",
             f"sha256 mismatch for {rel} vs the pinned release manifest "
             f"(expected {pinned[:16]}..., got {actual[:16]}...) - the file does not match "
-            f"the published KB release (tampered, corrupted, or a stale/rebuilt KB without "
-            f"a receipt). REFUSING to unpickle. {fix_hint}")
+            f"the published KB release (corrupted download, poisoned cache, or a stale/rebuilt "
+            f"KB without a receipt). REFUSING to unpickle. {fix_hint}")
 
     return Verdict(
         False, "",

@@ -2,10 +2,10 @@
 # runner rationale, floors, and the build-gate disposition).
 #
 #   docs-lint  : stdlib-only docs-consistency lint (scripts/docs_lint.py)
-#   hermetic   : 83-test KB-free subset on ubuntu+windows; the runner has NO
+#   hermetic   : 87-test KB-free subset on ubuntu+windows; the runner has NO
 #                KB and NO ML deps, so a mismarked/newly-KB-hungry test fails
 #                loudly here (physical enforcement of the requires_kb marker)
-#   engine-kb  : all 181 engine+unit tests with the release KB restored from
+#   engine-kb  : all 185 engine+unit tests with the release KB restored from
 #                cache (sha256-pinned via scripts/vector_db_release.json);
 #                still light deps — builders must never need the ML stack.
 #
@@ -62,12 +62,12 @@ jobs:
           if [ -e KB/operators.json ]; then
             echo "KB/operators.json present on a hermetic runner — lane invalid"; exit 1
           fi
-      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 83 after W2d's +28)
+      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d's +32)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit -m "not requires_kb" --co -q | grep -c "::" || true)
-          echo "hermetic tests collected: $n (floor 83)"
-          test "$n" -ge 83
+          echo "hermetic tests collected: $n (floor 87)"
+          test "$n" -ge 87
       - name: Hermetic tests (no KB, no ML deps)
         run: python -m pytest tests/engine tests/unit -m "not requires_kb" -q
 
@@ -105,11 +105,11 @@ jobs:
             KB/docked_contents.json
       - name: Fetch KB on cache miss (sha256-verified before extract)
         run: python scripts/fetch_vector_db.py
-      - name: Collection floor (all engine+unit; 145 by W1+W2a, 181 after W2b+W2d's +28)
+      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d's +32)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit --co -q | grep -c "::" || true)
-          echo "engine+unit tests collected: $n (floor 181)"
-          test "$n" -ge 181
+          echo "engine+unit tests collected: $n (floor 185)"
+          test "$n" -ge 185
       - name: Engine + unit tests (KB present; TD-binary tests self-skip)
         run: python -m pytest tests/engine tests/unit -q

@@ -80,6 +80,27 @@ def test_malformed_receipt_is_refused(tmp_path):
     assert not v.ok and "malformed" in v.reason
 
 
+def test_malformed_receipt_nondict_artifacts_is_refused(tmp_path):
+    kb = _fake_kb(tmp_path)
+    (kb / ki.RECEIPT_NAME).write_text(
+        json.dumps({"schema": 1, "artifacts": ["not", "a", "dict"]}), encoding="utf-8")
+    v = _verify(kb, GPICKLE)
+    assert not v.ok and "malformed" in v.reason
+
+
+def test_malformed_receipt_nondict_entry_value_is_refused(tmp_path):
+    """A bare-scalar entry value (not {"sha256":...}) must be flagged malformed,
+    NOT crash the verifier at entry.get("sha256"). Regression for the W2d review's
+    confirmed low-severity crash."""
+    kb = _fake_kb(tmp_path)
+    (kb / ki.RECEIPT_NAME).write_text(
+        json.dumps({"schema": 1, "artifacts": {GPICKLE: "deadbeef", BM25: "cafe"}}),
+        encoding="utf-8")
+    # must return a clean refuse verdict, never raise AttributeError
+    v = _verify(kb, GPICKLE)
+    assert not v.ok and "malformed" in v.reason
+
+
 def test_rewrite_receipt_after_rebuild(tmp_path):
     """A deliberate rebuild + re-receipt must verify again (the maintainer loop)."""
     kb = _fake_kb(tmp_path)

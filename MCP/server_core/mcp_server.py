@@ -467,7 +467,20 @@ def _load_kb():
     finally:
         sys.stdout = _saved_stdout
 
-app = Server("touchdesigner-mcp-server")
+# D2 (harness item 3b): the single-sourced non-negotiables are passed as the
+# server's always-on `instructions=` channel (delivered verbatim on Claude Code /
+# cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this is the
+# `td-builder` server, normally offline ([always] rules only) — but when it
+# co-loads the live tools (TD_LIVE_ENABLED, see list_tools/`tools.extend`), it
+# must ship the live scope too, or a model driving TD through it would miss the
+# catastrophic-silent live rules (GLSL-invisible, flat-exec-scope). The loader
+# fails soft to a baked-in minimal string, so a partial install still starts.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
+from server_instructions import load_instructions, scope_for_server  # noqa: E402
+
+_NON_NEGOTIABLES = load_instructions(
+    _RELEASE_ROOT, scope=scope_for_server(bool(TD_LIVE_ENABLED and TD_LIVE_TOOLS)))
+app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
 
 SERVER_NAME = "touchdesigner-mcp-server"
 SERVER_VERSION = "0.2.0"
@@ -1126,7 +1139,9 @@ async def list_tools() -> list[Tool]:
                 "otherwise name the inner op explicitly (`\"comp/<outOp>\"` / "
                 "`\"comp/<inOp>\"`) — a component is never itself a data source. Wired comps "
                 "with a missing/unreadable .tox fail the build with the reason; wrapper-style "
-                ".toxes need `parameters.subcompname`."
+                ".toxes need `parameters.subcompname`.\n"
+                "Non-negotiables (KB-first params, string menu tokens, place/save, relative "
+                "paths): see docs/NON_NEGOTIABLES.md or the td-builder-howto skill."
             ),
             inputSchema={
                 "type": "object",
@@ -1906,6 +1921,10 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             # Synchronous (default, unchanged behavior).
             result = await _run_build(network_design, design, table_data,
                                       project_name, output_dir, mode)
+            # Result-envelope pull pointer (D2 / item 3b): cheap reminder that
+            # rides the build result to surfaces where instructions= is dropped.
+            if isinstance(result, dict):
+                result.setdefault("non_negotiables", "docs/NON_NEGOTIABLES.md")
             return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
         elif name == "td_build_status":
@@ -2061,6 +2080,14 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "cwd": os.getcwd(),
                     "python": sys.version.split()[0],
                     "td_live_enabled": TD_LIVE_ENABLED,
+                    # Pull-side delivery of the non-negotiables (D2 / item 3b): the
+                    # only channel that reaches surfaces where `instructions=` is
+                    # dropped (Claude Desktop chat, Cursor). This is the offline
+                    # server, so it returns the offline-scoped payload (== this
+                    # server's own instructions=) so the model can recover the
+                    # rules after compaction.
+                    "non_negotiables": _NON_NEGOTIABLES,
+                    "non_negotiables_file": "docs/NON_NEGOTIABLES.md",
                 },
                 "meta": {"tool": "get_server_info", "server": SERVER_NAME},
             }

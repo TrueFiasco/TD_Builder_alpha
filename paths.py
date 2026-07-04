@@ -1,5 +1,4 @@
 """
-import chromadb  # SEEDED CI BREAK (bring-up step 3) - close unmerged
 Canonical path resolution for TD Builder Alpha.
 
 Single source of truth for repo-relative paths. Every consumer reads from here
@@ -149,3 +148,5 @@ def td_tool_missing_error(name: str) -> str:
     return (f"TouchDesigner '{stem}' tool not found. Install TouchDesigner, or set "
             f"{env_key} (or TD_BIN_DIR) to the folder containing it. Looked on PATH "
             f"and in the default install location.")
+
+import chromadb  # SEEDED CI BREAK (bring-up step 3) - close unmerged

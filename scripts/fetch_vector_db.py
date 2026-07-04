@@ -56,6 +56,53 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _kb_integrity():
+    """Load MCP/server_core/kb_integrity.py (W2d load-time trust boundary)."""
+    import importlib.util
+    mod = sys.modules.get("td_kb_integrity")
+    if mod is None:
+        p = REPO_ROOT / "MCP" / "server_core" / "kb_integrity.py"
+        spec = importlib.util.spec_from_file_location("td_kb_integrity", str(p))
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["td_kb_integrity"] = mod
+        spec.loader.exec_module(mod)
+    return mod
+
+
+def _verify_and_receipt_artifacts(m: dict) -> None:
+    """Post-extract: pin-check the pickled artifacts, then write the KB receipt.
+
+    The zip-level sha256 above already proves the bundle; this closes two gaps:
+      - artifact pins (manifest `artifact_sha256`) drifting from the published
+        zip is a PUBLISHING mistake — fail loudly here (fetch rehearsal / CI
+        cold cache) instead of every later server boot refusing to unpickle;
+      - the receipt lets this exact extraction keep loading even where the
+        repo manifest is not reachable from the KB (KB parked outside a repo).
+    """
+    ki = _kb_integrity()
+    pins = m.get("artifact_sha256") or {}
+    if pins:
+        for rel, expected in pins.items():
+            p = KB_DIR / rel
+            if not p.exists():
+                sys.exit(f"Pinned artifact missing after extract: {rel}\n"
+                         "The release zip and the manifest's artifact_sha256 disagree - "
+                         "fix scripts/vector_db_release.json (scripts/receipt_kb.py --print-pins).")
+            actual = _sha256(p)
+            if actual.lower() != str(expected).lower():
+                sys.exit(f"Artifact pin mismatch for {rel}.\n  expected: {expected}\n  actual:   {actual}\n"
+                         "The release zip and the manifest's artifact_sha256 disagree - "
+                         "fix scripts/vector_db_release.json (scripts/receipt_kb.py --print-pins).")
+        print(f"Artifact pins verified: {', '.join(pins)}")
+    else:
+        print("WARNING: no artifact_sha256 pins in the manifest - the runtime will rely "
+              "on the KB receipt alone for pickle integrity.")
+    rp = ki.write_receipt(KB_DIR, source="fetch_vector_db",
+                          extra={"release_asset": m.get("asset"), "release_tag": m.get("tag")})
+    if rp:
+        print(f"Wrote KB receipt: {rp}")
+
+
 def _download_https(url: str, dest: Path) -> bool:
     """Plain public download. Returns True on success, False to allow fallback."""
     try:
@@ -118,6 +165,8 @@ def main() -> int:
     print(f"Extracting the KB bundle into {KB_DIR} ...")
     with zipfile.ZipFile(zip_path) as zf:
         zf.extractall(KB_DIR)
+
+    _verify_and_receipt_artifacts(m)
 
     zip_path.unlink(missing_ok=True)
     try:

@@ -4,6 +4,10 @@
   "asset": "td_builder_kb_v0.2.0.zip",
   "sha256": "fb1ceb472b0fd9ed519a32d7115a1571d9640d3dc5c0c6b26cc463cc68ae4b76",
   "size_mb": 116.47,
+  "artifact_sha256": {
+    "knowledge_graph_enhanced.gpickle": "2e492c926dfd30f09800ef356d54f8abdbe066d251a7c666994764b40de9daab",
+    "lexical_index/bm25.pkl": "a875dc9401a5bb4a233309e00536f94d6cb455a159984f2bdccc5d0cd1c70a9b"
+  },
   "contents": [
     "operators.json",
     "knowledge_graph_enhanced.gpickle",
@@ -13,5 +17,5 @@
     "sources.lock.json",
     "docked_contents.json"
   ],
-  "_note": "fetch_vector_db.py downloads https://github.com/<repo>/releases/download/<tag>/<asset> (public, no auth) and extracts into KB/. If you publish under a different repo or tag, change those two fields. Set an explicit 'url' field to override the derived download link entirely."
+  "_note": "fetch_vector_db.py downloads https://github.com/<repo>/releases/download/<tag>/<asset> (public, no auth) and extracts into KB/. If you publish under a different repo or tag, change those two fields. Set an explicit 'url' field to override the derived download link entirely. artifact_sha256 pins the pickled artifacts INSIDE the zip: the runtime refuses to unpickle KB files that match neither these pins nor KB/kb_receipt.json (see MCP/server_core/kb_integrity.py). When publishing a new KB release, update these pins alongside the zip sha256 (scripts/receipt_kb.py --print-pins emits them)."
 }

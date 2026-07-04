@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased
+
+### Security
+- **Load-time trust boundary for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
+  longer unpickles whatever sits in `KB/`. Both runtime unpicklers (`lexical_index/bm25.pkl`,
+  `knowledge_graph_enhanced.gpickle`) hash the exact bytes before `pickle.loads` and require a match
+  against `KB/kb_receipt.json` or the pinned `artifact_sha256` map now committed in
+  `scripts/vector_db_release.json`. Tampered or unreceipted files are **refused** and the server
+  degrades loudly instead of executing pickled code: BM25 refused → dense-only retrieval; graph
+  refused → graph features off. `fetch_vector_db.py` pin-checks the extracted artifacts and writes
+  the receipt; `kb_build`/`reembed`/`build_bm25`/`rebuild_graph` receipt their outputs; a new
+  `scripts/receipt_kb.py` blesses (`--check` audits, `--print-pins` pins) an existing KB.
+  `TD_BUILDER_TRUST_KB=1` bypasses verification with a loud warning (maintainer iteration only).
+  **Upgrade note:** a KB fetched before this change verifies via the committed pins automatically;
+  a KB you built yourself needs one `python scripts/receipt_kb.py` run.
+
 ## 0.2.0 — knowledge-base redesign + hybrid retrieval
 
 A ground-up rebuild of the knowledge base and its search stack. The MCP tool surface is unchanged;

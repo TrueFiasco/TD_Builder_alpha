@@ -6,9 +6,29 @@ Uses the new enhanced knowledge graph with ExampleNetwork, OperatorInstance, etc
 
 import json
 import pickle
+import sys
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Set, Tuple, Union
 from collections import defaultdict
+
+
+def _kb_integrity():
+    """File-relative import of server_core/kb_integrity.py (W2d trust boundary).
+
+    This module is itself exec'd standalone via spec_from_file_location
+    (unified_graph_query / unified_search / hybrid_search all do so), so
+    package-relative imports are unavailable; resolve the sibling by path and
+    memoize under a distinctive key.
+    """
+    import importlib.util
+    mod = sys.modules.get("td_kb_integrity")
+    if mod is None:
+        p = Path(__file__).resolve().parent / "kb_integrity.py"
+        spec = importlib.util.spec_from_file_location("td_kb_integrity", str(p))
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["td_kb_integrity"] = mod
+        spec.loader.exec_module(mod)
+    return mod
 
 
 # Family suffixes recognised by the op-type normalizer. Order matters — longer
@@ -73,8 +93,27 @@ class EnhancedGraphQuery:
         if not graph_file.exists():
             raise FileNotFoundError(f"Enhanced graph not found: {graph_path}")
 
-        with open(graph_file, 'rb') as f:
-            self.graph_data = pickle.load(f)
+        # W2d trust boundary: pickle.load of a tampered gpickle is arbitrary
+        # code execution. Hash the exact bytes against the KB receipt / pinned
+        # release manifest BEFORE unpickling (kb_root = the gpickle's directory:
+        # the graph sits at the KB root in every supported layout). Refusal
+        # degrades to an EMPTY graph — graph-backed features go dark, loudly,
+        # while the rest of the server (vector search, registry, builders)
+        # keeps working. Missing-file behavior (raise above) is unchanged.
+        self.integrity_failed = False
+        self.integrity_reason = ""
+        graph_bytes = graph_file.read_bytes()
+        verdict = _kb_integrity().verify_pickle_bytes(graph_bytes, graph_file, graph_file.parent)
+        if not verdict.ok:
+            print(f"[SECURITY] {verdict.reason}", file=sys.stderr)
+            print("[SECURITY] Enhanced graph REFUSED (integrity); loading EMPTY graph - "
+                  "example/pattern/graph tools will return no results until the KB is "
+                  "re-fetched or receipted.", file=sys.stderr)
+            self.integrity_failed = True
+            self.integrity_reason = verdict.reason
+            self.graph_data = {"nodes": {}, "edges": []}
+        else:
+            self.graph_data = pickle.loads(graph_bytes)
 
         self.nodes = self.graph_data['nodes']
         self.edges = self.graph_data['edges']

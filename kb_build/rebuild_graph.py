@@ -176,3 +176,6 @@ if __name__ == "__main__":
     idn = C.Identity()
     res = build(idn)
     print(json.dumps(res, indent=2))
+    # standalone rebuild replaced the gpickle in the staged KB -> re-receipt it
+    # (inside build_kb the final kb_build receipt covers this instead)
+    C.write_kb_receipt(C.OUT, "rebuild_graph")

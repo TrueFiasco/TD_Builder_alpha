@@ -1,0 +1,44 @@
+{
+  "id": "s11_wrapper_manifest",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "penrose:P07",
+    "regression:a2ce003",
+    "wrapper",
+    "no-build"
+  ],
+  "budgets": {
+    "timeout_s": 600
+  },
+  "requires": [
+    "derivative_bloom_tox"
+  ],
+  "fixtures": [],
+  "prompt": "Quick detour — I'm weighing options for the finish. One candidate is Derivative's bloom from the palette. WITHOUT loading it into any project, read the .tox file itself off my install at {{BLOOM_TOX}} and tell me its real wiring surface: how many inputs and outputs does that component actually expose, what are they called, and what operator families are they? Palette files have that wrapper layer around the real component, and I've seen tools report a dozen phantom inputs on exactly this kind of file — so be precise about what the genuine interface is versus what's wrapper noise. Also give me a rough sense of how big it is inside (operator count is fine). Just the answer — no builds, no project changes.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "expand_toe_file"
+      },
+      {
+        "tool_not_called": "td_build_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "in1",
+        "in2",
+        "out1",
+        "(?i)wrapper"
+      ],
+      "must_not_match": [
+        "(?i)\\b(14|fourteen)\\s+(phantom\\s+|duplicate\\s+)?inputs"
+      ]
+    },
+    "validate": null
+  }
+}

@@ -214,6 +214,9 @@ def reembed(arm_key: str, source_kb: Path, out_root: Path) -> dict:
     print(f"[reembed] id-set parity vs source: {id_parity}; count match: {count == n} ({count} vs {n})")
     if not id_parity or count != n:
         raise RuntimeError("FAITHFULNESS CHECK FAILED: id-set or count differs from source")
+    # W2d: arm KBs carry copied pickles (gpickle + bm25) that match no release
+    # pin - receipt them so run_eval --kb <arm> loads the full hybrid stack.
+    C.write_kb_receipt(out_kb, f"reembed:{arm_key}")
     return {"arm": arm_key, "out": str(out_kb), "count": count, "n": n,
             "id_parity": id_parity, "hf_snapshot_sha": sha}
 

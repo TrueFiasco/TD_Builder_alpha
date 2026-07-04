@@ -11,8 +11,8 @@ self-hosted** (pre-CLA public-PR RCE risk).
 | Job | Trigger | Runner | Deps | KB | Runs | Gate |
 |---|---|---|---|---|---|---|
 | `docs-lint` | PR + push | ubuntu | none (stdlib) | – | `python scripts/docs_lint.py` | exit code |
-| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **53** |
-| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **143** |
+| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **87** |
+| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **185** |
 | `kb-full` | nightly + dispatch | windows | full `pip install ".[dev]"` | cached release fetch + HF model cache | acceptance+measure, then retrieval eval vs committed baseline | 0 failures + pass floor **22**; `scripts/ci_compare_eval.py` exit code |
 
 **Runner rationale.** The repo is public (hosted minutes are free), so the
@@ -49,16 +49,16 @@ Two mechanisms, both required:
 
 Enforcement is physical, not honor-system: the hermetic runner **has no
 fetched KB and no ML deps**, so a mismarked test fails there loudly; it cannot
-silently pass. Measured partition (2026-07-04, W2a):
-`tests/engine + tests/unit` collect **145** tests = **55 hermetic**
-(11 engine + 44 unit) + **90 requires_kb**.
+silently pass. Measured partition (2026-07-04, after W2b's GLSL suite + W2d's
++32 integrity tests): `tests/engine + tests/unit` collect **185** tests =
+**87 hermetic** (11 engine + 76 unit) + **98 requires_kb**.
 
 ## Floors (silent-shrink guards)
 
 | Floor | Value | Measured by | Meaning |
 |---|---|---|---|
-| hermetic collection | ≥ 55 | W1 rehearsal (53) + W2a's two hermetic absence tests | deselection can't quietly eat the lane |
-| engine-kb collection | ≥ 145 | W1 rehearsal (143) + W2a's two hermetic absence tests | whole engine+unit surface stays collected |
+| hermetic collection | ≥ 87 | W1 (53) + W2a (+2) = 55; W2d +32 hermetic integrity tests → 87 (measured on the rebased tree: 87/185 collected, 98 deselected) | deselection can't quietly eat the lane |
+| engine-kb collection | ≥ 185 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185 (measured with KB present) | whole engine+unit surface stays collected |
 | kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 with live TD locally) | live tests may skip; offline coverage may not shrink |
 
 Raising a floor when tests are added is routine; **lowering one requires the
@@ -76,12 +76,27 @@ automatically. Never cache the whole `KB/` directory: tracked KB files
 from the checkout, or a stale cache could shadow a committed registry change.
 
 On cache miss, `python scripts/fetch_vector_db.py` downloads the public
-release asset and **sha256-verifies before extracting**; on cache hit its
-idempotency probe skips the download. **Trust note: cache-hit content is not
-re-verified** — it originated from a verified fetch, but nothing re-checks it
-at restore or load time. Work item **2d** (pickle/load-time trust boundary:
-`retrieval_stack.py` bm25.pkl, `enhanced_graph_query.py` gpickle) closes that
-residual when it lands.
+release asset and **sha256-verifies before extracting** (both the HTTPS path
+and the `gh` fallback), then pin-checks the pickled artifacts and writes
+`KB/kb_receipt.json`; on cache hit its idempotency probe skips the download.
+**Trust note (closed by W2d):** cache-hit content IS re-verified — at **load
+time**. Both runtime unpicklers (`retrieval_stack.py` bm25.pkl,
+`enhanced_graph_query.py` gpickle) hash the exact bytes before `pickle.loads`
+and require a match against `KB/kb_receipt.json` or the committed
+`artifact_sha256` pins in `scripts/vector_db_release.json`
+(`MCP/server_core/kb_integrity.py`). The receipt is deliberately **not** in
+the cache path list: restored pickles verify against the committed pins, so a
+poisoned cache entry is refused at load and the server degrades loudly
+(dense-only / graph-off) instead of loading a pickle that doesn't match the
+published one. Maintainer-built KBs are blessed by the `kb_build` receipts or
+`scripts/receipt_kb.py`; `TD_BUILDER_TRUST_KB=1` is the documented (loud) bypass.
+
+**Scope (honest threat model):** this closes the *poisoned-cache* residual —
+a shared CI cache is a different trust domain than the git-committed pin. It is
+defense-in-depth against transport / supply-chain corruption, **not** a defense
+against a local adversary who can already write the runner's `KB/` (that
+attacker can forge the receipt too). See the module docstring in
+`MCP/server_core/kb_integrity.py` for the full framing.
 
 The kb-full lane additionally caches `~/.cache/huggingface`: the MiniLM query
 encoder downloads from HuggingFace on the first run only (the cross-encoder
@@ -90,9 +105,11 @@ cache — loud, healed on the next run.
 
 ## Retrieval-eval gate (kb-full)
 
-`run_eval.py` **overwrites `eval/baseline.json` in place when run with
-defaults** (known wart; the real fix rides work item 2c) and has no pass/fail
-semantics. The lane therefore:
+`run_eval.py` has no pass/fail semantics of its own. **W2c fixed the
+baseline-overwrite wart**: `--out` no longer defaults onto the committed
+`eval/baseline.json` (writing it is now the explicit `--write-baseline` opt-in),
+so the `--out`/`--stage-dir` redirect + `git status` guard below are now
+belt-and-braces rather than load-bearing. The lane therefore:
 
 1. runs `python eval/run_eval.py --backend enhanced --repeats 3` (median of 3
    subprocess trials) with `--out`/`--stage-dir` pointed at `$RUNNER_TEMP` —
@@ -194,14 +211,18 @@ save/restore, runner images, the HF download — is the unproven remainder.
 
 ## Extension points (documented, deliberately not built)
 
-- **Agent-eval Lane R** (work item 2c, `eval/agent_eval/`): joins
-  `kb-full.yml` as a follow-on job — commented stub at the bottom of that
-  workflow; needs an `ANTHROPIC_API_KEY` secret decision at that time. Lane M
-  stays out of CI by design.
+- **Agent-eval Lane R** (work item 2c, `eval/agent_eval/`): **LANDED** — runs in
+  `kb-full.yml` as a follow-on step (`--lane replay`), advisory
+  (`continue-on-error: true`) at bring-up, key-free and deterministic. Promotion
+  to blocking is a documented one-line flip once green twice; see
+  `eval/agent_eval/README.md` "CI placement & promotion path". Lane M
+  (model-in-the-loop) stays out of CI by design (D-F). No `ANTHROPIC_API_KEY`
+  secret is needed — Lane R uses no key, and Lane M runs on the maintainer
+  machine on the subscription.
 - **3b drift lint:** the non-negotiables section of
   `scripts/docs_lint_rules.json` ships with severity `off` entries naming
   today's duplicated MUST/NEVER rules; 3b single-sources them and flips
   severities — no lint-code change needed.
-- **2c run_eval fix:** when `--out` stops defaulting onto the committed
-  baseline, the kb-full redirect keeps working and merely stops being
-  load-bearing.
+- **2c run_eval fix:** **LANDED** — `--out` no longer defaults onto the committed
+  baseline (`--write-baseline` is the explicit opt-in); the kb-full redirect keeps
+  working and is now belt-and-braces rather than load-bearing.

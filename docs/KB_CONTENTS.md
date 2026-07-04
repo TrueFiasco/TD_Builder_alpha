@@ -16,6 +16,19 @@ lean. `KB/README.md` is the short, in-folder version of this document.
 | `docked_dats.json` | Per-op docked-DAT specs used by the builder | **in git** (committed) |
 | `sources/` | Snippet/palette source captures (KB-rebuild inputs only) | **NOT shipped** — dev-only; rebuild from the dev repo if needed |
 | `manifest.json` | KB bundle metadata (sections, chunk histogram, retrieval stack) | **in git** (committed) |
+| `kb_receipt.json` | Load-time trust receipt (sha256 of the pickled artifacts; see below) | written locally by fetch/build — never committed |
+
+## Pickle integrity (load-time trust boundary)
+`pickle.load` deserializes arbitrary objects, so the runtime verifies the two pickled artifacts
+(`lexical_index/bm25.pkl`, `knowledge_graph_enhanced.gpickle`) **before** unpickling: the bytes must
+sha256-match `KB/kb_receipt.json` (written by `fetch_vector_db.py` at verified-extract time and by
+the `kb_build` writers) or the committed `artifact_sha256` pins in `scripts/vector_db_release.json`
+(`MCP/server_core/kb_integrity.py`). Refused artifacts degrade loudly — dense-only retrieval / graph
+features off — instead of loading. Bless a self-built KB with `python scripts/receipt_kb.py`;
+`TD_BUILDER_TRUST_KB=1` bypasses with a loud warning (dev only). **Scope:** defense-in-depth against
+a KB corrupted in transit (a bad download or a poisoned build cache — a different trust domain than
+the git-committed pins), **not** protection against a local writer of `KB/` (who could forge the
+receipt anyway). See the `kb_integrity.py` module docstring for the full threat model.
 
 ## Retrieval stack (v0.2)
 Search runs a hybrid pipeline: dense (`all-MiniLM-L6-v2`) + BM25 → RRF(k=60) → operator-aware router →

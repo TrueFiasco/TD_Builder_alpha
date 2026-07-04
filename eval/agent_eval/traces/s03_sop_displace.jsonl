@@ -1,0 +1,18 @@
+{"_meta": {"scenario": "s03_sop_displace", "blessed_from": "baseline-n5/s03_sop_displace.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "noise SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "grid SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "transform SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "noise SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "grid SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "transform SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "noise SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "grid SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "transform SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "noise SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "grid SOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "transform SOP"}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0], "parameters": {"channelname": "chan1", "frequency": 0.25, "amp": 180, "timeslice": "on"}}, {"name": "grid1", "type": "grid", "family": "SOP", "position": [0, 400], "parameters": {"rows": 20, "cols": 20}}, {"name": "noise1", "type": "noise", "family": "SOP", "position": [200, 400], "parameters": {"amp": 0.5}}, {"name": "transform1", "type": "transform", "family": "SOP", "position": [400, 400], "parameters": {"ry": {"expr": "op('lfo1')['chan1']"}, "postxord": "ts"}}], "connections": [{"from": "grid1", "to": "noise1"}, {"from": "noise1", "to": "transform1"}]}, "mode": "tox", "project_name": "spin_grid", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0], "parameters": {"channelname": "chan1", "frequency": 0.25, "amp": 180, "timeslice": "on"}}, {"name": "grid1", "type": "grid", "family": "SOP", "position": [0, 400], "parameters": {"rows": 20, "cols": 20}}, {"name": "noise1", "type": "noise", "family": "SOP", "position": [200, 400], "parameters": {"amp": 0.5}}, {"name": "transform1", "type": "transform", "family": "SOP", "position": [400, 400], "parameters": {"ry": {"expr": "op('lfo1')['chan1']"}, "postxord": "ts"}}], "connections": [{"from": "grid1", "to": "noise1"}, {"from": "noise1", "to": "transform1"}]}}}

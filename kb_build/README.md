@@ -70,3 +70,10 @@ Metadata must be flat scalars (lists → pipe-joined, dicts → JSON, None dropp
 the adapter constructs (the harness scores only `semantic_results`, which is pure
 vector search — the graph content does not affect the metrics; a re-grounded graph
 rebuild is a separate pass).
+
+**Trust receipt (W2d):** every staging path (`build_kb`, standalone `build_bm25`
+/ `rebuild_graph`, `reembed` arms) finishes with `common.write_kb_receipt`, which
+writes `<out KB>/kb_receipt.json` — the sha256s the runtime demands before it
+will unpickle `bm25.pkl` / the gpickle. A staged KB produced before this change
+(or assembled by hand) needs one `py -3.11 scripts/receipt_kb.py --kb <path>` or
+the server/eval will refuse those artifacts and run dense-only / graph-off.

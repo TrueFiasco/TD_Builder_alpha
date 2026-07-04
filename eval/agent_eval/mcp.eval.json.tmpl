@@ -1,0 +1,13 @@
+{
+  "_comment": "Strict per-run MCP config template (design §2 Lane-M mechanics). Materialized into each run dir with {{PYTHON}} = the interpreter running the harness and {{REPO_ROOT}} = this checkout's root, then passed as --mcp-config with --strict-mcp-config so the maintainer's global td-builder/td-builder-live registrations can NEVER leak into the eval (this machine has both registered; without strict mode a run could silently exercise the deployed main-tree server or reach live TD). Shape mirrors MCP/claude_desktop_config.json.",
+  "mcpServers": {
+    "td-builder": {
+      "command": "{{PYTHON}}",
+      "args": ["{{REPO_ROOT}}/MCP/server.py"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "TD_BUILDER_ROOT": "{{REPO_ROOT}}"
+      }
+    }
+  }
+}

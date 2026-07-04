@@ -1,0 +1,90 @@
+{
+  "id": "s02_top_feedback",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "ladder:t02",
+    "top",
+    "feedback",
+    "expression"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline build, please — no live TD. I want a noise texture with a decaying feedback trail: noise1 (a Noise TOP) composited over feedback1 (a Feedback TOP) by comp1 (a Composite TOP), then level1 (a Level TOP) fading the loop down so the trail decays. Mind the classic gotcha: a Feedback TOP picks up its source through a parameter, not just a wire — check the knowledge base for which one. Also add lfo1 (an LFO CHOP) and drive level1's brightness from it with a Python expression. Build as noise_trail (mode tox) with output_dir {{RUN_DIR}} and validate it.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "noise_trail.tox",
+      "ops_present": [
+        {
+          "family": "TOP",
+          "type": "noise",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "feedback",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "comp",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "level",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "lfo",
+          "min": 1
+        }
+      ],
+      "wires": [
+        {
+          "from_type": "TOP:noise",
+          "to_type": "TOP:comp"
+        },
+        {
+          "from_type": "TOP:feedback",
+          "to_type": "TOP:comp"
+        },
+        {
+          "from_type": "TOP:comp",
+          "to_type": "TOP:level"
+        }
+      ],
+      "params": [
+        {
+          "op_type": "TOP:feedback",
+          "param": "top",
+          "mode": 0
+        },
+        {
+          "op_type": "TOP:level",
+          "param": "brightness1",
+          "mode": 49,
+          "value_contains": "lfo1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

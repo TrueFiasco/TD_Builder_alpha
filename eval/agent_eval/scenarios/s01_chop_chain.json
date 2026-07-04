@@ -1,0 +1,81 @@
+{
+  "id": "s01_chop_chain",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "ladder:t01",
+    "chop",
+    "expression"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "I'm sketching a control rig offline — TouchDesigner is NOT running, so build it as a .tox I can import later. The chain: an LFO CHOP called lfo1 into a Math CHOP called math1 into a Null CHOP called null1. Then a Constant CHOP called target1 off to the side whose first value channel is driven by a Python expression reading null1's channel — expression mode, not a baked number. Look the operators up in the knowledge base before you set anything; I want real parameter names, not guesses. Build it with td_build_project as lfo_chain (mode tox) with output_dir {{RUN_DIR}}, validate it, and tell me what you built.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      },
+      {
+        "call_order": [
+          "kb_lookup_any",
+          "td_build_project"
+        ]
+      }
+    ],
+    "artifact": {
+      "tox": "lfo_chain.tox",
+      "ops_present": [
+        {
+          "family": "CHOP",
+          "type": "lfo",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "math",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "null",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "constant",
+          "min": 1
+        }
+      ],
+      "wires": [
+        {
+          "from_type": "CHOP:lfo",
+          "to_type": "CHOP:math"
+        },
+        {
+          "from_type": "CHOP:math",
+          "to_type": "CHOP:null"
+        }
+      ],
+      "params": [
+        {
+          "op_type": "CHOP:constant",
+          "param": "const0value",
+          "mode": 49,
+          "value_contains": "null1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

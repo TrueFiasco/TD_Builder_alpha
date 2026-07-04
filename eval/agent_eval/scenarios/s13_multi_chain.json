@@ -1,0 +1,69 @@
+{
+  "id": "s13_multi_chain",
+  "version": 1,
+  "gate": false,
+  "tags": [
+    "tier4",
+    "ladder:t11-offline",
+    "multi-chain",
+    "aspirational"
+  ],
+  "budgets": {
+    "timeout_s": 1500
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "The big one, offline: assemble a small VJ scene in ONE container called scene. Three blocks: (1) an audio brain — music (an Audio File In CHOP) into Derivative's audioAnalysis palette component embedded by name as analysis, its main output into a null called bands; (2) a look — a Noise TOP into a GLSL TOP with a docked pixel shader you write, with at least one float uniform the audio could later drive; (3) glue — expression-mode parameter references keeping the cross-references RELATIVE so the whole thing survives being re-imported anywhere. At least a dozen operators across at least three families. KB homework first, then build as vj_scene (mode tox) with output_dir {{RUN_DIR}}, validate, and walk me through the signal path.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "vj_scene.tox",
+      "min_total_ops": 12,
+      "min_families": 3,
+      "ops_present": [
+        {
+          "family": "CHOP",
+          "type": "audiofilein",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "glsl",
+          "min": 1
+        },
+        {
+          "family": "COMP",
+          "type": "container",
+          "min": 1
+        }
+      ],
+      "params": [
+        {
+          "op_type": "COMP:container",
+          "param": "externaltox",
+          "mode": 49,
+          "value_contains": "app.samplesFolder"
+        }
+      ],
+      "work_file_re": [
+        {
+          "file_glob": "**/shaders/*_pixel.glsl",
+          "re": "void main"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "validate=null (not PASS): td_validate/ValidationPipeline cannot resolve wires that cross a palette/external_tox placeholder boundary (inner out-ops are invisible at design level) — verified 2026-07-04. The artifact-level .parm/.n/.network assertions are the ground truth here; product gap flagged in the W2c report."
+}

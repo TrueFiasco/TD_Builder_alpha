@@ -1,0 +1,77 @@
+{
+  "id": "s03_sop_displace",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "ladder:t03",
+    "sop",
+    "expression"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline .tox build again. Geometry this time: grid1 (a Grid SOP) displaced by noise1 (a Noise SOP) — set a visible displacement amplitude — then transform1 (a Transform SOP) spinning the result: put a Python expression on one of the rotate channels driven by lfo1 (an LFO CHOP), say rotation following the LFO. Ground the parameter names in the knowledge base first; SOP noise params are not what people guess. Build as spin_grid (mode tox) with output_dir {{RUN_DIR}} and validate.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "spin_grid.tox",
+      "ops_present": [
+        {
+          "family": "SOP",
+          "type": "grid",
+          "min": 1
+        },
+        {
+          "family": "SOP",
+          "type": "noise",
+          "min": 1
+        },
+        {
+          "family": "SOP",
+          "type": "transform",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "lfo",
+          "min": 1
+        }
+      ],
+      "wires": [
+        {
+          "from_type": "SOP:grid",
+          "to_type": "SOP:noise"
+        },
+        {
+          "from_type": "SOP:noise",
+          "to_type": "SOP:transform"
+        }
+      ],
+      "parm_line_re": [
+        {
+          "file_glob": "**/noise1.parm",
+          "re": "^amp 0 \\S"
+        },
+        {
+          "file_glob": "**/transform1.parm",
+          "re": "^r[xyz]?\\s+49\\s.*lfo1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

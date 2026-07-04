@@ -62,6 +62,9 @@ KB/lexical_index/
 KB/models/
 # Build provenance shipped inside the bundle
 KB/sources.lock.json
+# Load-time trust receipt written by fetch_vector_db/kb_build/receipt_kb —
+# machine-local by design (it blesses THIS machine's extracted bytes)
+KB/kb_receipt.json
 # Dev-only KB inputs (snippet/palette captures) — not shipped at all (V0.2 work)
 KB/sources/
 # Dev/QA artifacts present in the dev KB (via the local junction) but not part
@@ -76,3 +79,8 @@ td_builder_kb_*.zip
 # v0.2 KB rebuild — local build corpus + staged build output (incl. model weights,
 # lexical_index, vector_db, eval reports). Staged for review, NEVER committed as a KB.
 New KB build/
+# Agent eval (eval/agent_eval/, work item 2c): per-run transcripts/artifacts and
+# generated fixtures stay local; committed = scenarios, traces, config, guidance,
+# baseline.json only.
+eval/agent_eval/runs/
+eval/agent_eval/fixtures/generated/

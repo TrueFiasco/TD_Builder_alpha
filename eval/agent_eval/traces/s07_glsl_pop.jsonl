@@ -1,0 +1,28 @@
+{"_meta": {"scenario": "s07_glsl_pop", "blessed_from": "baseline-n5/s07_glsl_pop.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "feedback", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "feedback", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "feedback", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "feedback", "family": "POP", "limit": 3}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL POP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Point Generator POP", "compact": true}}
+{"tool": "get_operator_info", "args": {"operator_name": "Feedback POP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl", "family": "POP", "limit": 5}}
+{"tool": "hybrid_search", "args": {"query": "GLSL POP compute shader particle simulation uniform arrays", "n_results": 8}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL POP", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "feedback", "family": "POP", "limit": 3}}
+{"tool": "get_operator_info", "args": {"operator_name": "Point Generator POP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Feedback POP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "LFO CHOP", "compact": true}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "pointgen1", "type": "pointgenerator", "family": "POP", "position": [0, 0], "parameters": {"numpoints": 5000, "shape": "sphere", "distribution": "surface"}}, {"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [600, 200], "parameters": {"frequency": 0.5, "amp": 1}}, {"name": "feedback1", "type": "feedback", "family": "POP", "position": [200, 0], "parameters": {"targetpop": "glsl1", "play": true}}, {"name": "glsl1", "type": "glsl", "family": "POP", "position": [400, 0], "shader": "void main() {\n\tconst uint id = TDIndex();\n\tif(id >= TDNumElements())\n\t\treturn;\n\n\t// Read previous-frame position from the feedback buffer\n\tvec3 pos = TDIn_P();\n\n\t// uLfo is auto-declared as a float array by the Arrays page \u2014 index [0], never redeclare it\n\tfloat lfo = uLfo[0];\n\n\t// Orbital rotation around Y axis, speed and tilt modulated by lfo\n\tfloat angle = 0.01 + lfo * 0.005;\n\tfloat s = sin(angle);\n\tfloat c = cos(angle);\n\tvec3 newPos;\n\tnewPos.x = pos.x * c - pos.z * s;\n\tnewPos.y = pos.y + lfo * 0.0001;\n\tnewPos.z = pos.x * s + pos.z * c;\n\n\t// Write updated position back \u2014 P must be listed in Output Attributes\n\tP[id] = newPos;\n}\n", "parameters": {"outputattrs": "P", "outputaccess": "readwrite", "array0name": "uLfo", "array0type": "float", "array0chop": "lfo1"}}], "connections": [{"from": "pointgen1", "to": "feedback1"}, {"from": "feedback1", "to": "glsl1"}]}, "mode": "tox", "project_name": "particle_sim", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "pointgen1", "type": "pointgenerator", "family": "POP", "position": [0, 0], "parameters": {"numpoints": 5000, "shape": "sphere", "distribution": "surface"}}, {"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [600, 200], "parameters": {"frequency": 0.5, "amp": 1}}, {"name": "feedback1", "type": "feedback", "family": "POP", "position": [200, 0], "parameters": {"targetpop": "glsl1", "play": true}}, {"name": "glsl1", "type": "glsl", "family": "POP", "position": [400, 0], "parameters": {"outputattrs": "P", "outputaccess": "readwrite", "array0name": "uLfo", "array0type": "float", "array0chop": "lfo1"}}], "connections": [{"from": "pointgen1", "to": "feedback1"}, {"from": "feedback1", "to": "glsl1"}]}}}

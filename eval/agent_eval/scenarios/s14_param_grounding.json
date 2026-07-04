@@ -1,0 +1,47 @@
+{
+  "id": "s14_param_grounding",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "penrose:P02",
+    "grounding",
+    "no-build"
+  ],
+  "budgets": {
+    "timeout_s": 600
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Before we build anything, do your homework from the knowledge base and play it back to me. Two subsystems: (1) Instancing — how is Geo COMP instancing actually set up: the real parameter names for switching instancing on, pointing at the data source, and the per-instance translate channels. (2) Audio — playing an audio file and getting band-ish levels as CHOP channels: real operator and parameter names, with an example if one exists. Get it from the knowledge base, not from memory — cite what you looked up. If the KB is missing any piece, say so explicitly rather than papering over it. Do NOT build anything.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": [
+          "get_operator_info",
+          "get_parameter_detail",
+          "find_operator_examples",
+          "find_parameter_usage"
+        ]
+      },
+      {
+        "tool_not_called": "td_build_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "instanceop",
+        "instancet[xyz]",
+        "(?i)audio\\s?file\\s?in"
+      ],
+      "must_not_match": [
+        "instance_op\\b",
+        "(?i)instancesource\\b",
+        "instance_source\\b"
+      ]
+    },
+    "validate": null
+  }
+}

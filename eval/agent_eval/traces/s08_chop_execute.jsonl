@@ -1,0 +1,17 @@
+{"_meta": {"scenario": "s08_chop_execute", "blessed_from": "baseline-n5/s08_chop_execute.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT"}}
+{"tool": "get_operator_info", "args": {"operator_name": "CHOP Execute DAT", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT"}}
+{"tool": "get_operator_info", "args": {"operator_name": "CHOP Execute DAT", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT"}}
+{"tool": "get_operator_info", "args": {"operator_name": "CHOP Execute DAT", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT"}}
+{"tool": "get_operator_info", "args": {"operator_name": "CHOP Execute DAT", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT"}}
+{"tool": "get_operator_info", "args": {"operator_name": "CHOP Execute DAT", "compact": false}}
+{"tool": "get_server_info", "args": {}}
+{"tool": "hybrid_search", "args": {"query": "CHOP Execute DAT watched CHOP parameter callback signature onValueChange"}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecuteDAT_Class", "family": "DAT"}}
+{"tool": "find_operator_examples", "args": {"operator": "chopexecute", "family": "DAT", "limit": 10}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0]}, {"name": "null1", "type": "null", "family": "CHOP", "position": [200, 0]}, {"name": "target1", "type": "constant", "family": "CHOP", "position": [400, 0], "parameters": {"const0name": "chan1"}}, {"name": "watcher1", "type": "chopexec", "family": "DAT", "position": [200, -150], "parameters": {"chop": "null1", "valuechange": true, "language": "python"}, "text": "def onValueChange(channel, sampleIndex, val, prev):\n\tif (val >= 0.5) != (prev >= 0.5):\n\t\top('target1').par.const0value = val\n\treturn\n"}], "connections": [{"from": "lfo1", "to": "null1"}]}, "mode": "tox", "project_name": "threshold_rig", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0]}, {"name": "null1", "type": "null", "family": "CHOP", "position": [200, 0]}, {"name": "target1", "type": "constant", "family": "CHOP", "position": [400, 0], "parameters": {"const0name": "chan1"}}, {"name": "watcher1", "type": "chopexec", "family": "DAT", "position": [200, -150], "parameters": {"chop": "null1", "valuechange": true, "language": "python"}, "text": "def onValueChange(channel, sampleIndex, val, prev):\n\tif (val >= 0.5) != (prev >= 0.5):\n\t\top('target1').par.const0value = val\n\treturn\n"}], "connections": [{"from": "lfo1", "to": "null1"}]}}}

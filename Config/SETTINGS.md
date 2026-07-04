@@ -55,3 +55,9 @@ file feeds the offline server's search stack).
 - `RS_DISABLE=1` — bypass the Phase-2 hybrid retrieval stack (dense-only search).
 - `EMBEDDING_ALLOW_MISMATCH=1` — allow an `EMBEDDING_MODEL` that disagrees with `KB/manifest.json`
   (search quality will be garbage; for experiments only).
+- `TD_BUILDER_TRUST_KB=1` — **skip pickle integrity verification** for the KB (bm25 index + knowledge
+  graph). The server normally refuses to unpickle files that match neither `KB/kb_receipt.json` nor
+  the pinned hashes in `scripts/vector_db_release.json` — defense-in-depth against a KB corrupted in
+  transit (bad download / poisoned build cache), not against a local writer of `KB/`. Set this only
+  while actively rebuilding KB internals; the durable fix for your own KB is
+  `python scripts/receipt_kb.py`. Never set it in a deployment.

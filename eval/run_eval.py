@@ -113,38 +113,88 @@ def _has_vdb(kb_root: Path) -> bool:
     return (kb_root / "vector_db" / "chroma.sqlite3").exists()
 
 
-def _warn_if_partial(kb_root: Path) -> Path:
+def _partial_missing(kb_root: Path) -> list:
+    return [rel for rel in ("lexical_index/bm25.pkl", "models")
+            if not (kb_root / rel).exists()]
+
+
+# Last resolution, for the §8 printed report + identity stamp:
+# {"source": cli|env|repo|main-tree, "missing": [...]}
+KB_RESOLUTION: dict = {}
+
+
+def _warn_if_partial(kb_root: Path, source: str = "unknown",
+                     require_full: bool = False,
+                     allow_partial: bool = False) -> Path:
     """A KB with a vector_db but no Phase-2 artifacts makes the enhanced stack
     silently degrade to dense-only, so the reported metrics would not measure
-    the shipped hybrid path. Warn loudly (worktrees often carry partial KBs)."""
-    missing = [rel for rel in ("lexical_index/bm25.pkl", "models")
-               if not (kb_root / rel).exists()]
+    the shipped hybrid path.
+
+    §8 fix: for EVAL runs (require_full=True) this escalates from warning to
+    REFUSAL unless --allow-partial-kb — a dense-only number labeled as the
+    hybrid stack is worse than no number. Library callers (build gate etc.)
+    keep the historical warn-only behavior."""
+    missing = _partial_missing(kb_root)
+    KB_RESOLUTION.clear()
+    KB_RESOLUTION.update({"source": source, "missing": missing})
     if missing:
-        print(f"[run_eval] WARNING: KB at {kb_root} is missing {missing} -- "
-              f"the enhanced backend will run DENSE-ONLY and its metrics will "
-              f"not reflect the Phase-2 hybrid stack.", file=sys.stderr)
+        msg = (f"[run_eval] KB at {kb_root} is missing {missing} -- the "
+               f"enhanced backend would run DENSE-ONLY and its metrics would "
+               f"not reflect the Phase-2 hybrid stack.")
+        if require_full and not allow_partial:
+            print(msg + "\n[run_eval] REFUSING to measure a partial KB "
+                  "(pass --allow-partial-kb to proceed, clearly labeled).",
+                  file=sys.stderr)
+            raise SystemExit(2)
+        print("WARNING: " + msg, file=sys.stderr)
     return kb_root
 
 
-def resolve_kb_root(cli_kb: str | None) -> Path:
+def resolve_kb_root(cli_kb: str | None, require_full: bool = False,
+                    allow_partial: bool = False) -> Path:
+    kw = {"require_full": require_full, "allow_partial": allow_partial}
     if cli_kb:
-        return _warn_if_partial(Path(cli_kb))
+        return _warn_if_partial(Path(cli_kb), "cli", **kw)
     env = os.environ.get("EVAL_KB_ROOT") or os.environ.get("UNIFIED_KB_ROOT")
     if env:
-        return _warn_if_partial(Path(env))
+        return _warn_if_partial(Path(env), "env", **kw)
     # 1) this repo's own KB (works outside a worktree)
     if _has_vdb(REPO_ROOT / "KB"):
-        return _warn_if_partial(REPO_ROOT / "KB")
+        return _warn_if_partial(REPO_ROOT / "KB", "repo", **kw)
     # 2) main tree: strip the .claude/worktrees/<name> tail
     parts = REPO_ROOT.parts
     if ".claude" in parts:
         main_tree = Path(*parts[: parts.index(".claude")])
         if _has_vdb(main_tree / "KB"):
-            return _warn_if_partial(main_tree / "KB")
+            return _warn_if_partial(main_tree / "KB", "main-tree", **kw)
     raise FileNotFoundError(
         "Could not locate a KB with vector_db/chroma.sqlite3. "
         "Pass --kb <path-to-KB> or set EVAL_KB_ROOT."
     )
+
+
+_IDENTITY_MOD = None
+
+
+def _identity_helper():
+    """Load the shared identity stamp (eval/agent_eval/identity.py) via
+    importlib — both harnesses stamp the same block (§7/§8)."""
+    global _IDENTITY_MOD
+    if _IDENTITY_MOD is None:
+        import importlib.util
+        path = EVAL_DIR / "agent_eval" / "identity.py"
+        spec = importlib.util.spec_from_file_location("agent_eval_identity", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _IDENTITY_MOD = mod
+    return _IDENTITY_MOD
+
+
+def _identity_mism(current: dict, prior: dict | None):
+    """(mismatched, unknown) over the KB identity fields (kb_manifest_version,
+    kb_sha) — the shared helper's rule, scoped to what run_eval controls."""
+    return _identity_helper().identity_mismatches(
+        current, prior, _identity_helper().KB_IDENTITY_FIELDS)
 
 
 def resolve_stage_dir(cli_stage: str | None, kb_root: Path) -> Path:
@@ -411,6 +461,10 @@ def _spawn_trial(name, kb_root, args, trial_idx):
         cmd += ["--gt-operators", str(args.gt_operators)]
     if args.gt_types:
         cmd += ["--gt-types", str(args.gt_types)]
+    # §8: propagate the partial-KB override so the child doesn't refuse a KB the
+    # parent already accepted (--kb points the child straight at the resolved root).
+    if args.allow_partial_kb:
+        cmd += ["--allow-partial-kb"]
     print(f"[{name}] trial {trial_idx}/{args.repeats} (subprocess, fresh index load)...", file=sys.stderr)
     proc = subprocess.run(cmd, capture_output=True, text=True, env=os.environ)
     for ln in proc.stdout.splitlines():
@@ -616,7 +670,22 @@ def main():
     ap.add_argument("--repeats", type=int, default=3,
                     help="independent trials per backend; metrics reported as the median (HNSW search "
                          "jitters ~1 borderline result across index loads). Use 1 for a quick single run.")
-    ap.add_argument("--out", default=str(EVAL_DIR / "baseline.json"), help="canonical baseline.json (repo)")
+    ap.add_argument("--out", default=None,
+                    help="result path. §8 fix: the default NO LONGER overwrites the "
+                         "committed eval/baseline.json — with no --out, results go to "
+                         "the stage dir only. Promote deliberately with --write-baseline.")
+    ap.add_argument("--write-baseline", action="store_true",
+                    help="write the committed eval/baseline.json (deliberate promotion; "
+                         "mutually exclusive with --out)")
+    ap.add_argument("--allow-partial-kb", action="store_true",
+                    help="measure a KB missing Phase-2 artifacts anyway (dense-only; "
+                         "refused by default — §8)")
+    ap.add_argument("--expect-kb-version", default=None,
+                    help="assert the resolved KB's manifest version (CI lanes pass this); "
+                         "mismatch exits 4")
+    ap.add_argument("--allow-identity-drift", action="store_true",
+                    help="proceed with --compare across mismatched KB identity, "
+                         "marking the diff NON-COMPARABLE")
     ap.add_argument("--stage-dir", default=None, help="staging dir for BASELINE.md + copies (default: New KB build/Output/eval)")
     ap.add_argument("--gt-operators", default=None,
                     help="authoritative operators.json for the name-integrity gate (default: stable, "
@@ -631,7 +700,8 @@ def main():
     if args.retrieve is None:
         args.retrieve = max(args.k, args.ndcg_k)
 
-    kb_root = resolve_kb_root(args.kb).resolve()
+    kb_root = resolve_kb_root(args.kb, require_full=True,
+                              allow_partial=args.allow_partial_kb).resolve()
     args.queries = str(Path(args.queries).resolve())
     if args.compare:  # resolve now — adapter construction chdir's to server_core later
         args.compare = str(Path(args.compare).resolve())
@@ -644,6 +714,8 @@ def main():
     queries = [json.loads(ln) for ln in Path(args.queries).read_text(encoding="utf-8").splitlines() if ln.strip()]
 
     # --- subprocess trial mode: run ONE in-process trial, emit JSON, exit ------
+    # (identity stamp / [kb] report skipped here — only the PARENT stamps the
+    #  final result; resolve_kb_root already ran the partial-KB guard above.)
     if args.emit_trial:
         name = args.backend if args.backend in BACKENDS else "enhanced"
         trial = _single_trial(name, BACKENDS[name], queries, gt, kb_root, args, 1)
@@ -651,8 +723,37 @@ def main():
         sys.stdout.flush()
         return
 
+    ident = _identity_helper()
+    kb_ident = ident.kb_identity(kb_root, extra_roots=(REPO_ROOT,)
+                                 + ((_MAIN_TREE,) if _MAIN_TREE else ()))
+    # §8: the silent main-tree fallback becomes a printed resolution report.
+    print(f"[kb] resolved KB root: {kb_root} (source: "
+          f"{KB_RESOLUTION.get('source')}, manifest "
+          f"{kb_ident['kb_manifest_version']}, sha {kb_ident['kb_sha'][:12]}…"
+          + (f", PARTIAL — missing {KB_RESOLUTION['missing']}"
+             if KB_RESOLUTION.get("missing") else ""),
+          file=sys.stderr)
+    if args.expect_kb_version and \
+            kb_ident["kb_manifest_version"] != args.expect_kb_version:
+        print(f"[kb] expected KB version {args.expect_kb_version!r} but resolved "
+              f"{kb_ident['kb_manifest_version']!r} at {kb_root} — refusing.",
+              file=sys.stderr)
+        raise SystemExit(4)
+
     stage_dir = resolve_stage_dir(args.stage_dir, kb_root).resolve()
-    out_path = Path(args.out).resolve()
+    # §8: --out no longer DEFAULTS onto the committed baseline. Resolution:
+    #   --out X         -> write X (and stage a copy)
+    #   --write-baseline-> write the committed eval/baseline.json (deliberate)
+    #   neither         -> stage-only (stage_dir/baseline.json); repo untouched
+    if args.out and args.write_baseline:
+        raise SystemExit("pass only one of --out / --write-baseline")
+    committed_baseline = EVAL_DIR / "baseline.json"
+    if args.write_baseline:
+        out_path = committed_baseline.resolve()
+    elif args.out:
+        out_path = Path(args.out).resolve()
+    else:
+        out_path = (stage_dir / "baseline.json").resolve()
     count = collection_count(kb_root)
     print(f"KB: {kb_root}\nqueries: {len(queries)}  collection: {COLLECTION} ({count} chunks)\n", file=sys.stderr)
 
@@ -675,6 +776,10 @@ def main():
         "code_root": redact_path(SERVER_CORE),
         "gt_operators": redact_path(gt_ops),
         "gt_types": redact_path(gt_types),
+        # §8: KB identity stamp (shared with the agent-eval harness). Additive —
+        # old baselines without it read as "unknown" in --compare (warn, proceed).
+        "identity": {**kb_ident, "kb_resolution_source": KB_RESOLUTION.get("source"),
+                     "kb_partial_missing": KB_RESOLUTION.get("missing") or []},
         "config": {"k": args.k, "ndcg_k": args.ndcg_k, "retrieve": args.retrieve,
                    "n_queries": len(queries), "score_floor": args.score_floor},
         "baseline_backend": base,
@@ -726,6 +831,24 @@ def main():
     if args.compare and "error" not in backends.get(base, {}):
         try:
             prev = json.loads(Path(args.compare).read_text(encoding="utf-8"))
+            # §7/§8: refuse to diff across differing KB identity — the numbers
+            # would compare against a different KB. Missing identity (pre-§8
+            # baselines) reads as "unknown": warn, proceed.
+            mism, unknown = _identity_mism(kb_ident, prev.get("identity"))
+            if unknown:
+                print(f"\n[compare] WARNING: prior baseline has no KB identity for "
+                      f"{unknown} — treating as unknown, proceeding.", file=sys.stderr)
+            if mism:
+                print("\n[compare] KB identity mismatch vs prior baseline:", file=sys.stderr)
+                for f, old, cur in mism:
+                    print(f"    {f}: prior={old!r} current={cur!r}", file=sys.stderr)
+                if not args.allow_identity_drift:
+                    print("[compare] REFUSING diff (§7): the two baselines measured "
+                          "different KBs. Pass --allow-identity-drift to proceed "
+                          "marked NON-COMPARABLE.", file=sys.stderr)
+                    raise SystemExit(3)
+                print("[compare] NON-COMPARABLE (KB identity drift overridden)",
+                      file=sys.stderr)
             pj = prev.get("baseline", prev.get("backends", {}).get(prev.get("baseline_backend", base), {}))
             print(f"\nDELTA vs {args.compare} (this - prior; d = delta):")
             rk, nk = args.k, args.ndcg_k

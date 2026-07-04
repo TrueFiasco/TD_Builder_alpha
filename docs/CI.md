@@ -39,23 +39,26 @@ Two mechanisms, both required:
 1. `tests/conftest.py::pytest_collection_modifyitems` auto-marks any test
    using the `server`/`probe`/`live_server`/`live_probe` fixtures (the
    `server` fixture fails loudly without `KB/operators.json`).
-2. Module-level `pytestmark = pytest.mark.requires_kb` in the 14 test files
+2. Module-level `pytestmark = pytest.mark.requires_kb` in the 13 test files
    that read KB artifacts **directly** (offline `ToxBuilder`/
    `ToeBuilderBridge` builds resolve types against `KB/operators.json` at
    build time — fixture inspection cannot see that).
+   `test_import_isolation.py` is the one mixed file: its W2a absence pins are
+   hermetic source/path checks, so only its server-importing ground-state test
+   carries a per-test marker.
 
 Enforcement is physical, not honor-system: the hermetic runner **has no
 fetched KB and no ML deps**, so a mismarked test fails there loudly; it cannot
-silently pass. Measured partition (2026-07-04, condition-2 reconciliation):
-`tests/engine + tests/unit` collect **143** tests = **53 hermetic**
-(9 engine + 44 unit) + **90 requires_kb**.
+silently pass. Measured partition (2026-07-04, W2a):
+`tests/engine + tests/unit` collect **145** tests = **55 hermetic**
+(11 engine + 44 unit) + **90 requires_kb**.
 
 ## Floors (silent-shrink guards)
 
 | Floor | Value | Measured by | Meaning |
 |---|---|---|---|
-| hermetic collection | ≥ 53 | W1 rehearsal (53 passed, 90 deselected, light venv, no KB) | deselection can't quietly eat the lane |
-| engine-kb collection | ≥ 143 | W1 rehearsal (143 passed in light venv, KB present) | whole engine+unit surface stays collected |
+| hermetic collection | ≥ 55 | W1 rehearsal (53) + W2a's two hermetic absence tests | deselection can't quietly eat the lane |
+| engine-kb collection | ≥ 145 | W1 rehearsal (143) + W2a's two hermetic absence tests | whole engine+unit surface stays collected |
 | kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 with live TD locally) | live tests may skip; offline coverage may not shrink |
 
 Raising a floor when tests are added is routine; **lowering one requires the

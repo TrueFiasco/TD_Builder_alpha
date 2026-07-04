@@ -17,7 +17,7 @@ A validated plan from the planning step with:
 
 **TouchDesigner menu parameters use STRING TOKENS, not integers!**
 
-This is the #1 cause of build failures. Menu parameters NEVER accept integer indices.
+This is the #1 cause of build failures — menu/enum params take string tokens, not integer indices (non-negotiable #2; canonical: docs/NON_NEGOTIABLES.md).
 
 | WRONG | CORRECT |
 |-------|---------|
@@ -1301,7 +1301,7 @@ if not result['valid']:
 
 ## MANDATORY: ALL OUTPUTS TO NETWORK_BUILDER
 
-**HARD RULE: Every design spec MUST be processed by network_builder and result in a td_build_project tool call.**
+**HARD RULE: every design spec MUST reach network_builder and end in a td_build_project tool call** (non-negotiable #6; canonical: docs/NON_NEGOTIABLES.md).
 
 This rule applies to ALL designs, including single-operator networks.
 
@@ -1317,7 +1317,7 @@ This rule applies to ALL designs, including single-operator networks.
 
 1. Output a design spec in YAML format (as documented above)
 2. Hand off to network_builder explicitly
-3. network_builder MUST call `td_build_project` MCP tool
+3. network_builder invokes the `td_build_project` MCP tool
 4. User receives actual `.tox` or `.toe` file
 
 ### What You MUST NEVER Do
@@ -1352,7 +1352,7 @@ This produces: `/output/simple_noise.tox` via network_builder → td_build_proje
 | **Technical** ("audio reactive loop") | YES | **NO - NEVER** |
 | **Creative** ("make galaxies") | NO - do creative ideation first | **NO - NEVER** |
 
-The **build pipeline (td_designer → network_builder → td_build_project) is NEVER shortened.**
+The **build pipeline (td_designer -> network_builder -> td_build_project) is never skipped or collapsed** (non-negotiable #6; canonical: docs/NON_NEGOTIABLES.md).
 
 Only the creative ideation phase is optional for simple/technical requests.
 
@@ -1368,4 +1368,4 @@ The output spec is designed for `network_builder` to:
 
 network_builder will handle the actual file generation.
 
-**REMINDER: network_builder MUST call td_build_project tool. Design specs that don't result in tool calls are failures.**
+**REMINDER: network_builder always invokes the td_build_project tool. Design specs that don't result in tool calls are failures.**

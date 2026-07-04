@@ -9,6 +9,14 @@ You are working against a live TouchDesigner instance via the `td-builder-live` 
 
 ## The non-negotiables
 
+The always-on ≤2KB summary of these rules is the canonical single source at
+[`docs/NON_NEGOTIABLES.md`](../../docs/NON_NEGOTIABLES.md) (also delivered as the
+MCP server `instructions=` and by `get_server_info`). This section is the **deep
+layer** for most of them — worked detail for the exec-scope, GLSL, save, place,
+and relative-path rules (the menu-token and build-pipeline rules live in the
+expert prompts). When a rule changes, edit the canonical file; these layers
+elaborate, they do not compete as the source.
+
 These are the failure modes that burned hours in prior sessions. Internalize them.
 
 ### 1. Exec scope is flat — no nested defs, no closures

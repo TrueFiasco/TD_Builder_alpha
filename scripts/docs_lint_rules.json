@@ -108,23 +108,23 @@
     {
       "id": "menu-params-never-integer",
       "pattern": "[Mm]enu parameters NEVER accept integer indices",
-      "canonical_file": "Agents/experts/td_designer/build.md",
-      "severity": "off",
-      "note": "Currently legitimately restated across expert prompts. 3b single-sources it, then flips this to 'error'."
+      "canonical_file": "docs/NON_NEGOTIABLES.md",
+      "severity": "error",
+      "note": "Single-sourced by 3b: rule 2 lives in docs/NON_NEGOTIABLES.md; the expert prompts reference it. This footgun phrasing must not reappear outside the canonical file."
     },
     {
       "id": "must-call-td-build-project",
       "pattern": "MUST (?:be processed by|call)[^.\\n]{0,60}td_build_project",
-      "canonical_file": "Agents/experts/network_builder/build.md",
-      "severity": "off",
-      "note": "Duplicated in td_designer/build.md by design today. 3b decides the single source."
+      "canonical_file": "docs/NON_NEGOTIABLES.md",
+      "severity": "error",
+      "note": "Single-sourced by 3b: rule 6 lives in docs/NON_NEGOTIABLES.md. Experts now say 'MUST go through / reach / invokes' — the guarded 'MUST call/be processed by ... td_build_project' phrasing is reserved to the canonical file."
     },
     {
       "id": "pipeline-never-shortened",
       "pattern": "build pipeline[^.\\n]{0,80}NEVER shortened",
-      "canonical_file": "Agents/experts/td_designer/build.md",
-      "severity": "off",
-      "note": "3b flips to 'error' after the instruction channel lands."
+      "canonical_file": "docs/NON_NEGOTIABLES.md",
+      "severity": "error",
+      "note": "Single-sourced by 3b: rule 6 lives in docs/NON_NEGOTIABLES.md. Experts now say 'never skipped or collapsed'."
     }
   ]
 }

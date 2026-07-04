@@ -27,7 +27,7 @@ When receiving a design_spec from a td_designer step:
 3) Docked DATs are automatic: when `get_operator_info` lists a `docked_dats` block, the builder auto-creates + docks + file-backs + wires those helper DATs (GLSL `*_pixel`/`*_compute`/`*_info`, `*_callbacks` scripts, table DATs, …). Do NOT add them as separate operators or set their link params (`pixeldat`/`callbacks`/`dat`/…) — supply only the content (shader → `shader`, callbacks → `callbacks`/`script`). Hand-adding them creates duplicates.
 4) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
 5) Artifact by intent: a whole **project** → `mode="toe"` (a real `.toe`); a reusable **component** → `mode="tox"` (a `.tox`). Fall back to Text DAT, then instructions, only if a build actually errors — graceful degradation, not a default.
-6) **MANDATORY TOOL CALL**: You MUST call `td_build_project` MCP tool for every build. No exceptions.
+6) **MANDATORY TOOL CALL**: every build MUST go through the `td_build_project` MCP tool (non-negotiable #6; canonical: docs/NON_NEGOTIABLES.md). No exceptions.
 
 ---
 

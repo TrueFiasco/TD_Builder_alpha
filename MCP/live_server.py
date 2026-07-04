@@ -17,14 +17,19 @@ from pathlib import Path
 
 # The live client is a self-contained module under MCP/live_client/.
 sys.path.insert(0, str(Path(__file__).resolve().parent / "live_client"))
+# server_instructions lives one level up, in MCP/.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from mcp.server import Server  # noqa: E402
 from mcp.server.stdio import stdio_server  # noqa: E402
 from mcp.types import Tool, TextContent  # noqa: E402
 
 import td_live_client  # noqa: E402
+from server_instructions import load_instructions  # noqa: E402
 
-app = Server("td-builder-live")
+# D2 (harness item 3b): same single-sourced non-negotiables as the offline
+# server, delivered on the always-on `instructions=` channel. Fail-soft baked in.
+app = Server("td-builder-live", instructions=load_instructions())
 
 
 @app.list_tools()

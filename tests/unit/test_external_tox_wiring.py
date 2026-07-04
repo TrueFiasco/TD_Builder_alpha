@@ -104,6 +104,21 @@ TEST_REGISTRY = {
                         {"index": 1, "out_op": "out_b", "family": "CHOP"}],
             "harvest": {"method": "offline_manifest"},
         },
+        # index-authority (live/shipped, no offline-only stamp) comps WITH in ops, for
+        # the G1 over-wire fail-loud cases.
+        "inComp": {
+            "source": "project", "tox_path": "tox/inComp.tox", "wrapper": False,
+            "inner_type": "COMP:base",
+            "inputs": [{"index": 0, "in_op": "in1", "family": "CHOP"}],
+            "outputs": [{"index": 0, "out_op": "out1", "family": "CHOP"}],
+        },
+        "twoInComp": {
+            "source": "project", "tox_path": "tox/twoInComp.tox", "wrapper": False,
+            "inner_type": "COMP:base",
+            "inputs": [{"index": 0, "in_op": "in1", "family": "CHOP"},
+                       {"index": 1, "in_op": "in2", "family": "CHOP"}],
+            "outputs": [{"index": 0, "out_op": "out1", "family": "CHOP"}],
+        },
     }
 }
 
@@ -315,6 +330,129 @@ def test_u17_manifest_unavailable_explicit_out_only_builds(tmp_path):
     d = _build(tmp_path, _design(missing, conns=[{"from": "fx/customOut", "to": "null1"}]))
     n = (d / "null1.n").read_text(encoding="utf-8")
     assert "0\tfx/customOut\n" in n, n
+
+
+# ---------------------------------------------------------------------------
+# v0.2.1 audit gaps (G1 over-wire, G3/G4 basename collision, G6 apostrophe)
+# ---------------------------------------------------------------------------
+
+def test_g1_index_authority_overwire_fails_loud(registry, tmp_path):
+    # G1: an index-authority (live/shipped) comp's in-wires that EXCEED its in-op count
+    # used to be positionally filled and the overflow SILENTLY dropped (self.log only),
+    # while a name-authority comp fails loud for the identical over-wire (U-6). Now
+    # symmetric. Repro: 1-in comp, in1 explicitly claimed + a second bare source.
+    design = {
+        "operators": [
+            {"name": "s1", "type": "constant", "family": "CHOP", "position": [0, 0]},
+            {"name": "s2", "type": "constant", "family": "CHOP", "position": [0, 200]},
+            {"name": "cc", "palette": "inComp", "position": [200, 0]},
+        ],
+        "connections": [{"from": "s1", "to": "cc/in1"}, {"from": "s2", "to": "cc"}],
+    }
+    with pytest.raises(ValueError) as ei:
+        _build(tmp_path, design)
+    assert "in1" in str(ei.value) and "explicitly" in str(ei.value)
+
+
+def test_g1_index_authority_all_bare_overwire_fails_loud(registry, tmp_path):
+    # 3 bare sources into a 2-in index-authority comp -> the 3rd used to vanish silently.
+    design = {
+        "operators": [
+            {"name": "s1", "type": "constant", "family": "CHOP", "position": [0, 0]},
+            {"name": "s2", "type": "constant", "family": "CHOP", "position": [0, 200]},
+            {"name": "s3", "type": "constant", "family": "CHOP", "position": [0, 400]},
+            {"name": "cc", "palette": "twoInComp", "position": [200, 0]},
+        ],
+        "connections": [{"from": "s1", "to": "cc"}, {"from": "s2", "to": "cc"},
+                        {"from": "s3", "to": "cc"}],
+    }
+    with pytest.raises(ValueError, match="bare input"):
+        _build(tmp_path, design)
+
+
+def test_g1_index_authority_exact_count_still_builds(registry, tmp_path):
+    # Control: correctly-counted bare in-wires keep the byte-identical positional fill
+    # (only the OVERFLOW case changed from silent-drop to fail-loud).
+    design = {
+        "operators": [
+            {"name": "s1", "type": "constant", "family": "CHOP", "position": [0, 0]},
+            {"name": "s2", "type": "constant", "family": "CHOP", "position": [0, 200]},
+            {"name": "cc", "palette": "twoInComp", "position": [200, 0]},
+        ],
+        "connections": [{"from": "s1", "to": "cc"}, {"from": "s2", "to": "cc"}],
+    }
+    d = _build(tmp_path, design)
+    net = (d / "cc.network").read_text(encoding="utf-8")
+    assert net == ("1\ncompinputs\n{\n0 \ts1\n\tin1\n\tCHOP\n"
+                   "1 \ts2\n\tin2\n\tCHOP\n}\nend\n"), net
+
+
+def test_g3g4_basename_collision_not_miswired(registry, tmp_path):
+    # G3/G4: a container-local op whose name COLLIDES with a registered comp used to be
+    # silently rewritten to '<container>/<comp>/out1' by the D-X4 basename fallback.
+    # 'srcComp' is registered (single out 'out1'); a plain constant named 'srcComp'
+    # inside 'grp' must resolve to the SIBLING, not the top-level palette comp's out op.
+    design = {
+        "operators": [{"name": "srcComp", "palette": "srcComp", "position": [0, 0]}],
+        "containers": [{
+            "name": "grp", "type": "container",
+            "operators": [
+                {"name": "srcComp", "type": "constant", "family": "CHOP",
+                 "position": [0, 0]},
+                {"name": "innersink", "type": "null", "family": "CHOP",
+                 "position": [200, 0]},
+            ],
+            "connections": [{"from": "srcComp", "to": "innersink"}],
+        }],
+    }
+    d = _build(tmp_path, design)
+    n = (d / "grp" / "innersink.n").read_text(encoding="utf-8")
+    assert "0\tsrcComp\n" in n, n                 # the sibling constant
+    assert "srcComp/out1" not in n, n             # NOT the palette comp's inner out op
+
+
+def test_g3g4_legit_container_comp_still_resolves(registry, tmp_path):
+    # Guard the OTHER direction: a genuine palette comp inside a container still resolves
+    # its container-expanded source (rel_path match), so the collision fix doesn't break
+    # legitimate in-container wiring.
+    design = {
+        "containers": [{
+            "name": "grp", "type": "container",
+            "operators": [
+                {"name": "gen", "palette": "srcComp", "position": [0, 0]},
+                {"name": "innersink", "type": "null", "family": "CHOP",
+                 "position": [200, 0]},
+            ],
+            "connections": [{"from": "gen", "to": "innersink"}],
+        }],
+        "operators": [],
+    }
+    d = _build(tmp_path, design)
+    n = (d / "grp" / "innersink.n").read_text(encoding="utf-8")
+    assert "0\tgen/out1\n" in n, n
+
+
+def test_g6_py_str_literal_round_trips():
+    import ast
+    assert bridge._py_str_literal("/Palette/x.tox") == "'/Palette/x.tox'"  # unchanged form
+    for s in ("/Palette/x.tox", "/my's.tox", "/a\\b.tox", "/q'q'q.tox"):
+        assert ast.literal_eval(bridge._py_str_literal(s)) == s
+
+
+def test_g6_apostrophe_path_escaped(tmp_path):
+    reg = {"components": {"q": {"source": "user", "tox_path": "my's/comp.tox",
+                               "wrapper": False, "inner_type": "COMP:base",
+                               "inputs": [], "outputs": []}}}
+    saved = bridge._PALETTE_COMPONENTS_CACHE
+    bridge._PALETTE_COMPONENTS_CACHE = reg
+    try:
+        d = _build(tmp_path, {"operators": [{"name": "n", "palette": "q",
+                                             "position": [0, 0]}]})
+        parm = (d / "n.parm").read_text(encoding="utf-8")
+    finally:
+        bridge._PALETTE_COMPONENTS_CACHE = saved
+    # the apostrophe is escaped for the Python-expression layer -> balanced literal
+    assert "app.userPaletteFolder + '/my\\'s/comp.tox'" in parm, parm
 
 
 def test_u18_comp_inside_container(tmp_path, monkeypatch):

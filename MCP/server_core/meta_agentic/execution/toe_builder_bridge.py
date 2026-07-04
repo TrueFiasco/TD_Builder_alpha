@@ -90,6 +90,27 @@ def _registry_file_sig(path) -> tuple:
         return (str(path), None, None)
 
 
+def _valid_user_component(spec) -> bool:
+    """Shape-check ONE user-registry component so a malformed hand-edit is skipped at
+    MERGE time instead of crashing resolution (loader contract: a user registry must
+    never fail a build). Guards the crash vectors _palette_io_entry relies on: inputs/
+    outputs must be lists of dicts (its index-sort calls item.get(...)), and harvest,
+    if present, must be a dict (index_authority reads harvest.method). A natural bad
+    edit — inputs as a list of bare strings ["in1"] — is exactly what this rejects."""
+    if not isinstance(spec, dict):
+        return False
+    for key in ("inputs", "outputs"):
+        v = spec.get(key)
+        if v is None:
+            continue
+        if not isinstance(v, list) or not all(isinstance(it, dict) for it in v):
+            return False
+    h = spec.get("harvest")
+    if h is not None and not isinstance(h, dict):
+        return False
+    return True
+
+
 def _load_palette_components() -> dict:
     """Load the component registry: shipped KB/palette_components.json merged with the
     USER registry (paths.user_components_path(), default ~/.td_builder/, override via
@@ -128,11 +149,24 @@ def _load_palette_components() -> dict:
             user_components = user_spec.get("components")
             if not isinstance(user_components, dict):
                 raise ValueError('missing/invalid top-level "components" object')
-            collisions = set(user_components) & set(merged["components"])
+            # Per-entry shape validation (G5): a malformed hand-edit must NOT crash a
+            # build (the loader contract). Skip bad entries with a warning so an
+            # unreferenced one is inert and a referenced one degrades to the clean
+            # unknown-component error instead of an AttributeError at resolution.
+            clean = {}
+            for cname, cspec in user_components.items():
+                if _valid_user_component(cspec):
+                    clean[cname] = cspec
+                else:
+                    logger.warning(
+                        "user registry entry %r is malformed (inputs/outputs must be "
+                        "lists of {index, in_op/out_op, family} objects, harvest must be "
+                        "an object); skipping it", cname)
+            collisions = set(clean) & set(merged["components"])
             if collisions:
                 logger.info("user registry overrides %d shipped component(s): %s",
                             len(collisions), sorted(collisions))
-            merged["components"].update(user_components)
+            merged["components"].update(clean)
         except Exception as e:
             logger.warning("user component registry %s not loaded (%s); using shipped "
                            "registry only", user_path, e)
@@ -746,6 +780,20 @@ def _parm_line(code: str, mode, value, expr=None) -> str:
     if expr is not None:
         return f"{code} {mode} {token} {_td_quote_token(str(expr))}"
     return f"{code} {mode} {token}"
+
+
+def _py_str_literal(s: str) -> str:
+    """A single-quoted Python string literal for `s`, safe to embed in a TD parameter
+    EXPRESSION that _parm_line then double-quotes for the .parm line (G6).
+
+    The externaltox expression for user/derivative sources is
+    `app.userPaletteFolder + '<seg>'`; a raw f-string breaks on an apostrophe in the
+    path ("/my's/comp.tox" -> unbalanced quotes -> TD load error). _td_quote_token
+    wraps the whole expression in double quotes and escapes only `"`, so the inner
+    literal must stay single-quoted and escape backslash + single quote for the Python
+    layer. For an apostrophe-free path this is byte-identical to the old `'/{seg}'`
+    form, so pinned tests are unaffected."""
+    return "'" + str(s).replace("\\", "\\\\").replace("'", "\\'") + "'"
 
 
 # Auto-promotion of plain-string params to mode-49 expressions. The old check was a
@@ -1835,17 +1883,18 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         (_resolve_palette_source / _write_palette_network_file), which run after the
         relevant connections are registered — container-local connections only enter
         self.connections during _write_container."""
-        def walk(ops, containers):
+        def walk(ops, containers, parent=None):
             for o in ops or []:
-                yield o
+                yield o, parent
             for c in containers or []:
-                yield c  # container-level palette reference (dict shape compatible)
+                yield c, parent  # container-level palette reference (dict shape compatible)
                 inner = c.get("network", {}) or {}
                 yield from walk(
                     c.get("operators") or inner.get("operators") or c.get("children") or [],
-                    c.get("containers") or inner.get("containers") or [])
+                    c.get("containers") or inner.get("containers") or [],
+                    c.get("name"))
 
-        for op in walk(network.get("operators", []), network.get("containers", [])):
+        for op, parent in walk(network.get("operators", []), network.get("containers", [])):
             if not isinstance(op, dict):
                 continue
             name = op.get("name")
@@ -1854,9 +1903,18 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             palette_component = op.get("palette")
             external_tox = op.get("external_tox") or op.get("externaltox")
             if palette_component:
-                self.palette_io_map[name] = self._palette_io_entry(palette_component)
+                entry = self._palette_io_entry(palette_component)
             elif external_tox:
-                self.palette_io_map[name] = self._external_io_entry(name, op, external_tox)
+                entry = self._external_io_entry(name, op, external_tox)
+            else:
+                continue
+            # rel_path = how a sibling wire to this comp is expanded by _write_container
+            # ('<immediate container>/<name>'), or the bare name at top level. The
+            # container-qualified source fallback in _resolve_palette_source matches on
+            # this exact string so a plain op whose basename collides with a registered
+            # comp is NOT silently rewritten to '<container>/<comp>/out1' (G3/G4).
+            entry["rel_path"] = f"{parent}/{name}" if parent else name
+            self.palette_io_map[name] = entry
 
     def _palette_io_entry(self, component_name: str) -> dict:
         """Registry-backed io_map entry for a `palette` reference (raises the unknown-name
@@ -2038,12 +2096,12 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         # via _parm_line (quoting-aware).
         parm_lines = ["?"]
         if source == "user":
-            expr = f"app.userPaletteFolder + '/{tox_path}'"
+            expr = f"app.userPaletteFolder + {_py_str_literal('/' + tox_path)}"
             parm_lines.append(_parm_line("externaltox", 49, "", expr))
         elif source == "project":
             parm_lines.append(_parm_line("externaltox", 0, tox_path))
         else:  # derivative (default)
-            expr = f"app.samplesFolder + '/Palette/{tox_path}'"
+            expr = f"app.samplesFolder + {_py_str_literal('/Palette/' + tox_path)}"
             parm_lines.append(_parm_line("externaltox", 49, "", expr))
         parm_lines.append(_parm_line("enableexternaltox", 0, "on"))
         if spec.get("wrapper") and spec.get("subcompname"):
@@ -2060,6 +2118,10 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         # rebuilt here as a safety net for direct calls.
         entry = self.palette_io_map.get(target_name) or self._palette_io_entry(component_name)
         entry["path"] = full_path
+        # Normally the pre-pass stamps rel_path (container-aware); a direct _embed call
+        # (no pre-pass) defaults to the top-level bare name so the collision guard has a
+        # value to match against.
+        entry.setdefault("rel_path", target_name)
         self.palette_io_map[target_name] = entry
 
         # Wires INTO the placeholder: TD-native compinputs block in <comp>.network.
@@ -2164,11 +2226,18 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         if bare:
             if entry.get("index_authority", True):
                 unclaimed = [n for n in in_names if not assign[n]]
+                # G1: index-authority comps used to positionally fill and SILENTLY drop
+                # the overflow (self.log only) while name-authority comps fail loud for
+                # the identical over-wire — a silent drop the fix exists to kill. Fail
+                # loud symmetrically; correctly-counted wires keep the byte-identical fill.
+                if len(bare) > len(unclaimed):
+                    raise ValueError(
+                        f"Cannot wire {len(bare)} bare input(s) into component "
+                        f"'{comp_name}': '{comp_name}' ({tox}) has {len(unclaimed)} "
+                        f"unclaimed in op(s) {unclaimed} of {in_names}. Name each target "
+                        f"explicitly, e.g. \"to\": \"{comp_name}/{(unclaimed or in_names)[0]}\".")
                 for n, s in zip(unclaimed, bare):
                     assign[n].append(s)
-                if len(bare) > len(unclaimed):
-                    self.log(f"    [WARNING] {comp_name}: {len(bare) - len(unclaimed)} bare "
-                             f"in-wire(s) exceed its in ops; dropped (legacy behavior)")
             else:
                 if len(in_ops) == 1 and len(bare) == 1 and not explicit:
                     assign[in_names[0]].append(bare[0])
@@ -2214,17 +2283,22 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             unreadable .tox, unresolved wrapper): fail loud;
           - explicit '<comp>/<op>' paths never reach the maps — verbatim pass-through.
         Container-qualified sources ('C/comp' from container-local connection
-        expansion) resolve via the basename; the first-segment guard keeps an explicit
-        inner ref on a registered comp ('comp/out1') from re-resolving.
+        expansion) resolve only when the qualified path EQUALS the comp's recorded
+        rel_path (stamped in the pre-pass), so a plain op whose basename collides with a
+        registered comp is never mis-rewritten to '<container>/<comp>/out1' (G3/G4).
 
         BUG-C FIX retained: in-design containers resolve via container_io_map.
         """
         entry = self.palette_io_map.get(source)
         if entry is None and "/" in source:
-            segs = source.split("/")
-            if (len(segs) >= 2 and segs[0] not in self.palette_io_map
-                    and segs[-1] in self.palette_io_map):
-                entry = self.palette_io_map[segs[-1]]
+            # Container-qualified source ('C/fx' from container-local expansion): resolve
+            # via the comp's RECORDED location, not a bare basename match — a plain op
+            # whose name collides with a registered palette/external comp must not be
+            # rewritten to '<container>/<comp>/out1' (G3/G4). rel_path is stamped in the
+            # pre-pass to exactly the container-expanded form, so equality is precise.
+            cand = self.palette_io_map.get(source.rsplit("/", 1)[-1])
+            if cand is not None and cand.get("rel_path") == source:
+                entry = cand
         if entry is not None:
             who = f"'{consumer}'" if consumer else "consumer"
             tox = entry.get("tox") or ""

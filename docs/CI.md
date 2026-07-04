@@ -192,3 +192,4 @@ save/restore, runner images, the HF download — is the unproven remainder.
 - **2c run_eval fix:** when `--out` stops defaulting onto the committed
   baseline, the kb-full redirect keeps working and merely stops being
   load-bearing.
+

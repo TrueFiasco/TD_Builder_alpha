@@ -137,6 +137,37 @@ def component_manifest(network) -> dict:
     }
 
 
+def offline_entry(manifest: dict, inner_type: str, *, source: str, tox_path: str,
+                  category: str = None, subcompname: str = None) -> dict:
+    """Registry entry (KB/palette_components.json item schema) built from an OFFLINE
+    manifest — shared by the palette harvest's offline phase and the user registration
+    script. Indexes are enumerate()-assigned over the manifest's NAME-SORTED lists, so
+    they are NOT connector order: consumers must stamp entry["harvest"]["method"]
+    accordingly ("offline_manifest" -> the builder applies the strict name-authority
+    wiring policy; the shipped registry's live phase overwrites with connector truth
+    and stamps "offline_manifest+live")."""
+    entry = {
+        "source": source,
+        "tox_path": tox_path,
+    }
+    if category is not None:
+        entry["category"] = category
+    entry.update({
+        "wrapper": bool(manifest.get("wrapper")),
+        "inner_type": inner_type or "COMP:base",
+        "inputs": [{"index": n, "in_op": d["name"],
+                    "family": (d.get("op_type") or "").split(":")[0]}
+                   for n, d in enumerate(manifest.get("inputs", []))],
+        "outputs": [{"index": n, "out_op": d["name"],
+                     "family": (d.get("op_type") or "").split(":")[0]}
+                    for n, d in enumerate(manifest.get("outputs", []))],
+        "operator_count": manifest.get("operator_count"),
+    })
+    if entry["wrapper"] and subcompname:
+        entry["subcompname"] = subcompname
+    return entry
+
+
 def manifest_from_tox(tox_path, timeout_s: int = EXTERNAL_MANIFEST_TIMEOUT_S) -> dict:
     """toeexpand + lossless-parse a .tox (or already-expanded .dir) and return
     `{"manifest": <component_manifest dict>, "inner_type": str, "subcompname": str|None}`.

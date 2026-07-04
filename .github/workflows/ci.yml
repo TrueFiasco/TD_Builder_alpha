@@ -62,12 +62,12 @@ jobs:
           if [ -e KB/operators.json ]; then
             echo "KB/operators.json present on a hermetic runner — lane invalid"; exit 1
           fi
-      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d's +32)
+      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d's +32, 93 after W3b's +6 D2 canary)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit -m "not requires_kb" --co -q | grep -c "::" || true)
-          echo "hermetic tests collected: $n (floor 87)"
-          test "$n" -ge 87
+          echo "hermetic tests collected: $n (floor 93)"
+          test "$n" -ge 93
       - name: Hermetic tests (no KB, no ML deps)
         run: python -m pytest tests/engine tests/unit -m "not requires_kb" -q
 
@@ -105,11 +105,11 @@ jobs:
             KB/docked_contents.json
       - name: Fetch KB on cache miss (sha256-verified before extract)
         run: python scripts/fetch_vector_db.py
-      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d's +32)
+      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d's +32, 195 after W3b's +10 D2 canary)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit --co -q | grep -c "::" || true)
-          echo "engine+unit tests collected: $n (floor 185)"
-          test "$n" -ge 185
+          echo "engine+unit tests collected: $n (floor 195)"
+          test "$n" -ge 195
       - name: Engine + unit tests (KB present; TD-binary tests self-skip)
         run: python -m pytest tests/engine tests/unit -q

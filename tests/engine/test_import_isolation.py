@@ -1,17 +1,23 @@
-"""Import isolation (harness remediation 1a): the live builders must not be held
-hostage by the workflow-orchestration trio.
+"""Import isolation (harness 1a) -> quarantine absence pins (harness W2a).
 
-mcp_server.py used to import Blackboard/MetricsCollector/WorkflowOrchestrator (dead —
-instantiated by no tool path) in the SAME try block as ToxBuilder/ToeBuilderBridge (live),
-under the single EXPERT_WORKFLOW_ENABLED flag — an ImportError in any dead module disabled
-td_build_project entirely. This pins the split: with those three modules poisoned to raise
-ImportError BEFORE the server module is imported, the server must still load with
-EXPERT_WORKFLOW_ENABLED=True and build BOTH a .tox and a .toe.
+History: mcp_server.py used to import the workflow-orchestration trio
+(Blackboard / MetricsCollector / WorkflowOrchestrator -- dead, instantiated by no
+tool path) in the SAME try block as ToxBuilder/ToeBuilderBridge (live), so an
+ImportError in any dead module disabled td_build_project entirely. Harness 1a
+split the imports and pinned the split by poisoning the trio in a subprocess.
+W2a then quarantined the trio to quarantine/meta_agentic_orchestration/ and
+deleted the never-consumed query-tracker and compaction stubs, which dissolves
+the poison premise: absence is now the ground state.
 
-The poisoned import runs in a subprocess: the shared `server` fixture caches the real module
-in-process for the whole pytest session, so only a fresh interpreter guarantees the poison is
-in place before the server's import-time try blocks run (and no other test sees the poison).
+What this module pins now (mirrors tests/acceptance P01b's removed-tool
+absence pattern):
+  1. The trio is gone from the import path and from meta_agentic/execution/.
+  2. mcp_server.py carries no textual residue of the trio or the deleted stubs.
+  3. De-hostage core, ground state: a fresh interpreter loads the server with
+     EXPERT_WORKFLOW_ENABLED=True, none of the dead flags reappear, and BOTH
+     build modes work through _run_build.
 """
+import importlib.util
 import json
 import os
 import subprocess
@@ -28,14 +34,85 @@ import bootstrap  # noqa: E402
 
 bootstrap.setup()
 
-# The child interpreter imports the real server module, whose registry init
-# reads KB/operators.json — the KB-free CI lane deselects this via the marker.
-pytestmark = pytest.mark.requires_kb
+_EXECUTION_DIR = _REPO_ROOT / "MCP" / "server_core" / "meta_agentic" / "execution"
+_SERVER_SRC = _REPO_ROOT / "MCP" / "server_core" / "mcp_server.py"
 
-# Runs in a fresh interpreter. Poisons sys.modules (a None entry makes `import X`
-# raise ImportError) before the server module executes its import-time try blocks,
-# then drives _run_build for both modes — the same entry point the sync and async
-# tool callers use (see tests/engine/test_build_mode.py).
+_QUARANTINE_HINT = (
+    "quarantined by W2a under the quarantine-not-fix decision -- see "
+    "quarantine/README.md before reintroducing anything (revival = owner "
+    "decision + dedicated wave, and D6 designs against docs/specs/, not this code)"
+)
+
+# The three quarantined modules (file name, import path).
+_TRIO = (
+    ("blackboard.py", "meta_agentic.execution.blackboard"),
+    ("metrics.py", "meta_agentic.execution.metrics"),
+    ("orchestrator.py", "meta_agentic.execution.orchestrator"),
+)
+
+# Tokens that must never reappear in mcp_server.py source: the trio's symbols
+# and flag, plus the deleted query-tracker and compaction stubs (their flags
+# and fallbacks included -- they were never consumed by any tool path).
+_BANNED_SERVER_TOKENS = (
+    # workflow-orchestration trio (W2a quarantine)
+    "meta_agentic.execution.blackboard",
+    "meta_agentic.execution.metrics",
+    "meta_agentic.execution.orchestrator",
+    "Blackboard",
+    "SectionID",
+    "MetricsCollector",
+    "WorkflowOrchestrator",
+    "StrategyConfig",
+    "WORKFLOW_ORCHESTRATION_ENABLED",
+    # query-tracker stub (module meta_agentic.history never existed)
+    "QUERY_TRACKING_ENABLED",
+    "log_query",
+    "QueryTracker",
+    "meta_agentic.history",
+    # compaction stub (module meta_agentic.compaction never existed)
+    "HAS_COMPACTION",
+    "COMPACTION_IMPORT_ERROR",
+    "meta_agentic.compaction",
+    "compact_events_to_state",
+    "refresh_legacy_yaml",
+)
+
+
+def test_orchestration_trio_absent_from_import_path():
+    """The trio must be gone both as files in the execution package and as
+    importable modules on the server's import path (bootstrap view)."""
+    for filename, module_path in _TRIO:
+        leftover = _EXECUTION_DIR / filename
+        assert not leftover.exists(), (
+            f"{leftover} exists again -- the orchestration trio was {_QUARANTINE_HINT}"
+        )
+        spec = importlib.util.find_spec(module_path)
+        assert spec is None, (
+            f"'{module_path}' is importable again (resolved to {spec.origin}) -- "
+            f"the orchestration trio was {_QUARANTINE_HINT}"
+        )
+
+
+def test_mcp_server_source_free_of_dead_stubs():
+    """mcp_server.py must carry no residue of the trio import or the deleted
+    query-tracker/compaction stubs -- not even behind a fail-soft try/except."""
+    src = _SERVER_SRC.read_text(encoding="utf-8")
+    hits = [tok for tok in _BANNED_SERVER_TOKENS if tok in src]
+    assert not hits, (
+        f"mcp_server.py references removed dead-code symbols {hits} -- these were "
+        f"deleted/{_QUARANTINE_HINT}"
+    )
+
+
+# ---------------------------------------------------------------------------
+# De-hostage core, ground state (was: poisoned-trio subprocess).
+# The child interpreter imports the real server module, whose registry init
+# reads KB/operators.json -- the KB-free CI lane deselects this via the marker.
+# Runs in a fresh interpreter because the shared `server` fixture caches the
+# module in-process for the whole pytest session; this must observe a clean
+# import, then drives _run_build for both modes -- the same entry point the
+# sync and async tool callers use (see tests/engine/test_build_mode.py).
+# ---------------------------------------------------------------------------
 _CHILD = '''
 import importlib.util
 import json
@@ -47,15 +124,8 @@ sys.path.insert(0, str(repo_root))
 import bootstrap
 bootstrap.setup()
 
-for name in (
-    "meta_agentic.execution.blackboard",
-    "meta_agentic.execution.metrics",
-    "meta_agentic.execution.orchestrator",
-):
-    sys.modules[name] = None
-
 spec = importlib.util.spec_from_file_location(
-    "td_builder_mcp_server_poisoned",
+    "td_builder_mcp_server_groundstate",
     str(repo_root / "MCP" / "server_core" / "mcp_server.py"),
 )
 mod = importlib.util.module_from_spec(spec)
@@ -75,7 +145,10 @@ design = {
 }
 report = {
     "expert_workflow_enabled": bool(getattr(mod, "EXPERT_WORKFLOW_ENABLED", False)),
-    "orchestration_enabled": bool(getattr(mod, "WORKFLOW_ORCHESTRATION_ENABLED", True)),
+    "leftover_stub_attrs": [a for a in (
+        "WORKFLOW_ORCHESTRATION_ENABLED", "QUERY_TRACKING_ENABLED",
+        "HAS_COMPACTION", "COMPACTION_IMPORT_ERROR", "log_query",
+    ) if hasattr(mod, a)],
     "tox": asyncio.run(mod._run_build(None, dict(design), {}, "iso_tox", out_dir, "tox")),
     "toe": asyncio.run(mod._run_build(None, dict(design), {}, "iso_toe", out_dir, "toe")),
 }
@@ -83,8 +156,9 @@ print(json.dumps(report, default=str))
 '''
 
 
-def test_builders_survive_poisoned_orchestration_trio(tmp_path):
-    child = tmp_path / "poisoned_child.py"
+@pytest.mark.requires_kb
+def test_builders_independent_in_trio_free_ground_state(tmp_path):
+    child = tmp_path / "groundstate_child.py"
     child.write_text(_CHILD, encoding="utf-8")
     out_dir = tmp_path / "out"
     out_dir.mkdir()
@@ -96,16 +170,20 @@ def test_builders_survive_poisoned_orchestration_trio(tmp_path):
         cwd=str(_REPO_ROOT), env=env, timeout=900,
     )
     assert proc.returncode == 0, (
-        f"poisoned child crashed (rc={proc.returncode})\n"
+        f"ground-state child crashed (rc={proc.returncode})\n"
         f"STDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
     )
     report = json.loads(proc.stdout.strip().splitlines()[-1])
 
-    # De-hostage core: builders alive while the trio is import-dead — and the poison
-    # really bit (orchestration flag down + the fail-soft warning on stderr).
+    # De-hostage core: builders alive with the trio quarantined away entirely.
     assert report["expert_workflow_enabled"] is True, report
-    assert report["orchestration_enabled"] is False, report
-    assert "orchestration modules not available" in proc.stderr, proc.stderr[-2000:]
+    # No dead flag may resurface at module scope, and the import must be
+    # residue-silent (the 1a fail-soft warning died with the import block).
+    assert report["leftover_stub_attrs"] == [], (
+        f"dead-code flags back on the server module: {report['leftover_stub_attrs']} -- "
+        f"these were {_QUARANTINE_HINT}"
+    )
+    assert "orchestration modules not available" not in proc.stderr, proc.stderr[-2000:]
 
     tox, toe = report["tox"], report["toe"]
     # Routing pins that hold with or without TD's toecollapse on the machine:
@@ -120,6 +198,6 @@ def test_builders_survive_poisoned_orchestration_trio(tmp_path):
         assert Path(str(toe["output_file"])).stat().st_size > 100, toe
     else:
         pytest.skip(
-            "toecollapse unavailable; import isolation + routing verified without "
+            "toecollapse unavailable; ground-state import + routing verified without "
             f"collapsed files: tox={tox.get('message')!r} toe={toe.get('message')!r}"
         )

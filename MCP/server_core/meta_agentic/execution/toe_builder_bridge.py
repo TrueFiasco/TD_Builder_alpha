@@ -729,6 +729,26 @@ def _td_emit_token(value: Any) -> str:
     return _td_quote_token(str(value))
 
 
+def _parm_line(code: str, mode, value, expr=None) -> str:
+    """Serialize ONE .parm body line -- the only way the bridge emits one (W2b).
+
+    ``'{code} {mode} {token}'`` for constants, ``'{code} {mode} {token} {expr}'``
+    for expression modes (the caller supplies the mode; this function never picks
+    one). The constant token goes through :func:`_td_emit_token` (bool -> on/off,
+    whitespace/empty -> double-quoted, pre-quoted untouched) and the expression
+    through :func:`_td_quote_token`, so no value can truncate itself or desync the
+    whitespace-delimited .parm parser (see _td_quote_token for the failure mode).
+    Every .parm emission site must route through here -- including the paths that
+    deliberately bypass _param_lines' validation/auto-promotion (GLSL uniforms,
+    externaltox, docked-DAT links): "raw" means no KB name resolution and no
+    expression auto-detection, never unquoted serialization.
+    """
+    token = _td_emit_token(value)
+    if expr is not None:
+        return f"{code} {mode} {token} {_td_quote_token(str(expr))}"
+    return f"{code} {mode} {token}"
+
+
 # Auto-promotion of plain-string params to mode-49 expressions. The old check was a
 # loose substring list ('ext.', 'me.', 'op(', ...) that corrupted constant file paths:
 # 'C:/components/text.tox' contains 'ext.', 'Tools/theme.tox' contains 'me.' -- both
@@ -942,16 +962,13 @@ tile 0 0 500 400
 flags =  parlanguage 0
 end
 """)
-        self._write_file("project1.parm", f"""?
-w 0 {resolution[0]}
-h 0 {resolution[1]}
-?
-""")
-        self._write_file("project1.panel", f"""?
-screenw 0 {resolution[0]}
-screenh 0 {resolution[1]}
-?
-""")
+        self._write_file("project1.parm",
+                         "?\n" + _parm_line("w", 0, resolution[0]) + "\n"
+                         + _parm_line("h", 0, resolution[1]) + "\n?\n")
+        # .panel shares the .parm line grammar; same emitter.
+        self._write_file("project1.panel",
+                         "?\n" + _parm_line("screenw", 0, resolution[0]) + "\n"
+                         + _parm_line("screenh", 0, resolution[1]) + "\n?\n")
 
         (self.project_dir / "project1").mkdir(exist_ok=True)
         self.log("  Created project container")
@@ -965,7 +982,9 @@ screenh 0 {resolution[1]}
                          "COMP:window\ntile -200 40 160 130\n"
                          "flags =  viewer 1 parlanguage 0\ncolor 0.67 0.67 0.67 \nend\n")
         self._write_file("perform.parm",
-                         "?\nwinop 0 project1\njustifyh 0 center\njustifyv 0 center\n?\n")
+                         "?\n" + _parm_line("winop", 0, "project1") + "\n"
+                         + _parm_line("justifyh", 0, "center") + "\n"
+                         + _parm_line("justifyv", 0, "center") + "\n?\n")
         (self.project_dir / "perform").mkdir(exist_ok=True)
         self.log("  Created /perform window COMP")
 
@@ -1100,8 +1119,8 @@ end
         for param_name, param_value in params.items():
             # Handle resolution specially
             if param_name.lower() == "resolution" and isinstance(param_value, (list, tuple)):
-                lines.append(f"resolutionw 0 {param_value[0]}")
-                lines.append(f"resolutionh 0 {param_value[1]}")
+                lines.append(_parm_line("resolutionw", 0, param_value[0]))
+                lines.append(_parm_line("resolutionh", 0, param_value[1]))
                 continue
 
             # Handle vector parameter expansion: t, r, s, p, pivot → tx/ty/tz, rx/ry/rz, etc.
@@ -1142,10 +1161,10 @@ end
                         comp_value = param_value[i]
                         # Check if component value is an expression
                         if isinstance(comp_value, str) and _is_expression(comp_value):
-                            lines.append(f"{comp_name} 49 0 {_td_quote_token(str(comp_value))}")
+                            lines.append(_parm_line(comp_name, 49, 0, comp_value))
                         else:
                             td_value = self._format_param_value(comp_value)
-                            lines.append(f"{comp_name} 0 {_td_emit_token(td_value)}")
+                            lines.append(_parm_line(comp_name, 0, td_value))
                 continue
 
             # Handle indexed params like fromrange: [0, 1] → fromrange1: 0, fromrange2: 1
@@ -1154,10 +1173,10 @@ end
                 for i, val in enumerate(param_value):
                     indexed_name = f"{base_name}{i+1}"
                     if isinstance(val, str) and _is_expression(val):
-                        lines.append(f"{indexed_name} 49 0 {_td_quote_token(str(val))}")
+                        lines.append(_parm_line(indexed_name, 49, 0, val))
                     else:
                         td_value = self._format_param_value(val)
-                        lines.append(f"{indexed_name} 0 {_td_emit_token(td_value)}")
+                        lines.append(_parm_line(indexed_name, 0, td_value))
                 continue
 
             # Extract family from TD type (e.g., "CHOP:analyze" -> "CHOP")
@@ -1209,12 +1228,10 @@ end
 
             if expression:
                 # Mode 49 = Python expression (mode 17 is for CHOP expressions).
-                # The expression is whitespace-quoted so TD does not truncate it
-                # at the first space; the constant fallback is normalized too.
-                lines.append(f"{td_param_name} 49 {_td_emit_token(td_value)} {_td_quote_token(str(expression))}")
+                lines.append(_parm_line(td_param_name, 49, td_value, expression))
             else:
                 # Mode 0 = constant
-                lines.append(f"{td_param_name} 0 {_td_emit_token(td_value)}")
+                lines.append(_parm_line(td_param_name, 0, td_value))
 
         return lines
 
@@ -1292,15 +1309,15 @@ end
             if not (op_family and op_family.upper() == "COMP"):
                 td_type = "COMP:base"
             tox_ref = str(external_tox).replace("\\", "/")
-            external_raw_lines.append(f"externaltox 0 {_td_quote_token(tox_ref)}")
-            external_raw_lines.append("enableexternaltox 0 on")
+            external_raw_lines.append(_parm_line("externaltox", 0, tox_ref))
+            external_raw_lines.append(_parm_line("enableexternaltox", 0, "on"))
             # subcompname loads a wrapper .tox's inner comp directly (palette-proven
             # mechanism); emitted RAW like externaltox — never through _param_lines
             # expression auto-detection.
             for pkey in list(params.keys()):
                 if pkey.lower() == "subcompname":
                     external_raw_lines.append(
-                        f"subcompname 0 {_td_quote_token(str(params.pop(pkey)))}")
+                        _parm_line("subcompname", 0, str(params.pop(pkey))))
                     break
             comp_path = f"{container_path}/{name}".replace("project1/", "")
             self.external_components.append(
@@ -1335,7 +1352,8 @@ end
         # the docked_dats KB (KB/docked_dats.json) for ANY op with a spec -- the builder
         # creates + docks + file-links the children and wires the host's link params
         # (callbacks/pixeldat/dat/...) to them; experts only author the content. Wiring is
-        # collected here and written raw into the host .parm below (see docked_wiring).
+        # collected here and written into the host .parm below via _parm_line, bypassing
+        # param validation (see docked_wiring).
         docked_wiring = {}
         docked_specs = _load_docked_dats().get(td_type)
         if docked_specs:
@@ -1454,11 +1472,12 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         parm_lines = ["?"]
         parm_lines += self._param_lines(params, td_type, op_type, full_path, container_path, name)
 
-        # Wire host -> its docked children (callbacks/pixeldat/computedat/dat/...). Written
-        # raw (mode 0, sibling name) to match TD's serialization (e.g. `dat 0 ramp1_keys`),
-        # bypassing param validation -- these are builder-owned links, not authored params.
+        # Wire host -> its docked children (callbacks/pixeldat/computedat/dat/...). Raw =
+        # bypasses param validation (builder-owned links, not authored params) to match
+        # TD's serialization (e.g. `dat 0 ramp1_keys`); serialization itself stays
+        # quoting-aware via _parm_line.
         for hp, child in docked_wiring.items():
-            parm_lines.append(f"{hp} 0 {child}")
+            parm_lines.append(_parm_line(hp, 0, child))
 
         # external-tox reference lines (raw, see the external_tox block above).
         parm_lines.extend(external_raw_lines)
@@ -1553,21 +1572,26 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             if dat == "info":
                 n = (f"DAT:info\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
                      f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
-                parm = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+                parm = ("?\n" + _parm_line("op", 0, host_name) + "\n"
+                        + _parm_line("language", 0, "text") + "\n?\n")
             elif dat in ("text", "table"):
                 content = self._authored_for_role(op, spec.get("role", ""), allow_generic=not has_pixel) or spec.get("stub", "")
                 fdir = self.output_dir / spec["file_dir"]
                 fdir.mkdir(parents=True, exist_ok=True)
                 fpath = fdir / f"{child}.{spec['file_ext']}"
                 fpath.write_text(content, encoding="utf-8", newline="\n")
+                # Absolute path: _parm_line quotes it when the output root contains
+                # a space -- unquoted it truncated AND dropped the params below it.
                 fabs = str(fpath.resolve()).replace("\\", "/")
                 n = (f"DAT:{dat}\ntile {ix} {iy} 130 90\nflags =  {flags} parlanguage 0\n"
                      f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
-                parm = f"?\nfile 0 {fabs}\nsyncfile 0 on\nloadonstart 0 on\n"
+                parm = ("?\n" + _parm_line("file", 0, fabs) + "\n"
+                        + _parm_line("syncfile", 0, "on") + "\n"
+                        + _parm_line("loadonstart", 0, "on") + "\n")
                 if dat == "text":
-                    parm += f"language 0 {spec.get('language') or 'text'}\n"
+                    parm += _parm_line("language", 0, spec.get("language") or "text") + "\n"
                     if spec.get("extension"):
-                        parm += f"extension 0 {spec['extension']}\n"
+                        parm += _parm_line("extension", 0, spec["extension"]) + "\n"
                 parm += "?\n"
             else:
                 # special docked op (e.g. dmxmap): fileless, child points back at host
@@ -1575,7 +1599,7 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                      f"color 0.67 0.67 0.67 \ndock {host_name}\nend\n")
                 parm = "?\n"
                 if spec.get("child_param"):
-                    parm += f"{spec['child_param']} 0 {host_name}\n"
+                    parm += _parm_line(spec["child_param"], 0, host_name) + "\n"
                 parm += "?\n"
                 self.log(f"    [docking] note: special docked type '{dat}' on {host_name} "
                          f"({child}) written best-effort -- verify")
@@ -1643,7 +1667,8 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             f"dock {host_name}\n"
             "end\n"
         )
-        parm_content = f"?\nop 0 {host_name}\nlanguage 0 text\n?\n"
+        parm_content = ("?\n" + _parm_line("op", 0, host_name) + "\n"
+                        + _parm_line("language", 0, "text") + "\n?\n")
         self._write_file(f"{info_rel}.n", n_content)
         self._write_file(f"{info_rel}.parm", parm_content)
         self.log(f"    [F6] Auto-added docked Info DAT '{host_name}_info' -> {host_name}")
@@ -1678,18 +1703,20 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         # Shader DAT reference (pixeldat or shader_dat)
         shader_dat = params.get("pixeldat") or params.get("shader_dat") or op.get("shader_dat")
         if shader_dat:
-            lines.append(f"pixeldat 0 {shader_dat}")
+            lines.append(_parm_line("pixeldat", 0, shader_dat))
 
         # Resolution
         if "resolutionw" in params:
-            lines.append(f"resolutionw 0 {params['resolutionw']}")
+            lines.append(_parm_line("resolutionw", 0, params["resolutionw"]))
         if "resolutionh" in params:
-            lines.append(f"resolutionh 0 {params['resolutionh']}")
+            lines.append(_parm_line("resolutionh", 0, params["resolutionh"]))
 
-        # Other standard parameters
+        # Other standard parameters. Raw = no KB validation/auto-promotion (this early-
+        # return path deliberately bypasses _param_lines); serialization stays
+        # quoting-aware via _parm_line so a spaced value can't desync the file.
         for pname, pval in params.items():
             if pname not in ("pixeldat", "shader_dat", "resolutionw", "resolutionh"):
-                lines.append(f"{pname} 0 {pval}")
+                lines.append(_parm_line(pname, 0, pval))
 
         # Process uniforms array -> vec#name, vec#valuex/y/z/w format
         for idx, uni in enumerate(uniforms):
@@ -1706,7 +1733,7 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                 values = [0, 0, 0, 0]
 
             # Uniform name: vec{N}name
-            lines.append(f"vec{idx}name 0 {name}")
+            lines.append(_parm_line(f"vec{idx}name", 0, name))
 
             # Value components: vec{N}valuex, vec{N}valuey, vec{N}valuez, vec{N}valuew
             for i, comp in enumerate(['x', 'y', 'z', 'w']):
@@ -1722,11 +1749,12 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                     comp_expr = expr[i]
 
                 if comp_expr:
-                    # Mode 49 = Python expression
-                    lines.append(f"vec{idx}value{comp} 49 {v} {comp_expr}")
+                    # Mode 49 = Python expression (quoted -- a spaced expression
+                    # otherwise truncates AND desyncs every following param).
+                    lines.append(_parm_line(f"vec{idx}value{comp}", 49, v, comp_expr))
                 else:
                     # Mode 0 = constant (TD sometimes uses 32 for reference values)
-                    lines.append(f"vec{idx}value{comp} 0 {v}")
+                    lines.append(_parm_line(f"vec{idx}value{comp}", 0, v))
 
         lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(lines) + "\n")
@@ -1761,8 +1789,8 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             comps = comps[:4] if comps else [0]
             utype = uni.get("type") or type_by_n.get(len(comps), "float")
 
-            lines.append(f"vec{idx}name 0 {name}")
-            lines.append(f"vec{idx}type 0 {utype}")
+            lines.append(_parm_line(f"vec{idx}name", 0, name))
+            lines.append(_parm_line(f"vec{idx}type", 0, utype))
             for i, comp in enumerate(comps):
                 # Per-component expression: a single string applies to x; a list/dict maps
                 # by index/component (mode 49 = Python expression, else mode 0 = constant).
@@ -1774,9 +1802,9 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                 elif isinstance(expr, dict):
                     comp_expr = expr.get(suffixes[i])
                 if comp_expr:
-                    lines.append(f"vec{idx}value{suffixes[i]} 49 {comp} {comp_expr}")
+                    lines.append(_parm_line(f"vec{idx}value{suffixes[i]}", 49, comp, comp_expr))
                 else:
-                    lines.append(f"vec{idx}value{suffixes[i]} 0 {comp}")
+                    lines.append(_parm_line(f"vec{idx}value{suffixes[i]}", 0, comp))
         return lines
 
     # =========================================================================
@@ -1991,19 +2019,20 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                          f"{inner_type}\ntile {position[0]} {position[1]} 130 90\n"
                          f"flags =  parlanguage 0\nend\n")
 
-        # Placeholder .parm: RAW lines, bypassing _param_lines auto-detection.
+        # Placeholder .parm: raw = bypasses _param_lines auto-detection; serialization
+        # via _parm_line (quoting-aware).
         parm_lines = ["?"]
         if source == "user":
             expr = f"app.userPaletteFolder + '/{tox_path}'"
-            parm_lines.append(f'externaltox 49 "" {_td_quote_token(expr)}')
+            parm_lines.append(_parm_line("externaltox", 49, "", expr))
         elif source == "project":
-            parm_lines.append(f"externaltox 0 {_td_quote_token(tox_path)}")
+            parm_lines.append(_parm_line("externaltox", 0, tox_path))
         else:  # derivative (default)
             expr = f"app.samplesFolder + '/Palette/{tox_path}'"
-            parm_lines.append(f'externaltox 49 "" {_td_quote_token(expr)}')
-        parm_lines.append("enableexternaltox 0 on")
+            parm_lines.append(_parm_line("externaltox", 49, "", expr))
+        parm_lines.append(_parm_line("enableexternaltox", 0, "on"))
         if spec.get("wrapper") and spec.get("subcompname"):
-            parm_lines.append(f"subcompname 0 {_td_quote_token(str(spec['subcompname']))}")
+            parm_lines.append(_parm_line("subcompname", 0, str(spec["subcompname"])))
         parm_lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(parm_lines) + "\n")
 

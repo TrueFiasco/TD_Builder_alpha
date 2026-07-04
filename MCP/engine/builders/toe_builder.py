@@ -4,6 +4,18 @@ Supports two modes:
 1. LOSSLESS: Perfect round-trip from lossless_data (100% file reconstruction)
 2. BASIC: Generate minimal .toe from operators/connections (new networks)
 
+NOT ON THE MCP TOOL-HANDLER PATH (W2b audit, 2026-07): the MCP build tools
+(td_build_project / _run_build) go through ToxBuilder/ToeBuilderBridge in
+server_core/meta_agentic/execution/, NOT this class. But TOEBuilder is still a
+live USER surface -- it is the builder behind the documented offline-builder CLI
+launcher `Tools/offline Builder tools/td_build.py` (-> cli/td_build.py -> here;
+taught in Agents/td-builder-howto/SKILL.md), plus the td_fixture_pipeline round-trip
+tool and api/network_builder.py. That surface is safe because this class's own
+_td_quote_token/_td_format_value copies (below) quote correctly. The CANONICAL
+.parm line serializer is toe_builder_bridge._parm_line -- keep any future .parm
+emission here consistent with it (and prefer consolidating onto it) so a fix in
+one writer can't silently miss the other.
+
 Usage:
     builder = TOEBuilder(network)
     builder.build("output.toe")

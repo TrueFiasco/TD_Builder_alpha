@@ -2,6 +2,13 @@
 
 Converts a TDNetwork object back to the expanded .tox.dir/.toe.dir format
 with 100% fidelity, preserving all sections and file ordering.
+
+OUT OF SHIPPING PATH (W2b audit, 2026-07): no importers anywhere in the repo
+(MCP/, tests/, eval/, scripts/). Its .parm emission is NOT quoting-aware --
+values go raw into f-strings (_format_parameter/_format_parameter_value), so a
+value or expression containing a space would truncate and desync TD's .parm
+parser. Do NOT revive this module without routing every .parm body line through
+the canonical writer: server_core/meta_agentic/execution/toe_builder_bridge._parm_line.
 """
 
 import sys

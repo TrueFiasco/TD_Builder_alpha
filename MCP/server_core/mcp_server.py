@@ -107,11 +107,10 @@ except Exception as e:
     print(f"ERROR: Could not load unified graph query: {e}", file=sys.stderr)
     sys.exit(1)
 
-# META_AGENTIC_TOOL Expert Workflow Integration
+# META_AGENTIC_TOOL builders — the live .tox/.toe build path. td_build_project
+# and _run_build (both modes) depend on exactly these two imports, so the flag
+# gating them must not be coupled to any other module's importability.
 try:
-    from meta_agentic.execution.blackboard import Blackboard, SectionID
-    from meta_agentic.execution.metrics import MetricsCollector
-    from meta_agentic.execution.orchestrator import WorkflowOrchestrator, StrategyConfig
     from meta_agentic.execution.tox_builder import ToxBuilder
     from meta_agentic.execution.toe_builder_bridge import ToeBuilderBridge
     EXPERT_WORKFLOW_ENABLED = True
@@ -119,6 +118,18 @@ try:
 except ImportError as e:
     EXPERT_WORKFLOW_ENABLED = False
     print(f"WARNING: META_AGENTIC_TOOL not available: {e}", file=sys.stderr)
+
+# Workflow-orchestration modules — no tool path uses these today; imported
+# fail-soft so a breakage here can never disable the builders above.
+try:
+    from meta_agentic.execution.blackboard import Blackboard, SectionID
+    from meta_agentic.execution.metrics import MetricsCollector
+    from meta_agentic.execution.orchestrator import WorkflowOrchestrator, StrategyConfig
+    WORKFLOW_ORCHESTRATION_ENABLED = True
+except ImportError as e:
+    WORKFLOW_ORCHESTRATION_ENABLED = False
+    print(f"WARNING: meta_agentic orchestration modules not available "
+          f"(builders unaffected): {e}", file=sys.stderr)
 
 # Import unified_system components for validation and format conversion
 try:

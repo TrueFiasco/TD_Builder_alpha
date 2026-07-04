@@ -878,6 +878,27 @@ screenh 0 {resolution[1]}
         (self.project_dir / "perform").mkdir(exist_ok=True)
         self.log("  Created /perform window COMP")
 
+    def _flags_tokens(self, flags: dict) -> str:
+        """A design operator/container `flags` dict -> the TD `.n` `flags` tokens, returned
+        trailing-space-terminated so a call site writes `flags =  {tokens}parlanguage 0` and
+        collapses to the historical `flags =  parlanguage 0` byte-for-byte when no flags are set.
+
+        Ground-truthed from a real TD 2025.32820 save (NewProject.toe expanded via toeexpand):
+        node flags serialize as `<name> on` EXCEPT `viewer`, which is numeric `viewer 1`
+        (e.g. real geo1.n: `flags =  picked on current on render on display on parlanguage 0`;
+        a default viewer op: `flags =  viewer 1 parlanguage 0`). Emit order follows TD's observed
+        order (current, viewer, render, display, ...); `parlanguage 0` stays the trailing token at
+        the call site. `bypass`/`lock` were not present in that sample and use the boolean `on`
+        convention shared by every other boolean flag (they are not exercised by the release path).
+        """
+        if not flags:
+            return ""
+        parts = []
+        for key in ("current", "viewer", "render", "display", "bypass", "lock"):
+            if flags.get(key):
+                parts.append(f"{key} 1" if key == "viewer" else f"{key} on")
+        return (" ".join(parts) + " ") if parts else ""
+
     def _write_container(self, container: dict, parent_path: str):
         """Write a container and its operators."""
         name = container.get("name", "container")
@@ -912,10 +933,10 @@ screenh 0 {resolution[1]}
 
         self.log(f"  Creating container: {name} ({td_type}, {len(operators)} operators)")
 
-        # Write container .n file
+        # Write container .n file (honor the container's render/display/... flags — BUG-2)
         self._write_file(f"{container_path}.n", f"""{td_type}
 tile {position[0]} {position[1]} 200 150
-flags =  parlanguage 0
+flags =  {self._flags_tokens(container.get("flags", {}) or {})}parlanguage 0
 end
 """)
 
@@ -1281,10 +1302,10 @@ end
             params["outputattrs"] = "P"
             self.log(f"    Auto-set {name}.outputattrs = P (GLSL POP default)")
 
-        # Build .n file content
+        # Build .n file content (honor the operator's render/display/... flags — BUG-2)
         n_content = f"""{td_type}
 tile {position[0]} {position[1]} 130 90
-flags =  parlanguage 0
+flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
 """
 
         if inputs:

@@ -67,3 +67,54 @@ def test_toe_includes_perform_window(tmp_path):
     parm = (d / "perform.parm").read_text(encoding="utf-8")
     assert "winop 0 project1" in parm, parm  # the perform window displays the project root
     assert "perform.n" in (Path(tmp_path) / "pw.toe.toc").read_text(encoding="utf-8")
+
+
+# --- BUG-2: design flags {render,display,...} must reach the .n so a build renders ---
+# Token form ground-truthed from a real TD 2025.32820 save (NewProject.toe expand): booleans
+# serialize as `<name> on` except `viewer` -> `viewer 1`; `parlanguage 0` stays trailing; the
+# no-flags default is byte-identical `flags =  parlanguage 0` (two spaces after `=`).
+
+def test_toe_leaf_operator_flags_applied(tmp_path):
+    # A leaf COMP (no children) is written via _write_operator -> exercises that site.
+    d = _build_dir(tmp_path, {"operators": [
+        {"name": "geo1", "type": "geo", "family": "COMP",
+         "flags": {"render": True, "display": True}},
+    ]}, "flag_leaf")
+    n = (d / "project1" / "geo1.n").read_text(encoding="utf-8")
+    assert "flags =  render on display on parlanguage 0" in n, n
+
+
+def test_toe_container_with_children_flags_applied(tmp_path):
+    # The penrose geo1/circle1 case: a COMP-with-children delegates to _write_container (the
+    # container .n site), its child SOP goes through _write_operator. Both sites must honor flags.
+    d = _build_dir(tmp_path, {"operators": [
+        {"name": "geo1", "type": "geo", "family": "COMP",
+         "flags": {"render": True, "display": True},
+         "operators": [
+             {"name": "circle1", "type": "circle", "family": "SOP",
+              "flags": {"render": True, "display": True}},
+         ]},
+    ]}, "flag_cont")
+    geo = (d / "project1" / "geo1.n").read_text(encoding="utf-8")       # _write_container site
+    assert "flags =  render on display on parlanguage 0" in geo, geo
+    circ = (d / "project1" / "geo1" / "circle1.n").read_text(encoding="utf-8")  # _write_operator site
+    assert "flags =  render on display on parlanguage 0" in circ, circ
+
+
+def test_toe_viewer_flag_is_numeric(tmp_path):
+    # `viewer` is the one flag TD serializes numerically -> `viewer 1` (matches TD byte-for-byte).
+    d = _build_dir(tmp_path, {"operators": [
+        {"name": "m1", "type": "moviefilein", "family": "TOP", "flags": {"viewer": True}},
+    ]}, "flag_view")
+    n = (d / "project1" / "m1.n").read_text(encoding="utf-8")
+    assert "flags =  viewer 1 parlanguage 0" in n, n
+
+
+def test_toe_no_flags_byte_identical(tmp_path):
+    # Regression guard: with no flags the line is unchanged (two spaces after `=`). The helper
+    # owns the trailing separator so the empty case never grows a stray space.
+    d = _build_dir(tmp_path, {"operators": [
+        {"name": "n1", "type": "noise", "family": "CHOP"},
+    ]}, "flag_none")
+    n = (d / "project1" / "n1.n").read_text(encoding="utf-8")
+    assert "flags =  parlanguage 0\n" in n, repr(n)

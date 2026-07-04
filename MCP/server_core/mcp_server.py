@@ -41,15 +41,6 @@ sys.path.insert(0, str(UNIFIED_SYSTEM_ROOT))
 _real_stdout = sys.stdout
 sys.stdout = sys.stderr
 
-# Query tracker for Sweet 16 evolution
-try:
-    from meta_agentic.history.query_tracker import log_query, QueryTracker
-    QUERY_TRACKING_ENABLED = True
-    print("Query tracking enabled for Sweet 16 evolution", file=sys.stderr)
-except ImportError:
-    QUERY_TRACKING_ENABLED = False
-    def log_query(*args, **kwargs): pass
-
 try:
     from mcp.server import Server
     from mcp.server.stdio import stdio_server
@@ -119,18 +110,6 @@ except ImportError as e:
     EXPERT_WORKFLOW_ENABLED = False
     print(f"WARNING: META_AGENTIC_TOOL not available: {e}", file=sys.stderr)
 
-# Workflow-orchestration modules — no tool path uses these today; imported
-# fail-soft so a breakage here can never disable the builders above.
-try:
-    from meta_agentic.execution.blackboard import Blackboard, SectionID
-    from meta_agentic.execution.metrics import MetricsCollector
-    from meta_agentic.execution.orchestrator import WorkflowOrchestrator, StrategyConfig
-    WORKFLOW_ORCHESTRATION_ENABLED = True
-except ImportError as e:
-    WORKFLOW_ORCHESTRATION_ENABLED = False
-    print(f"WARNING: meta_agentic orchestration modules not available "
-          f"(builders unaffected): {e}", file=sys.stderr)
-
 # Import unified_system components for validation and format conversion
 try:
     from api.network_builder import NetworkBuilder
@@ -154,18 +133,6 @@ except (ImportError, FileNotFoundError) as e:
     _converter = None
     _validator = None
     print(f"WARNING: Unified system not available: {e}", file=sys.stderr)
-
-# Import meta_agentic compaction utilities (optional)
-try:
-    from meta_agentic.compaction import compact_events_to_state, refresh_legacy_yaml
-    HAS_COMPACTION = True
-    COMPACTION_IMPORT_ERROR = None
-    print("Meta-agentic compaction enabled", file=sys.stderr)
-except Exception as e:
-    HAS_COMPACTION = False
-    COMPACTION_IMPORT_ERROR = str(e)
-    print(f"WARNING: Compaction not available: {e}", file=sys.stderr)
-
 
 # Release root: honor the documented TD_BUILDER_ROOT relocation knob (see
 # MCP/README.md / Config/SETTINGS.md), else infer from this file's location
@@ -557,15 +524,6 @@ def execute_tool_for_agent(tool_name: str, tool_params: dict) -> Any:
 
         elif tool_name == "get_operator_info":
             operator_name = tool_params["operator_name"]
-            # Log query for Sweet 16 evolution tracking
-            if QUERY_TRACKING_ENABLED:
-                # Extract family from operator name or result
-                family = "UNKNOWN"
-                for fam in ["CHOP", "TOP", "SOP", "DAT", "COMP", "MAT", "POP"]:
-                    if fam.lower() in operator_name.lower():
-                        family = fam
-                        break
-                log_query(operator_name, family, source="claude_desktop", test_type="claude_desktop")
             # Use knowledge_graph (UnifiedGraphQuery) instead of hybrid_search
             return knowledge_graph.get_operator_info(operator_name)
             

@@ -105,9 +105,11 @@ cache — loud, healed on the next run.
 
 ## Retrieval-eval gate (kb-full)
 
-`run_eval.py` **overwrites `eval/baseline.json` in place when run with
-defaults** (known wart; the real fix rides work item 2c) and has no pass/fail
-semantics. The lane therefore:
+`run_eval.py` has no pass/fail semantics of its own. **W2c fixed the
+baseline-overwrite wart**: `--out` no longer defaults onto the committed
+`eval/baseline.json` (writing it is now the explicit `--write-baseline` opt-in),
+so the `--out`/`--stage-dir` redirect + `git status` guard below are now
+belt-and-braces rather than load-bearing. The lane therefore:
 
 1. runs `python eval/run_eval.py --backend enhanced --repeats 3` (median of 3
    subprocess trials) with `--out`/`--stage-dir` pointed at `$RUNNER_TEMP` —
@@ -209,14 +211,18 @@ save/restore, runner images, the HF download — is the unproven remainder.
 
 ## Extension points (documented, deliberately not built)
 
-- **Agent-eval Lane R** (work item 2c, `eval/agent_eval/`): joins
-  `kb-full.yml` as a follow-on job — commented stub at the bottom of that
-  workflow; needs an `ANTHROPIC_API_KEY` secret decision at that time. Lane M
-  stays out of CI by design.
+- **Agent-eval Lane R** (work item 2c, `eval/agent_eval/`): **LANDED** — runs in
+  `kb-full.yml` as a follow-on step (`--lane replay`), advisory
+  (`continue-on-error: true`) at bring-up, key-free and deterministic. Promotion
+  to blocking is a documented one-line flip once green twice; see
+  `eval/agent_eval/README.md` "CI placement & promotion path". Lane M
+  (model-in-the-loop) stays out of CI by design (D-F). No `ANTHROPIC_API_KEY`
+  secret is needed — Lane R uses no key, and Lane M runs on the maintainer
+  machine on the subscription.
 - **3b drift lint:** the non-negotiables section of
   `scripts/docs_lint_rules.json` ships with severity `off` entries naming
   today's duplicated MUST/NEVER rules; 3b single-sources them and flips
   severities — no lint-code change needed.
-- **2c run_eval fix:** when `--out` stops defaulting onto the committed
-  baseline, the kb-full redirect keeps working and merely stops being
-  load-bearing.
+- **2c run_eval fix:** **LANDED** — `--out` no longer defaults onto the committed
+  baseline (`--write-baseline` is the explicit opt-in); the kb-full redirect keeps
+  working and is now belt-and-braces rather than load-bearing.

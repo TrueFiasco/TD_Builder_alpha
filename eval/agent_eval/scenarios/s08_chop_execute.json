@@ -1,0 +1,73 @@
+{
+  "id": "s08_chop_execute",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier3",
+    "ladder:t09",
+    "callback",
+    "python"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline .tox build with a Python callback: lfo1 (an LFO CHOP) into null1 (a Null CHOP), and watcher1 — a CHOP Execute DAT — watching null1, with an onValueChange callback that pushes a value onto target1 (a Constant CHOP) whenever the channel crosses 0.5. Get the CHOP Execute setup from the KB (which parameter points it at the watched CHOP, and the real callback signature) — don't improvise it. Build as threshold_rig (mode tox) with output_dir {{RUN_DIR}} and validate.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "threshold_rig.tox",
+      "ops_present": [
+        {
+          "family": "CHOP",
+          "type": "lfo",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "null",
+          "min": 1
+        },
+        {
+          "family": "DAT",
+          "type": "chopexec",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "constant",
+          "min": 1
+        }
+      ],
+      "wires": [
+        {
+          "from_type": "CHOP:lfo",
+          "to_type": "CHOP:null"
+        }
+      ],
+      "parm_line_re": [
+        {
+          "file_glob": "**/watcher1.parm",
+          "re": "^chop 0 \\S*null1"
+        },
+        {
+          "file_glob": "**/watcher1.text",
+          "re": "def onValueChange"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

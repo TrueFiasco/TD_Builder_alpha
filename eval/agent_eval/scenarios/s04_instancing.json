@@ -1,0 +1,84 @@
+{
+  "id": "s04_instancing",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier2",
+    "ladder:t04",
+    "instancing",
+    "dat",
+    "mat"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline .tox build. Table-driven instancing: table1 (a Table DAT) holding a few rows of x/y/z positions, converted by chop1 (a DAT to CHOP) into channels, and geo1 (a Geometry COMP) instancing from it — instancing switched on, the instance data source pointed at chop1, and the per-instance translate channels hooked up. Shade it with phong1 (a Phong MAT) assigned to geo1. Do the KB homework first: Geo instancing parameter names are exactly the kind of thing that gets invented from memory — I want the real codes. Build as inst_rig (mode tox) with output_dir {{RUN_DIR}} and validate.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "inst_rig.tox",
+      "ops_present": [
+        {
+          "family": "DAT",
+          "type": "table",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "datto",
+          "min": 1
+        },
+        {
+          "family": "COMP",
+          "type": "geo",
+          "min": 1
+        },
+        {
+          "family": "MAT",
+          "type": "phong",
+          "min": 1
+        }
+      ],
+      "params": [
+        {
+          "op_type": "CHOP:datto",
+          "param": "dat",
+          "mode": 0,
+          "value_re": "\\S"
+        }
+      ],
+      "parm_line_re": [
+        {
+          "file_glob": "**/geo1.parm",
+          "re": "^instancing 0 (on|1)"
+        },
+        {
+          "file_glob": "**/geo1.parm",
+          "re": "^instanceop 0 \\S*chop1"
+        },
+        {
+          "file_glob": "**/geo1.parm",
+          "re": "^instancetx 0 \\S"
+        },
+        {
+          "file_glob": "**/geo1.parm",
+          "re": "^material 0 \\S*phong1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

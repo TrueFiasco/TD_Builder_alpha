@@ -1,0 +1,97 @@
+{
+  "id": "s05_palette_audio",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier2",
+    "ladder:t05",
+    "penrose:P04",
+    "regression:palette-v2",
+    "palette"
+  ],
+  "budgets": {
+    "timeout_s": 1200
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline build, and this one matters: I want Derivative's audioAnalysis palette component embedded BY NAME from my TD install — do not rebuild its guts from scratch. Call it analysis. Feed it: music (an Audio File In CHOP) wired into the analysis component's input. Tap it twice on the way out: the main analysis output into a null called bands, and the component's SECOND output into its own null called aux — picked by name, not by luck. Build the project as audio_rig (mode tox) with output_dir {{RUN_DIR}} and validate it. Then show me evidence from the built files themselves that the wiring both INTO and OUT of the component made it to disk — wires into embedded components have silently vanished on me before, so I want file-level proof, not reassurance.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "audio_rig.tox",
+      "ops_present": [
+        {
+          "family": "CHOP",
+          "type": "audiofilein",
+          "min": 1
+        },
+        {
+          "family": "COMP",
+          "type": "container",
+          "min": 1
+        },
+        {
+          "family": "CHOP",
+          "type": "null",
+          "min": 2
+        }
+      ],
+      "params": [
+        {
+          "op_type": "COMP:container",
+          "param": "externaltox",
+          "mode": 49,
+          "value_contains": "app.samplesFolder"
+        }
+      ],
+      "parm_line_re": [
+        {
+          "file_glob": "**/analysis.parm",
+          "re": "^enableexternaltox 0 on"
+        },
+        {
+          "file_glob": "**/analysis.parm",
+          "re": "^subcompname 0 audioAnalysis"
+        }
+      ],
+      "network_has": [
+        {
+          "file_glob": "**/analysis.network",
+          "block": "compinputs"
+        },
+        {
+          "file_glob": "**/analysis.network",
+          "re": "music"
+        }
+      ],
+      "n_file": [
+        {
+          "file_glob": "**/analysis.n",
+          "first_line": "COMP:container",
+          "not_re": "^inputs$"
+        },
+        {
+          "file_glob": "**/bands.n",
+          "re": "analysis/out1"
+        },
+        {
+          "file_glob": "**/aux.n",
+          "re": "analysis/out2"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "validate=null (not PASS): td_validate/ValidationPipeline cannot resolve wires that cross a palette/external_tox placeholder boundary (inner out-ops are invisible at design level) — verified 2026-07-04. The artifact-level .parm/.n/.network assertions are the ground truth here; product gap flagged in the W2c report."
+}

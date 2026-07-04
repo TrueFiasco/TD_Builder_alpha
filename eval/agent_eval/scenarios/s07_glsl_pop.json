@@ -1,0 +1,60 @@
+{
+  "id": "s07_glsl_pop",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier3",
+    "ladder:t08",
+    "glsl",
+    "pop",
+    "feedback"
+  ],
+  "budgets": {
+    "timeout_s": 1200
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline .tox build — a compute-shader particle sim. pointgen1 (a Point Generator POP) making the points, glsl1 (a GLSL POP) with a docked compute shader moving them, and feedback1 (a Feedback POP) closing the sim loop. Tune it with lfo1 (an LFO CHOP) through an Arrays-page uniform named uLfo — and mind the flipped trap versus the TOP: a GLSL POP AUTO-declares Arrays-page uniforms as float arrays, so the compute source must index uLfo[0] and must NOT redeclare 'uniform float uLfo' itself. Search the KB for GLSL POP exemplars before writing the shader. Build as particle_sim (mode tox) with output_dir {{RUN_DIR}} and validate.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "particle_sim.tox",
+      "ops_present": [
+        {
+          "family": "POP",
+          "type": "pointgen",
+          "min": 1
+        },
+        {
+          "family": "POP",
+          "type": "glsl",
+          "min": 1
+        },
+        {
+          "family": "POP",
+          "type": "feedback",
+          "min": 1
+        }
+      ],
+      "work_file_re": [
+        {
+          "file_glob": "**/shaders/*_compute.glsl",
+          "re": "uLfo\\[0\\]",
+          "not_re": "uniform\\s+float\\s+uLfo\\b"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

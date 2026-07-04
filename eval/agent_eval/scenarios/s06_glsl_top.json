@@ -1,0 +1,95 @@
+{
+  "id": "s06_glsl_top",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier3",
+    "ladder:t07",
+    "glsl",
+    "top"
+  ],
+  "budgets": {
+    "timeout_s": 1200
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "Offline .tox build, GLSL this time. noise1 (a Noise TOP) feeding glsl1 (a GLSL TOP) with a docked pixel shader you write. The shader must use a float uniform uPhase to modulate the output — and remember the trap: a GLSL TOP does NOT auto-declare Vectors-page scalar uniforms, the shader source has to declare uniform float uPhase itself, and the op's vector uniform name parameter has to say uPhase. Add lfo1 (an LFO CHOP) and drive the uniform's x value with a Python expression reading lfo1. Check the KB for the GLSL TOP setup before writing it. Build as glsl_look (mode tox) with output_dir {{RUN_DIR}} and validate.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "td_validate"
+      }
+    ],
+    "artifact": {
+      "tox": "glsl_look.tox",
+      "ops_present": [
+        {
+          "family": "TOP",
+          "type": "noise",
+          "min": 1
+        },
+        {
+          "family": "TOP",
+          "type": "glsl",
+          "min": 1
+        },
+        {
+          "family": "DAT",
+          "type": "text",
+          "min": 1
+        },
+        {
+          "family": "DAT",
+          "type": "info",
+          "min": 1
+        }
+      ],
+      "wires": [
+        {
+          "from_type": "TOP:noise",
+          "to_type": "TOP:glsl"
+        }
+      ],
+      "params": [
+        {
+          "op_type": "TOP:glsl",
+          "param": "vec0name",
+          "mode": 0,
+          "value": "uPhase"
+        },
+        {
+          "op_type": "TOP:glsl",
+          "param": "vec0valuex",
+          "mode": 49,
+          "value_contains": "lfo1"
+        },
+        {
+          "op_type": "TOP:glsl",
+          "param": "pixeldat",
+          "mode": 0,
+          "value_contains": "_pixel"
+        }
+      ],
+      "work_file_re": [
+        {
+          "file_glob": "**/shaders/*_pixel.glsl",
+          "re": "uniform\\s+float\\s+uPhase"
+        }
+      ],
+      "n_file": [
+        {
+          "file_glob": "**/glsl1_pixel.n",
+          "re": "^dock glsl1"
+        }
+      ]
+    },
+    "response": {
+      "must_match": [],
+      "must_not_match": []
+    },
+    "validate": "PASS"
+  }
+}

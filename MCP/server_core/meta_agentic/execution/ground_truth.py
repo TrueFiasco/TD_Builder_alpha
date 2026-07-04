@@ -12,7 +12,14 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Path to ground truth params
+# INERT SINCE BIRTH (W2a marker, 2026-07-04): this path resolves to
+# MCP/server_core/operator_ground_truth/params, which has never existed in any
+# release — load() warns "Ground truth directory not found" and every lookup
+# returns None, so ToeBuilderBridge._param_lines' validation layer fail-soft
+# passes params through unvalidated. The real corpus lives in the dev tree at
+# "New KB build/Resources/operator_ground_truth/params" (not shipped). Wiring
+# this against the real corpus is owned by remediation work item 3a; do not
+# point the path there ad hoc — the corpus isn't part of the release bundle.
 GROUND_TRUTH_DIR = Path(__file__).parent.parent.parent / "operator_ground_truth" / "params"
 
 

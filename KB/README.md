@@ -24,6 +24,7 @@ once populated. `python scripts/check_deps.py` confirms the result.
 | `lexical_index/bm25.pkl` (~8 MB) | BM25 lexical index backing hybrid (dense + sparse) retrieval | **fetched** |
 | `models/ms-marco-MiniLM-L-6-v2/` (~87 MB) | Bundled cross-encoder reranker (offline, key-free) | **fetched** |
 | `sources.lock.json` | Build provenance (pinned source revisions) | **fetched** |
+| `kb_receipt.json` | Load-time trust receipt — sha256 of the pickled artifacts, written by the fetch/build that produced them (machine-local, never committed) | written on fetch |
 | `wiki_supplemental/` | Hand-authored GLSL how-to guides (`Write_a_GLSL_TOP.md`, `Write_GLSL_POPs.md`, `Write_a_GLSL_Material.md`) | committed |
 | `docked_dats.json` | Per-op docked-DAT specs used by the builder | committed |
 | `manifest.json` | KB bundle metadata (sections, chunk histogram, retrieval stack) | committed |
@@ -42,10 +43,26 @@ same model — it does by default (`EMBEDDING_PROVIDER=local` in `Config/.env`).
 provider at a cloud model would mismatch the store and break search. This is what keeps the whole
 system key-free. (The bundled `models/` reranker is a *cross-encoder*, not the embedder.)
 
+## Pickle integrity (load-time trust boundary)
+
+The server **refuses to unpickle** `lexical_index/bm25.pkl` and
+`knowledge_graph_enhanced.gpickle` unless their sha256 matches `kb_receipt.json` here or the
+pinned `artifact_sha256` map in `scripts/vector_db_release.json`. A fetched release KB verifies
+automatically; if you rebuilt or hand-edited the KB, bless it with `python scripts/receipt_kb.py`
+(`--check` audits without writing). On refusal the server keeps running with that channel off:
+BM25 refused → dense-only search, graph refused → graph features off — the fix is a re-fetch or a
+receipt, never ignoring the error.
+
+**Scope:** this is defense-in-depth against a KB that arrived **corrupted through the distribution
+path** (a bad download — caught by the zip sha256 before extraction — or a poisoned build cache —
+caught here at load time). It is **not** protection against someone who can already write this
+folder: such an attacker can forge `kb_receipt.json` too, and write access to the install already
+means the machine is compromised.
+
 ## Notes
 
 - The bundle is version-pinned + sha256-verified in `scripts/vector_db_release.json`; a new KB build
-  bumps the tag + hash there.
+  bumps the tag + hash there **and** the `artifact_sha256` pins (`scripts/receipt_kb.py --print-pins`).
 - `sources/` (snippet/palette capture inputs) and the KB-build QA artifacts are **not shipped** — they
   live only in the dev repo.
 

@@ -16,6 +16,7 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from enhanced_graph_query import EnhancedGraphQuery  # noqa: E402
+import kb_integrity  # noqa: E402
 
 
 def _build(tmp_path):
@@ -32,6 +33,8 @@ def _build(tmp_path):
     p = tmp_path / "tiny.gpickle"
     with open(p, "wb") as f:
         pickle.dump(data, f)
+    # W2d trust boundary: unreceipted pickles are refused at load time
+    kb_integrity.write_receipt(tmp_path, source="test-fixture", artifacts=[p.name])
     return EnhancedGraphQuery(str(p))
 
 

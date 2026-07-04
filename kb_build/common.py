@@ -71,6 +71,30 @@ STORE_BUILD = "td_build"
 STORE_GUIDE = "td_guide"
 
 
+def write_kb_receipt(out_dir: Path, source: str):
+    """Bless a staged KB's pickled artifacts (W2d load-time trust boundary).
+
+    The runtime refuses to unpickle lexical_index/bm25.pkl and the gpickle
+    unless their sha256 matches <KB>/kb_receipt.json or the pinned release
+    manifest (scripts/vector_db_release.json artifact_sha256). A maintainer-
+    built KB matches no release pin, so every kb_build staging path ends by
+    writing this receipt; without it the server would boot dense-only with
+    graph features off.
+    """
+    import importlib.util
+    import sys
+    ki = sys.modules.get("td_kb_integrity")
+    if ki is None:
+        p = Path(__file__).resolve().parents[1] / "MCP" / "server_core" / "kb_integrity.py"
+        spec = importlib.util.spec_from_file_location("td_kb_integrity", str(p))
+        ki = importlib.util.module_from_spec(spec)
+        sys.modules["td_kb_integrity"] = ki
+        spec.loader.exec_module(ki)
+    rp = ki.write_receipt(Path(out_dir), source=source)
+    print(f"[receipt] {('wrote ' + str(rp)) if rp else 'no pickled artifacts found - nothing to receipt'}")
+    return rp
+
+
 def _norm(s: Optional[str]) -> str:
     """Comparison key identical to predicates._norm: lowercase, alnum only."""
     return re.sub(r"[^a-z0-9]", "", str(s).lower()) if s else ""

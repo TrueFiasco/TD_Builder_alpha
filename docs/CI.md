@@ -11,8 +11,8 @@ self-hosted** (pre-CLA public-PR RCE risk).
 | Job | Trigger | Runner | Deps | KB | Runs | Gate |
 |---|---|---|---|---|---|---|
 | `docs-lint` | PR + push | ubuntu | none (stdlib) | – | `python scripts/docs_lint.py` | exit code |
-| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **53** |
-| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **143** |
+| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **87** |
+| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **185** |
 | `kb-full` | nightly + dispatch | windows | full `pip install ".[dev]"` | cached release fetch + HF model cache | acceptance+measure, then retrieval eval vs committed baseline | 0 failures + pass floor **22**; `scripts/ci_compare_eval.py` exit code |
 
 **Runner rationale.** The repo is public (hosted minutes are free), so the
@@ -39,23 +39,26 @@ Two mechanisms, both required:
 1. `tests/conftest.py::pytest_collection_modifyitems` auto-marks any test
    using the `server`/`probe`/`live_server`/`live_probe` fixtures (the
    `server` fixture fails loudly without `KB/operators.json`).
-2. Module-level `pytestmark = pytest.mark.requires_kb` in the 14 test files
+2. Module-level `pytestmark = pytest.mark.requires_kb` in the 13 test files
    that read KB artifacts **directly** (offline `ToxBuilder`/
    `ToeBuilderBridge` builds resolve types against `KB/operators.json` at
    build time — fixture inspection cannot see that).
+   `test_import_isolation.py` is the one mixed file: its W2a absence pins are
+   hermetic source/path checks, so only its server-importing ground-state test
+   carries a per-test marker.
 
 Enforcement is physical, not honor-system: the hermetic runner **has no
 fetched KB and no ML deps**, so a mismarked test fails there loudly; it cannot
-silently pass. Measured partition (2026-07-04, condition-2 reconciliation):
-`tests/engine + tests/unit` collect **143** tests = **53 hermetic**
-(9 engine + 44 unit) + **90 requires_kb**.
+silently pass. Measured partition (2026-07-04, after W2b's GLSL suite + W2d's
++32 integrity tests): `tests/engine + tests/unit` collect **185** tests =
+**87 hermetic** (11 engine + 76 unit) + **98 requires_kb**.
 
 ## Floors (silent-shrink guards)
 
 | Floor | Value | Measured by | Meaning |
 |---|---|---|---|
-| hermetic collection | ≥ 53 | W1 rehearsal (53 passed, 90 deselected, light venv, no KB) | deselection can't quietly eat the lane |
-| engine-kb collection | ≥ 143 | W1 rehearsal (143 passed in light venv, KB present) | whole engine+unit surface stays collected |
+| hermetic collection | ≥ 87 | W1 (53) + W2a (+2) = 55; W2d +32 hermetic integrity tests → 87 (measured on the rebased tree: 87/185 collected, 98 deselected) | deselection can't quietly eat the lane |
+| engine-kb collection | ≥ 185 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185 (measured with KB present) | whole engine+unit surface stays collected |
 | kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 with live TD locally) | live tests may skip; offline coverage may not shrink |
 
 Raising a floor when tests are added is routine; **lowering one requires the
@@ -73,12 +76,27 @@ automatically. Never cache the whole `KB/` directory: tracked KB files
 from the checkout, or a stale cache could shadow a committed registry change.
 
 On cache miss, `python scripts/fetch_vector_db.py` downloads the public
-release asset and **sha256-verifies before extracting**; on cache hit its
-idempotency probe skips the download. **Trust note: cache-hit content is not
-re-verified** — it originated from a verified fetch, but nothing re-checks it
-at restore or load time. Work item **2d** (pickle/load-time trust boundary:
-`retrieval_stack.py` bm25.pkl, `enhanced_graph_query.py` gpickle) closes that
-residual when it lands.
+release asset and **sha256-verifies before extracting** (both the HTTPS path
+and the `gh` fallback), then pin-checks the pickled artifacts and writes
+`KB/kb_receipt.json`; on cache hit its idempotency probe skips the download.
+**Trust note (closed by W2d):** cache-hit content IS re-verified — at **load
+time**. Both runtime unpicklers (`retrieval_stack.py` bm25.pkl,
+`enhanced_graph_query.py` gpickle) hash the exact bytes before `pickle.loads`
+and require a match against `KB/kb_receipt.json` or the committed
+`artifact_sha256` pins in `scripts/vector_db_release.json`
+(`MCP/server_core/kb_integrity.py`). The receipt is deliberately **not** in
+the cache path list: restored pickles verify against the committed pins, so a
+poisoned cache entry is refused at load and the server degrades loudly
+(dense-only / graph-off) instead of loading a pickle that doesn't match the
+published one. Maintainer-built KBs are blessed by the `kb_build` receipts or
+`scripts/receipt_kb.py`; `TD_BUILDER_TRUST_KB=1` is the documented (loud) bypass.
+
+**Scope (honest threat model):** this closes the *poisoned-cache* residual —
+a shared CI cache is a different trust domain than the git-committed pin. It is
+defense-in-depth against transport / supply-chain corruption, **not** a defense
+against a local adversary who can already write the runner's `KB/` (that
+attacker can forge the receipt too). See the module docstring in
+`MCP/server_core/kb_integrity.py` for the full framing.
 
 The kb-full lane additionally caches `~/.cache/huggingface`: the MiniLM query
 encoder downloads from HuggingFace on the first run only (the cross-encoder
@@ -154,12 +172,19 @@ was written anticipating "a TD-free CI lane"). On hosted runners the 5
 `skipif`-guarded tests (`test_external_tox_manifest.py` ×3,
 `test_register_user_component.py` ×2) skip, plus in-test collapse assertions
 in `test_build_mode.py`/`test_import_isolation.py` downgrade gracefully.
-W1's local rehearsal ran with TD installed (143 passed, superset behavior);
-**the skip variant is confirmed at bring-up** (below). Acceptance P13/P14 are
-collapse-tolerant by design (no-error-envelope + pre-collapse `.dir`
-assertions); the live-tool tests (P10/P16–P19) *pass* on graceful degradation
-when TD is down — measured locally: 22 passed / 4 skipped (the skips are
-`test_live_auth.py`, which needs the live server).
+W1's local rehearsal ran with TD installed (143 passed, superset behavior).
+**Bring-up correction (2026-07-04):** the original "P13/P14 are
+collapse-tolerant by design" claim was **proven false by the first hosted
+kb-full run** — a real `.tox` requires TD's `toecollapse` ("headless yes,
+TD-free no"), and *TD-down is not TD-absent*: every prior machine had the
+binaries on disk. P13/P14 are collapse-tolerant **as of the bring-up fix**:
+on a machine where `resolve_td_tool("toecollapse")` is `None` they accept
+ONLY the collapse-class error envelope ("did not produce output file"), and
+P14 still runs its expand half against the pre-collapse `.dir` when present.
+With the binary available, any error still fails loudly. The live-tool tests
+(P10/P16–P19) *pass* on graceful degradation when TD is down — measured
+locally: 22 passed / 4 skipped (the skips are `test_live_auth.py`, which
+needs the live server).
 
 ## §Bring-up (post-push; owner/orchestrator — workflows only execute on origin)
 
@@ -172,10 +197,13 @@ when TD is down — measured locally: 22 passed / 4 skipped (the skips are
    cache run (KB download ~122 MB + MiniLM download); verify caches saved.
 5. `gh workflow run kb-full.yml --ref <seeded-branch>` → **red** (dispatch on
    a non-default ref is this lane's seeded-failure vehicle).
-6. Confirm the engine-kb run shows the expected TD-absent skip pattern
-   (~138 passed / 5 skipped) and the kb-full acceptance floor holds at 22.
-   If a runner-specific skip is discovered and judged legitimate, tune the
-   floor **with receipts** in the tuning commit.
+6. Confirm the engine-kb run shows the measured TD-absent pattern
+   (**135 passed / 8 skipped** after the builder-envelope bring-up fix
+   `a5c1de5`; the pre-fix prediction of ~138/5 undercounted the in-test
+   downgrades) and the kb-full acceptance floor holds at 22 (P13/P14 count
+   as tolerant passes on TD-absent runners after the bring-up fix). If a
+   runner-specific skip is discovered and judged legitimate, tune the floor
+   **with receipts** in the tuning commit.
 
 Until step 1 happens, everything above is proven only by local rehearsal
 (same commands, same env shape); the Actions plumbing itself — cache

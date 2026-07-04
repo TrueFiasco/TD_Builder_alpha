@@ -2,11 +2,11 @@
   "_comment": "Rule config for scripts/docs_lint.py (CI KB-free lane). Severities: 'error' fails the lint, 'warn' prints only, 'off' is documented-but-inactive. The non_negotiables section is the extension point for work item 3b (D2 instruction single-sourcing): 3b adds/canonicalizes entries and flips severity to 'error' — no lint-code change needed.",
 
   "scan": {
-    "_comment": "Default surface = every *.md under the repo except exclude_dirs, plus extra_files. eval/ and kb_build/ are internal harness dirs (their docs legitimately discuss removed/phantom patterns historically); KB/ is a fetched artifact dir.",
+    "_comment": "Default surface = every *.md under the repo except exclude_dirs, plus extra_files. eval/ and kb_build/ are internal harness dirs (their docs legitimately discuss removed/phantom patterns historically); KB/ is a fetched artifact dir; quarantine/ manifests dead code (W2a convention), so its README legitimately names removed patterns.",
     "exclude_dirs": [
       ".git", ".claude", ".venv", "venv", "__pycache__", ".pytest_cache",
       "node_modules", "KB", "New KB build", "eval", "kb_build",
-      "Output", "output", "build", "dist"
+      "Output", "output", "build", "dist", "quarantine"
     ],
     "extra_files": [
       "MCP/claude_desktop_config.json",

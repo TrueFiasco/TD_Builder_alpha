@@ -160,6 +160,17 @@ def test_p13_build_offline(probe):
                                         "mode": "tox"})
     # BASIC-mode parameter warnings are a documented limitation -> still PASS
     # as long as it produced output without an error envelope.
+    if not r.ok:
+        # A real .tox needs TD's toecollapse ("headless yes, TD-free no").
+        # On a machine WITHOUT the binary (hosted CI) the only acceptable
+        # failure is the collapse-class envelope; with the binary present,
+        # any error is a real regression.
+        from paths import resolve_td_tool
+        assert resolve_td_tool("toecollapse") is None, \
+            f"build errored WITH toecollapse available: {r.text[:300]}"
+        assert "did not produce output file" in r.text, \
+            f"non-collapse failure on a TD-absent machine: {r.text[:300]}"
+        return
     assert r.ok, f"build errored: {r.text[:300]}"
 
 
@@ -174,8 +185,19 @@ def test_p14_expand_toe_file(probe, tmp_path):
     b = probe.call("td_build_project", {"design": BUILD_DESIGN,
                                         "project_name": "expand_probe",
                                         "mode": "tox", "output_dir": str(tmp_path)})
-    assert b.ok, f"build errored: {b.text[:300]}"
+    if not b.ok:
+        # TD-absent tolerance (see test_p13): accept ONLY the collapse-class
+        # envelope, and only when toecollapse genuinely isn't on this machine.
+        # The pre-collapse .dir usually survives — if it does, the functional
+        # expand half below still runs at full strength, TD-free.
+        from paths import resolve_td_tool
+        assert resolve_td_tool("toecollapse") is None, \
+            f"build errored WITH toecollapse available: {b.text[:300]}"
+        assert "did not produce output file" in b.text, \
+            f"non-collapse failure on a TD-absent machine: {b.text[:300]}"
     dirs = list(tmp_path.glob("*.dir"))
+    if not b.ok and not dirs:
+        return  # graceful envelope verified; no pre-collapse dir left to expand
     assert dirs, f"build produced no .dir: {list(tmp_path.iterdir())}"
     s = probe.call("expand_toe_file", {"toe_path": str(dirs[0]), "mode": "summary"})
     assert s.ok, s.text[:300]

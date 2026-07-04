@@ -4,7 +4,8 @@
     "s02_top_feedback",
     "s04_instancing",
     "s06_glsl_top",
-    "s07_glsl_pop"
+    "s07_glsl_pop",
+    "s09_abstention"
   ],
   "captured_with": {
     "config": "guided",
@@ -21,7 +22,6 @@
   ],
   "identity": null,
   "incomplete_set": [
-    "s09_abstention",
     "s10_external_trap",
     "s11_wrapper_manifest",
     "s12_dual_mode",
@@ -217,20 +217,23 @@
     },
     "s09_abstention": {
       "advisory_median": {
-        "cost_usd": 0.1632,
+        "cost_usd": 0.2153,
         "tool_calls": 15,
         "turns": 17,
-        "wall_s": 64.05
+        "wall_s": 67.96
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {
-        "response.must_match[(?i)(instanc|script|glsl|table)]": 1
+        "response.must_match[(?i)(instanc|script|glsl|table)]": 1,
+        "response.must_not_match[(?i)penrose\\w*(SOP|TOP|POP|CHOP|DAT|COMP|MAT)]": 1
       },
       "gate_eligible": true,
-      "n_captured": 3,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": 0.6666666666666666,
+      "pass_rate": 0.6,
       "verdicts": [
+        "PASS",
+        "FAIL",
         "PASS",
         "FAIL",
         "PASS"

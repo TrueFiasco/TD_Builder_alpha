@@ -20,6 +20,10 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from validation.component_source_validator import ComponentSourceValidator  # noqa: E402
+from core.operator_registry import OperatorRegistry  # noqa: E402
+from core.format_converter import FormatConverter, extract_component_io  # noqa: E402
+from core.models import OperatorFamily  # noqa: E402
+from validation.pipeline import ValidationPipeline  # noqa: E402
 
 pytestmark = pytest.mark.requires_kb
 
@@ -93,7 +97,9 @@ def test_palette_zero_out_fires(validator):
     assert any(e.code == "COMPONENT_AS_SOURCE" for e in rep.errors), _codes(rep)
 
 
-def test_in_design_multi_out_comp_warns_not_errors(validator):
+def test_in_design_multi_out_comp_errors(validator):
+    # owner policy: an in-design container has no connector-truth ordering, so a bare
+    # multi-out source is ambiguous -> ERROR (the user must name which out).
     design = {"operators": [
         {"name": "grp", "type": "base", "family": "COMP", "operators": [
             {"name": "outA", "type": "out", "family": "CHOP"},
@@ -101,30 +107,36 @@ def test_in_design_multi_out_comp_warns_not_errors(validator):
         {"name": "n1", "type": "null", "family": "CHOP"},
     ], "connections": [{"from": "grp", "to": "n1"}]}
     rep = validator.validate(design)
-    assert rep.status == "PASS"   # advisory only (builder auto-binds the first)
-    assert any(w.code == "COMPONENT_AS_SOURCE" for w in rep.warnings), _codes(rep)
+    assert rep.status == "FAIL"
+    errs = [e for e in rep.errors if e.code == "COMPONENT_AS_SOURCE"]
+    assert errs and "outA" in errs[0].message and "outB" in errs[0].message, _codes(rep)
 
 
 # ---------------------------------------------------------------------------
 # QUIET on the resolvable cases the builder accepts (BUG-3 fixture shapes)
 # ---------------------------------------------------------------------------
-def test_single_out_palette_quiet(validator):
+def test_single_out_palette_warns_valid(validator):
+    # owner policy: a bare single-out source is buildable but implicit -> WARNING, VALID.
     design = {"operators": [
         {"name": "gen", "palette": "srcComp"},
         {"name": "n1", "type": "null", "family": "CHOP"},
     ], "connections": [{"from": "gen", "to": "n1"}]}
     rep = validator.validate(design)
-    assert rep.status == "PASS" and rep.errors == [] and rep.warnings == []
+    assert rep.status == "PASS" and rep.errors == []          # stays VALID
+    assert any(w.code == "COMPONENT_AS_SOURCE" for w in rep.warnings), _codes(rep)
+    assert any("gen/out1" in (w.suggestion or "") for w in rep.warnings), _codes(rep)
 
 
-def test_index_authority_multi_out_palette_quiet(validator):
-    # live-harvested multi-out: index order is connector truth → builder binds index 0.
+def test_index_authority_multi_out_palette_warns_valid(validator):
+    # live-harvested multi-out: index order IS connector truth → builder binds index 0
+    # deterministically → not ambiguous → WARNING (valid), not an error.
     design = {"operators": [
         {"name": "gen", "palette": "liveMulti"},
         {"name": "n1", "type": "null", "family": "CHOP"},
     ], "connections": [{"from": "gen", "to": "n1"}]}
     rep = validator.validate(design)
     assert rep.status == "PASS" and not rep.errors, _codes(rep)
+    assert any(w.code == "COMPONENT_AS_SOURCE" for w in rep.warnings), _codes(rep)
 
 
 def test_explicit_inner_out_ref_quiet(validator):
@@ -165,3 +177,110 @@ def test_wiring_into_bare_comp_is_not_flagged(validator):
     ], "connections": [{"from": "noise1", "to": "gen"}]}
     rep = validator.validate(design)
     assert rep.status == "PASS" and rep.errors == [], _codes(rep)
+
+
+# ===========================================================================
+# SHIPPED-PATH regression tests (W3a review). The bug that shipped: on the real
+# td_validate path the network is FLATTENED by FormatConverter.from_builder BEFORE
+# this stage runs, deleting a container's inner ops → the stage saw zero outs and
+# false-ERRORed valid, buildable designs. The bypass-the-converter tests above hid
+# it. These route through the actual tool path: from_builder -> ValidationPipeline.
+# ===========================================================================
+
+def _pipeline_report(design):
+    reg = OperatorRegistry()
+    net = FormatConverter(reg).from_builder(design)
+    return net, ValidationPipeline(reg).validate(net, "shipped_path")
+
+
+def _cw_stage(report):
+    st = [s for s in report.stages if s.stage == "component_wiring"]
+    assert st, [s.stage for s in report.stages]
+    return st[0]
+
+
+def _comp(name, inner_out_names):
+    return {"name": name, "type": "base", "family": "COMP",
+            "operators": [{"name": n, "type": "out", "family": "CHOP"} for n in inner_out_names]}
+
+
+def test_shipped_from_builder_preserves_component_io():
+    # the fix's mechanism: the inner outs survive conversion on custom_data even though the
+    # network itself is flattened to [/src, /dst].
+    net, _ = _pipeline_report({
+        "operators": [_comp("src", ["out1"]), {"name": "dst", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src", "to": "dst"}]})
+    assert [o.path for o in net.operators] == ["/src", "/dst"], "expected the flattened network"
+    src = next(o for o in net.operators if o.path == "/src")
+    assert src.custom_data.get("component_io") == {"kind": "comp", "out_ops": ["out1"], "in_ops": []}
+
+
+def test_shipped_single_out_bare_source_is_valid_with_warning():
+    _, rep = _pipeline_report({
+        "operators": [_comp("src", ["out1"]), {"name": "dst", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src", "to": "dst"}]})
+    assert rep.valid is True, [(e.stage, e.code, e.message) for e in rep.get_errors()]
+    cw = _cw_stage(rep)
+    assert cw.status == "PASS" and cw.errors == []
+    warns = [w for w in cw.warnings if w.code == "COMPONENT_AS_SOURCE"]
+    assert warns and "src/out1" in (warns[0].suggestion or ""), _codes(cw)
+
+
+def test_shipped_multi_out_bare_source_is_error():
+    _, rep = _pipeline_report({
+        "operators": [_comp("src", ["outA", "outB"]), {"name": "dst", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src", "to": "dst"}]})
+    cw = _cw_stage(rep)
+    assert cw.status == "FAIL"
+    errs = [e for e in cw.errors if e.code == "COMPONENT_AS_SOURCE"]
+    assert errs and "outA" in errs[0].message and "outB" in errs[0].message, _codes(cw)
+    assert rep.valid is False
+
+
+def test_shipped_zero_out_bare_source_is_error():
+    # a COMP that has inner ops but NO out op -> genuinely zero outputs -> ERROR.
+    src = {"name": "src", "type": "base", "family": "COMP",
+           "operators": [{"name": "mid", "type": "noise", "family": "CHOP"}]}
+    _, rep = _pipeline_report({
+        "operators": [src, {"name": "dst", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src", "to": "dst"}]})
+    cw = _cw_stage(rep)
+    assert cw.status == "FAIL"
+    assert any(e.code == "COMPONENT_AS_SOURCE" for e in cw.errors), _codes(cw)
+    assert rep.valid is False
+
+
+def test_shipped_explicit_inner_ref_is_component_wiring_clean():
+    # the recommended explicit form must draw NO finding from THIS stage (the reference
+    # stage's handling of flattened inner-op paths is a separate, pre-existing concern).
+    _, rep = _pipeline_report({
+        "operators": [_comp("src", ["out1", "out2"]), {"name": "dst", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src/out1", "to": "dst"}]})
+    cw = _cw_stage(rep)
+    assert cw.status == "PASS"
+    assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
+def test_shipped_flat_design_draws_no_component_finding():
+    # a normal flat CHOP->CHOP design must be untouched by this stage (no false positives).
+    _, rep = _pipeline_report({
+        "operators": [{"name": "a", "type": "noise", "family": "CHOP"},
+                      {"name": "b", "type": "null", "family": "CHOP"}],
+        "connections": [{"from": "a", "to": "b"}]})
+    cw = _cw_stage(rep)
+    assert cw.status == "PASS" and cw.errors == [] and cw.warnings == []
+    assert rep.valid is True
+
+
+def test_extract_component_io_unit():
+    # the converter helper in isolation.
+    assert extract_component_io({"external_tox": "x.tox"}, OperatorFamily.COMP) == {"kind": "external_tox"}
+    assert extract_component_io({"palette": "audioAnalysis"}, OperatorFamily.COMP) == {"kind": "palette", "palette": "audioAnalysis"}
+    assert extract_component_io({"type": "noise"}, OperatorFamily.CHOP) is None
+    got = extract_component_io(
+        {"type": "base", "family": "COMP",
+         "operators": [{"name": "out1", "type": "out", "family": "CHOP"},
+                       {"name": "in1", "type": "in", "family": "CHOP"},
+                       {"name": "mid", "type": "noise", "family": "CHOP"}]},
+        OperatorFamily.COMP)
+    assert got == {"kind": "comp", "out_ops": ["out1"], "in_ops": ["in1"]}

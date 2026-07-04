@@ -8,20 +8,28 @@ single inner out op, or FAILS LOUD naming the candidate inner ops). This validat
 static, pre-build half: it catches the same misuse at ``td_validate`` and reports it with
 the SAME vocabulary and candidate list, so a design gets the fix hint before a build runs.
 
-Policy — mirrors the builder exactly:
-  * source with an explicit inner ref (``comp/out1``) → OK.
-  * ``palette`` component (looked up in the shipped ``KB/palette_components.json``):
-      - 0 out ops                          → ERROR (nothing to source from);
-      - index-authority OR exactly 1 out   → OK (the builder auto-binds it);
-      - name-authority w/ >1 out ops       → ERROR listing the candidate out ops.
-    (``index_authority = harvest.method != "offline_manifest"`` — the builder's own rule.)
-  * ``external_tox`` component → SKIP: its interface needs a build-time toeexpand of the
-    referenced .tox, so the builder owns that fail-loud; the validator can't decide offline.
-  * plain ``COMP``-family op (no palette/external_tox):
-      - 0 inner out ops                    → ERROR (a bare/empty COMP is not a data source);
-      - exactly 1 inner out op             → OK (the builder resolves it);
-      - >1 inner out ops                   → WARNING (the builder auto-binds the first; name
-                                             it explicitly to be unambiguous).
+Policy (owner-set, W3a review) — judge a bare component SOURCE against its REAL inner outs,
+and prefer advisory over blocking so a VALID, buildable design is never rejected:
+  * explicit inner ref (``comp/out1``)     → clean (no finding).
+  * exactly ONE unambiguous output         → WARNING, design stays VALID. The builder
+                                             auto-resolves the bare form to ``comp/out1``; the
+                                             warning just advises the explicit reference so
+                                             validate and build agree.
+  * ZERO, or AMBIGUOUS multi-output        → ERROR (the user must name ``comp/<out>``).
+  * ``external_tox`` component             → defer: its interface lives in an external .tox
+                                             resolved at build via toeexpand — no validate-time
+                                             finding (the builder owns that fail-loud).
+"Unambiguous" multi-output = a live-harvested ``palette`` entry whose connector order IS
+index-truth (``harvest.method != "offline_manifest"`` → the builder binds index 0
+deterministically). An in-design container or a name-authority registration has no
+connector-truth ordering, so >1 output is genuinely ambiguous → ERROR.
+
+CRITICAL (fixed in W3a review): a bare-COMP source's inner ops are only visible when the
+DESIGN is present. ``FormatConverter.from_builder`` FLATTENS a container's inner ops away
+before this stage runs on the shipped ``td_validate`` path, which used to make every
+in-design COMP look like it had ZERO outs → false ERROR on valid designs. from_builder now
+stashes each component's interface on ``Operator.custom_data['component_io']``, read by the
+TDNetwork branch here, so the judgement sees the real outs.
 
 SHIPPED-DATA ONLY: reads ``KB/palette_components.json``, never the dev corpus.
 """
@@ -84,29 +92,28 @@ class ComponentSourceValidator:
     def _components_and_connections(self, network_json):
         """Return (components: name -> descriptor, connections: [(src, dst)]).
 
-        descriptor kinds: 'palette' {palette}, 'external_tox', 'comp' {out_ops}. For the
-        builder-dict form the full component context is present; for a converted TDNetwork
-        only plain COMP-family ops survive (palette/external_tox designs don't convert), so
-        we describe those from the network's operator paths."""
+        descriptor kinds: 'palette' {palette}, 'external_tox', 'comp' {out_ops}. Both the
+        builder-dict form and a converted TDNetwork carry the FULL component interface: the
+        dict form still has the inner ops inline; `from_builder` flattens them away, so it
+        stashes each component's interface on `Operator.custom_data['component_io']`
+        (FormatConverter.extract_component_io) — which is what we read here. Without that
+        stash a bare-COMP source looks like it has zero out ops and this stage would
+        false-reject a valid, buildable design (the builder auto-resolves it to comp/out1)."""
         components: dict[str, dict] = {}
         connections: list[tuple[str, str]] = []
 
         if isinstance(network_json, TDNetwork):
-            # basename -> op; find COMP-family ops and their inner out children by path.
-            by_path = {op.path: op for op in network_json.operators}
+            root = (network_json.metadata.root_comp or "").strip("/")
             for op in network_json.operators:
-                fam = op.family.value if hasattr(op.family, "value") else str(op.family or "")
-                if fam != "COMP":
+                cio = (getattr(op, "custom_data", None) or {}).get("component_io")
+                if not cio:
                     continue
                 name = op.path.rstrip("/").split("/")[-1]
-                prefix = op.path.rstrip("/") + "/"
-                out_ops = [p.split("/")[-1] for p, o in by_path.items()
-                           if p.startswith(prefix) and "/" not in p[len(prefix):]
-                           and _alnum(o.type) == _OUT_ALNUM]
-                components.setdefault(name, {"kind": "comp", "out_ops": out_ops})
+                components.setdefault(name, cio)
+            # normalise each connection source to 'comp' or 'comp/inner' (drop the abs-path
+            # root prefix) so the bare-vs-explicit test below is uniform with the dict form.
             for c in network_json.connections:
-                connections.append((c.source, c.target))
-            connections = [(s.split("/")[-1] if s else s, t) for s, t in connections]
+                connections.append((self._rel_source(c.source, root), c.target))
             return components, connections
 
         # builder-dict form: walk operators + containers (like _prepass_component_io)
@@ -142,40 +149,61 @@ class ComponentSourceValidator:
         # array is the documented form td_validate/td_build accept, so that's what we check.
         return components, connections
 
+    @staticmethod
+    def _rel_source(src, root: str) -> str:
+        """Normalise a connection source to 'comp' or 'comp/inner' by dropping the abs-path
+        root prefix, so the bare-vs-explicit test is uniform across dict and TDNetwork forms."""
+        segs = [s for s in str(src or "").split("/") if s]
+        if segs and root and segs[0] == root:
+            segs = segs[1:]
+        return "/".join(segs)
+
     # -- the rule ----------------------------------------------------------
+    #
+    # Owner policy (W3a review): a bare component SOURCE, judged against the component's real
+    # inner out ops —
+    #   * exactly one unambiguous output  -> WARNING, design stays VALID (the builder
+    #                                        auto-resolves it to comp/out1; validate + build agree);
+    #   * zero, or ambiguous multi-output -> ERROR (the user must name comp/<out>);
+    #   * external_tox (inner interface not in the design; resolved at build via toeexpand)
+    #                                     -> defer, no validate-time finding.
+    # "Unambiguous" multi-output = a live-harvested palette entry whose connector order IS
+    # index-truth (the builder binds index 0 deterministically); an in-design container or a
+    # name-authority registration has no connector-truth ordering, so multi-output is ambiguous.
     def _finding_for_source(self, base: str, desc: dict, idx: int):
-        kind = desc["kind"]
+        kind = desc.get("kind")
         if kind == "external_tox":
             return None  # builder owns this (needs the .tox manifest at build time)
 
         if kind == "palette":
-            info = self._palette_out_info(desc["palette"])
+            info = self._palette_out_info(desc.get("palette"))
             if info is None:
                 return None  # unknown palette name — semantic stage's concern
             outs, index_authority = info
-            if not outs:
-                return ("error", f"Cannot wire from component '{base}': a component is never "
-                        f"itself a data source, and palette component '{desc['palette']}' "
-                        f"contains no out operators.", None)
-            if index_authority or len(outs) == 1:
-                return None
-            return ("error", f"Cannot wire from component '{base}': a component is never itself "
-                    f"a data source; reference its inner out op. '{base}' has {len(outs)} out "
-                    f"ops: {outs}. Use an explicit source, e.g. \"from\": \"{base}/{outs[0]}\".",
-                    f"{base}/{outs[0]}")
+            what = f"palette component '{desc.get('palette')}'"
+        elif kind == "comp":
+            outs = [o for o in (desc.get("out_ops") or []) if o]
+            index_authority = False   # in-design output order is not connector-truth
+            what = f"component '{base}'"
+        else:
+            return None
 
-        # plain COMP
-        outs = desc.get("out_ops") or []
         if not outs:
             return ("error", f"Cannot wire from component '{base}': a component is never itself "
-                    f"a data source and '{base}' has no inner out operator. Add an Out op inside "
+                    f"a data source, and {what} has no inner out operator. Add an Out op inside "
                     f"it, or reference an explicit inner out op, e.g. \"from\": \"{base}/out1\".",
                     f"{base}/out1")
-        if len(outs) == 1:
-            return None
-        return ("warning", f"Wiring from bare component '{base}' is ambiguous: it has "
-                f"{len(outs)} out ops {outs}; the build binds the first. Name it explicitly, "
-                f"e.g. \"from\": \"{base}/{outs[0]}\".", f"{base}/{outs[0]}")
+        if len(outs) == 1 or index_authority:
+            # deterministic single/index-truth binding — buildable, but the bare form is
+            # implicit; advise the explicit reference (design stays VALID).
+            return ("warning", f"Wiring from bare component '{base}' binds its output "
+                    f"'{outs[0]}' implicitly — a component is never itself a data source. Name "
+                    f"it explicitly, e.g. \"from\": \"{base}/{outs[0]}\".", f"{base}/{outs[0]}")
+        # ambiguous multi-output — the user must say which.
+        return ("error", f"Cannot wire from component '{base}': a component is never itself a "
+                f"data source; reference its inner out op. {what} has {len(outs)} out ops: "
+                f"{outs}. Use an explicit source, e.g. \"from\": \"{base}/{outs[0]}\".",
+                f"{base}/{outs[0]}")
 
     def validate(self, network_json) -> StageReport:
         errors: list[ValidationError] = []

@@ -13,8 +13,13 @@ Two entry points (mirroring the two insertion sites in the approved plan):
   * check_design(design)  -> findings    (D2: a ValidationPipeline stage 2.5 would call this)
   * ground_design(design) -> design'      (D1: a build-time _map_op_type override)
 
-REPORT-ONLY: this module is standalone and is NOT wired into pipeline.py or
-toe_builder_bridge.py. Wiring is a reviewed follow-up (per the approved plan).
+SUPERSEDED (W3a): the reviewed follow-up shipped. The SHIPPED grounding validator now
+lives at MCP/engine/validation/grounding_validator.py — it grounds from the shipped
+KB/operators.json (build_token), is wired into ValidationPipeline as stage 2.5, and
+exposes ground_design() as the build-time-override twin of the builder's inline
+_grounded_build_token. THIS module stays as the gate-side prototype/demo only (it grounds
+against the dev corpus via gate_common.CanonicalMap, which is fine for the offline gate but
+must never ship); it is imported by nothing.
 
 Findings:
   BUILD_TOKEN_MISMATCH -- builder_token != captured n_token (the silent space-2 bug);

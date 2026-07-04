@@ -150,12 +150,26 @@ def main():
                   "reason": r.get("error", "")} for r in B if r.get("verdict") in ("LIVE_CREATE_FAIL", "NO_TD_CREATE")]
     wiki_pages = [r["op"] for r in live_fail if r["op"].lower().startswith(("write a", "anatomy"))]
 
+    # ---- residual triage: DOCUMENTED (expected) vs PRINCIPLED (regression) ----
+    expected_residuals, principled_failures = [], []
+    for r in A:
+        c = gc.classify_residual(r)
+        if c["kind"] == "expected":
+            expected_residuals.append({"op": r["op"], "family": r["family"], "class": c["cls"],
+                                       "codes": c.get("codes", []), "reason": c["reason"]})
+        elif c["kind"] == "principled":
+            principled_failures.append({"op": r["op"], "family": r["family"],
+                                        "verdict": r.get("verdict"), "codes": c.get("codes", [])})
+
     # ---- verdict ----
     offline_token_rate = rate(a_tok_ok, a_tok_chk)
     offline_pass_rate = rate(a_pass, len(A))
     live_pass_rate = rate(b_pass, b_creatable)
+    # A clean gate: rate thresholds met AND zero PRINCIPLED failures (every remaining
+    # non-PASS op is a documented, allowlisted residual — not a regression).
     gate_pass = (offline_token_rate or 0) >= THRESH["offline_token_exact"] and \
-                (offline_pass_rate or 0) >= THRESH["offline_pass"]
+                (offline_pass_rate or 0) >= THRESH["offline_pass"] and \
+                len(principled_failures) == 0
 
     payload = {
         "gate": "TD Builder build-correctness pre-release gate",
@@ -179,6 +193,12 @@ def main():
                                                   and r.get("token_exact") and r.get("params", {}).get("n_dropped", 0) == 0
                                                   and r.get("params", {}).get("n_value_mismatch", 0) == 0),
             "validate_pass_with_correct_token": sum(1 for r in A_nt if r.get("validate", {}).get("pass")),
+        },
+        "residual_triage": {
+            "expected_documented": len(expected_residuals),
+            "principled_failures": len(principled_failures),
+            "expected": expected_residuals,
+            "principled": principled_failures,
         },
         "release_verdict": "PASS" if gate_pass else "FAIL",
         "thresholds": THRESH,
@@ -232,6 +252,14 @@ def main():
         f"| PASS | {b_pass}/{b_creatable} creatable ({live_pass_rate}) |",
         f"| verdicts | {dict(b_verdicts)} |",
         f"| **cross-check** | of {len(mism)} offline token-mismatches, **{payload['cross_check']['all_confirmed_live_correct']}** confirmed: live builds the CORRECT token (offline is the defect) |",
+        "",
+        "## Residual triage (documented vs principled)", "",
+        f"- **Principled failures (regressions to investigate): {len(principled_failures)}** — "
+        "must be 0 for a clean gate. Every remaining non-PASS op below is an allowlisted, "
+        "root-caused residual (`gate_common.EXPECTED_RESIDUALS`), not a builder-code defect.",
+        f"- Expected residuals (documented): {len(expected_residuals)} — "
+        + ("; ".join(f"{r['op']} [{r['class']}]: {r['reason']}" for r in expected_residuals) or "none")
+        + ".",
         "",
         "## By family (offline | live)", "",
         "| family | ops | offline token-exact | offline PASS | live PASS |", "|---|---|---|---|---|",
@@ -306,6 +334,9 @@ def main():
 
     print("RELEASE VERDICT:", payload["release_verdict"])
     print(f"  offline: token-exact {a_tok_ok}/{a_tok_chk} ({offline_token_rate}), PASS {a_pass}/{len(A)} ({offline_pass_rate})")
+    print(f"  residual triage: {len(expected_residuals)} documented, {len(principled_failures)} PRINCIPLED (must be 0)")
+    if principled_failures:
+        print("  ⚠ PRINCIPLED FAILURES:", ", ".join(f"{r['op']}({r['verdict']})" for r in principled_failures))
     print(f"  live:    PASS {b_pass}/{b_creatable} ({live_pass_rate})")
     print(f"  cross-check: {payload['cross_check']['all_confirmed_live_correct']}/{len(mism)} offline mismatches confirmed live-correct")
     print(f"  fixes: {len(internal_name_map_additions)} INTERNAL_NAME_MAP + {len(ambiguous_additions)} AMBIGUOUS additions")

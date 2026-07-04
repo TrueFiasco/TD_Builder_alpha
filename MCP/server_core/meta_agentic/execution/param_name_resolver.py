@@ -119,6 +119,16 @@ def _kb_op_name(op_type: str, op_family: str) -> str:
 # USER-FRIENDLY ALIASES
 # These are explicit overrides for common user inputs that don't match
 # display names exactly. Manually curated based on common usage patterns.
+#
+# INVARIANT: an alias TARGET must be a real TD parameter code. An alias whose
+# target does not exist silently DROPS the parameter (the builder emits a bogus
+# code TD ignores on load). W3a removed three stale blocks that violated this —
+# each remapped a real code onto a non-existent one, proven against the live-TD
+# capture (build gate Track A):
+#   trim_chop  start/end/source -> t0start/t0end/t0source  (Trim CHOP uses start/end)
+#   blur_top   size/filtersize  -> filterwidth             (Blur TOP uses size)
+#   hsvadjust  hueoffset        -> hueoff                   (HSV Adjust uses hueoffset)
+# When adding an alias, verify the target against operator_ground_truth params.
 # ============================================================================
 
 USER_FRIENDLY_ALIASES = {
@@ -150,12 +160,6 @@ USER_FRIENDLY_ALIASES = {
         "harmonics": "harmon",
         "roughness": "rough",
         "exponent": "exp",
-    },
-
-    # Blur TOP
-    "blur_top": {
-        "size": "filterwidth",
-        "filtersize": "filterwidth",
     },
 
     # Transform TOP
@@ -198,13 +202,6 @@ USER_FRIENDLY_ALIASES = {
         "numchannels": "channels",
     },
 
-    # Trim CHOP - indexed parameters
-    "trim_chop": {
-        "source": "t0source",
-        "start": "t0start",
-        "end": "t0end",
-    },
-
     # Math CHOP
     "math_chop": {
         "combine": "combine",
@@ -243,13 +240,6 @@ USER_FRIENDLY_ALIASES = {
     "kaleidoscope_top": {
         "numcopies": "copies",
         "copies": "copies",
-    },
-
-    # HSV Adjust TOP
-    "hsvadjust_top": {
-        "hueoffset": "hueoff",
-        "satoffset": "satoff",
-        "valoffset": "valoff",
     },
 
     # Displace TOP

@@ -192,6 +192,10 @@ def main():
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     write_sources_lock(inputs, out_dir)
+    # W2d: receipt the staged pickles LAST so it hashes the final bytes
+    # (graph rebuilt above, bm25 built above). Without this the runtime
+    # refuses to unpickle a maintainer-built KB.
+    C.write_kb_receipt(out_dir, "kb_build")
     print(f"\n[staged] {out_dir}")
     print(f"  manifest.json  sources.lock.json  operators.json  vector_db/  knowledge_graph_enhanced.gpickle")
 

@@ -41,9 +41,10 @@ jobs:
       - name: Install full deps (pyproject + dev extra)
         run: pip install ".[dev]"
       # Same fetched-artifacts-only cache as ci.yml (never the whole KB/ dir —
-      # tracked KB files must come from the checkout). Cache-hit content is not
-      # re-verified (it originated from a sha256-verified fetch); work item 2d
-      # closes that residual at load time.
+      # tracked KB files must come from the checkout). Restored pickles are
+      # re-verified at LOAD time against the committed artifact_sha256 pins
+      # (W2d, MCP/server_core/kb_integrity.py); the receipt sidecar is
+      # deliberately NOT cached — the pins are the CI anchor.
       - name: Restore KB (release asset, keyed by the pinned sha256)
         uses: actions/cache@v4
         with:

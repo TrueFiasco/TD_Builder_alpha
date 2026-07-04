@@ -469,12 +469,14 @@ def _load_kb():
 
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
-# cowork; see docs/NON_NEGOTIABLES.md). The loader fails soft to a baked-in
-# minimal string, so a partial install still starts.
+# cowork; see docs/NON_NEGOTIABLES.md). This is the OFFLINE `td-builder` server,
+# so it loads scope="offline" -> the [always] rules only (grounding + build; the
+# running-TD gotchas are carried by td-builder-live). The loader fails soft to a
+# baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions  # noqa: E402
 
-_NON_NEGOTIABLES = load_instructions(_RELEASE_ROOT)
+_NON_NEGOTIABLES = load_instructions(_RELEASE_ROOT, scope="offline")
 app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
 
 SERVER_NAME = "touchdesigner-mcp-server"
@@ -2077,8 +2079,10 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "td_live_enabled": TD_LIVE_ENABLED,
                     # Pull-side delivery of the non-negotiables (D2 / item 3b): the
                     # only channel that reaches surfaces where `instructions=` is
-                    # dropped (Claude Desktop chat, Cursor). Full text + canonical
-                    # file so the model can recover the rules after compaction.
+                    # dropped (Claude Desktop chat, Cursor). This is the offline
+                    # server, so it returns the offline-scoped payload (== this
+                    # server's own instructions=) so the model can recover the
+                    # rules after compaction.
                     "non_negotiables": _NON_NEGOTIABLES,
                     "non_negotiables_file": "docs/NON_NEGOTIABLES.md",
                 },

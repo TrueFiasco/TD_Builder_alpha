@@ -17,7 +17,7 @@ A validated plan from the planning step with:
 
 **TouchDesigner menu parameters use STRING TOKENS, not integers!**
 
-This is the #1 cause of build failures — menu/enum params take string tokens, not integer indices (non-negotiable #2; canonical: docs/NON_NEGOTIABLES.md).
+This is the #1 cause of build failures — menu/enum params take string tokens, not integer indices (a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 | WRONG | CORRECT |
 |-------|---------|
@@ -1301,7 +1301,7 @@ if not result['valid']:
 
 ## MANDATORY: ALL OUTPUTS TO NETWORK_BUILDER
 
-**HARD RULE: every design spec MUST reach network_builder and end in a td_build_project tool call** (non-negotiable #6; canonical: docs/NON_NEGOTIABLES.md).
+**HARD RULE: every design spec MUST reach network_builder and end in a td_build_project tool call** (a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 This rule applies to ALL designs, including single-operator networks.
 
@@ -1352,7 +1352,7 @@ This produces: `/output/simple_noise.tox` via network_builder → td_build_proje
 | **Technical** ("audio reactive loop") | YES | **NO - NEVER** |
 | **Creative** ("make galaxies") | NO - do creative ideation first | **NO - NEVER** |
 
-The **build pipeline (td_designer -> network_builder -> td_build_project) is never skipped or collapsed** (non-negotiable #6; canonical: docs/NON_NEGOTIABLES.md).
+The **build pipeline (td_designer -> network_builder -> td_build_project) is never skipped or collapsed** (a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 Only the creative ideation phase is optional for simple/technical requests.
 

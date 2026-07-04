@@ -27,9 +27,10 @@ from mcp.types import Tool, TextContent  # noqa: E402
 import td_live_client  # noqa: E402
 from server_instructions import load_instructions  # noqa: E402
 
-# D2 (harness item 3b): same single-sourced non-negotiables as the offline
-# server, delivered on the always-on `instructions=` channel. Fail-soft baked in.
-app = Server("td-builder-live", instructions=load_instructions())
+# D2 (harness item 3b): same single-sourced non-negotiables file, but this is the
+# LIVE server, so scope="live" -> [always] + [live-only] (adds the running-TD
+# gotchas: GLSL info-DAT, save, place, flat exec scope). Fail-soft baked in.
+app = Server("td-builder-live", instructions=load_instructions(scope="live"))
 
 
 @app.list_tools()

@@ -101,8 +101,7 @@ def checkpoint(run_id: str, n_expected: int, bless: bool) -> dict:
     out = {
         "_checkpoint": True,
         "captured_with": {"lane": "model", "n": n_expected, "config": "guided",
-                          "run_id": run_id, "status": "IN-PROGRESS (partial "
-                          "checkpoint — reconstructed from on-disk trials)"},
+                          "run_id": run_id, "status": None},   # set after the loop
         "identity": identity,
         "scenarios": {}, "gate_set": [], "aspirational_set": [],
         "unmeasurable_set": [], "incomplete_set": [],
@@ -152,6 +151,10 @@ def checkpoint(run_id: str, n_expected: int, bless: bool) -> dict:
                               if r["verdict"] == "PASS" and r.get("lane") == "model")
             blessed += 1 if _bless_from(first_pass, sid, sc["version"]) else 0
 
+    out["captured_with"]["status"] = (
+        "COMPLETE (reconstructed from on-disk trials by checkpoint.py)"
+        if not out["incomplete_set"]
+        else "IN-PROGRESS (partial checkpoint — reconstructed from on-disk trials)")
     BASELINE_PATH.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n",
                              encoding="utf-8")
     out["_meta_total_trials"] = total_trials

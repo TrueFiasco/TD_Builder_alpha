@@ -16,11 +16,11 @@
   "gate_set": [
     "s01_chop_chain",
     "s03_sop_displace",
-    "s05_palette_audio"
+    "s05_palette_audio",
+    "s08_chop_execute"
   ],
   "identity": null,
   "incomplete_set": [
-    "s08_chop_execute",
     "s09_abstention",
     "s10_external_trap",
     "s11_wrapper_manifest",
@@ -195,18 +195,19 @@
     },
     "s08_chop_execute": {
       "advisory_median": {
-        "cost_usd": 0.2962,
-        "tool_calls": 19.5,
-        "turns": 23.5,
-        "wall_s": 110.3
+        "cost_usd": 0.2668,
+        "tool_calls": 17,
+        "turns": 21,
+        "wall_s": 100.29
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 4,
+      "n_captured": 5,
       "n_expected": 5,
       "pass_rate": 1.0,
       "verdicts": [
+        "PASS",
         "PASS",
         "PASS",
         "PASS",
@@ -216,18 +217,24 @@
     },
     "s09_abstention": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.1632,
+        "tool_calls": 15,
+        "turns": 17,
+        "wall_s": 64.05
       },
       "complete": false,
-      "failure_fingerprints": {},
+      "failure_fingerprints": {
+        "response.must_match[(?i)(instanc|script|glsl|table)]": 1
+      },
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 3,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 0.6666666666666666,
+      "verdicts": [
+        "PASS",
+        "FAIL",
+        "PASS"
+      ],
       "version": 1
     },
     "s10_external_trap": {

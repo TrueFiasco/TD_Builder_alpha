@@ -31,10 +31,28 @@ from __future__ import annotations
 import json
 import math
 import os
-import pickle
 import re
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional
+
+
+def _kb_integrity():
+    """File-relative import of server_core/kb_integrity.py (W2d trust boundary).
+
+    This module is itself exec'd standalone via spec_from_file_location
+    (unified_search does so), so package-relative imports are unavailable;
+    resolve the sibling by path and memoize under a distinctive key.
+    """
+    import importlib.util
+    mod = sys.modules.get("td_kb_integrity")
+    if mod is None:
+        p = Path(__file__).resolve().parent.parent / "kb_integrity.py"
+        spec = importlib.util.spec_from_file_location("td_kb_integrity", str(p))
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["td_kb_integrity"] = mod
+        spec.loader.exec_module(mod)
+    return mod
 
 # Query tokenizer — MUST match kb_build/build_bm25.TOKENIZER_PATTERN exactly
 # (asserted against the value stored in the pickle at load time).
@@ -184,8 +202,18 @@ class RetrievalStack:
             print(f"[retrieval_stack] no BM25 index at {pkl}; dense-only lexical channel disabled")
             return
         try:
-            with open(pkl, "rb") as f:
-                data = pickle.load(f)
+            # W2d trust boundary: a bm25.pkl that arrived corrupted through the
+            # distribution path (bad download / poisoned cache) would execute
+            # arbitrary objects at unpickle time, so the bytes are hashed against
+            # the KB receipt / pinned release manifest BEFORE unpickling (same
+            # bytes — no verify-then-reopen race). Refusal degrades to the
+            # dense-only ladder below instead of loading.
+            data, verdict = _kb_integrity().load_verified_pickle(pkl, self.kb_root)
+            if data is None:
+                print(f"[retrieval_stack] SECURITY: {verdict.reason}")
+                print("[retrieval_stack] BM25 index REFUSED (integrity); "
+                      "lexical channel disabled - continuing DENSE-ONLY")
+                return
             pat = data.get("tokenizer_pattern")
             if pat and pat != _TOKEN_RE.pattern:
                 print(f"[retrieval_stack] WARNING: BM25 tokenizer pattern {pat!r} != "

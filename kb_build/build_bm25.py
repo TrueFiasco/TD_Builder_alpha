@@ -96,3 +96,6 @@ if __name__ == "__main__":
     args = ap.parse_args()
     res = build_from_vectordb(Path(args.kb))
     print(f"[bm25] indexed {res['count']} rows -> {res['path']} ({res['size_bytes']/1e6:.2f} MB)")
+    # standalone rebuild replaced bm25.pkl in an existing KB -> re-receipt it
+    # (inside build_kb the final kb_build receipt covers this instead)
+    C.write_kb_receipt(Path(args.kb), "build_bm25")

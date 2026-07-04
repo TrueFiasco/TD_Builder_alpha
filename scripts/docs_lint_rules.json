@@ -1,0 +1,130 @@
+{
+  "_comment": "Rule config for scripts/docs_lint.py (CI KB-free lane). Severities: 'error' fails the lint, 'warn' prints only, 'off' is documented-but-inactive. The non_negotiables section is the extension point for work item 3b (D2 instruction single-sourcing): 3b adds/canonicalizes entries and flips severity to 'error' — no lint-code change needed.",
+
+  "scan": {
+    "_comment": "Default surface = every *.md under the repo except exclude_dirs, plus extra_files. eval/ and kb_build/ are internal harness dirs (their docs legitimately discuss removed/phantom patterns historically); KB/ is a fetched artifact dir.",
+    "exclude_dirs": [
+      ".git", ".claude", ".venv", "venv", "__pycache__", ".pytest_cache",
+      "node_modules", "KB", "New KB build", "eval", "kb_build",
+      "Output", "output", "build", "dist"
+    ],
+    "extra_files": [
+      "MCP/claude_desktop_config.json",
+      "Config/.env.template",
+      "Config/search_config.json"
+    ]
+  },
+
+  "tool_counts": {
+    "_comment": "Ground truth is parsed from the registries (Tool(name=...) literals); docs claims must match. If a wave deliberately changes the tool surface, bump expected_* here AND update every claim_files doc (mirrors tests/acceptance P01b). allowed = {offline, live, offline+live}. Claim lines are lines containing 'tool' plus a context word, so category headers like 'KB tools (10)' don't false-positive.",
+    "expected_offline": 17,
+    "expected_live": 19,
+    "offline_registry": "MCP/server_core/mcp_server.py",
+    "live_registry": "MCP/live_client/td_live_client.py",
+    "claim_context_regex": "offline|live|key-free|td-builder",
+    "claim_files": [
+      "README.md",
+      "MCP/README.md",
+      "MCP/COMM_LAYER.md",
+      "Tools/TOOLS.md",
+      "tests/README.md",
+      "docs/KNOWN_ISSUES.md",
+      "docs/AUDIT_FOLLOWUP.md",
+      "docs/SETUP/claude-desktop.md",
+      "docs/SETUP/chatgpt-desktop.md",
+      "docs/SETUP/cursor.md",
+      "Agents/td-builder-howto/SKILL.md"
+    ]
+  },
+
+  "phantom_patterns": [
+    {
+      "id": "console-shims",
+      "regex": "\\btd-(?:build|convert|validate)\\b",
+      "message": "phantom console command: pyproject packages=[] installs no CLI shims; docs must say 'python <path>' (purged in c9f8c0d)",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md"]
+    },
+    {
+      "id": "dead-config-knobs",
+      "regex": "\\b(?:CACHE_ENABLED|QUERY_TIMEOUT_MS|CACHE_TTL_HOURS)\\b",
+      "message": "config knob for a nonexistent subsystem (removed from Config/search_config.json in c9f8c0d)",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md"]
+    },
+    {
+      "id": "cloud-embedding-providers",
+      "regex": "(?:VOYAGE|COHERE|OPENAI)_API_KEY|\\bvoyage-\\d|\\bCohere\\b",
+      "message": "cloud embedding provider reference: the story is local-only (provider knobs purged in c9f8c0d)",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md"]
+    },
+    {
+      "id": "dotenv",
+      "regex": "python-dotenv|load_dotenv|from\\s+dotenv\\s+import",
+      "message": "python-dotenv was dropped; a tiny built-in parser reads Config/.env (c9f8c0d)",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md"]
+    },
+    {
+      "id": "root-env-template",
+      "regex": "\\.[/\\\\]\\.env\\.template",
+      "message": "root ./.env.template was deleted; the canonical template is Config/.env.template",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md", "Config/.env.template", "docs/AUDIT_FOLLOWUP.md"]
+    },
+    {
+      "id": "server-core-search-config",
+      "regex": "server_core[/\\\\](?:config[/\\\\])?search_config\\.json",
+      "message": "deleted duplicate config path; canonical is Config/search_config.json",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md", "docs/AUDIT_FOLLOWUP.md"]
+    },
+    {
+      "id": "extended-format-supported",
+      "regex": "to_extended\\(\\)|format_layer\\s*=\\s*[\"']extended[\"']|--format\\s+extended",
+      "message": "'extended' is internal-only and returns NOT_IMPLEMENTED; docs must not present it as supported",
+      "severity": "error",
+      "allow_files": ["CHANGELOG.md", "docs/KNOWN_ISSUES.md", "docs/AUDIT_FOLLOWUP.md"]
+    }
+  ],
+
+  "client_config": {
+    "_comment": "The venv trap: system 'python' has no deps. Client-config snippets must point at the venv interpreter.",
+    "regex": "\"command\"\\s*:\\s*\"(?:python|python3|py)(?:\\.exe)?\"",
+    "message": "client config uses a bare python command; must be the venv interpreter path (e.g. .venv\\Scripts\\python.exe)",
+    "severity": "error",
+    "files": [
+      "README.md",
+      "MCP/README.md",
+      "MCP/claude_desktop_config.json",
+      "docs/SETUP/claude-desktop.md",
+      "docs/SETUP/chatgpt-desktop.md",
+      "docs/SETUP/cursor.md"
+    ]
+  },
+
+  "non_negotiables": [
+    {
+      "id": "menu-params-never-integer",
+      "pattern": "[Mm]enu parameters NEVER accept integer indices",
+      "canonical_file": "Agents/experts/td_designer/build.md",
+      "severity": "off",
+      "note": "Currently legitimately restated across expert prompts. 3b single-sources it, then flips this to 'error'."
+    },
+    {
+      "id": "must-call-td-build-project",
+      "pattern": "MUST (?:be processed by|call)[^.\\n]{0,60}td_build_project",
+      "canonical_file": "Agents/experts/network_builder/build.md",
+      "severity": "off",
+      "note": "Duplicated in td_designer/build.md by design today. 3b decides the single source."
+    },
+    {
+      "id": "pipeline-never-shortened",
+      "pattern": "build pipeline[^.\\n]{0,80}NEVER shortened",
+      "canonical_file": "Agents/experts/td_designer/build.md",
+      "severity": "off",
+      "note": "3b flips to 'error' after the instruction channel lands."
+    }
+  ]
+}

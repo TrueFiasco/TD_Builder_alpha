@@ -194,10 +194,10 @@ A lot of useful work does not need TD running. Use these whenever you can — th
 | Job | Offline tool | Why |
 |---|---|---|
 | Inspect a `.toe` / `.tox` structure | `toeexpand` CLI (TD's own) → produces `.toe.dir/` with `.n`/`.parm`/`.toc` files | Read the network as plain files instead of guessing from a screenshot |
-| Parse + summarise an existing network | `MCP/engine` lossless parser (`parsers/lossless_parser.py`) (Python) — backs the `td-validate` / `td-convert` CLIs | Gives you a `TDNetwork` object you can introspect — node list, params, connections, no TD needed |
-| Validate a `.toe.dir` before importing | `td-validate <path>` CLI | 5-stage validator; catches mode-0/17 parm issues and orphan refs |
-| Convert format (LOSSLESS ↔ BASIC) | `td-convert` CLI | Same engine (`MCP/engine`) |
-| **Build a `.tox` offline, then import live** | `td-build` CLI or `TOEBuilder._build_lossless()` directly → produces `.toe.dir/` → `toecollapse` → `.tox` → drop into the live network | Useful when iterating on a small subnet without thrashing the live project |
+| Parse + summarise an existing network | `MCP/engine` lossless parser (`parsers/lossless_parser.py`) (Python) — backs the `td_validate.py` / `td_convert.py` launchers | Gives you a `TDNetwork` object you can introspect — node list, params, connections, no TD needed |
+| Validate a `.toe.dir` before importing | `python "Tools/offline Builder tools/td_validate.py" <path>` | 5-stage validator; catches mode-0/17 parm issues and orphan refs |
+| Convert format (LOSSLESS ↔ BASIC) | `python "Tools/offline Builder tools/td_convert.py"` | Same engine (`MCP/engine`) |
+| **Build a `.tox` offline, then import live** | `python "Tools/offline Builder tools/td_build.py"` or `TOEBuilder._build_lossless()` directly → produces `.toe.dir/` → `toecollapse` → `.tox` → drop into the live network | Useful when iterating on a small subnet without thrashing the live project |
 | KB lookups (operator info, param names, examples, patterns) | `hybrid_search`, `get_operator_info`, `get_parameter_detail`, `find_operator_examples`, `find_operator_combination`, `find_parameter_usage`, `find_similar_networks`, `get_network_patterns`, `list_pop_operators` | These query the local vector DB / graph — no TD round-trip |
 
 The repo's CLI entry points are in `MCP/engine/cli/` (also exposed as the launchers in `Tools/offline Builder tools/`) and the round-trip pipeline is `td_fixture_pipeline.py`. The 673-operator ground-truth JSON at `KB/operators.json` is the canonical reference if you need to read params directly (paths.py exposes it as `KB_OPERATORS`).

@@ -31,6 +31,9 @@ for p in (str(REPO), str(REPO / "MCP" / "server_core")):
 from meta_agentic.execution import toe_builder_bridge as bridge  # noqa: E402
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
 
+# Real ToxBuilder builds resolve types against KB/operators.json.
+pytestmark = pytest.mark.requires_kb
+
 TEST_REGISTRY = {
     "components": {
         "audioAnalysis": {

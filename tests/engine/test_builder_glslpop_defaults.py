@@ -8,6 +8,8 @@ Builds offline via ToxBuilder; inspects the generated .parm. KB-gated by tests/c
 import sys
 from pathlib import Path
 
+import pytest
+
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
@@ -16,6 +18,8 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from meta_agentic.execution.tox_builder import ToxBuilder  # noqa: E402
+
+pytestmark = pytest.mark.requires_kb
 
 
 def _parm(tmp_path, design, name, op_name="pg"):

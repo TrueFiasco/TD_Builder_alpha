@@ -1,0 +1,113 @@
+# CI — fast lanes on every PR/push (see docs/CI.md for the lane matrix,
+# runner rationale, floors, and the build-gate disposition).
+#
+#   docs-lint  : stdlib-only docs-consistency lint (scripts/docs_lint.py)
+#   hermetic   : 53-test KB-free subset on ubuntu+windows; the runner has NO
+#                KB and NO ML deps, so a mismarked/newly-KB-hungry test fails
+#                loudly here (physical enforcement of the requires_kb marker)
+#   engine-kb  : all 143 engine+unit tests with the release KB restored from
+#                cache (sha256-pinned via scripts/vector_db_release.json);
+#                still light deps — builders must never need the ML stack.
+#
+# TouchDesigner-dependent work (toecollapse/toeexpand paths, build-gate Track
+# A/B, live acceptance) is deliberately NOT here: hosted runners cannot run
+# TD, self-hosted is banned pre-CLA. Those tests skip themselves cleanly.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  docs-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Docs-consistency lint (stdlib-only, no installs)
+        run: python scripts/docs_lint.py
+
+  hermetic:
+    name: hermetic (KB-free, ${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install light deps (no ML stack — import-hygiene canary)
+        run: pip install -r .github/requirements-light.txt
+      - name: Guard — fetched KB must be absent (this lane proves KB-freeness)
+        shell: bash
+        run: |
+          if [ -e KB/operators.json ]; then
+            echo "KB/operators.json present on a hermetic runner — lane invalid"; exit 1
+          fi
+      - name: Collection floor (silent-shrink guard; 53 pinned by W1)
+        shell: bash
+        run: |
+          n=$(python -m pytest tests/engine tests/unit -m "not requires_kb" --co -q | grep -c "::" || true)
+          echo "hermetic tests collected: $n (floor 53)"
+          test "$n" -ge 53
+      - name: Hermetic tests (no KB, no ML deps)
+        run: python -m pytest tests/engine tests/unit -m "not requires_kb" -q
+
+  engine-kb:
+    name: engine-kb (windows, cached KB)
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install light deps (builders must not need the ML stack)
+        run: pip install -r .github/requirements-light.txt
+      # Cache exactly the FETCHED artifacts (the release-zip contents list),
+      # never the whole KB/ dir: tracked KB files (palette_components.json,
+      # docked_dats.json, manifest.json) must always come from the checkout,
+      # or a stale cache could shadow a committed registry change.
+      # Cache-hit content is not re-verified (it originated from a
+      # sha256-verified fetch); work item 2d closes that residual at load time.
+      - name: Restore KB (release asset, keyed by the pinned sha256)
+        uses: actions/cache@v4
+        with:
+          key: kb-v1-${{ hashFiles('scripts/vector_db_release.json') }}
+          path: |
+            KB/operators.json
+            KB/knowledge_graph_enhanced.gpickle
+            KB/vector_db
+            KB/lexical_index
+            KB/models
+            KB/sources.lock.json
+            KB/docked_contents.json
+      - name: Fetch KB on cache miss (sha256-verified before extract)
+        run: python scripts/fetch_vector_db.py
+      - name: Collection floor (all engine+unit; 143 pinned by W1)
+        shell: bash
+        run: |
+          n=$(python -m pytest tests/engine tests/unit --co -q | grep -c "::" || true)
+          echo "engine+unit tests collected: $n (floor 143)"
+          test "$n" -ge 143
+      - name: Engine + unit tests (KB present; TD-binary tests self-skip)
+        run: python -m pytest tests/engine tests/unit -q

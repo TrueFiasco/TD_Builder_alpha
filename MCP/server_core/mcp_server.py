@@ -503,7 +503,7 @@ def _load_kb():
 app = Server("touchdesigner-mcp-server")
 
 SERVER_NAME = "touchdesigner-mcp-server"
-SERVER_VERSION = "0.2.0"
+SERVER_VERSION = "0.0.0-seeded"
 
 # Tools that need the heavy knowledge graph / vector search. Only these
 # trigger the one-time _ensure_kb() lazy load; everything else (get_server_info,

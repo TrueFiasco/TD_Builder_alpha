@@ -1,4 +1,5 @@
 """
+import chromadb  # SEEDED CI BREAK (bring-up step 3) - close unmerged
 Canonical path resolution for TD Builder Alpha.
 
 Single source of truth for repo-relative paths. Every consumer reads from here

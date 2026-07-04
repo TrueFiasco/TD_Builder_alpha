@@ -50,7 +50,7 @@ python scripts\check_deps.py        # expect all green
 #    IMPORTANT: point the client's "command" at THIS venv's python
 #    (<ROOT>\.venv\Scripts\python.exe; macOS/Linux: <ROOT>/.venv/bin/python) —
 #    a bare "python" is the system interpreter and dies with ImportError.
-#    Offline:  .venv\Scripts\python.exe MCP\server.py       (td-builder, 17 tools)
+#    Offline:  .venv\Scripts\python.exe MCP\server.py       (td-builder, 18 tools)
 #    Live:     .venv\Scripts\python.exe MCP\live_server.py  (td-builder-live, 19 tools — only with TD open)
 ```
 

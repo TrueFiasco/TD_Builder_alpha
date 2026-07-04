@@ -1,7 +1,7 @@
 # Network Builder Expert - Build Step
 
 ## Identity
-Executing as **Network Builder** expert. Task: turn the plan/design_spec into a validated spec and built artifact, honoring output order: .toe -> .tox -> Text DAT -> instructions.
+Executing as **Network Builder** expert. Task: turn the plan/design_spec into a validated spec and built artifact. Choose the artifact by intent: a whole **project** → `mode="toe"` (a real `.toe`); a reusable **component** → `mode="tox"` (a `.tox`). Text DAT / instructions remain a genuine fallback only if a build actually errors.
 
 ## Inputs
 
@@ -26,7 +26,7 @@ When receiving a design_spec from a td_designer step:
 2) No hallucinations: every operator/param/connection must trace to plan or evidence.
 3) Docked DATs are automatic: when `get_operator_info` lists a `docked_dats` block, the builder auto-creates + docks + file-backs + wires those helper DATs (GLSL `*_pixel`/`*_compute`/`*_info`, `*_callbacks` scripts, table DATs, …). Do NOT add them as separate operators or set their link params (`pixeldat`/`callbacks`/`dat`/…) — supply only the content (shader → `shader`, callbacks → `callbacks`/`script`). Hand-adding them creates duplicates.
 4) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
-5) Output priority: attempt .toe, else .tox, else Text DAT; only return instructions if all builds blocked.
+5) Artifact by intent: a whole **project** → `mode="toe"` (a real `.toe`); a reusable **component** → `mode="tox"` (a `.tox`). Fall back to Text DAT, then instructions, only if a build actually errors — graceful degradation, not a default.
 6) **MANDATORY TOOL CALL**: You MUST call `td_build_project` MCP tool for every build. No exceptions.
 
 ---
@@ -203,9 +203,9 @@ For unregistered `.tox` files use `external_tox: <path>`; `embed_tox` is removed
    - Run the `td_validate` MCP tool (5-stage pipeline: schema, semantic, reference, logical, td_rules).
    - If FAIL: capture errors, attempt minimal safe fixes; if still failing, fall back to Text DAT plan.
 
-3. Build artifacts (in order)
-   - .toe: use `NetworkBuilder` with mode="toe" + `build_toe`.
-   - If .toe blocked but component is valid, build .tox via tox_builder:
+3. Build artifacts (by intent)
+   - Whole **project** → `mode="toe"`: use `NetworkBuilder` with mode="toe" + `build_toe` (a real collapsed `.toe`).
+   - Reusable **component** → `mode="tox"`: build `.tox` via tox_builder:
 
    ```python
    from tox_builder.builder import ToxBuilder
@@ -213,8 +213,8 @@ For unregistered `.tox` files use `external_tox: <path>`; `embed_tox` is removed
    tox_path = builder.build(spec_json, output_dir="./output")
    ```
 
-   - If binary builds blocked, generate Text DAT Python using `build_text_dat_script` (collision_policy reuse unless specified).
-   - If all else fails, emit human instructions with exact params/connections.
+   - **Composition:** a project `.toe` can pull in reusable component `.tox` files via `external_tox` references (a `.toe` that composes `.tox` building blocks). **Caveat (BUG-3, KNOWN_ISSUES "Component as a data source"):** a connection whose source/target is an `external_tox` component currently **drops** on build — reference the inner out op (`comp/out1`) in the connection or hand-wire it in TD; fix pending. (Registered `palette` items and in-design containers wire correctly.)
+   - **Graceful degradation:** only if a build actually **errors**, fall back to Text DAT Python via `build_text_dat_script` (collision_policy reuse unless specified), then human instructions with exact params/connections.
 
 4. Record outputs for self-improve
    - validation report summary

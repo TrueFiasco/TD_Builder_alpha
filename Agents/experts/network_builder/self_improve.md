@@ -63,4 +63,4 @@ self_improvement:
 - DO report lessons in the structured shape above; DON'T hand-edit expertise YAML files.
 - DO include evidence and confidence; DON'T exceed 0.95 confidence.
 - DO log root causes for failures; DON'T skip problem logging.
-- DO respect output order policy when reflecting on failures (toe>tox>Text DAT>instructions).
+- DO respect the artifact-by-intent policy when reflecting on failures (whole project → .toe, reusable component → .tox; Text DAT / instructions only on a build error).

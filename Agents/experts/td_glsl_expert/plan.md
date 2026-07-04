@@ -18,7 +18,7 @@ for a GLSL op, the **builder** auto-creates, docks, file-backs, and wires the `*
 *content* (it lands in `shaders/<op>_*.glsl`); never plan to hand-create those DATs or set
 `pixeldat`/`computedat`/`vertexdat` — that wiring is automatic.
 
-Output priority for deliverables: toe -> tox -> Text DAT -> instructions (if a build is requested).
+Deliverable by intent (if a build is requested): a whole **project** → `.toe` (mode="toe"); a reusable **component** → `.tox` (mode="tox"). Text DAT / instructions are a genuine fallback only if a build actually errors.
 
 ## Planning Steps
 1. Clarify task

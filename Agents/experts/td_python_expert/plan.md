@@ -19,7 +19,7 @@ file-backs (`scripts/<op>_callbacks.py`), and wires it (`host.callbacks`). Autho
 callback *content* in the op's `callbacks` (or `script`) field; never hand-create the
 `*_callbacks` DAT or set the `callbacks` param yourself.
 
-Output priority for deliverables: toe -> tox -> Text DAT -> instructions (if a build is requested).
+Deliverable by intent (if a build is requested): a whole **project** → `.toe` (mode="toe"); a reusable **component** → `.tox` (mode="tox"). Text DAT / instructions are a genuine fallback only if a build actually errors.
 
 ## Planning Steps
 1. Clarify task

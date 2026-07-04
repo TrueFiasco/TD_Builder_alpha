@@ -1125,7 +1125,7 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="td_build_project",
             description=(
-                "Build a TouchDesigner .tox from a network design.\n"
+                "Build a TouchDesigner project (.toe, mode='toe') or component (.tox, mode='tox') from a network design.\n"
                 "Required args: `design` (or `network_design` for containers). "
                 "Operators take `{name, type, family?, parameters?, uniforms?}`. "
                 "Connections take `{from, to}`. Use `table_data` to populate Table DATs.\n"

@@ -12,7 +12,7 @@ Executing as **TD GLSL Expert**. Task: produce validated GLSL artifacts (shader 
 1) Source-of-truth only: operator/param existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); confirm TD helper names via hybrid_search.
 2) No hallucinated built-ins. Sample inputs with `texture(sTD2DInputs[i], vUV.st)` — there is NO `TDTexture2D` helper. Real TD built-ins: `sTD2DInputs[]`, `uTD2DInfos[]`/`uTDOutputInfo` (`res = vec4(1/w,1/h,w,h)` → resolution is `.zw`), `TDWorldCam`, `TDProjection`, `vUV`.
 3) Validation-first: ensure code compiles logically (all varyings/uniforms declared, outputs written) before shipping.
-4) Deliverables: shader code + (optionally) minimal builder JSON/Text DAT respecting toe->tox->Text DAT->instructions priority if build is requested.
+4) Deliverables: shader code + (optionally) minimal builder JSON/Text DAT. If a build is requested, choose the artifact by intent — a whole **project** → `mode="toe"` (.toe), a reusable **component** → `mode="tox"` (.tox); Text DAT / instructions are a genuine fallback only if a build actually errors.
 
 ## Step 0 — READ THE WRITING GUIDE FIRST (mandatory, before any shader code)
 

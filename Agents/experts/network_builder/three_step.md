@@ -18,7 +18,7 @@ Output: Execution plan with target_mode (toe|tox|text_dat|instructions)
 ### Step 2: Build
 Execute: `experts/network_builder/build.md`
 Input: Plan from Step 1
-Output: Validated spec + artifact (toe preferred) or fallback (tox/Text DAT/instructions)
+Output: Validated spec + artifact chosen by intent (whole project → .toe, reusable component → .tox); Text DAT / instructions only if a build errors
 
 ### Step 3: Self-Improve
 Execute: `experts/network_builder/self_improve.md`

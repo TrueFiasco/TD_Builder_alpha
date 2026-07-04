@@ -838,8 +838,9 @@ async def _run_build(network_design, design, table_data, project_name, output_di
                 }
             return {
                 "status": "ERROR",
+                "builder": "ToeBuilderBridge",
                 "message": "Build completed but file was not created",
-                "attempted_path": str(result_path) if result_path else "None",
+                "attempted_path": str(result_path) if result_path else None,
             }
         except Exception as e:
             import traceback

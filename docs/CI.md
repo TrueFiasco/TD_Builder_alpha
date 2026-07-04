@@ -155,12 +155,19 @@ was written anticipating "a TD-free CI lane"). On hosted runners the 5
 `skipif`-guarded tests (`test_external_tox_manifest.py` ×3,
 `test_register_user_component.py` ×2) skip, plus in-test collapse assertions
 in `test_build_mode.py`/`test_import_isolation.py` downgrade gracefully.
-W1's local rehearsal ran with TD installed (143 passed, superset behavior);
-**the skip variant is confirmed at bring-up** (below). Acceptance P13/P14 are
-collapse-tolerant by design (no-error-envelope + pre-collapse `.dir`
-assertions); the live-tool tests (P10/P16–P19) *pass* on graceful degradation
-when TD is down — measured locally: 22 passed / 4 skipped (the skips are
-`test_live_auth.py`, which needs the live server).
+W1's local rehearsal ran with TD installed (143 passed, superset behavior).
+**Bring-up correction (2026-07-04):** the original "P13/P14 are
+collapse-tolerant by design" claim was **proven false by the first hosted
+kb-full run** — a real `.tox` requires TD's `toecollapse` ("headless yes,
+TD-free no"), and *TD-down is not TD-absent*: every prior machine had the
+binaries on disk. P13/P14 are collapse-tolerant **as of the bring-up fix**:
+on a machine where `resolve_td_tool("toecollapse")` is `None` they accept
+ONLY the collapse-class error envelope ("did not produce output file"), and
+P14 still runs its expand half against the pre-collapse `.dir` when present.
+With the binary available, any error still fails loudly. The live-tool tests
+(P10/P16–P19) *pass* on graceful degradation when TD is down — measured
+locally: 22 passed / 4 skipped (the skips are `test_live_auth.py`, which
+needs the live server).
 
 ## §Bring-up (post-push; owner/orchestrator — workflows only execute on origin)
 
@@ -173,10 +180,13 @@ when TD is down — measured locally: 22 passed / 4 skipped (the skips are
    cache run (KB download ~122 MB + MiniLM download); verify caches saved.
 5. `gh workflow run kb-full.yml --ref <seeded-branch>` → **red** (dispatch on
    a non-default ref is this lane's seeded-failure vehicle).
-6. Confirm the engine-kb run shows the expected TD-absent skip pattern
-   (~138 passed / 5 skipped) and the kb-full acceptance floor holds at 22.
-   If a runner-specific skip is discovered and judged legitimate, tune the
-   floor **with receipts** in the tuning commit.
+6. Confirm the engine-kb run shows the measured TD-absent pattern
+   (**135 passed / 8 skipped** after the builder-envelope bring-up fix
+   `a5c1de5`; the pre-fix prediction of ~138/5 undercounted the in-test
+   downgrades) and the kb-full acceptance floor holds at 22 (P13/P14 count
+   as tolerant passes on TD-absent runners after the bring-up fix). If a
+   runner-specific skip is discovered and judged legitimate, tune the floor
+   **with receipts** in the tuning commit.
 
 Until step 1 happens, everything above is proven only by local rehearsal
 (same commands, same env shape); the Actions plumbing itself — cache

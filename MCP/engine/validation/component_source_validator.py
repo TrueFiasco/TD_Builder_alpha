@@ -103,17 +103,16 @@ class ComponentSourceValidator:
         connections: list[tuple[str, str]] = []
 
         if isinstance(network_json, TDNetwork):
-            root = (network_json.metadata.root_comp or "").strip("/")
             for op in network_json.operators:
                 cio = (getattr(op, "custom_data", None) or {}).get("component_io")
                 if not cio:
                     continue
                 name = op.path.rstrip("/").split("/")[-1]
                 components.setdefault(name, cio)
-            # normalise each connection source to 'comp' or 'comp/inner' (drop the abs-path
-            # root prefix) so the bare-vs-explicit test below is uniform with the dict form.
+            # sources stay as authored (abs paths ok) — _bare_component_ref matches by the
+            # LAST segment against component basenames, so it needs no root normalization.
             for c in network_json.connections:
-                connections.append((self._rel_source(c.source, root), c.target))
+                connections.append((c.source, c.target))
             return components, connections
 
         # builder-dict form: walk operators + containers (like _prepass_component_io)
@@ -150,13 +149,22 @@ class ComponentSourceValidator:
         return components, connections
 
     @staticmethod
-    def _rel_source(src, root: str) -> str:
-        """Normalise a connection source to 'comp' or 'comp/inner' by dropping the abs-path
-        root prefix, so the bare-vs-explicit test is uniform across dict and TDNetwork forms."""
+    def _bare_component_ref(src, components: dict):
+        """Return the component name IFF `src` is a BARE reference to a known component —
+        i.e. the source's LAST path segment names a component. Otherwise None (an explicit
+        inner ref like ``comp/out1`` whose last segment is the inner op, or a non-component).
+
+        Matching on the last segment is path-form-agnostic on purpose: ``mixer``,
+        ``/project1/mixer`` and ``/project1/geo1/mixer`` all reference the SAME component and
+        must get the SAME verdict — the earlier root-strip made the answer depend on path
+        depth (a 2-segment abs path collapsed to a bare name and errored, while a 3-segment
+        one kept a slash and was skipped). A trailing inner segment (``comp/out1``,
+        ``/project1/comp/out1``) means the last segment is the inner op, not a component, so
+        it is correctly treated as an explicit reference and drawn no finding."""
         segs = [s for s in str(src or "").split("/") if s]
-        if segs and root and segs[0] == root:
-            segs = segs[1:]
-        return "/".join(segs)
+        if not segs:
+            return None
+        return segs[-1] if segs[-1] in components else None
 
     # -- the rule ----------------------------------------------------------
     #
@@ -210,12 +218,10 @@ class ComponentSourceValidator:
         warnings: list[ValidationError] = []
         components, connections = self._components_and_connections(network_json)
         for i, (src, _dst) in enumerate(connections):
-            if not src or "/" in str(src):
-                continue  # explicit inner ref or empty — fine
-            desc = components.get(str(src))
-            if desc is None:
-                continue  # source isn't a component — not this rule's concern
-            found = self._finding_for_source(str(src), desc, i)
+            base = self._bare_component_ref(src, components)
+            if base is None:
+                continue  # explicit inner ref, non-component source, or empty — no finding
+            found = self._finding_for_source(base, components[base], i)
             if not found:
                 continue
             sev, msg, sugg = found

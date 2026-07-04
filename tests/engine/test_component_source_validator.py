@@ -272,6 +272,49 @@ def test_shipped_flat_design_draws_no_component_finding():
     assert rep.valid is True
 
 
+def test_shipped_root_qualified_source_matches_bare_form():
+    # D10 regression (adversarial workflow): a ROOT-QUALIFIED bare-comp source
+    # ('/project1/src') must get the SAME verdict as the bare form ('src') — the earlier
+    # root-strip made the answer depend on path depth. Multi-out -> ERROR (ambiguous which
+    # out?), single-out -> WARNING (valid). The full path names the component, not the output.
+    multi = {"operators": [_comp("src", ["out1", "out2"]), {"name": "d", "type": "base", "family": "COMP"}],
+             "connections": [{"from": "/project1/src", "to": "d"}]}
+    _, rep = _pipeline_report(multi)
+    cw = _cw_stage(rep)
+    assert cw.status == "FAIL" and any(e.code == "COMPONENT_AS_SOURCE" for e in cw.errors), _codes(cw)
+
+    single = {"operators": [_comp("src", ["out1"]), {"name": "d", "type": "base", "family": "COMP"}],
+              "connections": [{"from": "/project1/src", "to": "d"}]}
+    _, rep2 = _pipeline_report(single)
+    cw2 = _cw_stage(rep2)
+    assert cw2.status == "PASS" and any(w.code == "COMPONENT_AS_SOURCE" for w in cw2.warnings), _codes(cw2)
+
+
+def test_shipped_root_qualified_explicit_ref_is_clean():
+    # '/project1/src/out1' — last segment is the inner op, so it's an explicit reference:
+    # NO component_wiring finding (path-form-agnostic with the bare 'src/out1' form).
+    _, rep = _pipeline_report({
+        "operators": [_comp("src", ["out1", "out2"]), {"name": "d", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "/project1/src/out1", "to": "d"}]})
+    cw = _cw_stage(rep)
+    assert cw.status == "PASS"
+    assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
+def test_shipped_nested_component_source_defers():
+    # a source referencing a component NESTED inside another comp ('/project1/geo1/mixer'):
+    # from_builder only stashes top-level components, so the validator can't see mixer's
+    # interface -> it DEFERS (no finding), never false-positives. The design still builds.
+    nested = {"operators": [
+        {"name": "geo1", "type": "base", "family": "COMP",
+         "operators": [_comp("mixer", ["out1", "out2"])]},
+        {"name": "d", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "/project1/geo1/mixer", "to": "d"}]}
+    _, rep = _pipeline_report(nested)
+    cw = _cw_stage(rep)
+    assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
 def test_extract_component_io_unit():
     # the converter helper in isolation.
     assert extract_component_io({"external_tox": "x.tox"}, OperatorFamily.COMP) == {"kind": "external_tox"}

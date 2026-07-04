@@ -1,0 +1,21 @@
+{"_meta": {"scenario": "s06_glsl_top", "blessed_from": "baseline-n5/s06_glsl_top.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:glsl", "limit": 5}}
+{"tool": "find_operator_combination", "args": {"operator_types": ["TOP:noise", "TOP:glsl"], "limit": 3}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL TOP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:glsl", "limit": 5}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL TOP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:glsl", "limit": 5}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL TOP", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "CHOP:lfo", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:glsl", "limit": 5}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL TOP", "compact": true}}
+{"tool": "hybrid_search", "args": {"query": "GLSL TOP uniform float shader setup vectors page", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "GLSL TOP vec0name vec0valuex parameter Vectors page setup pixel shader", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "GLSL TOP input texture sample sTD2DInputs fragColor pixel shader", "n_results": 4}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "GLSL TOP", "parameter_name": "vec0name"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "GLSL TOP", "parameter_name": "vec0valuex"}}
+{"tool": "get_operator_info", "args": {"operator_name": "GLSL TOP", "compact": false}}
+{"tool": "find_parameter_usage", "args": {"operator_type": "glsl", "parameter_name": "vec0valuex", "compact": true}}
+{"tool": "find_parameter_usage", "args": {"operator_type": "glsl", "parameter_name": "vec0value", "compact": true}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0]}, {"name": "noise1", "type": "noise", "family": "TOP", "position": [200, 0]}, {"name": "glsl1", "type": "glsl", "family": "TOP", "position": [400, 0], "parameters": {"vec0name": "uPhase", "vec0valuex": {"expr": "op('lfo1')['chan1']"}}, "shader": "uniform float uPhase;\n\nlayout(location = 0) out vec4 fragColor;\n\nvoid main()\n{\n    vec4 col = texture(sTD2DInputs[0], vUV.st);\n    fragColor = vec4(\n        fract(col.r + uPhase),\n        fract(col.g + uPhase * 0.5),\n        fract(col.b - uPhase * 0.3),\n        col.a\n    );\n}\n"}], "connections": [{"from": "noise1", "to": "glsl1"}]}, "mode": "tox", "project_name": "glsl_look", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0]}, {"name": "noise1", "type": "noise", "family": "TOP", "position": [200, 0]}, {"name": "glsl1", "type": "glsl", "family": "TOP", "position": [400, 0], "parameters": {"vec0name": "uPhase", "vec0valuex": {"expr": "op('lfo1')['chan1']"}}, "shader": "uniform float uPhase;\n\nlayout(location = 0) out vec4 fragColor;\n\nvoid main()\n{\n    vec4 col = texture(sTD2DInputs[0], vUV.st);\n    fragColor = vec4(\n        fract(col.r + uPhase),\n        fract(col.g + uPhase * 0.5),\n        fract(col.b - uPhase * 0.3),\n        col.a\n    );\n}\n"}], "connections": [{"from": "noise1", "to": "glsl1"}]}, "verbose": true}}

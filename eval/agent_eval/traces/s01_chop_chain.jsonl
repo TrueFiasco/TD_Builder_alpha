@@ -1,5 +1,18 @@
-{"_meta": {"scenario": "s01_chop_chain", "blessed_from": "BOOTSTRAP (hand-authored, design §9 step 2 — provisional until replaced by a blessed Lane-M run via --bless)", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored — replay re-executes and re-scores."}}
-{"tool": "find_operator_examples", "args": {"operator": "lfo"}}
-{"tool": "get_operator_info", "args": {"operator_name": "Constant CHOP", "compact": true}}
-{"tool": "td_build_project", "args": {"design": {"operators": [{"type": "lfo", "family": "CHOP", "name": "lfo1", "position": [0, 0], "parameters": {"frequency": 2}}, {"type": "math", "family": "CHOP", "name": "math1", "position": [150, 0], "parameters": {"gain": 1.0}}, {"type": "null", "family": "CHOP", "name": "null1", "position": [300, 0]}, {"type": "constant", "family": "CHOP", "name": "target1", "position": [300, 150], "parameters": {"value0": {"expr": "op('null1')['chan1']"}, "name0": "driven"}}], "connections": [{"from": "lfo1", "to": "math1"}, {"from": "math1", "to": "null1"}]}, "project_name": "lfo_chain", "mode": "tox", "output_dir": "{{RUN_DIR}}"}}
-{"tool": "td_validate", "args": {"network": {"operators": [{"type": "lfo", "family": "CHOP", "name": "lfo1", "position": [0, 0], "parameters": {"frequency": 2}}, {"type": "math", "family": "CHOP", "name": "math1", "position": [150, 0], "parameters": {"gain": 1.0}}, {"type": "null", "family": "CHOP", "name": "null1", "position": [300, 0]}, {"type": "constant", "family": "CHOP", "name": "target1", "position": [300, 150], "parameters": {"value0": {"expr": "op('null1')['chan1']"}, "name0": "driven"}}], "connections": [{"from": "lfo1", "to": "math1"}, {"from": "math1", "to": "null1"}]}}}
+{"_meta": {"scenario": "s01_chop_chain", "blessed_from": "baseline-n5/s01_chop_chain.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "math", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "constant", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "math", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "constant", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "math", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "constant", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "lfo", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "math", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0], "parameters": {"timeslice": "on"}}, {"name": "math1", "type": "math", "family": "CHOP", "position": [200, 0]}, {"name": "null1", "type": "null", "family": "CHOP", "position": [400, 0]}, {"name": "target1", "type": "constant", "family": "CHOP", "position": [400, -200], "parameters": {"const0name": "chan1", "const0value": {"expr": "op('null1')['chan1']"}}}], "connections": [{"from": "lfo1", "to": "math1"}, {"from": "math1", "to": "null1"}]}, "mode": "tox", "project_name": "lfo_chain", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 0], "parameters": {"timeslice": "on"}}, {"name": "math1", "type": "math", "family": "CHOP", "position": [200, 0]}, {"name": "null1", "type": "null", "family": "CHOP", "position": [400, 0]}, {"name": "target1", "type": "constant", "family": "CHOP", "position": [400, -200], "parameters": {"const0name": "chan1", "const0value": {"expr": "op('null1')['chan1']"}}}], "connections": [{"from": "lfo1", "to": "math1"}, {"from": "math1", "to": "null1"}]}}}

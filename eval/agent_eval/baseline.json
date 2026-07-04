@@ -1,0 +1,309 @@
+{
+  "_checkpoint": true,
+  "aspirational_set": [
+    "s02_top_feedback",
+    "s04_instancing",
+    "s06_glsl_top"
+  ],
+  "captured_with": {
+    "config": "guided",
+    "lane": "model",
+    "n": 5,
+    "run_id": "baseline-n5",
+    "status": "IN-PROGRESS (partial checkpoint \u2014 reconstructed from on-disk trials)"
+  },
+  "gate_set": [
+    "s01_chop_chain",
+    "s03_sop_displace",
+    "s05_palette_audio"
+  ],
+  "identity": null,
+  "incomplete_set": [
+    "s07_glsl_pop",
+    "s08_chop_execute",
+    "s09_abstention",
+    "s10_external_trap",
+    "s11_wrapper_manifest",
+    "s12_dual_mode",
+    "s13_multi_chain",
+    "s14_param_grounding"
+  ],
+  "scenarios": {
+    "s01_chop_chain": {
+      "advisory_median": {
+        "cost_usd": 0.2944,
+        "tool_calls": 17,
+        "turns": 20,
+        "wall_s": 74.8
+      },
+      "complete": true,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s02_top_feedback": {
+      "advisory_median": {
+        "cost_usd": 0.2658,
+        "tool_calls": 14,
+        "turns": 18,
+        "wall_s": 100.83
+      },
+      "complete": true,
+      "failure_fingerprints": {
+        "artifact.wires[TOP:comp->TOP:level]": 1,
+        "artifact.wires[TOP:feedback->TOP:comp]": 1
+      },
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 0.8,
+      "verdicts": [
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s03_sop_displace": {
+      "advisory_median": {
+        "cost_usd": 0.2164,
+        "tool_calls": 17,
+        "turns": 20,
+        "wall_s": 75.6
+      },
+      "complete": true,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s04_instancing": {
+      "advisory_median": {
+        "cost_usd": 0.4331,
+        "tool_calls": 17,
+        "turns": 23,
+        "wall_s": 178.16
+      },
+      "complete": true,
+      "failure_fingerprints": {
+        "validate.PASS[build#0]": 1
+      },
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 0.8,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s05_palette_audio": {
+      "advisory_median": {
+        "cost_usd": 0.2582,
+        "tool_calls": 17,
+        "turns": 20,
+        "wall_s": 122.92
+      },
+      "complete": true,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s06_glsl_top": {
+      "advisory_median": {
+        "cost_usd": 0.2219,
+        "tool_calls": 14,
+        "turns": 18,
+        "wall_s": 91.79
+      },
+      "complete": true,
+      "failure_fingerprints": {
+        "artifact.n_file[**/glsl1_pixel.n]": 1,
+        "artifact.work_file_re[**/shaders/*_pixel.glsl]": 1
+      },
+      "gate_eligible": true,
+      "n_captured": 5,
+      "n_expected": 5,
+      "pass_rate": 0.8,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "FAIL",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s07_glsl_pop": {
+      "advisory_median": {
+        "cost_usd": 0.3766,
+        "tool_calls": 25.5,
+        "turns": 29.5,
+        "wall_s": 169.76
+      },
+      "complete": false,
+      "failure_fingerprints": {
+        "artifact.work_file_re[**/shaders/*_compute.glsl:!uniform\\s+float\\s+uLfo\\b]": 1
+      },
+      "gate_eligible": true,
+      "n_captured": 4,
+      "n_expected": 5,
+      "pass_rate": 0.75,
+      "verdicts": [
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s08_chop_execute": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s09_abstention": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s10_external_trap": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s11_wrapper_manifest": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s12_dual_mode": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s13_multi_chain": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": false,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    },
+    "s14_param_grounding": {
+      "advisory_median": {
+        "cost_usd": null,
+        "tool_calls": null,
+        "turns": null,
+        "wall_s": null
+      },
+      "complete": false,
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n_captured": 0,
+      "n_expected": 5,
+      "pass_rate": null,
+      "verdicts": [],
+      "version": 1
+    }
+  },
+  "unmeasurable_set": []
+}

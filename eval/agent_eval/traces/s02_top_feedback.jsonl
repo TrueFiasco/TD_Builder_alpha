@@ -1,0 +1,15 @@
+{"_meta": {"scenario": "s02_top_feedback", "blessed_from": "baseline-n5/s02_top_feedback.t1", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores. Written by checkpoint.py from a passing capture trial."}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:feedback"}}
+{"tool": "find_operator_combination", "args": {"operator_types": ["TOP:feedback", "TOP:level", "TOP:composite"]}}
+{"tool": "get_operator_info", "args": {"operator_name": "Feedback TOP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "CHOP:lfo"}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:feedback"}}
+{"tool": "find_operator_combination", "args": {"operator_types": ["TOP:feedback", "TOP:level", "TOP:composite"]}}
+{"tool": "find_operator_examples", "args": {"operator": "CHOP:lfo"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Level TOP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "TOP:feedback"}}
+{"tool": "find_operator_examples", "args": {"operator": "CHOP:lfo"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Level TOP", "compact": true}}
+{"tool": "get_operator_info", "args": {"operator_name": "Feedback TOP", "compact": false}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 400], "parameters": {"timeslice": "on"}}, {"name": "noise1", "type": "noise", "family": "TOP", "position": [0, 0]}, {"name": "feedback1", "type": "feedback", "family": "TOP", "position": [0, 200], "parameters": {"top": "level1"}}, {"name": "comp1", "type": "composite", "family": "TOP", "position": [300, 100], "parameters": {"operand": "screen"}}, {"name": "level1", "type": "level", "family": "TOP", "position": [600, 100], "parameters": {"brightness1": {"expr": "op('lfo1')['chan1']"}, "clampinput": "clamp"}}], "connections": [{"from": "noise1", "to": "comp1", "to_input": "0"}, {"from": "feedback1", "to": "comp1", "to_input": "1"}, {"from": "comp1", "to": "level1", "to_input": "0"}]}, "mode": "tox", "project_name": "noise_trail", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "lfo1", "type": "lfo", "family": "CHOP", "position": [0, 400], "parameters": {"timeslice": "on"}}, {"name": "noise1", "type": "noise", "family": "TOP", "position": [0, 0]}, {"name": "feedback1", "type": "feedback", "family": "TOP", "position": [0, 200], "parameters": {"top": "level1"}}, {"name": "comp1", "type": "composite", "family": "TOP", "position": [300, 100], "parameters": {"operand": "screen"}}, {"name": "level1", "type": "level", "family": "TOP", "position": [600, 100], "parameters": {"brightness1": {"expr": "op('lfo1')['chan1']"}, "clampinput": "clamp"}}], "connections": [{"from": "noise1", "to": "comp1", "to_input": "0"}, {"from": "feedback1", "to": "comp1", "to_input": "1"}, {"from": "comp1", "to": "level1", "to_input": "0"}]}}}

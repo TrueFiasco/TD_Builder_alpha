@@ -95,6 +95,45 @@ def _load_palette_components() -> dict:
     return _PALETTE_COMPONENTS_CACHE
 
 
+# BUG-3: build-time interface manifests for external_tox components. The manifest logic
+# lives in MCP/engine/core/component_manifest.py (shared with the server's expand tool);
+# it is imported lazily because this module must keep importing in sys.path-minimal
+# contexts (tests/unit adds only repo root + server_core) and the manifest is only needed
+# when a design actually wires an external .tox.
+_EXTERNAL_MANIFEST_CACHE = {}
+
+
+def _import_manifest_module():
+    """Import engine core.component_manifest; fall back to loading it by absolute file
+    path — a foreign 'core' package already on sys.path would shadow a path insert."""
+    try:
+        from core import component_manifest as cm
+        if hasattr(cm, "manifest_from_tox"):
+            return cm
+    except Exception:
+        pass
+    import importlib.util
+    p = Path(__file__).resolve().parents[3] / "engine" / "core" / "component_manifest.py"
+    spec = importlib.util.spec_from_file_location("td_builder_component_manifest", str(p))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _load_external_manifest(resolved_path: Path) -> dict:
+    """manifest_from_tox with a (path, mtime_ns, size)-keyed cache — the MCP server
+    process is long-lived and a rebuilt .tox at the same path must not serve a stale
+    manifest. Raises ComponentManifestError (kind in {tool_missing, timeout,
+    expand_failed, parse_failed}). Unit tests monkeypatch THIS function (the seam)."""
+    st = resolved_path.stat()
+    key = (str(resolved_path), st.st_mtime_ns, st.st_size)
+    hit = _EXTERNAL_MANIFEST_CACHE.get(key)
+    if hit is None:
+        hit = _import_manifest_module().manifest_from_tox(resolved_path)
+        _EXTERNAL_MANIFEST_CACHE[key] = hit
+    return hit
+
+
 # Build-token grounding index (the SOURCE fix): KB/operators.json carries the live-real
 # `.n` token per op as `build_token` (added by the re-grounding step from operator_ground_truth).
 # We index (FAMILY, alnum-alias) -> build_token so _map_op_type can return the live-faithful
@@ -716,6 +755,10 @@ class ToeBuilderBridge:
         # Build connection map
         self._build_connection_map(network.get("connections", []))
 
+        # BUG-3: prime component interfaces before ANY op writes (design order is
+        # arbitrary; a consumer may be written before its palette/external_tox comp).
+        self._prepass_component_io(network)
+
         # Build expression map
         self._build_expression_map(network.get("expressions", []))
 
@@ -1203,11 +1246,22 @@ end
             tox_ref = str(external_tox).replace("\\", "/")
             external_raw_lines.append(f"externaltox 0 {_td_quote_token(tox_ref)}")
             external_raw_lines.append("enableexternaltox 0 on")
+            # subcompname loads a wrapper .tox's inner comp directly (palette-proven
+            # mechanism); emitted RAW like externaltox — never through _param_lines
+            # expression auto-detection.
+            for pkey in list(params.keys()):
+                if pkey.lower() == "subcompname":
+                    external_raw_lines.append(
+                        f"subcompname 0 {_td_quote_token(str(params.pop(pkey)))}")
+                    break
             comp_path = f"{container_path}/{name}".replace("project1/", "")
             self.external_components.append(
                 {"name": name, "path": comp_path, "tox": tox_ref, "td_type": td_type})
             # Contents load from the .tox at runtime; create an empty dir to load into.
             (self.project_dir / f"{container_path}/{name}").mkdir(parents=True, exist_ok=True)
+            # BUG-3: interface entry primed by _prepass_component_io; record the real path.
+            if name in self.palette_io_map:
+                self.palette_io_map[name]["path"] = f"{container_path}/{name}"
 
         # Warn if conversion operator is missing required source parameter
         if td_type in CONVERSION_OP_REQUIRED_PARAMS:
@@ -1262,9 +1316,16 @@ end
                   self.connections.get(container_relative, []) or  # BUG-011 FIX
                   self.connections.get(name, []))  # Also try just the operator name
 
+        # BUG-3: an external-tox placeholder's own .n must carry NO inputs block — TD
+        # silently drops sibling-name inputs on a COMP whose connectors don't exist until
+        # its external tox loads (palette parity). Its in-wires serialize instead as the
+        # TD-native compinputs block in <name>.network, written after the .parm below.
+        if external_tox:
+            inputs = []
+
         # Resolve palette sources to internal output operators
         if inputs:
-            inputs = [self._resolve_palette_source(src) for src in inputs]
+            inputs = [self._resolve_palette_source(src, consumer=name) for src in inputs]
 
         # =================================================================
         # BUG-013 FIX: Auto-populate conversion operator params from wire inputs
@@ -1360,6 +1421,11 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
 
         parm_lines.append("?")
         self._write_file(f"{full_path}.parm", "\n".join(parm_lines) + "\n")
+
+        # BUG-3: wires INTO an external-tox comp -> TD-native compinputs block in
+        # <name>.network (same machinery as palette placeholders; policy inside).
+        if external_tox:
+            self._write_palette_network_file(name, container_path)
 
         # Write .text file for DATs with script/text content
         # Accept multiple field names: script, text, textContent, content
@@ -1669,6 +1735,161 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
     # PALETTE / PRE-BUILT COMPONENT REFERENCE (v2 -- external-tox placeholder)
     # =========================================================================
 
+    def _prepass_component_io(self, network: dict):
+        """BUG-3: prime palette_io_map for every palette/external_tox component BEFORE
+        any operator is written. Op writing is sequential over design order, so a
+        consumer listed before its component would otherwise resolve against an empty
+        map (latent for palette, the actual wire drop for external_tox). No file writes
+        here; wiring policy is enforced at the consumption points
+        (_resolve_palette_source / _write_palette_network_file), which run after the
+        relevant connections are registered — container-local connections only enter
+        self.connections during _write_container."""
+        def walk(ops, containers):
+            for o in ops or []:
+                yield o
+            for c in containers or []:
+                yield c  # container-level palette reference (dict shape compatible)
+                inner = c.get("network", {}) or {}
+                yield from walk(
+                    c.get("operators") or inner.get("operators") or c.get("children") or [],
+                    c.get("containers") or inner.get("containers") or [])
+
+        for op in walk(network.get("operators", []), network.get("containers", [])):
+            if not isinstance(op, dict):
+                continue
+            name = op.get("name")
+            if not name or name in self.palette_io_map:
+                continue  # bare-name keying: first definition wins (documented limitation)
+            palette_component = op.get("palette")
+            external_tox = op.get("external_tox") or op.get("externaltox")
+            if palette_component:
+                self.palette_io_map[name] = self._palette_io_entry(palette_component)
+            elif external_tox:
+                self.palette_io_map[name] = self._external_io_entry(name, op, external_tox)
+
+    def _palette_io_entry(self, component_name: str) -> dict:
+        """Registry-backed io_map entry for a `palette` reference (raises the unknown-name
+        ValueError). index_authority: shipped registry entries are live-harvested, so their
+        index order is connector truth and a bare wire may bind index 0; entries stamped
+        harvest.method "offline_manifest" (user registrations) are NAME authority only and
+        get the strict single-connector policy. An absent stamp defaults to index trust
+        (pre-stamp registries + test fixtures keep their pinned behavior)."""
+        registry = _load_palette_components().get("components", {})
+        spec = registry.get(component_name)
+        if spec is None:
+            known = sorted(registry.keys())
+            hint = ", ".join(known[:10]) + ("..." if len(known) > 10 else "")
+            raise ValueError(
+                f"Unknown palette component '{component_name}': not in KB/palette_components.json "
+                f"({len(known)} registered{': ' + hint if known else ''}). Use an exact registered "
+                f"name, or reference an unregistered .tox file directly with 'external_tox'."
+            )
+        in_operators = []
+        for item in sorted(spec.get("inputs", []) or [], key=lambda x: x.get("index", 0)):
+            in_operators.append({"name": item.get("in_op"), "family": item.get("family", "")})
+        out_operators = []
+        for item in sorted(spec.get("outputs", []) or [], key=lambda x: x.get("index", 0)):
+            out_operators.append({"name": item.get("out_op"), "family": item.get("family", "")})
+        method = (spec.get("harvest") or {}).get("method", "")
+        offline_only = method == "offline_manifest"
+        return {
+            "inputs": in_operators,
+            "outputs": out_operators,
+            "path": None,  # accurate container path recorded at op-write time
+            "index_authority": not offline_only,
+            "origin": "user_registry" if offline_only else "palette",
+            "tox": str(spec.get("tox_path", f"{component_name}.tox")).replace("\\", "/"),
+            "unavailable_message": None,
+        }
+
+    def _resolve_external_tox_path(self, tox_ref: str):
+        """Locate the referenced .tox at build time. Absolute paths stand alone; relative
+        paths anchor to output_dir ONLY (TD resolves them against the project folder at
+        load, and the project lands in output_dir — a CWD fallback would make builds
+        machine-state-dependent). Returns (resolved_path_or_None, tried_paths)."""
+        p = Path(tox_ref)
+        tried = [p] if p.is_absolute() else [self.output_dir / tox_ref]
+        for cand in tried:
+            try:
+                if cand.is_file():
+                    return cand, tried
+            except OSError:
+                pass
+        return None, tried
+
+    def _external_io_entry(self, name: str, op: dict, external_tox) -> dict:
+        """Manifest-backed io_map entry for an external_tox reference (BUG-3).
+
+        Best-effort: a missing/unreadable manifest (or an unresolvable wrapper) primes an
+        UNUSABLE entry (inputs/outputs None) carrying the composed failure message; the
+        consumption points raise it only when the comp is actually wired, so an unwired
+        placeholder keeps building exactly as before (pinned behavior). The offline
+        manifest name-sorts — it is a NAME authority only, so index_authority is always
+        False and a bare wire binds only a single-connector comp."""
+        tox_ref = str(external_tox).replace("\\", "/")
+        entry = {
+            "inputs": None,
+            "outputs": None,
+            "path": None,
+            "index_authority": False,
+            "origin": "external_tox",
+            "tox": tox_ref,
+            "unavailable_message": None,
+        }
+        resolved, tried = self._resolve_external_tox_path(tox_ref)
+        if resolved is None:
+            entry["unavailable_message"] = (
+                f"external_tox component '{name}' is wired but its .tox was not found "
+                f"(tried {', '.join(repr(str(t)) for t in tried)}). The builder needs the file "
+                f"at build time to resolve the component's inner in/out ops — a component is "
+                f"never itself a data source. Fix the path, or wire only explicit out-op paths "
+                f"('{name}/<outOp>') with no inputs into '{name}'.")
+        else:
+            try:
+                res = _load_external_manifest(resolved)
+            except Exception as e:
+                kind = getattr(e, "kind", "expand_failed")
+                if kind == "tool_missing":
+                    entry["unavailable_message"] = (
+                        f"external_tox component '{name}' is wired but its interface cannot be "
+                        f"read: {e} Alternatively wire only explicit out-op paths "
+                        f"('{name}/<outOp>') with no inputs into '{name}'.")
+                elif kind == "timeout":
+                    entry["unavailable_message"] = (
+                        f"external_tox component '{name}': {e}. The file may be very large or "
+                        f"damaged; expand it once manually (expand_toe_file) to inspect it.")
+                else:
+                    entry["unavailable_message"] = (
+                        f"external_tox component '{name}': '{tox_ref}' could not be read ({e}). "
+                        f"Re-save the .tox from TouchDesigner, or wire only explicit out-op "
+                        f"paths with no inputs.")
+            else:
+                man = res.get("manifest") or {}
+                has_subcomp = any(k.lower() == "subcompname"
+                                  for k in (op.get("parameters") or {}))
+                if man.get("wrapper") and not has_subcomp:
+                    inner = (res.get("subcompname")
+                             or (man.get("interface_path") or "").split("/")[-1])
+                    entry["unavailable_message"] = (
+                        f"'{name}' references a wrapper-style .tox ({tox_ref}; interface at "
+                        f"'{man.get('interface_path')}'): its in/out ops are not direct children "
+                        f"of the loaded root, so wires cannot bind. Set \"parameters\": "
+                        f"{{\"subcompname\": \"{inner}\"}} on '{name}' so TouchDesigner loads "
+                        f"the inner component directly, or register the component in the user "
+                        f"registry (registration records its subcompname, and the \"palette\" "
+                        f"field then emits it automatically; a raw external_tox reference still "
+                        f"needs the explicit parameter).")
+                else:
+                    entry["inputs"] = [
+                        {"name": d["name"], "family": (d.get("op_type") or "").split(":")[0]}
+                        for d in man.get("inputs", [])]
+                    entry["outputs"] = [
+                        {"name": d["name"], "family": (d.get("op_type") or "").split(":")[0]}
+                        for d in man.get("outputs", [])]
+        if entry["unavailable_message"]:
+            logger.warning("%s; building the placeholder unwired.", entry["unavailable_message"])
+        return entry
+
     def _embed_palette_v2(self, component_name: str, target_name: str, container_path: str, position: list) -> bool:
         """Write a placeholder COMP that loads a registered pre-built component.
 
@@ -1742,21 +1963,15 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         (self.project_dir / full_path).mkdir(parents=True, exist_ok=True)
 
         # Interface metadata -> palette_io_map, so downstream consumers resolve
-        # 'name' -> 'name/out1' and the compinputs .network block can be written.
-        in_operators = []
-        for item in sorted(spec.get("inputs", []) or [], key=lambda x: x.get("index", 0)):
-            in_operators.append({"name": item.get("in_op"), "family": item.get("family", "")})
-        out_operators = []
-        for item in sorted(spec.get("outputs", []) or [], key=lambda x: x.get("index", 0)):
-            out_operators.append({"name": item.get("out_op"), "family": item.get("family", "")})
-        self.palette_io_map[target_name] = {
-            "inputs": in_operators,
-            "outputs": out_operators,
-            "path": full_path,
-        }
+        # 'name' -> 'name/<out op>' and the compinputs .network block can be written.
+        # Normally primed by _prepass_component_io (a consumer may be written first);
+        # rebuilt here as a safety net for direct calls.
+        entry = self.palette_io_map.get(target_name) or self._palette_io_entry(component_name)
+        entry["path"] = full_path
+        self.palette_io_map[target_name] = entry
 
         # Wires INTO the placeholder: TD-native compinputs block in <comp>.network.
-        self._write_palette_network_file(target_name, container_path, in_operators)
+        self._write_palette_network_file(target_name, container_path)
 
         # Build-log component summary (same record the external_tox path keeps).
         self.external_components.append({
@@ -1767,10 +1982,28 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         })
         return True
 
-    def _write_palette_network_file(self, palette_name: str, container_path: str, in_operators: list):
-        """Write .network file to route external connections to palette's internal in operators.
+    def _write_palette_network_file(self, comp_name: str, container_path: str):
+        """Write the TD-native compinputs block routing in-wires to a component's INNER
+        in ops (`<comp>.network`); TD re-binds each row by inner in-op NAME + family
+        after the external tox loads. In-op names + families come from the comp's
+        palette_io_map entry (registry or build-time manifest).
 
-        Format (verified from human examples):
+        Wire assignment (BUG-3 policy):
+          - explicit `"to": "<comp>/<inOp>"` claims that named in-op (custom names
+            included — the connection-map regex only normalizes in\\d*); an unknown
+            inner name fails loud (it can never bind);
+          - bare `"to": "<comp>"`: index-authority entries (live-harvested registry)
+            fill unclaimed in-ops positionally in connector-index order — byte-identical
+            to the legacy positional mapping; name-authority entries (external_tox
+            manifests, offline user registrations) bind only a single-in-op comp,
+            otherwise fail loud listing the candidates;
+          - wired but interface unavailable (missing/unreadable .tox, unresolved
+            wrapper) fails loud with the stored reason; a wired comp with zero in ops
+            fails loud (the legacy silent drop is exactly the BUG-3 class);
+          - sources are themselves resolved (comp -> comp/<out op>) — a comp is never
+            a data source in a compinputs row either.
+
+        Format (live-verified, byte shape pinned in tests):
         ```
         1
         compinputs
@@ -1782,58 +2015,148 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         end
         ```
         """
-        full_path = f"{container_path}/{palette_name}"
+        entry = self.palette_io_map.get(comp_name)
+        if entry is None:
+            return
+        full_path = f"{container_path}/{comp_name}"
+        short_path = full_path.replace("project1/", "")
+        container_name = container_path.split("/")[-1] if "/" in container_path else container_path
+        keys = []
+        for k in (comp_name, short_path, full_path, f"{container_name}/{comp_name}"):
+            if k not in keys:
+                keys.append(k)
 
-        # Check for external connections TO this palette
-        external_sources = self.connections.get(palette_name, [])
+        # Explicit inner-name targets: '<key>/<suffix>' dsts.
+        explicit = {}
+        for k in keys:
+            prefix = k + "/"
+            for dst, srcs in self.connections.items():
+                if dst.startswith(prefix):
+                    suffix = dst[len(prefix):]
+                    bucket = explicit.setdefault(suffix, [])
+                    bucket.extend(s for s in srcs if s not in bucket)
 
-        # Also try with full path variations
-        if not external_sources:
-            short_path = full_path.replace("project1/", "")
-            external_sources = self.connections.get(short_path, [])
+        bare = []
+        for k in keys:
+            got = self.connections.get(k)
+            if got:
+                bare = list(got)
+                break
+        # The connection map double-stores '<comp>/inN' sources under the base key
+        # (BUG-B); a source wired both ways keeps its explicit binding.
+        claimed = {s for srcs in explicit.values() for s in srcs}
+        bare = [s for s in bare if s not in claimed]
 
-        if not external_sources or not in_operators:
-            return  # No external connections or no in operators
+        if not explicit and not bare:
+            return  # nothing wired in
+
+        tox = entry.get("tox") or ""
+        if entry.get("outputs") is None:  # manifest unavailable / wrapper unresolved
+            raise ValueError(entry.get("unavailable_message")
+                             or f"component '{comp_name}' is wired but its interface is "
+                                f"unavailable at build time.")
+        in_ops = entry.get("inputs") or []
+        in_names = [d["name"] for d in in_ops]
+        if not in_ops:
+            src0 = (bare or [s for ss in explicit.values() for s in ss])[0]
+            raise ValueError(
+                f"Cannot wire '{src0}' into component '{comp_name}': '{comp_name}' ({tox}) "
+                f"contains no in operators; it accepts no wired inputs.")
+        for suffix in explicit:
+            if suffix not in in_names:
+                raise ValueError(
+                    f"Connection targets '{comp_name}/{suffix}', but '{comp_name}' ({tox}) "
+                    f"has no in op named '{suffix}'. Its in ops: {in_names}.")
+
+        assign = {n: list(explicit.get(n, [])) for n in in_names}
+        if bare:
+            if entry.get("index_authority", True):
+                unclaimed = [n for n in in_names if not assign[n]]
+                for n, s in zip(unclaimed, bare):
+                    assign[n].append(s)
+                if len(bare) > len(unclaimed):
+                    self.log(f"    [WARNING] {comp_name}: {len(bare) - len(unclaimed)} bare "
+                             f"in-wire(s) exceed its in ops; dropped (legacy behavior)")
+            else:
+                if len(in_ops) == 1 and len(bare) == 1 and not explicit:
+                    assign[in_names[0]].append(bare[0])
+                else:
+                    raise ValueError(
+                        f"Cannot wire '{bare[0]}' into component '{comp_name}': '{comp_name}' "
+                        f"({tox}) has {len(in_ops)} in ops: {in_names}. Name the target "
+                        f"explicitly, e.g. \"to\": \"{comp_name}/{in_names[0]}\".")
 
         lines = ["1", "compinputs", "{"]
-
-        for idx, source in enumerate(external_sources):
-            if idx < len(in_operators):
-                in_op = in_operators[idx]
-                # Format: index<tab>source, then indented target, then indented family
-                lines.append(f"{idx} \t{source}")
-                lines.append(f"\t{in_op['name']}")
-                lines.append(f"\t{in_op['family']}")
-
+        idx = 0
+        for d in in_ops:
+            for src in assign[d["name"]]:
+                resolved = self._resolve_palette_source(src, consumer=comp_name)
+                # compinputs sources are sibling-relative to the comp's parent — strip a
+                # same-container prefix (mirrors the .n inputs writer normalization).
+                if resolved.startswith(container_name + "/"):
+                    resolved = resolved[len(container_name) + 1:]
+                lines.append(f"{idx} \t{resolved}")
+                lines.append(f"\t{d['name']}")
+                lines.append(f"\t{d['family']}")
+                idx += 1
+        if idx == 0:
+            return
         lines.extend(["}", "end"])
 
         self._write_file(f"{full_path}.network", "\n".join(lines) + "\n")
-        self.log(f"    Wrote .network file with {len(external_sources)} external connection(s)")
+        self.log(f"    Wrote .network file with {idx} external connection(s)")
 
-    def _resolve_palette_source(self, source: str) -> str:
-        """Resolve a palette or container source to its internal output operator.
+    def _resolve_palette_source(self, source: str, consumer: str = None) -> str:
+        """Resolve a palette/external/container COMP source to its inner out op.
 
-        When an operator connects FROM a palette/container, the source needs to be
-        resolved to the internal output operator (e.g., out1).
+        A component is never itself a data source — what it OUTPUTS lives on an inner
+        out op, so a bare comp name in a source position can never bind (TD drops it
+        at load). Resolution policy (BUG-3, evidence-driven):
+          - index-authority entries (live-harvested registry): outputs[0] IS live
+            connector 0 — legacy behavior, byte-compatible;
+          - name-authority entries (build-time external_tox manifests, offline user
+            registrations): auto-resolve ONLY a single out op — the offline manifest
+            name-sorts, so outputs[0] of a multi-out comp would silently mis-wire;
+            multiple candidates fail loud listing them;
+          - zero out ops, or a wired comp whose interface is unavailable (missing/
+            unreadable .tox, unresolved wrapper): fail loud;
+          - explicit '<comp>/<op>' paths never reach the maps — verbatim pass-through.
+        Container-qualified sources ('C/comp' from container-local connection
+        expansion) resolve via the basename; the first-segment guard keeps an explicit
+        inner ref on a registered comp ('comp/out1') from re-resolving.
 
-        BUG-C FIX: Also handles regular containers, not just palettes.
-
-        Args:
-            source: Source operator name (e.g., 'audioAnalysis', 'show_controls')
-
-        Returns:
-            Resolved path (e.g., 'audioAnalysis/out1') or original source if not found
+        BUG-C FIX retained: in-design containers resolve via container_io_map.
         """
-        # Check palettes first
-        if source in self.palette_io_map:
-            io_info = self.palette_io_map[source]
-            outputs = io_info.get('outputs', [])
-
-            if outputs:
+        entry = self.palette_io_map.get(source)
+        if entry is None and "/" in source:
+            segs = source.split("/")
+            if (len(segs) >= 2 and segs[0] not in self.palette_io_map
+                    and segs[-1] in self.palette_io_map):
+                entry = self.palette_io_map[segs[-1]]
+        if entry is not None:
+            who = f"'{consumer}'" if consumer else "consumer"
+            tox = entry.get("tox") or ""
+            outputs = entry.get("outputs")
+            if outputs is None:  # manifest unavailable / wrapper unresolved
+                raise ValueError(entry.get("unavailable_message")
+                                 or f"component '{source}' is wired but its interface is "
+                                    f"unavailable at build time.")
+            if not outputs:
+                raise ValueError(
+                    f"Cannot wire {who} from component '{source}': a component is never "
+                    f"itself a data source, and '{source}' ({tox}) contains no out "
+                    f"operators. Add an Out op inside the .tox, or remove this connection.")
+            if entry.get("index_authority", True) or len(outputs) == 1:
                 out_op = outputs[0]['name']
                 resolved = f"{source}/{out_op}"
-                self.log(f"    Resolved palette source: {source} -> {resolved}")
+                self.log(f"    Resolved component source: {source} -> {resolved}")
                 return resolved
+            names = [d["name"] for d in outputs]
+            raise ValueError(
+                f"Cannot wire {who} from component '{source}': a component is never itself "
+                f"a data source; reference its inner out op. '{source}' ({tox}) has "
+                f"{len(names)} out ops: {names}. Use an explicit source, e.g. "
+                f"\"from\": \"{source}/{names[0]}\".")
 
         # BUG-C FIX: Check regular containers
         if source in self.container_io_map:

@@ -166,22 +166,11 @@ def phase_offline(workdir: Path) -> None:
                     inner_type = op.op_type or None
                     break
 
-            entry = {
-                "source": "derivative",
-                "tox_path": rel,
-                "category": rel.split("/")[0],
-                "wrapper": bool(man.get("wrapper")),
-                "inner_type": inner_type or "COMP:base",
-                "inputs": [{"index": n, "in_op": d["name"],
-                            "family": (d.get("op_type") or "").split(":")[0]}
-                           for n, d in enumerate(man.get("inputs", []))],
-                "outputs": [{"index": n, "out_op": d["name"],
-                             "family": (d.get("op_type") or "").split(":")[0]}
-                            for n, d in enumerate(man.get("outputs", []))],
-                "operator_count": man.get("operator_count"),
-            }
-            if entry["wrapper"]:
-                entry["subcompname"] = scope.split("/")[-1]
+            from core.component_manifest import offline_entry
+            entry = offline_entry(
+                man, inner_type, source="derivative", tox_path=rel,
+                category=rel.split("/")[0],
+                subcompname=scope.split("/")[-1] if man.get("wrapper") else None)
             seed = seeds.get(stem) or {}
             for f in SEED_FIELDS:
                 if seed.get(f) is not None:

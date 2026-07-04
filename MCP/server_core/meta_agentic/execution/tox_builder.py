@@ -41,6 +41,9 @@ class ToxBuilder(ToeBuilderBridge):
         self.toc_entries = []
 
         self._build_connection_map(network.get("connections", []))
+        # BUG-3: prime component interfaces before ANY op writes (design order is
+        # arbitrary; a consumer may be written before its palette/external_tox comp).
+        self._prepass_component_io(network)
         self._build_expression_map(network.get("expressions", []))
         # BUG-012 FIX: Extract table_data for Table DAT operators
         self.table_data_map = network.get("table_data", {})

@@ -213,7 +213,7 @@ For unregistered `.tox` files use `external_tox: <path>`; `embed_tox` is removed
    tox_path = builder.build(spec_json, output_dir="./output")
    ```
 
-   - **Composition:** a project `.toe` can pull in reusable component `.tox` files via `external_tox` references (a `.toe` that composes `.tox` building blocks). **Caveat (BUG-3, KNOWN_ISSUES "Component as a data source"):** a connection whose source/target is an `external_tox` component currently **drops** on build — reference the inner out op (`comp/out1`) in the connection or hand-wire it in TD; fix pending. (Registered `palette` items and in-design containers wire correctly.)
+   - **Composition:** a project `.toe` can pull in reusable component `.tox` files via `external_tox` references (a `.toe` that composes `.tox` building blocks). The builder manifest-parses the referenced `.tox` at build time: a bare `{"from"/"to": "comp"}` wire auto-resolves only when the component has exactly **one** inner out/in op — otherwise the build fails loudly naming the candidates, and you reference the inner op explicitly (`comp/<outOp>` / `comp/<inOp>`; the real names come from `expand_toe_file(mode='summary')`'s `manifest` — comps use custom names like `valueOut`, not always `out1`). A component is never itself a data source. Wired comps whose `.tox` is missing at build time fail the build; wrapper-style `.tox`es need `parameters.subcompname`.
    - **Graceful degradation:** only if a build actually **errors**, fall back to Text DAT Python via `build_text_dat_script` (collision_policy reuse unless specified), then human instructions with exact params/connections.
 
 4. Record outputs for self-improve

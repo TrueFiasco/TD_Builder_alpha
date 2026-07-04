@@ -642,6 +642,12 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
             An operator may instead carry a 'palette' field naming a registered
             pre-built component (KB/palette_components.json) — it becomes an
             external-tox placeholder that loads from the user's own TD install.
+            Unregistered .tox files: `external_tox: <path>`. The file is
+            manifest-parsed at build time; a bare `{"from"/"to": "comp"}` wire
+            auto-resolves only when the component has exactly ONE inner out/in
+            op — otherwise name the inner op explicitly (`"comp/<outOp>"`);
+            a component is never itself a data source. A wired comp whose .tox
+            is missing/unreadable at build time fails the build with the reason.
         project_name: Optional project name (auto-generated if not provided)
         output_dir: Optional output directory (defaults to mcp_server/output)
 
@@ -1144,7 +1150,13 @@ async def list_tools() -> list[Tool]:
                 "output), and exposes its real custom parameter pages. 277 Derivative "
                 "palette items are registered in KB/palette_components.json; unknown names "
                 "fail with the registered-name hint. For an unregistered .tox file use "
-                "`external_tox` with a path instead. (`embed_tox` is removed.)"
+                "`external_tox` with a path instead (`embed_tox` is removed): the file is "
+                "manifest-parsed at build time when it exists — a bare `{\"from\": \"comp\"}` "
+                "wire auto-resolves only when the component has exactly one inner out/in op; "
+                "otherwise name the inner op explicitly (`\"comp/<outOp>\"` / "
+                "`\"comp/<inOp>\"`) — a component is never itself a data source. Wired comps "
+                "with a missing/unreadable .tox fail the build with the reason; wrapper-style "
+                ".toxes need `parameters.subcompname`."
             ),
             inputSchema={
                 "type": "object",
@@ -1155,7 +1167,7 @@ async def list_tools() -> list[Tool]:
                     },
                     "network_design": {
                         "type": "object",
-                        "description": "Advanced network design with containers and hierarchical paths. Takes precedence over 'design' if both provided. Operators and containers may carry a 'palette' field naming a registered pre-built component (see caveat 3); 'embed_tox' is removed."
+                        "description": "Advanced network design with containers and hierarchical paths. Takes precedence over 'design' if both provided. Operators and containers may carry a 'palette' field naming a registered pre-built component, or 'external_tox' with a .tox path (see caveat 3: bare wires auto-resolve only single-connector comps — name inner ops explicitly otherwise); 'embed_tox' is removed."
                     },
                     "table_data": {
                         "type": "object",
@@ -1423,90 +1435,11 @@ def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int
     return out
 
 
-def _component_manifest(network) -> dict:
-    """Extract a reusable component's interface (Round-4 #1b).
-
-    A component .tox exposes its inputs/outputs via in/out operators. Connectors are
-    matched by op-type family suffix (`:in`/`:out`) ONLY — names are reporting-only, so
-    an op merely NAMED `in5` or `integrate1` is never a phantom connector. inputs/outputs
-    are scoped to the DIRECT children of the interface COMP: normally the root COMP, but
-    a Derivative palette wrapper (connector-less root + icon/help + same-name inner COMP)
-    redirects to the inner comp — previously every nested in*/out* at any depth leaked in
-    (a wrapper tox reported 14 bogus inputs). families and op/connection counts stay
-    whole-network. The manifest lets an LLM wire a component referenced via `external_tox`
-    without re-expanding it. Surfaced as the `manifest` field of
-    expand_toe_file(mode='summary')."""
-    ops, families = [], {}
-    for op in network.operators:
-        ot = op.op_type or (f"{op.family.value}:{op.type}" if getattr(op, "family", None)
-                            else getattr(op, "type", "")) or ""
-        path = op.path.rstrip("/")
-        if not path.startswith("/"):
-            path = "/" + path
-        fam = ot.split(":")[0] if ":" in ot else ""
-        if fam:
-            families[fam] = families.get(fam, 0) + 1
-        ops.append({
-            "path": path,
-            "parent": path.rsplit("/", 1)[0],   # "" for depth-1 ops
-            "name": path.split("/")[-1],
-            "base": ot.split(":")[-1].lower() if ":" in ot else ot.lower(),
-            "fam": fam.upper(),
-            "op_type": ot,
-            "depth": path.count("/"),
-        })
-
-    # Interface COMP: the root COMP. For a parsed .toe prefer the declared root
-    # (metadata.root_comp, usually project1) so utility trees like /local can't win
-    # the tie-break; otherwise the shallowest COMP, ties broken by most descendants.
-    root = None
-    comps = [o for o in ops if o["fam"] == "COMP"]
-    if comps:
-        if getattr(getattr(network, "metadata", None), "mode", None) == "toe":
-            root_name = getattr(network.metadata, "root_comp", None) or "project1"
-            root = next((o for o in comps if o["depth"] == 1 and o["name"] == root_name), None)
-        if root is None:
-            min_depth = min(o["depth"] for o in comps)
-            top = [o for o in comps if o["depth"] == min_depth]
-            root = max(top, key=lambda c: sum(
-                1 for o in ops if o["path"].startswith(c["path"] + "/")))
-
-    wrapper = False
-    if root is not None:
-        scope = root["path"]
-        direct = [o for o in ops if o["parent"] == scope]
-        # Wrapper redirect ONLY when the root has no connectors of its own — a root
-        # with real in/out children is the interface even if a same-name child exists.
-        if not any(o["base"] in ("in", "out") for o in direct):
-            inner = next((o for o in direct
-                          if o["fam"] == "COMP" and o["name"] == root["name"]), None)
-            if inner is not None:
-                scope, wrapper = inner["path"], True
-    elif ops:
-        # No COMP in the list (already-scoped fragment): direct children of the
-        # shallowest level are the interface candidates.
-        scope = min(ops, key=lambda o: o["depth"])["parent"]
-    else:
-        scope = ""
-
-    inputs = [{"name": o["name"], "op_type": o["op_type"]}
-              for o in ops if o["parent"] == scope and o["base"] == "in"]
-    outputs = [{"name": o["name"], "op_type": o["op_type"]}
-               for o in ops if o["parent"] == scope and o["base"] == "out"]
-    inputs.sort(key=lambda x: x["name"])
-    outputs.sort(key=lambda x: x["name"])
-    return {
-        "inputs": inputs,
-        "outputs": outputs,
-        "families": families,
-        "operator_count": len(network.operators),
-        "connection_count": len(network.connections),
-        "interface_path": scope,
-        "wrapper": wrapper,
-        "summary": (f"{len(network.operators)} operators, {len(network.connections)} connections; "
-                    f"inputs={[i['name'] for i in inputs]}, outputs={[o['name'] for o in outputs]}"
-                    + (f" (wrapper: interface at {scope})" if wrapper else "")),
-    }
+# Component interface manifest (Round-4 #1b): moved to engine/core/component_manifest.py
+# so the offline builder can manifest-parse external_tox components at build time (BUG-3)
+# without a circular import (this module imports ToeBuilderBridge). Re-exported under the
+# original name — tests and the harvest script read `_component_manifest` off this module.
+from core.component_manifest import component_manifest as _component_manifest  # noqa: E402
 
 
 def _summarize_td_network(network) -> dict:

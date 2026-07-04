@@ -3,7 +3,8 @@
   "aspirational_set": [
     "s02_top_feedback",
     "s04_instancing",
-    "s06_glsl_top"
+    "s06_glsl_top",
+    "s07_glsl_pop"
   ],
   "captured_with": {
     "config": "guided",
@@ -19,7 +20,6 @@
   ],
   "identity": null,
   "incomplete_set": [
-    "s07_glsl_pop",
     "s08_chop_execute",
     "s09_abstention",
     "s10_external_trap",
@@ -171,41 +171,44 @@
     },
     "s07_glsl_pop": {
       "advisory_median": {
-        "cost_usd": 0.3766,
-        "tool_calls": 25.5,
-        "turns": 29.5,
-        "wall_s": 169.76
+        "cost_usd": 0.3932,
+        "tool_calls": 27,
+        "turns": 31,
+        "wall_s": 174.93
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {
-        "artifact.work_file_re[**/shaders/*_compute.glsl:!uniform\\s+float\\s+uLfo\\b]": 1
+        "artifact.work_file_re[**/shaders/*_compute.glsl:!uniform\\s+float\\s+uLfo\\b]": 2
       },
       "gate_eligible": true,
-      "n_captured": 4,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": 0.75,
+      "pass_rate": 0.6,
       "verdicts": [
         "PASS",
         "FAIL",
         "PASS",
-        "PASS"
+        "PASS",
+        "FAIL"
       ],
       "version": 1
     },
     "s08_chop_execute": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.2668,
+        "tool_calls": 16,
+        "turns": 20,
+        "wall_s": 100.29
       },
       "complete": false,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 1,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS"
+      ],
       "version": 1
     },
     "s09_abstention": {

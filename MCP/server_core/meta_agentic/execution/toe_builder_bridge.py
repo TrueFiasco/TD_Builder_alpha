@@ -79,20 +79,68 @@ def _load_docked_dats() -> dict:
 # compinputs .network entries and 'name/out1' path-form input refs by INNER op name
 # (verified live 2025.32820; sibling-name refs to a not-yet-loaded COMP are dropped).
 _PALETTE_COMPONENTS_CACHE = None
+_PALETTE_COMPONENTS_CACHE_KEY = None
+
+
+def _registry_file_sig(path) -> tuple:
+    """(path, mtime_ns, size) — or (path, None, None) when absent/unreadable."""
+    try:
+        st = Path(path).stat()
+        return (str(path), st.st_mtime_ns, st.st_size)
+    except OSError:
+        return (str(path), None, None)
 
 
 def _load_palette_components() -> dict:
-    """Load the pre-built component registry (cached). Returns the full spec dict
-    ({"sources": ..., "components": ...}); empty components when the file is missing."""
-    global _PALETTE_COMPONENTS_CACHE
-    if _PALETTE_COMPONENTS_CACHE is None:
+    """Load the component registry: shipped KB/palette_components.json merged with the
+    USER registry (paths.user_components_path(), default ~/.td_builder/, override via
+    TD_BUILDER_USER_DIR) — the ONE loader seam. User entries win per component name.
+
+    The cache is keyed on (path, mtime_ns, size) of BOTH files, so a registration made
+    while the MCP server is running (register_user_component.py, an external process)
+    is visible on the very next build — no restart. The merge builds a FRESH dict per
+    (re)load; the shipped spec is never mutated in place. A malformed user file warns
+    and falls back to shipped-only (a user registry must never fail a build).
+
+    Tests may still inject a registry by assigning _PALETTE_COMPONENTS_CACHE directly:
+    an injected cache is returned as long as the underlying files haven't changed
+    since the key was computed (or no key exists yet)."""
+    global _PALETTE_COMPONENTS_CACHE, _PALETTE_COMPONENTS_CACHE_KEY
+    from paths import user_components_path
+    user_path = user_components_path()
+    key = (_registry_file_sig(KB_PALETTE_COMPONENTS), _registry_file_sig(user_path))
+    if _PALETTE_COMPONENTS_CACHE is not None and (
+            _PALETTE_COMPONENTS_CACHE_KEY is None or _PALETTE_COMPONENTS_CACHE_KEY == key):
+        return _PALETTE_COMPONENTS_CACHE
+
+    try:
+        with open(KB_PALETTE_COMPONENTS, "r", encoding="utf-8") as f:
+            shipped = json.load(f)
+    except Exception as e:
+        logger.warning("palette_components.json not loaded (%s); palette field disabled", e)
+        shipped = {"components": {}}
+
+    merged = dict(shipped)
+    merged["components"] = dict(shipped.get("components") or {})
+    if key[1][1] is not None:  # user file exists
         try:
-            with open(KB_PALETTE_COMPONENTS, "r", encoding="utf-8") as f:
-                _PALETTE_COMPONENTS_CACHE = json.load(f)
+            with open(user_path, "r", encoding="utf-8") as f:
+                user_spec = json.load(f)
+            user_components = user_spec.get("components")
+            if not isinstance(user_components, dict):
+                raise ValueError('missing/invalid top-level "components" object')
+            collisions = set(user_components) & set(merged["components"])
+            if collisions:
+                logger.info("user registry overrides %d shipped component(s): %s",
+                            len(collisions), sorted(collisions))
+            merged["components"].update(user_components)
         except Exception as e:
-            logger.warning("palette_components.json not loaded (%s); palette field disabled", e)
-            _PALETTE_COMPONENTS_CACHE = {"components": {}}
-    return _PALETTE_COMPONENTS_CACHE
+            logger.warning("user component registry %s not loaded (%s); using shipped "
+                           "registry only", user_path, e)
+
+    _PALETTE_COMPONENTS_CACHE = merged
+    _PALETTE_COMPONENTS_CACHE_KEY = key
+    return merged
 
 
 # BUG-3: build-time interface manifests for external_tox components. The manifest logic

@@ -69,6 +69,19 @@ def kb_palette_components_path() -> Path:
     return KB_PALETTE_COMPONENTS
 
 
+def user_components_path() -> Path:
+    """Path to the USER component registry (user_components.json) -- same per-item schema
+    as KB/palette_components.json, merged over it at load (user wins on name collision).
+    Lives OUTSIDE KB/ (the KB is a fetched, identity-hashed artifact and stays pristine):
+    default ~/.td_builder/user_components.json (same home as the live-server api_token),
+    directory overridable via TD_BUILDER_USER_DIR. Resolved at CALL time -- not import
+    time -- so tests and a long-lived MCP server see env changes and fresh registrations
+    without a module reload."""
+    base = os.environ.get("TD_BUILDER_USER_DIR")
+    root = Path(base).expanduser() if base and base.strip() else Path.home() / ".td_builder"
+    return root / "user_components.json"
+
+
 def wiki_supplemental(name: str) -> Path:
     """Return the absolute path to a wiki_supplemental .md file.
 

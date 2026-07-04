@@ -753,6 +753,14 @@ async def _run_build(network_design, design, table_data, project_name, output_di
     """Build a .tox/.toe and return the result envelope dict (callers run B08 pre-validation
     first). network_design -> ToeBuilderBridge advanced path; otherwise the simple
     td_build_project() path. Same envelopes the tool returned before the refactor."""
+    # BUG-1: a flat simple `design` requesting mode="toe" must reach ToeBuilderBridge, which
+    # honors mode. The simple td_build_project() fallback below is tox-only and silently drops
+    # `mode` -> a .toe request produced a .tox. Promote it to the advanced path (build_from_design
+    # accepts a flat design); fold table_data in first so network.get("table_data") still sees it.
+    if not network_design and mode == "toe" and design:
+        network_design = dict(design)
+        if table_data:
+            network_design["table_data"] = table_data
     if network_design and EXPERT_WORKFLOW_ENABLED:
         try:
             if not output_dir:
@@ -773,6 +781,18 @@ async def _run_build(network_design, design, table_data, project_name, output_di
                 conn_count += len(container.get("connections", []))
                 conn_count += len(container.get("network", {}).get("connections", []))
             if result_path and Path(result_path).exists():
+                # BUG-1 (fail loud): never report SUCCESS with a different extension than the
+                # requested mode. The branch above already picks the builder by mode, so this is
+                # a belt-and-suspenders guard against a silent .tox-for-.toe (or vice versa).
+                expected_ext = ".toe" if mode == "toe" else ".tox"
+                if Path(result_path).suffix != expected_ext:
+                    return {
+                        "status": "ERROR",
+                        "builder": "ToeBuilderBridge",
+                        "message": (f"Builder produced {Path(result_path).suffix} but "
+                                    f"mode={mode!r} requires {expected_ext}"),
+                        "output_file": str(result_path),
+                    }
                 return {
                     "status": "SUCCESS",
                     "builder": "ToeBuilderBridge",
@@ -817,7 +837,19 @@ async def _run_build(network_design, design, table_data, project_name, output_di
     if table_data:
         design = dict(design)
         design["table_data"] = table_data
-    return await td_build_project(design, project_name, output_dir)
+    result = await td_build_project(design, project_name, output_dir)
+    # BUG-1 (fail loud): mode="toe" only reaches here in the degenerate case where promotion
+    # above was skipped (falsy `design`). td_build_project is tox-only, so a SUCCESS here for a
+    # .toe request would be a silent .tox — convert it to an explicit error instead.
+    if mode == "toe" and result.get("status") == "SUCCESS" \
+            and not str(result.get("output_file", "")).endswith(".toe"):
+        return {
+            "status": "ERROR",
+            "message": ("mode='toe' requested but the simple builder produced a .tox — "
+                        "provide a design with operators."),
+            "output_file": result.get("output_file", ""),
+        }
+    return result
 
 
 def _start_build_job(network_design, design, table_data, project_name, output_dir, mode) -> str:

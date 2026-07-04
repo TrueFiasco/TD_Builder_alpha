@@ -109,10 +109,10 @@ end
                     position = parent_op.get("position", [0, 0])
                     td_type = self._map_op_type(op_type, component_name, family)
 
-                    # Write container .n file
+                    # Write container .n file (honor the parent COMP's render/display flags — BUG-2)
                     n_content = f"""{td_type}
 tile {position[0]} {position[1]} 200 150
-flags =  parlanguage 0
+flags =  {self._flags_tokens(parent_op.get("flags", {}) or {})}parlanguage 0
 end
 """
                     self._write_file(f"{container_path}.n", n_content)

@@ -22,7 +22,13 @@ from typing import Optional, Dict
 # top level ({metadata, operators, classes, concepts, errors}), so a switch
 # among them is path-only — no adapter needed.
 import sys as _sys
-_REPO_ROOT = Path(__file__).resolve().parents[3]
+# This module self-bootstraps `paths` onto sys.path so it stays importable even
+# when loaded before MCP/bootstrap.py runs (e.g. a direct pytest of this module,
+# or any future import-order change). It must derive the root with a literal
+# parents[] walk here -- `paths` isn't importable yet (chicken-and-egg), so we
+# cannot `from paths import REPO_ROOT` for the value. Depth is 4 hops:
+# execution/ -> meta_agentic/ -> server_core/ -> MCP/ -> repo root.
+_REPO_ROOT = Path(__file__).resolve().parents[4]
 if str(_REPO_ROOT) not in _sys.path:
     _sys.path.insert(0, str(_REPO_ROOT))
 from paths import kb_operators_path as _kb_operators_path  # noqa: E402

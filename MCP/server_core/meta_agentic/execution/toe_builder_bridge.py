@@ -19,9 +19,12 @@ from .param_name_resolver import resolve_param_name, resolve_menu_value
 
 logger = logging.getLogger(__name__)
 
-# Paths
-from paths import resolve_td_tool, td_tool_missing_error, KB_OPERATORS, KB_PALETTE_COMPONENTS
-EXPERTISE_DIR = Path(__file__).resolve().parents[4] / "Agents" / "expertise"
+# Paths -- resolved via the canonical repo-root paths module (honors the
+# TD_BUILDER_ROOT relocation knob). paths is importable here because
+# param_name_resolver (imported above) self-bootstraps it onto sys.path.
+from paths import (resolve_td_tool, td_tool_missing_error, KB_OPERATORS,
+                   KB_PALETTE_COMPONENTS, KB_DOCKED_DATS, REPO_ROOT)
+EXPERTISE_DIR = REPO_ROOT / "Agents" / "expertise"
 
 # DOCKED_DATS: the helper DATs each op auto-creates + docks during a live create().
 # Live TD does this automatically; the offline builder didn't (F6 was a partial,
@@ -50,7 +53,7 @@ DOCKED_DATS = {
 }
 
 # KB path for the docked-DAT specs (companion to operators.json, PR-reviewable).
-DOCKED_DATS_PATH = Path(__file__).resolve().parents[4] / "KB" / "docked_dats.json"
+DOCKED_DATS_PATH = KB_DOCKED_DATS
 _DOCKED_DATS_CACHE = None
 
 

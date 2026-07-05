@@ -70,7 +70,12 @@ def _is_out_op(op: dict) -> bool:
 
 
 def _default_palette_components() -> _Path:
-    return _Path(__file__).resolve().parents[3] / "KB" / "palette_components.json"
+    """Repo-root/KB/palette_components.json via the canonical ``paths`` module (honors the
+    ``TD_BUILDER_ROOT`` relocation knob). ``paths`` is imported lazily (call-time) so this
+    validation module carries no import-time dependency on the repo-root module -- the repo
+    root is on sys.path by the time a validator is constructed."""
+    from paths import KB_PALETTE_COMPONENTS  # lazy -- see docstring
+    return KB_PALETTE_COMPONENTS
 
 
 class ComponentSourceValidator:

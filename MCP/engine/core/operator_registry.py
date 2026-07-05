@@ -12,6 +12,27 @@ from typing import Dict, List, Optional, Any
 from .models import OperatorSpec, ParamSpec, OperatorFamily
 
 
+def _default_registry_path() -> Path:
+    """Resolve the default operator-KB path WITHOUT loading it.
+
+    Prefers the consolidated KB bundle (``paths.KB_OPERATORS`` = repo-root/KB/operators.json,
+    the enriched superset); falls back to the legacy ``META_AGENTIC_TOOL/data/wiki_docs``
+    layout (pre_alpha baseline). Routing through ``paths`` makes both branches honor the
+    ``TD_BUILDER_ROOT`` relocation knob.
+
+    ``paths`` is imported lazily (call-time, not module-top) so this engine module carries
+    no import-time dependency on the repo-root module -- by the time a registry is
+    constructed, bootstrap/conftest has already put the repo root on sys.path. The import is
+    a cheap ``sys.modules`` lookup after first load, so no caching is needed.
+    """
+    from paths import KB_OPERATORS, REPO_ROOT  # lazy -- see docstring
+    if KB_OPERATORS.exists():
+        return KB_OPERATORS
+    legacy = REPO_ROOT / "META_AGENTIC_TOOL" / "data" / "wiki_docs"
+    enriched = legacy / "td_universal_parsed_enriched.json"
+    return enriched if enriched.exists() else legacy / "td_universal_parsed.json"
+
+
 class OperatorRegistry:
     """
     Queryable registry of all TouchDesigner operators with full parameter schemas.
@@ -30,17 +51,7 @@ class OperatorRegistry:
                 Prefers the enriched superset; falls back to the base parsed file.
         """
         if registry_path is None:
-            # Prefer the consolidated KB bundle (repo-root/KB/operators.json =
-            # the enriched superset). Fall back to the legacy
-            # META_AGENTIC_TOOL/data/wiki_docs layout (pre_alpha baseline).
-            root = Path(__file__).resolve().parents[3]
-            kb_ops = root / "KB" / "operators.json"
-            if kb_ops.exists():
-                registry_path = kb_ops
-            else:
-                legacy = root / "META_AGENTIC_TOOL" / "data" / "wiki_docs"
-                enriched = legacy / "td_universal_parsed_enriched.json"
-                registry_path = enriched if enriched.exists() else legacy / "td_universal_parsed.json"
+            registry_path = _default_registry_path()
 
         self.registry_path = Path(registry_path)
         self.operators: Dict[str, OperatorSpec] = {}  # Key: "FAMILY:type"

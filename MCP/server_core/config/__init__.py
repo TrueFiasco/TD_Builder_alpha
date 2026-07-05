@@ -62,6 +62,13 @@ for _cfg_path in (_ROOT / "Config" / "search_config.json",
         break
 
 
+# D4 feedback spine (opt-in, local-only). Master-switch DEFAULT from the JSON layer;
+# the real env var TD_FEEDBACK_ENABLED (read at CALL time in MCP/feedback.py) and the
+# root `.env` still override it via the same precedence as everything else. Off by
+# default. See Config/SETTINGS.md.
+FEEDBACK_ENABLED_DEFAULT = str(_CONFIG.get("feedback_enabled", "false"))
+
+
 def _resolve(p: str) -> Path:
     path = Path(p)
     return path if path.is_absolute() else _ROOT / path

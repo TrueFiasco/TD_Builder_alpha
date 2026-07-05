@@ -28,7 +28,8 @@ import ast
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-MODULES = REPO / "MCP" / "td-webserver" / "modules"
+TD_WEBSERVER = REPO / "MCP" / "td-webserver"
+MODULES = TD_WEBSERVER / "modules"
 API_SERVICE = MODULES / "mcp" / "services" / "api_service.py"
 
 # ``ui``/``td.ui`` methods that pop a blocking modal. Exact names only — do NOT add
@@ -37,24 +38,31 @@ _DIALOG_METHODS = {"messageBox", "chooseFile", "chooseFolder"}
 
 
 def _module_files() -> list[Path]:
-    files = sorted(MODULES.rglob("*.py"))
-    assert files, f"no service modules found under {MODULES}"
+    # Scan the WHOLE td-webserver tree, not just modules/, so the top-level thin
+    # bootstrap (import_modules.py) — which runs in the WebServer DAT's main-thread
+    # context and is the canonical source for the embedded DAT text — is covered too.
+    files = sorted(TD_WEBSERVER.rglob("*.py"))
+    assert files, f"no service modules found under {TD_WEBSERVER}"
     return files
 
 
 def _is_project_save(call: ast.Call) -> bool:
-    """True for ``<...>.project.save(...)``.
+    """True for ``<...>.project.save(...)`` OR bare ``project.save(...)``.
 
     Exact ``attr == "save"`` so ``top.saveByteArray(...)`` (capture_service) does NOT
-    match, and the receiver must be ``.project`` so the ``td.project`` dict-VALUE in
-    exec_python_script's globals (not a call) does not match either.
+    match. The receiver must be ``.project`` — as an attribute (``td.project``) so the
+    ``td.project`` dict-VALUE in exec_python_script's globals (not a call) doesn't match,
+    OR as a bare ``project`` Name (``from td import project``; TD exposes ``project`` as a
+    module-level singleton), so neither spelling of the dialog-capable call slips through.
+    Mirrors ``_receiver_is_ui``, which likewise accepts both a bare and attribute receiver.
     """
     f = call.func
+    if not (isinstance(f, ast.Attribute) and f.attr == "save"):
+        return False
+    recv = f.value
     return (
-        isinstance(f, ast.Attribute)
-        and f.attr == "save"
-        and isinstance(f.value, ast.Attribute)
-        and f.value.attr == "project"
+        (isinstance(recv, ast.Attribute) and recv.attr == "project")
+        or (isinstance(recv, ast.Name) and recv.id == "project")
     )
 
 
@@ -108,6 +116,8 @@ def test_project_save_matcher_has_teeth():
     assert _is_project_save(_only_call("td.project.save()"))
     assert _is_project_save(_only_call("td.project.save(path)"))
     assert _is_project_save(_only_call("self.td.project.save()"))
+    assert _is_project_save(_only_call("project.save()"))              # bare: from td import project
+    assert _is_project_save(_only_call("project.save(path)"))
     # Negatives that MUST NOT match:
     assert not _is_project_save(_only_call("top.saveByteArray(ext)"))   # capture_service
     assert not _is_project_save(_only_call("obj.save()"))               # not on .project

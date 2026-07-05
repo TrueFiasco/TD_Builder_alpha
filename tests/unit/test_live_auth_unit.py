@@ -182,11 +182,21 @@ def test_script_assigns_result_detection(api_service_mod):
 # (live HITL against the main-tree install).
 # --------------------------------------------------------------------------
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def restore_dir(tmp_path, monkeypatch):
-    """Redirect restore-point writes into tmp (never the real ~/.td_builder)."""
+    """Redirect restore-point writes into tmp for EVERY test in this module (never the
+    real ~/.td_builder) and reset the shared module-scoped `td` mock's project path to a
+    non-existent location. autouse because the exec_* tests also fire the restore point
+    (exec_python_script → _ensure_session_restore_point) and the module-scoped `td` mock
+    leaks td.project.folder/name across tests — without this, running a saved-project test
+    before an exec test (any reordering / node-id selection) would copy into the real
+    ~/.td_builder. Tests that need the dir take it by name; others still get isolated."""
     d = tmp_path / "restore_points"
     monkeypatch.setenv("TD_RESTORE_DIR", str(d))
+    td = sys.modules.get("td")
+    if td is not None:
+        td.project.folder = str(tmp_path)
+        td.project.name = "_no_such_project_.toe"  # absent → restore point skips by default
     return d
 
 
@@ -286,6 +296,21 @@ def test_restore_point_only_once(api_service_mod, tmp_path, restore_dir, monkeyp
     svc._ensure_session_restore_point()
     svc._ensure_session_restore_point()
     assert spy.call_count == 1
+
+
+def test_restore_point_only_once_even_after_failure(api_service_mod, tmp_path, restore_dir, monkeypatch):
+    """Flag-first guarantee: _session_saved is set BEFORE the copy, so a FAILED first
+    snapshot must NOT retry-storm — the primitive is attempted at most once per instance
+    even when it raises (guards against moving the flag-set below the try)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "saved.toe")
+    spy = mock.Mock(side_effect=PermissionError("locked"))
+    monkeypatch.setattr(api_service_mod.TouchDesignerApiService, "_snapshot_toe", spy)
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()  # first: raises internally → swallowed
+    svc._ensure_session_restore_point()  # second: flag already set → no retry
+    assert spy.call_count == 1
+    assert svc._restore_point_status.startswith("unavailable:")
 
 
 def test_restore_point_path_disambiguates_same_basename(api_service_mod, tmp_path, restore_dir):

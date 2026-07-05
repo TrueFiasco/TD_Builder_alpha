@@ -398,6 +398,21 @@ async def get_td_info(arguments: dict) -> Sequence[TextContent]:
 | OS | {info.get('osName', 'N/A')} {info.get('osVersion', '')} |
 | MCP API | {info.get('mcpApiVersion', 'N/A')} |
 """
+                # Session restore point (pre-mutation safety copy). Surface it so the
+                # AI can tell the user where rollback lives AND — critically — notice
+                # when the best-effort copy did NOT happen (skipped/unavailable), i.e.
+                # mutations proceeded without a rollback point.
+                rp = info.get("restorePoint")
+                if isinstance(rp, dict):
+                    status = rp.get("status", "unknown")
+                    detail = rp.get("detail")
+                    text += f"| Restore point | {status if not detail else f'{status} ({detail})'} |\n"
+                    if status not in ("ok", "not_run"):
+                        text += (
+                            f"\n⚠️ Session restore point **{status}** — the pre-mutation "
+                            "safety copy was not created; edits proceed without a rollback "
+                            "point (save the project once to enable it).\n"
+                        )
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 

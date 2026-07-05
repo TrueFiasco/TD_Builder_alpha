@@ -138,13 +138,16 @@ def test_p09_expert_prompt(probe):
 # P11-P14  offline engine tools
 # --------------------------------------------------------------------------
 
-def test_p11_validate_five_stages(probe):
+def test_p11_validate_pipeline_stages(probe):
     r = probe.call("td_validate", {"network": NET, "verbose": True})
     assert r.ok, r.text[:200]
     d = r.json()
     assert "valid" in d
+    # Stage set: the original 5 + W3a's advisory stages — 2.5 grounding (family-correctness
+    # vs live-TD KB) and 3.5 component_wiring (a component is never a data source, BUG-3).
     assert set(d.get("stages", {})) == {
-        "schema", "semantic", "reference", "logical", "td_rules"}
+        "schema", "semantic", "grounding", "reference", "component_wiring",
+        "logical", "td_rules"}
 
 
 def test_p12_convert_builder_to_canonical(probe):

@@ -473,11 +473,27 @@ def write_report(jsonl: Path, stage: Path, cmap, args):
     mismatches = sorted([r for r in ext if r.get("verdict") != "PASS"],
                         key=lambda r: VERDICT_RANK.index(r["verdict"]) if r["verdict"] in VERDICT_RANK else 99)
 
+    # Distinguish DOCUMENTED (expected) residuals from PRINCIPLED (regression) failures.
+    expected_residuals, principled_failures = [], []
+    for r in mismatches:
+        c = gc.classify_residual(r)
+        row = {"op": r["op"], "family": r["family"], "verdict": r["verdict"], "codes": c.get("codes", [])}
+        if c["kind"] == "expected":
+            expected_residuals.append({**row, "class": c["cls"], "reason": c["reason"]})
+        else:
+            principled_failures.append(row)
+
     payload = {
         "harness": HARNESS, "version": VERSION,
         "config": {"scope": "seed" if args.seed else ("all" if args.all else (args.families or f"sample{args.sample}")),
                    "n_ops_extracted": len(ext)},
         "totals": totals, "by_family": by_family, "by_verdict": by_verdict,
+        "residual_triage": {
+            "expected_documented": len(expected_residuals),
+            "principled_failures": len(principled_failures),
+            "expected": expected_residuals,
+            "principled": principled_failures,
+        },
         "ntoken_counterfactual": {"n_mismatched_ops_tested": len(nt),
                                   "build_clean_with_correct_token": nt_build_clean,
                                   "validate_pass_with_correct_token": nt_validate_pass},
@@ -514,6 +530,24 @@ def write_report(jsonl: Path, stage: Path, cmap, args):
     for v in VERDICT_RANK:
         if v in by_verdict:
             lines.append(f"| {v} | {by_verdict[v]} |")
+
+    # Residual triage — the load-bearing distinction: DOCUMENTED vs PRINCIPLED.
+    lines += ["", "## Residual triage (documented vs principled)", "",
+              f"- **Principled failures (regressions to investigate): {len(principled_failures)}** "
+              "— must be 0 for a clean gate. Any non-PASS op NOT in the EXPECTED_RESIDUALS "
+              "allowlist (`gate_common.py`) lands here.",
+              f"- Expected residuals (documented, root-caused, non-builder-code): {len(expected_residuals)}.",
+              ""]
+    if principled_failures:
+        lines += ["### ⚠ Principled failures", "", "| op | family | verdict | codes |", "|---|---|---|---|"]
+        for r in principled_failures:
+            lines.append(f"| {r['op']} | {r['family']} | {r['verdict']} | {','.join(map(str, r['codes'][:5]))} |")
+        lines.append("")
+    lines += ["### Expected residuals (allowlisted)", "",
+              "| op | family | class | codes | reason |", "|---|---|---|---|---|"]
+    for r in expected_residuals:
+        lines.append(f"| {r['op']} | {r['family']} | {r['class']} | {','.join(map(str, r['codes'][:4]))} | {r['reason']} |")
+
     lines += ["", "## Failing operators (worst-first)", "",
               "| op | family | verdict | got .n | expected .n | dropped params |", "|---|---|---|---|---|---|"]
     for r in mismatches[:80]:

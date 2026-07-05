@@ -15,7 +15,9 @@ from core.operator_registry import OperatorRegistry
 
 from .schema_validator import SchemaValidator
 from .semantic_validator import SemanticValidator
+from .grounding_validator import GroundingValidator
 from .reference_validator import ReferenceValidator
+from .component_source_validator import ComponentSourceValidator
 from .logical_validator import LogicalValidator
 from .td_rules_validator import TDRulesValidator
 
@@ -24,12 +26,14 @@ class ValidationPipeline:
     """
     Multi-stage validation pipeline.
 
-    Runs 5 stages in sequence:
-    1. Schema - JSON structure validation
-    2. Semantic - Operator/parameter existence
-    3. Reference - Connection/parent validity
-    4. Logical - Type compatibility, cycles
-    5. TD Rules - TouchDesigner-specific rules
+    Runs stages in sequence:
+    1.  Schema - JSON structure validation
+    2.  Semantic - Operator/parameter existence
+    2.5 Grounding - operator family-correctness vs live-TD KB grounding (advisory)
+    3.  Reference - Connection/parent validity
+    3.5 Component wiring - a component is never itself a data source (BUG-3)
+    4.  Logical - Type compatibility, cycles
+    5.  TD Rules - TouchDesigner-specific rules
 
     Stops on first failure (configurable).
     """
@@ -48,7 +52,9 @@ class ValidationPipeline:
         # Initialize validators
         self.schema_validator = SchemaValidator()
         self.semantic_validator = SemanticValidator(self.registry)
+        self.grounding_validator = GroundingValidator()
         self.reference_validator = ReferenceValidator()
+        self.component_source_validator = ComponentSourceValidator()
         self.logical_validator = LogicalValidator(self.registry)
         self.td_rules_validator = TDRulesValidator(self.registry)
 
@@ -85,6 +91,13 @@ class ValidationPipeline:
         if self.stop_on_error and semantic_report.status == "FAIL":
             return self._build_report(stages, network_path, total_errors, total_warnings, stopped=True)
 
+        # Stage 2.5: Grounding (family-correctness vs live-TD KB; advisory warnings only,
+        # so it never gates a build — it surfaces the correct family/token to fix by hand).
+        grounding_report = self.grounding_validator.validate(network_json)
+        stages.append(grounding_report)
+        total_errors += len(grounding_report.errors)
+        total_warnings += len(grounding_report.warnings)
+
         # Stage 3: Reference
         reference_report = self.reference_validator.validate(network_json)
         stages.append(reference_report)
@@ -92,6 +105,17 @@ class ValidationPipeline:
         total_warnings += len(reference_report.warnings)
 
         if self.stop_on_error and reference_report.status == "FAIL":
+            return self._build_report(stages, network_path, total_errors, total_warnings, stopped=True)
+
+        # Stage 3.5: Component wiring — a component is never itself a data source (BUG-3).
+        # A bare component name in a connection SOURCE can never bind (TD drops it); this is
+        # the static, pre-build half of the builder's build-time fail-loud.
+        component_report = self.component_source_validator.validate(network_json)
+        stages.append(component_report)
+        total_errors += len(component_report.errors)
+        total_warnings += len(component_report.warnings)
+
+        if self.stop_on_error and component_report.status == "FAIL":
             return self._build_report(stages, network_path, total_errors, total_warnings, stopped=True)
 
         # Stage 4: Logical
@@ -147,7 +171,9 @@ class ValidationPipeline:
         validators = {
             "schema": self.schema_validator,
             "semantic": self.semantic_validator,
+            "grounding": self.grounding_validator,
             "reference": self.reference_validator,
+            "component_wiring": self.component_source_validator,
             "logical": self.logical_validator,
             "td_rules": self.td_rules_validator
         }

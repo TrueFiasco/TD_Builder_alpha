@@ -93,6 +93,26 @@ def test_orchestration_trio_absent_from_import_path():
         )
 
 
+def test_ground_truth_quarantined():
+    """ground_truth.py (INERT-since-birth param-schema validator) must be gone from
+    the execution package and not importable, and the builder must not import it.
+    Quarantined by W3a -- the real param corpus was never shipped and its sole
+    consumer always took the fallback path (see quarantine/README.md)."""
+    leftover = _EXECUTION_DIR / "ground_truth.py"
+    assert not leftover.exists(), (
+        f"{leftover} exists again -- ground_truth.py was {_QUARANTINE_HINT}"
+    )
+    spec = importlib.util.find_spec("meta_agentic.execution.ground_truth")
+    assert spec is None, (
+        f"'meta_agentic.execution.ground_truth' is importable again "
+        f"(resolved to {spec.origin}) -- it was {_QUARANTINE_HINT}"
+    )
+    bridge_src = (_EXECUTION_DIR / "toe_builder_bridge.py").read_text(encoding="utf-8")
+    assert "from .ground_truth import" not in bridge_src and "get_ground_truth" not in bridge_src, (
+        "toe_builder_bridge.py still references the quarantined ground_truth module"
+    )
+
+
 def test_mcp_server_source_free_of_dead_stubs():
     """mcp_server.py must carry no residue of the trio import or the deleted
     query-tracker/compaction stubs -- not even behind a fail-soft try/except."""

@@ -6,6 +6,7 @@ Enables seamless conversion:
 - Layer 2 (Extended) ↔ Layer 4 (Lossless)
 """
 
+import re
 from typing import Dict, List, Any, Optional
 from .models import (
     TDNetwork, Operator, Connection, Metadata, Position, Flags,
@@ -13,6 +14,45 @@ from .models import (
     Input, ExtraFile, ParameterValue, ExpressionLanguage, ParameterMode
 )
 from .operator_registry import OperatorRegistry
+
+
+def _short_type_is(node: Dict[str, Any], want: str) -> bool:
+    """True when a builder node's operator type is `want` ('out'/'in'), any family form
+    ('out', 'CHOP:out', 'outCHOP')."""
+    t = str(node.get("type") or "")
+    t = t.split(":", 1)[1] if ":" in t else t
+    return re.sub(r"[^a-z0-9]", "", t.lower()) == want
+
+
+def extract_component_io(node: Dict[str, Any], family: "OperatorFamily") -> Optional[Dict[str, Any]]:
+    """Capture a builder node's component interface BEFORE `from_builder` flattens the
+    network (which deletes a COMP's inner ops, leaving a downstream validator blind).
+
+    The component-source validator (a component is never itself a data source, BUG-3) needs
+    to see a bare-COMP source's inner OUT ops to tell a clean single-output (advisory) from
+    an ambiguous multi/zero-output (error). We stash that here, onto the Operator's
+    `custom_data['component_io']`, so it survives conversion.
+
+    Returns a descriptor, or None for a non-component op:
+      * external_tox reference        -> {"kind": "external_tox"} (inner interface lives in
+                                         an external .tox loaded at build → validator defers)
+      * palette reference             -> {"kind": "palette", "palette": name}
+      * COMP with in-design children  -> {"kind": "comp", "out_ops": [...], "in_ops": [...]}
+    """
+    if node.get("external_tox") or node.get("externaltox"):
+        return {"kind": "external_tox"}
+    if node.get("palette"):
+        return {"kind": "palette", "palette": node["palette"]}
+    if family != OperatorFamily.COMP:
+        return None
+    # a component's OUT interface is its DIRECT children typed 'out' (nested containers own
+    # their own outs); same shape the offline builder's container_io_map resolves against.
+    inner = [c for c in (node.get("operators") or node.get("children") or []) if isinstance(c, dict)]
+    return {
+        "kind": "comp",
+        "out_ops": [c.get("name") for c in inner if c.get("name") and _short_type_is(c, "out")],
+        "in_ops": [c.get("name") for c in inner if c.get("name") and _short_type_is(c, "in")],
+    }
 
 
 class FormatConverter:
@@ -226,6 +266,12 @@ class FormatConverter:
                         index=inp.get("index", 0),
                         src=inp.get("src", "")
                     ))
+
+        # Preserve the component interface BEFORE the network is flattened — a COMP's inner
+        # ops are dropped by this conversion, blinding the component-source validator (BUG-3).
+        component_io = extract_component_io(node, family)
+        if component_io is not None:
+            custom_data = {**custom_data, "component_io": component_io}
 
         return Operator(
             path=path,

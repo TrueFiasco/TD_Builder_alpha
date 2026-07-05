@@ -15,7 +15,6 @@ from typing import Dict, List, Any, Optional
 import yaml
 import logging
 
-from .ground_truth import get_ground_truth
 from .param_name_resolver import resolve_param_name, resolve_menu_value
 
 logger = logging.getLogger(__name__)
@@ -1113,8 +1112,15 @@ end
         expansion, expression detection and the expression-map overlay. Shared by
         _write_operator and _write_container so COMP containers apply their `parameters`
         (instancing/instanceop/instancetx.../material) the same way operators do (BUG 2)."""
-        gt = get_ground_truth()
         lines = []
+
+        # Sibling-collision guard: the set of codes the design fed verbatim. A fed code
+        # whose KB alias remaps it onto ANOTHER fed sibling (e.g. Group POP `group` ->
+        # `grname`, which is also fed) is a spurious remap — emitting both writes the same
+        # .parm line twice and TD's last-wins parse silently zeroes the real value. When
+        # that happens we keep the code as-is (identity). Normal single-form aliasing
+        # (only the display name fed, not the real code) is untouched.
+        fed_codes_lower = {str(k).lower() for k in params}
 
         for param_name, param_value in params.items():
             # Handle resolution specially
@@ -1187,6 +1193,14 @@ end
             op_type_short = op_type.split(':')[-1] if ':' in op_type else op_type
             td_param_name = resolve_param_name(op_type_short, family or "", param_name)
 
+            # Sibling-collision guard (see fed_codes_lower above): if the resolver remapped
+            # this code onto a DIFFERENT code the design also fed verbatim, honor the code
+            # as given rather than duplicate the sibling's .parm line.
+            if (td_param_name != param_name
+                    and str(td_param_name).lower() in fed_codes_lower
+                    and str(td_param_name).lower() != str(param_name).lower()):
+                td_param_name = param_name
+
             # Handle expression dict format: {"expr": "...", "value": ...} or {"expression": "..."}
             inline_expression = None
             if isinstance(param_value, dict):
@@ -1202,23 +1216,13 @@ end
                     inline_expression = param_value
                     param_value = 0  # Default value for expression parameters
 
-            # Validate parameter against ground truth (using resolved name)
-            validation = gt.validate_param(op_type, td_param_name, param_value, family=family)
-
-            if not validation["valid"]:
-                # Use resolved name directly and format value
-                td_value = self._format_param_value(param_value)
-                # Handle menu values (convert int to string for menu params)
-                td_value = resolve_menu_value(td_param_name, param_value)
-            else:
-                td_param_name = validation["td_name"]
-                td_value = validation["td_value"]
-                if td_value is None:
-                    td_value = self._format_param_value(param_value)
-                elif isinstance(td_value, bool):
-                    td_value = "on" if td_value else "off"
-                else:
-                    td_value = str(td_value)
+            # Resolve the value to TD's serialized form (menu label -> internal value,
+            # bool -> on/off). The former ground_truth.py param-schema validation layer was
+            # INERT since birth (it pointed at a never-shipped corpus and every lookup
+            # fail-soft returned "invalid", so this menu-resolve branch always ran); it was
+            # quarantined in W3a. Name resolution is done above by resolve_param_name against
+            # the shipped KB — the single source of truth. See quarantine/README.md.
+            td_value = resolve_menu_value(td_param_name, param_value)
 
             # Check if there's an expression for this param (inline or from expressions map)
             expr_key = f"{full_path.replace('project1/', '')}/{param_name}"
@@ -1358,8 +1362,12 @@ end
         docked_specs = _load_docked_dats().get(td_type)
         if docked_specs:
             docked_wiring = self._write_docked_dats(name, container_path, position, td_type, op)
-            for hp, child in docked_wiring.items():
-                op.setdefault("parameters", {})[hp] = child   # for _build_glsl_parm (reads op[...])
+            # docked_wiring (host_param -> child DAT name) is handed to _build_glsl_parm
+            # explicitly below; it must NOT be written back into `op["parameters"]`.
+            # `op` is the CALLER's design dict — persisting the docked children there makes
+            # a REUSED design lose them on a second build (the _write_docked_dats skip at
+            # `(op.get("parameters") or {}).get(host_param)` fires the 2nd time). See the
+            # double-build regression test.
         elif "glsl" in td_type.lower():
             self._write_docked_info_dat(name, container_path, position)  # defensive: glsl needs an info DAT
 
@@ -1461,9 +1469,11 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
 
         self._write_file(f"{full_path}.n", n_content)
 
-        # GLSL TOP with uniforms: Use special parm builder
+        # GLSL TOP with uniforms: Use special parm builder. Pass docked_wiring so the
+        # host's docked-DAT links (e.g. pixeldat -> <op>_pixel) land in its .parm without
+        # mutating the caller's design dict.
         if is_glsl_top and glsl_uniforms:
-            self._build_glsl_parm(op, full_path)
+            self._build_glsl_parm(op, full_path, docked_wiring)
             return  # Skip regular parm generation
 
         # Build .parm file content using ground truth validation. The per-param loop is
@@ -1673,7 +1683,7 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         self._write_file(f"{info_rel}.parm", parm_content)
         self.log(f"    [F6] Auto-added docked Info DAT '{host_name}_info' -> {host_name}")
 
-    def _build_glsl_parm(self, op: dict, full_path: str):
+    def _build_glsl_parm(self, op: dict, full_path: str, docked_wiring: dict = None):
         """Build .parm file for GLSL TOP with uniforms.
 
         GLSL TOP uniforms use special format in .parm files (Bug #8 fix):
@@ -1695,7 +1705,12 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             vec2valuex 49 1 absTime.seconds/100
         """
         lines = ["?"]
-        params = op.get("parameters", {})
+        # Local view only — never mutate the caller's design dict. docked_wiring carries the
+        # builder-owned docked-DAT links (host_param -> child), which _write_docked_dats only
+        # emits for children the design didn't already provide, so a plain merge is safe.
+        params = dict(op.get("parameters", {}))
+        if docked_wiring:
+            params.update(docked_wiring)
         uniforms = op.get("uniforms", [])
 
         self.log(f"    Building GLSL parm with {len(uniforms)} uniforms")
@@ -2381,6 +2396,20 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         "composite", "cross", "function", "grid", "pattern", "render", "slope", "sphere",
     }
 
+    def map_op_type(self, op_type: str, family: str = None) -> str:
+        """Public, stable API: resolve a design ``(type, family)`` to the ``FAMILY:type``
+        token the builder writes as the first line of an operator's ``.n`` file.
+
+        This is the builder's authoritative op-token mapping — first the shipped
+        ``KB/operators.json`` ``build_token`` grounding index (live-real tokens), then a
+        legacy display-derived heuristic fallback for ungrounded ops. Pass the explicit
+        ``family`` (``CHOP``/``TOP``/``SOP``/``DAT``/``COMP``/``MAT``/``POP``); a colon-form
+        ``op_type`` (``"CHOP:noise"``) is returned normalized. Tools and the build gate must
+        use THIS method — the private ``_map_op_type`` also does container-name family
+        inference, which is a builder-internal heuristic, not part of the public contract.
+        """
+        return self._map_op_type(op_type, "", family)
+
     def _map_op_type(self, op_type: str, container_path: str, explicit_family: str = None) -> str:
         """Resolve a TD Designer type to the TouchDesigner ``FAMILY:type`` token written
         to the op's ``.n`` file.
@@ -2400,7 +2429,13 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
 
     def _grounded_build_token(self, op_type: str, explicit_family: str = None):
         """Look up the live-real build token for (family, op_type) in the grounding index.
-        Returns None when not grounded (index empty or op absent)."""
+        Returns None when not grounded (index empty or op absent).
+
+        This is the BUILD-TIME half of the grounding override: it rewrites the emitted
+        .n token to the captured live token per op. The validation-side half —
+        engine/validation/grounding_validator.py (GroundingValidator.ground_design /
+        .validate) — reads the SAME KB source (KB/operators.json build_token) so the
+        builder and td_validate agree on grounding by construction."""
         idx = _load_build_token_index()
         if not idx:
             return None

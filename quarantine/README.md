@@ -49,3 +49,30 @@ formerly `MCP/server_core/meta_agentic/execution/`.
   the schema, almost certainly not these classes.
 - **Disposal trigger:** once D6 ships (or is rejected) with the spec docs as its input,
   this entry can be deleted outright.
+
+### ground_truth.py (quarantined 2026-07-04, W3a)
+
+`ground_truth.py` — the `GroundTruth` param-schema validation singleton, formerly
+`MCP/server_core/meta_agentic/execution/ground_truth.py`.
+
+- **What:** a loader + validator for per-operator parameter schemas (menu label→value,
+  param-name resolution, value validation), keyed off `*_defaults.json` files it globbed
+  from an `operator_ground_truth/params` directory.
+- **Why quarantined:** INERT SINCE BIRTH. `GROUND_TRUTH_DIR` resolved to
+  `MCP/server_core/operator_ground_truth/params`, which has never existed in any release —
+  `load()` warned "Ground truth directory not found" and returned nothing, so every lookup
+  fail-soft returned `None`/`invalid`. Its sole consumer, `ToeBuilderBridge._param_lines`,
+  therefore ALWAYS took its `if not validation["valid"]:` fallback (menu-resolve via
+  `param_name_resolver`), making the whole validation layer — and its `else` branch — dead.
+  Removing it is provably behavior-preserving and also silences the per-op warning spam.
+  (The real param corpus lives in the dev tree at `New KB build/Resources/
+  operator_ground_truth/params`, used only by the offline build gate — never shipped.)
+- **Knowledge salvaged:** none needed — its live job (param-name resolution against the
+  KB) is already done by `param_name_resolver.py`, which reads the shipped
+  `KB/operators.json`. The menu-label→value mapping survives in
+  `param_name_resolver.resolve_menu_value` + `MENU_VALUE_MAP`.
+- **Revival condition:** only if a future release ships a real per-operator param-schema
+  corpus AND an owner decides a second validation layer (beyond name resolution) earns its
+  regression risk. Wire it against the shipped KB, never a dev-only path.
+- **Disposal trigger:** deletable outright once the shipped param corpus question is
+  settled — nothing depends on it.

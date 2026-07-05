@@ -51,6 +51,29 @@ Set all three in the MCP client config's `"env"` block for `td-builder-live` (se
 The **live server reads only the process environment** — it does not load the root `.env` (that
 file feeds the offline server's search stack).
 
+## Feedback records (D4 — opt-in, local-only)
+A diagnostic aid for your own debugging and for filing issue reports. **Off by default**;
+set `TD_FEEDBACK_ENABLED=true` (env, `.env`, or `search_config.json → "feedback_enabled"`)
+to turn it on. When enabled, each **offline** tool call appends one redacted JSON line to
+`~/.td_builder/feedback/<server>-<pid>-<date>.jsonl` (same home as the live-server
+`api_token`; outside `KB/`).
+
+- **Local only, no network ever.** Neither the recorder nor the exporter opens a socket —
+  records stay on your machine; you decide whether to attach a bundle.
+- **What a record holds:** tool name, timestamp, latency, a three-state outcome
+  (`success`/`error`/`unknown`), and *bounded, redacted* args. For build/validate calls it
+  also classifies `build_failure`/`validation_error` events. Each file starts with an
+  environment-identity header (server/KB/platform — never your model).
+- **Privacy:** home/release-root/worktree paths are replaced with `<HOME>`/`<ROOT>` tokens
+  (in args **and** error messages); keys matching `token|secret|key|password|auth` are
+  masked; long strings are truncated and big payloads summarized; full tracebacks are not
+  stored. Off is a byte-for-byte no-op — tool output is unchanged whether on or off.
+- **Knobs:** `TD_FEEDBACK_DIR` (records dir), `TD_FEEDBACK_RETENTION_DAYS` (default 14),
+  `TD_FEEDBACK_MAX_BYTES` (rotate over 8 MB).
+- **Export a bundle for an issue:** `py -3.11 scripts/export_feedback.py [--since YYYY-MM-DD]
+  [--last N] [--out PATH]` — writes a redacted `REPORT.md` + `records.jsonl` `.zip` to the
+  current dir. Review it before attaching; nothing is uploaded.
+
 ## Debug/dev switches (env only, rarely needed)
 - `RS_DISABLE=1` — bypass the Phase-2 hybrid retrieval stack (dense-only search).
 - `EMBEDDING_ALLOW_MISMATCH=1` — allow an `EMBEDDING_MODEL` that disagrees with `KB/manifest.json`

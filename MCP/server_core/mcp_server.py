@@ -481,6 +481,9 @@ def _load_kb():
 # loader fails soft to a baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions, scope_for_server  # noqa: E402
+# D4 feedback spine (opt-in, local-only). Pure module; a cheap no-op when the flag
+# is off. MCP/ is on sys.path (inserted just above), same as server_instructions.
+from feedback import feedback_recorded  # noqa: E402
 
 # TD_LIVE_ENABLED is pinned False on this offline server (co-load removed), so this
 # always resolves to scope_for_server(False) -> "offline". The True branch is
@@ -1547,7 +1550,25 @@ def _summarize_td_network(network) -> dict:
     }
 
 
+def _feedback_tool_names():
+    """The registered tool-name inventory, for the feedback identity hash. Resolved
+    ONCE at import: asyncio.run is safe here because decoration runs during import,
+    before the server's event loop exists. Fail-soft to () (hash simply omitted)."""
+    try:
+        import asyncio as _asyncio
+        return tuple(sorted(t.name for t in _asyncio.run(list_tools())))
+    except Exception:
+        return ()
+
+
 @app.call_tool()
+@feedback_recorded(
+    server="td-builder",
+    server_version=SERVER_VERSION,
+    kb_root=_KB_ROOT,
+    instructions_text=_NON_NEGOTIABLES,
+    tool_names=_feedback_tool_names(),
+)
 async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
     """Handle tool calls"""
     

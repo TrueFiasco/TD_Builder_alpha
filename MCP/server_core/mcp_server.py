@@ -500,7 +500,7 @@ SERVER_VERSION = "0.2.0"
 from compat import compat_status as _compat_status  # noqa: E402
 _COMPAT = _compat_status(SERVER_VERSION, _KB_MANIFEST_VERSION, _KB_TD_BUILD)
 if _COMPAT["compatible"] is False:
-    print(f"WARNING: KB/server version mismatch — server {SERVER_VERSION} vs "
+    print(f"WARNING: KB/server version mismatch - server {SERVER_VERSION} vs "
           f"KB {_KB_MANIFEST_VERSION}. Running degraded; rebuild or refetch a matching KB "
           f"(get_server_info.compat has details).", file=sys.stderr)
 

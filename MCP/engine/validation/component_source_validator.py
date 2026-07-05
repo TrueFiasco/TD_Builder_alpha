@@ -8,13 +8,16 @@ single inner out op, or FAILS LOUD naming the candidate inner ops). This validat
 static, pre-build half: it catches the same misuse at ``td_validate`` and reports it with
 the SAME vocabulary and candidate list, so a design gets the fix hint before a build runs.
 
-Policy (owner-set, W3a review) — judge a bare component SOURCE against its REAL inner outs,
+Policy (owner-set, W3a review) — judge a BARE component SOURCE against its REAL inner outs,
 and prefer advisory over blocking so a VALID, buildable design is never rejected:
   * explicit inner ref (``comp/out1``)     → clean (no finding).
-  * exactly ONE unambiguous output         → WARNING, design stays VALID. The builder
-                                             auto-resolves the bare form to ``comp/out1``; the
-                                             warning just advises the explicit reference so
-                                             validate and build agree.
+  * exactly ONE unambiguous output         → informational WARNING, design stays VALID. The
+                                             build auto-resolves the bare source to its single
+                                             output. The warning does NOT recommend rewriting
+                                             to ``comp/out1`` — td_validate's reference stage
+                                             currently rejects that inner-op path (from_builder
+                                             flattens it away), so that advice would break a
+                                             design that already validates (deferred follow-up).
   * ZERO, or AMBIGUOUS multi-output        → ERROR (the user must name ``comp/<out>``).
   * ``external_tox`` component             → defer: its interface lives in an external .tox
                                              resolved at build via toeexpand — no validate-time
@@ -23,6 +26,13 @@ and prefer advisory over blocking so a VALID, buildable design is never rejected
 index-truth (``harvest.method != "offline_manifest"`` → the builder binds index 0
 deterministically). An in-design container or a name-authority registration has no
 connector-truth ordering, so >1 output is genuinely ambiguous → ERROR.
+
+WHAT COUNTS AS A BARE COMPONENT SOURCE (W3a re-review): a source is bare IFF its FULL
+normalized identity (``_norm_identity``) EXACTLY matches a known TOP-LEVEL component keyed by
+its own full identity. Matching the last path segment alone was WRONG — it mis-read an
+explicit ``comp/out1`` (or a nested ``foo/mixer``) as a bare reference to a DIFFERENT
+component that happened to be named ``out1``/``mixer``, hard-blocking a valid design. Keying
+by identity (never basename) also keeps two same-basename components distinct.
 
 CRITICAL (fixed in W3a review): a bare-COMP source's inner ops are only visible when the
 DESIGN is present. ``FormatConverter.from_builder`` FLATTENS a container's inner ops away
@@ -103,68 +113,59 @@ class ComponentSourceValidator:
         connections: list[tuple[str, str]] = []
 
         if isinstance(network_json, TDNetwork):
+            root = (network_json.metadata.root_comp or "").strip("/")
             for op in network_json.operators:
                 cio = (getattr(op, "custom_data", None) or {}).get("component_io")
                 if not cio:
                     continue
-                name = op.path.rstrip("/").split("/")[-1]
-                components.setdefault(name, cio)
-            # sources stay as authored (abs paths ok) — _bare_component_ref matches by the
-            # LAST segment against component basenames, so it needs no root normalization.
+                # key by FULL normalized IDENTITY, never basename: two same-basename comps at
+                # different paths stay distinct, and an explicit inner ref can never collide
+                # with a same-named component (a comp literally called 'out1').
+                components.setdefault(self._norm_identity(op.path, root), cio)
             for c in network_json.connections:
-                connections.append((c.source, c.target))
+                connections.append((self._norm_identity(c.source, root), c.target))
             return components, connections
 
-        # builder-dict form: walk operators + containers (like _prepass_component_io)
-        def walk(ops, containers):
-            for o in (ops or []):
-                if isinstance(o, dict):
-                    yield o
-                    yield from walk(o.get("operators") or o.get("children") or [],
-                                    o.get("containers") or [])
-            for c in (containers or []):
-                if isinstance(c, dict):
-                    yield c
-                    yield from walk(c.get("operators") or c.get("children") or [],
-                                    c.get("containers") or [])
-
-        for o in walk(network_json.get("operators", []), network_json.get("containers", [])):
-            name = o.get("name")
-            if not name or name in components:
+        # builder-dict form: the TOP-LEVEL operators/containers ARE the components (a nested
+        # op is a component's interface, not a separate component — matches the TDNetwork
+        # stash, which only carries top-level ops).
+        root = str((network_json.get("metadata") or {}).get("root_comp") or "project1")
+        for o in (list(network_json.get("operators") or []) + list(network_json.get("containers") or [])):
+            if not isinstance(o, dict) or not o.get("name"):
+                continue
+            ident = self._norm_identity(o.get("path") or o["name"], root)
+            if ident in components:
                 continue
             if o.get("palette"):
-                components[name] = {"kind": "palette", "palette": o["palette"]}
+                components[ident] = {"kind": "palette", "palette": o["palette"]}
             elif o.get("external_tox") or o.get("externaltox"):
-                components[name] = {"kind": "external_tox"}
+                components[ident] = {"kind": "external_tox"}
             elif str(o.get("family") or "").upper() == "COMP":
                 inner = [c for c in (o.get("operators") or o.get("children") or []) if isinstance(c, dict)]
-                components[name] = {"kind": "comp", "out_ops": [c.get("name") for c in inner if _is_out_op(c)]}
-
+                components[ident] = {"kind": "comp", "out_ops": [c.get("name") for c in inner if _is_out_op(c)]}
         for c in (network_json.get("connections") or []):
             if isinstance(c, dict):
-                connections.append((c.get("from") or c.get("source"),
-                                    c.get("to") or c.get("target")))
-        # also per-operator inputs shape ({"inputs": [...]}) is builder-internal; connections
-        # array is the documented form td_validate/td_build accept, so that's what we check.
+                src = c.get("from") or c.get("source")
+                connections.append((self._norm_identity(src, root), c.get("to") or c.get("target")))
         return components, connections
 
     @staticmethod
-    def _bare_component_ref(src, components: dict):
-        """Return the component name IFF `src` is a BARE reference to a known component —
-        i.e. the source's LAST path segment names a component. Otherwise None (an explicit
-        inner ref like ``comp/out1`` whose last segment is the inner op, or a non-component).
+    def _norm_identity(path, root: str) -> str:
+        """Canonical component identity for an operator path OR a connection source: drop
+        empty segments and a single leading root_comp segment, then rejoin.
 
-        Matching on the last segment is path-form-agnostic on purpose: ``mixer``,
-        ``/project1/mixer`` and ``/project1/geo1/mixer`` all reference the SAME component and
-        must get the SAME verdict — the earlier root-strip made the answer depend on path
-        depth (a 2-segment abs path collapsed to a bare name and errored, while a 3-segment
-        one kept a slash and was skipped). A trailing inner segment (``comp/out1``,
-        ``/project1/comp/out1``) means the last segment is the inner op, not a component, so
-        it is correctly treated as an explicit reference and drawn no finding."""
-        segs = [s for s in str(src or "").split("/") if s]
-        if not segs:
-            return None
-        return segs[-1] if segs[-1] in components else None
+        from_builder is INCONSISTENT — a top-level op lands at '/mixer' (root_comp dropped)
+        while a multi-segment / root-qualified connection source resolves to
+        '/project1/mixer/out1' — so BOTH operator paths and sources must pass through here
+        before they can be compared. A source is then a BARE component reference IFF its
+        normalized identity EXACTLY matches a known component identity: 'mixer' and
+        '/project1/mixer' both normalize to 'mixer' (match), while an explicit 'comp/out1' or
+        '/project1/comp/out1' normalizes to 'comp/out1' (no exact match -> treated as an
+        explicit inner ref, no finding) EVEN IF a component happens to be named 'out1'."""
+        segs = [s for s in str(path or "").split("/") if s]
+        if segs and root and segs[0] == root:
+            segs = segs[1:]
+        return "/".join(segs)
 
     # -- the rule ----------------------------------------------------------
     #
@@ -202,11 +203,15 @@ class ComponentSourceValidator:
                     f"it, or reference an explicit inner out op, e.g. \"from\": \"{base}/out1\".",
                     f"{base}/out1")
         if len(outs) == 1 or index_authority:
-            # deterministic single/index-truth binding — buildable, but the bare form is
-            # implicit; advise the explicit reference (design stays VALID).
-            return ("warning", f"Wiring from bare component '{base}' binds its output "
-                    f"'{outs[0]}' implicitly — a component is never itself a data source. Name "
-                    f"it explicitly, e.g. \"from\": \"{base}/{outs[0]}\".", f"{base}/{outs[0]}")
+            # deterministic single/index-truth binding — the build auto-resolves it and this
+            # design is VALID. This is an INFORMATIONAL warning only: it must NOT steer the
+            # user to rewrite bare 'comp' -> 'comp/out1', because td_validate's reference stage
+            # currently rejects that inner-op path (from_builder flattens the inner op away) —
+            # so the advice would break a design that already validates. (Teaching reference to
+            # accept the flattened inner path is a tracked, deferred follow-up.)
+            return ("warning", f"Source '{base}' is a component, not a data source of its own; "
+                    f"the build resolves it to its output '{outs[0]}'. This builds and validates "
+                    f"correctly — noted for clarity, no change needed.", None)
         # ambiguous multi-output — the user must say which.
         return ("error", f"Cannot wire from component '{base}': a component is never itself a "
                 f"data source; reference its inner out op. {what} has {len(outs)} out ops: "
@@ -218,10 +223,16 @@ class ComponentSourceValidator:
         warnings: list[ValidationError] = []
         components, connections = self._components_and_connections(network_json)
         for i, (src, _dst) in enumerate(connections):
-            base = self._bare_component_ref(src, components)
-            if base is None:
-                continue  # explicit inner ref, non-component source, or empty — no finding
-            found = self._finding_for_source(base, components[base], i)
+            # `src` is the normalized identity. An EXACT match against a known top-level
+            # component is a BARE component source (any path form). An explicit inner ref
+            # ('comp/out1'), a nested-component ref, or a non-component does NOT exact-match
+            # -> no finding. Exact identity match (not last-segment) is what kills the
+            # collision where a source ends in a segment that names a different component.
+            desc = components.get(src) if src else None
+            if desc is None:
+                continue
+            base = src.split("/")[-1]
+            found = self._finding_for_source(base, desc, i)
             if not found:
                 continue
             sev, msg, sugg = found

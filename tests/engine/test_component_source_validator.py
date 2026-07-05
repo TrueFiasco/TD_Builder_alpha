@@ -123,8 +123,11 @@ def test_single_out_palette_warns_valid(validator):
     ], "connections": [{"from": "gen", "to": "n1"}]}
     rep = validator.validate(design)
     assert rep.status == "PASS" and rep.errors == []          # stays VALID
-    assert any(w.code == "COMPONENT_AS_SOURCE" for w in rep.warnings), _codes(rep)
-    assert any("gen/out1" in (w.suggestion or "") for w in rep.warnings), _codes(rep)
+    w = [w for w in rep.warnings if w.code == "COMPONENT_AS_SOURCE"]
+    assert w, _codes(rep)
+    # Cluster C: the warning is informational and must NOT steer to the 'comp/out1' rewrite
+    # (the reference stage currently rejects that form — the advice would break a valid design).
+    assert not w[0].suggestion and "gen/out1" not in w[0].message, w[0].message
 
 
 def test_index_authority_multi_out_palette_warns_valid(validator):
@@ -223,7 +226,8 @@ def test_shipped_single_out_bare_source_is_valid_with_warning():
     cw = _cw_stage(rep)
     assert cw.status == "PASS" and cw.errors == []
     warns = [w for w in cw.warnings if w.code == "COMPONENT_AS_SOURCE"]
-    assert warns and "src/out1" in (warns[0].suggestion or ""), _codes(cw)
+    # informational warning, no 'src/out1' rewrite steer (Cluster C).
+    assert warns and not warns[0].suggestion and "src/out1" not in warns[0].message, _codes(cw)
 
 
 def test_shipped_multi_out_bare_source_is_error():
@@ -313,6 +317,49 @@ def test_shipped_nested_component_source_defers():
     _, rep = _pipeline_report(nested)
     cw = _cw_stage(rep)
     assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
+def test_shipped_explicit_ref_colliding_with_component_name_not_blocked():
+    # Cluster A: an explicit inner ref 'src/out1' must NOT be mis-judged as a bare reference
+    # to a DIFFERENT top-level component that happens to be named 'out1'. Last-segment matching
+    # flipped this valid, buildable design to INVALID; full-identity exact-match does not.
+    design = {"meta": {"root_comp": "project1"},
+              "operators": [_comp("src", ["out1"]), _comp("out1", ["a"]),
+                            {"name": "d", "type": "base", "family": "COMP"}],
+              "connections": [{"from": "src/out1", "to": "d"}]}
+    _, rep = _pipeline_report(design)
+    cw = _cw_stage(rep)
+    assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
+def test_shipped_nested_ref_with_toplevel_same_name_not_misjudged():
+    # Cluster A / finding #4: 'foo/mixer' references a mixer NESTED inside foo, NOT the
+    # distinct TOP-LEVEL 'mixer'. It must not be judged against the wrong (top-level) component.
+    design = {"meta": {"root_comp": "project1"},
+              "operators": [
+                  {"name": "foo", "type": "base", "family": "COMP",
+                   "operators": [_comp("mixer", ["o1", "o2"])]},
+                  _comp("mixer", ["single"]),
+                  {"name": "d", "type": "base", "family": "COMP"}],
+              "connections": [{"from": "foo/mixer", "to": "d"}]}
+    _, rep = _pipeline_report(design)
+    cw = _cw_stage(rep)
+    # 'foo/mixer' is not an exact-identity match for any top-level component -> deferred.
+    assert not any(f.code == "COMPONENT_AS_SOURCE" for f in cw.errors + cw.warnings), _codes(cw)
+
+
+def test_shipped_single_out_warning_does_not_recommend_rejected_form():
+    # Cluster C: the single-out warning must be informational and must NOT advise rewriting
+    # to 'comp/out1' — the reference stage currently rejects that inner-op path, so following
+    # the advice would break a design that already validates.
+    _, rep = _pipeline_report({
+        "operators": [_comp("src", ["out1"]), {"name": "d", "type": "base", "family": "COMP"}],
+        "connections": [{"from": "src", "to": "d"}]})
+    cw = _cw_stage(rep)
+    warns = [w for w in cw.warnings if w.code == "COMPONENT_AS_SOURCE"]
+    assert warns, _codes(cw)
+    assert not warns[0].suggestion, warns[0].suggestion
+    assert "src/out1" not in warns[0].message, warns[0].message   # no rejected-path rewrite steer
 
 
 def test_extract_component_io_unit():

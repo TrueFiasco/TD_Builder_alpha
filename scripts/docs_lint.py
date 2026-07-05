@@ -64,7 +64,9 @@ def _iter_doc_files(rules: dict) -> list[Path]:
 # ---------------------------------------------------------------------------
 # Tool-count truth
 # ---------------------------------------------------------------------------
-_TOOL_NAME = re.compile(r'Tool\(\s*name="([A-Za-z0-9_]+)"')
+# `annotations=<CONST>,` may precede `name=` (W4b risk annotations) — tolerate it
+# so the count still keys on the name literal.
+_TOOL_NAME = re.compile(r'Tool\(\s*(?:annotations=\w+,\s*)?name="([A-Za-z0-9_]+)"')
 
 
 def _parse_offline_tools(text: str) -> list[str]:

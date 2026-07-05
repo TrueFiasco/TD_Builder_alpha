@@ -13,7 +13,7 @@ import json
 import httpx
 from pathlib import Path
 from typing import Sequence, Dict, Any, List, Optional, Union
-from mcp.types import Tool, TextContent, ImageContent
+from mcp.types import Tool, TextContent, ImageContent, ToolAnnotations
 
 # Configuration
 TD_API_URL = os.environ.get("TD_API_URL", "http://127.0.0.1:9981")
@@ -698,9 +698,23 @@ async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
 # TOOL DEFINITIONS (for mcp_server.py list_tools)
 # =============================================================================
 
+# MCP risk annotations (W4b, audit cluster C3). Owner-decided: ship only the three
+# named hints (openWorldHint omitted). destructiveHint/idempotentHint are meaningful
+# only when readOnlyHint is false.
+#   READ_ONLY   — reads/captures live state; no graph mutation (captures force a cook,
+#                 which is not a persistent mutation).
+#   DESTRUCTIVE — mutates/destroys live graph state or runs arbitrary code
+#                 (create/update/delete node, execute_python_script, exec_node_method).
+# Shared singletons — never mutated. See docs/TOOL_RISK_ANNOTATIONS.md.
+READ_ONLY = ToolAnnotations(readOnlyHint=True)
+DESTRUCTIVE = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=True, idempotentHint=False
+)
+
 TD_LIVE_TOOLS: List[Tool] = [
     # Visual Feedback Tools (7)
     Tool(
+        annotations=READ_ONLY,
         name="capture_top_output",
         description="Capture a TOP operator's rendered output as an image. Returns base64-encoded JPEG/PNG. Requires TouchDesigner running with WebServer DAT.",
         inputSchema={
@@ -734,6 +748,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_top_info",
         description="Get metadata about a TOP operator (resolution, aspect, pixel format, GPU memory) without capturing.",
         inputSchema={
@@ -748,6 +763,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_cook_errors",
         description="Get all current cook errors from TouchDesigner. Errors indicate operators that failed to cook.",
         inputSchema={
@@ -772,6 +788,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_error_summary",
         description="Get a summary of all errors grouped by severity level (info, warning, error, fatal).",
         inputSchema={
@@ -781,6 +798,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="capture_network_layout",
         description="Get network layout data showing operators and connections within a COMP. Returns node positions and connection graph.",
         inputSchema={
@@ -800,6 +818,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_python_exceptions",
         description="Get Python-specific exceptions from TouchDesigner scripts.",
         inputSchema={
@@ -815,6 +834,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="capture_op_viewer",
         description="Universal operator viewer - captures any operator type (TOP, CHOP, SOP, DAT, MAT, COMP). Returns image for visual ops, text for DATs, geometry info for SOPs.",
         inputSchema={
@@ -847,6 +867,7 @@ TD_LIVE_TOOLS: List[Tool] = [
 
     # Core TD CRUD Tools (13)
     Tool(
+        annotations=READ_ONLY,
         name="get_td_info",
         description="Get TouchDesigner server information (version, OS, MCP API version).",
         inputSchema={
@@ -856,6 +877,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_nodes",
         description="List nodes under a parent path in TouchDesigner.",
         inputSchema={
@@ -882,6 +904,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_node_parameters",
         description="Get detailed parameters of a specific node.",
         inputSchema={
@@ -896,6 +919,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=DESTRUCTIVE,
         name="create_td_node",
         description="Create a new operator under a parent path in running TouchDesigner.",
         inputSchema={
@@ -918,6 +942,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=DESTRUCTIVE,
         name="update_td_node_parameters",
         description="Update parameters of an existing node in running TouchDesigner.",
         inputSchema={
@@ -936,6 +961,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=DESTRUCTIVE,
         name="delete_td_node",
         description="Delete an operator from running TouchDesigner.",
         inputSchema={
@@ -950,6 +976,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=DESTRUCTIVE,
         name="execute_python_script",
         description=(
             "Execute arbitrary Python script in TouchDesigner. Returns result, stdout, and stderr.\n"
@@ -980,6 +1007,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=DESTRUCTIVE,
         name="exec_node_method",
         description="Call a method on a node in TouchDesigner.",
         inputSchema={
@@ -1006,6 +1034,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_node_errors",
         description="Check node and descendant errors.",
         inputSchema={
@@ -1025,6 +1054,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_classes",
         description=(
             "List TouchDesigner Python classes from the `td` module. "
@@ -1046,6 +1076,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_class_details",
         description="Get details of a specific TouchDesigner Python class.",
         inputSchema={
@@ -1060,6 +1091,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
     Tool(
+        annotations=READ_ONLY,
         name="get_td_module_help",
         description=(
             "Get Python help() for a module or class. "

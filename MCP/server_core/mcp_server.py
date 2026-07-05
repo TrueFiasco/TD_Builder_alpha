@@ -44,11 +44,15 @@ sys.stdout = sys.stderr
 try:
     from mcp.server import Server
     from mcp.server.stdio import stdio_server
-    from mcp.types import Tool, TextContent, ImageContent
+    from mcp.types import Tool, TextContent, ImageContent, ToolAnnotations
 except ImportError:
     print("ERROR: MCP package not installed", file=sys.stderr)
     print("Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
+
+# Output budgets for the two flood-prone tools (W4b). server_core is on sys.path
+# (inserted above); output_budget is a pure json/os module — safe to import here.
+from output_budget import budget_full_expand, budget_hybrid_results  # noqa: E402
 
 # TD Live Client tools live SOLELY on the separate `td-builder-live` server
 # (MCP/live_server.py). This offline `td-builder` server never co-loads them, so
@@ -891,12 +895,31 @@ def _start_build_job(network_design, design, table_data, project_name, output_di
     return job_id
 
 
+# MCP risk annotations (W4b, audit cluster C3). These are the machine-readable tiers
+# the client's approval layer gates on — the prerequisite for D3 live-authorization
+# tiering. Owner-decided: ship only the three named hints (openWorldHint omitted).
+# destructiveHint/idempotentHint are meaningful only when readOnlyHint is false.
+#   READ_ONLY      — no environment change (all KB lookup / validate / convert / expand
+#                    / status tools; expand only writes a temp dir it cleans up).
+#   WRITE_ADDITIVE — creates a file/artifact, never the live graph (td_build_project).
+#                    The future D3 save/snapshot tool reuses this class with
+#                    idempotentHint=True so it stays allow-under-auto.
+#   (No DESTRUCTIVE tools on this offline server — all live-graph mutation and
+#    arbitrary-exec tools are on the separate td-builder-live surface.)
+# Shared singletons — never mutated. See docs/TOOL_RISK_ANNOTATIONS.md.
+READ_ONLY = ToolAnnotations(readOnlyHint=True)
+WRITE_ADDITIVE = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=False, idempotentHint=False
+)
+
+
 @app.list_tools()
 async def list_tools() -> list[Tool]:
     """List available tools"""
-    
+
     tools = [
         Tool(
+            annotations=READ_ONLY,
             name="hybrid_search",
             description="Search TouchDesigner documentation using semantic search + knowledge graph. Returns relevant operators, parameters, concepts with relationships.",
             inputSchema={
@@ -916,6 +939,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="get_operator_info",
             description="Get info about a TouchDesigner operator. Use compact=true to save context (returns name, family, type, summary).",
             inputSchema={
@@ -935,6 +959,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="query_graph",
             description="Query TouchDesigner knowledge graph. Use compact=true for 'family' queries to get just names (saves ~700K context).",
             inputSchema={
@@ -963,6 +988,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="list_pop_operators",
             description="List all POP (Particle) operators available in TouchDesigner",
             inputSchema={
@@ -972,6 +998,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="find_operator_examples",
             description=(
                 "Find real example networks demonstrating how to use a specific operator. "
@@ -1013,6 +1040,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="find_operator_combination",
             description=(
                 "Find examples that use specific operator combinations. Useful for learning "
@@ -1054,6 +1082,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="find_parameter_usage",
             description="Find examples of parameter usage. Use compact=true to get just values (saves ~50K context).",
             inputSchema={
@@ -1082,6 +1111,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="find_similar_networks",
             description="Find examples with similar network patterns to a given example. Useful for finding alternative implementations or related techniques.",
             inputSchema={
@@ -1101,6 +1131,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="get_parameter_detail",
             description="Get full description and options for a specific parameter. Use after get_operator_info(compact=true) to drill down into specific params.",
             inputSchema={
@@ -1119,6 +1150,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="get_network_patterns",
             description="Get common network patterns found across TouchDesigner examples. Shows frequently-used operator combinations and connection patterns.",
             inputSchema={
@@ -1134,6 +1166,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=WRITE_ADDITIVE,
             name="td_build_project",
             description=(
                 "Build a TouchDesigner project (.toe, mode='toe') or component (.tox, mode='tox') from a network design.\n"
@@ -1204,6 +1237,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="td_build_status",
             description=(
                 "Poll an async build started with td_build_project(async_build=true). "
@@ -1222,6 +1256,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="td_validate",
             description=(
                 "Validate a TouchDesigner network JSON against the unified 5-stage validation pipeline. "
@@ -1251,6 +1286,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="td_convert",
             description=(
                 "Convert TouchDesigner network JSON between format layers. "
@@ -1280,6 +1316,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="get_expert_prompt",
             description="Get the full prompt/instructions for a specialized TD expert. Use this before complex builds to get the expert's complete knowledge. Available experts: td_designer (network specs), network_builder (file generation), td_glsl_expert (shaders), td_python_expert (scripts), ui_expert (control panels), critic (review).",
             inputSchema={
@@ -1301,6 +1338,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="get_server_info",
             description="Return runtime identity of this MCP server: working directory, absolute script path, version, server name, Python version, and whether the live-TD client is enabled. Use this to confirm which copy/install of the server is actually running.",
             inputSchema={
@@ -1310,6 +1348,7 @@ async def list_tools() -> list[Tool]:
             }
         ),
         Tool(
+            annotations=READ_ONLY,
             name="expand_toe_file",
             description=(
                 "Expand a TouchDesigner .toe/.tox file (via toeexpand.exe) and parse it OFFLINE. "
@@ -1548,6 +1587,12 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                                     result['ground_truth_param_count'] = full_info['ground_truth_param_count']
                         except Exception:
                             pass
+
+            # Output budget (W4b): if the enriched envelope is oversized, shed the
+            # per-result parameter lists and add a non-error `_truncation` signal.
+            # semantic_results is preserved (test_p03); scorer envelope stays ok.
+            if isinstance(results, dict):
+                results, _ = budget_hybrid_results(results)
 
             return [TextContent(
                 type="text",
@@ -2178,12 +2223,17 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 return _expand_err(f"Unsupported input: {src}",
                                    "Expected a .toe/.tox file or an expanded .toe.dir/.tox.dir.")
 
+            expand_truncated = False
             try:
                 from parsers.lossless_parser import parse_toe_lossless
                 network = parse_toe_lossless(toe_dir, registry=None, verbose=False)
                 if out_mode == "full":
                     from core.lossless_json import to_lossless_json_dict
                     data = to_lossless_json_dict(network)
+                    # Output budget (W4b): full lossless JSON round-trips, so an
+                    # oversized payload is withheld (not partially truncated) with an
+                    # explicit pointer. Stays ok=True so the scorer envelope is fine.
+                    data, expand_truncated, _ = budget_full_expand(data)
                 else:
                     data = _summarize_td_network(network)
             except Exception as pe:
@@ -2192,9 +2242,11 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 if cleanup_dir is not None:
                     _shutil.rmtree(cleanup_dir, ignore_errors=True)
 
+            _meta = {"tool": "expand_toe_file", "server": SERVER_NAME, "mode": out_mode}
+            if expand_truncated:
+                _meta["truncated"] = True
             return [TextContent(type="text", text=json.dumps({
-                "ok": True, "data": data,
-                "meta": {"tool": "expand_toe_file", "server": SERVER_NAME, "mode": out_mode},
+                "ok": True, "data": data, "meta": _meta,
             }, indent=2, default=str))]
 
         # (Live-TD tools are dispatched by the separate td-builder-live server;

@@ -285,9 +285,11 @@ except Exception as e:
 # KB manifest's own version next to it.
 _KB_ROOT = _RELEASE_ROOT / "KB"
 _KB_MANIFEST_VERSION = None
+_KB_TD_BUILD = None  # informational (the KB's TouchDesigner build pin); never compared
 try:
-    _KB_MANIFEST_VERSION = json.loads(
-        (_KB_ROOT / "manifest.json").read_text(encoding="utf-8")).get("version")
+    _kb_manifest = json.loads((_KB_ROOT / "manifest.json").read_text(encoding="utf-8"))
+    _KB_MANIFEST_VERSION = _kb_manifest.get("version")
+    _KB_TD_BUILD = _kb_manifest.get("td_build")
 except Exception as _e:
     print(f"WARNING: KB manifest unreadable at {_KB_ROOT / 'manifest.json'} ({_e}); "
           f"get_server_info will report kb_version=null", file=sys.stderr)
@@ -490,6 +492,17 @@ app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
 
 SERVER_NAME = "touchdesigner-mcp-server"
 SERVER_VERSION = "0.2.0"
+
+# Server <-> KB version-compat check (Wave 5). Computed here because it needs both
+# SERVER_VERSION (just defined) and the KB manifest version/td_build (loaded above).
+# WARN-not-fail: a version-mismatched KB still boots (degraded). Policy + semver-minor
+# comparison live in compat.py; the result is surfaced in get_server_info.compat.
+from compat import compat_status as _compat_status  # noqa: E402
+_COMPAT = _compat_status(SERVER_VERSION, _KB_MANIFEST_VERSION, _KB_TD_BUILD)
+if _COMPAT["compatible"] is False:
+    print(f"WARNING: KB/server version mismatch — server {SERVER_VERSION} vs "
+          f"KB {_KB_MANIFEST_VERSION}. Running degraded; rebuild or refetch a matching KB "
+          f"(get_server_info.compat has details).", file=sys.stderr)
 
 # Tools that need the heavy knowledge graph / vector search. Only these
 # trigger the one-time _ensure_kb() lazy load; everything else (get_server_info,
@@ -2140,6 +2153,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "server_name": SERVER_NAME,
                     "version": SERVER_VERSION,
                     "kb_version": _KB_MANIFEST_VERSION,
+                    "compat": _COMPAT,
                     "kb_root": str(_KB_ROOT),
                     "script_path": str(Path(__file__).resolve()),
                     "cwd": os.getcwd(),

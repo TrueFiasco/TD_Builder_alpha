@@ -44,9 +44,15 @@ def _alnum(s) -> str:
 
 
 def _default_kb_operators() -> _Path:
-    """Repo-root/KB/operators.json — the same shipped bundle the OperatorRegistry loads
-    (validation/ -> engine/ -> MCP/ -> repo root)."""
-    return _Path(__file__).resolve().parents[3] / "KB" / "operators.json"
+    """Repo-root/KB/operators.json — the same shipped bundle the OperatorRegistry loads.
+
+    Routes through the canonical ``paths`` module so it honors the ``TD_BUILDER_ROOT``
+    relocation knob. ``paths`` is imported lazily (call-time) so this validation module
+    carries no import-time dependency on the repo-root module -- by the time a validator is
+    constructed (per ``td_validate``), bootstrap/conftest has put the repo root on sys.path.
+    """
+    from paths import KB_OPERATORS  # lazy -- see docstring
+    return KB_OPERATORS
 
 
 class GroundingValidator:

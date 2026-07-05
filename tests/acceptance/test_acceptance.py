@@ -67,6 +67,23 @@ def test_p01b_tool_inventory(probe):
         assert gone not in names, f"{gone} should be removed"
 
 
+def test_p01c_server_compat(probe):
+    """W5: get_server_info surfaces a server<->KB version-compat block. Shipped server and
+    shipped KB are both 0.2.0 -> compatible. WARN-not-fail policy is advertised."""
+    r = probe.call("get_server_info", {})
+    assert r.ok, f"errored: {r.text[:200]}"
+    d = r.json()
+    compat = d["data"]["compat"]
+    assert isinstance(compat, dict), f"compat missing/malformed: {compat!r}"
+    for key in ("compatible", "status", "server_version", "kb_version", "kb_td_build", "policy"):
+        assert key in compat, f"compat missing key {key!r}: {compat}"
+    assert compat["policy"] == "warn"
+    # Shipped release: SERVER_VERSION == KB manifest version == 0.2.0.
+    assert compat["compatible"] is True and compat["status"] == "compatible", compat
+    assert compat["server_version"] == d["data"]["version"]
+    assert compat["kb_version"] == d["data"]["kb_version"]
+
+
 def test_p02_operator_info_and_param_detail(probe):
     a = probe.call("get_operator_info", {"operator_name": "Noise CHOP",
                                          "compact": True})

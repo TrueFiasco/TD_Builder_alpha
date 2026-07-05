@@ -128,3 +128,32 @@ def test_offline_stamped_user_entry_gets_strict_policy(user_dir, tmp_path):
     }
     with pytest.raises(ValueError, match="out_a"):
         ToxBuilder(tmp_path / "b", verbose=False).build_tox(design, "strict")
+
+
+def test_malformed_user_entry_skipped_not_crashing_g5(user_dir, tmp_path):
+    # G5: a hand-edited entry with the WRONG shape (inputs/outputs as bare strings, not
+    # {index,in_op,family} dicts) used to throw an uncaught AttributeError from the
+    # index-sort at resolution time, FAILING the build — contradicting the loader's
+    # "a user registry must never fail a build" contract. Now skipped at merge with a
+    # warning; a valid sibling entry is unaffected.
+    (user_dir / "user_components.json").write_text(json.dumps({"components": {
+        "Hand": {"source": "project", "tox_path": "x.tox",
+                 "inputs": ["in1"], "outputs": ["out1"],   # <- bare strings, malformed
+                 "harvest": {"method": "offline_manifest"}},
+        "Good": _entry(["out1"], harvest="offline_manifest"),
+    }}), encoding="utf-8")
+
+    spec = bridge._load_palette_components()               # must not raise
+    assert "Hand" not in spec["components"], "malformed entry skipped at merge"
+    assert "Good" in spec["components"], "valid sibling survives"
+    assert "bloom" in spec["components"], "shipped registry intact"
+
+    # a design referencing the SKIPPED entry degrades to the clean unknown-component
+    # error (actionable), NOT an AttributeError crash.
+    bad = {"operators": [{"name": "n", "palette": "Hand", "position": [0, 0]}]}
+    with pytest.raises(ValueError, match="Unknown palette component 'Hand'"):
+        ToxBuilder(tmp_path / "bad", verbose=False).build_tox(bad, "g5bad")
+
+    # the valid sibling still builds (registry not poisoned by the bad entry).
+    ok = {"operators": [{"name": "n", "palette": "Good", "position": [0, 0]}]}
+    ToxBuilder(tmp_path / "ok", verbose=False).build_tox(ok, "g5ok")

@@ -50,19 +50,16 @@ except ImportError:
     print("Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
 
-# TD Live Client - HTTP client for TouchDesigner WebServer DAT
-# Provides visual feedback and CRUD tools for running TD instances
-try:
-    from td_live_client import TD_LIVE_TOOLS, TD_LIVE_HANDLERS
-    TD_LIVE_ENABLED = True
-    print("Live TD tools enabled (19 tools for a running TouchDesigner).", file=sys.stderr)
-except ImportError:
-    TD_LIVE_ENABLED = False
-    TD_LIVE_TOOLS = []
-    TD_LIVE_HANDLERS = {}
-    # Expected on the offline 'td-builder' server: the 19 live tools are served
-    # by the separate 'td-builder-live' server (MCP/live_server.py).
-    print("Offline server: live TD tools are served separately by td-builder-live.", file=sys.stderr)
+# TD Live Client tools live SOLELY on the separate `td-builder-live` server
+# (MCP/live_server.py). This offline `td-builder` server never co-loads them, so
+# its tool surface is a fixed 17 regardless of ambient import state — co-loading
+# would make the count depend on whether MCP/live_client happened to be importable
+# (it isn't on this server's sys.path). The three symbols stay defined (pinned
+# off) because scope_for_server() and get_server_info still read them.
+TD_LIVE_ENABLED = False
+TD_LIVE_TOOLS = []
+TD_LIVE_HANDLERS = {}
+print("Offline server: live TD tools are served separately by td-builder-live.", file=sys.stderr)
 
 try:
     import importlib.util
@@ -469,15 +466,20 @@ def _load_kb():
 
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
-# cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this is the
-# `td-builder` server, normally offline ([always] rules only) — but when it
-# co-loads the live tools (TD_LIVE_ENABLED, see list_tools/`tools.extend`), it
-# must ship the live scope too, or a model driving TD through it would miss the
-# catastrophic-silent live rules (GLSL-invisible, flat-exec-scope). The loader
-# fails soft to a baked-in minimal string, so a partial install still starts.
+# cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this offline
+# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 19
+# live tools live only on td-builder-live), so scope_for_server() resolves to the
+# offline scope ([always] rules only). The helper stays the single scope-follows-
+# tools source: a server that DID serve the live tools would ship the live scope,
+# incl. the catastrophic-silent rules (GLSL-invisible, flat-exec-scope). The
+# loader fails soft to a baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions, scope_for_server  # noqa: E402
 
+# TD_LIVE_ENABLED is pinned False on this offline server (co-load removed), so this
+# always resolves to scope_for_server(False) -> "offline". The True branch is
+# production-unreachable here by design but retained as canary-tested defensive code
+# (test_scope_follows_tools_served) for any future live-serving server.
 _NON_NEGOTIABLES = load_instructions(
     _RELEASE_ROOT, scope=scope_for_server(bool(TD_LIVE_ENABLED and TD_LIVE_TOOLS)))
 app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
@@ -675,14 +677,11 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
             }
 
         # Palette components are per-OPERATOR fields ({"name": ..., "palette": "bloom"}),
-        # not a design-level key — catch the old design-level form with a pointer.
-        if 'palette' in design:
-            return {
-                "status": "ERROR",
-                "message": ("'palette' is a per-operator field, not a design-level key. "
-                            "Use {\"operators\": [{\"name\": \"glow\", \"palette\": \"bloom\"}], ...} — "
-                            "names come from KB/palette_components.json (277 registered components)."),
-            }
+        # not a design-level key. Single-sourced via _reject_design_level_palette so
+        # this simple route and the advanced _run_build route stay identical.
+        perr = _reject_design_level_palette(design)
+        if perr:
+            return perr
 
         if 'operators' not in design:
             design['operators'] = []
@@ -737,6 +736,22 @@ def _prune_build_jobs(limit=50):
             _build_jobs.pop(jid, None)
 
 
+def _reject_design_level_palette(design_like) -> Optional[Dict]:
+    """Design-level `palette` key is the old, invalid form — `palette` is a
+    per-OPERATOR field. Return the identical ERROR envelope for either build route
+    (single source, so the simple and advanced paths can't drift), else None.
+    Top-level only, matching the simple path; per-operator `palette` inside
+    operators/containers stays valid."""
+    if isinstance(design_like, dict) and 'palette' in design_like:
+        return {
+            "status": "ERROR",
+            "message": ("'palette' is a per-operator field, not a design-level key. "
+                        "Use {\"operators\": [{\"name\": \"glow\", \"palette\": \"bloom\"}], ...} — "
+                        "names come from KB/palette_components.json (277 registered components)."),
+        }
+    return None
+
+
 async def _run_build(network_design, design, table_data, project_name, output_dir, mode) -> dict:
     """Build a .tox/.toe and return the result envelope dict (callers run B08 pre-validation
     first). network_design -> ToeBuilderBridge advanced path; otherwise the simple
@@ -749,6 +764,13 @@ async def _run_build(network_design, design, table_data, project_name, output_di
         network_design = dict(design)
         if table_data:
             network_design["table_data"] = table_data
+    # Single guard path (W4a): reject a design-level `palette` key on EITHER route
+    # (advanced network_design, simple design, or a promoted design) with the one
+    # shared envelope, before any builder runs. The simple td_build_project() path
+    # calls the same helper, so the two routes can't drift.
+    perr = _reject_design_level_palette(network_design or design)
+    if perr:
+        return perr
     if network_design and EXPERT_WORKFLOW_ENABLED:
         try:
             if not output_dir:
@@ -1316,11 +1338,9 @@ async def list_tools() -> list[Tool]:
         )
     ]
 
-    # Add TD Live Client tools (visual feedback + CRUD) when available
-    if TD_LIVE_ENABLED and TD_LIVE_TOOLS:
-        tools.extend(TD_LIVE_TOOLS)
-        print(f"Added {len(TD_LIVE_TOOLS)} TD Live tools to MCP server", file=sys.stderr)
-
+    # The 19 live-TD tools are served by the separate td-builder-live server, never
+    # co-loaded here — this offline server's surface is a fixed 17 (see the pinned-off
+    # TD_LIVE_* constants at module top).
     return tools
 
 
@@ -2177,11 +2197,8 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 "meta": {"tool": "expand_toe_file", "server": SERVER_NAME, "mode": out_mode},
             }, indent=2, default=str))]
 
-        # TD Live Client tools (visual feedback + CRUD)
-        elif TD_LIVE_ENABLED and name in TD_LIVE_HANDLERS:
-            handler = TD_LIVE_HANDLERS[name]
-            return await handler(arguments)
-
+        # (Live-TD tools are dispatched by the separate td-builder-live server;
+        # this offline server has no live handlers.)
         else:
             return [TextContent(
                 type="text",

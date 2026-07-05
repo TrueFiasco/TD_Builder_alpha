@@ -1,0 +1,44 @@
+{"_meta": {"scenario": "s14_param_grounding", "blessed_from": "baseline-n5-tail/s14_param_grounding.t5", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "Geo COMP", "family": "COMP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Geo COMP", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "Audio File In CHOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio File In CHOP", "compact": false}}
+{"tool": "hybrid_search", "args": {"query": "Geo COMP instancing enable translate channels data source", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "audio band levels CHOP channels spectrum analysis", "n_results": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "Geo COMP", "family": "COMP"}}
+{"tool": "find_operator_examples", "args": {"operator": "Audio File In CHOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Geo COMP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio File In CHOP", "compact": false}}
+{"tool": "hybrid_search", "args": {"query": "Geo COMP instancing enable translate channels data source", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "audio band levels CHOP channels spectrum analysis", "n_results": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "Geo COMP", "family": "COMP"}}
+{"tool": "find_operator_examples", "args": {"operator": "Audio File In CHOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Geo COMP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio File In CHOP", "compact": false}}
+{"tool": "hybrid_search", "args": {"query": "Geo COMP instancing enable translate channels data source", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "audio band levels CHOP channels spectrum analysis", "n_results": 5}}
+{"tool": "get_operator_info", "args": {"operator_name": "Geo COMP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio Spectrum CHOP", "compact": false}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio Band EQ CHOP", "compact": false}}
+{"tool": "find_operator_examples", "args": {"operator": "Geo COMP", "family": "COMP"}}
+{"tool": "find_operator_examples", "args": {"operator": "Audio File In CHOP"}}
+{"tool": "find_operator_combination", "args": {"operator_types": ["CHOP:audiofilein", "CHOP:audiospectrum"]}}
+{"tool": "get_operator_info", "args": {"operator_name": "Geometry COMP", "compact": false}}
+{"tool": "hybrid_search", "args": {"query": "instancing geometry COMP instanceop instancetx instancety instancetz", "n_results": 5}}
+{"tool": "hybrid_search", "args": {"query": "Audio Analyze CHOP RMS amplitude envelope CHOP channels", "n_results": 5}}
+{"tool": "find_operator_examples", "args": {"operator": "Audio Analyze CHOP"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instance"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instanceop"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancetx"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Audio Analyze CHOP", "compact": false}}
+{"tool": "find_parameter_usage", "args": {"operator_type": "geometry", "parameter_name": "instanceop", "compact": true}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "doinst"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancety"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancetz"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancecount"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Analyze CHOP", "compact": false}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instanceenable"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancing"}}
+{"tool": "get_parameter_detail", "args": {"operator_name": "Geometry COMP", "parameter_name": "instancecounttype"}}
+{"tool": "hybrid_search", "args": {"query": "Geometry COMP instancing toggle enable parameter render page instance count", "n_results": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "audioAnalysis"}}

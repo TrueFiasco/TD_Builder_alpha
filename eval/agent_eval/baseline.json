@@ -1,33 +1,51 @@
 {
   "_checkpoint": true,
+  "_provenance": {
+    "captured_date": "2026-07-05",
+    "captured_git_ref": "main @ Merge W3a (PR #13): builder correctness + grounding/bare-comp validators (S6)",
+    "captured_git_sha": "6a2f461",
+    "mixed_snapshot_disclosure": "s01-s09 model trials were sampled+scored on cbf01f1, whose builder LACKS W3a's grounding_validator and component_source_validator (pipeline stages 2.5/3.5). 7 of those 9 scenarios (s01-s04,s06-s08) carry validate:PASS and thus ran a 4-stage pipeline; current main runs 6 stages. The 8-field agent-identity block is INVARIANT across cbf01f1<->6a2f461 (server_version is a hardcoded '0.2.0' constant), so --compare cannot detect this split; this note + the git_sha are the only record.",
+    "reuse_safeguard": "All 9 reused blessed traces (s01-s09) were re-validated by Lane R IN-PROCESS on 6a2f461 and PASS (2026-07-05) -> the post-W3a builder still produces valid artifacts from those exact call patterns (builder-neutrality proven through W3a).",
+    "s01_s09_source": "REUSED verbatim from run baseline-n5 in worktree magical-moore-f0701c @ cbf01f1 (pre-W3a, 2026-07-04). Model-sampled there; NOT re-sampled on 6a2f461. Owner-approved reuse 2026-07-05 with full knowledge of the snapshot gap.",
+    "s10_s14_source": "freshly captured n=5 on 6a2f461 (run baseline-n5-tail), spend $8.21"
+  },
   "aspirational_set": [
     "s02_top_feedback",
     "s04_instancing",
     "s06_glsl_top",
     "s07_glsl_pop",
-    "s09_abstention"
+    "s09_abstention",
+    "s11_wrapper_manifest",
+    "s13_multi_chain"
   ],
   "captured_with": {
     "config": "guided",
     "lane": "model",
     "n": 5,
     "run_id": "baseline-n5",
-    "status": "IN-PROGRESS (partial checkpoint \u2014 reconstructed from on-disk trials)"
+    "status": "COMPLETE (reconstructed from on-disk trials by checkpoint.py)"
   },
   "gate_set": [
     "s01_chop_chain",
     "s03_sop_displace",
     "s05_palette_audio",
-    "s08_chop_execute"
-  ],
-  "identity": null,
-  "incomplete_set": [
+    "s08_chop_execute",
     "s10_external_trap",
-    "s11_wrapper_manifest",
     "s12_dual_mode",
-    "s13_multi_chain",
     "s14_param_grounding"
   ],
+  "identity": {
+    "cli_version": "2.1.81 (Claude Code)",
+    "guidance_hash": "9a94d95b68717cd43597f4ca034e7d3ab78092ad4397fe454291fb9bf1c050f5",
+    "kb_manifest_version": "0.2.0",
+    "kb_root": "KB",
+    "kb_sha": "1a273d114ae9ebca531ac410dd5c01bb747046617de9dee5a87423a3e9207633",
+    "model_id": "claude-sonnet-4-6",
+    "scenario_set_version": "1.0.0",
+    "server_version": "0.2.0",
+    "tool_inventory_hash": "1c81e8b4cb1f701669641bcaad2fa6b1a322ab551ee5a0a4504d5339099baa4a"
+  },
+  "incomplete_set": [],
   "scenarios": {
     "s01_chop_chain": {
       "advisory_median": {
@@ -242,82 +260,116 @@
     },
     "s10_external_trap": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.2107,
+        "tool_calls": 12,
+        "turns": 15,
+        "wall_s": 94.28
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
       "version": 1
     },
     "s11_wrapper_manifest": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.2272,
+        "tool_calls": 2,
+        "turns": 13,
+        "wall_s": 143.78
       },
-      "complete": false,
-      "failure_fingerprints": {},
+      "complete": true,
+      "failure_fingerprints": {
+        "response.must_match[in1]": 2,
+        "response.must_match[in2]": 4,
+        "response.must_match[out1]": 3
+      },
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 0.0,
+      "verdicts": [
+        "FAIL",
+        "FAIL",
+        "FAIL",
+        "ERROR",
+        "FAIL"
+      ],
       "version": 1
     },
     "s12_dual_mode": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.2415,
+        "tool_calls": 22,
+        "turns": 25,
+        "wall_s": 95.18
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
       "version": 1
     },
     "s13_multi_chain": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.6713,
+        "tool_calls": 22,
+        "turns": 27,
+        "wall_s": 409.13
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": false,
-      "n_captured": 0,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
       "version": 1
     },
     "s14_param_grounding": {
       "advisory_median": {
-        "cost_usd": null,
-        "tool_calls": null,
-        "turns": null,
-        "wall_s": null
+        "cost_usd": 0.3591,
+        "tool_calls": 25,
+        "turns": 27,
+        "wall_s": 107.02
       },
-      "complete": false,
+      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 0,
+      "n_captured": 5,
       "n_expected": 5,
-      "pass_rate": null,
-      "verdicts": [],
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
       "version": 1
     }
   },

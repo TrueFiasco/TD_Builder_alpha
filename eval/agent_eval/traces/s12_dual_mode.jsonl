@@ -1,0 +1,20 @@
+{"_meta": {"scenario": "s12_dual_mode", "blessed_from": "baseline-n5-tail/s12_dual_mode.t5", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "noise", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "noise", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "noise", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "noise", "family": "TOP", "limit": 3}}
+{"tool": "get_operator_info", "args": {"operator_name": "noise TOP", "compact": true}}
+{"tool": "get_operator_info", "args": {"operator_name": "null TOP", "compact": true}}
+{"tool": "get_operator_info", "args": {"operator_name": "noise TOP", "compact": true}}
+{"tool": "get_operator_info", "args": {"operator_name": "null TOP", "compact": true}}
+{"tool": "get_server_info", "args": {}}
+{"tool": "find_operator_examples", "args": {"operator": "noise", "family": "TOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "TOP", "limit": 2}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "noise1", "type": "noise", "family": "TOP", "position": [0, 0]}, {"name": "null1", "type": "null", "family": "TOP", "position": [200, 0]}], "connections": [{"from": "noise1", "to": "null1"}]}}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "noise1", "type": "noise", "family": "TOP", "position": [0, 0]}, {"name": "null1", "type": "null", "family": "TOP", "position": [200, 0]}], "connections": [{"from": "noise1", "to": "null1"}]}, "mode": "tox", "project_name": "tile_mini", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "noise1", "type": "noise", "family": "TOP", "position": [0, 0]}, {"name": "null1", "type": "null", "family": "TOP", "position": [200, 0]}], "connections": [{"from": "noise1", "to": "null1"}]}, "mode": "toe", "project_name": "tile_mini", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "expand_toe_file", "args": {"toe_path": "{{RUN_DIR}}/tile_mini.tox", "mode": "summary"}}
+{"tool": "expand_toe_file", "args": {"toe_path": "{{RUN_DIR}}/tile_mini.toe", "mode": "summary"}}

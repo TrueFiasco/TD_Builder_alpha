@@ -231,3 +231,19 @@ Before tagging any post-remediation release:
   s13 carry `validate:null` — the ValidationPipeline cannot resolve wires crossing
   a palette/external_tox placeholder boundary (verified 2026-07-04; product gap
   noted in the W2c PR). Actual gate membership is set by the first n=5 capture.
+- **baseline n=5** (2026-07-05, W2c deferred deliverable): first full n=5 capture,
+  on merged `main` @ `6a2f461` (Merge W3a: builder correctness + grounding/
+  bare-comp validators). Spend $8.21 (s10–s14), under the $25 cap. **Gate set
+  (5/5, 7):** s01, s03, s05, s08, s10, s12, s14. **Aspirational (7):** s02/s04/s06
+  (4/5) and s07/s09 (3/5) — model variance; **s11** (0/5 — correctly under-reports
+  the wrapper's `in1`/`in2`/`out1`, the known bloom-manifest gap: born-aspirational
+  against a known gap is the harness working, not rot; it also booked 1 budget-
+  timeout ERROR, excluded from pass-rate); **s13** (5/5 but `gate:false`
+  born-aspirational → **promotion candidate**, owner decision required to flip
+  `gate:true` + re-capture). Lane R replay determinism verified byte-identical
+  across two sweeps. **Provenance** (`baseline.json._provenance`): s10–s14 freshly
+  captured on `6a2f461`; s01–s09 model-samples reused verbatim from `cbf01f1`
+  (pre-W3a) per owner decision, re-validated PASS by Lane R on `6a2f461`. The
+  8-field identity block is invariant across that snapshot pair (server_version is
+  a constant), so `--compare` cannot see the split — the provenance block is the
+  record.

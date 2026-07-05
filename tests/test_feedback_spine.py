@@ -358,6 +358,37 @@ def test_export_bundle_contents(monkeypatch):
 # --------------------------------------------------------------------------- #
 # Twin-guard: MCP/env_identity.py must agree with eval/agent_eval/identity.py
 # --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# Integration through the REAL @app.call_tool dispatch (d4-test-01)
+# --------------------------------------------------------------------------- #
+def test_d4_01_neutrality_through_real_dispatch(server, monkeypatch):
+    """Exercise the decorator on the ACTUAL registered mcp_server.call_tool (not a
+    fake fn), so CI guards eval-neutrality against a future decorator reorder or an
+    SDK re-wrap change. get_server_info is deterministic and not KB-gated, so the OFF
+    and ON envelopes must be byte-identical. Uses the conftest `server` fixture ->
+    auto requires_kb -> runs in the engine-kb lane, skipped in the KB-free lane."""
+    d = feedback.feedback_dir()
+
+    # OFF (flag left unset by the autouse fixture): envelope out, nothing recorded.
+    off = asyncio.run(server.call_tool("get_server_info", {}))
+    assert isinstance(off, list) and len(off) == 1 and getattr(off[0], "type", None) == "text"
+    assert not (d.exists() and list(d.glob("*.jsonl")))
+
+    # ON: byte-identical envelope (recorder is read-only), exactly one record.
+    monkeypatch.setenv("TD_FEEDBACK_ENABLED", "1")
+    feedback._identity_cache.clear()
+    on = asyncio.run(server.call_tool("get_server_info", {}))
+    assert isinstance(on, list) and len(on) == 1
+    assert on[0].text == off[0].text                 # recorder added nothing to the envelope
+
+    lines = [json.loads(x) for f in sorted(d.glob("*.jsonl"))
+             for x in f.read_text(encoding="utf-8").splitlines() if x.strip()]
+    assert sum(1 for x in lines if x.get("kind") == "session_header") == 1
+    calls = [x for x in lines if x.get("kind") == "call"]
+    assert len(calls) == 1 and calls[0]["tool"] == "get_server_info"
+    assert calls[0]["outcome"] == "unknown"          # non-adapter tool -> honestly unknown
+
+
 def _load_twin():
     twin_path = _REPO / "eval" / "agent_eval" / "identity.py"
     spec = importlib.util.spec_from_file_location("eval_identity_twin", twin_path)

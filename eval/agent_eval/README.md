@@ -246,4 +246,9 @@ Before tagging any post-remediation release:
   (pre-W3a) per owner decision, re-validated PASS by Lane R on `6a2f461`. The
   8-field identity block is invariant across that snapshot pair (server_version is
   a constant), so `--compare` cannot see the split — the provenance block is the
-  record.
+  record. **Current-main re-validation:** origin/main advanced `6a2f461`→`572ceed`
+  during the capture (W4a + BUG-3 v0.2.1, both touching `toe_builder_bridge.py`);
+  the branch was merged up to `572ceed` and all 13 blessed traces re-replay PASS
+  on that builder with byte-identical `verdicts.json` across all four sweeps
+  (2× each snapshot) → CI Lane R is green on current main; builder-neutrality now
+  proven through W4a/BUG-3.

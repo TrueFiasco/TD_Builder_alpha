@@ -49,3 +49,30 @@ def test_tox_mode_path_unchanged(server, tmp_path):
         assert str(result["output_file"]).endswith(".tox"), result
     else:
         pytest.skip(f"toecollapse unavailable: {result.get('message')}")
+
+
+def test_design_level_palette_rejected_identically(server, tmp_path):
+    """W4a: a design-level `palette` key (the old, invalid form) must be rejected
+    IDENTICALLY on both build routes — the advanced `_run_build` path and the simple
+    `td_build_project` path share one guard (`_reject_design_level_palette`), so their
+    error envelopes can't drift. Previously the advanced path silently ignored it."""
+    if not getattr(server, "EXPERT_WORKFLOW_ENABLED", False):
+        # With the flag off the simple path returns the "not available" envelope
+        # before the guard, so the two messages wouldn't be comparable.
+        pytest.skip("EXPERT_WORKFLOW_ENABLED is False")
+    palette_design = {
+        "operators": [{"name": "glow", "type": "noise", "family": "CHOP"}],
+        "palette": "bloom",  # design-LEVEL key = the invalid form
+    }
+    # Advanced/promoted route: network_design=None + mode="toe" promotes the flat
+    # design onto the advanced path, where the guard now fires before any builder.
+    adv = asyncio.run(server._run_build(
+        None, dict(palette_design), {}, "pal_adv", str(tmp_path), "toe"))
+    # Simple route: td_build_project is also async -> asyncio.run (a bare call returns
+    # a coroutine, not a dict).
+    simple = asyncio.run(server.td_build_project(dict(palette_design)))
+    assert adv.get("status") == "ERROR" and simple.get("status") == "ERROR", (adv, simple)
+    # Message equality is what pins symmetry — a builder failure is also ERROR and
+    # would false-pass a both-ERROR-only assertion.
+    assert adv["message"] == simple["message"], (adv["message"], simple["message"])
+    assert "per-operator field" in adv["message"], adv["message"]

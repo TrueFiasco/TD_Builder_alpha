@@ -120,6 +120,27 @@ def test_recorder_failure_is_isolated(monkeypatch):
     assert lines == []                         # nothing written, nothing raised
 
 
+def test_recorder_writes_nothing_to_stdout(monkeypatch):
+    """stdout is the MCP JSON-RPC channel: the recorder must write ONLY to its file,
+    never stdout — on a normal call and on a recorder failure (no stray print)."""
+    import contextlib
+    import io
+    monkeypatch.setenv("TD_FEEDBACK_ENABLED", "1")
+
+    async def fn(name, arguments):
+        return [jtext({"valid": True, "errors": []})]
+
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        asyncio.run(_wrap(fn)("td_validate", {"network": {"x": 1}}))
+        monkeypatch.setattr(feedback, "_build_record",
+                            lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+        asyncio.run(_wrap(fn)("td_validate", {"network": {"x": 1}}))
+    assert buf.getvalue() == ""                       # JSON-RPC channel stays pristine
+    _, lines = _read_lines()
+    assert any(x.get("kind") == "call" for x in lines)  # first (pre-failure) call recorded
+
+
 def test_exception_path_reraises_and_records(monkeypatch):
     monkeypatch.setenv("TD_FEEDBACK_ENABLED", "1")
 

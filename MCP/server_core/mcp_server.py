@@ -476,6 +476,10 @@ def _load_kb():
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions, scope_for_server  # noqa: E402
 
+# TD_LIVE_ENABLED is pinned False on this offline server (co-load removed), so this
+# always resolves to scope_for_server(False) -> "offline". The True branch is
+# production-unreachable here by design but retained as canary-tested defensive code
+# (test_scope_follows_tools_served) for any future live-serving server.
 _NON_NEGOTIABLES = load_instructions(
     _RELEASE_ROOT, scope=scope_for_server(bool(TD_LIVE_ENABLED and TD_LIVE_TOOLS)))
 app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)

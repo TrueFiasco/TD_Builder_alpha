@@ -53,26 +53,38 @@ def test_tox_mode_path_unchanged(server, tmp_path):
 
 def test_design_level_palette_rejected_identically(server, tmp_path):
     """W4a: a design-level `palette` key (the old, invalid form) must be rejected
-    IDENTICALLY on both build routes — the advanced `_run_build` path and the simple
-    `td_build_project` path share one guard (`_reject_design_level_palette`), so their
-    error envelopes can't drift. Previously the advanced path silently ignored it."""
+    IDENTICALLY across ALL THREE build entry paths — they share one guard
+    (`_reject_design_level_palette`), so their error envelopes can't drift:
+      1. advanced/promoted-toe  (network_design=None + mode="toe" promotes onto the
+         advanced path; guard fires at the _run_build chokepoint),
+      2. simple-direct          (td_build_project() inline guard),
+      3. simple-through-_run_build-tox (mode="tox", no promotion; the chokepoint
+         catches it before the tox-only td_build_project() fallthrough).
+    Previously the advanced path silently ignored a design-level palette key."""
     if not getattr(server, "EXPERT_WORKFLOW_ENABLED", False):
         # With the flag off the simple path returns the "not available" envelope
-        # before the guard, so the two messages wouldn't be comparable.
+        # before the guard, so the messages wouldn't be comparable.
         pytest.skip("EXPERT_WORKFLOW_ENABLED is False")
     palette_design = {
         "operators": [{"name": "glow", "type": "noise", "family": "CHOP"}],
         "palette": "bloom",  # design-LEVEL key = the invalid form
     }
-    # Advanced/promoted route: network_design=None + mode="toe" promotes the flat
-    # design onto the advanced path, where the guard now fires before any builder.
+    # 1. Advanced/promoted route (mode="toe" promotes the flat design onto the
+    #    advanced path, where the guard fires before any builder).
     adv = asyncio.run(server._run_build(
         None, dict(palette_design), {}, "pal_adv", str(tmp_path), "toe"))
-    # Simple route: td_build_project is also async -> asyncio.run (a bare call returns
-    # a coroutine, not a dict).
+    # 2. Simple route, direct: td_build_project is also async -> asyncio.run (a bare
+    #    call returns a coroutine, not a dict).
     simple = asyncio.run(server.td_build_project(dict(palette_design)))
-    assert adv.get("status") == "ERROR" and simple.get("status") == "ERROR", (adv, simple)
-    # Message equality is what pins symmetry — a builder failure is also ERROR and
-    # would false-pass a both-ERROR-only assertion.
-    assert adv["message"] == simple["message"], (adv["message"], simple["message"])
+    # 3. Simple route THROUGH _run_build (mode="tox", no promotion): the chokepoint
+    #    catches it before the tox-only td_build_project() fallthrough is reached.
+    simple_via_run = asyncio.run(server._run_build(
+        None, dict(palette_design), {}, "pal_simple", str(tmp_path), "tox"))
+    envelopes = {"adv_toe": adv, "simple_direct": simple, "simple_via_run_tox": simple_via_run}
+    for label, env in envelopes.items():
+        assert env.get("status") == "ERROR", (label, env)
+    # Message equality across all three is what pins symmetry — a builder failure is
+    # also ERROR and would false-pass a status-only assertion.
+    msgs = {label: env["message"] for label, env in envelopes.items()}
+    assert len(set(msgs.values())) == 1, msgs
     assert "per-operator field" in adv["message"], adv["message"]

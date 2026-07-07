@@ -30,7 +30,7 @@ absolute path. **No API key is needed.**
   `<RELEASE_ROOT>/.venv/bin/python` (macOS/Linux). A bare `"python"` is the system interpreter,
   which doesn't have the deps — the server dies with `ImportError` before it ever registers.
   Verify with `.venv\Scripts\python.exe scripts\check_deps.py` (all green) before restarting.
-- Add **`td-builder-live`** only when TouchDesigner is open (it carries 19 extra tool schemas).
+- Add **`td-builder-live`** only when TouchDesigner is open (it carries 21 extra tool schemas).
 
 ## 3. Restart Claude Desktop
 Fully quit and reopen. Confirm with **`get_server_info`** — `version` should be `0.2.0`.

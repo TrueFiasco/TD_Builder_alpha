@@ -6,7 +6,7 @@
 
 ---
 
-## #11 — Offline server "could merge the 19 live tools" → **non-issue (verified)**
+## #11 — Offline server "could merge the 21 live tools" → **non-issue (verified)**
 
 **Concern (audit):** `mcp_server.py` ends `list_tools` with
 `if TD_LIVE_ENABLED and TD_LIVE_TOOLS: tools.extend(TD_LIVE_TOOLS)`, supposedly undercutting the clean

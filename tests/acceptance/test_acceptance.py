@@ -1,7 +1,7 @@
 """Conventional pass/fail acceptance tests for the td-builder MCP server.
 
 Exercises the key-free tool surface — 17 offline (`td-builder`) +
-19 live (`td-builder-live`) tools — across prompts P1-P19. Run it and every
+21 live (`td-builder-live`) tools — across prompts P1-P21. Run it and every
 tool/feature shows PASSED or FAILED:
 
     & $PY -m pytest tests/acceptance -v
@@ -40,6 +40,16 @@ LIVE_MSG = ("touchdesigner not running", "webserver dat", "9981")
 def _is_graceful_live_down(r) -> bool:
     t = r.text.lower()
     return any(k in t for k in LIVE_MSG)
+
+
+def _route_absent(r) -> bool:
+    """True when the running TD returned a 'no route matched' / 'not found' for a
+    route that is not present in its install-tree modules yet. The D3 routes
+    (save_td_project, get_mutation_status) only go live once the OWNER syncs the
+    install tree + restarts TD (plan §11 'Live' step) — until then a running TD
+    404s them, and the corresponding acceptance test must SKIP, not FAIL."""
+    t = r.text.lower()
+    return "no route matched" in t or "not found" in t or "unknown live tool" in t
 
 
 # --------------------------------------------------------------------------
@@ -229,7 +239,7 @@ def test_p14_expand_toe_file(probe, tmp_path):
 
 
 # --------------------------------------------------------------------------
-# P10 / P16-P19  live-TD tools
+# P10 / P16-P21  live-TD tools
 #   TD up   -> must return real data
 #   TD down -> must degrade gracefully (clear "not running" message) = PASS
 # --------------------------------------------------------------------------
@@ -285,3 +295,32 @@ def test_p19_live_crud_roundtrip(live_probe, td_live):
         assert u.ok, u.text[:200]
     finally:
         live_probe.call("delete_td_node", {"node_path": path})
+
+
+def test_p20_live_save_checkpoint(live_probe, td_live):
+    """D3: save_td_project takes a dialog-proof checkpoint (or a clean "save first"
+    message for a never-saved project). TD down -> graceful; route not yet synced
+    into the running install tree -> SKIP (owner's §11 live step)."""
+    r = live_probe.call("save_td_project", {})
+    if not td_live:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+        return
+    if _route_absent(r):
+        pytest.skip("save_td_project route not in the running TD (install tree not "
+                    "synced) — owner's §11 live verification step")
+    # Either a real checkpoint, or the honest fail-fast for an unsaved project —
+    # both are correct, non-crashing behavior (never a modal, never a raise).
+    assert r.ok or "save" in r.text.lower(), r.text[:200]
+
+
+def test_p21_live_mutation_status(live_probe, td_live):
+    """D3: get_mutation_status is a pure state read (post-timeout recovery). TD down
+    -> graceful; route not yet synced into the running install tree -> SKIP."""
+    r = live_probe.call("get_mutation_status", {})
+    if not td_live:
+        assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
+        return
+    if _route_absent(r):
+        pytest.skip("get_mutation_status route not in the running TD (install tree "
+                    "not synced) — owner's §11 live verification step")
+    assert r.ok, r.text[:200]

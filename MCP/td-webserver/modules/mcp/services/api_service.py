@@ -5,6 +5,7 @@ Provides API functionality related to TouchDesigner
 
 import ast
 import contextlib
+import datetime
 import hashlib
 import importlib
 import inspect
@@ -85,6 +86,15 @@ class TouchDesignerApiService(IApiService):
 		# invisible log line. One of: "not_run" | "ok: <path>" | "skipped: <reason>"
 		# | "unavailable: <reason>".
 		self._restore_point_status = "not_run"
+
+		# --- D3 (W6a): live-mutation recovery + explicit-checkpoint state. Layered
+		# strictly BELOW PR #21's restore-point block above (which is byte-frozen).
+		# All fields are per-process (reset on TD restart, like _session_saved).
+		self._mutation_seq = 0             # 0 = no API mutation yet; first commit -> 1
+		self._last_mutation = None         # {seq, tool, target, timestamp, outcome}
+		self._dirty_since_snapshot = False  # >=1 API mutation since last EXPLICIT snapshot
+		self._last_snapshot = None         # {path, source_mtime, at_seq} — save_td_project
+		self._restore_point_meta = None    # {source_mtime, at_seq} — implicit restore point
 
 	def _ensure_session_restore_point(self) -> None:
 		"""Copy the last-saved .toe to a restore point once, before the first mutation.
@@ -219,6 +229,228 @@ class TouchDesignerApiService(IApiService):
 		}
 
 		return success_result(server_info)
+
+	# =====================================================================
+	# D3 (W6a): explicit checkpoint + live-mutation recovery. Everything below
+	# LAYERS ON TOP of PR #21's frozen restore-point regions
+	# (_ensure_session_restore_point / _restore_point_path / _snapshot_toe /
+	# get_td_info's restorePoint block) — none of those are modified.
+	# =====================================================================
+
+	@staticmethod
+	def _iso_mtime(mtime: float) -> str:
+		"""ISO-8601 of a filesystem mtime — the artist's last-save time, not now()."""
+		return datetime.datetime.fromtimestamp(mtime).isoformat()
+
+	@staticmethod
+	def _now_iso() -> str:
+		return datetime.datetime.now().isoformat()
+
+	def _restore_point_triple(self) -> dict:
+		"""Structured {status, path, detail} parse of _restore_point_status.
+
+		Same shape get_td_info builds inline (that block is #21-frozen) — a parallel
+		helper so the mutator envelopes can stamp it without touching #21's code.
+		"""
+		word, _, rest = self._restore_point_status.partition(": ")
+		return {
+			"status": word,                       # not_run | ok | skipped | unavailable
+			"path": rest if word == "ok" else None,
+			"detail": rest or None,
+		}
+
+	def _restore_point_extended(self) -> dict:
+		"""M1: the triple + the IMPLICIT restore point's staleness fields.
+
+		source_mtime/at_seq come from _restore_point_meta and are surfaced ONLY when
+		the copy actually landed (status 'ok'); null otherwise, so a caller never
+		reads a skipped/failed snapshot's timing as if it were a live rollback point.
+		"""
+		triple = self._restore_point_triple()
+		meta = self._restore_point_meta or {}
+		ok = triple["status"] == "ok"
+		return {
+			**triple,
+			"source_mtime": meta.get("source_mtime") if ok else None,
+			"at_seq": meta.get("at_seq") if ok else None,
+		}
+
+	def _ensure_restore_point_tracked(self) -> None:
+		"""Caller-layer wrapper over the FROZEN _ensure_session_restore_point().
+
+		copyfile does not preserve mtime, so the implicit restore point's source
+		mtime exists only at copy time — capture it here (pre-copy) so the recovery
+		contract can disclose how stale the DEFAULT rollback target is. Records
+		_restore_point_meta {source_mtime, at_seq: 0} iff the copy landed (status
+		'ok'); at_seq is 0 by construction (the copy fires before the first mutation
+		commit). Never blocks the mutation. The §11 spy targets the underlying
+		_ensure_session_restore_point, which this invokes transitively.
+		"""
+		if self._session_saved:
+			return
+		src_mtime = None
+		try:
+			src = os.path.join(td.project.folder, td.project.name)
+			if os.path.exists(src):
+				src_mtime = self._iso_mtime(os.path.getmtime(src))
+		except Exception:  # noqa: BLE001 — a stat failure must never block work
+			src_mtime = None
+		self._ensure_session_restore_point()  # FROZEN primitive (best-effort)
+		if self._restore_point_status.startswith("ok"):
+			self._restore_point_meta = {"source_mtime": src_mtime, "at_seq": 0}
+
+	def _record_mutation(self, tool: str, target: str, outcome: str = "ok") -> None:
+		"""Single commit-point increment: bump the seq receipt, record the last
+		mutation, mark the session dirty since the last EXPLICIT snapshot. The one
+		server-side seq source; the future D4-live half reads it off the envelope.
+		"""
+		self._mutation_seq += 1
+		self._last_mutation = {
+			"seq": self._mutation_seq,
+			"tool": tool,
+			"target": target,
+			"timestamp": self._now_iso(),
+			"outcome": outcome,
+		}
+		self._dirty_since_snapshot = True
+
+	def _stamp_mutation(
+		self, data: dict, tool: str, target: str, outcome: str = "ok"
+	) -> dict:
+		"""OBS-1: record the mutation, then stamp mutation_seq + restorePoint into the
+		mutator's response data so a client that never calls get_td_info still sees a
+		skipped/unavailable restore point. Returns data for inline use."""
+		self._record_mutation(tool, target, outcome)
+		data["mutation_seq"] = self._mutation_seq
+		data["restorePoint"] = self._restore_point_triple()
+		return data
+
+	@staticmethod
+	def _explicit_snapshot_targets(src: str) -> list:
+		"""Ordered checkpoint targets for save_td_project (D-R2, EXPLICIT-only).
+
+		Primary: <project_folder>/Backup/<stem>.tdbuilder-restore.toe — mirrors TD's
+		own discoverable Backup/ convention for human-initiated checkpoints, with a
+		DISTINCT suffix so it never collides with (or is mistaken for) TD's own
+		<name>.<n>.toe auto-increments (Windows Backup/ is case-insensitive).
+		Fallback: the dedicated restore-dir (~/.td_builder/restore_points/,
+		TD_RESTORE_DIR-overridable), abs-path-hashed so same-basename projects never
+		clobber each other AND kept distinct (by suffix) from the implicit restore
+		point's <stem>.<hash>.toe. save_project tries these in order; only if BOTH
+		raise does it fail-fast. The IMPLICIT restore point (PR #21) is untouched —
+		it keeps its own frozen _restore_point_path target in the restore-dir.
+		"""
+		stem = os.path.splitext(os.path.basename(src))[0]
+		targets = []
+		folder = os.path.dirname(src)
+		if folder and os.path.isdir(folder):
+			targets.append(
+				os.path.join(folder, "Backup", f"{stem}.tdbuilder-restore.toe")
+			)
+		base = os.environ.get("TD_RESTORE_DIR") or os.path.join(
+			os.path.expanduser("~"), ".td_builder", "restore_points"
+		)
+		key = hashlib.sha1(
+			os.path.normcase(os.path.abspath(src)).encode("utf-8")
+		).hexdigest()[:16]
+		targets.append(os.path.join(base, f"{stem}.{key}.tdbuilder-restore.toe"))
+		return targets
+
+	def save_project(self) -> Result:
+		"""Client-callable checkpoint (D3): a dialog-proof filesystem copy of the
+		last-saved .toe. Wraps the shared _snapshot_toe primitive — NEVER
+		project.save(), never an inline copyfile — so it cannot raise a TD modal in
+		ANY project state. Writes to <project_folder>/Backup/ (falls back to the
+		restore-dir); fail-fast JSON error on failure. Does NOT set _session_saved
+		(independent of the implicit restore point) and never rebinds project
+		identity (no TD API call at all).
+
+		Captures LAST-MANUAL-SAVE state only — there is no dialog-safe way to flush
+		in-memory edits — so source_mtime discloses exactly how stale the copy is.
+		"""
+		try:
+			src = os.path.join(td.project.folder, td.project.name)
+		except Exception as e:  # noqa: BLE001
+			return error_result(f"Cannot resolve the project path: {e}")
+		if not os.path.exists(src):
+			# Keyed on FILE EXISTENCE, never the name (matches the implicit guard):
+			# nothing on disk to copy, and every save form would dialog or rebind.
+			return error_result(
+				"Project has never been saved to disk — save it once (Ctrl+S) first, "
+				"then retry. There is nothing on disk to checkpoint."
+			)
+		try:
+			pre_mtime = os.path.getmtime(src)  # pre-copy: the ARTIST's save time [m7]
+		except OSError as e:
+			return error_result(f"Cannot stat the project file: {e}")
+		source_mtime = self._iso_mtime(pre_mtime)
+
+		last_err = None
+		dst_used = None
+		for dst in self._explicit_snapshot_targets(src):
+			try:
+				self._snapshot_toe(src, dst)  # dialog-proof; raises on I/O failure
+				dst_used = dst
+				break
+			except Exception as e:  # noqa: BLE001 — try the fallback target next
+				last_err = e
+		if dst_used is None:
+			return error_result(
+				f"Checkpoint failed — could not write a snapshot to the project "
+				f"Backup folder or the restore dir: {last_err}"
+			)
+
+		# D-R6: a single at-copy-time stat cannot see an EXTERNAL writer mutating src
+		# mid-copy; re-stat after the copy and flag a possibly-torn snapshot. The
+		# primitive stays byte-untouched — this lives entirely in the caller.
+		warning = None
+		try:
+			if os.path.getmtime(src) != pre_mtime:
+				warning = (
+					"the source .toe changed on disk during the copy; the snapshot may "
+					"be torn (a mix of old and new bytes). Re-run save_td_project."
+				)
+		except OSError:
+			pass
+
+		# Set the explicit-snapshot state atomically with clearing the dirty flag [m6]
+		# (source_mtime/at_seq cannot be reconstructed later, so they persist here).
+		self._last_snapshot = {
+			"path": dst_used,
+			"source_mtime": source_mtime,
+			"at_seq": self._mutation_seq,
+		}
+		self._dirty_since_snapshot = False
+
+		data = {
+			"saved": True,
+			"captured": "last_saved",          # the only value — no in-memory flush
+			"path": dst_used,
+			"source_path": src,
+			"source_mtime": source_mtime,
+			"rebound": False,
+			"mutation_seq": self._mutation_seq,  # receipt only, never a gate
+			"message": (
+				f"Checkpoint written to {dst_used} (captures the last-saved state as "
+				f"of {source_mtime})."
+			),
+		}
+		if warning:
+			data["warning"] = warning
+		return success_result(data)
+
+	def get_mutation_status(self) -> Result:
+		"""Post-timeout reconciliation surface (D3). AUTHENTICATED — deliberately NOT
+		folded into the tokenless get_td_info. last_snapshot backs the explicit
+		checkpoint; restore_point exposes the implicit PR #21 target + its staleness
+		fields (M1). A client polls this after a timeout to learn what committed."""
+		return success_result({
+			"last_committed_seq": self._mutation_seq,
+			"last_mutation": self._last_mutation,
+			"api_dirty_since_snapshot": self._dirty_since_snapshot,
+			"last_snapshot": self._last_snapshot,
+			"restore_point": self._restore_point_extended(),
+		})
 
 	def get_td_python_classes(self, mode: str = "full") -> Result:
 		"""Get list of Python classes and modules available in TouchDesigner.
@@ -542,7 +774,7 @@ class TouchDesignerApiService(IApiService):
 	) -> Result:
 		"""Create a new node under the specified parent path"""
 
-		self._ensure_session_restore_point()
+		self._ensure_restore_point_tracked()
 		parent_node = td.op(parent_path)
 		if parent_node is None or not parent_node.valid:
 			return error_result(
@@ -585,17 +817,17 @@ class TouchDesignerApiService(IApiService):
 		# clients (td_live_client.py:436-438 reads data['path']) get a useful
 		# string instead of falling back to 'unknown'. Keep `result` nested for
 		# any caller already reading the full node summary there.
-		return success_result({
+		return success_result(self._stamp_mutation({
 			"path": new_node.path,
 			"name": new_node.name,
 			"type": new_node.OPType,
 			"result": node_info,
-		})
+		}, "create_node", new_node.path))
 
 	def delete_node(self, node_path: str) -> Result:
 		"""Delete the node at the specified path"""
 
-		self._ensure_session_restore_point()
+		self._ensure_restore_point_tracked()
 		node = td.op(node_path)
 		if node is None or not node.valid:
 			return error_result(f"Node not found at path: {node_path}")
@@ -605,7 +837,8 @@ class TouchDesignerApiService(IApiService):
 
 		if td.op(node_path) is None:
 			log_message(f"Node deleted successfully: {node_path}", LogLevel.DEBUG)
-			return success_result({"deleted": True, "node": node_info})
+			return success_result(self._stamp_mutation(
+				{"deleted": True, "node": node_info}, "delete_node", node_path))
 		else:
 			log_message(
 				f"Failed to verify node deletion: {node_path}", LogLevel.WARNING
@@ -617,7 +850,7 @@ class TouchDesignerApiService(IApiService):
 	) -> Result:
 		"""Call method on the specified node"""
 
-		self._ensure_session_restore_point()
+		self._ensure_restore_point_tracked()
 		node = td.op(node_path)
 		if node is None or not node.valid:
 			return error_result(f"Node not found at path: {node_path}")
@@ -642,7 +875,8 @@ class TouchDesignerApiService(IApiService):
 
 		processed_result = self._process_method_result(result)
 
-		return success_result({"result": processed_result})
+		return success_result(self._stamp_mutation(
+			{"result": processed_result}, "exec_node_method", node_path))
 
 	def exec_python_script(self, script: str) -> Result:
 		"""Execute a Python script directly in TouchDesigner
@@ -654,7 +888,7 @@ class TouchDesignerApiService(IApiService):
 		    Result: Success result with execution output or error result with message
 		"""
 
-		self._ensure_session_restore_point()
+		self._ensure_restore_point_tracked()
 
 		# B16 — verified-available globals (probed via hasattr(td, ...) in live TD,
 		# 2026-05-14). `me` and `parent` get sentinels — they would otherwise be
@@ -759,13 +993,15 @@ class TouchDesignerApiService(IApiService):
 			stdout_val = stdout_capture.getvalue()
 			stderr_val = stderr_capture.getvalue()
 
-			return success_result(
+			return success_result(self._stamp_mutation(
 				{
 					"result": processed_result,
 					"stdout": stdout_val,
 					"stderr": stderr_val,
-				}
-			)
+				},
+				"exec_python_script",
+				"<script>",
+			))
 
 	@staticmethod
 	def _script_assigns_result(tree: ast.Module) -> bool:
@@ -855,7 +1091,7 @@ class TouchDesignerApiService(IApiService):
 	def update_node(self, node_path: str, properties: dict[str, Any]) -> Result:
 		"""Update properties of the node at the specified path"""
 
-		self._ensure_session_restore_point()
+		self._ensure_restore_point_tracked()
 		node = td.op(node_path)
 
 		if node is None or not node.valid:
@@ -914,7 +1150,7 @@ class TouchDesignerApiService(IApiService):
 				f"Successfully updated properties: {updated_properties}",
 				LogLevel.DEBUG,
 			)
-			return success_result(result)
+			return success_result(self._stamp_mutation(result, "update_node", node_path))
 		else:
 			log_message(
 				f"No properties were updated. Failed: {failed_properties}",

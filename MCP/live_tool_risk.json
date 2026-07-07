@@ -1,0 +1,27 @@
+{
+  "_comment": "D3 (W6a) canonical risk map — the SINGLE SOURCE OF TRUTH for the live TD surface's authorization tiers, keyed by the OpenAPI operationId the runtime resolves (openapi_router._routes_by_operation_id). The td-webserver reads this to build its policy map (opt-in read-only mode; default = no-op / byte-identical to today); the live client's annotations are CI-locked to it via tests/unit/test_live_tool_risk.py (client_tool ties each operationId to its td_live_client Tool). class in {READ_ONLY, WRITE_CHECKPOINT, DESTRUCTIVE}. Every operationId registered on the live surface (schema + feedback + session handlers) MUST appear here — the coverage test fails closed otherwise. Adding a live tool = add its row here AND its Tool(annotations=...) in td_live_client.py.",
+  "classes": ["READ_ONLY", "WRITE_CHECKPOINT", "DESTRUCTIVE"],
+  "operations": {
+    "get_td_info": {"class": "READ_ONLY", "client_tool": "get_td_info"},
+    "get_nodes": {"class": "READ_ONLY", "client_tool": "get_td_nodes"},
+    "get_node_detail": {"class": "READ_ONLY", "client_tool": "get_td_node_parameters"},
+    "get_node_errors": {"class": "READ_ONLY", "client_tool": "get_td_node_errors"},
+    "get_td_python_classes": {"class": "READ_ONLY", "client_tool": "get_td_classes"},
+    "get_td_python_class_details": {"class": "READ_ONLY", "client_tool": "get_td_class_details"},
+    "get_module_help": {"class": "READ_ONLY", "client_tool": "get_td_module_help"},
+    "create_node": {"class": "DESTRUCTIVE", "client_tool": "create_td_node"},
+    "update_node": {"class": "DESTRUCTIVE", "client_tool": "update_td_node_parameters"},
+    "delete_node": {"class": "DESTRUCTIVE", "client_tool": "delete_td_node"},
+    "exec_node_method": {"class": "DESTRUCTIVE", "client_tool": "exec_node_method"},
+    "exec_python_script": {"class": "DESTRUCTIVE", "client_tool": "execute_python_script"},
+    "captureTopOutput": {"class": "READ_ONLY", "client_tool": "capture_top_output"},
+    "getTopInfo": {"class": "READ_ONLY", "client_tool": "get_top_info"},
+    "getCookErrors": {"class": "READ_ONLY", "client_tool": "get_cook_errors"},
+    "getErrorSummary": {"class": "READ_ONLY", "client_tool": "get_error_summary"},
+    "captureNetworkLayout": {"class": "READ_ONLY", "client_tool": "capture_network_layout"},
+    "getPythonExceptions": {"class": "READ_ONLY", "client_tool": "get_python_exceptions"},
+    "captureOpViewer": {"class": "READ_ONLY", "client_tool": "capture_op_viewer"},
+    "saveProject": {"class": "WRITE_CHECKPOINT", "client_tool": "save_td_project"},
+    "getMutationStatus": {"class": "READ_ONLY", "client_tool": "get_mutation_status"}
+  }
+}

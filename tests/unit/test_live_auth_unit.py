@@ -336,6 +336,307 @@ def test_restore_point_never_calls_project_save(api_service_mod, tmp_path, resto
 
 
 # --------------------------------------------------------------------------
+# D3 (W6a): explicit save_td_project tool — per-state modal-safety matrix.
+# Offline these prove: wraps the shared _snapshot_toe (NOT an inline copyfile, and
+# NEVER project.save()); fail-fast JSON on untitled/unwritable/locked; correct
+# envelope incl. source_mtime == the src's mtime (never now()); sets _last_snapshot
+# atomically with clearing _dirty_since_snapshot; never sets _session_saved. Dialog-
+# freeness + non-rebind are GATE-B (live) — a MagicMock td cannot prove those.
+# EVERY test asserts td.project.save.assert_not_called().
+# --------------------------------------------------------------------------
+
+def test_save_project_wraps_snapshot_toe_not_inline_copy(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    spy = mock.Mock()
+    monkeypatch.setattr(api_service_mod.TouchDesignerApiService, "_snapshot_toe", spy)
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is True
+    d = res["data"]
+    assert d["saved"] is True and d["captured"] == "last_saved" and d["rebound"] is False
+    assert "mutation_seq" in d
+    # wraps the shared primitive with (src, dst) — proves it is NOT an inline copyfile
+    assert spy.call_count == 1
+    called_src, called_dst = spy.call_args[0]
+    assert called_src == src and called_dst == d["path"]
+    # source_mtime is the src's real mtime, never now()
+    expected = api_service_mod.TouchDesignerApiService._iso_mtime(os.path.getmtime(src))
+    assert d["source_mtime"] == expected
+    # primary target = <folder>/Backup/<stem>.tdbuilder-restore.toe
+    assert os.path.basename(d["path"]) == "proj.tdbuilder-restore.toe"
+    assert os.path.basename(os.path.dirname(d["path"])) == "Backup"
+    td.project.save.assert_not_called()
+
+
+def test_save_project_untitled_fails_fast_json(api_service_mod, tmp_path, restore_dir):
+    td = sys.modules["td"]
+    td.project.folder = str(tmp_path)
+    td.project.name = "never_saved.toe"  # NOT on disk
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is False and "save" in res["error"].lower()
+    td.project.save.assert_not_called()
+    assert not (tmp_path / "Backup").exists(), "no target dir created for a never-saved project"
+
+
+def test_save_project_target_exists_silent_overwrite(api_service_mod, tmp_path, restore_dir):
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "proj.toe", b"v1")
+    svc = api_service_mod.TouchDesignerApiService()
+    r1 = svc.save_project()
+    assert r1["success"] is True
+    dst = r1["data"]["path"]
+    assert Path(dst).read_bytes() == b"v1"
+    Path(src).write_bytes(b"v2")
+    r2 = svc.save_project()
+    assert r2["success"] is True and r2["data"]["path"] == dst
+    assert Path(dst).read_bytes() == b"v2", "silent atomic overwrite of the stable target"
+    td.project.save.assert_not_called()
+
+
+def test_save_project_primary_unwritable_falls_back(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """Row 3: the Backup primary is unwritable -> lands in the fallback restore-dir;
+    only if BOTH failed would it error. The raise IS the check (TOCTOU-free)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    real_copyfile = api_service_mod.shutil.copyfile
+
+    def picky(s, d):
+        if "Backup" in d:  # the primary target's colocated <dst>.tmp carries "Backup"
+            raise PermissionError("backup dir read-only")
+        return real_copyfile(s, d)
+
+    monkeypatch.setattr(api_service_mod.shutil, "copyfile", picky)
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is True
+    dst = res["data"]["path"]
+    assert "Backup" not in dst and str(restore_dir) in dst
+    assert dst.endswith(".tdbuilder-restore.toe")
+    assert Path(dst).read_bytes() == b"bytes"
+    td.project.save.assert_not_called()
+
+
+def test_save_project_locked_dst_fails_fast_no_partial(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """Row 3b: os.replace onto a locked dst -> PermissionError -> both targets fail ->
+    JSON error, and the primitive's finally leaves NO partial state (.tmp cleaned)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+
+    def boom(a, b):
+        raise PermissionError("dst locked")
+
+    monkeypatch.setattr(api_service_mod.os, "replace", boom)
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is False
+    leftovers = list(tmp_path.rglob("*.tdbuilder-restore.toe*"))
+    assert leftovers == [], f"partial state left behind: {leftovers}"
+    td.project.save.assert_not_called()
+
+
+def test_save_project_reflects_external_change_before_call(api_service_mod, tmp_path, restore_dir):
+    """Row 5: a pre-call external rewrite is reflected in the copy AND disclosed via
+    source_mtime (not via the torn-warning, which is only for mid-copy changes)."""
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "proj.toe", b"old")
+    Path(src).write_bytes(b"new-external-bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is True
+    d = res["data"]
+    assert Path(d["path"]).read_bytes() == b"new-external-bytes"
+    expected = api_service_mod.TouchDesignerApiService._iso_mtime(os.path.getmtime(src))
+    assert d["source_mtime"] == expected
+    assert "warning" not in d
+    td.project.save.assert_not_called()
+
+
+def test_save_project_torn_snapshot_sets_warning(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """Row 5b (D-R6): the src mtime changes across the copy (external mid-copy writer)
+    -> the post-copy re-stat sets the `warning` field."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    monkeypatch.setattr(
+        api_service_mod.os.path, "getmtime", mock.Mock(side_effect=[1000.0, 2000.0])
+    )
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.save_project()
+    assert res["success"] is True
+    assert "warning" in res["data"] and "torn" in res["data"]["warning"].lower()
+    td.project.save.assert_not_called()
+
+
+def test_save_project_state_independent_of_session_and_atomic_snapshot(
+    api_service_mod, tmp_path, restore_dir
+):
+    """save_td_project does NOT set _session_saved (stays independent of the implicit
+    restore point) and sets _last_snapshot atomically with clearing the dirty flag."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    assert svc._session_saved is False
+    svc._dirty_since_snapshot = True  # pretend a prior API mutation dirtied the session
+    res = svc.save_project()
+    assert res["success"] is True
+    assert svc._session_saved is False, "must NOT satisfy the implicit restore point"
+    assert svc._dirty_since_snapshot is False
+    assert svc._last_snapshot is not None
+    assert svc._last_snapshot["path"] == res["data"]["path"]
+    assert svc._last_snapshot["source_mtime"] == res["data"]["source_mtime"]
+    assert svc._last_snapshot["at_seq"] == svc._mutation_seq
+    td.project.save.assert_not_called()
+
+
+# --------------------------------------------------------------------------
+# D3: restorePoint field-contract, mutator spy, envelope stamping, recovery.
+# --------------------------------------------------------------------------
+
+def test_restore_point_field_contract(api_service_mod):
+    """Drive _restore_point_status through every form and assert both the frozen
+    get_td_info parse and the parallel _restore_point_triple emit {status, path,
+    detail} — so a refactor of the status string cannot silently break surfacing."""
+    svc = api_service_mod.TouchDesignerApiService()
+    cases = {
+        "not_run": {"status": "not_run", "path": None, "detail": None},
+        "ok: /a/b.toe": {"status": "ok", "path": "/a/b.toe", "detail": "/a/b.toe"},
+        "skipped: project not saved to disk":
+            {"status": "skipped", "path": None, "detail": "project not saved to disk"},
+        "unavailable: locked": {"status": "unavailable", "path": None, "detail": "locked"},
+    }
+    for status_str, expected in cases.items():
+        svc._restore_point_status = status_str
+        assert svc._restore_point_triple() == expected, status_str
+        assert svc.get_td_info()["data"]["restorePoint"] == expected, status_str
+
+
+def test_all_five_mutators_invoke_restore_point(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """A refactor must not drop a restore-point call site. Spy the UNDERLYING frozen
+    _ensure_session_restore_point (the tracked wrapper invokes it transitively) and
+    confirm each of the 5 mutating service methods reaches it."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    calls = []
+    monkeypatch.setattr(
+        api_service_mod.TouchDesignerApiService,
+        "_ensure_session_restore_point",
+        lambda self: calls.append(1),
+    )
+    invocations = (
+        lambda s: s.create_node("/parent", "noiseTOP"),
+        lambda s: s.delete_node("/x"),
+        lambda s: s.exec_node_method("/x", "cook", [], {}),
+        lambda s: s.exec_python_script("result = 1"),
+        lambda s: s.update_node("/x", {"foo": 1}),
+    )
+    for invoke in invocations:
+        calls.clear()
+        svc = api_service_mod.TouchDesignerApiService()
+        try:
+            invoke(svc)
+        except Exception:
+            pass
+        assert calls, "mutator did not invoke _ensure_session_restore_point"
+
+
+def test_mutator_envelope_stamps_seq_and_restore_point(api_service_mod, tmp_path, restore_dir):
+    """OBS-1: every mutator success envelope carries mutation_seq + restorePoint, and
+    _record_mutation advances the seq / marks dirty / records the last mutation."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    d = svc.create_node("/parent", "noiseTOP")["data"]
+    assert d["mutation_seq"] == 1
+    assert isinstance(d["restorePoint"], dict) and d["restorePoint"]["status"] == "ok"
+    assert svc._dirty_since_snapshot is True
+    assert svc._last_mutation["seq"] == 1 and svc._last_mutation["tool"] == "create_node"
+    d2 = svc.update_node("/x", {"foo": 1})["data"]
+    assert d2["mutation_seq"] == 2
+
+
+def test_get_mutation_status_null_last_snapshot_fallback(api_service_mod, tmp_path, restore_dir):
+    """Implicit-only session (no save_td_project): last_snapshot is null and the
+    disclosure is computable from restore_point alone (at_seq 0, source_mtime set)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    svc.create_node("/parent", "noiseTOP")
+    ms = svc.get_mutation_status()["data"]
+    assert ms["last_committed_seq"] == 1
+    assert ms["api_dirty_since_snapshot"] is True
+    assert ms["last_snapshot"] is None
+    rp = ms["restore_point"]
+    assert rp["status"] == "ok" and rp["at_seq"] == 0 and rp["source_mtime"] is not None
+    assert ms["last_mutation"]["tool"] == "create_node"
+
+
+def test_get_mutation_status_no_rollback_target_when_skipped(api_service_mod, tmp_path, restore_dir):
+    """Untitled project: restore_point.status is skipped and its staleness fields are
+    null — the agent must read this as NO rollback target, never a stale number."""
+    td = sys.modules["td"]
+    td.project.folder = str(tmp_path)
+    td.project.name = "never.toe"  # not on disk -> restore point skips
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc.create_node("/parent", "noiseTOP")  # fires the (skipped) restore point
+    rp = svc.get_mutation_status()["data"]["restore_point"]
+    assert rp["status"] == "skipped"
+    assert rp["source_mtime"] is None and rp["at_seq"] is None
+
+
+def test_get_mutation_status_after_explicit_save(api_service_mod, tmp_path, restore_dir):
+    """save_td_project populates last_snapshot and clears the dirty flag; a checkpoint
+    is NOT itself a mutation (seq unchanged)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    svc.create_node("/parent", "noiseTOP")  # seq 1, dirty
+    save = svc.save_project()
+    ms = svc.get_mutation_status()["data"]
+    assert ms["api_dirty_since_snapshot"] is False
+    assert ms["last_snapshot"] is not None
+    assert ms["last_snapshot"]["path"] == save["data"]["path"]
+    assert ms["last_snapshot"]["at_seq"] == 1
+    assert ms["last_committed_seq"] == 1  # the save did not advance the seq
+
+
+def test_restore_point_meta_captured_on_ok(api_service_mod, tmp_path, restore_dir):
+    """The tracked wrapper records {source_mtime, at_seq:0} pre-copy when the implicit
+    copy lands (the only moment source_mtime exists — copyfile drops mtime)."""
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_restore_point_tracked()
+    assert svc._restore_point_status.startswith("ok")
+    assert svc._restore_point_meta is not None and svc._restore_point_meta["at_seq"] == 0
+    expected = api_service_mod.TouchDesignerApiService._iso_mtime(os.path.getmtime(src))
+    assert svc._restore_point_meta["source_mtime"] == expected
+
+
+def test_restore_point_meta_none_when_skipped(api_service_mod, tmp_path, restore_dir):
+    td = sys.modules["td"]
+    td.project.folder = str(tmp_path)
+    td.project.name = "never.toe"  # not on disk -> skipped
+    td.project.save.reset_mock()
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_restore_point_tracked()
+    assert svc._restore_point_status.startswith("skipped")
+    assert svc._restore_point_meta is None
+
+
+# --------------------------------------------------------------------------
 # client _resolve_token — never raises; None on any file error
 # --------------------------------------------------------------------------
 

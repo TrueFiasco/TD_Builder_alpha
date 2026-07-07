@@ -22,9 +22,9 @@ TouchDesigner editing/feedback tools. Everything runs locally — **no API key r
 | Server | Register as | Tools | When |
 |---|---|---|---|
 | `MCP/server.py` | `td-builder` | **17** key-free tools — KB search, `td_validate`/`td_convert`/`td_build_project`/`td_build_status`, `expand_toe_file`, `get_expert_prompt`, `get_server_info` | always |
-| `MCP/live_server.py` | `td-builder-live` | **19** live tools — capture / node CRUD / introspection of a running TouchDesigner | only when TouchDesigner is open |
+| `MCP/live_server.py` | `td-builder-live` | **21** live tools — capture / node CRUD / introspection of a running TouchDesigner | only when TouchDesigner is open |
 
-Keeping the live tools in a separate server means offline sessions don't carry their ~19 tool
+Keeping the live tools in a separate server means offline sessions don't carry their ~21 tool
 schemas in the model's context. See [MCP/README.md](MCP/README.md) for the client config.
 
 ## Quick start (Windows + PowerShell)
@@ -51,7 +51,7 @@ python scripts\check_deps.py        # expect all green
 #    (<ROOT>\.venv\Scripts\python.exe; macOS/Linux: <ROOT>/.venv/bin/python) —
 #    a bare "python" is the system interpreter and dies with ImportError.
 #    Offline:  .venv\Scripts\python.exe MCP\server.py       (td-builder, 17 tools)
-#    Live:     .venv\Scripts\python.exe MCP\live_server.py  (td-builder-live, 19 tools — only with TD open)
+#    Live:     .venv\Scripts\python.exe MCP\live_server.py  (td-builder-live, 21 tools — only with TD open)
 ```
 
 > **First run:** the first KB-dependent call loads the knowledge base (~180 MB) + the local embedding

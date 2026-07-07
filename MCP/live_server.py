@@ -1,9 +1,9 @@
 """TD Builder - live-TD MCP server.
 
-The 19 tools that talk to a *running* TouchDesigner via its WebServer DAT
+The 21 tools that talk to a *running* TouchDesigner via its WebServer DAT
 (default http://127.0.0.1:9981). Register this server *in addition to* the
 offline `td-builder` server, and only when TouchDesigner is open. Keeping the
-live tools in a separate server means offline sessions don't carry their ~19
+live tools in a separate server means offline sessions don't carry their ~21
 tool schemas in the model's context.
 
 Override the TD endpoint with the TD_API_URL env var.

@@ -102,6 +102,32 @@ def _connection_error_message() -> str:
     )
 
 
+def _restore_point_note(data: dict) -> str:
+    """OBS-1 (D3): a one-line warning appended to a mutator's rendered result when
+    the pre-mutation restore point was NOT taken (skipped = untitled project;
+    unavailable = copy failed). The mutation already happened, so this is the
+    condition under which the user should act. Mirrors the get_td_info rendering.
+    Returns "" when the restore point is fine (ok / not_run) or absent.
+    """
+    rp = data.get("restorePoint")
+    if not isinstance(rp, dict):
+        return ""
+    status = rp.get("status")
+    if status not in ("skipped", "unavailable"):
+        return ""
+    if status == "skipped":
+        return (
+            "\n\n⚠️ Restore point unavailable — save the project once (Ctrl+S) to "
+            "enable restore points. This edit proceeded without a rollback point."
+        )
+    detail = rp.get("detail")
+    return (
+        f"\n\n⚠️ Restore point **unavailable**"
+        f"{f' ({detail})' if detail else ''} — this edit proceeded without a "
+        "rollback point."
+    )
+
+
 # =============================================================================
 # VISUAL FEEDBACK TOOLS (7 tools)
 # =============================================================================
@@ -492,7 +518,9 @@ async def create_td_node(arguments: dict) -> Sequence[TextContent]:
             data = response.json()
             if data.get("success") and data.get("data"):
                 node = data["data"]
-                return [TextContent(type="text", text=f"Created node: {node.get('path', 'unknown')}")]
+                text = f"Created node: {node.get('path', 'unknown')}"
+                text += _restore_point_note(node)
+                return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
     except httpx.ConnectError:
@@ -521,6 +549,7 @@ async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
                 text = f"Updated {len(updated)} parameters"
                 if failed:
                     text += f"\nFailed: {failed}"
+                text += _restore_point_note(result)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
@@ -543,7 +572,9 @@ async def delete_td_node(arguments: dict) -> Sequence[TextContent]:
 
             data = response.json()
             if data.get("success"):
-                return [TextContent(type="text", text=f"Deleted: {arguments['node_path']}")]
+                text = f"Deleted: {arguments['node_path']}"
+                text += _restore_point_note(data.get("data") or {})
+                return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
     except httpx.ConnectError:
@@ -573,6 +604,7 @@ async def execute_python_script(arguments: dict) -> Sequence[TextContent]:
                     text += f"\n**Stdout**:\n```\n{result['stdout']}\n```\n"
                 if result.get("stderr"):
                     text += f"\n**Stderr**:\n```\n{result['stderr']}\n```\n"
+                text += _restore_point_note(result)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
@@ -598,7 +630,9 @@ async def exec_node_method(arguments: dict) -> Sequence[TextContent]:
 
             data = response.json()
             if data.get("success") and data.get("data"):
-                return [TextContent(type="text", text=json.dumps(data["data"], indent=2))]
+                text = json.dumps(data["data"], indent=2)
+                text += _restore_point_note(data["data"])
+                return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
     except httpx.ConnectError:
@@ -709,6 +743,57 @@ async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
         return [TextContent(type="text", text=f"Error: {str(e)}")]
 
 
+async def save_td_project(arguments: dict) -> Sequence[TextContent]:
+    """Take a dialog-proof checkpoint of the last-saved .toe (D3)."""
+    try:
+        # The copy blocks TD's single main thread; a realistically large project can
+        # take a moment. Generous read timeout so a big-project copy doesn't look
+        # like a hang.
+        async with TDClient(read_timeout=60.0) as client:
+            response = await client.post("/api/td/server/save", json={})
+
+            if response.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+
+            data = response.json()
+            if data.get("success") and data.get("data"):
+                d = data["data"]
+                text = "## Checkpoint saved\n\n"
+                text += f"- **Snapshot**: `{d.get('path')}`\n"
+                text += f"- **Source**: `{d.get('source_path')}`\n"
+                text += f"- **Captures last-saved state as of**: {d.get('source_mtime')}\n"
+                text += f"- **mutation_seq** (receipt): {d.get('mutation_seq')}\n"
+                if d.get("warning"):
+                    text += f"\n⚠️ {d['warning']}\n"
+                return [TextContent(type="text", text=text)]
+            return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
+
+    except httpx.ConnectError:
+        return [TextContent(type="text", text=_connection_error_message())]
+    except Exception as e:
+        return [TextContent(type="text", text=f"Error: {str(e)}")]
+
+
+async def get_mutation_status(arguments: dict) -> Sequence[TextContent]:
+    """Report what committed since server start — the post-timeout recovery surface (D3)."""
+    try:
+        async with TDClient() as client:
+            response = await client.get("/api/td/server/mutation_status")
+
+            if response.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+
+            data = response.json()
+            if data.get("success") and data.get("data"):
+                return [TextContent(type="text", text=json.dumps(data["data"], indent=2))]
+            return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
+
+    except httpx.ConnectError:
+        return [TextContent(type="text", text=_connection_error_message())]
+    except Exception as e:
+        return [TextContent(type="text", text=f"Error: {str(e)}")]
+
+
 # =============================================================================
 # TOOL DEFINITIONS (for mcp_server.py list_tools)
 # =============================================================================
@@ -716,12 +801,20 @@ async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
 # MCP risk annotations (W4b, audit cluster C3). Owner-decided: ship only the three
 # named hints (openWorldHint omitted). destructiveHint/idempotentHint are meaningful
 # only when readOnlyHint is false.
-#   READ_ONLY   — reads/captures live state; no graph mutation (captures force a cook,
-#                 which is not a persistent mutation).
-#   DESTRUCTIVE — mutates/destroys live graph state or runs arbitrary code
-#                 (create/update/delete node, execute_python_script, exec_node_method).
+#   READ_ONLY       — reads/captures live state; no graph mutation (captures force a
+#                     cook, which is not a persistent mutation).
+#   WRITE_CHECKPOINT — writes a file to disk (an honest readOnlyHint=False), does NOT
+#                     mutate the live graph, and overwrites a stable target
+#                     (checkpoint-idempotent). D3's save_td_project only. Distinct
+#                     from DESTRUCTIVE (no graph mutation) and from the offline
+#                     WRITE_ADDITIVE (which pins idempotentHint=False).
+#   DESTRUCTIVE     — mutates/destroys live graph state or runs arbitrary code
+#                     (create/update/delete node, execute_python_script, exec_node_method).
 # Shared singletons — never mutated. See docs/TOOL_RISK_ANNOTATIONS.md.
 READ_ONLY = ToolAnnotations(readOnlyHint=True)
+WRITE_CHECKPOINT = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=False, idempotentHint=True
+)
 DESTRUCTIVE = ToolAnnotations(
     readOnlyHint=False, destructiveHint=True, idempotentHint=False
 )
@@ -1008,7 +1101,11 @@ TD_LIVE_TOOLS: List[Tool] = [
             "AVAILABLE GLOBALS (Wave 3 B16): op, ops, td, tdu, project, root, absTime, app, ui, "
             "iop, ipar, ext, mod, families, monitors, licenses, sysinfo, result. "
             "`me` and `parent` are sentinels in this context (scripts run outside any node) "
-            "and raise a clear RuntimeError on access pointing you to op('/abs/path')."
+            "and raise a clear RuntimeError on access pointing you to op('/abs/path').\n"
+            "\n"
+            "DO NOT call ui.* (messageBox/chooseFile/chooseFolder/…) or project.save() inside "
+            "the script — they block TD's single main thread and hang the live connection "
+            "(~60 s, no timeout rescue). To checkpoint, use the save_td_project tool instead."
         ),
         inputSchema={
             "type": "object",
@@ -1132,6 +1229,58 @@ TD_LIVE_TOOLS: List[Tool] = [
             "required": ["target"]
         }
     ),
+    Tool(
+        annotations=WRITE_CHECKPOINT,
+        name="save_td_project",
+        description=(
+            "Take a dialog-proof CHECKPOINT of the running project: a pure filesystem "
+            "copy of the last-saved .toe to the project's Backup/ folder (falls back to "
+            "~/.td_builder/restore_points/). Never raises a TD save/overwrite dialog and "
+            "never rebinds the project — safe to call unattended before a risky edit "
+            "batch. Argless.\n"
+            "\n"
+            "CAPTURES LAST-MANUAL-SAVE STATE ONLY. It copies what is on disk, not unsaved "
+            "in-memory edits — there is no dialog-safe way to flush those. The returned "
+            "`source_mtime` tells you exactly how stale the snapshot is.\n"
+            "\n"
+            "FRESH-CHECKPOINT RECIPE (before a risky exec batch):\n"
+            "  1. Ask the artist to save (Ctrl+S).\n"
+            "  2. Call save_td_project.\n"
+            "  3. VERIFY: compare the returned `source_mtime` to the prior value "
+            "(get_mutation_status.last_snapshot / a previous receipt). If it did NOT "
+            "advance, the artist did not save — re-ask; do NOT proceed.\n"
+            "  4. Proceed. This bounds any rollback loss to the batch itself.\n"
+            "\n"
+            "On timeout/recovery, poll get_mutation_status. Rolling back to a snapshot "
+            "restores last-saved state and loses EVERY API mutation since that save — "
+            "surface that (source_mtime + seq delta) before recommending it."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    ),
+    Tool(
+        annotations=READ_ONLY,
+        name="get_mutation_status",
+        description=(
+            "Report what has committed since the server started — the post-timeout "
+            "recovery surface. Returns the last committed mutation seq, the last "
+            "mutation, whether the session is dirty since the last explicit checkpoint, "
+            "and both the explicit (save_td_project) and implicit (pre-mutation) snapshot "
+            "metadata incl. how stale each is. RETRY it after a client timeout: it queues "
+            "behind TD's busy main thread and answers once TD is free. Atomic mutators "
+            "(create/update/delete): seq advanced => committed, unchanged => not. Exec "
+            "tools cannot self-distinguish partial-then-stalled — treat rollback as the "
+            "default posture on an exec timeout, disclosing what would be lost first."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    ),
 ]
 
 
@@ -1158,4 +1307,7 @@ TD_LIVE_HANDLERS = {
     "get_td_classes": get_td_classes,
     "get_td_class_details": get_td_class_details,
     "get_td_module_help": get_td_module_help,
+    # Session management (D3 / W6a)
+    "save_td_project": save_td_project,
+    "get_mutation_status": get_mutation_status,
 }

@@ -12,6 +12,11 @@ from typing import Any, Optional, Protocol
 import mcp
 from mcp.controllers.generated_handlers import *
 from mcp.controllers.openapi_router import OpenAPIRouter
+from mcp.controllers.tier_policy import (
+	load_tier_map,
+	read_only_denial,
+	read_only_enabled,
+)
 from utils import auth
 from utils.error_handling import ErrorCategory
 from utils.logging import log_message
@@ -229,6 +234,20 @@ class APIControllerOpenAPI(IController):
 		self.router = OpenAPIRouter()
 		self.register_handlers()
 
+		# D3 tiering policy map (operationId -> class). Loaded once at boot; the
+		# per-request flag decides whether it is consulted. Empty map + flag unset =
+		# no-op (today's behavior). An empty map means the risk file was not found
+		# (partial install) — surface it so read-only mode's fail-closed isn't a
+		# silent mystery.
+		self._tier_map = load_tier_map()
+		if not self._tier_map:
+			log_message(
+				"Live tool-risk map is empty (MCP/live_tool_risk.json not found?); "
+				"read-only mode (if enabled) will fail closed. Default-permissive "
+				"mode is unaffected.",
+				LogLevel.WARNING,
+			)
+
 	def _normalize_request(
 		self, request: dict[str, Any]
 	) -> tuple[str, str, dict[str, Any], str]:
@@ -325,6 +344,29 @@ class APIControllerOpenAPI(IController):
 				)
 				return response
 
+			# D3 authorization tiering (opt-in). Runs AFTER auth and BEFORE routing;
+			# default (flag unset) is a no-op — byte-identical to today. An EARLY
+			# RETURN is the only way to emit a real 4xx here (the success/error paths
+			# below both coerce to HTTP 200).
+			readonly_denial = self._read_only_denial(method, path)
+			if readonly_denial is not None:
+				log_message(
+					f"403 read-only mode blocked {method} {path} from "
+					f"{request.get('clientAddress', '?')}",
+					LogLevel.WARNING,
+				)
+				response["statusCode"] = 403
+				response["statusReason"] = "Forbidden"
+				response["data"] = json.dumps(
+					{
+						"success": False,
+						"data": None,
+						"error": readonly_denial,
+						"errorCategory": str(ErrorCategory.PERMISSION),
+					}
+				)
+				return response
+
 			result = self.router.route_request(method, path, query_params, body)
 
 			# Surface a failed schema load instead of a silent 404 (no-op on a
@@ -385,6 +427,24 @@ class APIControllerOpenAPI(IController):
 		)
 		return response
 
+	def _read_only_denial(self, method: str, path: str) -> Optional[str]:
+		"""Read-only policy checkpoint (D3). Returns a denial reason string when the
+		route is blocked, else None (allowed).
+
+		- Flag unset -> ALWAYS None (no-op; zero new friction).
+		- Read-only mode (TD_BUILDER_LIVE_READONLY truthy) -> allow ONLY READ_ONLY;
+		  DESTRUCTIVE **and** WRITE_CHECKPOINT are denied (an observe-only machine
+		  must not accept a remote-forced disk write), and any unmatched/unclassified
+		  route fails CLOSED. Resolves the operationId via the router's public
+		  ``match`` (the same one routing would resolve), so parameterized read routes
+		  are classified correctly. Decision logic lives in tier_policy (unit-tested).
+		"""
+		if not read_only_enabled():
+			return None
+		match = self.router.match(method, path)
+		op_id = match.route.operation_id if match else None
+		return read_only_denial(self._tier_map, op_id)
+
 	def _get_status_code_for_error(self, error_category) -> int:
 		"""
 		Map error category to HTTP status code
@@ -442,6 +502,9 @@ class APIControllerOpenAPI(IController):
 		# Register feedback handlers (Network Editor MCP extension)
 		self._register_feedback_handlers()
 
+		# Register D3 session handlers (save + mutation_status)
+		self._register_session_handlers()
+
 	def _register_feedback_handlers(self) -> None:
 		"""Register visual feedback handlers for Network Editor MCP"""
 		try:
@@ -463,6 +526,26 @@ class APIControllerOpenAPI(IController):
 			log_message(f"Registered {len(feedback_routes)} feedback routes", LogLevel.INFO)
 		except ImportError as e:
 			log_message(f"Feedback handlers not available: {e}", LogLevel.WARNING)
+
+	def _register_session_handlers(self) -> None:
+		"""Register D3 session endpoints (save_td_project + get_mutation_status).
+
+		Same dynamic-registration pattern as the feedback handlers — the OpenAPI
+		codegen (generated_handlers.py / openapi.yaml / mustache) is deliberately
+		untouched. The operationIds are the handler __name__s.
+		"""
+		try:
+			from mcp.controllers.session_handlers import get_session_routes
+
+			session_routes = get_session_routes()
+			for (method, path), handler in session_routes.items():
+				operation_id = handler.__name__
+				has_body = method.upper() in ["POST", "PUT", "PATCH"]
+				self.router.register_route(method, path, operation_id, handler, has_body)
+
+			log_message(f"Registered {len(session_routes)} session routes", LogLevel.INFO)
+		except ImportError as e:
+			log_message(f"Session handlers not available: {e}", LogLevel.WARNING)
 
 
 api_controller_openapi = APIControllerOpenAPI()

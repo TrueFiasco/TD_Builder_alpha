@@ -38,7 +38,7 @@ delivery.
 [always] KB-FIRST, MANDATORY. Query the KB for an exemplar (find_operator_examples/get_operator_info) before creating ops, setting params, or GLSL. Never guess params; don't introspect the live op - the KB has them.
 [always] MENU/ENUM PARAMS = STRING TOKENS, never int indices: operand="over" not 0, dataformat="rgb" not 1. #1 build failure; looks-numeric is still a token. Unsure -> get_parameter_detail.
 [always] EVERY BUILD goes through td_build_project; td_validate first; never shorten the pipeline. Emitting JSON/Python instead of calling the tool = failure.
-[live-only] SAVE OFTEN. project.save() before any heavy op and every ~10 min. TD crashes lose all since last save; save auto-increments - checkpointing is free.
+[live-only] NEVER call project.save() or any ui.* from scripts - a modal Save-As/overwrite dialog freezes TD's single main thread and the live connection, no rescue. SAVE OFTEN: ask the USER to save (Ctrl+S) at milestones; crashes lose unsaved work. The auto pre-mutation restore point copies the last-SAVED .toe only.
 [live-only] PLACE EVERY NODE. Set nodeX/nodeY in the creating call; never leave ops at (0,0). Data L->R, control/sidecar below; move docked groups together.
 [always] RELATIVE PATHS + LOCAL ASSETS. Reference ops relatively (op('sibling'), ../parent); copy any external .tox/image/model/video into the project folder before referencing. Absolute refs break .tox re-import/portability.
 [always] After context COMPACTION, re-read these instructions / call get_server_info before resuming live edits.

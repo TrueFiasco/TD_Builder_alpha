@@ -74,14 +74,14 @@ The info DAT carries GLSL compile output; `op.warnings()` carries TD's runtime p
 
 Surface `op.warnings()` content to the user whenever it's populated — even on a "clean" compile.
 
-### 3. Save often, expect crashes
+### 3. Saving: never `project.save()` from scripts — ask the user
 
-TD can crash, sometimes during heavy compute, sometimes for no obvious reason. When it does, you lose every node created since the last save.
+TD can crash, sometimes during heavy compute, sometimes for no obvious reason. When it does, you lose every node created since the last save. But do **not** try to checkpoint from scripts:
 
-Protocol:
-- Call `project.save()` before any operation you know is heavy (large bakes, big point ops, .tox exports).
-- Call `project.save()` every ~10 minutes during long sessions even if nothing seems risky.
-- `project.save()` auto-increments (heart.01.toe, heart.02.toe, …) so checkpointing is free.
+- **Never call `project.save()` — or any `ui.*` dialog call — from `execute_python_script`.** The live connection is served by a WebServer DAT handler running on TD's **single main thread**. If a save pops a modal dialog (Save-As on a never-saved project, an overwrite prompt on an incrementing save), that dialog blocks the main thread: TD freezes, the live connection hangs with no timeout rescue, and nothing can dismiss the dialog programmatically. One call can kill the whole session.
+- **The server takes an automatic pre-mutation restore point** — a pure filesystem copy of the last-saved on-disk `.toe`, once per server process, before the first mutation. Its outcome is in `get_td_info`'s `restorePoint` field: `status: ok` means a rollback copy exists (at `path`); `skipped`/`unavailable` means there is **no rollback point**. Either way it captures **last-saved state only** — unsaved in-session edits are never in it.
+- **To checkpoint, ask the user to save manually (Ctrl+S)** at milestones — before any operation you know is heavy (large bakes, big point ops, .tox exports) and every so often during long sessions. Manual saves auto-increment (heart.01.toe, heart.02.toe, …), so user-side checkpointing is free.
+- **For a programmatic checkpoint, use the dialog-proof `save_td_project` live tool** (details below) — never a scripted `project.save()`.
 
 **Checkpoint before a risky batch — use `save_td_project`, not a scripted save.** The
 `save_td_project` live tool takes a **dialog-proof** filesystem copy of the last-saved

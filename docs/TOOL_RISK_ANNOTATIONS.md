@@ -32,17 +32,23 @@ Per the MCP spec, `destructiveHint` and `idempotentHint` are meaningful **only w
 | Class | `readOnlyHint` | `destructiveHint` | `idempotentHint` | Meaning |
 |---|---|---|---|---|
 | `READ_ONLY` | `True` | — | — | No environment change. |
-| `WRITE_ADDITIVE` | `False` | `False` | `False` | Creates a file/artifact; never mutates the live graph. |
+| `WRITE_ADDITIVE` | `False` | `False` | `False` | Creates a file/artifact; never mutates the live graph (offline `td-builder`). |
+| `WRITE_CHECKPOINT` | `False` | `False` | `True` | Writes a file to a stable target; never mutates the live graph; overwriting is idempotent (live `save_td_project`). |
 | `DESTRUCTIVE` | `False` | `True` | `False` | May mutate/destroy live graph state or run arbitrary code. |
 
 Destructive tools all take `idempotentHint=False` conservatively: `create_td_node`
 auto-suffixes on name collision, `update_td_node_parameters` can pulse params or add
 sequence children, and the exec tools are arbitrary — none are safely idempotent.
 
-**Future D3 save/snapshot tool** (not built yet): annotate it `WRITE_ADDITIVE` **but
-with `idempotentHint=True`** — saving twice has the same effect. That keeps it
-allow-under-auto without lying about read-only-ness. The `WRITE_ADDITIVE` class exists
-partly to leave that room.
+**D3 save/snapshot tool (`save_td_project`, live surface): `WRITE_CHECKPOINT`.** It
+writes a `.toe` copy to disk (an honest `readOnlyHint=False` — the audit forbids lying
+hints), does not mutate the live graph, and overwrites a stable target, so re-running it
+has the same effect (`idempotentHint=True`). It is a NEW class, distinct from
+`WRITE_ADDITIVE`: the offline `WRITE_ADDITIVE` pins `idempotentHint=False`
+(test-locked), so the `readOnlyHint=False, destructiveHint=False, idempotentHint=True`
+shape needs its own constant. That keeps `save_td_project` allow-under-auto without
+lying about read-only-ness — it is the pre-mutation safety primitive and must fire
+unattended.
 
 ## Offline `td-builder` (17) — 16 read-only + 1 write-additive
 
@@ -66,7 +72,7 @@ partly to leave that room.
 | td_build_status | READ_ONLY | polls in-memory job state |
 | **td_build_project** | **WRITE_ADDITIVE** | writes a `.tox`/`.toe` to disk; never touches the live graph |
 
-## Live `td-builder-live` (19) — 14 read-only + 5 destructive
+## Live `td-builder-live` (21) — 15 read-only + 1 write-checkpoint + 5 destructive
 
 | Tool | Class | Note |
 |---|---|---|
@@ -84,6 +90,8 @@ partly to leave that room.
 | get_td_classes | READ_ONLY | |
 | get_td_class_details | READ_ONLY | |
 | get_td_module_help | READ_ONLY | |
+| get_mutation_status | READ_ONLY | reports what committed since server start (post-timeout recovery) |
+| **save_td_project** | **WRITE_CHECKPOINT** | dialog-proof filesystem copy of the last-saved `.toe`; never mutates the graph; overwrites a stable target |
 | **create_td_node** | **DESTRUCTIVE** | adds a node (auto-suffixes → not idempotent) |
 | **update_td_node_parameters** | **DESTRUCTIVE** | mutates params (may pulse / add sequence children) |
 | **delete_td_node** | **DESTRUCTIVE** | destroys a node + descendants |
@@ -94,10 +102,16 @@ partly to leave that room.
 
 - Offline: `MCP/server_core/mcp_server.py` — `READ_ONLY` / `WRITE_ADDITIVE` constants
   above `list_tools()`; each `Tool(...)` carries `annotations=`.
-- Live: `MCP/live_client/td_live_client.py` — `READ_ONLY` / `DESTRUCTIVE` constants
-  above `TD_LIVE_TOOLS`; each `Tool(...)` carries `annotations=`.
-- The classification is regression-checked by `tests/unit/test_output_budgets.py`.
+- Live: `MCP/live_client/td_live_client.py` — `READ_ONLY` / `WRITE_CHECKPOINT` /
+  `DESTRUCTIVE` constants above `TD_LIVE_TOOLS`; each `Tool(...)` carries `annotations=`.
+- The canonical operationId→class map for the live authorization tiering (D3) is
+  `MCP/live_tool_risk.json`; the td-webserver reads it to build its policy map (opt-in
+  read-only mode via `TD_BUILDER_LIVE_READONLY`), and the client annotations are
+  CI-locked to it.
+- The classification is regression-checked by `tests/unit/test_output_budgets.py` and
+  `tests/unit/test_live_tool_risk.py`.
 
-Annotations add fields to `Tool(...)`; they change no tool **name** or **count**, so
-the P01b 17-tool inventory and the agent-eval `tool_inventory_hash` (sorted names)
-are unaffected.
+Annotations add fields to `Tool(...)`; they change no **offline** tool **name** or
+**count**, so the P01b 17-tool inventory and the agent-eval `tool_inventory_hash`
+(sorted names of the offline server) are unaffected. D3 adds live tools (19→21) without
+touching the offline inventory or the hash; W7 is the change that flips it.

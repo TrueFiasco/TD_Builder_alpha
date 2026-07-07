@@ -202,6 +202,18 @@ class OpenAPIRouter:
 		else:
 			self._routes_by_operation_id: dict[str, RouteDefinition] = {}
 
+	def match(self, method: str, path: str) -> Optional[RouteMatch]:
+		"""Public route resolution for out-of-band policy checks (D3 tiering).
+
+		A thin wrapper over ``match_route`` so a caller (the tier checkpoint in
+		``api_controller``) can resolve ``method``/``path`` to a ``RouteMatch`` — and
+		thus a ``route.operation_id`` — WITHOUT invoking the handler. Returns the same
+		``RouteMatch|None`` ``route_request`` matches on, so the policy layer keys on
+		the exact ``operation_id`` the runtime would dispatch (parameterized read
+		routes included), never a brittle (method, path) tuple.
+		"""
+		return match_route(method, path, self.routes)
+
 	def register_handler(self, operation_id: str, handler: RequestHandler) -> None:
 		"""
 		Register a handler for an operation

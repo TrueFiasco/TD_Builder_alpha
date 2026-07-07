@@ -32,6 +32,9 @@ DESTRUCTIVE_LIVE = {
     "create_td_node", "update_td_node_parameters", "delete_td_node",
     "execute_python_script", "exec_node_method",
 }
+# D3 (W6a): the single WRITE_CHECKPOINT live tool (dialog-proof disk checkpoint;
+# writes a file, never mutates the graph, idempotent overwrite).
+WRITE_CHECKPOINT_LIVE = {"save_td_project"}
 
 
 # ---------------------------------------------------------------------------
@@ -138,7 +141,7 @@ def test_env_caps_are_positive_ints():
 # ---------------------------------------------------------------------------
 def test_live_tools_all_annotated():
     tools = live.TD_LIVE_TOOLS
-    assert len(tools) == 19
+    assert len(tools) == 21
     assert all(t.annotations is not None for t in tools), \
         [t.name for t in tools if t.annotations is None]
 
@@ -155,8 +158,29 @@ def test_live_reads_are_readonly_mutators_are_not():
         if t.name in DESTRUCTIVE_LIVE:
             assert a.readOnlyHint is False and a.destructiveHint is True, t.name
             assert a.idempotentHint is False, t.name
+        elif t.name in WRITE_CHECKPOINT_LIVE:
+            # D3 WRITE_CHECKPOINT: writes disk (not read-only), no graph mutation,
+            # idempotent overwrite. This also locks the constant's shape on the real
+            # Tool object (the live analog of test_offline_annotation_constants).
+            assert a.readOnlyHint is False and a.destructiveHint is False, t.name
+            assert a.idempotentHint is True, t.name
         else:
             assert a.readOnlyHint is True, t.name
+
+
+def test_live_write_checkpoint_constant_shape():
+    """The WRITE_CHECKPOINT constant encodes the intended hints — a NEW class
+    distinct from the offline WRITE_ADDITIVE (which pins idempotentHint=False)."""
+    wc = live.WRITE_CHECKPOINT
+    assert wc.readOnlyHint is False
+    assert wc.destructiveHint is False
+    assert wc.idempotentHint is True
+    # Exactly one WRITE_CHECKPOINT tool on the live surface.
+    got = {t.name for t in live.TD_LIVE_TOOLS
+           if t.annotations.readOnlyHint is False
+           and t.annotations.destructiveHint is False
+           and t.annotations.idempotentHint is True}
+    assert got == WRITE_CHECKPOINT_LIVE
 
 
 def test_live_annotations_do_not_touch_names():

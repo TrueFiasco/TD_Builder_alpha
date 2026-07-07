@@ -166,11 +166,11 @@ def _assigns_project_attr(func: ast.FunctionDef) -> list[int]:
 
 
 def test_restore_point_does_not_rebind_project():
-    """Structural no-rebind: neither ``_ensure_session_restore_point`` nor
-    ``_snapshot_toe`` assigns to ``td.project.*`` (name/folder/path). Only
-    ``project.save(path)`` rebinds and we don't call it — this also forbids a direct
-    attribute rebind."""
+    """Structural no-rebind: none of ``_ensure_session_restore_point``,
+    ``_snapshot_toe``, or ``save_project`` (D3) assigns to ``td.project.*``
+    (name/folder/path). Only ``project.save(path)`` rebinds and we don't call it —
+    this also forbids a direct attribute rebind."""
     tree = ast.parse(API_SERVICE.read_text(encoding="utf-8"))
-    for fn in ("_ensure_session_restore_point", "_snapshot_toe"):
+    for fn in ("_ensure_session_restore_point", "_snapshot_toe", "save_project"):
         hits = _assigns_project_attr(_find_func(tree, fn))
         assert not hits, f"{fn} assigns td.project.* (rebind) at lines {hits}"

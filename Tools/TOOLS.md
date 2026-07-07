@@ -1,6 +1,6 @@
 # TD Builder — Tool Reference
 
-36 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
+38 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
 running TouchDesigner (WebServer DAT on `:9981`); with TD down they return a clear "not running"
 message rather than failing.
 
@@ -41,7 +41,7 @@ message rather than failing.
 
 ---
 
-## Live server `td-builder-live` — 19 tools (TouchDesigner must be open)
+## Live server `td-builder-live` — 21 tools (TouchDesigner must be open)
 
 ### Live tools — visual feedback
 | Tool | Purpose | Key inputs |

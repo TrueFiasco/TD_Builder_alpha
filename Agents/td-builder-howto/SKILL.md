@@ -83,6 +83,27 @@ TD can crash, sometimes during heavy compute, sometimes for no obvious reason. W
 - **To checkpoint, ask the user to save manually (Ctrl+S)** at milestones — before any operation you know is heavy (large bakes, big point ops, .tox exports) and every so often during long sessions. Manual saves auto-increment (heart.01.toe, heart.02.toe, …), so user-side checkpointing is free.
 - A dialog-proof `save_td_project` tool is planned but does not exist yet; until it ships, the user's manual save is the only way to persist in-session work.
 
+**Checkpoint before a risky batch — use `save_td_project`, not a scripted save.** The
+`save_td_project` live tool takes a **dialog-proof** filesystem copy of the last-saved
+`.toe` (into the project's `Backup/` folder). It never pops a TD save/overwrite dialog,
+so it is safe to call unattended — unlike `project.save()` **inside `execute_python_script`**,
+which runs on TD's single main thread and hangs the connection (~60 s) if it raises a
+modal. Never call `ui.*` or `project.save()` from a script.
+
+`save_td_project` captures **last-manual-save state only** (it copies what is on disk,
+not unsaved in-memory edits). The safe fresh-checkpoint recipe before a risky exec batch:
+
+1. Ask the artist to save (Ctrl+S).
+2. Call `save_td_project`.
+3. **Verify** the returned `source_mtime` advanced vs the prior value (from
+   `get_mutation_status.last_snapshot` or a previous receipt). If it did **not** advance,
+   the artist did not save — re-ask; do **not** proceed.
+4. Proceed. This bounds any rollback loss to the batch itself.
+
+After a client timeout, poll `get_mutation_status` (retry — it queues behind TD's busy
+main thread). Rolling back to a snapshot restores last-saved state and loses **every** API
+mutation since that save — surface that (`source_mtime` + the seq delta) before recommending it.
+
 ### 4. Place every node you create — never leave ops at (0,0)
 
 Every op you create gets an explicit position the same call. If you create three ops without setting `nodeX`/`nodeY`, they all stack at (0,0) and the user has to manually drag them apart. This is the most common visual landmine in agent-built networks.
@@ -300,7 +321,7 @@ This caught real bugs that visual inspection missed in the prior session: bake c
 
 ## Key-free — no API key, no modes
 
-This release has no API key and a single mode. Every tool (17 offline + 19 live)
+This release has no API key and a single mode. Every tool (17 offline + 21 live)
 works with no credentials; KB search uses a local embedding model. There are no
 agent-spawning tools.
 

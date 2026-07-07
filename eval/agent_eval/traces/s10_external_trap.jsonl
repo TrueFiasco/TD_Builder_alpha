@@ -1,0 +1,13 @@
+{"_meta": {"scenario": "s10_external_trap", "blessed_from": "baseline-n5-tail/s10_external_trap.t5", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "external_tox"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "external_tox"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "find_operator_examples", "args": {"operator": "external_tox"}}
+{"tool": "find_operator_examples", "args": {"operator": "null", "family": "CHOP"}}
+{"tool": "expand_toe_file", "args": {"toe_path": "{{RUN_DIR}}/assets/text.tox", "mode": "summary"}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "textref", "type": "container", "family": "COMP", "external_tox": "{{RUN_DIR}}/assets/text.tox", "position": {"x": 0, "y": 0}}, {"name": "textmon", "type": "null", "family": "CHOP", "position": {"x": 200, "y": 0}}], "connections": [{"from": "textref/out1", "to": "textmon"}]}, "mode": "tox", "project_name": "monitor_rig", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_build_project", "args": {"design": {"operators": [{"name": "textref", "type": "container", "family": "COMP", "external_tox": "{{RUN_DIR}}/assets/text.tox", "position": [0, 0]}, {"name": "textmon", "type": "null", "family": "CHOP", "position": [200, 0]}], "connections": [{"from": "textref/out1", "to": "textmon"}]}, "mode": "tox", "project_name": "monitor_rig", "output_dir": "{{RUN_DIR}}"}}
+{"tool": "td_validate", "args": {"network": {"operators": [{"name": "textref", "type": "container", "family": "COMP", "external_tox": "{{RUN_DIR}}/assets/text.tox", "position": [0, 0]}, {"name": "textmon", "type": "null", "family": "CHOP", "position": [200, 0]}], "connections": [{"from": "textref/out1", "to": "textmon"}]}}}
+{"tool": "expand_toe_file", "args": {"toe_path": "{{RUN_DIR}}/monitor_rig.tox", "mode": "full"}}

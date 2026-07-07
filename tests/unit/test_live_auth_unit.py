@@ -174,48 +174,165 @@ def test_script_assigns_result_detection(api_service_mod):
 
 
 # --------------------------------------------------------------------------
-# session restore-point: always SILENT (never a modal Save-As dialog)
+# session restore-point: dialog-proof BY CONSTRUCTION (a pure filesystem copy,
+# NEVER project.save()) — see api_service._ensure_session_restore_point.
+# Offline these prove "project.save is never called + the copy is performed
+# correctly + a copy failure is swallowed and made observable". They CANNOT
+# prove dialog-freeness or non-rebind against a MagicMock td — that is GATE-B
+# (live HITL against the main-tree install).
 # --------------------------------------------------------------------------
 
-def test_session_restore_point_unsaved_saves_silently(api_service_mod, tmp_path):
-    """Unsaved project (no .toe on disk) → save to an EXPLICIT path, which is
-    silent. A no-arg save would open the modal Save-As dialog that hangs the
-    WebServer thread."""
-    td = sys.modules["td"]
+@pytest.fixture(autouse=True)
+def restore_dir(tmp_path, monkeypatch):
+    """Redirect restore-point writes into tmp for EVERY test in this module (never the
+    real ~/.td_builder) and reset the shared module-scoped `td` mock's project path to a
+    non-existent location. autouse because the exec_* tests also fire the restore point
+    (exec_python_script → _ensure_session_restore_point) and the module-scoped `td` mock
+    leaks td.project.folder/name across tests — without this, running a saved-project test
+    before an exec test (any reordering / node-id selection) would copy into the real
+    ~/.td_builder. Tests that need the dir take it by name; others still get isolated."""
+    d = tmp_path / "restore_points"
+    monkeypatch.setenv("TD_RESTORE_DIR", str(d))
+    td = sys.modules.get("td")
+    if td is not None:
+        td.project.folder = str(tmp_path)
+        td.project.name = "_no_such_project_.toe"  # absent → restore point skips by default
+    return d
+
+
+def _saved_project(td, tmp_path, name, content=b"toe-bytes"):
+    """Put a real on-disk .toe for `name` and point td.project at it; returns src."""
+    f = tmp_path / name
+    f.write_bytes(content)
     td.project.folder = str(tmp_path)
-    td.project.name = "scratch.toe"  # does NOT exist yet
+    td.project.name = name
     td.project.save.reset_mock()
+    return str(f)
+
+
+def test_restore_point_saved_copies_silently(api_service_mod, tmp_path, restore_dir):
+    """Saved project → the last-saved .toe is COPIED to the restore dir; project.save
+    is NEVER called (no dialog/increment/rebind reachable)."""
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "saved.toe", b"hello-toe")
     svc = api_service_mod.TouchDesignerApiService()
     svc._ensure_session_restore_point()
-    expected = os.path.join(str(tmp_path), "scratch.toe")
-    td.project.save.assert_called_once_with(expected)  # explicit path == no dialog
+    td.project.save.assert_not_called()
+    dst = svc._restore_point_path(src)
+    assert os.path.exists(dst), "restore copy was not created"
+    assert Path(dst).read_bytes() == b"hello-toe", "restore copy content mismatch"
+    assert svc._restore_point_status.startswith("ok:")
 
 
-def test_session_restore_point_saved_increments_silently(api_service_mod, tmp_path):
-    """Project already on disk → silent incremental project.save() (no args)."""
+def test_restore_point_untitled_skips(api_service_mod, tmp_path, restore_dir):
+    """Genuinely never-saved (no file on disk) → skip: no copy, no save, no raise."""
     td = sys.modules["td"]
-    f = tmp_path / "saved.toe"
-    f.write_text("x", encoding="utf-8")
     td.project.folder = str(tmp_path)
-    td.project.name = "saved.toe"
+    td.project.name = "never_saved.toe"  # does NOT exist on disk
     td.project.save.reset_mock()
     svc = api_service_mod.TouchDesignerApiService()
-    svc._ensure_session_restore_point()
-    td.project.save.assert_called_once_with()  # no-arg == silent increment
+    svc._ensure_session_restore_point()  # must not raise
+    td.project.save.assert_not_called()
+    assert not list(restore_dir.glob("*.toe")), "no restore file for a never-saved project"
+    assert svc._restore_point_status.startswith("skipped:")
 
 
-def test_session_restore_point_only_once(api_service_mod, tmp_path):
-    """The flag makes it a no-op after the first call, even if it saved."""
+def test_restore_point_untitled_NAME_but_saved_copies(api_service_mod, tmp_path, restore_dir):
+    """OWNER CAVEAT: the skip keys on FILE EXISTENCE, not the name. A SAVED project
+    merely named untitled.toe / NewProject.1.toe exists on disk → it COPIES."""
     td = sys.modules["td"]
-    f = tmp_path / "saved.toe"
-    f.write_text("x", encoding="utf-8")
-    td.project.folder = str(tmp_path)
-    td.project.name = "saved.toe"
-    td.project.save.reset_mock()
+    for name in ("untitled.toe", "NewProject.1.toe"):
+        src = _saved_project(td, tmp_path, name)
+        svc = api_service_mod.TouchDesignerApiService()
+        svc._ensure_session_restore_point()
+        td.project.save.assert_not_called()
+        assert os.path.exists(svc._restore_point_path(src)), f"{name} should copy, not skip"
+        assert svc._restore_point_status.startswith("ok:")
+
+
+def test_restore_point_increment_target_exists_no_save(api_service_mod, tmp_path, restore_dir):
+    """THE BUG CASE: base .toe AND a pre-existing <name>.2.toe both on disk. The old
+    no-arg save incremented into .2.toe → overwrite modal → hang. Now project.save is
+    called ZERO times (increment path unreachable), the copy goes to the restore dir,
+    and .2.toe is left untouched."""
+    td = sys.modules["td"]
+    src = _saved_project(td, tmp_path, "proj.toe", b"base")
+    collide = tmp_path / "proj.2.toe"
+    collide.write_bytes(b"pre-existing-increment")
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()
+    td.project.save.assert_not_called()  # the increment/dialog path is never taken
+    assert os.path.exists(svc._restore_point_path(src))
+    assert collide.read_bytes() == b"pre-existing-increment", ".2.toe must be untouched"
+    assert svc._restore_point_status.startswith("ok:")
+
+
+def test_restore_point_copy_failure_is_swallowed_and_observable(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """A copy failure (e.g. a deny-read lock) must NOT raise and must NOT block the
+    mutation — it is swallowed, recorded as 'unavailable', and surfaced via status."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "saved.toe")
+
+    def boom(*a, **k):
+        raise PermissionError("locked")
+
+    monkeypatch.setattr(api_service_mod.shutil, "copyfile", boom)
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()  # must not raise
+    td.project.save.assert_not_called()
+    assert svc._restore_point_status.startswith("unavailable:")
+
+
+def test_restore_point_only_once(api_service_mod, tmp_path, restore_dir, monkeypatch):
+    """The flag makes it a no-op after the first call: the snapshot primitive runs at
+    most once per instance."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "saved.toe")
+    spy = mock.Mock()
+    monkeypatch.setattr(api_service_mod.TouchDesignerApiService, "_snapshot_toe", spy)
     svc = api_service_mod.TouchDesignerApiService()
     svc._ensure_session_restore_point()
     svc._ensure_session_restore_point()
-    td.project.save.assert_called_once()
+    assert spy.call_count == 1
+
+
+def test_restore_point_only_once_even_after_failure(api_service_mod, tmp_path, restore_dir, monkeypatch):
+    """Flag-first guarantee: _session_saved is set BEFORE the copy, so a FAILED first
+    snapshot must NOT retry-storm — the primitive is attempted at most once per instance
+    even when it raises (guards against moving the flag-set below the try)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "saved.toe")
+    spy = mock.Mock(side_effect=PermissionError("locked"))
+    monkeypatch.setattr(api_service_mod.TouchDesignerApiService, "_snapshot_toe", spy)
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._ensure_session_restore_point()  # first: raises internally → swallowed
+    svc._ensure_session_restore_point()  # second: flag already set → no retry
+    assert spy.call_count == 1
+    assert svc._restore_point_status.startswith("unavailable:")
+
+
+def test_restore_point_path_disambiguates_same_basename(api_service_mod, tmp_path, restore_dir):
+    """Two projects sharing a basename in different folders get DISTINCT restore files
+    in the flat dir (abs-path hash), so they never clobber each other."""
+    rp = api_service_mod.TouchDesignerApiService._restore_point_path
+    a = rp(str(tmp_path / "projA" / "scene.toe"))
+    b = rp(str(tmp_path / "projB" / "scene.toe"))
+    assert a != b, "same-basename projects must not collide"
+    assert os.path.basename(a).startswith("scene.") and a.endswith(".toe")
+
+
+def test_restore_point_never_calls_project_save(api_service_mod, tmp_path, restore_dir):
+    """Core invariant across states: project.save() is NEVER called."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "s.toe")  # saved
+    api_service_mod.TouchDesignerApiService()._ensure_session_restore_point()
+    td.project.save.assert_not_called()
+    td.project.name = "missing.toe"        # untitled (folder still points at tmp_path)
+    td.project.save.reset_mock()
+    api_service_mod.TouchDesignerApiService()._ensure_session_restore_point()
+    td.project.save.assert_not_called()
 
 
 # --------------------------------------------------------------------------

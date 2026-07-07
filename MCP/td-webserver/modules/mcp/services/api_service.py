@@ -5,11 +5,13 @@ Provides API functionality related to TouchDesigner
 
 import ast
 import contextlib
+import hashlib
 import importlib
 import inspect
 import io
 import os
 import pydoc
+import shutil
 from typing import Any, Optional, Protocol
 
 import td
@@ -74,56 +76,120 @@ class TouchDesignerApiService(IApiService):
 	def __init__(self):
 		# Session-start safety net: TD's auto-backup only fires on save, and API
 		# mutations skip the undo stack. Before the FIRST mutating call per server
-		# process we trigger one incremented project.save() so a known-good
-		# restore point exists. Guarded by this flag → at most one save.
+		# process we COPY the last-saved .toe to a restore point — a pure filesystem
+		# copy via _snapshot_toe(), never project.save(), so no modal dialog can hang
+		# the WebServer thread. Guarded by _session_saved → at most one copy per process.
 		self._session_saved = False
+		# Diagnosable outcome of that copy so a swallowed failure (e.g. a Windows
+		# deny-read lock on the open .toe) is observable via get_td_info, not just an
+		# invisible log line. One of: "not_run" | "ok: <path>" | "skipped: <reason>"
+		# | "unavailable: <reason>".
+		self._restore_point_status = "not_run"
 
 	def _ensure_session_restore_point(self) -> None:
-		"""Silently checkpoint the project once, before the first mutation of a session.
+		"""Copy the last-saved .toe to a restore point once, before the first mutation.
 
-		API mutations skip TD's undo stack and auto-backup only fires on save, so
-		we save a .toe restore point. This is a whole-project snapshot — it does
-		NOT touch the .tox the component was imported from.
+		API mutations skip TD's undo stack and auto-backup only fires on save, so we
+		capture a whole-project restore point. This is a PURE FILESYSTEM COPY
+		(_snapshot_toe) of the on-disk .toe — it never calls project.save(), so no TD
+		modal dialog can be raised in ANY project state, and it never rebinds the
+		project identity or increments the filename. It does NOT touch the .tox the
+		component was imported from.
 
-		The save is ALWAYS silent (never a modal dialog):
-		  - saved project   -> project.save()          incremental .toe (proj.2.toe)
-		  - unsaved project -> project.save(<toe_path>) explicit path = no dialog;
-		                       gives the untitled project a home at its expected path
+		Why not project.save()? TD has no silent non-rebinding save-a-copy: no-arg
+		project.save() writes the real file AND increments to <name>.2.toe (and if that
+		increment target already exists, pops an OVERWRITE-confirmation modal), while
+		project.save(<path>) is Save-As and REBINDS project.name/folder/path. Either
+		form can raise a modal, and the WebServer DAT's onHTTPRequest runs on TD's
+		single main thread — a modal there freezes the whole connection (~60 s hang, no
+		timeout rescue, cannot be dismissed programmatically). A filesystem copy
+		sidesteps all of it.
 
-		`project.save()` with NO args on an unsaved project is the one form that
-		opens a modal "Save As" dialog, which stalls the WebServer DAT thread until
-		a human dismisses it (observed ~60 s hang). Passing an explicit path avoids
-		that entirely. A scripted save runs to its natural (short) completion, so
-		the mutation proceeds right after; a true forced 30 s cap is not applied
-		because project.save() must run on TD's main thread and cannot be
-		interrupted from another thread — removing the dialog is what removes the
-		hang. Best-effort: any failure is logged and the mutation still proceeds.
+		Tradeoff: captures LAST-SAVED on-disk state, not unsaved in-memory edits.
+
+		Best-effort: any failure is recorded in _restore_point_status (surfaced via
+		get_td_info) and logged; the mutation always proceeds.
 		"""
 		if self._session_saved:
 			return
 		# Set the flag first: once-per-session regardless of outcome.
 		self._session_saved = True
 		try:
-			toe_path = os.path.join(td.project.folder, td.project.name)
-			if os.path.exists(toe_path):
-				td.project.save()  # silent incremental save; keeps their file + naming
+			src = os.path.join(td.project.folder, td.project.name)
+			if not os.path.exists(src):
+				# GENUINELY never-saved ONLY — keyed on FILE EXISTENCE, never on the
+				# name. A SAVED project whose name is "untitled.toe"/"NewProject.1.toe"
+				# EXISTS on disk → takes the copy branch below (do NOT add a name
+				# heuristic). With nothing on disk there is nothing to copy, and every
+				# save form would dialog or rebind → skip (best-effort).
+				self._restore_point_status = "skipped: project not saved to disk"
 				log_message(
-					"Session restore point: incremental project save.",
+					"Session restore point skipped: project not yet saved to disk "
+					"(save once to enable restore points).",
 					LogLevel.INFO,
 				)
-			else:
-				# Never saved to disk — save SILENTLY to the explicit expected path
-				# (no-arg save would pop a modal dialog here).
-				td.project.save(toe_path)
-				log_message(
-					f"Session restore point: saved project to {toe_path}.",
-					LogLevel.INFO,
-				)
-		except Exception as e:  # noqa: BLE001 — safety net must not block work
+				return
+			dst = self._restore_point_path(src)
+			self._snapshot_toe(src, dst)  # dialog-free by construction
+			self._restore_point_status = f"ok: {dst}"
 			log_message(
-				f"Session restore-point save failed (continuing): {e}",
+				f"Session restore point: copied last-saved {src} -> {dst} "
+				f"(unsaved in-session edits are NOT captured).",
+				LogLevel.INFO,
+			)
+		except Exception as e:  # noqa: BLE001 — safety net must not block work
+			self._restore_point_status = f"unavailable: {e}"
+			log_message(
+				f"Session restore-point copy failed (continuing): {e}",
 				LogLevel.WARNING,
 			)
+
+	@staticmethod
+	def _restore_point_path(src: str) -> str:
+		"""Stable per-project restore target in a dedicated dir.
+
+		~/.td_builder/restore_points/<stem>.<hash>.toe — keeps the artist's project
+		folder clean and reuses the ~/.td_builder convention (utils/auth.py). The hash
+		of the ABSOLUTE source path disambiguates projects that share a basename
+		(scene.toe in different folders) so they never clobber each other in the flat
+		dir. TD_RESTORE_DIR overrides the base dir (advanced users; and hermetic tests
+		redirect writes away from the real $HOME).
+		"""
+		base = os.environ.get("TD_RESTORE_DIR") or os.path.join(
+			os.path.expanduser("~"), ".td_builder", "restore_points"
+		)
+		stem = os.path.splitext(os.path.basename(src))[0]
+		key = hashlib.sha1(
+			os.path.normcase(os.path.abspath(src)).encode("utf-8")
+		).hexdigest()[:16]
+		return os.path.join(base, f"{stem}.{key}.toe")
+
+	@staticmethod
+	def _snapshot_toe(src: str, dst: str) -> None:
+		"""Dialog-free .toe snapshot: atomically copy src -> dst.
+
+		ONLY filesystem ops (makedirs + copyfile + os.replace) → cannot raise a TD
+		modal in ANY state; it either succeeds or raises a Python exception the caller
+		handles. Atomic: copy to <dst>.tmp then os.replace, so a crash mid-copy never
+		leaves a truncated restore point. `tmp` MUST stay colocated with `dst` (same
+		dir/volume) so os.replace is an atomic same-volume rename — do not relocate it
+		or a cross-device os.replace re-emerges (copyfile itself is fine cross-volume).
+
+		RAISES on I/O failure; callers choose best-effort (swallow, as the session
+		restore point does) vs fail-fast (JSON error, as a future explicit save tool
+		will). Shared dialog-proof primitive — reused by [D3] save_td_project.
+		"""
+		os.makedirs(os.path.dirname(dst), exist_ok=True)
+		tmp = dst + ".tmp"  # colocated with dst — see docstring
+		try:
+			shutil.copyfile(src, tmp)
+			os.replace(tmp, dst)
+		finally:
+			if os.path.exists(tmp):
+				try:
+					os.remove(tmp)  # clean a partial temp on failure
+				except OSError:
+					pass
 
 	def get_td_info(self) -> Result:
 		"""Get information about the TouchDesigner server"""
@@ -131,12 +197,25 @@ class TouchDesignerApiService(IApiService):
 		version = td.app.version
 		build = td.app.build
 
+		# Surface the session restore-point outcome so the AI can tell the user where
+		# rollback lives — and, critically, so a SILENTLY-swallowed copy failure (e.g.
+		# a Windows deny-read lock on the open .toe) is observable rather than an
+		# invisible log line. _restore_point_status is "<word>: <detail>" (or
+		# "not_run"); split it into a structured field.
+		word, _, rest = self._restore_point_status.partition(": ")
+		restore_point = {
+			"status": word,                       # not_run | ok | skipped | unavailable
+			"path": rest if word == "ok" else None,
+			"detail": rest or None,
+		}
+
 		server_info = {
 			"server": f"TouchDesigner {version}.{build}",
 			"version": f"{version}.{build}",
 			"osName": td.app.osName,
 			"osVersion": td.app.osVersion,
 			"mcpApiVersion": get_mcp_api_version(),
+			"restorePoint": restore_point,
 		}
 
 		return success_result(server_info)

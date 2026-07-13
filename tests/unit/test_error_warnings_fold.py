@@ -194,6 +194,16 @@ def test_no_warnings_no_promotion(monkeypatch):
     assert r["data"]["total_count"] == 0
 
 
+def test_severity_map_covers_live_observed_dat_strings(monkeypatch):
+    # W-D live research (TD 2025.32820): Error DAT severity column logs "abort"
+    # for hard errors and "message" for informational rows. Without explicit
+    # keys both fell through SEVERITY_MAP.get(..., "info") — real aborts were
+    # mis-bucketed as info.
+    mod = _load_error_monitor(monkeypatch, _Root(errors="", warnings=""))
+    assert mod.SEVERITY_MAP["abort"] == "fatal"
+    assert mod.SEVERITY_MAP["message"] == "info"
+
+
 # ---------------------------------------------------------------------------
 # error_monitor.get_python_exceptions — the warnings fold must NOT widen it
 # ---------------------------------------------------------------------------

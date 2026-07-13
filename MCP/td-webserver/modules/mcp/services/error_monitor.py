@@ -42,6 +42,11 @@ SEVERITY_MAP = {
     0: "info", 1: "warning", 2: "error", 3: "fatal",
     "0": "info", "1": "warning", "2": "error", "3": "fatal",
     "info": "info", "warning": "warning", "error": "error", "fatal": "fatal",
+    # Live-observed Error DAT column strings (W-D research, TD 2025.32820):
+    # hard errors log severity="abort" (onError int 3) and informational rows
+    # log "message" — without these keys both fell through to the "info"
+    # default, mis-bucketing real aborts as info.
+    "abort": "fatal", "message": "info",
 }
 
 # Safety cap on how many ops we'll walk when calling op.errors() in fallback

@@ -137,6 +137,51 @@ def test_env_caps_are_positive_ints():
 
 
 # ---------------------------------------------------------------------------
+# F5 (a) — proactive per-hit hydration cap (mcp_server._hydrate_hit_params).
+# This is the PROACTIVE cap that keeps a multi-hit envelope small even when it is
+# far UNDER HYBRID_SEARCH_MAX_BYTES (the reactive ob.budget_hybrid_results shed only
+# fires once the whole envelope is oversized). mcp_server imports KB-free now
+# (knowledge_graph loads lazily), so importing it here is cheap and hermetic.
+# ---------------------------------------------------------------------------
+import mcp_server as srv  # noqa: E402
+
+
+def _full_info(n_params: int) -> dict:
+    return {
+        "wiki_parameters": {f"p{i}": {"display_name": f"P{i}"} for i in range(n_params)},
+        "ground_truth_param_count": n_params,
+    }
+
+
+def test_hydrate_caps_params_even_under_envelope_budget():
+    result = {"name": "Grid SOP", "metadata": {"operator_name": "Grid SOP"}}
+    srv._hydrate_hit_params(result, _full_info(30), compact=False)
+    # Bounded by the cap even though the envelope is tiny (well under the byte budget).
+    assert len(result["parameters"]) == srv.PARAM_HYDRATE_CAP
+    # TRUE full counts are preserved (nothing silently hidden).
+    assert result["parameter_count"] == 30
+    assert result["ground_truth_param_count"] == 30
+    assert result["parameters_capped"] is True
+
+
+def test_hydrate_no_cap_flag_when_within_cap():
+    result = {"name": "X", "metadata": {}}
+    srv._hydrate_hit_params(result, _full_info(5), compact=False)
+    assert len(result["parameters"]) == 5
+    assert result["parameter_count"] == 5
+    assert "parameters_capped" not in result
+
+
+def test_hydrate_compact_omits_params_keeps_counts():
+    result = {"name": "X", "parameters": {"stale": 1}, "metadata": {}}
+    srv._hydrate_hit_params(result, _full_info(30), compact=True)
+    assert "parameters" not in result          # dropped entirely in compact mode
+    assert result["parameter_count"] == 30      # counts still present
+    assert result["ground_truth_param_count"] == 30
+    assert "parameters_capped" not in result
+
+
+# ---------------------------------------------------------------------------
 # Part 1 — risk annotations (live surface: real Tool objects)
 # ---------------------------------------------------------------------------
 def test_live_tools_all_annotated():

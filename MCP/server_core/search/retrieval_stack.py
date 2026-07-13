@@ -523,12 +523,18 @@ class RetrievalStack:
                                                         c["metadata"], route))
                 # REPORT a calibrated relevance score (shift -> out-of-domain abstains)
                 c["score"] = _sigmoid(ce - SCORE_SHIFT) if floor else c["_rank"]
+                # A genuine cross-encoder relevance score.
+                c["score_kind"] = "reranked"
         else:
             # No reranker (lever-1 measurement): rank by RRF in a pseudo-logit space.
+            # This score depends almost entirely on RANK POSITION (RRF) + fixed router
+            # boosts, NOT the query's semantic content — flag it so callers do not read
+            # it as a calibrated relevance score.
             for c in cands:
                 c["ce_logit"] = c.get("rrf", 0.0) * 100.0
                 c["_rank"] = _sigmoid(self._boost_logit(c["ce_logit"], c["metadata"], route))
                 c["score"] = c["_rank"]
+                c["score_kind"] = "rank_fusion_only"
         cands.sort(key=lambda c: c["_rank"], reverse=True)
         return cands
 
@@ -609,5 +615,6 @@ class RetrievalStack:
             print(f"[rs] q={query!r} op={route.get('named_op')} intents={route.get('intents')} "
                   f"dense={len(dense)} bm25={len(bm25)} pool={len(pool)} -> {len(results)} "
                   f"top1={results[0]['score'] if results else None}")
-        return [{"content": c["content"], "metadata": c["metadata"], "score": round(c["score"], 6)}
+        return [{"content": c["content"], "metadata": c["metadata"], "score": round(c["score"], 6),
+                 "score_kind": c.get("score_kind", "unknown")}
                 for c in results]

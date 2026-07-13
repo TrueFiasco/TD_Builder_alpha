@@ -232,11 +232,21 @@ class UnifiedSearchAdapter:
                 else:
                     relationships[op_name] = {'error': 'Operator not found in enhanced graph'}
 
+        # Diagnostic: expose whether the reranker / BM25 backends are actually active,
+        # so a caller can tell at a glance that per-hit scores are degraded (rank-fusion
+        # only) without inspecting individual hits' score_kind.
+        stack = getattr(self, "retrieval_stack", None)
+        retrieval_backend = {
+            'reranker_active': getattr(stack, '_reranker', None) is not None,
+            'bm25_active': getattr(stack, '_bm25', None) is not None,
+        }
+
         return {
             'query': query,
             'semantic_results': semantic_results,
             'relationships': relationships,
-            'operator_count': len(operator_names)
+            'operator_count': len(operator_names),
+            '_retrieval_backend': retrieval_backend,
         }
 
     def find_operator_workflow(self, start_op: str, end_op: str) -> List[Dict]:

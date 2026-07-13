@@ -182,6 +182,12 @@ async def get_top_info(arguments: dict) -> Sequence[TextContent]:
             data = response.json()
             if data.get("success") and data.get("data"):
                 info = data["data"]
+                cook_time = info.get('cook_time')
+                cook_row = (
+                    f"| Cook Time | {cook_time:.3f} ms |\n"
+                    if isinstance(cook_time, (int, float))
+                    else "| Cook Time | n/a |\n"
+                )
                 text = f"""## TOP Info: {info['operator_path']}
 
 | Property | Value |
@@ -190,7 +196,7 @@ async def get_top_info(arguments: dict) -> Sequence[TextContent]:
 | Aspect Ratio | {info['aspect']:.3f} |
 | Pixel Format | {info['pixel_format']} |
 | GPU Memory | {info['gpu_memory'] / 1024:.1f} KB |
-"""
+{cook_row}"""
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed to get TOP info: {data.get('error')}")]
 
@@ -467,10 +473,21 @@ async def get_td_nodes(arguments: dict) -> Sequence[TextContent]:
 
             data = response.json()
             if data.get("success") and data.get("data"):
-                nodes = data["data"].get("nodes", [])
-                lines = [f"## Nodes under {arguments['parent_path']}\n"]
+                payload = data["data"]
+                nodes = payload.get("nodes", [])
+                shown = payload.get("returnedCount", len(nodes))
+                total = payload.get("totalCount", len(nodes))
+                truncated = payload.get("truncated", False)
+                lines = []
+                if truncated:
+                    lines.append(
+                        f"**TRUNCATED — SHOWING {shown} OF {total} CHILDREN. "
+                        f"Pass limit={total} (or a pattern filter) to see the rest.**\n"
+                    )
+                lines.append(f"## Nodes under {arguments['parent_path']}\n")
                 for node in nodes:
                     lines.append(f"- `{node['name']}` ({node.get('opType', 'unknown')}) - {node['path']}")
+                lines.append(f"\n_{shown} of {total} node(s) shown._")
                 return [TextContent(type="text", text="\n".join(lines))]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
@@ -518,7 +535,10 @@ async def create_td_node(arguments: dict) -> Sequence[TextContent]:
             data = response.json()
             if data.get("success") and data.get("data"):
                 node = data["data"]
-                text = f"Created node: {node.get('path', 'unknown')}"
+                name = node.get("name", "unknown")
+                op_type = node.get("type", "unknown")
+                path = node.get("path", "unknown")
+                text = f"Created node: {name} ({op_type}) at {path}"
                 text += _restore_point_note(node)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
@@ -1005,7 +1025,8 @@ TD_LIVE_TOOLS: List[Tool] = [
                 },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum number of nodes to return"
+                    "minimum": 1,
+                    "description": "Maximum number of nodes to return (default 200 server-side; response is count-flagged when truncated)"
                 }
             },
             "required": ["parent_path"]
@@ -1052,7 +1073,12 @@ TD_LIVE_TOOLS: List[Tool] = [
     Tool(
         annotations=DESTRUCTIVE,
         name="update_td_node_parameters",
-        description="Update parameters of an existing node in running TouchDesigner.",
+        description=(
+            "Update parameters of an existing node in running TouchDesigner. Note: this is a "
+            "programmatic par.val write and will NOT fire a Parameter Execute DAT's "
+            "onValueChange (UI-edit only) — to trigger one, run op('/path').par.<x>.pulse() "
+            "via execute_python_script (exec_node_method cannot resolve dotted par paths)."
+        ),
         inputSchema={
             "type": "object",
             "properties": {
@@ -1105,7 +1131,14 @@ TD_LIVE_TOOLS: List[Tool] = [
             "\n"
             "DO NOT call ui.* (messageBox/chooseFile/chooseFolder/…) or project.save() inside "
             "the script — they block TD's single main thread and hang the live connection "
-            "(~60 s, no timeout rescue). To checkpoint, use the save_td_project tool instead."
+            "(~60 s, no timeout rescue). To checkpoint, use the save_td_project tool instead.\n"
+            "\n"
+            "EXECUTE DAT CALLBACKS: onValueChange fires on UI edits only — NOT on par.val= "
+            "writes from this tool or from bind-driven changes; use onPulse (fires on "
+            "par.pulse()) to trigger programmatically. On the Execute DAT: op='.' is itself, "
+            "'..' is its parent; empty op/pars scope matches nothing and fails SILENTLY. The "
+            "pulse-enable toggle is named 'onpulse', not 'pulse'. Pulse/callback effects are "
+            "not visible until the next frame — verify with a separate call."
         ),
         inputSchema={
             "type": "object",

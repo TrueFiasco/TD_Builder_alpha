@@ -29,7 +29,7 @@ from server_instructions import load_instructions  # noqa: E402
 
 # D2 (harness item 3b): same single-sourced non-negotiables file, but this is the
 # LIVE server, so scope="live" -> [always] + [live-only] (adds the running-TD
-# gotchas: GLSL info-DAT, save, place, flat exec scope). Fail-soft baked in.
+# gotchas: GLSL info-DAT, save, place, next-frame reads). Fail-soft baked in.
 app = Server("td-builder-live", instructions=load_instructions(scope="live"))
 
 

@@ -72,9 +72,12 @@ def _normalize_op_type_for_filter(name: str) -> Tuple[Optional[str], str]:
             return None, t.strip().lower()
         return (fam or None), t.strip().lower()
     for fam in _OP_FAMILIES:
-        # Space-separated wiki form, e.g. 'noise CHOP'
+        # Space-separated wiki form, e.g. 'noise CHOP'. Also strip INTERNAL spaces so a
+        # multi-word wiki name ('SOP to CHOP') matches the space-free node-name convention
+        # ('soptoCHOP'); this fixes get_operator_info + find_operator_examples for EVERY
+        # multi-word operator name, not just the named converters.
         if s.endswith(" " + fam):
-            return fam, s[: -(len(fam) + 1)].strip().lower()
+            return fam, s[: -(len(fam) + 1)].strip().lower().replace(" ", "")
         # Concatenated suffix, e.g. 'noiseCHOP'
         if s.endswith(fam) and len(s) > len(fam):
             return fam, s[: -len(fam)].lower()

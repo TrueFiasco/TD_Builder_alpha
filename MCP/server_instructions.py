@@ -21,14 +21,14 @@ loader delivers a **per-server scope**:
     on-message);
   * the live ``td-builder-live`` server loads ``scope="live"`` -> ``[always]`` +
     ``[live-only]`` (adds the running-TD gotchas: GLSL info-DAT, save, place,
-    flat exec scope).
+    next-frame reads).
 The tags are stripped before delivery.
 
 Design constraints (mirrored by the canary test in
 ``tests/unit/test_instructions_canary.py``):
   * each scoped payload <= ``MAX_BYTES`` (Claude Code truncates instructions at 2 KB);
   * the catastrophic/silent rules of each scope sit in its first 512 characters
-    (offline: offline-generation + KB-first; live: GLSL-invisible + flat-exec);
+    (offline: offline-generation + KB-first; live: GLSL-invisible + next-frame-reads);
   * loading NEVER raises — a server must always start, so any failure to read or
     parse the file falls back to ``MINIMAL`` (a short pointer, not silence).
 """
@@ -69,7 +69,7 @@ def scope_for_server(serves_live_tools: bool) -> str:
     """Scope FOLLOWS TOOLS SERVED.
 
     A server that exposes the live-TD tools must ship the live rules — including
-    the catastrophic-silent ones (GLSL-invisible-errors, flat-exec-scope) — even
+    the catastrophic-silent ones (GLSL-invisible-errors, next-frame-reads) — even
     when it is the "offline" ``td-builder`` server co-loading them via
     ``TD_LIVE_ENABLED``. Shipping a live-tool surface without its live safety
     rules is exactly the silent-footgun class these rules warn against. A pure

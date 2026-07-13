@@ -48,6 +48,16 @@
               "description": "Include node properties in response",
               "default": false
             }
+          },
+          {
+            "name": "limit",
+            "description": "Max children to return; response is truncated+flagged if exceeded",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Max children to return"
+            }
           }
         ],
         "responses": {

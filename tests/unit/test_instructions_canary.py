@@ -12,7 +12,7 @@ Scoping (canonical file tags each line [always] / [live-only]):
   * offline `td-builder` server  -> [always] only  (grounding + build + the
     offline-generation capability; the only server Cursor/ChatGPT reach);
   * live `td-builder-live` server -> [always] + [live-only]  (adds the running-TD
-    gotchas: GLSL info-DAT, save, place, flat exec scope).
+    gotchas: GLSL info-DAT, save, place, next-frame reads).
 
 Split by lane:
   * loader / source-file / fail-soft checks are KB-free -> hermetic lane, every PR;
@@ -73,7 +73,7 @@ def test_live_scope_payload():
         assert m in p, f"live payload missing rule {m!r}"
     # Both catastrophic/silent live rules must survive a 512-char truncation.
     assert 0 <= p.find("INVISIBLE") < 512, "GLSL-invisible must be in the live first 512"
-    assert 0 <= p.find("FLAT exec()") < 512, "flat-exec-scope must be in the live first 512"
+    assert 0 <= p.find("NEXT FRAME") < 512, "next-frame-reads rule must be in the live first 512"
     assert "CAPABILITY:" in p
 
 

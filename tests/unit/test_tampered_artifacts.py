@@ -171,6 +171,45 @@ def test_gpickle_integrity_error_degrades_not_crashes(tmp_path, monkeypatch, cap
     assert "[SECURITY]" in err
 
 
+# -- F5(b): score_kind honesty flag ----------------------------------------------
+
+class _StubReranker:
+    """Deterministic stand-in for the cross-encoder: one logit per (query, doc) pair."""
+
+    def predict(self, pairs, show_progress_bar=False):
+        return [1.0 for _ in pairs]
+
+
+def _score_cands():
+    return [
+        {"id": "a", "content": "noise top", "metadata": {}, "rrf": 0.5},
+        {"id": "b", "content": "level top", "metadata": {}, "rrf": 0.3},
+    ]
+
+
+_DEFAULT_ROUTE = {"named_op": None, "intents": set(),
+                  "do_param_filter": False, "op_lookup": False}
+
+
+def test_score_kind_rank_fusion_only_without_reranker(tmp_path):
+    # RS_USE_RERANK=0 (autouse _no_rerank) => no cross-encoder => rank-fusion score,
+    # which depends on RANK POSITION, not query semantics. The flag must say so.
+    rs = _stack(_load_retrieval_stack(), _bm25_kb(tmp_path))
+    assert rs._reranker is None
+    scored = rs._score_candidates("noise", _score_cands(), _DEFAULT_ROUTE)
+    assert scored
+    assert all(c["score_kind"] == "rank_fusion_only" for c in scored)
+
+
+def test_score_kind_reranked_with_stub_reranker(tmp_path):
+    rs = _stack(_load_retrieval_stack(), _bm25_kb(tmp_path))
+    rs.cfg.use_rerank = True
+    rs._reranker = _StubReranker()
+    scored = rs._score_candidates("noise", _score_cands(), _DEFAULT_ROUTE)
+    assert scored
+    assert all(c["score_kind"] == "reranked" for c in scored)
+
+
 def test_poisoned_gpickle_payload_never_executes(tmp_path):
     """The ACE-shaped case end-to-end: a poison pickle swapped into a receipted
     KB is refused BEFORE deserialization — the payload must not run."""

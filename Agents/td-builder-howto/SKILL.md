@@ -19,28 +19,36 @@ elaborate, they do not compete as the source.
 
 These are the failure modes that burned hours in prior sessions. Internalize them.
 
-### 1. Exec scope is flat — no nested defs, no closures
+### 1. Exec scope — top-level names are visible everywhere
 
-`execute_python_script` runs your code in a bare `exec()` scope. This means:
-- **No `def` inside `def`** — inner functions can't see outer-scope names like `np`, loop vars, or module imports.
-- **No list/generator comprehensions referencing outer-scope vars** — same reason.
-- Module imports work at the top level. Just don't put them inside functions.
+`execute_python_script` runs your code as a **single module-level namespace** (globals
+*is* locals). So comprehensions, generator expressions, and nested `def`s **can** see
+names bound at the top level of the same script — imports, loop vars, helper vars:
 
-Wrong:
 ```python
 import numpy as np
+arr = [np.zeros(3) for _ in range(4)]    # works — np resolves at module scope
+
 def process():
-    arr = np.zeros(10)   # NameError: name 'np' is not defined
+    return np.sum(arr)                    # works — np and arr are module-level names
 ```
 
-Right:
-```python
-import numpy as np
-arr = np.zeros(10)       # inline at top level
-# or pass np in explicitly: def process(np): ...
-```
+The rule that remains: **bind the names you use at the top level of the script.** Normal
+Python scoping still applies *inside* nested functions (a name defined in one nested
+`def` isn't visible in a different one), but anything at the script's top level is global
+to the whole script.
 
-If you see `name 'X' is not defined` and X is obviously imported, this is why. Inline the code at the top level.
+Two consequences of the single-namespace model:
+- Your script no longer has implicit access to the MCP service module's own globals
+  (`os`, `io`, `ast`, …) — `import` what you need explicitly. `td`/`tdu`/`op`/… are still
+  injected for you.
+- If you still see `name 'X' is not defined`, X is genuinely unbound — a typo or a
+  missing top-level `import`, not a scope quirk.
+
+**`time.sleep()` is rejected before your script runs.** It executes on TD's single main
+thread and would freeze TD and the live connection for the whole duration with no rescue,
+so a static check returns an error naming `time.sleep` (best-effort — it can be
+obfuscated, don't rely on it as a sandbox). Split any delay across multiple tool calls.
 
 ### 2. GLSL compile errors are invisible via `.errors()`
 
@@ -195,6 +203,25 @@ This makes the project self-contained: it survives being moved, zipped, shared, 
 
 **Exception:** if the user explicitly says "reference it in place, don't copy" — honor that.
 
+### 6. Execute DAT firing semantics — parexec gotchas
+
+`onValueChange` on a CHOP/DAT/Parameter Execute DAT fires ONLY on UI edits (and certain
+internal changes) — it does **NOT** fire on a programmatic `par.val = x` write (including
+`update_td_node_parameters` or any script) and does **NOT** fire on a bind-driven change.
+If you need code to react to a programmatic change, drive the downstream logic yourself, or
+use `onPulse`, which **does** fire on `par.pulse()`.
+
+On the Execute DAT's `op`/`pars` (or channel-scope) parameters: `.` means the DAT itself —
+use `..` to watch the parent. An empty `op` or `pars` scope matches nothing and fails
+**SILENTLY** (no error, the callback just never fires — don't assume "no error" means
+"wired correctly").
+
+The pulse-enable toggle on the Execute DAT is named `onpulse`, not `pulse` — enabling the
+wrong-named par leaves `onPulse` dark with no error.
+
+Pulse/callback effects are not visible until the **next frame** — verify with a separate
+call/read, not inline in the same script that fired the pulse.
+
 ## Tool preferences
 
 Always prefer `td-builder` / `td-builder-live` namespace tools over generic ones. Within that namespace:
@@ -295,7 +322,8 @@ You cannot read keyboard input via the MCP. Keys 1/2/3 are for the user after ha
 
 | Symptom | Real cause |
 |---|---|
-| `name 'np' / 'p' / 's' is not defined` | Nested def or comprehension referencing outer scope — inline at top level |
+| `name 'np' / 'p' / 's' is not defined` | The name is genuinely unbound — a typo or a missing top-level `import` (top-level names ARE visible in comprehensions/nested defs now; the old flat-scope restriction is gone) |
+| `time.sleep() is not allowed in execute_python_script` | Static guard rejects `time.sleep()` (freezes TD's main thread) — split the delay across multiple tool calls |
 | `'operator_path' Required` | You passed `node_path` to `capture_top_output` — it wants `operator_path` |
 | Shader runs but outputs zeros / uniform reads as 0 / custom attr missing downstream | Op-specific setup gotcha — search KB for the exemplar (don't guess at params) |
 | Fix verified in-script but downstream sees old value | Reading through Delete POP — needs double-cook flush |
@@ -309,6 +337,9 @@ You cannot read keyboard input via the MCP. Keys 1/2/3 are for the user after ha
 | Re-imported `.tox` has all-broken references | Export wrote absolute paths — should have built with relative refs from the start (see rule 5) |
 | Project breaks when moved/zipped/opened elsewhere | Asset referenced by absolute path — copy assets into project folder, reference relatively |
 | Phase / uniform value won't change | Check `.expr` not just `.val` — an expression binding will override fixed values; clear the expr |
+| Execute DAT callback never fires, button looks dead | Programmatic `par.val=` write or bind-driven change — `onValueChange` only fires on UI edits; use `onPulse` + `par.pulse()` to trigger from code |
+| Parameter/DAT Execute DAT wired but nothing happens, no error | Empty `op`/`pars` scope matches nothing and fails silently; check `op` (`.`=self, `..`=parent) and `pars` are non-empty |
+| Pulse callback silent even though "enabled" | Toggle is named `onpulse`, not `pulse` — check the actual par name |
 
 ## Debugging style: data first, eyes second
 

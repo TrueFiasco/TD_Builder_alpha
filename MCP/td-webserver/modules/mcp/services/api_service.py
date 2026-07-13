@@ -732,6 +732,7 @@ class TouchDesignerApiService(IApiService):
 		parent_path: str,
 		pattern: Optional[str] = None,
 		include_properties: bool = False,
+		limit: Optional[int] = None,
 	) -> Result:
 		"""Get nodes under the specified parent path, optionally filtered by pattern
 
@@ -739,6 +740,11 @@ class TouchDesignerApiService(IApiService):
 		    parent_path: Path to the parent node
 		    pattern: Pattern to filter nodes by name (e.g. "text*" for all nodes starting with "text")
 		    include_properties: Whether to include full node properties (default False for better performance)
+		    limit: Max children to return. Defaults to 200 server-side when None; the
+		        response is sliced to this many and flagged truncated when the parent has
+		        more children. Counts (totalCount/returnedCount/truncated) are ALWAYS emitted.
+		        Non-positive values are treated as absent (a negative slice would silently
+		        drop children from the end).
 
 		Returns:
 		    Result: Success with list of nodes or error
@@ -763,7 +769,20 @@ class TouchDesignerApiService(IApiService):
 		else:
 			node_summaries = [self._get_node_summary_light(node) for node in nodes]
 
-		return success_result({"nodes": node_summaries})
+		# Server-side default cap so a runaway child count still produces a loud,
+		# self-describing truncation flag instead of an unbounded response.
+		# Non-positive limits fall back to the default rather than negative-slicing.
+		effective_limit = limit if limit is not None and limit > 0 else 200
+		total = len(node_summaries)
+		shown = node_summaries[:effective_limit]
+		return success_result(
+			{
+				"nodes": shown,
+				"totalCount": total,
+				"returnedCount": len(shown),
+				"truncated": total > len(shown),
+			}
+		)
 
 	def create_node(
 		self,
@@ -957,7 +976,18 @@ class TouchDesignerApiService(IApiService):
 		try:
 			tree = ast.parse(script, mode="exec")
 		except SyntaxError as exec_error:
-			raise Exception(f"Script execution failed: {str(exec_error)}")
+			return error_result(f"Script execution failed: {str(exec_error)}")
+
+		# Best-effort static guard: time.sleep() runs on TD's single main thread and
+		# freezes TD + the live connection for the duration with no rescue. This is a
+		# deterrent, NOT a sandbox — a script can still obfuscate via getattr(time,'sleep').
+		if self._script_calls_time_sleep(tree):
+			return error_result(
+				"time.sleep() is not allowed in execute_python_script — it runs on "
+				"TouchDesigner's single main thread; sleeping there freezes TD and the "
+				"live connection for the duration with no rescue. Split the delay across "
+				"multiple tool calls instead."
+			)
 
 		if (
 			tree.body
@@ -976,16 +1006,34 @@ class TouchDesignerApiService(IApiService):
 		try:
 			code = compile(tree, "<exec_python_script>", "exec")
 		except SyntaxError as exec_error:
-			raise Exception(f"Script execution failed: {str(exec_error)}")
+			return error_result(f"Script execution failed: {str(exec_error)}")
 
 		with (
 			contextlib.redirect_stdout(stdout_capture),
 			contextlib.redirect_stderr(stderr_capture),
 		):
 			try:
-				exec(code, globals(), local_vars)
+				# Single namespace (globals IS locals) so the script behaves like real
+				# module-level code: comprehensions, generator expressions, and nested
+				# defs resolve free names (imports, loop vars, helpers) via the same dict
+				# top-level statements write into. Side effect: scripts lose implicit
+				# access to this module's own globals; td/tdu are injected into local_vars.
+				exec(code, local_vars)
 			except Exception as exec_error:
-				raise Exception(f"Script execution failed: {str(exec_error)}")
+				# Fold any output captured before the failure into the error string —
+				# it is the only field guaranteed to reach the client on an error path.
+				partial_stdout = stdout_capture.getvalue()
+				partial_stderr = stderr_capture.getvalue()
+				message = f"Script execution failed: {str(exec_error)}"
+				if partial_stdout:
+					message += (
+						"\n--- stdout captured before failure ---\n" + partial_stdout
+					)
+				if partial_stderr:
+					message += (
+						"\n--- stderr captured before failure ---\n" + partial_stderr
+					)
+				return error_result(message)
 
 			result = local_vars.get("result")
 			processed_result = self._process_method_result(result)
@@ -1002,6 +1050,30 @@ class TouchDesignerApiService(IApiService):
 				"exec_python_script",
 				"<script>",
 			))
+
+	@staticmethod
+	def _script_calls_time_sleep(tree: ast.Module) -> bool:
+		"""Best-effort static detector for a ``time.sleep()`` call in a user script.
+
+		Matches ``time.sleep(...)`` (an ``Attribute`` named ``sleep`` whose value is
+		the ``Name`` ``time``) and a bare ``sleep(...)`` call (covers
+		``from time import sleep``). This is a static deterrent, NOT a sandbox — a
+		script can still obfuscate the call (e.g. ``getattr(time, 'sleep')(...)``).
+		"""
+		for node in ast.walk(tree):
+			if not isinstance(node, ast.Call):
+				continue
+			func = node.func
+			if (
+				isinstance(func, ast.Attribute)
+				and func.attr == "sleep"
+				and isinstance(func.value, ast.Name)
+				and func.value.id == "time"
+			):
+				return True
+			if isinstance(func, ast.Name) and func.id == "sleep":
+				return True
+		return False
 
 	@staticmethod
 	def _script_assigns_result(tree: ast.Module) -> bool:

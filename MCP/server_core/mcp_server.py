@@ -54,6 +54,12 @@ except ImportError:
 # (inserted above); output_budget is a pure json/os module — safe to import here.
 from output_budget import budget_full_expand, budget_hybrid_results  # noqa: E402
 
+# hybrid_search proactively caps how many wiki_parameters it hydrates per hit, so a
+# multi-hit envelope stays small even when it is under HYBRID_SEARCH_MAX_BYTES (the
+# reactive shed only fires once the WHOLE envelope is oversized). The TRUE counts are
+# always preserved; `parameters_capped` flags any hit whose dict was truncated.
+PARAM_HYDRATE_CAP = 12
+
 # TD Live Client tools live SOLELY on the separate `td-builder-live` server
 # (MCP/live_server.py). This offline `td-builder` server never co-loads them, so
 # its tool surface is a fixed 17 regardless of ambient import state — co-loading
@@ -477,7 +483,7 @@ def _load_kb():
 # live tools live only on td-builder-live), so scope_for_server() resolves to the
 # offline scope ([always] rules only). The helper stays the single scope-follows-
 # tools source: a server that DID serve the live tools would ship the live scope,
-# incl. the catastrophic-silent rules (GLSL-invisible, flat-exec-scope). The
+# incl. the catastrophic-silent rules (GLSL-invisible, next-frame-reads). The
 # loader fails soft to a baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions, scope_for_server  # noqa: E402
@@ -538,6 +544,98 @@ def _build_menu_options(param: Dict[str, Any]) -> List[Dict[str, str]]:
         }
         for i in range(n)
     ]
+
+
+_COMPOUND_LEAF_LETTER_SUFFIXES = ("x", "y", "z", "w", "r", "g", "b", "a")
+
+
+def _strip_compound_leaf_suffix(name: str):
+    """Return the candidate compound-parent code for a leaf-looking miss, or None.
+
+    Only strips ONE trailing letter-suffix (x/y/z/w/r/g/b/a) or a trailing digit run
+    (1-4), and only if >=2 chars remain, so short/ambiguous codes are left alone. Used
+    ONLY as a fallback after an exact-match miss (get_parameter_detail), so it can never
+    regress a currently-working lookup.
+    """
+    if not name or len(name) < 3:
+        return None
+    if name[-1] in _COMPOUND_LEAF_LETTER_SUFFIXES:
+        return name[:-1]
+    stripped = name.rstrip("1234")
+    if stripped != name and len(stripped) >= 2:
+        return stripped
+    return None
+
+
+def _hydrate_hit_params(result: dict, full_info: dict, compact: bool,
+                        cap: int = PARAM_HYDRATE_CAP) -> None:
+    """Attach bounded parameter data from ``full_info`` onto a hybrid_search hit.
+
+    Always stamps the TRUE counts (``parameter_count``/``ground_truth_param_count``).
+    ``compact=True`` omits the (large) per-hit ``parameters`` dict entirely; otherwise it
+    is capped to ``cap`` items and ``parameters_capped`` flags any truncation. Mutates
+    ``result`` in place. No-op when ``full_info`` carries no ``wiki_parameters``.
+    """
+    if not full_info or 'wiki_parameters' not in full_info:
+        return
+    wiki_params = full_info['wiki_parameters']
+    if isinstance(wiki_params, dict):
+        items = list(wiki_params.items())
+        full_count = len(items)
+    elif isinstance(wiki_params, list):
+        items = wiki_params
+        full_count = len(items)
+    else:
+        return
+    result['parameter_count'] = full_count
+    if full_info.get('ground_truth_param_count'):
+        result['ground_truth_param_count'] = full_info['ground_truth_param_count']
+    if compact:
+        result.pop('parameters', None)
+        return
+    if isinstance(wiki_params, dict):
+        result['parameters'] = dict(items[:cap])
+    else:
+        result['parameters'] = items[:cap]
+    if full_count > cap:
+        result['parameters_capped'] = True
+
+
+def _find_param_code(wiki_params, code: str):
+    """Exact, case-insensitive lookup of ``code`` in a wiki_parameters dict OR list.
+
+    Returns the same ``param_detail`` dict shape get_parameter_detail serializes today,
+    or None on a miss. Factors the previously-duplicated dict/list branches into one.
+    """
+    if not code:
+        return None
+    target = code.lower()
+
+    def _detail(found_code, p):
+        if isinstance(p, dict):
+            return {
+                "code": found_code,
+                "name": p.get("display_name", found_code),
+                "type": p.get("type", "unknown"),
+                "description": p.get("description", "No description available"),
+                "section": p.get("section", ""),
+                "default": p.get("default"),
+                "options": _build_menu_options(p),
+                "range": p.get("range"),
+            }
+        return {"code": found_code, "value": str(p)}
+
+    if isinstance(wiki_params, dict):
+        for c, p in wiki_params.items():
+            if c.lower() == target:
+                return _detail(c, p)
+    elif isinstance(wiki_params, list):
+        for p in wiki_params:
+            if isinstance(p, dict):
+                c = p.get("code", p.get("name", ""))
+                if c.lower() == target:
+                    return _detail(c, p)
+    return None
 
 
 def execute_tool_for_agent(tool_name: str, tool_params: dict) -> Any:
@@ -949,6 +1047,11 @@ async def list_tools() -> list[Tool]:
                         "type": "integer",
                         "description": "Number of results to return (default: 5)",
                         "default": 5
+                    },
+                    "compact": {
+                        "type": "boolean",
+                        "description": "If true, omit per-hit parameter dicts (keep the true counts) to save context. Default: false, which caps each hit's parameters to a small number.",
+                        "default": False
                     }
                 },
                 "required": ["query"]
@@ -1381,6 +1484,10 @@ async def list_tools() -> list[Tool]:
                         "type": "string",
                         "description": "Absolute path to a .toe/.tox file, or to an already-expanded .toe.dir/.tox.dir."
                     },
+                    "path": {
+                        "type": "string",
+                        "description": "Alias for toe_path."
+                    },
                     "mode": {
                         "type": "string",
                         "enum": ["summary", "full"],
@@ -1388,7 +1495,7 @@ async def list_tools() -> list[Tool]:
                         "description": "summary = node/connection map with non-default params; full = complete round-trippable lossless JSON."
                     }
                 },
-                "required": ["toe_path"]
+                "required": []
             }
         )
     ]
@@ -1595,16 +1702,22 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
         if name == "hybrid_search":
             query = arguments["query"]
             n_results = arguments.get("n_results", 5)
-            
+            compact = arguments.get("compact", False)
+
             if not hybrid_search:
                 return [TextContent(type="text", text="ERROR: Hybrid search not initialized")]
-            
+
             results = hybrid_search.search(query, n_results=n_results)
 
             # Enrich results with full parameter data from knowledge_graph.
             # hybrid_search.search() returns a dict {query, semantic_results, relationships, ...};
             # the list of per-document hits lives under 'semantic_results', and the operator name
             # lives in each hit's 'metadata' dict.
+            #
+            # Hydration is bounded so a multi-hit envelope cannot blow up UNDER the reactive
+            # HYBRID_SEARCH_MAX_BYTES cap: compact=true omits the parameter dicts entirely;
+            # otherwise each hit's dict is capped to PARAM_HYDRATE_CAP items. In BOTH modes
+            # the true full counts (parameter_count/ground_truth_param_count) are preserved.
             if knowledge_graph and isinstance(results, dict):
                 for result in results.get('semantic_results', []):
                     if not isinstance(result, dict):
@@ -1614,11 +1727,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     if op_name:
                         try:
                             full_info = knowledge_graph.get_operator_info(op_name)
-                            if full_info and 'wiki_parameters' in full_info:
-                                result['parameters'] = full_info['wiki_parameters']
-                                result['parameter_count'] = len(full_info['wiki_parameters'])
-                                if full_info.get('ground_truth_param_count'):
-                                    result['ground_truth_param_count'] = full_info['ground_truth_param_count']
+                            _hydrate_hit_params(result, full_info, compact)
                         except Exception:
                             pass
 
@@ -1642,6 +1751,36 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
 
             # Use knowledge_graph (UnifiedGraphQuery) for comprehensive operator info
             info = knowledge_graph.get_operator_info(operator_name)
+
+            # On a KB miss, return an explicit, self-describing not-found object instead of
+            # the literal JSON `null` (which every downstream json.dumps(info) would emit).
+            # Placed before the compact branch so both modes get the same shape.
+            if info is None:
+                import difflib
+                # Union both name sources: this KB build ships with the 58MB graphrag
+                # dump dropped, so wiki_data is empty and enriched_wiki carries the names
+                # (both are lower-cased keys; KB lookup is case-insensitive).
+                candidates = list({
+                    *getattr(knowledge_graph, "wiki_data", {}).keys(),
+                    *getattr(knowledge_graph, "enriched_wiki", {}).keys(),
+                })
+                suggestions = (
+                    difflib.get_close_matches(operator_name.lower(), candidates, n=3, cutoff=0.6)
+                    if candidates else []
+                )
+                not_found = {
+                    "found": False,
+                    "operator_name": operator_name,
+                    "message": f"No KB entry found for operator '{operator_name}'.",
+                    "suggestions": suggestions,
+                    "hint": (
+                        "Check spelling/family suffix (e.g. 'GLSL POP'); call "
+                        "list_pop_operators for the POP family, or "
+                        "query_graph(command='family', family=<FAMILY>) to list valid names "
+                        "in another family."
+                    ),
+                }
+                return [TextContent(type="text", text=json.dumps(not_found, indent=2))]
 
             # Compact mode: return essential fields + all params with types
             if compact and info:
@@ -1899,47 +2038,38 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             if not info:
                 return [TextContent(type="text", text=f"Operator '{operator_name}' not found")]
 
-            # Find the specific parameter - handle both dict and list formats
+            # Find the specific parameter - handle both dict and list formats.
             wiki_params = info.get("wiki_parameters", {})
-            param_detail = None
 
-            if isinstance(wiki_params, dict):
-                # Dict format: {"param_code": {"description": ..., ...}}
-                for code, p in wiki_params.items():
-                    if code.lower() == parameter_name.lower():
-                        if isinstance(p, dict):
-                            param_detail = {
-                                "code": code,
-                                "name": p.get("display_name", code),
-                                "type": p.get("type", "unknown"),
-                                "description": p.get("description", "No description available"),
-                                "section": p.get("section", ""),
-                                "default": p.get("default"),
-                                "options": _build_menu_options(p),
-                                "range": p.get("range"),
-                            }
-                        else:
-                            param_detail = {"code": code, "value": str(p)}
-                        break
-            elif isinstance(wiki_params, list):
-                for p in wiki_params:
-                    if isinstance(p, dict):
-                        code = p.get("code", p.get("name", ""))
-                        if code.lower() == parameter_name.lower():
-                            param_detail = {
-                                "code": code,
-                                "name": p.get("display_name", code),
-                                "type": p.get("type", "unknown"),
-                                "description": p.get("description", "No description available"),
-                                "section": p.get("section", ""),
-                                "default": p.get("default"),
-                                "options": _build_menu_options(p),
-                                "range": p.get("range"),
-                            }
-                            break
+            # 1) Exact match first (unchanged behavior).
+            param_detail = _find_param_code(wiki_params, parameter_name)
+
+            # 2) On a miss, try the compound-parent fallback: TD exposes compound params
+            #    (color, pt0pos, vec0value, ...) as per-component leaves (pt0posx/y/z,
+            #    colorr/g/b/a) that have no separate KB entry. Retry against the stripped
+            #    parent and, on a hit, annotate the response as a heuristic leaf match.
+            candidate = None
+            if param_detail is None:
+                candidate = _strip_compound_leaf_suffix(parameter_name)
+                if candidate:
+                    parent_detail = _find_param_code(wiki_params, candidate)
+                    if parent_detail is not None:
+                        parent_detail["requested_parameter"] = parameter_name
+                        parent_detail["leaf_of_compound"] = True
+                        parent_detail["_note"] = (
+                            f"'{parameter_name}' has no separate KB entry; TouchDesigner "
+                            f"exposes it as a component (.x/.y/.z/.w or .r/.g/.b/.a or "
+                            f"numeric) of the compound parameter '{candidate}'. Showing the "
+                            f"parent's details -- the per-component default/range is not "
+                            f"tracked separately yet."
+                        )
+                        param_detail = parent_detail
 
             if not param_detail:
-                return [TextContent(type="text", text=f"Parameter '{parameter_name}' not found on operator '{operator_name}'")]
+                msg = f"Parameter '{parameter_name}' not found on operator '{operator_name}'"
+                if candidate:
+                    msg += f" (also checked '{candidate}' as a possible compound parent; not found)"
+                return [TextContent(type="text", text=msg)]
 
             return [TextContent(
                 type="text",
@@ -2168,6 +2298,10 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             )]
 
         elif name == "get_server_info":
+            # Diagnose a degraded retrieval install (reranker/BM25 missing => hybrid_search
+            # scores are rank-fusion only) without reading server stdout. Guarded so a
+            # not-yet-initialized adapter never raises here.
+            _rs = getattr(hybrid_search, "retrieval_stack", None) if hybrid_search else None
             info = {
                 "ok": True,
                 "data": {
@@ -2175,6 +2309,10 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "version": SERVER_VERSION,
                     "kb_version": _KB_MANIFEST_VERSION,
                     "compat": _COMPAT,
+                    "retrieval_backend": {
+                        "reranker_active": getattr(_rs, "_reranker", None) is not None,
+                        "bm25_active": getattr(_rs, "_bm25", None) is not None,
+                    },
                     "kb_root": str(_KB_ROOT),
                     "script_path": str(Path(__file__).resolve()),
                     "cwd": os.getcwd(),
@@ -2208,10 +2346,10 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "meta": {"tool": "expand_toe_file", "server": SERVER_NAME},
                 }, indent=2))]
 
-            toe_path_arg = arguments.get("toe_path")
+            toe_path_arg = arguments.get("toe_path") or arguments.get("path")
             out_mode = (arguments.get("mode") or "summary").lower()
             if not toe_path_arg:
-                return _expand_err("Missing required argument 'toe_path'.")
+                return _expand_err("Missing required argument 'toe_path' (or 'path').")
             if out_mode not in ("summary", "full"):
                 return _expand_err(f"Invalid mode '{out_mode}'. Use 'summary' or 'full'.")
             src = Path(toe_path_arg)

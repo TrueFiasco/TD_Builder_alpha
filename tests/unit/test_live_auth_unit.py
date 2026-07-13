@@ -158,9 +158,12 @@ def test_exec_single_expression_returns_value(api_service_mod):
 
 def test_exec_syntax_error_wrapped(api_service_mod):
     svc = api_service_mod.TouchDesignerApiService()
-    with pytest.raises(Exception) as ei:
-        svc.exec_python_script("def (:")
-    assert "Script execution failed" in str(ei.value)
+    # F2: a SyntaxError now RETURNS an error_result (the partial-stdout-safe path,
+    # consistent with the runtime-exception branch) instead of raising. The message
+    # still carries "Script execution failed".
+    res = svc.exec_python_script("def (:")
+    assert res["success"] is False
+    assert "Script execution failed" in res["error"]
 
 
 def test_script_assigns_result_detection(api_service_mod):

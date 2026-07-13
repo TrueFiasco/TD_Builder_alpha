@@ -65,6 +65,7 @@ def get_nodes(**kwargs) -> Result:
         - parentPath: Required. Parent path to list nodes from.
         - pattern: Optional. Pattern to filter nodes.
         - includeProperties: Optional. Whether to include full properties.
+        - limit: Optional. Max children to return (response is truncated+flagged if exceeded).
     """
     log_message(f"get_nodes called with kwargs: {kwargs}", LogLevel.DEBUG)
 
@@ -82,10 +83,25 @@ def get_nodes(**kwargs) -> Result:
     if isinstance(include_properties, str):
         include_properties = include_properties.lower() == "true"
 
+    # Query params arrive as strings; coerce a numeric limit to int (same pattern
+    # as includeProperties above). Non-numeric/blank/non-positive limit is treated
+    # as absent — a negative value would otherwise become a negative slice that
+    # silently drops children from the END of the list.
+    limit_raw = kwargs.get("limit")
+    limit = None
+    if isinstance(limit_raw, str):
+        if limit_raw.strip().isdigit():
+            limit = int(limit_raw)
+    elif isinstance(limit_raw, int) and not isinstance(limit_raw, bool):
+        limit = limit_raw
+    if limit is not None and limit < 1:
+        limit = None
+
     return api_service.get_nodes(
         parent_path=parent_path,
         pattern=pattern,
-        include_properties=include_properties
+        include_properties=include_properties,
+        limit=limit,
     )
 
 

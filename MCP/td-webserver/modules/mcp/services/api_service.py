@@ -17,6 +17,11 @@ from typing import Any, Optional, Protocol
 
 import td
 import tdu  # B16 — expose tdu helpers (Color, Position, Vector, Dependency, ...) to user scripts
+from utils.glsl import (
+    is_compile_failure_message,
+    is_glsl_family,
+    is_glsl_specific_compile_message,
+)
 from utils.logging import log_message
 from utils.result import error_result, success_result
 from utils.serialization import safe_serialize
@@ -716,14 +721,83 @@ class TouchDesignerApiService(IApiService):
 					LogLevel.WARNING,
 				)
 
+		# W-A1 — also surface node.warnings(). A broken GLSL op reports EMPTY
+		# errors() while its failure lives only in warnings() + the Info DAT, so a
+		# tool that asks "any errors?" must not ignore warnings. Any warning that
+		# reads as a GLSL compile failure is PROMOTED to an error and listed FIRST
+		# so it cannot be missed. One warnings(recurse=...) call (cheap; not a
+		# per-op walk); attribution to a specific op is best-effort via the
+		# "(path)" suffix, but the compile banner is self-identifying regardless.
+		warnings_list: list[dict[str, Any]] = []
+		compile_failures: list[dict[str, Any]] = []
+		warning_output = ""
+		if hasattr(node, "warnings") and callable(node.warnings):
+			try:
+				warning_output = node.warnings(recurse=recurse) or ""
+			except Exception as e:  # noqa: BLE001
+				log_message(
+					f"Error getting warnings from node {node_path}: {str(e)}",
+					LogLevel.WARNING,
+				)
+		for raw_line in (warning_output.strip().split("\n") if warning_output else []):
+			line = raw_line.strip()
+			if not line:
+				continue
+			w_path, w_name, w_type = node.path, node.name, node.OPType
+			op_is_glsl = is_glsl_family(node)
+			message = line
+			if "(" in line and line.endswith(")"):
+				msg_part, path_part = line.rsplit("(", 1)
+				candidate = path_part.rstrip(")").strip()
+				if candidate.startswith("/"):
+					warn_node = td.op(candidate)
+					if warn_node is not None and warn_node.valid:
+						w_path, w_name, w_type = (
+							warn_node.path,
+							warn_node.name,
+							warn_node.OPType,
+						)
+						op_is_glsl = is_glsl_family(warn_node)
+						message = msg_part.strip()
+			promote = is_glsl_specific_compile_message(message) or (
+				op_is_glsl and is_compile_failure_message(message)
+			)
+			if promote:
+				compile_failures.append(
+					{
+						"nodePath": w_path,
+						"nodeName": w_name,
+						"opType": w_type,
+						"message": f"GLSL COMPILE FAILURE: {message}",
+						"severity": "error",
+						"isGlslCompileFailure": True,
+					}
+				)
+			else:
+				warnings_list.append(
+					{
+						"nodePath": w_path,
+						"nodeName": w_name,
+						"opType": w_type,
+						"message": message,
+						"severity": "warning",
+					}
+				)
+
+		# Promoted compile failures are errors and listed first.
+		errors_out = compile_failures + all_errors
 		return success_result(
 			{
 				"nodePath": node.path,
 				"nodeName": node.name,
 				"opType": node.OPType,
-				"errorCount": len(all_errors),
-				"hasErrors": bool(all_errors),
-				"errors": all_errors,
+				"errorCount": len(errors_out),
+				"hasErrors": bool(errors_out),
+				"errors": errors_out,
+				"warningCount": len(warnings_list),
+				"hasWarnings": bool(warnings_list),
+				"warnings": warnings_list,
+				"glslCompileFailureCount": len(compile_failures),
 			}
 		)
 

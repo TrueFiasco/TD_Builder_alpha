@@ -19,6 +19,11 @@ every operator). Error DATs are merged in when they exist.
 from typing import Any, Dict, List, Optional, Tuple
 
 import td
+from utils.glsl import (
+    is_compile_failure_message,
+    is_glsl_family,
+    is_glsl_specific_compile_message,
+)
 from utils.logging import log_message
 from utils.types import LogLevel, Result
 
@@ -175,6 +180,71 @@ class ErrorMonitorService:
 
         return records
 
+    def _parse_warnings_string(self, warning_output: str, fallback_path: str = "/") -> List[Dict[str, Any]]:
+        """Parse op.warnings(recurse=True) output into normalized warning records.
+
+        W-A1: warnings are surfaced (severity 'warning'), BUT any warning that reads
+        as a GLSL compile failure is PROMOTED to severity 'error' (kind
+        'glsl_compile_failure') so a hard shader break — which leaves errors() empty
+        and shows only here — lands in the ERROR bucket of get_error_summary and is
+        never silently reported as zero errors. Promotion is by the self-identifying
+        banner ("The GLSL Shader has compile errors ...") OR a resolved GLSL-family
+        op with a compile-failure message.
+        """
+        records: List[Dict[str, Any]] = []
+        if not warning_output:
+            return records
+
+        for raw_line in warning_output.strip().split("\n"):
+            line = raw_line.strip()
+            if not line:
+                continue
+
+            source = fallback_path
+            message = line
+            op_type = ""
+            op_is_glsl = False
+
+            if "(" in line and line.endswith(")"):
+                msg_part, path_part = line.rsplit("(", 1)
+                candidate = path_part.rstrip(")").strip()
+                if candidate.startswith("/"):
+                    source = candidate
+                    message = msg_part.strip()
+                    try:
+                        node = td.op(source)
+                        if node is not None and node.valid:
+                            op_type = getattr(node, "OPType", "") or ""
+                            op_is_glsl = is_glsl_family(node)
+                    except Exception:
+                        pass
+
+            promote = is_glsl_specific_compile_message(message) or (
+                op_is_glsl and is_compile_failure_message(message)
+            )
+            if promote:
+                records.append({
+                    "source": source,
+                    "message": f"GLSL COMPILE FAILURE: {message}",
+                    "absframe": 0,
+                    "frame": 0,
+                    "severity": "error",
+                    "type": op_type,
+                    "kind": "glsl_compile_failure",
+                })
+            else:
+                records.append({
+                    "source": source,
+                    "message": message,
+                    "absframe": 0,
+                    "frame": 0,
+                    "severity": "warning",
+                    "type": op_type,
+                    "kind": "op_warnings",
+                })
+
+        return records
+
     def _get_cell(self, dat: Any, row: int, col_name: str, default: Any = "") -> Any:
         """Safely read a DAT cell by column name, falling back to index."""
         try:
@@ -205,6 +275,7 @@ class ErrorMonitorService:
             "scope_path": str(getattr(scope_op, "path", "/")) if scope_op else scope_path,
             "error_dats_found": 0,
             "op_errors_lines": 0,
+            "op_warnings_lines": 0,
         }
 
         all_records: List[Dict[str, Any]] = []
@@ -232,6 +303,18 @@ class ErrorMonitorService:
             log_message(f"op.errors() roll-up failed: {e}", LogLevel.WARNING)
             notes["op_errors_scan_error"] = str(e)
 
+        # Source 3 (W-A1): op.warnings(recurse=True) rolled up from scope. Surfaces
+        # warnings AND promotes GLSL compile failures (empty in errors()) to errors.
+        try:
+            if scope_op is not None and hasattr(scope_op, "warnings") and callable(scope_op.warnings):
+                warning_output = scope_op.warnings(recurse=True) or ""
+                w_records = self._parse_warnings_string(warning_output, fallback_path=str(scope_op.path))
+                notes["op_warnings_lines"] = len(w_records)
+                all_records.extend(w_records)
+        except Exception as e:
+            log_message(f"op.warnings() roll-up failed: {e}", LogLevel.WARNING)
+            notes["op_warnings_scan_error"] = str(e)
+
         # Dedup by (source, message, absframe). DAT-sourced records win over
         # op_errors-sourced when they share a key (they carry severity).
         deduped: Dict[Tuple[str, str, int], Dict[str, Any]] = {}
@@ -256,6 +339,17 @@ class ErrorMonitorService:
         """Return cook + parameter-expression errors aggregated from all sources."""
         try:
             records, notes = self._collect_all_errors()
+
+            # W-A1: order so a GLSL compile failure is FIRST (and never pushed past
+            # the limit), then other errors/fatals, then warnings/info.
+            def _rank(rec: Dict[str, Any]) -> int:
+                if rec.get("kind") == "glsl_compile_failure":
+                    return 0
+                if rec.get("severity") in ("fatal", "error"):
+                    return 1
+                return 2
+
+            records = sorted(records, key=_rank)
 
             filtered: List[Dict[str, Any]] = []
             for rec in records:

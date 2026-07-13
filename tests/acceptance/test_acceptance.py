@@ -104,6 +104,75 @@ def test_p02_operator_info_and_param_detail(probe):
     assert "not found" not in b.text.lower()
 
 
+def test_p02b_parameter_detail_compound_leaf_fallback(probe):
+    # F7: pt0pos is a compound header on Point POP with no discrete leaf entry in the
+    # KB; pt0posx now resolves via the compound-parent fallback instead of 404ing.
+    r = probe.call("get_parameter_detail", {"operator_name": "Point POP",
+                                            "parameter_name": "pt0posx"})
+    assert r.ok, r.text[:200]
+    assert "not found" not in r.text.lower()
+    d = r.json()
+    assert d.get("leaf_of_compound") is True
+    assert d.get("code") == "pt0pos"
+    assert d.get("requested_parameter") == "pt0posx"
+
+
+def test_p02c_parameter_detail_exact_match_unaffected(probe):
+    # F7 guard: an exact hit is unchanged (no leaf annotation); a genuine miss still
+    # says "not found" and is NOT masked by the fallback.
+    r1 = probe.call("get_parameter_detail", {"operator_name": "Point POP",
+                                             "parameter_name": "pt0pos"})
+    assert r1.ok, r1.text[:200]
+    d1 = r1.json()
+    assert d1.get("code") == "pt0pos"
+    assert "leaf_of_compound" not in d1
+    r2 = probe.call("get_parameter_detail", {"operator_name": "Point POP",
+                                             "parameter_name": "zzznotaparam"})
+    assert "not found" in r2.text.lower()
+
+
+def test_p02d_operator_info_not_found_is_explicit(probe):
+    # F6b: a KB miss returns an explicit found:false object (never the literal `null`),
+    # in BOTH compact modes, echoing the requested name.
+    for compact in (False, True):
+        r = probe.call("get_operator_info", {"operator_name": "Not A Real Operator XYZ",
+                                             "compact": compact})
+        assert r.ok, r.text[:200]
+        assert r.text.strip().lower() != "null"
+        d = r.json()
+        assert isinstance(d, dict) and d.get("found") is False, d
+        assert d.get("operator_name") == "Not A Real Operator XYZ"
+    # A near-miss populates spelling suggestions.
+    r = probe.call("get_operator_info", {"operator_name": "Noise CHP"})
+    assert r.json().get("suggestions"), r.text[:200]
+
+
+def test_p02e_has_examples_invariant_and_multiword_lookup(probe):
+    # F6c: has_examples must never contradict example_count.
+    for op in ("GLSL POP", "SOP to CHOP", "Composite TOP"):
+        r = probe.call("get_operator_info", {"operator_name": op})
+        assert r.ok, r.text[:200]
+        d = r.json()
+        assert bool(d.get("example_count", 0)) == bool(d.get("has_examples")), \
+            (op, d.get("example_count"), d.get("has_examples"))
+    # F6d: a multi-word wiki name now resolves servable examples (was [] pre-fix).
+    ex = probe.call("find_operator_examples", {"operator_name": "SOP to CHOP"})
+    assert ex.ok, ex.text[:200]
+    assert isinstance(ex.json(), list) and len(ex.json()) > 0, ex.text[:200]
+
+
+def test_p02f_expand_toe_file_path_alias(probe):
+    # F6a: `path` is accepted as an alias for `toe_path` (reaches the handler instead of
+    # a schema rejection); neither key yields the friendly _expand_err naming both.
+    r = probe.call("expand_toe_file", {"path": "/nonexistent_xyz.toe"})
+    d = r.json()
+    assert isinstance(d, dict) and d.get("ok") is False, d
+    assert "not found" in d["error"]["message"].lower()   # handler ran, path honored
+    r2 = probe.call("expand_toe_file", {})
+    d2 = r2.json()
+    assert "toe_path" in d2["error"]["message"] and "path" in d2["error"]["message"]
+
+
 def test_p03_hybrid_search(probe):
     r = probe.call("hybrid_search", {
         "query": "how do I create a feedback loop with a Feedback TOP and a Level TOP",
@@ -290,6 +359,9 @@ def test_p19_live_crud_roundtrip(live_probe, td_live):
                                                "node_type": "constantCHOP",
                                                "node_name": name})
         assert c.ok, c.text[:200]
+        # F1: the reply must surface the assigned name and TD op type, not just a path.
+        assert name in c.text, f"created-node reply dropped the name: {c.text[:200]}"
+        assert "constantCHOP" in c.text, f"created-node reply dropped the type: {c.text[:200]}"
         u = live_probe.call("update_td_node_parameters",
                             {"node_path": path, "properties": {"value0": 0.5}})
         assert u.ok, u.text[:200]

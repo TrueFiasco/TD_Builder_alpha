@@ -405,7 +405,11 @@ class UnifiedGraphQuery:
         # Add data source flags
         merged['has_wiki_docs'] = result['has_wiki_docs']
         merged['has_enriched'] = result.get('has_enriched', False)
-        merged['has_examples'] = result['has_examples']
+        # C7: agree with example_count by construction. `has_examples` from the graph
+        # only means an Operator node exists (it can have DEMONSTRATES edges whose linked
+        # networks are all is_useful=False, so example_count=0). Derive the OUTPUT flag
+        # from the count actually served so the two fields never contradict each other.
+        merged['has_examples'] = bool(merged.get('example_count', 0))
 
         # BUG-019 FIX: Ensure top-level name and family are always set.
         # Fall through to enriched_data: the cross-family converter/execute DATs

@@ -192,3 +192,69 @@ def test_no_warnings_no_promotion(monkeypatch):
     mod = _load_error_monitor(monkeypatch, root)
     r = mod.ErrorMonitorService().get_error_summary()
     assert r["data"]["total_count"] == 0
+
+
+# ---------------------------------------------------------------------------
+# error_monitor.get_python_exceptions — the warnings fold must NOT widen it
+# ---------------------------------------------------------------------------
+
+
+class _WarnNode:
+    valid = True
+
+    def __init__(self, optype):
+        self.OPType = optype
+
+
+class _RootWithRegistry(_Root):
+    """A root whose warning/error lines reference child paths resolvable via td.op,
+    so _parse_*_string assigns each record a real op_type."""
+
+
+def _load_error_monitor_with_registry(monkeypatch, root, registry):
+    if str(_MODULES_DIR) not in sys.path:
+        sys.path.append(str(_MODULES_DIR))
+    td_stub = types.ModuleType("td")
+    td_stub.root = root
+
+    def _op(path):
+        if path in ("/", None):
+            return root
+        return registry.get(path)
+
+    td_stub.op = _op
+    # deliberately no td_stub.DAT -> _find_all_error_dats skips the DAT scan
+    monkeypatch.setitem(sys.modules, "td", td_stub)
+    spec = importlib.util.spec_from_file_location("td_error_monitor_pyexc_undertest", _ERROR_MONITOR_PY)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_get_python_exceptions_excludes_folded_dat_warnings(monkeypatch):
+    # W-A1 folded op.warnings() into the shared aggregator, but only
+    # get_td_node_errors/get_error_summary/get_cook_errors were in scope. Left
+    # unguarded, get_python_exceptions' `"dat" in op_type` heuristic would misflag an
+    # ordinary tableDAT WARNING (op_type contains "DAT") as a Python exception — a
+    # false positive that never happened pre-wave (warnings were not collected).
+    root = _RootWithRegistry(
+        errors="NameError: name 'foo' is not defined (/project1/script1)",
+        warnings="Table truncated to maxlines (/project1/table1)",
+    )
+    registry = {
+        "/project1/script1": _WarnNode("textDAT"),   # genuine op.errors()-sourced Python error
+        "/project1/table1": _WarnNode("tableDAT"),    # ordinary DAT warning, NOT a Python exception
+    }
+    mod = _load_error_monitor_with_registry(monkeypatch, root, registry)
+    svc = mod.ErrorMonitorService()
+
+    exc = svc.get_python_exceptions()["data"]["exceptions"]
+    sources = {e["source"] for e in exc}
+    # the genuine op.errors()-sourced Python error is still caught ...
+    assert "/project1/script1" in sources
+    # ... but the folded-in tableDAT warning is NOT misclassified as a Python exception
+    assert "/project1/table1" not in sources
+
+    # sanity: the warning is still surfaced by an in-scope tool (get_cook_errors)
+    cook = svc.get_cook_errors()["data"]["errors"]
+    assert any(e["source"] == "/project1/table1" and e["severity"] == "warning" for e in cook)

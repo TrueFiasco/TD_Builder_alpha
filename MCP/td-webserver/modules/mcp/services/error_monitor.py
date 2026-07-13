@@ -422,6 +422,16 @@ class ErrorMonitorService:
             for rec in records:
                 if len(exceptions) >= limit:
                     break
+                # W-A1 folded op.warnings() into the shared aggregator for the three
+                # authorized error tools (get_td_node_errors/get_error_summary/
+                # get_cook_errors). get_python_exceptions was NOT in that scope, and
+                # its `"dat" in op_type` heuristic below would misclassify any plain
+                # DAT-family warning (op_type contains "DAT") as a Python exception.
+                # Keep this tool to its pre-wave sources (Error DAT rows + op.errors())
+                # by dropping the warnings-sourced kinds. A GLSL compile failure is a
+                # shader break, not a Python exception, so it is excluded too.
+                if rec.get("kind") in ("op_warnings", "glsl_compile_failure"):
+                    continue
                 op_type = (rec.get("type") or "").lower()
                 message = rec.get("message") or ""
                 is_python = (

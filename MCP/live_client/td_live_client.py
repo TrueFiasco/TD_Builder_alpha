@@ -1025,7 +1025,8 @@ TD_LIVE_TOOLS: List[Tool] = [
                 },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum number of nodes to return"
+                    "minimum": 1,
+                    "description": "Maximum number of nodes to return (default 200 server-side; response is count-flagged when truncated)"
                 }
             },
             "required": ["parent_path"]

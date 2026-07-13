@@ -84,14 +84,18 @@ def get_nodes(**kwargs) -> Result:
         include_properties = include_properties.lower() == "true"
 
     # Query params arrive as strings; coerce a numeric limit to int (same pattern
-    # as includeProperties above). Non-numeric/blank limit is treated as absent.
+    # as includeProperties above). Non-numeric/blank/non-positive limit is treated
+    # as absent — a negative value would otherwise become a negative slice that
+    # silently drops children from the END of the list.
     limit_raw = kwargs.get("limit")
     limit = None
     if isinstance(limit_raw, str):
-        if limit_raw.strip().lstrip("-").isdigit():
+        if limit_raw.strip().isdigit():
             limit = int(limit_raw)
     elif isinstance(limit_raw, int):
         limit = limit_raw
+    if limit is not None and limit < 1:
+        limit = None
 
     return api_service.get_nodes(
         parent_path=parent_path,

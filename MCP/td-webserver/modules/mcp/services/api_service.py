@@ -743,6 +743,8 @@ class TouchDesignerApiService(IApiService):
 		    limit: Max children to return. Defaults to 200 server-side when None; the
 		        response is sliced to this many and flagged truncated when the parent has
 		        more children. Counts (totalCount/returnedCount/truncated) are ALWAYS emitted.
+		        Non-positive values are treated as absent (a negative slice would silently
+		        drop children from the end).
 
 		Returns:
 		    Result: Success with list of nodes or error
@@ -769,7 +771,8 @@ class TouchDesignerApiService(IApiService):
 
 		# Server-side default cap so a runaway child count still produces a loud,
 		# self-describing truncation flag instead of an unbounded response.
-		effective_limit = limit if limit is not None else 200
+		# Non-positive limits fall back to the default rather than negative-slicing.
+		effective_limit = limit if limit is not None and limit > 0 else 200
 		total = len(node_summaries)
 		shown = node_summaries[:effective_limit]
 		return success_result(

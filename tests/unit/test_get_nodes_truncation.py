@@ -17,6 +17,7 @@ import asyncio
 import importlib.util
 import os
 import sys
+import types
 from unittest import mock
 
 import pytest
@@ -112,6 +113,73 @@ def test_no_limit_over_default_cap_truncates_at_200(api_mod, service, monkeypatc
     assert data["returnedCount"] == 200
     assert data["truncated"] is True
     assert len(data["nodes"]) == 200
+
+
+def test_negative_limit_falls_back_to_default_not_negative_slice(api_mod, service, monkeypatch):
+    # A negative limit must NOT become node_summaries[:-5] (which silently drops
+    # children from the END); it is treated as absent -> server default 200.
+    _patch_parent(api_mod, monkeypatch, count=10)
+    r = service.get_nodes("/project1", limit=-5)
+    assert r["success"] is True, r.get("error")
+    data = r["data"]
+    assert data["totalCount"] == 10
+    assert data["returnedCount"] == 10
+    assert data["truncated"] is False
+    assert len(data["nodes"]) == 10
+
+
+def test_zero_limit_falls_back_to_default(api_mod, service, monkeypatch):
+    _patch_parent(api_mod, monkeypatch, count=3)
+    r = service.get_nodes("/project1", limit=0)
+    assert r["success"] is True, r.get("error")
+    data = r["data"]
+    assert data["returnedCount"] == 3
+    assert data["truncated"] is False
+
+
+def _load_generated_handlers_module():
+    # generated_handlers.py does `from mcp.services.api_service import api_service`,
+    # but the real MCP SDK owns the `mcp` package in this test session. Inject stub
+    # submodule entries directly into sys.modules (the import system finds them there
+    # without touching the SDK package), then load by file path under a private name.
+    if str(_MODULES_DIR) not in sys.path:
+        sys.path.append(str(_MODULES_DIR))
+    sys.modules.setdefault("td", mock.MagicMock(name="td"))
+    sys.modules.setdefault("tdu", mock.MagicMock(name="tdu"))
+    if "mcp.services" not in sys.modules:
+        sys.modules["mcp.services"] = types.ModuleType("mcp.services")
+    if "mcp.services.api_service" not in sys.modules:
+        stub = types.ModuleType("mcp.services.api_service")
+        stub.api_service = mock.MagicMock(name="api_service")
+        sys.modules["mcp.services.api_service"] = stub
+    spec = importlib.util.spec_from_file_location(
+        "td_webserver_generated_handlers_undertest",
+        os.path.join(_MODULES_DIR, "mcp", "controllers", "generated_handlers.py"),
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_handler_coercion_rejects_negative_and_junk_limit():
+    # generated_handlers.get_nodes must treat "-5"/-5/"0"/junk as absent (None) and
+    # keep coercing positive numeric strings; a negative value forwarded through
+    # would negative-slice in api_service.get_nodes and silently drop children.
+    handlers = _load_generated_handlers_module()
+    seen = {}
+
+    def _capture(**kwargs):
+        seen.update(kwargs)
+        return {"success": True, "data": {}}
+
+    with mock.patch.object(handlers, "api_service") as fake_service:
+        fake_service.get_nodes.side_effect = _capture
+        for raw, expected in [("-5", None), (-5, None), ("0", None), (0, None), ("abc", None), ("7", 7), (7, 7)]:
+            seen.clear()
+            handlers.get_nodes(parentPath="/project1", limit=raw)
+            assert seen.get("limit") == expected, (
+                f"limit={raw!r} coerced to {seen.get('limit')!r}, expected {expected!r}"
+            )
 
 
 def test_counts_present_even_when_empty(api_mod, service, monkeypatch):

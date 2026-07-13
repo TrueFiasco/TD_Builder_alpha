@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+### Fixed
+- **Offline builder no longer re-stubs hand-edited shader/script files on rebuild**
+  (`toe_builder_bridge._write_docked_dats`): when a design authors no content for a docked
+  file-backed DAT, an existing `shaders/*.glsl` (or `scripts/`/`tables/` file) is preserved
+  instead of being overwritten with the stub — syncfile-authored operator edits survive a
+  rebuild. A design that does carry `shader`/`content` still wins (design is source of truth).
+  Regression tests: `tests/engine/test_builder_shader_field.py` (rebuild-preserve + design-wins).
+- **GLSL TOP accepts the `content` field alias** for its pixel shader (previously only the
+  POP/compute path took the alias; a TOP authored under `content` silently shipped the stub
+  while the build reported SUCCESS).
+- **GLSL TOP accepts dict-form `uniforms`** (`{"uScale": 1}`) like the POP path; previously it
+  crashed the build with `AttributeError: 'str' object has no attribute 'get'`
+  (`_build_glsl_parm`) after passing `td_validate`. Both forms now work on both families.
+  Regression test: `tests/engine/test_builder_uniforms.py::test_glsltop_uniforms_dict_form`.
+- **Missing-family type fallback warns loudly** (`logger.warning`, not just verbose log) when an
+  ungrounded op type with no `family` defaults to `TOP:*` — the silent path behind the GAPS
+  BUG-1 base-COMP symptom.
+
 ### Security
 - **Load-time integrity check for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
   longer unpickles whatever sits in `KB/`. Both runtime unpicklers (`lexical_index/bm25.pkl`,

@@ -79,3 +79,42 @@ def test_glsltop_shader_goes_to_pixel_not_compute(tmp_path):
     compute = (out / "shaders" / "st_compute.glsl").read_text(encoding="utf-8")
     assert TOP_MARKER in pixel, "pixel DAT should hold the authored shader"
     assert TOP_MARKER not in compute, "compute DAT must keep its stub, not the pixel shader"
+
+
+def test_glsltop_content_field_alias_lands_in_pixel(tmp_path):
+    # A GLSL TOP authored under `content` (the other field name the GAPS report uses)
+    # must reach the pixel DAT too -- it silently fell to the stub before, because
+    # only the compute-role fallback accepted the alias.
+    out = _build(
+        tmp_path,
+        {"operators": [{"name": "st", "type": "glsl", "family": "TOP", "content": TOP_SHADER}]},
+        "r2_content_top",
+    )
+    pixel = (out / "shaders" / "st_pixel.glsl").read_text(encoding="utf-8")
+    assert TOP_MARKER in pixel, "TOP `content` field silently dropped -- pixel DAT got the stub"
+
+
+def test_rebuild_preserves_hand_edited_shader(tmp_path):
+    # R1: a design that authors NO shader must not re-stub a hand-edited (syncfile-
+    # authored) shaders/*.glsl on rebuild -- the on-disk file is the operator's work.
+    design = {"operators": [{"name": "pg", "type": "glsl", "family": "POP"}]}
+    _build(tmp_path, design, "r1_keep")
+    shader = tmp_path / "shaders" / "pg_compute.glsl"
+    assert shader.exists()
+    shader.write_text("// HAND_EDIT_PRESERVE_ME\nvoid main() {}\n", encoding="utf-8")
+    _build(tmp_path, design, "r1_keep")  # rebuild, same design (no shader field)
+    assert "HAND_EDIT_PRESERVE_ME" in shader.read_text(encoding="utf-8"), \
+        "rebuild re-stubbed a hand-edited shader file"
+
+
+def test_rebuild_with_design_shader_overwrites(tmp_path):
+    # Design-authored content is the source of truth: when the design DOES carry a
+    # shader, a rebuild overwrites any on-disk edit with it.
+    design = {"operators": [{"name": "pg", "type": "glsl", "family": "POP", "shader": POP_SHADER}]}
+    _build(tmp_path, design, "r1_win")
+    shader = tmp_path / "shaders" / "pg_compute.glsl"
+    shader.write_text("// HAND_EDIT_TO_BE_REPLACED\n", encoding="utf-8")
+    _build(tmp_path, design, "r1_win")
+    text = shader.read_text(encoding="utf-8")
+    assert POP_MARKER in text, "design shader should win on rebuild"
+    assert "HAND_EDIT_TO_BE_REPLACED" not in text

@@ -17,7 +17,9 @@ Parsing is **hardened**: only a strict three-component all-numeric semver core
 pre-release ``"0.2.0-alpha"``, or a four-part ``td_build``-shaped ``"0.99.2025.32460"`` --
 yields status ``"unknown"`` and **never raises** at boot. ``td_build`` is surfaced as-is and
 is **never parsed**: the offline server has no referent to compare a TouchDesigner build
-string against.
+string against. When a ``td_build`` is present, an additive, advisory ``td_build_notice``
+field spells out that the ``compatible`` verdict covers ONLY server<->KB package versions,
+not the live TD build, and points the caller at ``get_td_info`` for a live cross-check.
 """
 from __future__ import annotations
 
@@ -71,6 +73,7 @@ def compat_status(server_version, kb_version, td_build=None) -> dict:
           "server_version": <as given>,
           "kb_version":     <as given>,
           "kb_td_build":    <as given; informational only, never parsed>,
+          "td_build_notice": <advisory string when td_build present, else None>,
           "policy":         "warn",
         }
     """
@@ -82,11 +85,26 @@ def compat_status(server_version, kb_version, td_build=None) -> dict:
         compatible, status = True, "compatible"
     else:
         compatible, status = False, "incompatible"
+    # Additive advisory: the compatible/status/policy verdict above is a pure
+    # server<->KB package-version match and says NOTHING about the live TD build.
+    td_build_notice = None
+    if td_build:
+        td_build_notice = (
+            f"KB indexed against TouchDesigner build {td_build}. This offline server "
+            "cannot see which TD build you are actually running, so the 'compatible' "
+            "verdict above reflects ONLY the server<->KB package-version match, NOT your "
+            "live TD build. Per-operator parameter schemas (menu tokens, param "
+            f"names/order) can drift across TD builds -- compare {td_build} against "
+            "td-builder-live's get_td_info 'version' field and, on any mismatch, verify "
+            "unusual/newer ops live (get_td_node_parameters) before trusting KB schemas "
+            "verbatim."
+        )
     return {
         "compatible": compatible,
         "status": status,
         "server_version": server_version,
         "kb_version": kb_version,
         "kb_td_build": td_build,
+        "td_build_notice": td_build_notice,
         "policy": "warn",
     }

@@ -54,6 +54,17 @@ def test_td_build_is_informational_never_parsed():
     assert r["kb_td_build"] == "0.99.2025.32460"
     # td_build shape in the version slot is 'unknown', proving it is not treated as semver.
     assert compat.compat_status("0.2.0", "0.99.2025.32460")["status"] == "unknown"
+    # F4: an advisory notice is present and quotes the build; the verdict is untouched.
+    assert isinstance(r["td_build_notice"], str) and r["td_build_notice"]
+    assert "0.99.2025.32460" in r["td_build_notice"]
+    assert "get_td_info" in r["td_build_notice"]
+
+
+def test_td_build_notice_absent_when_no_build():
+    """F4: no td_build supplied => notice is None; existing verdict fields unchanged."""
+    r = compat.compat_status("0.2.0", "0.2.0")
+    assert r["td_build_notice"] is None
+    assert r["compatible"] is True and r["status"] == "compatible"
 
 
 def test_read_kb_version_roundtrip_and_missing(tmp_path):

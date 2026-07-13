@@ -20,13 +20,13 @@ The block between the two `INSTRUCTIONS` markers is loaded into the MCP servers'
   its budget stays on-message (offline generation + anti-hallucination grounding).
 - **`[live-only]`** — added only by the **live** server (`td-builder-live`): the
   gotchas that only bite while driving a running TD (GLSL info-DAT, save, place,
-  flat exec scope).
+  next-frame reads).
 
 Each scoped payload is kept **≤ 2 KB** (Claude Code truncates `instructions` at
 2 KB) with its **catastrophic/silent rules in the first 512 characters** (OpenAI
 asks the first 512 chars be self-contained): the offline payload front-loads the
 offline-generation capability + KB-first grounding; the live payload front-loads
-the two silent-failure rules (GLSL-invisible, flat-exec-scope). The `[always]`/
+the two silent-failure rules (GLSL-invisible, next-frame-reads). The `[always]`/
 `[live-only]` tags are structural markers — the loader strips them before
 delivery.
 
@@ -34,7 +34,7 @@ delivery.
 [always] td-builder - non-negotiables. Deep detail: "td-builder-howto" skill (SKILL.md).
 [always] CAPABILITY: build real, openable .toe/.tox offline via td_build_project - TouchDesigner need NOT be open.
 [live-only] GLSL COMPILE ERRORS ARE INVISIBLE to node.errors(). After ANY GLSL TOP/POP edit read op('<n>_info').text for 'ERROR:'/'Compile Failed' AND op('<n>').warnings(); "Compiled Successfully"+warnings = silent no-op (uniform on wrong page reads 0).
-[live-only] execute_python_script RUNS IN FLAT exec() SCOPE. No def-inside-def, no comprehensions over outer names (np, loop vars, imports); inline at top level. "name X is not defined" for an imported X = this.
+[live-only] execute_python_script: effects LAND NEXT FRAME (pulses/callbacks/param writes) - verify in a SEPARATE call, same-script readbacks are stale. No me (runs outside any node) - use absolute op('/path'). time.sleep() is rejected: it freezes TD's main thread.
 [always] KB-FIRST, MANDATORY. Query the KB for an exemplar (find_operator_examples/get_operator_info) before creating ops, setting params, or GLSL. Never guess params; don't introspect the live op - the KB has them.
 [always] MENU/ENUM PARAMS = STRING TOKENS, never int indices: operand="over" not 0, dataformat="rgb" not 1. #1 build failure; looks-numeric is still a token. Unsure -> get_parameter_detail.
 [always] EVERY BUILD goes through td_build_project; td_validate first; never shorten the pipeline. Emitting JSON/Python instead of calling the tool = failure.

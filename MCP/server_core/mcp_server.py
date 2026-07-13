@@ -483,7 +483,7 @@ def _load_kb():
 # live tools live only on td-builder-live), so scope_for_server() resolves to the
 # offline scope ([always] rules only). The helper stays the single scope-follows-
 # tools source: a server that DID serve the live tools would ship the live scope,
-# incl. the catastrophic-silent rules (GLSL-invisible, flat-exec-scope). The
+# incl. the catastrophic-silent rules (GLSL-invisible, next-frame-reads). The
 # loader fails soft to a baked-in minimal string, so a partial install still starts.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # MCP/ (for server_instructions)
 from server_instructions import load_instructions, scope_for_server  # noqa: E402

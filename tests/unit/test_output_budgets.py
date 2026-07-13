@@ -182,6 +182,104 @@ def test_hydrate_compact_omits_params_keeps_counts():
 
 
 # ---------------------------------------------------------------------------
+# W-C — param family collapse (mcp_server._collapse_param_families +
+# _hydrate_hit_params). Families fold to ONE self-describing entry BEFORE the cap;
+# TRUE counts are never touched; parameters_capped reflects POST-collapse length.
+# ---------------------------------------------------------------------------
+
+def _wiki(codes_with_pages):
+    """Build a wiki_parameters dict {code: {display_name, page?}} in order."""
+    wp = {}
+    for entry in codes_with_pages:
+        if isinstance(entry, tuple):
+            code, page = entry
+            wp[code] = {"display_name": code.upper(), "page": page}
+        else:
+            wp[entry] = {"display_name": entry.upper()}
+    return {"wiki_parameters": wp, "ground_truth_param_count": len(codes_with_pages)}
+
+
+def test_collapse_transform_tuplet_to_single_entry():
+    # TD ground-truth transform codes: t/r/s/p/scale -> one entry, freeing slots.
+    out = srv._collapse_param_families(
+        [(c, {"display_name": c}) for c in ["t", "r", "s", "p", "scale", "group", "xord"]]
+    )
+    labels = [c for c, _ in out]
+    assert srv._TRANSFORM_LABEL in labels
+    assert "group" in labels and "xord" in labels          # non-members untouched
+    # collapsed entry is self-describing (lists member codes)
+    desc = dict(out)[srv._TRANSFORM_LABEL]
+    assert set(desc["members"]) == {"t", "r", "s", "p", "scale"}
+    assert desc["member_count"] == 5
+
+
+def test_collapse_split_xyz_and_rgba_groups():
+    # Geometry COMP instance components: instancetx/ty/tz + instancer/g/b/a.
+    codes = ["instancetx", "instancety", "instancetz",
+             "instancer", "instanceg", "instanceb", "instancea", "instanceop"]
+    out = srv._collapse_param_families([(c, {"display_name": c}) for c in codes])
+    labels = [c for c, _ in out]
+    assert "instancet (xyz)" in labels
+    assert "instance (rgba)" in labels
+    assert "instanceop" in labels                          # non-grouped stays
+
+
+def test_collapse_lone_scale_not_swallowed():
+    # "scale" with no real t/r/s/p component present -> left as its own param.
+    out = srv._collapse_param_families([("scale", {}), ("foo", {})])
+    labels = [c for c, _ in out]
+    assert "scale" in labels and srv._TRANSFORM_LABEL not in labels
+
+
+def test_collapse_rgba_requires_rgb_present():
+    # base with only r+a (no g,b) is NOT a color group -> not collapsed.
+    out = srv._collapse_param_families([("xr", {}), ("xa", {})])
+    assert [c for c, _ in out] == ["xr", "xa"]
+
+
+def test_collapse_common_page_folds():
+    items = [("color", {}), ("npasses", {"page": "Common"}),
+             ("chanmask", {"page": "Common"}), ("format", {"page": "Common"})]
+    out = srv._collapse_param_families(items)
+    labels = [c for c, _ in out]
+    assert srv._COMMON_LABEL in labels
+    assert "color" in labels
+    assert dict(out)[srv._COMMON_LABEL]["member_count"] == 3
+
+
+def test_collapse_noop_returns_unchanged():
+    items = [("aaa", {}), ("bbb", {})]
+    assert srv._collapse_param_families(items) == items
+
+
+def test_hydrate_collapse_frees_slots_under_cap():
+    # 5 transform tuplet codes + 6 distinct params = 11 raw; collapse -> 7 entries,
+    # all fit under the cap, so parameters_capped is NOT set and the distinguishing
+    # params are all present alongside the single transform entry.
+    full = _wiki(["t", "r", "s", "p", "scale", "group", "xord", "rord", "vlength", "lookat", "upvector"])
+    result = {"name": "Transform SOP", "metadata": {}}
+    srv._hydrate_hit_params(result, full, compact=False)
+    assert result["parameter_count"] == 11               # TRUE count untouched
+    assert srv._TRANSFORM_LABEL in result["parameters"]
+    assert "parameters_capped" not in result             # 7 <= cap
+    assert len(result["parameters"]) == 7
+    # a distinguishing param that a naive first-12 would have kept anyway, still here
+    assert "lookat" in result["parameters"]
+
+
+def test_hydrate_collapse_still_caps_when_over_after_collapse():
+    # 5 transform codes + 20 unrelated = collapse to 21 entries, still > cap.
+    full = _wiki(["t", "r", "s", "p", "scale"] + [f"u{i}" for i in range(20)])
+    result = {"name": "X", "metadata": {}}
+    srv._hydrate_hit_params(result, full, compact=False)
+    assert result["parameter_count"] == 25               # TRUE count untouched
+    assert len(result["parameters"]) == srv.PARAM_HYDRATE_CAP
+    assert result["parameters_capped"] is True
+    # the transform entry survives the cap (it is first in order)
+    assert srv._TRANSFORM_LABEL in result["parameters"]
+
+
+# ---------------------------------------------------------------------------
 # Part 1 — risk annotations (live surface: real Tool objects)
 # ---------------------------------------------------------------------------
 def test_live_tools_all_annotated():

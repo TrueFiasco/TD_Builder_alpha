@@ -567,14 +567,128 @@ def _strip_compound_leaf_suffix(name: str):
     return None
 
 
+# W-C — param family collapse (applied BEFORE the hydration cap). TD serializes a
+# transform as the tuplet codes t/r/s/p (+ a uniform ``scale``); some ops/pages use
+# the split tx/ty/tz form. Either way, folding them — and other standard component
+# triplets/quads (xyz / rgba) and the boilerplate Common page — into ONE
+# self-describing entry each means the ``cap`` slots carry DISTINGUISHING params
+# instead of 13 near-identical transform components. True counts are never touched.
+_TRANSFORM_MEMBERS = {
+    "t", "r", "s", "p", "scale",                       # tuplet form (TD ground truth)
+    "tx", "ty", "tz", "rx", "ry", "rz",                # split form (some wiki/pages)
+    "sx", "sy", "sz", "px", "py", "pz",
+}
+_TRANSFORM_LABEL = "3D transform (t/r/s/p, scale)"
+_XYZ_SUFFIXES = ("x", "y", "z", "w")
+_RGBA_SUFFIXES = ("r", "g", "b", "a")
+_COMMON_LABEL = "Common page params"
+
+
+def _collapsed_descriptor(label: str, members: list) -> dict:
+    """A self-describing stand-in for a collapsed param family — lists the member
+    codes so nothing is hidden (the caller can still get_parameter_detail any one)."""
+    return {
+        "collapsed_family": label,
+        "members": list(members),
+        "member_count": len(members),
+        "note": (
+            f"{len(members)} related params folded into one entry to conserve "
+            f"hydration slots; call get_parameter_detail for any member."
+        ),
+    }
+
+
+def _collapse_param_families(items: list) -> list:
+    """Collapse known parameter families in an ordered ``[(code, value), ...]`` list.
+
+    Groups (priority order, each code joins at most one): the 3D transform tuplet/
+    split set + uniform scale; generic component triplets/quads (``<base>{x,y,z,w}``
+    and colorish ``<base>{r,g,b,a}`` with r+g+b present); and — last, over whatever
+    is left — params on the Common page. A group must have >=2 members to collapse
+    (folding one adds no value). Order is preserved; each collapsed group is emitted
+    at its first member's position. Returns the input unchanged when nothing groups.
+    """
+    items = list(items)
+    codes = [c for c, _ in items]
+    lower = {c: str(c).lower() for c in codes}
+
+    assigned: dict = {}            # code -> group label
+    members_by_group: dict = {}    # group label -> [codes in order]
+
+    # 1. Transform tuplet/split + uniform scale (fold only with >=2 members AND at
+    #    least one real t/r/s/p component, so a lone "scale" is never swallowed).
+    transform = [c for c in codes if lower[c] in _TRANSFORM_MEMBERS]
+    real = [c for c in transform if lower[c] != "scale"]
+    if len(transform) >= 2 and len(real) >= 1:
+        for c in transform:
+            assigned[c] = _TRANSFORM_LABEL
+        members_by_group[_TRANSFORM_LABEL] = transform
+
+    # 2. Generic component groups by <base><suffix>.
+    xyz_buckets: dict = {}
+    rgba_buckets: dict = {}
+    for c in codes:
+        if c in assigned:
+            continue
+        cl = lower[c]
+        if len(cl) < 2:
+            continue
+        base, suf = cl[:-1], cl[-1]
+        if suf in _XYZ_SUFFIXES:
+            xyz_buckets.setdefault(base, []).append(c)
+        elif suf in _RGBA_SUFFIXES:
+            rgba_buckets.setdefault(base, []).append(c)
+    for base, group in xyz_buckets.items():
+        if len(group) >= 2:
+            label = f"{base} (xyz)"
+            for c in group:
+                assigned[c] = label
+            members_by_group[label] = group
+    for base, group in rgba_buckets.items():
+        sufs = {lower[c][-1] for c in group}
+        if len(group) >= 2 and {"r", "g", "b"} <= sufs:   # require a real color (r+g+b)
+            label = f"{base} (rgba)"
+            for c in group:
+                assigned[c] = label
+            members_by_group[label] = group
+
+    # 3. Common-page params (optional): fold the boilerplate common page into one.
+    common = []
+    for c, v in items:
+        if c in assigned:
+            continue
+        page = str(v.get("page") or "").strip().lower() if isinstance(v, dict) else ""
+        if page == "common":
+            common.append(c)
+    if len(common) >= 2:
+        for c in common:
+            assigned[c] = _COMMON_LABEL
+        members_by_group[_COMMON_LABEL] = common
+
+    if not assigned:
+        return items
+
+    out = []
+    emitted: set = set()
+    for c, v in items:
+        label = assigned.get(c)
+        if label is None:
+            out.append((c, v))
+        elif label not in emitted:
+            emitted.add(label)
+            out.append((label, _collapsed_descriptor(label, members_by_group[label])))
+    return out
+
+
 def _hydrate_hit_params(result: dict, full_info: dict, compact: bool,
                         cap: int = PARAM_HYDRATE_CAP) -> None:
     """Attach bounded parameter data from ``full_info`` onto a hybrid_search hit.
 
     Always stamps the TRUE counts (``parameter_count``/``ground_truth_param_count``).
-    ``compact=True`` omits the (large) per-hit ``parameters`` dict entirely; otherwise it
-    is capped to ``cap`` items and ``parameters_capped`` flags any truncation. Mutates
-    ``result`` in place. No-op when ``full_info`` carries no ``wiki_parameters``.
+    ``compact=True`` omits the (large) per-hit ``parameters`` dict entirely; otherwise
+    known param families are collapsed (W-C) and the result is capped to ``cap`` items,
+    with ``parameters_capped`` flagging any POST-collapse truncation. Mutates ``result``
+    in place. No-op when ``full_info`` carries no ``wiki_parameters``.
     """
     if not full_info or 'wiki_parameters' not in full_info:
         return
@@ -593,11 +707,20 @@ def _hydrate_hit_params(result: dict, full_info: dict, compact: bool,
     if compact:
         result.pop('parameters', None)
         return
+    # Collapse families BEFORE the cap so the slots carry distinguishing params. The
+    # TRUE full_count above is left untouched; parameters_capped reflects whether the
+    # post-collapse list was still longer than the cap (i.e. genuinely truncated).
     if isinstance(wiki_params, dict):
-        result['parameters'] = dict(items[:cap])
+        collapsed = _collapse_param_families(items)
+        result['parameters'] = dict(collapsed[:cap])
     else:
-        result['parameters'] = items[:cap]
-    if full_count > cap:
+        pairs = [
+            ((p.get('name') or p.get('code') or str(i)) if isinstance(p, dict) else str(i), p)
+            for i, p in enumerate(items)
+        ]
+        collapsed = _collapse_param_families(pairs)
+        result['parameters'] = [v for _, v in collapsed[:cap]]
+    if len(collapsed) > cap:
         result['parameters_capped'] = True
 
 

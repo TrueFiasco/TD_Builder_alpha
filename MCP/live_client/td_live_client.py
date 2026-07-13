@@ -1075,8 +1075,8 @@ TD_LIVE_TOOLS: List[Tool] = [
         description=(
             "Update parameters of an existing node in running TouchDesigner. Note: this is a "
             "programmatic par.val write and will NOT fire a Parameter Execute DAT's "
-            "onValueChange (UI-edit only) — use exec_node_method to call par.<x>.pulse() for "
-            "a trigger."
+            "onValueChange (UI-edit only) — to trigger one, run op('/path').par.<x>.pulse() "
+            "via execute_python_script (exec_node_method cannot resolve dotted par paths)."
         ),
         inputSchema={
             "type": "object",

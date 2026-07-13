@@ -12,6 +12,7 @@ from typing import Any, Dict
 
 from mcp.services.capture_service import capture_service
 from mcp.services.error_monitor import error_monitor
+from mcp.services.glsl_status import glsl_status_service
 from utils.logging import log_message
 from utils.types import LogLevel, Result
 
@@ -27,6 +28,8 @@ __all__ = [
     "getPythonExceptions",
     # Phase 3: Universal Op Viewer
     "captureOpViewer",
+    # W-A2: GLSL compile status
+    "getGlslStatus",
 ]
 
 
@@ -353,6 +356,52 @@ def captureOpViewer(**kwargs) -> Result:
     return result
 
 
+# ============================================================================
+# W-A2: GLSL compile status
+# ============================================================================
+
+
+def getGlslStatus(**kwargs) -> Result:
+    """
+    Handler for GET /api/feedback/glsl/status
+
+    Report the compile status of a GLSL-family op (TOP/multiTOP/POP/MAT). This is
+    the foolproof answer to "did my shader edit compile?" — it reads the shader's
+    Info DAT (the source of truth ``op.errors()`` misses on a hard compile failure)
+    and folds in ``op.warnings()``.
+
+    Query parameters:
+        - node_path: Path to the operator to check
+
+    Response:
+        {
+            "success": true,
+            "data": {
+                "node_path": "/project1/glsl1",
+                "op_type": "glslTOP",
+                "is_glsl": true,
+                "ok": false,
+                "compile_failed": true,
+                "errors": [...],
+                "warnings": ["The GLSL Shader has compile errors (...)"],
+                "compiler_log": "...ERROR: 0:12: ...",
+                "compiler_errors": ["ERROR: 0:12: ..."]
+            }
+        }
+    """
+    log_message(f"getGlslStatus called with kwargs: {kwargs}", LogLevel.DEBUG)
+
+    node_path = kwargs.get("node_path") or kwargs.get("nodePath")
+
+    if not node_path:
+        return {
+            'success': False,
+            'error': "Missing required parameter: node_path"
+        }
+
+    return glsl_status_service.get_glsl_status(node_path)
+
+
 # Route mapping for the OpenAPI router
 # Maps path patterns to handler functions
 FEEDBACK_ROUTES = {
@@ -366,6 +415,8 @@ FEEDBACK_ROUTES = {
     ("GET", "/api/feedback/errors/python"): getPythonExceptions,
     # Phase 3: Universal Op Viewer
     ("POST", "/api/feedback/capture/op"): captureOpViewer,
+    # W-A2: GLSL compile status
+    ("GET", "/api/feedback/glsl/status"): getGlslStatus,
 }
 
 

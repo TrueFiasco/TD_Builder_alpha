@@ -186,7 +186,7 @@ def test_hydrate_compact_omits_params_keeps_counts():
 # ---------------------------------------------------------------------------
 def test_live_tools_all_annotated():
     tools = live.TD_LIVE_TOOLS
-    assert len(tools) == 21
+    assert len(tools) == 22  # W-A2 added get_glsl_status
     assert all(t.annotations is not None for t in tools), \
         [t.name for t in tools if t.annotations is None]
 

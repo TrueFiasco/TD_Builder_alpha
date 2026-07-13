@@ -405,6 +405,54 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
         return [TextContent(type="text", text=f"Error capturing operator: {str(e)}")]
 
 
+async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
+    """Report whether a GLSL op compiled — folds in the Info DAT + op.warnings()."""
+    try:
+        async with TDClient() as client:
+            response = await client.get("/api/feedback/glsl/status", params={
+                "node_path": arguments["node_path"]
+            })
+
+            if response.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+
+            data = response.json()
+            if data.get("success") and data.get("data"):
+                d = data["data"]
+                node = d.get("node_path", arguments["node_path"])
+                if not d.get("is_glsl"):
+                    return [TextContent(
+                        type="text",
+                        text=f"`{node}` ({d.get('op_type', '?')}) is not a GLSL op — "
+                             f"no shader to compile. errors={len(d.get('errors') or [])}, "
+                             f"warnings={len(d.get('warnings') or [])}."
+                    )]
+
+                compiler_errors = d.get("compiler_errors") or []
+                warnings = d.get("warnings") or []
+                errors = d.get("errors") or []
+                if d.get("ok"):
+                    lines = [f"✅ GLSL COMPILE OK: `{node}` ({d.get('op_type', '?')})"]
+                else:
+                    lines = [f"❌ GLSL COMPILE FAILED: `{node}` ({d.get('op_type', '?')})"]
+                if compiler_errors:
+                    lines.append("\n**Compiler errors:**")
+                    lines.extend(f"  - {ln}" for ln in compiler_errors)
+                if errors:
+                    lines.append("\n**Op errors:**")
+                    lines.extend(f"  - {ln}" for ln in errors)
+                if warnings:
+                    lines.append("\n**Warnings:**")
+                    lines.extend(f"  - {ln}" for ln in warnings)
+                return [TextContent(type="text", text="\n".join(lines))]
+            return [TextContent(type="text", text=f"Failed to get GLSL status: {data.get('error')}")]
+
+    except httpx.ConnectError:
+        return [TextContent(type="text", text=_connection_error_message())]
+    except Exception as e:
+        return [TextContent(type="text", text=f"Error getting GLSL status: {str(e)}")]
+
+
 # =============================================================================
 # CORE TD CRUD TOOLS (12 tools)
 # =============================================================================
@@ -992,6 +1040,30 @@ TD_LIVE_TOOLS: List[Tool] = [
             "required": ["operator_path"]
         }
     ),
+    Tool(
+        annotations=READ_ONLY,
+        name="get_glsl_status",
+        description=(
+            "Report whether a GLSL op (glslTOP / glslmultiTOP / glslPOP / glslMAT) "
+            "COMPILED. This is the reliable shader-error check: a broken GLSL op "
+            "returns an EMPTY node.errors() while the failure shows only in "
+            "op.warnings() and the Info DAT — get_td_node_errors alone misses it. "
+            "This tool reads the shader's Info DAT (creating a temporary one if "
+            "none is docked) and folds in op.warnings(), returning "
+            "{ok, compile_failed, errors, warnings, compiler_log, compiler_errors}. "
+            "Call it after ANY edit to a GLSL op or its shader-source DAT."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "node_path": {
+                    "type": "string",
+                    "description": "Path to the GLSL operator to check (e.g. /project1/glsl1)"
+                }
+            },
+            "required": ["node_path"]
+        }
+    ),
 
     # Core TD CRUD Tools (13)
     Tool(
@@ -1327,6 +1399,7 @@ TD_LIVE_HANDLERS = {
     "capture_network_layout": capture_network_layout,
     "get_python_exceptions": get_python_exceptions,
     "capture_op_viewer": capture_op_viewer,
+    "get_glsl_status": get_glsl_status,
     # Core TD CRUD
     "get_td_info": get_td_info,
     "get_td_nodes": get_td_nodes,

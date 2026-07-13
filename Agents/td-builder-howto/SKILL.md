@@ -54,6 +54,18 @@ obfuscated, don't rely on it as a sandbox). Split any delay across multiple tool
 
 `get_td_node_errors` (which calls `node.errors()` server-side) **does not surface compute/GLSL shader compile failures**. A broken shader will run as a no-op, the node will look fine via the normal error API, and you will debug the wrong layer for hours.
 
+**The fast path (use this first):** call **`get_glsl_status(node_path)`** — it reads the
+shader's Info DAT AND folds in `op.warnings()` in one call, returning
+`{ok, compile_failed, errors, warnings, compiler_log, compiler_errors}`. It is also
+woven into the surrounding tools so a failure is hard to miss:
+
+- `get_error_summary` / `get_cook_errors` / `get_td_node_errors` now surface
+  `op.warnings()` too, and PROMOTE a GLSL compile-failure warning to an **error**
+  (listed first) — so "any errors?" after a shader edit no longer answers 0.
+- `update_td_node_parameters` auto-appends the compile status to its receipt when the
+  edit touched a GLSL op (or a shader-source DAT) — you don't have to remember to check.
+
+The manual recipe below is still valid (and is what the tools do under the hood).
 After ANY edit to a GLSL TOP or GLSL POP, read its info DAT and scan for **both errors and warnings in the same pass**:
 
 ```python
@@ -236,7 +248,7 @@ Always prefer `td-builder` / `td-builder-live` namespace tools over generic ones
 | Run anything complex / loops / data | `execute_python_script` | — |
 | Render capture | `capture_top_output` (param is `operator_path`, NOT `node_path`) | — |
 | Node errors (non-GLSL) | `get_td_node_errors` | — |
-| GLSL compile status | Read `op('<node>_info').text` in a script | `get_td_node_errors` (misses GLSL fails) |
+| GLSL compile status | `get_glsl_status(node_path)` — reads the Info DAT + folds in `op.warnings()`, returns `{ok, compile_failed, compiler_errors, warnings}` | Reading `op('<node>_info').text` by hand (still fine, but the tool is the one-call answer) |
 | Find operator info | `get_operator_info`, `hybrid_search`, `find_operator_examples` | Guessing |
 
 `capture_top_output` uses parameter name `operator_path` (not `node_path`). Getting this wrong returns "Input validation error".

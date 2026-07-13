@@ -177,7 +177,7 @@ def test_prime_returns_handle_and_does_not_destroy(monkeypatch):
     assert r["success"] is True, r.get("error")
     d = r["data"]
     assert d["two_phase"] is True
-    assert d["handle"] == "/project1/temp_opviewer_capture"
+    assert d["handle"] == "/project1/temp_opviewer_capture_pts"   # per-target name
     assert d["operator_path"] == "/project1/pts"
     # primed but NOT destroyed — phase 2 owns cleanup
     assert parent.created[0].destroyed is False
@@ -210,7 +210,7 @@ def test_pull_converges_and_destroys_and_merges_pop_info(monkeypatch):
     assert d["pulls"] == 2
     # temp viewer destroyed (no leak) and gone from the parent
     assert viewer.destroyed is True
-    assert parent.op("temp_opviewer_capture") is None
+    assert parent.op("temp_opviewer_capture_pts") is None
 
 
 def test_pull_missing_handle_errors_without_leak(monkeypatch):
@@ -229,8 +229,8 @@ def test_prime_cleans_up_stale_viewer_first(monkeypatch):
     parent = FakeParent(registry)
     pop = FakePop("/project1/pts", parent)
     parent.add(pop)
-    # a leaked viewer from a prior aborted call, sitting under the deterministic name
-    stale = FakeViewer("/project1/temp_opviewer_capture", [1], parent)
+    # a leaked viewer for THIS target from a prior aborted call, under its per-target name
+    stale = FakeViewer("/project1/temp_opviewer_capture_pts", [1], parent)
     parent._children[stale.name] = stale
     registry[stale.path] = stale
     mod = _load_capture(monkeypatch, registry)
@@ -238,6 +238,43 @@ def test_prime_cleans_up_stale_viewer_first(monkeypatch):
 
     svc.capture_op_viewer("/project1/pts", prime_only=True)
     assert stale.destroyed is True            # cleaned up before create()
+
+
+def test_overlapping_sibling_primes_do_not_cross_wire(monkeypatch):
+    # Two two-phase captures of SIBLING ops (same parent) whose prime phases overlap
+    # must NOT collide: priming ptsB must not destroy ptsA's still-primed viewer, and
+    # the two handles must differ so ptsA's phase-2 pull can only ever resolve ptsA's
+    # own viewer. Regression for the deterministic per-parent name that let one
+    # capture return the other operator's image mislabeled with the first op's path.
+    registry = {}
+    parent = FakeParent(registry)
+    pop_a = FakePop("/project1/ptsA", parent)
+    pop_b = FakePop("/project1/ptsB", parent)
+    parent.add(pop_a)
+    parent.add(pop_b)
+    mod = _load_capture(monkeypatch, registry)
+    svc = mod.CaptureService()
+
+    prime_a = svc.capture_op_viewer("/project1/ptsA", prime_only=True)
+    viewer_a = parent.created[0]
+    prime_b = svc.capture_op_viewer("/project1/ptsB", prime_only=True)
+
+    handle_a = prime_a["data"]["handle"]
+    handle_b = prime_b["data"]["handle"]
+    # distinct node paths per target -> no shared name for the sibling prime to clobber
+    assert handle_a == "/project1/temp_opviewer_capture_ptsA"
+    assert handle_b == "/project1/temp_opviewer_capture_ptsB"
+    assert handle_a != handle_b
+    # priming the sibling did NOT destroy ptsA's still-primed viewer
+    assert viewer_a.destroyed is False
+
+    # ptsA's phase-2 pull resolves ptsA's OWN viewer and is labeled ptsA (not ptsB)
+    r = svc.pull_op_viewer(handle_a, operator_path="/project1/ptsA", format="png")
+    assert r["success"] is True, r.get("error")
+    assert r["data"]["operator_path"] == "/project1/ptsA"
+    assert viewer_a.destroyed is True                              # its own pull cleaned it up
+    # ptsB's viewer is untouched by ptsA's pull, still available for ptsB's own pull
+    assert parent.op("temp_opviewer_capture_ptsB") is not None
 
 
 def test_top_prime_is_direct_no_two_phase(monkeypatch):

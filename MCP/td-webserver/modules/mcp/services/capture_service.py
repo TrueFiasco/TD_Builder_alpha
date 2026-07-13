@@ -13,12 +13,26 @@ import td
 from utils.logging import log_message
 from utils.types import LogLevel, Result
 
-# W-B — deterministic temp op-viewer name. Deterministic (not unique-per-call) so a
-# leaked viewer from an aborted two-phase call is cleaned up by the next prime
-# (create() auto-suffixes on collision, so we destroy any stale one first and hand
-# back the ACTUAL created path as the handle). TD serves requests on one thread, so
-# there is no concurrent-capture race.
-_TEMP_VIEWER_NAME = "temp_opviewer_capture"
+# W-B — temp op-viewer node name, keyed PER TARGET OP (prefix + the target's own
+# name). Rationale: the two-phase capture spans two HTTP requests with a client-side
+# wait between them, so a primed viewer stays alive across that gap. A single
+# per-parent name let a second capture of a SIBLING op (same parent, overlapping the
+# gap) destroy+recreate the node under the same path; the first capture's phase-2
+# pull then resolved the sibling's viewer and returned the WRONG operator's image,
+# still labeled with the first op's path (silent cross-wire — TD's single request
+# thread does NOT close this window, it only makes each request atomic). Keying the
+# name to the target op makes each capture's node path unique per target within its
+# parent (op names are unique among siblings), so a handle can only ever resolve to
+# a viewer of the SAME op — or to nothing (a clean "handle not found" error), never
+# to a different op's viewer. The stale-viewer self-heal still holds per target: a
+# leaked viewer for op X is cleaned up by the next prime of X (same name).
+_TEMP_VIEWER_PREFIX = "temp_opviewer_capture_"
+
+
+def _temp_viewer_name(target_op) -> str:
+    """Per-target temp op-viewer node name (see ``_TEMP_VIEWER_PREFIX``)."""
+    name = getattr(target_op, "name", "") or "op"
+    return f"{_TEMP_VIEWER_PREFIX}{name}"
 
 # Phase-2 pull retry ceiling. All pulls in one HTTP request share a frame; this only
 # rides out within-frame progressive growth (we are already >=1 frame past prime),
@@ -482,7 +496,7 @@ class CaptureService:
             parent = target_op.parent()
             family = target_op.family if hasattr(target_op, 'family') else 'unknown'
 
-            temp_viewer = parent.create('opviewerTOP', _TEMP_VIEWER_NAME)
+            temp_viewer = parent.create('opviewerTOP', _temp_viewer_name(target_op))
             temp_viewer.par.opviewer = target_op.path
             temp_viewer.par.resolutionw = resolution
             temp_viewer.par.resolutionh = resolution
@@ -531,17 +545,20 @@ class CaptureService:
         try:
             parent = target_op.parent()
             family = target_op.family if hasattr(target_op, 'family') else 'unknown'
+            viewer_name = _temp_viewer_name(target_op)
 
-            # Clean up a viewer leaked by a prior aborted call so create() does not
-            # auto-suffix (which would strand THIS one under a different name).
-            stale = parent.op(_TEMP_VIEWER_NAME)
+            # Clean up a viewer for THIS target leaked by a prior aborted call so
+            # create() does not auto-suffix (which would strand THIS one under a
+            # different name). Scoped to the per-target name so we never destroy a
+            # sibling capture's in-flight primed viewer (the cross-wire we fixed).
+            stale = parent.op(viewer_name)
             if stale is not None and getattr(stale, 'valid', False):
                 try:
                     stale.destroy()
                 except Exception:
                     pass
 
-            temp_viewer = parent.create('opviewerTOP', _TEMP_VIEWER_NAME)
+            temp_viewer = parent.create('opviewerTOP', viewer_name)
             temp_viewer.par.opviewer = target_op.path
             temp_viewer.par.resolutionw = resolution
             temp_viewer.par.resolutionh = resolution

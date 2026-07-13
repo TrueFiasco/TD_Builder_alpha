@@ -97,6 +97,17 @@ def onOffToOn(channel, sampleIndex, val, prev):
     op('timer1').par.start.pulse()
 ```
 
+### Parameter/DAT Execute gotchas
+- `onValueChange` fires ONLY on UI edits — it does NOT fire on a programmatic `par.val = x`
+  write (from a script or `update_td_node_parameters`) and does NOT fire on a bind-driven
+  change. To react to a programmatic change, drive the downstream logic yourself or use
+  `onPulse`, which DOES fire on `par.pulse()`.
+- Scope: on the Execute DAT, `op='.'` is the DAT itself and `'..'` is its parent. An empty
+  `op`/`pars` scope matches nothing and fails silently (no error, callback never fires).
+- The pulse-enable toggle is named `onpulse`, not `pulse`.
+- Pulse/callback effects land on the next frame — verify with a separate read, not inline in
+  the script that fired the pulse.
+
 ### Extension Class
 ```python
 class MyExtension:

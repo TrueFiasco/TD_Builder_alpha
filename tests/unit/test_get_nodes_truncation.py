@@ -174,7 +174,7 @@ def test_handler_coercion_rejects_negative_and_junk_limit():
 
     with mock.patch.object(handlers, "api_service") as fake_service:
         fake_service.get_nodes.side_effect = _capture
-        for raw, expected in [("-5", None), (-5, None), ("0", None), (0, None), ("abc", None), ("7", 7), (7, 7)]:
+        for raw, expected in [("-5", None), (-5, None), ("0", None), (0, None), ("abc", None), ("7", 7), (7, 7), (True, None), (False, None)]:
             seen.clear()
             handlers.get_nodes(parentPath="/project1", limit=raw)
             assert seen.get("limit") == expected, (

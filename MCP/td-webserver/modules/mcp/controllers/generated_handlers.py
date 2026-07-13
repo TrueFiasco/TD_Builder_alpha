@@ -92,7 +92,7 @@ def get_nodes(**kwargs) -> Result:
     if isinstance(limit_raw, str):
         if limit_raw.strip().isdigit():
             limit = int(limit_raw)
-    elif isinstance(limit_raw, int):
+    elif isinstance(limit_raw, int) and not isinstance(limit_raw, bool):
         limit = limit_raw
     if limit is not None and limit < 1:
         limit = None

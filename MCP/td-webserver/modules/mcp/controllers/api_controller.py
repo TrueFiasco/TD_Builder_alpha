@@ -59,6 +59,7 @@ class ApiServiceProtocol(Protocol):
 		parent_path: str,
 		pattern: Optional[str] = None,
 		include_properties: bool = False,
+		limit: Optional[int] = None,
 	) -> Result: ...
 
 	def get_module_help(self, module_name: str) -> Result: ...

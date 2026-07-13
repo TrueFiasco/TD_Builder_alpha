@@ -55,3 +55,17 @@ def test_glslpop_uniforms_list_form(tmp_path):
     assert "vec0valuex 0 0.1" in parm
     assert "vec0valuey 0 0.2" in parm
     assert "vec0valuez 0 0.3" in parm
+
+
+def test_glsltop_uniforms_dict_form(tmp_path):
+    # The GLSL TOP uniform path crashed on the dict form the POP path accepts
+    # (AttributeError: 'str' object has no attribute 'get' in _build_glsl_parm);
+    # both families must take both forms.
+    parm = _build_parm(
+        tmp_path,
+        {"operators": [{"name": "pg", "type": "glsl", "family": "TOP",
+                        "uniforms": {"uScale": 2.5}}]},
+        "r3_top_dict",
+    )
+    assert "vec0name 0 uScale" in parm, f"dict-form uniform dropped on GLSL TOP:\n{parm}"
+    assert "vec0valuex 0 2.5" in parm, parm

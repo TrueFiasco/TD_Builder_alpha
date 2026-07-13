@@ -1636,11 +1636,20 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                 parm = ("?\n" + _parm_line("op", 0, host_name) + "\n"
                         + _parm_line("language", 0, "text") + "\n?\n")
             elif dat in ("text", "table"):
-                content = self._authored_for_role(op, spec.get("role", ""), allow_generic=not has_pixel) or spec.get("stub", "")
+                authored = self._authored_for_role(op, spec.get("role", ""), allow_generic=not has_pixel)
                 fdir = self.output_dir / spec["file_dir"]
                 fdir.mkdir(parents=True, exist_ok=True)
                 fpath = fdir / f"{child}.{spec['file_ext']}"
-                fpath.write_text(content, encoding="utf-8", newline="\n")
+                # Design-authored content is the source of truth. When the design carries
+                # none, an existing on-disk file is syncfile-authored work (a hand-edited
+                # shader/script from a prior build) -- preserve it, never re-stub it.
+                if authored:
+                    fpath.write_text(authored, encoding="utf-8", newline="\n")
+                elif fpath.exists():
+                    self.log(f"    [docking] {host_name}: keeping existing {fpath.name} "
+                             f"(design authors no {spec.get('role') or dat} content; not re-stubbing)")
+                else:
+                    fpath.write_text(spec.get("stub", ""), encoding="utf-8", newline="\n")
                 # Absolute path: _parm_line quotes it when the output root contains
                 # a space -- unquoted it truncated AND dropped the params below it.
                 fabs = str(fpath.resolve()).replace("\\", "/")
@@ -1683,7 +1692,7 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         DAT (a GLSL TOP) so a TOP's pixel `shader` is never duplicated into its compute
         DAT -- the caller passes allow_generic=not has_pixel (see _write_docked_dats)."""
         role_fields = {
-            "pixel":     ["shader", "pixel", "pixelshader", "fragment", "frag", "text"],
+            "pixel":     ["shader", "pixel", "pixelshader", "fragment", "frag", "content", "text"],
             "compute":   ["compute", "computeshader"],
             "vertex":    ["vertex", "vertexshader", "vert"],
             "callbacks": ["callbacks", "script", "callback"],
@@ -1762,7 +1771,16 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
         params = dict(op.get("parameters", {}))
         if docked_wiring:
             params.update(docked_wiring)
+        # Accept the dict form {name: value} exactly like the GLSL POP path
+        # (_glsl_pop_uniform_lines): the loop below expects [{"name","value",...}] and
+        # crashed on a dict ('str' object has no attribute 'get').
         uniforms = op.get("uniforms", [])
+        if isinstance(uniforms, dict):
+            uniforms = [{"name": k, "value": v} for k, v in uniforms.items()]
+        elif isinstance(uniforms, list):
+            uniforms = [u for u in uniforms if isinstance(u, dict)]
+        else:
+            uniforms = []
 
         self.log(f"    Building GLSL parm with {len(uniforms)} uniforms")
 
@@ -2645,7 +2663,12 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             self.log(f"  _map_op_type: inferred from container name -> {result}")
             return result
 
-        # Default to TOP
+        # Default to TOP -- warn loudly (logger.warning, not just verbose self.log):
+        # an ungrounded type with no family silently becomes TOP:* here, which TD
+        # imports as a base COMP when the token is wrong (the GAPS BUG-1 symptom).
+        logger.warning(
+            "_map_op_type: '%s' not grounded and not in OP_TYPE_MAP (no family given) - "
+            "defaulting to TOP:%s; pass an explicit family to avoid this", op_type, internal_name)
         self.log(f"  [WARN] _map_op_type: '{op_type}' NOT FOUND in OP_TYPE_MAP - defaulting to TOP:{internal_name}")
         return f"TOP:{internal_name}"
 

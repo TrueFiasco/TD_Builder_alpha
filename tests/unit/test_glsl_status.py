@@ -94,6 +94,8 @@ def test_mutation_touches_glsl_gate(g):
     assert g.mutation_touches_glsl(glsl, {"anything": 1}) is True     # glsl op: any write
     assert g.mutation_touches_glsl(dat, {"text": "..."}) is True      # DAT .text write
     assert g.mutation_touches_glsl(dat, {"pixeldat": "shader"}) is True
+    assert g.mutation_touches_glsl(dat, {"pdat": "shader"}) is True    # glslMAT pixel-shader par
+    assert g.mutation_touches_glsl(dat, {"vdat": "shader"}) is True    # glslMAT vertex-shader par
     assert g.mutation_touches_glsl(dat, {"length": 5}) is False       # unrelated DAT write
     assert g.mutation_touches_glsl(dat, None) is False
 
@@ -282,6 +284,44 @@ def test_receipt_for_mutation_on_glsl_op(monkeypatch):
     assert receipt is not None
     assert receipt["checked_node"] == "/project1/glsl1"
     assert receipt["compile_failed"] is True
+    # is_glsl must be carried so the client can render the success-confirmation note
+    # (td_live_client._glsl_status_note gates the "✅ GLSL compile OK" branch on it).
+    assert receipt["is_glsl"] is True
+
+
+def test_receipt_for_mutation_carries_is_glsl_on_clean_compile(monkeypatch):
+    # On a clean compile the receipt must still carry is_glsl=True (and ok=True) so the
+    # client's success-confirmation note fires — this half of W-A3 was dead when the
+    # receipt omitted is_glsl.
+    parent = FakeParent(info_text="Compiled Successfully\n")
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl})
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(glsl, {"outputresolution": "custom"})
+    assert receipt is not None
+    assert receipt["is_glsl"] is True
+    assert receipt["ok"] is True
+    assert receipt["compile_failed"] is False
+
+
+def test_receipt_for_mutation_glslmat_pdat_scan(monkeypatch):
+    # A Text DAT feeds a glslMAT via its `pdat` (pixel shader) par. Editing the DAT's
+    # .text must resolve back to the MAT — glslMAT uses pdat/vdat, not pixeldat/
+    # vertexdat/computedat, so the DAT-sibling scan must probe those par codes too.
+    parent = FakeParent(info_text=COMPILE_LOG)
+    shader_dat = FakeOp("/project1/pixelsrc", "textDAT", parent=parent)
+    mat = FakeOp("/project1/glslmat1", "glslMAT", parent=parent)
+    mat.par.pdat = FakePar(val="pixelsrc")       # references the DAT by relative name
+    mat._op_refs["pixelsrc"] = shader_dat          # mat.op('pixelsrc') -> shader_dat
+    parent.add(shader_dat)
+    parent.add(mat)
+    mod = _load_service(monkeypatch, {mat.path: mat, shader_dat.path: shader_dat})
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(shader_dat, {"text": "void main(){}"})
+    assert receipt is not None
+    assert receipt["checked_node"] == "/project1/glslmat1"   # resolved to the glslMAT
+    assert receipt["is_glsl"] is True
 
 
 def test_receipt_for_mutation_dat_sibling_scan(monkeypatch):

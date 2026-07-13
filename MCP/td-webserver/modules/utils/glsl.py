@@ -30,11 +30,17 @@ import re
 # marker (rather than an exact allow-list) future-proofs against new GLSL ops.
 GLSL_OPTYPE_MARKER = "glsl"
 
-# DAT-reference parameters a GLSL op uses to point at its shader source. When a
-# mutation writes one of these (or ``.text`` on a DAT one of them references) the
-# receipt must re-check compile status (W-A3). ``.text`` is handled separately as
-# a node-level write, not a par.
-SHADER_SOURCE_PARS = ("pixeldat", "vertexdat", "computedat")
+# DAT-reference parameters a GLSL op uses to point at its shader source. The names
+# differ by family (verified against KB/operators.json):
+#   * glslTOP / glslmultiTOP / glslPOP -> pixeldat / vertexdat / computedat
+#   * glslMAT                          -> pdat / vdat  (pixel/vertex shader DATs;
+#                                         the MAT has no compute stage)
+# All are listed so a shader-source edit on ANY GLSL family is traced back to its op
+# (the MAT's pdat/vdat were the W-A3 blind spot before the live-feedback wave). When
+# a mutation writes one of these (or ``.text`` on a DAT one of them references) the
+# receipt must re-check compile status (W-A3). ``.text`` is handled separately as a
+# node-level write, not a par.
+SHADER_SOURCE_PARS = ("pixeldat", "vertexdat", "computedat", "pdat", "vdat")
 
 # op.warnings() compile-failure banner. TD phrases it "The GLSL Shader has compile
 # errors (...)"; match the stable "compile error(s)"/"compile failed" core so
@@ -96,8 +102,9 @@ def mutation_touches_glsl(op, properties) -> bool:
 
     True when EITHER the mutated op is itself a GLSL-family op (any par write can
     break a shader — e.g. swapping the source DAT), OR the write is a shader-source
-    write on a DAT: ``.text`` (``properties`` carries a 'text' key) or a
-    ``pixeldat``/``vertexdat``/``computedat`` par. The caller decides which op to
+    write on a DAT: ``.text`` (``properties`` carries a 'text' key) or any
+    ``SHADER_SOURCE_PARS`` par (pixeldat/vertexdat/computedat for TOP/POP,
+    pdat/vdat for MAT). The caller decides which op to
     actually status-check (the GLSL op, not the DAT). Detecting "this DAT feeds a
     GLSL op" via a reverse-reference walk is explicitly OUT of scope (roadmap N6).
     """

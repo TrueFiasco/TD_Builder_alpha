@@ -91,8 +91,9 @@ class GlslStatusService:
         Foolproof path: if the mutated op is itself GLSL-family, status-check it.
         Otherwise, if the write was a shader-source write (``.text`` / a shader par)
         on a DAT, do a BOUNDED sibling scan (parent's direct children only) for a
-        GLSL op whose own ``pixeldat``/``vertexdat``/``computedat`` par references
-        this DAT — "via the op's own pars", never a full-project reverse walk (N6).
+        GLSL op whose own shader-source par (``SHADER_SOURCE_PARS`` —
+        pixeldat/vertexdat/computedat on TOP/POP, pdat/vdat on MAT) references this
+        DAT — "via the op's own pars", never a full-project reverse walk (N6).
         Never raises: any failure returns None (a receipt must not break a mutation).
         """
         try:
@@ -108,6 +109,12 @@ class GlslStatusService:
             return {
                 "checked_node": data["node_path"],
                 "op_type": data["op_type"],
+                # is_glsl gates the client's success-confirmation note
+                # (td_live_client._glsl_status_note); omitting it made the "✅ GLSL
+                # compile OK" half of W-A3 unreachable in production. The checked op
+                # is always GLSL-family here (the target is resolved to one), so this
+                # is True on the success path.
+                "is_glsl": data["is_glsl"],
                 "ok": data["ok"],
                 "compile_failed": data["compile_failed"],
                 "compiler_errors": data["compiler_errors"][:20],

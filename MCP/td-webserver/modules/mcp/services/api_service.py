@@ -29,6 +29,24 @@ from utils.types import LogLevel, Result
 from utils.version import get_mcp_api_version
 
 
+def _run_glsl_receipt(node, properties):
+	"""W-A3 hook: run the GLSL compile-status check for a just-applied mutation and
+	return a compact receipt dict (or None). Module-level + lazily-imported so
+	(a) api_service keeps its file-path unit-loadability — a top-level
+	``from mcp.services... import`` breaks under the test harness where the MCP SDK
+	owns the ``mcp`` name — and (b) tests can monkeypatch it. NEVER raises: a
+	broken receipt check must never fail the mutation it is annotating.
+	"""
+	try:
+		from mcp.services.glsl_status import glsl_status_service
+	except Exception:  # noqa: BLE001 — import unavailable under test / partial deploy
+		return None
+	try:
+		return glsl_status_service.receipt_for_mutation(node, properties)
+	except Exception:  # noqa: BLE001
+		return None
+
+
 class IApiService(Protocol):
 	"""API service interface"""
 
@@ -1296,6 +1314,13 @@ class TouchDesignerApiService(IApiService):
 				f"Successfully updated properties: {updated_properties}",
 				LogLevel.DEBUG,
 			)
+			# W-A3 — if this write could have affected a shader (GLSL op, or a
+			# .text / shader-source-par write on a DAT a GLSL op reads), staple the
+			# compile status onto the receipt so the failure is flagged WITHOUT the
+			# caller having to remember to check. Best-effort; never blocks the write.
+			glsl_receipt = _run_glsl_receipt(node, properties)
+			if glsl_receipt is not None:
+				result["glslStatus"] = glsl_receipt
 			return success_result(self._stamp_mutation(result, "update_node", node_path))
 		else:
 			log_message(

@@ -128,6 +128,27 @@ def _restore_point_note(data: dict) -> str:
     )
 
 
+def _glsl_status_note(gs) -> str:
+    """W-A3: a one-block note appended to an update_td_node_parameters receipt when
+    the edit touched a shader. LOUD on a compile failure (the whole point — the
+    agent did not have to remember to check); a short confirmation on success.
+    Returns "" when the mutation had nothing to do with GLSL."""
+    if not isinstance(gs, dict):
+        return ""
+    node = gs.get("checked_node", "?")
+    if gs.get("compile_failed"):
+        lines = [f"\n\n❌ GLSL COMPILE FAILED on `{node}` after this edit:"]
+        for ln in (gs.get("compiler_errors") or [])[:10]:
+            lines.append(f"  - {ln}")
+        for ln in (gs.get("warnings") or [])[:10]:
+            lines.append(f"  - {ln}")
+        lines.append("Fix the shader before continuing — the op is running as a no-op.")
+        return "\n".join(lines)
+    if gs.get("is_glsl"):
+        return f"\n\n✅ GLSL compile OK on `{node}`."
+    return ""
+
+
 # =============================================================================
 # VISUAL FEEDBACK TOOLS (7 tools)
 # =============================================================================
@@ -617,6 +638,7 @@ async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
                 text = f"Updated {len(updated)} parameters"
                 if failed:
                     text += f"\nFailed: {failed}"
+                text += _glsl_status_note(result.get("glslStatus"))
                 text += _restore_point_note(result)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]

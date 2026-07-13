@@ -13,6 +13,18 @@ import td
 from utils.logging import log_message
 from utils.types import LogLevel, Result
 
+# W-B — deterministic temp op-viewer name. Deterministic (not unique-per-call) so a
+# leaked viewer from an aborted two-phase call is cleaned up by the next prime
+# (create() auto-suffixes on collision, so we destroy any stale one first and hand
+# back the ACTUAL created path as the handle). TD serves requests on one thread, so
+# there is no concurrent-capture race.
+_TEMP_VIEWER_NAME = "temp_opviewer_capture"
+
+# Phase-2 pull retry ceiling. All pulls in one HTTP request share a frame; this only
+# rides out within-frame progressive growth (we are already >=1 frame past prime),
+# and we stop as soon as the byte size stabilizes (size-stability, not a threshold).
+_PULL_MAX_ATTEMPTS = 6
+
 
 class CaptureService:
     """
@@ -274,7 +286,8 @@ class CaptureService:
         operator_path: str,
         resolution: int = 512,
         format: str = "jpeg",
-        quality: float = 0.85
+        quality: float = 0.85,
+        prime_only: bool = False,
     ) -> Result:
         """
         Capture ANY operator's viewer as an image (Universal Op Viewer).
@@ -282,19 +295,34 @@ class CaptureService:
         Uses OP Viewer TOP internally to capture the node viewer for any operator type.
         For DATs, returns text content instead of an image.
 
+        W-B — the opviewerTOP render is PROGRESSIVE and needs a real frame boundary:
+        pulled in the same frame it is wired, it only ever returns the blank/partial
+        plateau (proven: 2 KB background, 7.5 KB axes; a POP point cloud never
+        appears). So the op-viewer branch is a TWO-PHASE capture split across two MCP
+        HTTP requests with a client-side (never TD-side) wait between them:
+          * ``prime_only=True``  -> create+wire the temp viewer, prime it with one
+            pull, return a handle (NO image). See ``_prime_op_viewer``.
+          * ``pull_op_viewer(handle, ...)`` (a SECOND request, ~1 frame later) ->
+            force-cook + saveByteArray, retry to size-stability, destroy the viewer.
+        The direct families (TOP/DAT/CHOP/SOP) return their full result on the prime
+        request (``two_phase`` absent), so the client renders them without a wait.
+
         Args:
             operator_path: Full path to any operator
             resolution: Output resolution (width in pixels)
             format: Image format - "jpeg" or "png"
             quality: JPEG quality 0.1-1.0
+            prime_only: op-viewer branch only — prime + return a handle (phase 1)
+                instead of the legacy same-frame single-shot capture.
 
         Returns:
             Result containing:
             - For image: {type: 'image', image_base64, width, height, format, family}
+            - For a primed viewer: {type: 'op_viewer_primed', two_phase: True, handle}
             - For text: {type: 'text', content, rows, cols, family}
         """
         try:
-            log_message(f"Capturing op viewer: {operator_path}", LogLevel.INFO)
+            log_message(f"Capturing op viewer: {operator_path} (prime_only={prime_only})", LogLevel.INFO)
 
             target_op = td.op(operator_path)
 
@@ -312,12 +340,19 @@ class CaptureService:
                 return self._capture_dat_data(target_op)
             elif family == 'CHOP':
                 return self._capture_chop_data(target_op)
-            elif family in ['MAT', 'COMP']:
-                return self._capture_via_opviewer(target_op, resolution, format, quality)
             elif family == 'SOP':
                 return self._capture_sop_info(target_op)
             else:
-                return self._capture_via_opviewer(target_op, resolution, format, quality)
+                # POP / MAT / COMP / unknown -> op-viewer render (two-phase capable).
+                if prime_only:
+                    return self._prime_op_viewer(target_op, resolution, format)
+                # Legacy single-shot (kept for direct / no-phase HTTP callers). A POP
+                # will under-render here (no frame boundary); the MCP client always
+                # uses the two-phase path. POP info is merged either way.
+                result = self._capture_via_opviewer(target_op, resolution, format, quality)
+                if family == 'POP' and result.get('success') and isinstance(result.get('data'), dict):
+                    self._merge_pop_info(result['data'], target_op)
+                return result
 
         except Exception as e:
             log_message(f"Error in capture_op_viewer: {str(e)}", LogLevel.ERROR)
@@ -447,7 +482,7 @@ class CaptureService:
             parent = target_op.parent()
             family = target_op.family if hasattr(target_op, 'family') else 'unknown'
 
-            temp_viewer = parent.create('opviewerTOP', 'temp_opviewer_capture')
+            temp_viewer = parent.create('opviewerTOP', _TEMP_VIEWER_NAME)
             temp_viewer.par.opviewer = target_op.path
             temp_viewer.par.resolutionw = resolution
             temp_viewer.par.resolutionh = resolution
@@ -486,6 +521,186 @@ class CaptureService:
                     temp_viewer.destroy()
                 except:
                     pass
+
+    def _prime_op_viewer(self, target_op, resolution: int, format: str) -> Result:
+        """Phase 1 of the two-phase capture: create+wire the temp OP Viewer TOP and
+        prime it with one pull, returning a handle. Does NOT destroy — phase 2
+        (``pull_op_viewer``) owns cleanup. On any error BEFORE a handle is returned
+        the temp viewer is destroyed here so nothing leaks."""
+        temp_viewer = None
+        try:
+            parent = target_op.parent()
+            family = target_op.family if hasattr(target_op, 'family') else 'unknown'
+
+            # Clean up a viewer leaked by a prior aborted call so create() does not
+            # auto-suffix (which would strand THIS one under a different name).
+            stale = parent.op(_TEMP_VIEWER_NAME)
+            if stale is not None and getattr(stale, 'valid', False):
+                try:
+                    stale.destroy()
+                except Exception:
+                    pass
+
+            temp_viewer = parent.create('opviewerTOP', _TEMP_VIEWER_NAME)
+            temp_viewer.par.opviewer = target_op.path
+            temp_viewer.par.resolutionw = resolution
+            temp_viewer.par.resolutionh = resolution
+            try:
+                temp_viewer.nodeX, temp_viewer.nodeY = target_op.nodeX, target_op.nodeY - 150
+            except Exception:
+                pass
+
+            # Prime pull — kicks off the progressive render; the real frame boundary
+            # happens during the client's wait before the phase-2 pull.
+            temp_viewer.cook(force=True)
+            primed_bytes = None
+            try:
+                file_ext = '.png' if format.lower() == 'png' else '.jpg'
+                primed = temp_viewer.saveByteArray(file_ext)
+                primed_bytes = len(primed) if primed else 0
+            except Exception:
+                primed_bytes = None
+
+            return {
+                'success': True,
+                'data': {
+                    'type': 'op_viewer_primed',
+                    'two_phase': True,
+                    'handle': temp_viewer.path,
+                    'operator_path': target_op.path,
+                    'family': family,
+                    'primed_bytes': primed_bytes,
+                }
+            }
+        except Exception as e:
+            log_message(f"Error in _prime_op_viewer: {str(e)}", LogLevel.ERROR)
+            # No handle was returned to the client -> destroy so nothing leaks.
+            if temp_viewer is not None:
+                try:
+                    temp_viewer.destroy()
+                except Exception:
+                    pass
+            return {'success': False, 'error': str(e)}
+
+    def pull_op_viewer(
+        self,
+        handle: str,
+        operator_path: str = "",
+        format: str = "jpeg",
+        quality: float = 0.85,
+    ) -> Result:
+        """Phase 2 of the two-phase capture: pull the primed viewer to a stable byte
+        size and encode it, then DESTROY the temp viewer in a finally-equivalent
+        (leak-proof, including on error). ``operator_path`` is the ORIGINAL op — used
+        to attach the POP numPoints/bounds sidecar and report family."""
+        temp_viewer = td.op(handle) if handle else None
+        try:
+            if temp_viewer is None or not getattr(temp_viewer, 'valid', False):
+                return {'success': False, 'error': f"Temp viewer handle not found: {handle}"}
+
+            if format.lower() == 'png':
+                file_ext, img_quality, mime_format = '.png', 1.0, 'png'
+            else:
+                file_ext, img_quality, mime_format = '.jpg', max(0.1, min(1.0, quality)), 'jpeg'
+
+            # Pull until the byte size stabilizes (progressive render converged).
+            best = b''
+            sizes = []
+            for _ in range(_PULL_MAX_ATTEMPTS):
+                temp_viewer.cook(force=True)
+                chunk = temp_viewer.saveByteArray(file_ext, quality=img_quality) or b''
+                sizes.append(len(chunk))
+                if len(chunk) > len(best):
+                    best = chunk
+                # Two equal, non-zero pulls in a row => converged; stop.
+                if len(sizes) >= 2 and sizes[-1] == sizes[-2] and sizes[-1] > 0:
+                    break
+
+            if not best:
+                return {'success': False, 'error': f"OP Viewer produced no bytes: {operator_path or handle}"}
+
+            width, height = temp_viewer.width, temp_viewer.height
+            image_base64 = base64.b64encode(best).decode('utf-8')
+
+            family = 'unknown'
+            data = {
+                'type': 'image',
+                'image_base64': image_base64,
+                'width': width,
+                'height': height,
+                'format': mime_format,
+                'operator_path': operator_path or handle,
+                'bytes_raw': len(best),
+                'two_phase': True,
+                'pulls': len(sizes),
+                'pull_sizes': sizes,
+            }
+
+            orig = td.op(operator_path) if operator_path else None
+            if orig is not None and getattr(orig, 'valid', False):
+                family = orig.family if hasattr(orig, 'family') else 'unknown'
+                if family == 'POP':
+                    self._merge_pop_info(data, orig)
+            data['family'] = family
+
+            log_message(
+                f"Two-phase capture of {family} {operator_path or handle}: "
+                f"{width}x{height}, {len(best)} bytes over {len(sizes)} pull(s) {sizes}",
+                LogLevel.INFO,
+            )
+            return {'success': True, 'data': data}
+        except Exception as e:
+            log_message(f"Error in pull_op_viewer: {str(e)}", LogLevel.ERROR)
+            return {'success': False, 'error': str(e)}
+        finally:
+            if temp_viewer is not None:
+                try:
+                    temp_viewer.destroy()
+                except Exception:
+                    pass
+
+    def _capture_pop_info(self, pop_op) -> Result:
+        """POP geometry info sidecar (clone of ``_capture_sop_info``).
+
+        Report L9 — a POP capture should carry numPoints + bounds so the caller can
+        verify a point cloud without a second ``poptoCHOP`` round-trip. Every read is
+        hasattr/try-guarded: if a given TD POP build does not expose an attribute the
+        field is simply omitted (needs live confirmation of the exact attr names).
+        """
+        try:
+            num_points = pop_op.numPoints if hasattr(pop_op, 'numPoints') else 0
+
+            bounds = None
+            if hasattr(pop_op, 'pointBoundingBox'):
+                try:
+                    bbox = pop_op.pointBoundingBox
+                    bounds = {
+                        'min': [bbox.min.x, bbox.min.y, bbox.min.z],
+                        'max': [bbox.max.x, bbox.max.y, bbox.max.z],
+                        'center': [bbox.center.x, bbox.center.y, bbox.center.z],
+                        'size': [bbox.size.x, bbox.size.y, bbox.size.z],
+                    }
+                except Exception:
+                    pass
+
+            return {
+                'success': True,
+                'data': {
+                    'type': 'geometry_info', 'family': 'POP', 'operator_path': pop_op.path,
+                    'num_points': num_points, 'bounds': bounds,
+                }
+            }
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def _merge_pop_info(self, data: dict, pop_op) -> None:
+        """Merge the POP numPoints/bounds sidecar into an image-capture data dict."""
+        info = self._capture_pop_info(pop_op)
+        if info.get('success') and isinstance(info.get('data'), dict):
+            d = info['data']
+            data['num_points'] = d.get('num_points')
+            if d.get('bounds') is not None:
+                data['bounds'] = d['bounds']
 
     def _capture_sop_info(self, sop_op) -> Result:
         """Return info about a SOP (full render chain is Phase 3.3)."""

@@ -10,6 +10,7 @@ Date: 2024-12-27
 
 import os
 import json
+import asyncio
 import httpx
 from pathlib import Path
 from typing import Sequence, Dict, Any, List, Optional, Union
@@ -370,55 +371,97 @@ async def get_python_exceptions(arguments: dict) -> Sequence[TextContent]:
         return [TextContent(type="text", text=f"Error getting Python exceptions: {str(e)}")]
 
 
+def _render_op_capture(result: dict) -> Sequence[Union[TextContent, ImageContent]]:
+    """Render a capture_op_viewer result dict (image / text / geometry_info / other).
+    An image carries the POP numPoints/bounds sidecar (W-B) in its caption when present."""
+    result_type = result.get("type")
+    if result_type == "image":
+        caption = (
+            f"Captured {result.get('family')} {result.get('operator_path')}: "
+            f"{result.get('width')}x{result.get('height')}"
+        )
+        if result.get("num_points") is not None:
+            caption += f" | POP points: {result['num_points']}"
+            bounds = result.get("bounds")
+            if isinstance(bounds, dict):
+                caption += f" | bounds min={bounds.get('min')} max={bounds.get('max')}"
+        if result.get("two_phase"):
+            caption += f" | pulls={result.get('pulls')} sizes={result.get('pull_sizes')}"
+        return [
+            ImageContent(
+                type="image",
+                data=result["image_base64"],
+                mimeType=f"image/{result['format']}"
+            ),
+            TextContent(type="text", text=caption),
+        ]
+    elif result_type == "text":
+        return [TextContent(
+            type="text",
+            text=f"## DAT Content: {result['operator_path']}\n\n"
+                 f"Rows: {result['rows']} | Cols: {result['cols']}\n\n"
+                 f"```\n{result['content']}\n```"
+        )]
+    elif result_type == "geometry_info":
+        return [TextContent(
+            type="text",
+            text=f"## SOP Info: {result['operator_path']}\n\n"
+                 f"Points: {result['num_points']} | Prims: {result['num_prims']} | Vertices: {result['num_vertices']}\n\n"
+                 f"Note: {result.get('note', 'Use capture_top_output on a Render TOP for visual')}"
+        )]
+    else:
+        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+
+
 async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
-    """Universal operator viewer - captures any operator type."""
+    """Universal operator viewer - captures any operator type.
+
+    W-B two-phase: the op-viewer families (POP/MAT/COMP) render progressively and
+    only fully populate a real frame after wiring. Phase 1 primes a temp viewer and
+    returns a handle; we then wait ~0.5 s on THIS (client) thread — NEVER TD's main
+    thread — and phase 2 pulls the converged frame and destroys the viewer. The
+    direct families (TOP/DAT/CHOP/SOP) return their full result in phase 1.
+    """
     try:
-        async with TDClient() as client:
-            response = await client.post("/api/feedback/capture/op", json={
+        async with TDClient(read_timeout=60.0) as client:
+            # Phase 1 — prime (or a full direct result for TOP/DAT/CHOP/SOP).
+            resp1 = await client.post("/api/feedback/capture/op", json={
                 "operator_path": arguments["operator_path"],
                 "resolution": arguments.get("resolution", 512),
                 "format": arguments.get("format", "jpeg"),
-                "quality": arguments.get("quality", 0.85)
+                "quality": arguments.get("quality", 0.85),
+                "phase": "prime",
             })
 
-            if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+            if resp1.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {resp1.text}")]
 
-            data = response.json()
-            if data.get("success") and data.get("data"):
-                result = data["data"]
-                result_type = result.get("type")
+            data1 = resp1.json()
+            if not (data1.get("success") and data1.get("data")):
+                return [TextContent(type="text", text=f"Capture failed: {data1.get('error')}")]
 
-                if result_type == "image":
-                    return [
-                        ImageContent(
-                            type="image",
-                            data=result["image_base64"],
-                            mimeType=f"image/{result['format']}"
-                        ),
-                        TextContent(
-                            type="text",
-                            text=f"Captured {result['family']} {result['operator_path']}: {result['width']}x{result['height']}"
-                        )
-                    ]
-                elif result_type == "text":
-                    return [TextContent(
-                        type="text",
-                        text=f"## DAT Content: {result['operator_path']}\n\n"
-                             f"Rows: {result['rows']} | Cols: {result['cols']}\n\n"
-                             f"```\n{result['content']}\n```"
-                    )]
-                elif result_type == "geometry_info":
-                    return [TextContent(
-                        type="text",
-                        text=f"## SOP Info: {result['operator_path']}\n\n"
-                             f"Points: {result['num_points']} | Prims: {result['num_prims']} | Vertices: {result['num_vertices']}\n\n"
-                             f"Note: {result.get('note', 'Use capture_top_output on a Render TOP for visual')}"
-                    )]
-                else:
-                    return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            r1 = data1["data"]
+            if not r1.get("two_phase"):
+                # Direct family — full result already returned.
+                return _render_op_capture(r1)
 
-            return [TextContent(type="text", text=f"Capture failed: {data.get('error')}")]
+            # Phase 2 — let a real frame elapse on our own thread, then pull + destroy.
+            await asyncio.sleep(0.5)
+            resp2 = await client.post("/api/feedback/capture/op", json={
+                "phase": "pull",
+                "handle": r1["handle"],
+                "operator_path": r1.get("operator_path", arguments["operator_path"]),
+                "format": arguments.get("format", "jpeg"),
+                "quality": arguments.get("quality", 0.85),
+            })
+
+            if resp2.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {resp2.text}")]
+
+            data2 = resp2.json()
+            if data2.get("success") and data2.get("data"):
+                return _render_op_capture(data2["data"])
+            return [TextContent(type="text", text=f"Capture failed: {data2.get('error')}")]
 
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]

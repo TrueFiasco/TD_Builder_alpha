@@ -344,6 +344,18 @@ def captureOpViewer(**kwargs) -> Result:
     resolution = int(body.get("resolution") or kwargs.get("resolution", 512))
     format = body.get("format") or kwargs.get("format", "jpeg")
     quality = float(body.get("quality") or kwargs.get("quality", 0.85))
+    # W-B two-phase routing: phase="prime" (create+wire+prime, return handle),
+    # phase="pull" (force-cook the handle to size-stability + destroy). Absent phase
+    # = legacy single-shot (backward-compatible for direct HTTP callers).
+    phase = body.get("phase") or kwargs.get("phase")
+
+    if phase == "pull":
+        handle = body.get("handle") or kwargs.get("handle")
+        if not handle:
+            return {'success': False, 'error': "Missing required parameter: handle (phase=pull)"}
+        return capture_service.pull_op_viewer(
+            handle, operator_path=operator_path or "", format=format, quality=quality
+        )
 
     if not operator_path:
         return {
@@ -351,7 +363,10 @@ def captureOpViewer(**kwargs) -> Result:
             'error': "Missing required parameter: operator_path"
         }
 
-    result = capture_service.capture_op_viewer(operator_path, resolution=resolution, format=format, quality=quality)
+    result = capture_service.capture_op_viewer(
+        operator_path, resolution=resolution, format=format, quality=quality,
+        prime_only=(phase == "prime"),
+    )
 
     return result
 

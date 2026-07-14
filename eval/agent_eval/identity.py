@@ -22,9 +22,15 @@ from pathlib import Path
 KB_IDENTITY_FIELDS = ("kb_manifest_version", "kb_sha")
 
 # Fields whose mismatch makes two AGENT-EVAL results non-comparable (§7).
+# live_tool_inventory_hash (added 2026-07-14, PR #24/#26 re-bless): the offline
+# tool_inventory_hash is BLIND to the separate td-builder-live surface (proven:
+# it stayed 1c81e8b4… across the 21→22 get_glsl_status change), so the live
+# inventory is stamped as its own field. Pre-existing baselines lack it — that
+# reads as "unknown" (warn, don't refuse) by design.
 AGENT_IDENTITY_FIELDS = (
     "scenario_set_version", "model_id", "cli_version", "server_version",
-    "kb_manifest_version", "kb_sha", "tool_inventory_hash", "guidance_hash",
+    "kb_manifest_version", "kb_sha", "tool_inventory_hash",
+    "live_tool_inventory_hash", "guidance_hash",
 )
 
 

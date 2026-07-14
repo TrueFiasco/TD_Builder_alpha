@@ -51,6 +51,10 @@ read_parm_codes = gate_common.read_parm_codes
 norm_token = gate_common.norm_token
 
 MCP_PREFIX = "mcp__td-builder__"
+# Live-surface scenarios (surface:"live") additionally register the separate
+# td-builder-live server; its calls carry this prefix. Offline and live tool
+# NAMES are disjoint sets, so both strip to bare names in one call list.
+LIVE_MCP_PREFIX = "mcp__td-builder-live__"
 
 # R-2: the explicit enumeration behind the `kb_lookup_any` trace alias.
 KB_LOOKUP_TOOLS = (
@@ -80,10 +84,11 @@ TRACE_ALIASES = {"kb_lookup_any": KB_LOOKUP_TOOLS}
 # ---------------------------------------------------------------------------
 @dataclass
 class ToolCall:
-    name: str                 # bare tool name (mcp__td-builder__ prefix stripped)
+    name: str                 # bare tool name (mcp__td-builder[-live]__ prefix stripped)
     args: dict
     ok: bool                  # envelope-level success (see _envelope_ok)
     result_text: str = ""
+    live: bool = False        # True when the call went to td-builder-live
 
     @property
     def result_json(self):
@@ -99,6 +104,7 @@ class NormalizedRun:
     tool_calls: list = field(default_factory=list)   # [ToolCall] in order
     assistant_text: str = ""
     connection_evidence: str | None = None    # "init_event"|"tool_result"|"in_process"|None
+    live_connection_evidence: str | None = None  # same vocabulary, td-builder-live server
     unexpected_tools: list = field(default_factory=list)  # non-td-builder tool_use names
     runner_error: str | None = None           # timeout / spawn / spend_cap / truncated...
     num_turns: int | None = None
@@ -149,8 +155,12 @@ def parse_stream_json(lines) -> NormalizedRun:
         etype = ev.get("type")
         if etype == "system" and ev.get("subtype") == "init":
             for srv in ev.get("mcp_servers") or []:
-                if srv.get("name") == "td-builder" and srv.get("status") == "connected":
+                if srv.get("status") != "connected":
+                    continue
+                if srv.get("name") == "td-builder":
                     run.connection_evidence = "init_event"
+                elif srv.get("name") == "td-builder-live":
+                    run.live_connection_evidence = "init_event"
         elif etype == "assistant":
             msg = ev.get("message") or {}
             if msg.get("model"):
@@ -161,7 +171,12 @@ def parse_stream_json(lines) -> NormalizedRun:
                     texts.append(part.get("text") or "")
                 elif part.get("type") == "tool_use":
                     full = part.get("name") or ""
-                    if full.startswith(MCP_PREFIX):
+                    if full.startswith(LIVE_MCP_PREFIX):
+                        tc = ToolCall(name=full[len(LIVE_MCP_PREFIX):],
+                                      args=part.get("input") or {}, ok=True, live=True)
+                        run.tool_calls.append(tc)
+                        calls_by_id[part.get("id") or ""] = tc
+                    elif full.startswith(MCP_PREFIX):
                         tc = ToolCall(name=full[len(MCP_PREFIX):],
                                       args=part.get("input") or {}, ok=True)
                         run.tool_calls.append(tc)
@@ -198,8 +213,12 @@ def parse_stream_json(lines) -> NormalizedRun:
                 # run produces NO tool_results at all (the proven quiet failure),
                 # so it stays None → ERROR. Gating this on tc.ok would misbook a
                 # connected server that returns only errors as a harness ERROR
-                # instead of the real model FAIL it is.
-                if run.connection_evidence is None:
+                # instead of the real model FAIL it is. Evidence is per-server:
+                # a live-prefixed result vouches for td-builder-live only.
+                if tc.live:
+                    if run.live_connection_evidence is None:
+                        run.live_connection_evidence = "tool_result"
+                elif run.connection_evidence is None:
                     run.connection_evidence = "tool_result"
         elif etype == "result":
             run.raw_result_event = ev
@@ -442,6 +461,16 @@ def score_scenario(scenario: dict, run: NormalizedRun, work_dir: Path,
                      "no successful td-builder tool result) — quiet-no-server run")
         return res
 
+    # Live scenarios need the SAME positive evidence for td-builder-live: a dead
+    # live server (or one that never connected) must never read as "the model
+    # failed to use the live tools".
+    if scenario.get("surface") == "live" and run.live_connection_evidence is None:
+        res.verdict = "ERROR"
+        res.error = ("live scenario but no td-builder-live connection evidence in "
+                     "transcript (init event absent / no live tool result) — "
+                     "quiet-no-live-server run")
+        return res
+
     # Harness-config leak: a built-in tool executing despite --disallowedTools
     # is a runner fault, not a model capability fact.
     tolerated = set(scenario.get("_tolerated_builtin_tools") or ())
@@ -488,6 +517,23 @@ def _score_trace(items, run: NormalizedRun, res: ScoreResult):
                           f"'{ref}' missing or out of order")
                     break
                 last = idx
+        elif "tool_result_re" in item:
+            # Lane-independent result-surface assertion (added for the live-tool
+            # scenarios, PR #24/#26 behaviors): ≥1 call to `tool` whose result
+            # text matches `re`. Replay re-executes and captures result_text, so
+            # unlike `response` assertions this one DOES score in the replay
+            # lane — it binds to the tool contract, not the model's prose.
+            spec = item["tool_result_re"]
+            names = set(_names_for(spec["tool"]))
+            pat = spec["re"]
+            hits = [tc for tc in run.tool_calls if tc.name in names]
+            if not hits:
+                _fail(res, f"trace.tool_result_re[{spec['tool']}:{pat}]",
+                      "tool never called")
+            elif not any(re.search(pat, tc.result_text or "", re.MULTILINE)
+                         for tc in hits):
+                _fail(res, f"trace.tool_result_re[{spec['tool']}:{pat}]",
+                      f"no match in {len(hits)} result(s)")
         else:
             _fail(res, f"trace.unknown[{sorted(item)}]", "unknown trace assertion key")
 
@@ -798,6 +844,15 @@ def load_scenario(path: Path) -> dict:
     for req in ("id", "version", "prompt", "expect"):
         if req not in sc:
             raise ValueError(f"scenario {path.name} missing required key '{req}'")
+    # Structural safety coupling (review F1): a live-surface scenario mutates
+    # the open TouchDesigner project, so the td_live_running precondition
+    # (TD_EVAL_LIVE=1 opt-in + socket probe) must gate it BY CONSTRUCTION —
+    # never by per-scenario convention. A future live scenario that forgets
+    # the requires token still cannot run without the opt-in.
+    if sc.get("surface") == "live":
+        reqs = list(sc.get("requires") or [])
+        if "td_live_running" not in reqs:
+            sc["requires"] = ["td_live_running"] + reqs
     return sc
 
 

@@ -51,12 +51,13 @@ REPO_ROOT = EVAL_DIR.parent
 sys.path.insert(0, str(AGENT_EVAL_DIR))
 import identity as identity_mod          # noqa: E402
 import score as score_mod                # noqa: E402
-from score import (MCP_PREFIX, OFFLINE_TOOLS, NormalizedRun, ToolCall,   # noqa: E402
-                   load_scenario, parse_stream_json, score_scenario)
+from score import (LIVE_MCP_PREFIX, MCP_PREFIX, OFFLINE_TOOLS, NormalizedRun,  # noqa: E402
+                   ToolCall, load_scenario, parse_stream_json, score_scenario)
 
 CONFIG_PATH = AGENT_EVAL_DIR / "config.json"
 GUIDANCE_PATH = AGENT_EVAL_DIR / "guidance.md"
 MCP_TMPL_PATH = AGENT_EVAL_DIR / "mcp.eval.json.tmpl"
+MCP_LIVE_TMPL_PATH = AGENT_EVAL_DIR / "mcp.eval.live.json.tmpl"
 SCENARIOS_DIR = AGENT_EVAL_DIR / "scenarios"
 TRACES_DIR = AGENT_EVAL_DIR / "traces"
 RUNS_DIR = AGENT_EVAL_DIR / "runs"
@@ -97,11 +98,49 @@ def kb_root() -> Path:
     return REPO_ROOT / "KB"
 
 
+def _td_reachable(timeout: float = 2.0) -> bool:
+    """True when TouchDesigner's WebServer DAT answers (mirror of
+    tests/conftest.py::_td_reachable, honoring the TD_API_URL override the
+    live client itself uses). A malformed TD_API_URL (schemeless host,
+    non-numeric port) reads as NOT reachable — a SKIP with a visible reason
+    beats crashing the sweep inside resolve_requires (review F5)."""
+    import socket
+    from urllib.parse import urlparse
+    try:
+        url = urlparse(os.environ.get("TD_API_URL", "http://127.0.0.1:9981"))
+        host, port = url.hostname, url.port or 9981
+        if not host:
+            return False
+    except ValueError:
+        return False
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
 def resolve_requires(requires: list) -> tuple[dict, str | None]:
     """Resolve scenario preconditions. Returns (template_vars, skip_reason)."""
     tvars: dict[str, str] = {}
     for req in requires or []:
-        if req == "derivative_bloom_tox":
+        if req == "td_live_running":
+            # Live-surface scenarios (s15–s17): a RUNNING TouchDesigner with
+            # the WebServer DAT up, PLUS an explicit opt-in. The env gate is
+            # load-bearing: these scenarios MUTATE the open TD project (scratch
+            # container, cleaned up, never saved — but still), and a scheduled
+            # `--all` sweep must never poke a live show file just because TD
+            # happened to be open. Auto-SKIP otherwise (hosted CI, TD closed) —
+            # same posture as s11's install-conditional SKIP.
+            if os.environ.get("TD_EVAL_LIVE") != "1":
+                return tvars, (f"requires '{req}' not satisfied (set "
+                               "TD_EVAL_LIVE=1 to opt in — live scenarios "
+                               "mutate the open TD project)")
+            if not _td_reachable():
+                return tvars, (f"requires '{req}' not satisfied (TouchDesigner "
+                               "WebServer not reachable — open TD with "
+                               "mcp_webserver_base.tox imported)")
+        elif req == "derivative_bloom_tox":
             # D-D: the REAL Derivative bloom.tox from the local TouchDesigner
             # install (app.samplesFolder convention on disk). Never committed,
             # never staged — s11 auto-SKIPs where TD is absent (hosted CI).
@@ -160,6 +199,11 @@ def build_identity(cfg: dict, lane: str, model_id: str | None) -> dict:
         if lane == "model" else None,
         "server_version": inproc.server_version(),
         "tool_inventory_hash": identity_mod.tool_inventory_hash(inproc.tool_names()),
+        # The separate td-builder-live surface, stamped from its STATIC tool
+        # list (no running TD needed). Proven blind spot: the offline hash
+        # stayed constant across the live 21→22 get_glsl_status change.
+        "live_tool_inventory_hash": identity_mod.tool_inventory_hash(
+            inproc.live_tool_names()),
         "guidance_hash": identity_mod.sha256_text(
             GUIDANCE_PATH.read_text(encoding="utf-8")),
     }
@@ -187,6 +231,24 @@ def _subprocess_env() -> dict:
     return env
 
 
+def allowed_tools(live: bool) -> list:
+    """Lane M --allowedTools names. Offline scenarios: the fixed 17-tool
+    surface. Live scenarios additionally allow the td-builder-live tools MINUS
+    save_td_project — the PERSISTENCE boundary: everything else a live
+    scenario can break is recoverable precisely because the open project is
+    never written to disk, so the save tool stays off the allowlist entirely
+    (review F2; the scenarios' tool_not_called assertion still scores any
+    attempt, but the damage path is removed). Residual soft boundary:
+    execute_python_script could call project.save(); the live server's
+    non-negotiables forbid it."""
+    names = [MCP_PREFIX + t for t in OFFLINE_TOOLS]
+    if live:
+        import inproc
+        names += [LIVE_MCP_PREFIX + t for t in inproc.live_tool_names()
+                  if t != "save_td_project"]
+    return names
+
+
 def run_model_once(scenario: dict, trial_dir: Path, cfg: dict, model_id: str,
                    guided: bool, tvars: dict) -> tuple[NormalizedRun, Path]:
     work = trial_dir / "work"
@@ -195,13 +257,17 @@ def run_model_once(scenario: dict, trial_dir: Path, cfg: dict, model_id: str,
     prompt = template_prompt(scenario, work, tvars)
     (trial_dir / "prompt.txt").write_text(prompt, encoding="utf-8")
 
-    mcp_cfg = MCP_TMPL_PATH.read_text(encoding="utf-8") \
+    # Live-surface scenarios also register td-builder-live and allow its tools;
+    # offline scenarios keep the fixed 17-tool surface (hermeticity unchanged).
+    live = scenario.get("surface") == "live"
+    tmpl = MCP_LIVE_TMPL_PATH if live else MCP_TMPL_PATH
+    mcp_cfg = tmpl.read_text(encoding="utf-8") \
         .replace("{{PYTHON}}", Path(sys.executable).as_posix()) \
         .replace("{{REPO_ROOT}}", REPO_ROOT.as_posix())
     cfg_path = trial_dir / "mcp.eval.json"
     cfg_path.write_text(mcp_cfg, encoding="utf-8")
 
-    allowed = ",".join(MCP_PREFIX + t for t in OFFLINE_TOOLS)
+    allowed = ",".join(allowed_tools(live))
     disallowed = ",".join(DISALLOWED_BUILTINS)
     cmd = [_cli_exe(cfg), "-p", "--model", model_id,
            "--output-format", "stream-json", "--verbose",
@@ -291,6 +357,19 @@ def run_replay_once(scenario: dict, trial_dir: Path, tvars: dict) -> tuple[Norma
         return run, work
     run.connection_evidence = "in_process"
 
+    # Live-surface scenarios replay their live-tool calls against the
+    # in-process td-builder-live server (reached only when td_live_running
+    # held, i.e. TD is up). Same barrier: positive get_td_info evidence first.
+    live_probe, live_names = None, frozenset()
+    if scenario.get("surface") == "live":
+        live_probe = inproc.get_live_probe()
+        live_names = frozenset(inproc.live_tool_names())
+        td_info = live_probe.call("get_td_info", {})
+        if not td_info.ok:
+            run.runner_error = "in-process live server failed get_td_info preamble"
+            return run, work
+        run.live_connection_evidence = "in_process"
+
     steps = [json.loads(ln) for ln in
              trace_path.read_text(encoding="utf-8").splitlines() if ln.strip()]
     t0 = time.time()
@@ -298,9 +377,10 @@ def run_replay_once(scenario: dict, trial_dir: Path, tvars: dict) -> tuple[Norma
         if "_meta" in step:
             continue
         args = _template_args(step.get("args") or {}, work, tvars)
-        r = probe.call(step["tool"], args)
+        is_live = live_probe is not None and step["tool"] in live_names
+        r = (live_probe if is_live else probe).call(step["tool"], args)
         run.tool_calls.append(ToolCall(name=step["tool"], args=args,
-                                       ok=r.ok, result_text=r.text))
+                                       ok=r.ok, result_text=r.text, live=is_live))
     run.duration_s = round(time.time() - t0, 2)
     (trial_dir / "replay_calls.json").write_text(json.dumps(
         [{"tool": tc.name, "ok": tc.ok} for tc in run.tool_calls], indent=2),
@@ -568,9 +648,19 @@ def capture_baseline(args, cfg, sweep: dict, scenarios: list):
 
 def compare_against(args, sweep: dict) -> int:
     prior = json.loads(Path(args.compare).read_text(encoding="utf-8"))
+    fields = identity_mod.AGENT_IDENTITY_FIELDS
+    if sweep["lane"] == "replay":
+        # Cross-lane compare (the documented replay-vs-committed-baseline flow):
+        # a replay sweep has NO model or CLI in the loop, so those two fields
+        # are structurally None and comparing them to a model-lane baseline
+        # would refuse forever. The comparison still refuses on every
+        # environment field (scenario set, server, KB, tool surfaces, guidance).
+        fields = tuple(f for f in fields if f not in ("model_id", "cli_version"))
+        print("[compare] replay lane: model_id/cli_version excluded from the "
+              "identity check (model-lane facts; replay has neither)",
+              file=sys.stderr)
     mism, unknown = identity_mod.identity_mismatches(
-        sweep["identity"], prior.get("identity"),
-        identity_mod.AGENT_IDENTITY_FIELDS)
+        sweep["identity"], prior.get("identity"), fields)
     if unknown:
         print(f"[compare] WARNING: prior baseline has no identity for "
               f"{unknown} — treating as unknown, proceeding.", file=sys.stderr)

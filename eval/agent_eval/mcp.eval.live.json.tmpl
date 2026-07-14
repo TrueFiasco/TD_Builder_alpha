@@ -1,0 +1,20 @@
+{
+  "_comment": "Live-surface variant of mcp.eval.json.tmpl (scenarios with surface:'live', s15-s17): registers BOTH the offline td-builder server (KB lookups stay in scope) and td-builder-live (the 22 running-TD tools). Only materialized when the td_live_running precondition held, so the live server always has a TouchDesigner WebServer DAT to reach (TD_API_URL inherited from the parent env, default http://127.0.0.1:9981). Same strict-mode rationale: --strict-mcp-config keeps the maintainer's global registrations out of the eval.",
+  "mcpServers": {
+    "td-builder": {
+      "command": "{{PYTHON}}",
+      "args": ["{{REPO_ROOT}}/MCP/server.py"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "TD_BUILDER_ROOT": "{{REPO_ROOT}}"
+      }
+    },
+    "td-builder-live": {
+      "command": "{{PYTHON}}",
+      "args": ["{{REPO_ROOT}}/MCP/live_server.py"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  }
+}

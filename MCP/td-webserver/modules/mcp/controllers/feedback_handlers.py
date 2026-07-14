@@ -393,8 +393,10 @@ def getGlslStatus(**kwargs) -> Result:
 
     Query parameters:
         - node_path: Path to the operator to check
+        - file_path: Alternative to node_path — check every GLSL op whose shader
+          source is a DAT synced to this on-disk .glsl/.vert/.frag file
 
-    Response:
+    Response (node_path form):
         {
             "success": true,
             "data": {
@@ -406,7 +408,11 @@ def getGlslStatus(**kwargs) -> Result:
                 "errors": [...],
                 "warnings": ["The GLSL Shader has compile errors (...)"],
                 "compiler_log": "...ERROR: 0:12: ...",
-                "compiler_errors": ["ERROR: 0:12: ..."]
+                "compiler_errors": ["ERROR: 0:12: ..."],
+                "shader_sources": [
+                    {"par": "pixeldat", "dat": "/project1/glsl1_pixel",
+                     "dat_name": "glsl1_pixel", "file": "shaders/raymarch.glsl"}
+                ]
             }
         }
     """

@@ -17,11 +17,13 @@ if so, returns a compact compile-status summary to staple onto the mutation
 receipt — so an agent that forgets to check errors is still told about a break.
 The consuming GLSL op is resolved by treating (GLSL op + shader DAT(s) + info
 DAT) as one unit: dock shortcut, then sibling scan, then a capped project scan
-over GLSL-family ops — always via the ops' own ``SHADER_SOURCE_PARS`` forward
-pointers. Statuses and receipts carry ``shader_sources`` (which DAT holds each
+over GLSL-family ops (its "no consumer" answers memoized per DAT path with a
+short TTL — see ``_find_glsl_consumer_projectwide``) — always via the ops' own
+``SHADER_SOURCE_PARS`` forward pointers. Statuses and receipts carry ``shader_sources`` (which DAT holds each
 stage, and the on-disk .glsl/.vert/.frag its ``file`` par syncs to).
 """
 
+import time
 from typing import Any, Optional
 
 import td
@@ -44,6 +46,10 @@ class GlslStatusService:
     """Compile-status reader for GLSL ops (TOP/multiTOP/POP/MAT)."""
 
     def __init__(self) -> None:
+        # Negative-consumer memo for the receipt's project-scan lane: DAT path ->
+        # time.monotonic() of a full scan that found NO GLSL consumer. See
+        # _find_glsl_consumer_projectwide for the invalidation/staleness story.
+        self._no_consumer_memo: dict = {}
         log_message("GlslStatusService initialized (W-A2)", LogLevel.INFO)
 
     # ------------------------------------------------------------------
@@ -133,6 +139,11 @@ class GlslStatusService:
         try:
             if not mutation_touches_glsl(node, properties):
                 return None
+            if is_glsl_family(node):
+                # Any par write on a GLSL op can rewire it at a DAT previously
+                # memoized as consumerless — drop the negative memo so the next
+                # edit on that DAT rescans (see _find_glsl_consumer_projectwide).
+                self._no_consumer_memo.clear()
             target = self._resolve_glsl_target(node, properties)
             if target is None:
                 return None
@@ -174,6 +185,29 @@ class GlslStatusService:
     # receipt's last-resort cross-container consumer scan.
     _PROJECT_SCAN_CAP = 8000
 
+    # Negative-consumer memo tuning (receipt lane): how long a "no GLSL consumer
+    # references this DAT" answer stays trusted, and how many DAT paths may be
+    # memoized before the memo is wholesale cleared (crude bound — entries
+    # rebuild on demand; per-entry LRU machinery is not worth it here).
+    _NO_CONSUMER_TTL_SECONDS = 30.0
+    _NO_CONSUMER_MEMO_MAX = 256
+
+    def _capped_project_ops(self, root: Any, lane: str) -> list:
+        """All project ops via the recursive ``root.findChildren()``, truncated at
+        ``_PROJECT_SCAN_CAP``. A cap hit is LOGGED — past the cap either lane
+        silently misses (a shader DAT / a cross-container consumer), and that
+        must at least be visible. Raises whatever findChildren raises; each
+        caller keeps its own degrade story (error_result vs no-receipt)."""
+        found = list(root.findChildren())
+        if len(found) > self._PROJECT_SCAN_CAP:
+            log_message(
+                f"GLSL {lane} project scan hit its {self._PROJECT_SCAN_CAP}-op cap "
+                f"({len(found)} ops in project) — ops beyond the cap were not "
+                "scanned; a consumer/DAT past the cap is silently missed",
+                LogLevel.WARNING,
+            )
+        return found[: self._PROJECT_SCAN_CAP]
+
     def _status_for_shader_file(self, file_path: str) -> Result:
         """Compile status for every GLSL op whose shader source is a DAT synced to
         ``file_path``. TD auto-reloads a synced DAT when the file changes on disk,
@@ -185,7 +219,7 @@ class GlslStatusService:
         if root is None:
             return error_result("td.root unavailable; cannot scan for shader DATs")
         try:
-            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
+            all_ops = self._capped_project_ops(root, "file_path")
         except Exception as e:  # noqa: BLE001
             return error_result(f"Project scan failed: {e}")
 
@@ -311,22 +345,47 @@ class GlslStatusService:
 
         Only DATs can be shader sources, and ``mutation_touches_glsl`` fires on
         any ``text`` key (which a textTOP write also carries) — the DAT pre-filter
-        keeps non-DAT text writes from paying the project walk. The walk reuses
-        the file lane's capped ``td.root.findChildren()`` pattern; no root (unit
-        stubs, teardown) degrades to no receipt, never an error.
+        keeps non-DAT text writes from paying the project walk. The family check
+        is exact (TD OPTypes end in their family name: textDAT, tableDAT, ...);
+        a 'dat' substring would let dattoCHOP-style ops slip through. The walk
+        reuses the file lane's capped ``td.root.findChildren()`` pattern; no root
+        (unit stubs, teardown) degrades to no receipt, never an error.
+
+        Perf (PR #29 review): a "no consumer" answer is memoized per DAT path for
+        ``_NO_CONSUMER_TTL_SECONDS`` — without it, EVERY ``text`` write on a
+        consumerless DAT pays a full recursive findChildren() + GLSL scan on the
+        TD main thread. Staleness story, honestly: rewiring via update_node (any
+        GLSL-op par write) clears the memo immediately (``receipt_for_mutation``);
+        wiring changed any OTHER way — create_node with shader-source
+        ``parameters``, ``execute_python_script``, manual UI edits — is seen only
+        after the TTL, so a receipt can be missing for up to that window on an
+        already-memoized DAT.
         """
-        if "dat" not in op_type_of(node).lower():
+        if not op_type_of(node).endswith("DAT"):
+            return None
+        now = time.monotonic()
+        memo = self._no_consumer_memo.get(node_path)
+        if memo is not None and (now - memo) < self._NO_CONSUMER_TTL_SECONDS:
             return None
         root = getattr(td, "root", None)
         if root is None:
             return None
         try:
-            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
+            all_ops = self._capped_project_ops(root, "receipt")
         except Exception:  # noqa: BLE001
             return None
         for o in all_ops:
             if is_glsl_family(o) and self._op_references_dats(o, {node_path}, node):
                 return o
+        if len(self._no_consumer_memo) >= self._NO_CONSUMER_MEMO_MAX:
+            self._no_consumer_memo.clear()
+        self._no_consumer_memo[node_path] = now
+        log_message(
+            f"GLSL receipt: no consumer references {node_path} "
+            f"(scanned {len(all_ops)} ops); memoized for "
+            f"{self._NO_CONSUMER_TTL_SECONDS:.0f}s",
+            LogLevel.DEBUG,
+        )
         return None
 
     @staticmethod

@@ -106,8 +106,17 @@ def test_mutation_touches_glsl_gate(g):
 
 
 class FakePar:
-    def __init__(self, val=""):
+    """Models a TD par. PROVEN LIVE (2026-07-14, TD 099.2025.32820): an OP-type par
+    (pixeldat/vertexdat/computedat/pdat/vdat) returns the referenced OPERATOR OBJECT
+    from ``par.eval()`` — pass it as ``target``. String pars (e.g. ``file``) eval to
+    their string val, which also models an OP par whose reference doesn't resolve."""
+
+    def __init__(self, val="", target=None):
         self.val = val
+        self._target = target
+
+    def eval(self):
+        return self._target if self._target is not None else self.val
 
 
 class FakeParNS:
@@ -131,7 +140,7 @@ class FakeOp:
         self.nodeY = 0
         self.cook_calls = 0
         self.destroyed = False
-        self._op_refs = {}   # rel/val -> op (for .op() resolution)
+        self._dock = None
 
     @property
     def text(self):
@@ -153,7 +162,24 @@ class FakeOp:
         self.destroyed = True
 
     def op(self, rel):
-        return self._op_refs.get(rel)
+        # PROVEN LIVE (2026-07-14, TD 099.2025.32820): OP.op(name) on a non-COMP does
+        # NOT resolve sibling names — op('/x/glsl1').op('glsl1_pixel') is None even
+        # for TD's own auto-docked default wiring. Only COMPs resolve relative names
+        # (see FakeParent). The old sibling-resolving stub here is what let BUG-A
+        # pass unit-tested.
+        return None
+
+    @property
+    def dock(self):
+        return self._dock
+
+    @dock.setter
+    def dock(self, host):
+        # Live TD reflects docking immediately: setting child.dock = host makes the
+        # child appear in host.docked.
+        self._dock = host
+        if host is not None and self not in host.docked:
+            host.docked.append(self)
 
 
 class FakeParent(FakeOp):
@@ -165,7 +191,8 @@ class FakeParent(FakeOp):
         self.create_calls = 0
 
     def op(self, rel):
-        return self._children.get(rel) or self._op_refs.get(rel)
+        # COMPs DO resolve relative child names (unlike base FakeOp above).
+        return self._children.get(rel)
 
     def add(self, op_obj):
         self._children[op_obj.name] = op_obj
@@ -213,7 +240,9 @@ def test_get_glsl_status_flags_compile_log_error(monkeypatch):
     assert d["ok"] is False
     assert d["compile_failed"] is True
     assert any("ERROR:" in ln for ln in d["compiler_errors"])
-    # temp Info DAT created AND destroyed (no leak)
+    # temp Info DAT created AND destroyed (no leak). This locks the READ_ONLY
+    # contract of the get_glsl_status surface: a pure status read never leaves a
+    # node behind — only the mutation-path receipt persists one (tests below).
     assert parent.create_calls == 1
     assert parent.created[0].destroyed is True
 
@@ -312,8 +341,9 @@ def test_receipt_for_mutation_glslmat_pdat_scan(monkeypatch):
     parent = FakeParent(info_text=COMPILE_LOG)
     shader_dat = FakeOp("/project1/pixelsrc", "textDAT", parent=parent)
     mat = FakeOp("/project1/glslmat1", "glslMAT", parent=parent)
-    mat.par.pdat = FakePar(val="pixelsrc")       # references the DAT by relative name
-    mat._op_refs["pixelsrc"] = shader_dat          # mat.op('pixelsrc') -> shader_dat
+    # BUG-A: relative ref — par.eval() yields the DAT object; mat.op('pixelsrc')
+    # is None on live TD (non-COMP), so name-based resolution must NOT be used.
+    mat.par.pdat = FakePar(val="pixelsrc", target=shader_dat)
     parent.add(shader_dat)
     parent.add(mat)
     mod = _load_service(monkeypatch, {mat.path: mat, shader_dat.path: shader_dat})
@@ -328,8 +358,10 @@ def test_receipt_for_mutation_dat_sibling_scan(monkeypatch):
     parent = FakeParent(info_text=COMPILE_LOG)
     shader_dat = FakeOp("/project1/pixel", "textDAT", parent=parent)
     glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
-    glsl.par.pixeldat = FakePar(val="pixel")   # references the DAT by relative name
-    glsl._op_refs["pixel"] = shader_dat          # sib.op('pixel') -> shader_dat
+    # BUG-A regression (proven live 2026-07-14): with a RELATIVE pixeldat ref the
+    # receipt silently never fired — sib.op('pixel') is None on a non-COMP. The
+    # fix resolves via par.eval(), which returns the DAT object directly.
+    glsl.par.pixeldat = FakePar(val="pixel", target=shader_dat)
     parent.add(shader_dat)
     parent.add(glsl)
     mod = _load_service(monkeypatch, {glsl.path: glsl, shader_dat.path: shader_dat})
@@ -399,8 +431,8 @@ def _shader_file_rig(broken=True):
         warnings="Warning: The GLSL Shader has compile errors (Use Info DAT to see details)." if broken else "",
         parent=parent,
     )
-    glsl.par.pixeldat = FakePar("shader_src")
-    glsl._op_refs["shader_src"] = dat
+    # BUG-A: relative shader-source ref resolves ONLY via par.eval() (see FakeOp.op).
+    glsl.par.pixeldat = FakePar("shader_src", target=dat)
     parent.add(glsl)
     registry = {dat.path: dat, glsl.path: glsl, parent.path: parent}
     return parent, dat, glsl, registry
@@ -440,3 +472,77 @@ def test_file_path_no_match_is_friendly_error(monkeypatch):
     r = mod.GlslStatusService().get_glsl_status(file_path=r"C:\nope\other.glsl")
     assert r["success"] is False
     assert "No op with a file par matching" in r["error"]
+
+
+# ---------------------------------------------------------------------------
+# BUG-A regression (proven live 2026-07-14, TD 099.2025.32820) — shader-source
+# par resolution via par.eval(), plus the mutation-path persistent info DAT.
+# ---------------------------------------------------------------------------
+
+
+def test_receipt_resolves_via_parent_when_eval_is_stringy(monkeypatch):
+    # Fallback branch: a par whose eval() yields only the string must resolve the
+    # name against the PARENT (sibling names anchor there) — never via sib.op(),
+    # which on live TD returns None for sibling names on a non-COMP.
+    parent = FakeParent(info_text=COMPILE_LOG)
+    shader_dat = FakeOp("/project1/pixel", "textDAT", parent=parent)
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    glsl.par.pixeldat = FakePar(val="pixel")      # eval() -> "pixel" (string)
+    parent.add(shader_dat)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl, shader_dat.path: shader_dat})
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(shader_dat, {"text": "void main(){}"})
+    assert receipt is not None
+    assert receipt["checked_node"] == "/project1/glsl1"
+
+
+def test_receipt_resolves_expression_mode_par(monkeypatch):
+    # Expression-mode par: par.val is the RAW EXPRESSION string (useless as a
+    # name); only par.eval() yields the operator. The fix must try eval() first.
+    parent = FakeParent(info_text=COMPILE_LOG)
+    shader_dat = FakeOp("/project1/pixel", "textDAT", parent=parent)
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    glsl.par.pixeldat = FakePar(val='op("pixel")', target=shader_dat)
+    parent.add(shader_dat)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl, shader_dat.path: shader_dat})
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(shader_dat, {"text": "void main(){}"})
+    assert receipt is not None
+    assert receipt["checked_node"] == "/project1/glsl1"
+
+
+def test_receipt_creates_persistent_docked_info_dat(monkeypatch):
+    # Owner decision 2026-07-14: the mutation path (the W-A3 receipt, running inside
+    # update_node — class DESTRUCTIVE) leaves a persistent `<name>_info` Info DAT
+    # docked to a GLSL op that lacks one, matching TD's own create() convention and
+    # the offline builder's _write_docked_info_dat. The plain get_glsl_status read
+    # path keeps temp create+destroy (READ_ONLY annotation stays honest).
+    parent = FakeParent(info_text=COMPILE_LOG)
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl})
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(glsl, {"outputresolution": "custom"})
+    assert receipt is not None
+    assert receipt["compile_failed"] is True
+    assert parent.create_calls == 1
+    info = parent.op("glsl1_info")
+    assert info is not None
+    assert info.destroyed is False               # persistent, not temp
+    assert info in glsl.docked                   # docked to the GLSL op
+    assert info.par.op == "glsl1"                # relative sibling ref (builder convention)
+
+
+def test_receipt_reuses_persistent_info_dat(monkeypatch):
+    parent = FakeParent(info_text=COMPILE_LOG)
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl})
+    svc = mod.GlslStatusService()
+
+    assert svc.receipt_for_mutation(glsl, {"pixeldat": "x"}) is not None
+    assert svc.receipt_for_mutation(glsl, {"pixeldat": "y"}) is not None
+    # The second receipt found the docked/sibling `<name>_info` left by the first.
+    assert parent.create_calls == 1

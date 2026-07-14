@@ -4,9 +4,12 @@
 compiler_errors, ...}`` for a GLSL-family op. The compiler log is the shader's
 Info DAT text — the source of truth for GLSL compile output (``op.errors()`` is
 empty on a hard compile failure; see ``utils.glsl``). We prefer an existing
-docked/sibling ``<name>_info`` Info DAT and otherwise create a temporary one,
-point it at the op, read ``.text``, and destroy it (the temp-node pattern proven
-in ``capture_service._capture_via_opviewer``).
+docked/sibling ``<name>_info`` Info DAT. When none exists, the READ path creates
+a temporary one, reads ``.text``, and destroys it (the temp-node pattern proven
+in ``capture_service._capture_via_opviewer``) — the tool's READ_ONLY annotation
+stays honest. The MUTATION path (the W-A3 receipt, running inside update_node,
+class DESTRUCTIVE) instead creates a persistent ``<name>_info`` docked to the
+GLSL op — the same Info DAT TD's own create() ships (owner decision 2026-07-14).
 
 ``receipt_for_mutation(node, properties)`` is the W-A3 hook: given a just-applied
 ``update_node`` mutation, it decides whether the change could affect a shader and,
@@ -42,7 +45,9 @@ class GlslStatusService:
     # Public
     # ------------------------------------------------------------------
 
-    def get_glsl_status(self, node_path: str = "", file_path: str = "") -> Result:
+    def get_glsl_status(
+        self, node_path: str = "", file_path: str = "", persist_info: bool = False
+    ) -> Result:
         """Return the compile status of the op at ``node_path``, or of every GLSL
         op whose shader source is a DAT synced to ``file_path`` (the check for the
         edit-the-.glsl-file-on-disk workflow).
@@ -51,6 +56,11 @@ class GlslStatusService:
         compile-failure warning banner) OR the op reports plain errors. For a
         non-GLSL op we skip the Info DAT entirely (nothing to compile) and just
         report is_glsl=False with any errors/warnings.
+
+        ``persist_info`` is server-internal (NOT exposed on the HTTP route — the
+        tool's READ_ONLY annotation depends on that): only the W-A3 mutation
+        receipt passes True, allowing a missing Info DAT to be created
+        persistently and docked instead of temp-and-destroyed.
         """
         if not node_path and file_path:
             return self._status_for_shader_file(file_path)
@@ -70,7 +80,7 @@ class GlslStatusService:
         warnings = self._lines(self._safe_call(node, "warnings"))
 
         if is_glsl:
-            compiler_log = self._read_compiler_log(node)
+            compiler_log = self._read_compiler_log(node, persist_info=persist_info)
             compiler_errors = scan_compiler_log(compiler_log)
         else:
             compiler_log = ""
@@ -113,7 +123,11 @@ class GlslStatusService:
             target = self._resolve_glsl_target(node, properties)
             if target is None:
                 return None
-            result = self.get_glsl_status(str(getattr(target, "path", "")))
+            # persist_info: the receipt runs inside update_node (class DESTRUCTIVE),
+            # so it may leave a permanent docked <name>_info on the checked op.
+            result = self.get_glsl_status(
+                str(getattr(target, "path", "")), persist_info=True
+            )
             if not result.get("success"):
                 return None
             data = result["data"]
@@ -198,11 +212,7 @@ class GlslStatusService:
                 par = getattr(getattr(o, "par", None), par_name, None)
                 if par is None:
                     continue
-                try:
-                    val = str(getattr(par, "val", "") or "")
-                    ref = o.op(val) if val else None
-                except Exception:  # noqa: BLE001
-                    ref = None
+                ref = self._resolve_op_par(o, par)
                 if ref is not None and str(getattr(ref, "path", "")) in dat_paths:
                     checked.append(o)
                     break
@@ -244,67 +254,124 @@ class GlslStatusService:
                 par = getattr(getattr(sib, "par", None), par_name, None)
                 if par is None:
                     continue
-                try:
-                    val = str(getattr(par, "val", "") or "")
-                except Exception:
-                    val = ""
-                if not val:
-                    continue
-                try:
-                    ref = sib.op(val)
-                except Exception:
-                    ref = None
+                ref = self._resolve_op_par(sib, par)
                 if ref is node or (ref is not None and str(getattr(ref, "path", "")) == node_path):
                     return sib
         return None
 
-    def _read_compiler_log(self, node: Any) -> str:
-        """Return the shader's Info DAT text, creating a temp Info DAT if needed.
+    @staticmethod
+    def _resolve_op_par(owner: Any, par: Any) -> Optional[Any]:
+        """Resolve a shader-source (OP-type) par to the operator it references.
 
-        Prefers a docked Info DAT or a sibling ``<name>_info`` (built ops ship one),
-        else creates ``temp_glsl_info_capture``, points its ``op`` par at the node,
-        cooks, reads ``.text``, and destroys it in a finally-equivalent — so a temp
-        Info DAT never leaks even on error.
+        PROVEN LIVE (2026-07-14, TD 099.2025.32820): ``OP.op(name)`` on a non-COMP
+        does NOT resolve sibling names — ``op('/x/glsl1').op('glsl1_pixel')`` is
+        None even though that is TD's own auto-docked default wiring. ``par.eval()``
+        on an OP-type par returns the referenced operator directly (and handles
+        expression-mode pars, where ``par.val`` is the raw expression string). For
+        string-y evals (odd/stub pars) fall back to resolving against the owner's
+        PARENT — sibling names anchor there, never at the owner itself.
+        """
+        try:
+            resolved = par.eval()
+        except Exception:  # noqa: BLE001 — stub/odd pars: fall back to .val
+            resolved = None
+        if resolved is not None and not isinstance(resolved, str):
+            return resolved
+        val = str(resolved or getattr(par, "val", "") or "")
+        if not val:
+            return None
+        try:
+            parent = owner.parent()
+            return parent.op(val) if parent is not None else None
+        except Exception:  # noqa: BLE001
+            return None
+
+    def _read_compiler_log(self, node: Any, persist_info: bool = False) -> str:
+        """Return the shader's Info DAT text, creating an Info DAT if needed.
+
+        Prefers a docked Info DAT or a sibling ``<name>_info`` (built ops ship one).
+        When none exists the behavior forks on ``persist_info`` (owner decision
+        2026-07-14):
+          * False (the READ_ONLY ``get_glsl_status`` surface): create
+            ``temp_glsl_info_capture``, read ``.text``, and destroy it in a
+            finally-equivalent — a pure status read never mutates the network.
+          * True (the W-A3 mutation receipt, inside update_node, class DESTRUCTIVE):
+            create a permanent ``<name>_info`` docked to the GLSL op — the same
+            Info DAT TD's own create() ships — and KEEP it on success (destroyed
+            only if the read errors out), so every op actually worked on ends up
+            with its compile-error surface.
         """
         info = self._find_existing_info_dat(node)
-        temp = None
+        created = None
+        keep_created = False
         try:
             if info is None:
                 parent = node.parent()
                 if parent is None:
                     return ""
-                # Clear any leaked temp from a prior aborted call so create() does
-                # not silently auto-suffix (we would then destroy the wrong node).
-                stale = parent.op(_TEMP_INFO_NAME)
-                if stale is not None and getattr(stale, "valid", False):
+                if persist_info:
+                    created = self._create_persistent_info_dat(node, parent)
+                else:
+                    # Clear any leaked temp from a prior aborted call so create()
+                    # does not silently auto-suffix (we would then destroy the
+                    # wrong node).
+                    stale = parent.op(_TEMP_INFO_NAME)
+                    if stale is not None and getattr(stale, "valid", False):
+                        try:
+                            stale.destroy()
+                        except Exception:
+                            pass
+                    created = parent.create("infoDAT", _TEMP_INFO_NAME)
                     try:
-                        stale.destroy()
+                        created.par.op = str(getattr(node, "path", ""))
                     except Exception:
                         pass
-                temp = parent.create("infoDAT", _TEMP_INFO_NAME)
-                try:
-                    temp.par.op = str(getattr(node, "path", ""))
-                except Exception:
-                    pass
-                try:
-                    temp.nodeX, temp.nodeY = node.nodeX, node.nodeY - 150
-                except Exception:
-                    pass
-                self._safe_cook(temp)
-                info = temp
+                    try:
+                        created.nodeX, created.nodeY = node.nodeX, node.nodeY - 150
+                    except Exception:
+                        pass
+                self._safe_cook(created)
+                info = created
             else:
                 self._safe_cook(info)
             text = getattr(info, "text", "") if info is not None else ""
+            keep_created = persist_info
             return str(text or "")
         except Exception as e:  # noqa: BLE001
             log_message(f"_read_compiler_log failed: {e}", LogLevel.WARNING)
             return ""
         finally:
-            if temp is not None:
+            if created is not None and not keep_created:
                 try:
-                    temp.destroy()
+                    created.destroy()
                 except Exception:
                     pass
+
+    @staticmethod
+    def _create_persistent_info_dat(node: Any, parent: Any) -> Any:
+        """Create the permanent ``<name>_info`` Info DAT docked to ``node``
+        (mutation path only). Mirrors the offline builder's
+        ``toe_builder_bridge._write_docked_info_dat`` and TD's own create()
+        convention: named ``<host>_info``, ``op`` par = relative sibling name,
+        docked to the host, placed at the docked-child offset (+160, -120).
+        Docking is best-effort: if the ``dock`` assignment fails, the name and
+        position still make the DAT discoverable via the ``<name>_info`` sibling
+        lookup in ``_find_existing_info_dat``.
+        """
+        info = parent.create("infoDAT", str(getattr(node, "name", "")) + "_info")
+        try:
+            info.par.op = str(getattr(node, "name", ""))
+        except Exception:
+            pass
+        try:
+            info.nodeX, info.nodeY = node.nodeX + 160, node.nodeY - 120
+        except Exception:
+            pass
+        try:
+            info.dock = node
+        except Exception:
+            pass
+        return info
 
     def _find_existing_info_dat(self, node: Any) -> Optional[Any]:
         """A docked Info DAT, or a sibling named ``<name>_info`` that is an infoDAT."""

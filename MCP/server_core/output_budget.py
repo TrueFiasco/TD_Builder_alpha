@@ -39,6 +39,10 @@ def _cap(env_name: str, default: int) -> int:
 EXPAND_FULL_MAX_BYTES = _cap("TD_EXPAND_FULL_MAX_BYTES", 256 * 1024)     # 256 KB
 HYBRID_SEARCH_MAX_BYTES = _cap("TD_HYBRID_SEARCH_MAX_BYTES", 96 * 1024)  # 96 KB
 
+# Stage-3 shed: chars of a hit's `content` snippet kept (enough for the
+# operator-identifying lead sentence; the omitted length is always reported).
+SHED_CONTENT_KEEP = 280
+
 
 def sized(obj) -> int:
     """Serialized UTF-8 byte length under the same encoder the handlers use."""
@@ -83,49 +87,106 @@ def budget_full_expand(data, max_bytes: int = EXPAND_FULL_MAX_BYTES):
 
 
 def budget_hybrid_results(results, max_bytes: int = HYBRID_SEARCH_MAX_BYTES):
-    """Cap ``hybrid_search`` output by shedding per-result parameter enrichment.
+    """Cap ``hybrid_search`` output by shedding per-result enrichment in stages.
 
     Returns ``(results, truncated)``.
 
     * Under budget → returned unchanged.
-    * Over budget → strip the heavy ``parameters`` / ``ground_truth_param_count``
-      enrichment (added by the handler *after* the search) from each
-      ``semantic_results`` hit, replacing it with a compact
-      ``{parameters_omitted, parameter_count}`` marker, and add a top-level
-      ``_truncation`` signal. ``semantic_results`` is never dropped or emptied — the
-      ranked hits (names, metadata, scores, relationships) survive; only the parameter
-      flood is shed. (Preserves the ``test_p03`` contract.)
+    * Over budget → degrade toward the COMPACT hit shape, never the legacy
+      (pre-W-C) one: the W-C fidelity fields — ``parameter_names`` (the full
+      post-collapse name list), ``score_kind`` and ``parameters_capped`` — survive
+      EVERY stage, as does the TRUE ``parameter_count``. Stages, with the envelope
+      re-measured between each so later stages fire only when still needed:
+
+        1. strip the heavy hydrated ``parameters`` dicts (exactly the compact
+           shape), leaving a ``{parameters_omitted, parameter_count}`` marker;
+        2. slim ``relationships`` values to name level — ``sample_examples``
+           payloads become an ``examples_omitted`` count, hydrated
+           ``common_parameters`` become ``common_parameter_names``;
+        3. trim each hit's ``content`` to a ``SHED_CONTENT_KEEP``-char stub with
+           an explicit ``content_chars_omitted`` count.
+
+      ``semantic_results`` is never dropped or emptied — the ranked hits (names,
+      metadata, scores, W-C fidelity fields) survive — and every stage applied is
+      reported in the top-level non-error ``_truncation`` signal. (Preserves the
+      ``test_p03`` contract.)
     """
     if not isinstance(results, dict):
         return results, False
     if sized(results) <= max_bytes:
         return results, False
 
-    hits = results.get("semantic_results")
+    raw_hits = results.get("semantic_results")
+    hits = [h for h in raw_hits if isinstance(h, dict)] if isinstance(raw_hits, list) else []
+    stages = []
+
+    # Stage 1 — drop the hydrated parameter dicts (the compact shape). The W-C
+    # fidelity fields are deliberately NOT touched: a shed envelope must still
+    # answer "which params exist" / "how were these scored" without a follow-up.
     stripped = 0
-    if isinstance(hits, list):
+    for h in hits:
+        if "parameters" not in h:
+            continue
+        pc = h.get("parameter_count")
+        if pc is None and isinstance(h.get("parameters"), (list, dict)):
+            pc = len(h["parameters"])
+        h.pop("parameters", None)
+        h.pop("ground_truth_param_count", None)
+        h["parameters_omitted"] = True
+        if pc is not None:
+            h["parameter_count"] = pc
+        stripped += 1
+    if stripped:
+        stages.append(f"parameters omitted from {stripped} hit(s)")
+
+    # Stage 2 — relationships enrichment down to name level. Fires when stage 1
+    # was not enough, or could not fire at all (an oversized compact-mode
+    # envelope has no per-hit `parameters` to shed).
+    if sized(results) > max_bytes:
+        rels = results.get("relationships")
+        slimmed = 0
+        if isinstance(rels, dict):
+            for rel in rels.values():
+                if not isinstance(rel, dict):
+                    continue
+                touched = False
+                examples = rel.get("sample_examples")
+                if isinstance(examples, list):
+                    rel.pop("sample_examples")
+                    rel["examples_omitted"] = len(examples)
+                    touched = True
+                common = rel.get("common_parameters")
+                if isinstance(common, dict):
+                    rel.pop("common_parameters")
+                    rel["common_parameter_names"] = list(common)
+                    touched = True
+                slimmed += touched
+        if slimmed:
+            stages.append(f"relationship enrichment slimmed on {slimmed} operator(s)")
+
+    # Stage 3 — trim hit content to a stub. Last resort: content is the grounding
+    # snippet the caller reads, so it goes only when the envelope is still over.
+    if sized(results) > max_bytes:
+        trimmed = 0
         for h in hits:
-            if not isinstance(h, dict) or "parameters" not in h:
-                continue
-            pc = h.get("parameter_count")
-            if pc is None and isinstance(h.get("parameters"), (list, dict)):
-                pc = len(h["parameters"])
-            h.pop("parameters", None)
-            h.pop("ground_truth_param_count", None)
-            h["parameters_omitted"] = True
-            if pc is not None:
-                h["parameter_count"] = pc
-            stripped += 1
+            c = h.get("content")
+            if isinstance(c, str) and len(c) > SHED_CONTENT_KEEP:
+                h["content_chars_omitted"] = len(c) - SHED_CONTENT_KEEP
+                h["content"] = c[:SHED_CONTENT_KEEP] + " …"
+                trimmed += 1
+        if trimmed:
+            stages.append(f"content trimmed to {SHED_CONTENT_KEEP} chars on {trimmed} hit(s)")
 
     results["_truncation"] = {
         "truncated": True,
         "reason": (
             f"result envelope exceeded the {max_bytes}-byte output budget; "
-            f"per-result parameter lists were omitted from {stripped} hit(s)"
+            + ("; ".join(stages) if stages else "no sheddable enrichment found")
         ),
         "hint": (
             "Call get_operator_info(operator_name, compact=false) or "
-            "get_parameter_detail(operator_name, parameter_name) for full parameters."
+            "get_parameter_detail(operator_name, parameter_name) for full parameters. "
+            "Per-hit parameter_names / score_kind / parameters_capped are never shed."
         ),
     }
     return results, True

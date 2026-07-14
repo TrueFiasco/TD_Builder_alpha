@@ -14,7 +14,6 @@ if so, returns a compact compile-status summary to staple onto the mutation
 receipt — so an agent that forgets to check errors is still told about a break.
 """
 
-import os
 from typing import Any, Optional
 
 import td
@@ -157,8 +156,16 @@ class GlslStatusService:
         except Exception as e:  # noqa: BLE001
             return error_result(f"Project scan failed: {e}")
 
-        target = os.path.normcase(os.path.normpath(str(file_path)))
-        base = os.path.basename(target)
+        # TD file pars freely mix / and \ on Windows, and POSIX os.path.basename
+        # does not split backslashes at all — normalize separators (and case;
+        # TD ships on Windows/macOS, both case-insensitive filesystems) BEFORE
+        # comparing so the match behaves identically on every platform,
+        # including the Linux CI runner exercising this code with stubs.
+        def _norm(p: str) -> str:
+            return str(p).replace("\\", "/").lower()
+
+        target = _norm(file_path)
+        base = target.rstrip("/").rsplit("/", 1)[-1]
         exact, by_name = [], []
         for o in all_ops:
             par = getattr(getattr(o, "par", None), "file", None)
@@ -170,10 +177,10 @@ class GlslStatusService:
                 val = str(getattr(par, "val", "") or "")
             if not val:
                 continue
-            norm = os.path.normcase(os.path.normpath(val))
+            norm = _norm(val)
             if norm == target:
                 exact.append(o)
-            elif os.path.basename(norm) == base:
+            elif norm.rstrip("/").rsplit("/", 1)[-1] == base:
                 by_name.append(o)
         dats = exact or by_name
         if not dats:

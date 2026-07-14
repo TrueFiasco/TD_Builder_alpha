@@ -123,7 +123,7 @@ def test_every_client_tool_is_mapped_one_to_one(live):
         f"client<->map mismatch: only-in-map={mapped - tool_names}, "
         f"only-in-tools={tool_names - mapped}"
     )
-    assert len(risk) == len(tool_names) == 21
+    assert len(risk) == len(tool_names) == 22  # W-A2 added get_glsl_status
 
 
 # --------------------------------------------------------------------------

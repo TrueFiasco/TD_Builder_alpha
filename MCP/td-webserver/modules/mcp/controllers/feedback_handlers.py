@@ -12,6 +12,7 @@ from typing import Any, Dict
 
 from mcp.services.capture_service import capture_service
 from mcp.services.error_monitor import error_monitor
+from mcp.services.glsl_status import glsl_status_service
 from utils.logging import log_message
 from utils.types import LogLevel, Result
 
@@ -27,6 +28,8 @@ __all__ = [
     "getPythonExceptions",
     # Phase 3: Universal Op Viewer
     "captureOpViewer",
+    # W-A2: GLSL compile status
+    "getGlslStatus",
 ]
 
 
@@ -341,6 +344,24 @@ def captureOpViewer(**kwargs) -> Result:
     resolution = int(body.get("resolution") or kwargs.get("resolution", 512))
     format = body.get("format") or kwargs.get("format", "jpeg")
     quality = float(body.get("quality") or kwargs.get("quality", 0.85))
+    # W-B two-phase routing: phase="prime" (create+wire+prime, return handle),
+    # phase="pull" (force-cook the handle to size-stability + destroy). Absent phase
+    # = legacy single-shot (backward-compatible for direct HTTP callers).
+    phase = body.get("phase") or kwargs.get("phase")
+
+    if phase == "pull":
+        handle = body.get("handle") or kwargs.get("handle")
+        if not handle:
+            return {'success': False, 'error': "Missing required parameter: handle (phase=pull)"}
+        # primed_bytes: phase-1's prime-pull size. When present, the pull only
+        # accepts a converged size that GREW past it (else returns a retryable
+        # op_viewer_warming). Absent (legacy callers / the client's final
+        # attempt) = plain size-stability. 0 is meaningful — no `or` chaining.
+        primed_bytes = body.get("primed_bytes", kwargs.get("primed_bytes"))
+        return capture_service.pull_op_viewer(
+            handle, operator_path=operator_path or "", format=format, quality=quality,
+            primed_bytes=primed_bytes,
+        )
 
     if not operator_path:
         return {
@@ -348,9 +369,61 @@ def captureOpViewer(**kwargs) -> Result:
             'error': "Missing required parameter: operator_path"
         }
 
-    result = capture_service.capture_op_viewer(operator_path, resolution=resolution, format=format, quality=quality)
+    result = capture_service.capture_op_viewer(
+        operator_path, resolution=resolution, format=format, quality=quality,
+        prime_only=(phase == "prime"),
+    )
 
     return result
+
+
+# ============================================================================
+# W-A2: GLSL compile status
+# ============================================================================
+
+
+def getGlslStatus(**kwargs) -> Result:
+    """
+    Handler for GET /api/feedback/glsl/status
+
+    Report the compile status of a GLSL-family op (TOP/multiTOP/POP/MAT). This is
+    the foolproof answer to "did my shader edit compile?" — it reads the shader's
+    Info DAT (the source of truth ``op.errors()`` misses on a hard compile failure)
+    and folds in ``op.warnings()``.
+
+    Query parameters:
+        - node_path: Path to the operator to check
+
+    Response:
+        {
+            "success": true,
+            "data": {
+                "node_path": "/project1/glsl1",
+                "op_type": "glslTOP",
+                "is_glsl": true,
+                "ok": false,
+                "compile_failed": true,
+                "errors": [...],
+                "warnings": ["The GLSL Shader has compile errors (...)"],
+                "compiler_log": "...ERROR: 0:12: ...",
+                "compiler_errors": ["ERROR: 0:12: ..."]
+            }
+        }
+    """
+    log_message(f"getGlslStatus called with kwargs: {kwargs}", LogLevel.DEBUG)
+
+    node_path = kwargs.get("node_path") or kwargs.get("nodePath")
+    # file_path: check every GLSL op whose shader source is a DAT synced to this
+    # disk file (the edit-the-.glsl-file workflow; TD reloads the DAT itself).
+    file_path = kwargs.get("file_path") or kwargs.get("filePath")
+
+    if not node_path and not file_path:
+        return {
+            'success': False,
+            'error': "Missing required parameter: node_path (or file_path)"
+        }
+
+    return glsl_status_service.get_glsl_status(node_path or "", file_path or "")
 
 
 # Route mapping for the OpenAPI router
@@ -366,6 +439,8 @@ FEEDBACK_ROUTES = {
     ("GET", "/api/feedback/errors/python"): getPythonExceptions,
     # Phase 3: Universal Op Viewer
     ("POST", "/api/feedback/capture/op"): captureOpViewer,
+    # W-A2: GLSL compile status
+    ("GET", "/api/feedback/glsl/status"): getGlslStatus,
 }
 
 

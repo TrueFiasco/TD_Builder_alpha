@@ -10,6 +10,7 @@ Date: 2024-12-27
 
 import os
 import json
+import asyncio
 import httpx
 from pathlib import Path
 from typing import Sequence, Dict, Any, List, Optional, Union
@@ -126,6 +127,27 @@ def _restore_point_note(data: dict) -> str:
         f"{f' ({detail})' if detail else ''} — this edit proceeded without a "
         "rollback point."
     )
+
+
+def _glsl_status_note(gs) -> str:
+    """W-A3: a one-block note appended to an update_td_node_parameters receipt when
+    the edit touched a shader. LOUD on a compile failure (the whole point — the
+    agent did not have to remember to check); a short confirmation on success.
+    Returns "" when the mutation had nothing to do with GLSL."""
+    if not isinstance(gs, dict):
+        return ""
+    node = gs.get("checked_node", "?")
+    if gs.get("compile_failed"):
+        lines = [f"\n\n❌ GLSL COMPILE FAILED on `{node}` after this edit:"]
+        for ln in (gs.get("compiler_errors") or [])[:10]:
+            lines.append(f"  - {ln}")
+        for ln in (gs.get("warnings") or [])[:10]:
+            lines.append(f"  - {ln}")
+        lines.append("Fix the shader before continuing — the op is running as a no-op.")
+        return "\n".join(lines)
+    if gs.get("is_glsl"):
+        return f"\n\n✅ GLSL compile OK on `{node}`."
+    return ""
 
 
 # =============================================================================
@@ -349,60 +371,191 @@ async def get_python_exceptions(arguments: dict) -> Sequence[TextContent]:
         return [TextContent(type="text", text=f"Error getting Python exceptions: {str(e)}")]
 
 
+def _render_op_capture(result: dict) -> Sequence[Union[TextContent, ImageContent]]:
+    """Render a capture_op_viewer result dict (image / text / geometry_info / other).
+    An image carries the POP numPoints/bounds sidecar (W-B) in its caption when present."""
+    result_type = result.get("type")
+    if result_type == "image":
+        caption = (
+            f"Captured {result.get('family')} {result.get('operator_path')}: "
+            f"{result.get('width')}x{result.get('height')}"
+        )
+        if result.get("num_points") is not None:
+            caption += f" | POP points: {result['num_points']}"
+            bounds = result.get("bounds")
+            if isinstance(bounds, dict):
+                caption += f" | bounds min={bounds.get('min')} max={bounds.get('max')}"
+        if result.get("two_phase"):
+            caption += f" | pulls={result.get('pulls')} sizes={result.get('pull_sizes')}"
+        return [
+            ImageContent(
+                type="image",
+                data=result["image_base64"],
+                mimeType=f"image/{result['format']}"
+            ),
+            TextContent(type="text", text=caption),
+        ]
+    elif result_type == "text":
+        return [TextContent(
+            type="text",
+            text=f"## DAT Content: {result['operator_path']}\n\n"
+                 f"Rows: {result['rows']} | Cols: {result['cols']}\n\n"
+                 f"```\n{result['content']}\n```"
+        )]
+    elif result_type == "geometry_info":
+        return [TextContent(
+            type="text",
+            text=f"## SOP Info: {result['operator_path']}\n\n"
+                 f"Points: {result['num_points']} | Prims: {result['num_prims']} | Vertices: {result['num_vertices']}\n\n"
+                 f"Note: {result.get('note', 'Use capture_top_output on a Render TOP for visual')}"
+        )]
+    else:
+        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+
+
 async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
-    """Universal operator viewer - captures any operator type."""
+    """Universal operator viewer - captures any operator type.
+
+    W-B two-phase: the op-viewer families (POP/SOP/MAT/COMP) render progressively
+    and only fully populate one real UI frame after the prime pull (proven live).
+    Phase 1 primes a temp viewer and returns a handle + the prime-pull byte size;
+    we wait 0.1 s on THIS (client) thread — NEVER TD's main thread — then phase 2
+    pulls. The server refuses to accept a converged size that has not GROWN past
+    the prime (op_viewer_warming), in which case we wait another beat and retry,
+    bounded; the final attempt omits primed_bytes so the server accepts
+    best-effort stability. TOP/DAT/CHOP return their full result in phase 1.
+    """
     try:
-        async with TDClient() as client:
-            response = await client.post("/api/feedback/capture/op", json={
+        async with TDClient(read_timeout=60.0) as client:
+            # Phase 1 — prime (or a full direct result for TOP/DAT/CHOP/SOP).
+            resp1 = await client.post("/api/feedback/capture/op", json={
                 "operator_path": arguments["operator_path"],
                 "resolution": arguments.get("resolution", 512),
                 "format": arguments.get("format", "jpeg"),
-                "quality": arguments.get("quality", 0.85)
+                "quality": arguments.get("quality", 0.85),
+                "phase": "prime",
             })
+
+            if resp1.status_code != 200:
+                return [TextContent(type="text", text=f"TD Error: {resp1.text}")]
+
+            data1 = resp1.json()
+            if not (data1.get("success") and data1.get("data")):
+                return [TextContent(type="text", text=f"Capture failed: {data1.get('error')}")]
+
+            r1 = data1["data"]
+            if not r1.get("two_phase"):
+                # Direct family — full result already returned.
+                return _render_op_capture(r1)
+
+            # Phase 2 — let a real UI frame elapse on our own thread, then pull +
+            # destroy. One frame suffices after the prime, so 0.1 s is plenty; the
+            # warming handshake covers a hitched/slow-drawing TD.
+            primed_bytes = r1.get("primed_bytes")
+            attempts = 5
+            data2 = {}
+            for attempt in range(attempts):
+                await asyncio.sleep(0.1 if attempt == 0 else 0.15)
+                payload = {
+                    "phase": "pull",
+                    "handle": r1["handle"],
+                    "operator_path": r1.get("operator_path", arguments["operator_path"]),
+                    "format": arguments.get("format", "jpeg"),
+                    "quality": arguments.get("quality", 0.85),
+                }
+                # Final attempt drops primed_bytes -> server accepts best-effort
+                # stability and destroys the viewer (never leaks on our account).
+                if primed_bytes is not None and attempt < attempts - 1:
+                    payload["primed_bytes"] = primed_bytes
+                resp2 = await client.post("/api/feedback/capture/op", json=payload)
+
+                if resp2.status_code != 200:
+                    return [TextContent(type="text", text=f"TD Error: {resp2.text}")]
+
+                data2 = resp2.json()
+                if not (data2.get("success") and data2.get("data")):
+                    return [TextContent(type="text", text=f"Capture failed: {data2.get('error')}")]
+                if data2["data"].get("type") == "op_viewer_warming":
+                    continue
+                return _render_op_capture(data2["data"])
+            return [TextContent(type="text", text=f"Capture failed: viewer never converged for {arguments['operator_path']}")]
+
+    except httpx.ConnectError:
+        return [TextContent(type="text", text=_connection_error_message())]
+    except Exception as e:
+        return [TextContent(type="text", text=f"Error capturing operator: {str(e)}")]
+
+
+async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
+    """Report whether a GLSL op compiled — folds in the Info DAT + op.warnings().
+
+    Accepts node_path (one op) or file_path (every GLSL op fed by a DAT synced to
+    that disk file — the after-editing-a-.glsl-file check; the server force-cooks
+    so the recompile actually happens before status is read)."""
+    try:
+        params = {}
+        if arguments.get("node_path"):
+            params["node_path"] = arguments["node_path"]
+        if arguments.get("file_path"):
+            params["file_path"] = arguments["file_path"]
+        if not params:
+            return [TextContent(type="text", text="Provide node_path or file_path.")]
+        async with TDClient() as client:
+            response = await client.get("/api/feedback/glsl/status", params=params)
 
             if response.status_code != 200:
                 return [TextContent(type="text", text=f"TD Error: {response.text}")]
 
             data = response.json()
             if data.get("success") and data.get("data"):
-                result = data["data"]
-                result_type = result.get("type")
+                d = data["data"]
+                if "statuses" in d:
+                    head = ("✅ ALL SHADERS COMPILE OK" if d.get("ok")
+                            else "❌ GLSL COMPILE FAILED")
+                    lines = [f"{head} — shader file {d.get('file_path')}"]
+                    lines.append(f"Checked: {', '.join(d.get('checked_ops') or [])} "
+                                 f"(via {', '.join(d.get('matched_dats') or [])})")
+                    for s in d.get("statuses") or []:
+                        mark = "✅" if s.get("ok") else "❌"
+                        lines.append(f"\n{mark} `{s.get('node_path')}` ({s.get('op_type', '?')})")
+                        for ln in (s.get("compiler_errors") or [])[:10]:
+                            lines.append(f"  - {ln}")
+                        if not s.get("ok") and not s.get("compiler_errors"):
+                            for ln in (s.get("warnings") or [])[:5]:
+                                lines.append(f"  - {ln}")
+                    return [TextContent(type="text", text="\n".join(lines))]
+                node = d.get("node_path", arguments.get("node_path", "?"))
+                if not d.get("is_glsl"):
+                    return [TextContent(
+                        type="text",
+                        text=f"`{node}` ({d.get('op_type', '?')}) is not a GLSL op — "
+                             f"no shader to compile. errors={len(d.get('errors') or [])}, "
+                             f"warnings={len(d.get('warnings') or [])}."
+                    )]
 
-                if result_type == "image":
-                    return [
-                        ImageContent(
-                            type="image",
-                            data=result["image_base64"],
-                            mimeType=f"image/{result['format']}"
-                        ),
-                        TextContent(
-                            type="text",
-                            text=f"Captured {result['family']} {result['operator_path']}: {result['width']}x{result['height']}"
-                        )
-                    ]
-                elif result_type == "text":
-                    return [TextContent(
-                        type="text",
-                        text=f"## DAT Content: {result['operator_path']}\n\n"
-                             f"Rows: {result['rows']} | Cols: {result['cols']}\n\n"
-                             f"```\n{result['content']}\n```"
-                    )]
-                elif result_type == "geometry_info":
-                    return [TextContent(
-                        type="text",
-                        text=f"## SOP Info: {result['operator_path']}\n\n"
-                             f"Points: {result['num_points']} | Prims: {result['num_prims']} | Vertices: {result['num_vertices']}\n\n"
-                             f"Note: {result.get('note', 'Use capture_top_output on a Render TOP for visual')}"
-                    )]
+                compiler_errors = d.get("compiler_errors") or []
+                warnings = d.get("warnings") or []
+                errors = d.get("errors") or []
+                if d.get("ok"):
+                    lines = [f"✅ GLSL COMPILE OK: `{node}` ({d.get('op_type', '?')})"]
                 else:
-                    return [TextContent(type="text", text=json.dumps(result, indent=2))]
-
-            return [TextContent(type="text", text=f"Capture failed: {data.get('error')}")]
+                    lines = [f"❌ GLSL COMPILE FAILED: `{node}` ({d.get('op_type', '?')})"]
+                if compiler_errors:
+                    lines.append("\n**Compiler errors:**")
+                    lines.extend(f"  - {ln}" for ln in compiler_errors)
+                if errors:
+                    lines.append("\n**Op errors:**")
+                    lines.extend(f"  - {ln}" for ln in errors)
+                if warnings:
+                    lines.append("\n**Warnings:**")
+                    lines.extend(f"  - {ln}" for ln in warnings)
+                return [TextContent(type="text", text="\n".join(lines))]
+            return [TextContent(type="text", text=f"Failed to get GLSL status: {data.get('error')}")]
 
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error capturing operator: {str(e)}")]
+        return [TextContent(type="text", text=f"Error getting GLSL status: {str(e)}")]
 
 
 # =============================================================================
@@ -569,6 +722,7 @@ async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
                 text = f"Updated {len(updated)} parameters"
                 if failed:
                     text += f"\nFailed: {failed}"
+                text += _glsl_status_note(result.get("glslStatus"))
                 text += _restore_point_note(result)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
@@ -964,7 +1118,7 @@ TD_LIVE_TOOLS: List[Tool] = [
     Tool(
         annotations=READ_ONLY,
         name="capture_op_viewer",
-        description="Universal operator viewer - captures any operator type (TOP, CHOP, SOP, DAT, MAT, COMP). Returns image for visual ops, text for DATs, geometry info for SOPs.",
+        description="Universal operator viewer - captures any operator type (TOP, CHOP, SOP, DAT, MAT, COMP, POP). Returns a rendered image for visual ops (POP/SOP images carry a point/prim-count + bounds sidecar), text for DATs, channel data for CHOPs. POP/SOP/MAT/COMP captures take ~0.1s (two-phase render).",
         inputSchema={
             "type": "object",
             "properties": {
@@ -990,6 +1144,37 @@ TD_LIVE_TOOLS: List[Tool] = [
                 }
             },
             "required": ["operator_path"]
+        }
+    ),
+    Tool(
+        annotations=READ_ONLY,
+        name="get_glsl_status",
+        description=(
+            "Report whether a GLSL op (glslTOP / glslmultiTOP / glslPOP / glslMAT) "
+            "COMPILED. This is the reliable shader-error check: a broken GLSL op "
+            "returns an EMPTY node.errors() while the failure shows only in "
+            "op.warnings() and the Info DAT — get_td_node_errors alone misses it. "
+            "This tool reads the shader's Info DAT (creating a temporary one if "
+            "none is docked) and folds in op.warnings(), returning "
+            "{ok, compile_failed, errors, warnings, compiler_log, compiler_errors}. "
+            "Call it after ANY edit to a GLSL op or its shader-source DAT — "
+            "including after editing a shader FILE on disk (pass file_path): TD "
+            "auto-reloads a synced DAT but only recompiles on the next cook, so "
+            "this tool force-cooks the referencing op(s) before reading status."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "node_path": {
+                    "type": "string",
+                    "description": "Path to the GLSL operator to check (e.g. /project1/glsl1)"
+                },
+                "file_path": {
+                    "type": "string",
+                    "description": "Alternative: a shader file on disk — checks every GLSL op fed by a DAT synced to it"
+                }
+            },
+            "required": []
         }
     ),
 
@@ -1327,6 +1512,7 @@ TD_LIVE_HANDLERS = {
     "capture_network_layout": capture_network_layout,
     "get_python_exceptions": get_python_exceptions,
     "capture_op_viewer": capture_op_viewer,
+    "get_glsl_status": get_glsl_status,
     # Core TD CRUD
     "get_td_info": get_td_info,
     "get_td_nodes": get_td_nodes,

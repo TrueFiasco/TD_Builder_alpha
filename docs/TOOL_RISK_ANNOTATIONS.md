@@ -72,7 +72,7 @@ unattended.
 | td_build_status | READ_ONLY | polls in-memory job state |
 | **td_build_project** | **WRITE_ADDITIVE** | writes a `.tox`/`.toe` to disk; never touches the live graph |
 
-## Live `td-builder-live` (21) — 15 read-only + 1 write-checkpoint + 5 destructive
+## Live `td-builder-live` (22) — 16 read-only + 1 write-checkpoint + 5 destructive
 
 | Tool | Class | Note |
 |---|---|---|
@@ -82,7 +82,8 @@ unattended.
 | get_error_summary | READ_ONLY | |
 | capture_network_layout | READ_ONLY | |
 | get_python_exceptions | READ_ONLY | |
-| capture_op_viewer | READ_ONLY | forces a cook |
+| capture_op_viewer | READ_ONLY | forces a cook; op-viewer families use a temp viewer created+destroyed within the call |
+| get_glsl_status | READ_ONLY | reads the shader Info DAT (may create+destroy a temp Info DAT) — no persistent mutation |
 | get_td_info | READ_ONLY | |
 | get_td_nodes | READ_ONLY | |
 | get_td_node_parameters | READ_ONLY | |

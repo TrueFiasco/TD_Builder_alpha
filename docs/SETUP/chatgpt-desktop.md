@@ -7,7 +7,7 @@ In ChatGPT Desktop's MCP settings, add two servers (replace `<RELEASE_ROOT>` wit
 - **`td-builder`** — command `<RELEASE_ROOT>/.venv/Scripts/python.exe`, args
   `<RELEASE_ROOT>/MCP/server.py` — 17 offline tools.
 - **`td-builder-live`** — command `<RELEASE_ROOT>/.venv/Scripts/python.exe`, args
-  `<RELEASE_ROOT>/MCP/live_server.py` — 21 live tools; add only when TouchDesigner is open.
+  `<RELEASE_ROOT>/MCP/live_server.py` — 22 live tools; add only when TouchDesigner is open.
 
 The command must be the **venv's python** (where the quick start installed the deps):
 `<RELEASE_ROOT>\.venv\Scripts\python.exe` on Windows, `<RELEASE_ROOT>/.venv/bin/python` on

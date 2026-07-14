@@ -1,6 +1,6 @@
 # TD Builder — Tool Reference
 
-38 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
+39 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
 running TouchDesigner (WebServer DAT on `:9981`); with TD down they return a clear "not running"
 message rather than failing.
 
@@ -41,7 +41,7 @@ message rather than failing.
 
 ---
 
-## Live server `td-builder-live` — 21 tools (TouchDesigner must be open)
+## Live server `td-builder-live` — 22 tools (TouchDesigner must be open)
 
 ### Live tools — visual feedback
 | Tool | Purpose | Key inputs |
@@ -71,3 +71,10 @@ message rather than failing.
 | `get_cook_errors` | All current cook errors | `severity_filter`, `limit` |
 | `get_error_summary` | Summarized error report | — |
 | `get_python_exceptions` | Python runtime exceptions | — |
+| `get_glsl_status` | GLSL compile status (Info-DAT log + warnings; force-cooks first) | `node_path` or `file_path` |
+
+### Live tools — session safety
+| Tool | Purpose | Key inputs |
+|---|---|---|
+| `save_td_project` | Dialog-free checkpoint (copies the last-saved .toe to a restore point) | — |
+| `get_mutation_status` | Mutation counter + restore-point staleness | — |

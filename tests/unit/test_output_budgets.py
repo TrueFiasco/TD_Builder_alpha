@@ -182,11 +182,109 @@ def test_hydrate_compact_omits_params_keeps_counts():
 
 
 # ---------------------------------------------------------------------------
+# W-C — param family collapse (mcp_server._collapse_param_families +
+# _hydrate_hit_params). Families fold to ONE self-describing entry BEFORE the cap;
+# TRUE counts are never touched; parameters_capped reflects POST-collapse length.
+# ---------------------------------------------------------------------------
+
+def _wiki(codes_with_pages):
+    """Build a wiki_parameters dict {code: {display_name, page?}} in order."""
+    wp = {}
+    for entry in codes_with_pages:
+        if isinstance(entry, tuple):
+            code, page = entry
+            wp[code] = {"display_name": code.upper(), "page": page}
+        else:
+            wp[entry] = {"display_name": entry.upper()}
+    return {"wiki_parameters": wp, "ground_truth_param_count": len(codes_with_pages)}
+
+
+def test_collapse_transform_tuplet_to_single_entry():
+    # TD ground-truth transform codes: t/r/s/p/scale -> one entry, freeing slots.
+    out = srv._collapse_param_families(
+        [(c, {"display_name": c}) for c in ["t", "r", "s", "p", "scale", "group", "xord"]]
+    )
+    labels = [c for c, _ in out]
+    assert srv._TRANSFORM_LABEL in labels
+    assert "group" in labels and "xord" in labels          # non-members untouched
+    # collapsed entry is self-describing (lists member codes)
+    desc = dict(out)[srv._TRANSFORM_LABEL]
+    assert set(desc["members"]) == {"t", "r", "s", "p", "scale"}
+    assert desc["member_count"] == 5
+
+
+def test_collapse_split_xyz_and_rgba_groups():
+    # Geometry COMP instance components: instancetx/ty/tz + instancer/g/b/a.
+    codes = ["instancetx", "instancety", "instancetz",
+             "instancer", "instanceg", "instanceb", "instancea", "instanceop"]
+    out = srv._collapse_param_families([(c, {"display_name": c}) for c in codes])
+    labels = [c for c, _ in out]
+    assert "instancet (xyz)" in labels
+    assert "instance (rgba)" in labels
+    assert "instanceop" in labels                          # non-grouped stays
+
+
+def test_collapse_lone_scale_not_swallowed():
+    # "scale" with no real t/r/s/p component present -> left as its own param.
+    out = srv._collapse_param_families([("scale", {}), ("foo", {})])
+    labels = [c for c, _ in out]
+    assert "scale" in labels and srv._TRANSFORM_LABEL not in labels
+
+
+def test_collapse_rgba_requires_rgb_present():
+    # base with only r+a (no g,b) is NOT a color group -> not collapsed.
+    out = srv._collapse_param_families([("xr", {}), ("xa", {})])
+    assert [c for c, _ in out] == ["xr", "xa"]
+
+
+def test_collapse_common_page_folds():
+    items = [("color", {}), ("npasses", {"page": "Common"}),
+             ("chanmask", {"page": "Common"}), ("format", {"page": "Common"})]
+    out = srv._collapse_param_families(items)
+    labels = [c for c, _ in out]
+    assert srv._COMMON_LABEL in labels
+    assert "color" in labels
+    assert dict(out)[srv._COMMON_LABEL]["member_count"] == 3
+
+
+def test_collapse_noop_returns_unchanged():
+    items = [("aaa", {}), ("bbb", {})]
+    assert srv._collapse_param_families(items) == items
+
+
+def test_hydrate_collapse_frees_slots_under_cap():
+    # 5 transform tuplet codes + 6 distinct params = 11 raw; collapse -> 7 entries,
+    # all fit under the cap, so parameters_capped is NOT set and the distinguishing
+    # params are all present alongside the single transform entry.
+    full = _wiki(["t", "r", "s", "p", "scale", "group", "xord", "rord", "vlength", "lookat", "upvector"])
+    result = {"name": "Transform SOP", "metadata": {}}
+    srv._hydrate_hit_params(result, full, compact=False)
+    assert result["parameter_count"] == 11               # TRUE count untouched
+    assert srv._TRANSFORM_LABEL in result["parameters"]
+    assert "parameters_capped" not in result             # 7 <= cap
+    assert len(result["parameters"]) == 7
+    # a distinguishing param that a naive first-12 would have kept anyway, still here
+    assert "lookat" in result["parameters"]
+
+
+def test_hydrate_collapse_still_caps_when_over_after_collapse():
+    # 5 transform codes + 20 unrelated = collapse to 21 entries, still > cap.
+    full = _wiki(["t", "r", "s", "p", "scale"] + [f"u{i}" for i in range(20)])
+    result = {"name": "X", "metadata": {}}
+    srv._hydrate_hit_params(result, full, compact=False)
+    assert result["parameter_count"] == 25               # TRUE count untouched
+    assert len(result["parameters"]) == srv.PARAM_HYDRATE_CAP
+    assert result["parameters_capped"] is True
+    # the transform entry survives the cap (it is first in order)
+    assert srv._TRANSFORM_LABEL in result["parameters"]
+
+
+# ---------------------------------------------------------------------------
 # Part 1 — risk annotations (live surface: real Tool objects)
 # ---------------------------------------------------------------------------
 def test_live_tools_all_annotated():
     tools = live.TD_LIVE_TOOLS
-    assert len(tools) == 21
+    assert len(tools) == 22  # W-A2 added get_glsl_status
     assert all(t.annotations is not None for t in tools), \
         [t.name for t in tools if t.annotations is None]
 
@@ -286,3 +384,87 @@ def test_offline_annotation_constants_are_correct():
     assert consts["READ_ONLY"] == {"readOnlyHint": True}
     assert consts["WRITE_ADDITIVE"] == {
         "readOnlyHint": False, "destructiveHint": False, "idempotentHint": False}
+
+
+# ---------------------------------------------------------------------------
+# W-C addendum — sequence-block collapse + full pre-hydration name visibility
+# ---------------------------------------------------------------------------
+
+
+def _seq_params(codes):
+    return {c: {"code": c, "description": "d", "page": "Uniforms"} for c in codes}
+
+
+def test_collapse_glsl_uniform_vec_blocks():
+    codes = []
+    for i in range(2):
+        codes += [f"vec{i}name", f"vec{i}type", f"vec{i}valuex", f"vec{i}valuey",
+                  f"vec{i}valuez", f"vec{i}valuew"]
+    codes.append("active")
+    out = srv._collapse_param_families(list(_seq_params(codes).items()))
+    labels = [c for c, _ in out]
+    # 12 vec-block params -> ONE reconstructible entry; 'active' untouched
+    assert len(out) == 2
+    assert labels[0].startswith("vec[0-1]{")
+    assert "name" in labels[0] and "valuex" in labels[0]
+    assert labels[1] == "active"
+    desc = out[0][1]
+    assert desc["member_count"] == 12
+    assert desc["members"][0] == "vec0name"
+
+
+def test_collapse_single_index_multi_field_block():
+    # Attribute POP style: wiki documents only block 0 -> still folds (1 idx, 2 fields)
+    out = srv._collapse_param_families(list(_seq_params(["att0name", "att0val", "scope"]).items()))
+    labels = [c for c, _ in out]
+    assert len(out) == 2
+    assert labels[0].startswith("att[0]{")
+    assert labels[1] == "scope"
+
+
+def test_collapse_trailing_index_sequences_separately():
+    # Constant CHOP style: name0/value0/name1/value1 -> two block entries
+    out = srv._collapse_param_families(
+        list(_seq_params(["name0", "value0", "name1", "value1"]).items())
+    )
+    labels = [c for c, _ in out]
+    assert labels == ["name[0-1]", "value[0-1]"]
+
+
+def test_collapse_input_refs_and_lone_indexed_code():
+    out = srv._collapse_param_families(
+        list(_seq_params(["input0pop", "input1pop", "custom1"]).items())
+    )
+    labels = [c for c, _ in out]
+    # input refs fold; a lone indexed code ('custom1' - one idx, one field) never does
+    assert labels == ["input[0-1]{pop}", "custom1"]
+
+
+def test_big_sequence_descriptor_is_bounded():
+    codes = []
+    for i in range(16):
+        codes += [f"vec{i}name", f"vec{i}type", f"vec{i}valuex", f"vec{i}valuey",
+                  f"vec{i}valuez", f"vec{i}valuew"]
+    out = srv._collapse_param_families(list(_seq_params(codes).items()))
+    assert len(out) == 1
+    desc = out[0][1]
+    assert desc["member_count"] == 96
+    assert "members" not in desc            # bounded: sample only
+    assert len(desc["members_sample"]) == 6
+
+
+def test_hydrate_parameter_names_visible_in_both_modes():
+    codes = ["active", "att0name", "att0val", "tx", "ty", "tz"]
+    info = {"wiki_parameters": _seq_params(codes)}
+    for compact in (True, False):
+        result = {}
+        srv._hydrate_hit_params(result, info, compact=compact)
+        names = result["parameter_names"]
+        assert "active" in names
+        assert any(n.startswith("att[0]{") for n in names)
+        assert srv._TRANSFORM_LABEL in names
+        assert result["parameter_count"] == 6          # TRUE count untouched
+        if compact:
+            assert "parameters" not in result
+        else:
+            assert set(result["parameters"].keys()) == set(names)

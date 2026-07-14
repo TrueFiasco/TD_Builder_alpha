@@ -6,7 +6,7 @@ MCP settings) — same shape as `MCP/claude_desktop_config.json` (replace `<RELE
 - **`td-builder`** → `<RELEASE_ROOT>/.venv/Scripts/python.exe <RELEASE_ROOT>/MCP/server.py` —
   17 offline tools, key-free.
 - **`td-builder-live`** → `<RELEASE_ROOT>/.venv/Scripts/python.exe <RELEASE_ROOT>/MCP/live_server.py` —
-  21 live tools; only with TouchDesigner open.
+  22 live tools; only with TouchDesigner open.
 
 The command must be the **venv's python** (the interpreter `pip install -e ".[dev]"` ran in):
 `<RELEASE_ROOT>\.venv\Scripts\python.exe` on Windows, `<RELEASE_ROOT>/.venv/bin/python` on

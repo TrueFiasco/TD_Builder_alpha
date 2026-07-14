@@ -1,7 +1,7 @@
 # MCP Communication Layer (alpha standard)
 
 TD Builder ships **two** MCP servers (Python, stdio): the offline `td-builder`
-(17 key-free tools) and the live `td-builder-live` (21 tools for a running
+(17 key-free tools) and the live `td-builder-live` (22 tools for a running
 TouchDesigner). This document is the contract every tool conforms to so the
 servers are portable across MCP clients (Claude Desktop, ChatGPT Desktop,
 Cursor, Cline, Continue, …) and LLM-agnostic (plain MCP + JSON-Schema; no

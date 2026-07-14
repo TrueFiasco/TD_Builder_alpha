@@ -8,7 +8,8 @@
     "mixed_snapshot_disclosure": "s01-s09 model trials were sampled+scored on cbf01f1, whose builder LACKS W3a's grounding_validator and component_source_validator (pipeline stages 2.5/3.5). 7 of those 9 scenarios (s01-s04,s06-s08) carry validate:PASS and thus ran a 4-stage pipeline; current main runs 6 stages. The 8-field agent-identity block is INVARIANT across cbf01f1<->6a2f461 (server_version is a hardcoded '0.2.0' constant), so --compare cannot detect this split; this note + the git_sha are the only record.",
     "reuse_safeguard": "All 9 reused blessed traces (s01-s09) were re-validated by Lane R IN-PROCESS on 6a2f461 and PASS (2026-07-05) -> the post-W3a builder still produces valid artifacts from those exact call patterns (builder-neutrality proven through W3a).",
     "s01_s09_source": "REUSED verbatim from run baseline-n5 in worktree magical-moore-f0701c @ cbf01f1 (pre-W3a, 2026-07-04). Model-sampled there; NOT re-sampled on 6a2f461. Owner-approved reuse 2026-07-05 with full knowledge of the snapshot gap.",
-    "s10_s14_source": "freshly captured n=5 on 6a2f461 (run baseline-n5-tail), spend $8.21"
+    "s10_s14_source": "freshly captured n=5 on 6a2f461 (run baseline-n5-tail), spend $8.21",
+    "rebless_2026_07_14": "PR #24/#26 surface re-bless (main @ cc0a6c5): the OFFLINE identity is UNCHANGED (tool_inventory_hash 1c81e8b4... constant across the change — 17 tool names identical; hybrid_search's hit shape gained parameter_names/score_kind/parameters_capped/compact + sequence-block collapse, and all 13 blessed traces re-replay PASS against the new envelopes, verdicts.json byte-identical across two Lane-R sweeps). The LIVE surface DID change (21->22, get_glsl_status) and the 8-field identity was blind to it, so live_tool_inventory_hash joined the identity block; the value below is stamped from the static 22-tool list at re-bless time, NOT from capture time (the model-lane statistics in this file never touched live tools — Lane M allowed only the 17 offline tools when they were sampled). Scenarios s15-s18 (live-surface tier-1 + hybrid collapse fidelity) added born-aspirational with no blessed traces; per §5 they join baselines only via a fresh capture."
   },
   "aspirational_set": [
     "s02_top_feedback",
@@ -41,6 +42,7 @@
     "kb_manifest_version": "0.2.0",
     "kb_root": "KB",
     "kb_sha": "1a273d114ae9ebca531ac410dd5c01bb747046617de9dee5a87423a3e9207633",
+    "live_tool_inventory_hash": "dd7ba185ea8bb72723151ca1e7422c5f411a94426b64d878e046cafe0ece2245",
     "model_id": "claude-sonnet-4-6",
     "scenario_set_version": "1.0.0",
     "server_version": "0.2.0",

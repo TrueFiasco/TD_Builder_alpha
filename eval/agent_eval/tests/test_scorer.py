@@ -498,3 +498,273 @@ def test_bug3_real_toe_is_recognized_as_project(tmp_path):
     _build_noise_null(work, "tile_mini", mode="toe")
     art = S.ExpandedArtifact.locate(work, "tile_mini.toe")
     assert art is not None and art.is_project()
+
+
+# ===========================================================================
+# Live surface (PR #24/#26 re-bless) — td-builder-live parsing, the per-server
+# connection barrier, and the tool_result_re assertion
+# ===========================================================================
+S15 = json.loads((AGENT_EVAL_DIR / "scenarios" / "s15_glsl_break_detect.json").read_text("utf-8"))
+S18 = json.loads((AGENT_EVAL_DIR / "scenarios" / "s18_param_collapse_fidelity.json").read_text("utf-8"))
+
+
+def _init_both(live_connected=True):
+    servers = [{"name": "td-builder", "status": "connected"},
+               {"name": "td-builder-live",
+                "status": "connected" if live_connected else "failed"}]
+    return json.dumps({"type": "system", "subtype": "init", "mcp_servers": servers})
+
+
+def _assistant_live_tool(tool, tid, inp):
+    return json.dumps({"type": "assistant", "message": {"model": "m", "content": [
+        {"type": "tool_use", "id": tid, "name": S.LIVE_MCP_PREFIX + tool, "input": inp}]}})
+
+
+def _s15_transcript(work, glsl_texts=("... GLSL COMPILE FAILED: `x` ...",
+                                      "... GLSL COMPILE OK: `x` ...")):
+    """A minimal transcript satisfying s15: KB lookup, live create, the
+    status checks, cleanup, an honest report."""
+    lines = [
+        _init_both(),
+        _assistant_tool("hybrid_search", "t1", {"query": "GLSL TOP"}),
+        _tool_result("t1", {"results": []}),
+        _assistant_live_tool("execute_python_script", "t2", {"script": "..."}),
+        _tool_result("t2", "Created /eval_s15_scratch/glsl1"),
+    ]
+    for i, text in enumerate(glsl_texts):
+        tid = f"g{i}"
+        lines += [_assistant_live_tool("get_glsl_status", tid,
+                                       {"node_path": "/eval_s15_scratch/glsl1"}),
+                  _tool_result(tid, text)]
+    lines += [
+        _assistant_live_tool("delete_td_node", "t9", {"node_path": "/eval_s15_scratch"}),
+        _tool_result("t9", "Deleted"),
+        _assistant_text("The compile failed as expected — compiler error 0:3 "
+                        "'' : syntax error — then the fixed shader compiled clean "
+                        "and I deleted the scratch container."),
+        _result(),
+    ]
+    return lines
+
+
+def test_live_prefix_parses_to_bare_names_not_unexpected(tmp_path):
+    run = _run(_s15_transcript(tmp_path / "work"))
+    assert not run.unexpected_tools
+    by_name = {tc.name: tc for tc in run.tool_calls}
+    assert by_name["get_glsl_status"].live is True
+    assert by_name["hybrid_search"].live is False
+    assert run.connection_evidence == "init_event"
+    assert run.live_connection_evidence == "init_event"
+
+
+def test_live_tool_result_is_live_evidence_only():
+    # no init event, ONLY a live tool result: live evidence set, offline still
+    # None (a live result must never vouch for the offline server)
+    lines = [_assistant_live_tool("get_td_info", "t1", {}),
+             _tool_result("t1", "TouchDesigner 2025.x"),
+             _result()]
+    run = _run(lines)
+    assert run.live_connection_evidence == "tool_result"
+    assert run.connection_evidence is None
+
+
+def test_live_scenario_without_live_evidence_is_error(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    # offline server connected, live server NEVER — the model "did nothing
+    # live", which must book as harness ERROR, not a model FAIL
+    lines = [_init_both(live_connected=False),
+             _assistant_tool("hybrid_search", "t1", {"query": "glsl"}),
+             _tool_result("t1", {"results": []}),
+             _assistant_text("could not reach TD"),
+             _result()]
+    res = S.score_scenario(json.loads(json.dumps(S15)), _run(lines), work)
+    assert res.verdict == "ERROR", res.to_json()
+    assert "live" in (res.error or "").lower()
+
+
+def test_offline_scenario_ignores_missing_live_server(tmp_path):
+    # an OFFLINE scenario must not care that no live server ever connected
+    work = tmp_path / "work"
+    work.mkdir()
+    run = _run([_init(connected=True), _assistant_text("done"), _result()])
+    res = S.score_scenario(_s01_no_validate(), run, work)
+    assert res.verdict == "FAIL"        # scored (missing artifact), NOT ERROR
+    assert res.error is None
+
+
+def test_s15_pass_end_to_end(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "PASS", res.to_json()
+
+
+def test_tool_result_re_detection_never_surfaced_fails(tmp_path):
+    # the shader "worked" both times — the FAILED detection the scenario exists
+    # to prove never surfaced -> that exact assertion is the fingerprint
+    work = tmp_path / "work"
+    work.mkdir()
+    res = S.score_scenario(
+        json.loads(json.dumps(S15)),
+        _run(_s15_transcript(work, glsl_texts=("... GLSL COMPILE OK: `x` ...",))),
+        work)
+    assert res.verdict == "FAIL"
+    assert any("tool_result_re[get_glsl_status:GLSL COMPILE FAILED]" in f["assertion"]
+               for f in res.failures), res.failures
+
+
+def test_tool_result_re_tool_never_called_fails(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    lines = [_init_both(),
+             _assistant_tool("hybrid_search", "t1", {"query": "GLSL TOP"}),
+             _tool_result("t1", {"results": []}),
+             _assistant_live_tool("get_td_node_errors", "t2", {"node_path": "/x"}),
+             _tool_result("t2", "no errors"),
+             _assistant_text("compile failed somewhere probably"),
+             _result()]
+    res = S.score_scenario(json.loads(json.dumps(S15)), _run(lines), work)
+    assert res.verdict == "FAIL"
+    assert any("tool_result_re" in f["assertion"] and "never called" in f["detail"]
+               for f in res.failures), res.failures
+
+
+def test_s18_pass_and_hybrid_only_discipline(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    envelope = {"semantic_results": [{
+        "metadata": {"operator_name": "GLSL Create POP"},
+        "score_kind": "rank_fusion_only",
+        "parameter_count": 28,
+        "parameter_names": ["computedat", "vec[0]{name,type,value}",
+                            "const[0]{name,value}"],
+        "parameters": {"computedat": {}}, "parameters_capped": True}]}
+    lines = [
+        _init(),
+        _assistant_tool("hybrid_search", "t1", {"query": "GLSL POP", "compact": True}),
+        _tool_result("t1", envelope),
+        _assistant_tool("hybrid_search", "t2", {"query": "GLSL POP", "compact": False}),
+        _tool_result("t2", envelope),
+        _assistant_text("GLSL Create POP: 28 params total, 3 names listed; the "
+                        "vector-uniform block collapses to vec[0]{name,type,value}; "
+                        "full mode capped the detail (parameters_capped: true); "
+                        "score_kind is rank_fusion_only on this install."),
+        _result(),
+    ]
+    res = S.score_scenario(json.loads(json.dumps(S18)), _run(lines), work)
+    assert res.verdict == "PASS", res.to_json()
+
+
+def test_s18_reaching_for_another_kb_tool_fails(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    envelope = {"semantic_results": [{
+        "score_kind": "rank_fusion_only", "parameters_capped": True,
+        "parameter_names": ["vec[0]{name,type,value}"]}]}
+    lines = [
+        _init(),
+        _assistant_tool("hybrid_search", "t1", {"query": "GLSL POP"}),
+        _tool_result("t1", envelope),
+        _assistant_tool("get_operator_info", "t2", {"operator_name": "GLSL Create POP"}),
+        _tool_result("t2", {"parameters": {}}),
+        _assistant_text("vec[0] ... rank fusion scores"),
+        _result(),
+    ]
+    res = S.score_scenario(json.loads(json.dumps(S18)), _run(lines), work)
+    assert res.verdict == "FAIL"
+    assert any("tool_not_called" in f["assertion"] for f in res.failures), res.failures
+
+
+def test_live_identity_field_registered():
+    import identity as identity_mod
+    assert "live_tool_inventory_hash" in identity_mod.AGENT_IDENTITY_FIELDS
+    # pre-live baselines read as UNKNOWN (warn), never as a refusing mismatch
+    mism, unknown = identity_mod.identity_mismatches(
+        {"live_tool_inventory_hash": "abc"}, {"tool_inventory_hash": "x"},
+        identity_mod.AGENT_IDENTITY_FIELDS)
+    assert not any(f == "live_tool_inventory_hash" for f, _, _ in mism)
+    assert "live_tool_inventory_hash" in unknown
+
+
+def test_live_optin_env_gate_is_checked_before_the_socket(monkeypatch):
+    # The safety lynchpin (review F3): without TD_EVAL_LIVE=1 a live scenario
+    # SKIPs BEFORE any socket probe — TD being open must never be enough.
+    import run_agent_eval as RA
+    monkeypatch.delenv("TD_EVAL_LIVE", raising=False)
+    monkeypatch.setattr(RA, "_td_reachable",
+                        lambda *a, **k: (_ for _ in ()).throw(
+                            AssertionError("socket probed despite no opt-in")))
+    _, skip = RA.resolve_requires(["td_live_running"])
+    assert skip and "TD_EVAL_LIVE" in skip
+
+
+def test_surface_live_implies_td_live_running_gate(tmp_path):
+    # Structural coupling (review F1): a live scenario that FORGETS the
+    # requires token still gets it injected at load time — the opt-in gate
+    # cannot be bypassed by omission.
+    p = tmp_path / "s99_forgot_requires.json"
+    p.write_text(json.dumps({
+        "id": "s99_forgot_requires", "version": 1, "surface": "live",
+        "requires": [], "prompt": "x", "expect": {}}), encoding="utf-8")
+    sc = S.load_scenario(p)
+    assert "td_live_running" in sc["requires"]
+    # and the shipped live scenarios carry it explicitly
+    for sid in ("s15_glsl_break_detect", "s16_pop_viewer_capture",
+                "s17_glsl_file_sync_status"):
+        shipped = S.load_scenario(AGENT_EVAL_DIR / "scenarios" / f"{sid}.json")
+        assert shipped.get("surface") == "live"
+        assert "td_live_running" in shipped["requires"]
+
+
+def test_offline_and_live_tool_names_are_disjoint():
+    # Replay routing and tool_result_re match on BARE names (review F3): a
+    # live tool shadowing an offline name would silently misroute. Pin the
+    # disjointness so a future rename trips here first.
+    import inproc
+    live = set(inproc.live_tool_names())
+    assert len(live) >= 22
+    assert not (live & set(S.OFFLINE_TOOLS)), live & set(S.OFFLINE_TOOLS)
+
+
+def test_save_td_project_never_in_lane_m_allowlist():
+    # The persistence boundary (review F2): live Lane M must not allowlist
+    # the one tool whose effect outlives the session.
+    import inproc
+    from run_agent_eval import allowed_tools
+    live_allowed = allowed_tools(live=True)
+    assert S.LIVE_MCP_PREFIX + "save_td_project" not in live_allowed
+    assert S.LIVE_MCP_PREFIX + "get_glsl_status" in live_allowed
+    # the source list itself still HAS the tool (we exclude, not deny it exists)
+    assert "save_td_project" in inproc.live_tool_names()
+    # offline scenarios never allow ANY live tool
+    assert not [t for t in allowed_tools(live=False)
+                if t.startswith(S.LIVE_MCP_PREFIX)]
+
+
+def test_compare_excludes_model_fields_for_replay_lane_only(tmp_path):
+    import run_agent_eval as RA
+    prior = {"identity": {
+        "scenario_set_version": "1.0.0", "model_id": "claude-sonnet-4-6",
+        "cli_version": "2.1.81 (Claude Code)", "server_version": "0.2.0",
+        "kb_manifest_version": "0.2.0", "kb_sha": "k", "tool_inventory_hash": "t",
+        "live_tool_inventory_hash": "l", "guidance_hash": "g"},
+        "scenarios": {}}
+    pth = tmp_path / "prior.json"
+    pth.write_text(json.dumps(prior), encoding="utf-8")
+    ident = dict(prior["identity"], model_id=None, cli_version=None)
+
+    class _Args:
+        compare = str(pth)
+        allow_identity_drift = False
+
+    # replay sweep: model_id/cli_version excluded -> no refusal (rc 0)
+    rc = RA.compare_against(_Args(), {"identity": ident, "lane": "replay",
+                                      "results": {}})
+    assert rc == 0
+    # model sweep with a REAL model mismatch must still refuse (rc 3)
+    ident_m = dict(prior["identity"], model_id="some-other-model")
+    rc = RA.compare_against(_Args(), {"identity": ident_m, "lane": "model",
+                                      "results": {}})
+    assert rc == 3

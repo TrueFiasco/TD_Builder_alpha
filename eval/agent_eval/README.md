@@ -37,7 +37,7 @@ py -3.11 eval/agent_eval/run_agent_eval.py --lane replay
 # agent-gate, gate-eligible set, k=1 + escalation (needs the logged-in CLI)
 py -3.11 eval/agent_eval/run_agent_eval.py --lane model
 
-# weekly full sweep (all 14 scenarios, k=3)
+# weekly full sweep (all 18 scenarios, k=3)
 py -3.11 eval/agent_eval/run_agent_eval.py --lane model --all --k 3
 
 # baseline capture (n=5) → writes baseline.json + gate/aspirational split
@@ -67,8 +67,9 @@ identity.py         shared environment-identity stamp (also imported by run_eval
 inproc.py           in-process server bridge for Lane R (tests/measure probe pattern)
 config.json         model pin (D-B), budgets, k/n, spend cap
 guidance.md         canonical injected guidance (D-C; hashed into identity)
-mcp.eval.json.tmpl  strict per-run MCP config template
-scenarios/          s01…s14 (schema below)
+mcp.eval.json.tmpl  strict per-run MCP config template (offline scenarios)
+mcp.eval.live.json.tmpl  live-surface variant: + td-builder-live (s15–s17)
+scenarios/          s01…s18 (schema below)
 fixtures/           make_fixtures.py → text.tox (generated/, gitignored)
 traces/             blessed replay traces (calls-only JSONL, committed)
 baseline.json       committed after an n=5 capture
@@ -87,13 +88,16 @@ identity, not instance names** — the model names its own nodes, so assertions 
 type-level (op presence by `family:base_type`, wires by type-adjacency, params by
 code + mode + value). Assertion vocabulary (closed set, in `score.py`):
 
-- `trace`: `tool_called`, `tool_not_called`, `call_order`. Tool refs accept the
-  **alias `kb_lookup_any`** (R-2: the **exact 10** knowledge-retrieval tools —
-  `hybrid_search, get_operator_info, query_graph, list_pop_operators,
-  find_operator_examples, find_operator_combination, find_parameter_usage,
-  find_similar_networks, get_parameter_detail, get_network_patterns`; it
-  deliberately EXCLUDES `get_expert_prompt` and `get_server_info`) or an
-  any-of list.
+- `trace`: `tool_called`, `tool_not_called`, `call_order`, `tool_result_re`
+  (`{"tool": ..., "re": ...}` — ≥1 call to `tool` whose result text matches;
+  lane-INDEPENDENT, because replay re-executes and captures result text — this
+  is how live-tool behaviors are asserted without model prose). Tool refs
+  accept the **alias `kb_lookup_any`** (R-2: the **exact 10**
+  knowledge-retrieval tools — `hybrid_search, get_operator_info, query_graph,
+  list_pop_operators, find_operator_examples, find_operator_combination,
+  find_parameter_usage, find_similar_networks, get_parameter_detail,
+  get_network_patterns`; it deliberately EXCLUDES `get_expert_prompt` and
+  `get_server_info`) or an any-of list.
 - `artifact`: `tox`/`toe` (existence + expanded `.dir`), `ops_present`/`ops_absent`
   (type + min-count), `wires` (type-adjacency), `params` (code/mode/value/
   value_contains/value_re), `parm_line_re`, `network_has` (block/regex),
@@ -108,6 +112,40 @@ code + mode + value). Assertion vocabulary (closed set, in `score.py`):
   see inside — see the scenario `notes`).
 - `writes_confined` (implicit, always on): all builds must pass `output_dir`
   under the run dir.
+
+### Live-surface scenarios (s15–s17)
+
+A scenario with `"surface": "live"` + `requires: ["td_live_running"]` measures
+the **td-builder-live** tools against a RUNNING TouchDesigner (the PR #24/#26
+behaviors: foolproof GLSL flagging, two-phase POP viewer capture,
+`get_glsl_status(file_path)`). Mechanics:
+
+- **Precondition**: `td_live_running` = the **`TD_EVAL_LIVE=1` env opt-in**
+  AND a socket-probe of the TD WebServer (`TD_API_URL`, default
+  `127.0.0.1:9981`) — either half missing → **SKIP** (hosted CI, TD closed,
+  or TD open without the opt-in), the s11 posture. The opt-in is load-bearing:
+  these scenarios mutate the open TD project, and a scheduled `--all` sweep
+  must never poke a live show file just because TD happened to be open.
+  Prompts confine all mutations to a scratch container they create, delete it
+  afterwards, and forbid `save_td_project` (also trace-asserted) — but only
+  run them on a project you're happy for an agent to touch.
+- **Lane M** materializes `mcp.eval.live.json.tmpl` (BOTH servers) and extends
+  `--allowedTools` with the `mcp__td-builder-live__*` names **minus
+  `save_td_project`** — the persistence boundary stays off the allowlist
+  entirely, not just trace-asserted (a scenario's `tool_not_called` still
+  scores any attempt). Residual soft boundary: `execute_python_script` could
+  call `project.save()`; the live server's non-negotiables forbid it. Offline
+  scenarios keep the fixed 17-tool surface. `surface:"live"` implies the
+  `td_live_running` gate BY CONSTRUCTION (`load_scenario` injects it), so a
+  future live scenario cannot accidentally omit the opt-in.
+- **Lane R** routes live-tool calls to the in-process live server
+  (`tests/measure/_server.py::load_live_server`), with a `get_td_info`
+  preamble as the live half of the R-3 barrier. Live traces only exist once a
+  live model run is blessed; until then the replay lane SKIPs them.
+- **Scoring**: the live server gets its own connection-evidence track — a live
+  scenario with no td-builder-live evidence books **ERROR**, never FAIL (a
+  dead live server is not "the model regressed"). Live results are asserted
+  with `tool_result_re` over the tool contract's rendered text.
 
 ## Verdicts (taxonomy is load-bearing)
 
@@ -157,8 +195,17 @@ transcript (always countable, even on a truncated stream).
 
 Every result and baseline embeds an identity block:
 `{scenario_set_version, model_id, cli_version, server_version, kb_manifest_version,
-kb_sha, tool_inventory_hash, guidance_hash}`. `--compare` **refuses** on any
-mismatch (`--allow-identity-drift` overrides, marking the report NON-COMPARABLE).
+kb_sha, tool_inventory_hash, live_tool_inventory_hash, guidance_hash}`.
+`--compare` **refuses** on any mismatch (`--allow-identity-drift` overrides,
+marking the report NON-COMPARABLE) — except that a REPLAY-lane sweep compared
+against a model-lane baseline excludes `model_id`/`cli_version` from the check
+(replay has no model or CLI in the loop; those two are structurally None
+there, and every environment field still refuses on drift).
+`live_tool_inventory_hash` (added at the 2026-07-14 re-bless) stamps the
+separate td-builder-live surface from its STATIC tool list — no running TD
+needed; proven blind spot: the offline hash stayed constant across the live
+21→22 `get_glsl_status` change. Baselines predating the field read as
+*unknown* (warn, never refuse).
 
 - **Tool-surface changes** (later waves touch `mcp_server.py`'s 17-tool list):
   `tool_inventory_hash` flips → re-bless traces + re-capture, bump
@@ -231,6 +278,23 @@ Before tagging any post-remediation release:
   s13 carry `validate:null` — the ValidationPipeline cannot resolve wires crossing
   a palette/external_tox placeholder boundary (verified 2026-07-04; product gap
   noted in the W2c PR). Actual gate membership is set by the first n=5 capture.
+- **1.0.0 / PR #24-#26 re-bless** (2026-07-14, main @ cc0a6c5): tool-surface
+  re-bless after the Penrose live-feedback waves. Offline identity UNCHANGED
+  (17 tool names identical; the hybrid_search hit shape gained
+  `parameter_names`/`score_kind`/`parameters_capped`/`compact` + W-C
+  sequence-block collapse — all 13 blessed traces re-replay PASS against the
+  new envelopes, verdicts byte-identical across two Lane-R sweeps). The LIVE
+  surface changed (21→22, `get_glsl_status`) and the 8-field identity was
+  blind to it → `live_tool_inventory_hash` joined the identity block (stamped
+  into baseline.json with a `_provenance.rebless_2026_07_14` note; model-lane
+  numbers untouched). Added **s15–s18** born-aspirational: s15 W-A
+  break-shader→detect, s16 W-B POP viewer two-phase capture, s17 W-A2
+  shader-file-edit→`get_glsl_status(file_path)` (all `surface:"live"`,
+  `td_live_running`-gated, auto-SKIP without a running TD), s18 W-C
+  hybrid_search param-collapse fidelity (offline). New assertion
+  `tool_result_re`; new templates/fields as documented above. No
+  scenario_set_version bump: adding scenarios needs no ceremony (§ Re-baseline)
+  and every s01–s14 file is byte-identical.
 - **baseline n=5** (2026-07-05, W2c deferred deliverable): first full n=5 capture,
   on merged `main` @ `6a2f461` (Merge W3a: builder correctness + grounding/
   bare-comp validators). Spend $8.21 (s10–s14), under the $25 cap. **Gate set

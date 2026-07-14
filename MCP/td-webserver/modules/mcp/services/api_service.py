@@ -47,6 +47,43 @@ def _run_glsl_receipt(node, properties):
 		return None
 
 
+def _glsl_sidecar_summary(node):
+	"""GLSL create ergonomics: TD's create() ships a GLSL-family op with docked
+	sidecars — the shader DAT(s) to write into and the ``<name>_info`` where
+	compile errors land — plus pre-wired shader-source pars (proven live
+	2026-07-14, TD 2025.32820: glslTOP -> _pixel/_compute/_info, glslPOP ->
+	_compute/_info, glslMAT -> _pixel/_vertex/_info). Surfacing them on the
+	create reply is what tells an agent WHERE to write shader code instead of
+	hunting or creating duplicate DATs. Lazy import + swallow-all for the same
+	reasons as ``_run_glsl_receipt`` above; returns None for non-GLSL ops, on
+	any failure, or when there is nothing to report.
+	"""
+	try:
+		from utils.glsl import SHADER_SOURCE_PARS, is_glsl_family, op_type_of
+		if not is_glsl_family(node):
+			return None
+		docked = []
+		for child in getattr(node, "docked", None) or []:
+			docked.append({
+				"name": str(getattr(child, "name", "")),
+				"type": op_type_of(child),
+			})
+		pars = {}
+		for par_name in SHADER_SOURCE_PARS:
+			par = getattr(getattr(node, "par", None), par_name, None)
+			if par is None:
+				continue
+			val = str(getattr(par, "val", "") or "")
+			# glslTOP mirrors pixeldat on the legacy pdat alias — skip repeats.
+			if val and val not in pars.values():
+				pars[par_name] = val
+		if not docked and not pars:
+			return None
+		return {"docked": docked, "shader_source_pars": pars}
+	except Exception:  # noqa: BLE001
+		return None
+
+
 class IApiService(Protocol):
 	"""API service interface"""
 
@@ -928,12 +965,16 @@ class TouchDesignerApiService(IApiService):
 		# clients (td_live_client.py:436-438 reads data['path']) get a useful
 		# string instead of falling back to 'unknown'. Keep `result` nested for
 		# any caller already reading the full node summary there.
-		return success_result(self._stamp_mutation({
+		result = {
 			"path": new_node.path,
 			"name": new_node.name,
 			"type": new_node.OPType,
 			"result": node_info,
-		}, "create_node", new_node.path))
+		}
+		sidecars = _glsl_sidecar_summary(new_node)
+		if sidecars is not None:
+			result["glsl_sidecars"] = sidecars
+		return success_result(self._stamp_mutation(result, "create_node", new_node.path))
 
 	def delete_node(self, node_path: str) -> Result:
 		"""Delete the node at the specified path"""

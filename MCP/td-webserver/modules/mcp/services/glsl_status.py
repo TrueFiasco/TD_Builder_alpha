@@ -4,14 +4,22 @@
 compiler_errors, ...}`` for a GLSL-family op. The compiler log is the shader's
 Info DAT text — the source of truth for GLSL compile output (``op.errors()`` is
 empty on a hard compile failure; see ``utils.glsl``). We prefer an existing
-docked/sibling ``<name>_info`` Info DAT and otherwise create a temporary one,
-point it at the op, read ``.text``, and destroy it (the temp-node pattern proven
-in ``capture_service._capture_via_opviewer``).
+docked/sibling ``<name>_info`` Info DAT. When none exists, the READ path creates
+a temporary one, reads ``.text``, and destroys it (the temp-node pattern proven
+in ``capture_service._capture_via_opviewer``) — the tool's READ_ONLY annotation
+stays honest. The MUTATION path (the W-A3 receipt, running inside update_node,
+class DESTRUCTIVE) instead creates a persistent ``<name>_info`` docked to the
+GLSL op — the same Info DAT TD's own create() ships (owner decision 2026-07-14).
 
 ``receipt_for_mutation(node, properties)`` is the W-A3 hook: given a just-applied
 ``update_node`` mutation, it decides whether the change could affect a shader and,
 if so, returns a compact compile-status summary to staple onto the mutation
 receipt — so an agent that forgets to check errors is still told about a break.
+The consuming GLSL op is resolved by treating (GLSL op + shader DAT(s) + info
+DAT) as one unit: dock shortcut, then sibling scan, then a capped project scan
+over GLSL-family ops — always via the ops' own ``SHADER_SOURCE_PARS`` forward
+pointers. Statuses and receipts carry ``shader_sources`` (which DAT holds each
+stage, and the on-disk .glsl/.vert/.frag its ``file`` par syncs to).
 """
 
 from typing import Any, Optional
@@ -42,7 +50,9 @@ class GlslStatusService:
     # Public
     # ------------------------------------------------------------------
 
-    def get_glsl_status(self, node_path: str = "", file_path: str = "") -> Result:
+    def get_glsl_status(
+        self, node_path: str = "", file_path: str = "", persist_info: bool = False
+    ) -> Result:
         """Return the compile status of the op at ``node_path``, or of every GLSL
         op whose shader source is a DAT synced to ``file_path`` (the check for the
         edit-the-.glsl-file-on-disk workflow).
@@ -51,6 +61,11 @@ class GlslStatusService:
         compile-failure warning banner) OR the op reports plain errors. For a
         non-GLSL op we skip the Info DAT entirely (nothing to compile) and just
         report is_glsl=False with any errors/warnings.
+
+        ``persist_info`` is server-internal (NOT exposed on the HTTP route — the
+        tool's READ_ONLY annotation depends on that): only the W-A3 mutation
+        receipt passes True, allowing a missing Info DAT to be created
+        persistently and docked instead of temp-and-destroyed.
         """
         if not node_path and file_path:
             return self._status_for_shader_file(file_path)
@@ -70,11 +85,13 @@ class GlslStatusService:
         warnings = self._lines(self._safe_call(node, "warnings"))
 
         if is_glsl:
-            compiler_log = self._read_compiler_log(node)
+            compiler_log = self._read_compiler_log(node, persist_info=persist_info)
             compiler_errors = scan_compiler_log(compiler_log)
+            shader_sources = self._shader_sources(node)
         else:
             compiler_log = ""
             compiler_errors = []
+            shader_sources = []
 
         compile_failed = bool(compiler_errors) or any(
             is_compile_failure_message(w) for w in warnings
@@ -92,6 +109,10 @@ class GlslStatusService:
                 "warnings": warnings,
                 "compiler_log": compiler_log,
                 "compiler_errors": compiler_errors,
+                # Which DAT holds each shader stage and the on-disk
+                # .glsl/.vert/.frag its `file` par syncs to — the "what do I
+                # edit to fix this" answer, in the status itself.
+                "shader_sources": shader_sources,
             }
         )
 
@@ -101,10 +122,12 @@ class GlslStatusService:
 
         Foolproof path: if the mutated op is itself GLSL-family, status-check it.
         Otherwise, if the write was a shader-source write (``.text`` / a shader par)
-        on a DAT, do a BOUNDED sibling scan (parent's direct children only) for a
-        GLSL op whose own shader-source par (``SHADER_SOURCE_PARS`` —
-        pixeldat/vertexdat/computedat on TOP/POP, pdat/vdat on MAT) references this
-        DAT — "via the op's own pars", never a full-project reverse walk (N6).
+        on a DAT, resolve the consuming GLSL op via the ladder in
+        ``_resolve_glsl_target`` (dock shortcut -> bounded sibling scan -> capped
+        project scan over GLSL-family ops). Every lane reads the GLSL ops' OWN
+        shader-source pars (``SHADER_SOURCE_PARS`` — pixeldat/vertexdat/computedat
+        on TOP/POP, pdat/vdat on MAT) — a *general* reverse-reference walk over
+        arbitrary pars remains out of scope (roadmap N6).
         Never raises: any failure returns None (a receipt must not break a mutation).
         """
         try:
@@ -113,7 +136,11 @@ class GlslStatusService:
             target = self._resolve_glsl_target(node, properties)
             if target is None:
                 return None
-            result = self.get_glsl_status(str(getattr(target, "path", "")))
+            # persist_info: the receipt runs inside update_node (class DESTRUCTIVE),
+            # so it may leave a permanent docked <name>_info on the checked op.
+            result = self.get_glsl_status(
+                str(getattr(target, "path", "")), persist_info=True
+            )
             if not result.get("success"):
                 return None
             data = result["data"]
@@ -130,6 +157,10 @@ class GlslStatusService:
                 "compile_failed": data["compile_failed"],
                 "compiler_errors": data["compiler_errors"][:20],
                 "warnings": data["warnings"][:20],
+                # Which DAT holds each shader stage (and the on-disk file feeding
+                # it) — so after a failed receipt the agent knows what to fix
+                # without a follow-up call.
+                "shader_sources": data.get("shader_sources", []),
             }
         except Exception as e:  # noqa: BLE001 — best-effort; never break the mutation
             log_message(f"GLSL receipt check skipped: {e}", LogLevel.WARNING)
@@ -139,7 +170,9 @@ class GlslStatusService:
     # Internals
     # ------------------------------------------------------------------
 
-    _FILE_SCAN_CAP = 8000
+    # Shared cap for both project-wide scan lanes: the file_path lane and the
+    # receipt's last-resort cross-container consumer scan.
+    _PROJECT_SCAN_CAP = 8000
 
     def _status_for_shader_file(self, file_path: str) -> Result:
         """Compile status for every GLSL op whose shader source is a DAT synced to
@@ -152,7 +185,7 @@ class GlslStatusService:
         if root is None:
             return error_result("td.root unavailable; cannot scan for shader DATs")
         try:
-            all_ops = list(root.findChildren())[: self._FILE_SCAN_CAP]
+            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
         except Exception as e:  # noqa: BLE001
             return error_result(f"Project scan failed: {e}")
 
@@ -192,20 +225,8 @@ class GlslStatusService:
 
         checked = []
         for o in all_ops:
-            if not is_glsl_family(o):
-                continue
-            for par_name in SHADER_SOURCE_PARS:
-                par = getattr(getattr(o, "par", None), par_name, None)
-                if par is None:
-                    continue
-                try:
-                    val = str(getattr(par, "val", "") or "")
-                    ref = o.op(val) if val else None
-                except Exception:  # noqa: BLE001
-                    ref = None
-                if ref is not None and str(getattr(ref, "path", "")) in dat_paths:
-                    checked.append(o)
-                    break
+            if is_glsl_family(o) and self._op_references_dats(o, dat_paths):
+                checked.append(o)
         if not checked:
             return error_result(
                 "Matched DAT(s) " + ", ".join(sorted(dat_paths)) +
@@ -227,84 +248,249 @@ class GlslStatusService:
         })
 
     def _resolve_glsl_target(self, node: Any, properties: Any) -> Optional[Any]:
-        """The GLSL op whose compile status a mutation on ``node`` should re-check."""
+        """The GLSL op whose compile status a mutation on ``node`` should re-check.
+
+        Ladder — first hit wins; the receipt is single-target by design (the
+        client note renders one node, and a shared shader breaks identically in
+        every consumer):
+          (a) the mutated op is itself GLSL-family;
+          (b) dock shortcut: TD's create() docks the shader DAT to its GLSL op,
+              so ``node.dock`` is the consumer for default wiring — verified via
+              the op's own shader-source pars, never trusted blindly (a docked
+              ``<name>_info`` has the same dock relationship but is no source);
+          (c) bounded sibling scan (parent's direct children) — same-container
+              manual wiring;
+          (d) capped project-wide scan over GLSL-family ops only — cross-container
+              ``../`` or absolute refs. Every lane reads the GLSL ops' OWN
+              forward pointers (``SHADER_SOURCE_PARS``); a general reverse walk
+              over arbitrary pars remains out of scope (roadmap N6).
+        """
         if is_glsl_family(node):
             return node
-        # DAT shader-source write: find the sibling GLSL op that references this DAT.
+        node_path = str(getattr(node, "path", ""))
+        # (b) dock shortcut. getattr does NOT swallow a raising property — guard it.
+        try:
+            dock = getattr(node, "dock", None)
+        except Exception:  # noqa: BLE001 — hostile/partial ops
+            dock = None
+        if dock is not None and is_glsl_family(dock) and self._op_references_dats(
+            dock, {node_path}, node
+        ):
+            return dock
+        # (c) bounded sibling scan.
         try:
             parent = node.parent()
             siblings = parent.findChildren(depth=1) if parent is not None else []
-        except Exception:
-            return None
-        node_path = str(getattr(node, "path", ""))
+        except Exception:  # noqa: BLE001
+            siblings = []
         for sib in siblings or []:
-            if not is_glsl_family(sib):
+            if is_glsl_family(sib) and self._op_references_dats(sib, {node_path}, node):
+                return sib
+        # (d) capped project scan.
+        return self._find_glsl_consumer_projectwide(node, node_path)
+
+    def _op_references_dats(
+        self, glsl_op: Any, dat_paths: set, dat_node: Any = None
+    ) -> bool:
+        """True if any shader-source par on ``glsl_op`` resolves (via
+        ``_resolve_op_par``) to ``dat_node`` (identity) or a path in ``dat_paths``."""
+        for par_name in SHADER_SOURCE_PARS:
+            par = getattr(getattr(glsl_op, "par", None), par_name, None)
+            if par is None:
                 continue
-            for par_name in SHADER_SOURCE_PARS:
-                par = getattr(getattr(sib, "par", None), par_name, None)
-                if par is None:
-                    continue
-                try:
-                    val = str(getattr(par, "val", "") or "")
-                except Exception:
-                    val = ""
-                if not val:
-                    continue
-                try:
-                    ref = sib.op(val)
-                except Exception:
-                    ref = None
-                if ref is node or (ref is not None and str(getattr(ref, "path", "")) == node_path):
-                    return sib
+            ref = self._resolve_op_par(glsl_op, par)
+            if ref is None:
+                continue
+            if ref is dat_node or str(getattr(ref, "path", "")) in dat_paths:
+                return True
+        return False
+
+    def _find_glsl_consumer_projectwide(self, node: Any, node_path: str) -> Optional[Any]:
+        """Ladder lane (d): first GLSL-family op anywhere in the project whose
+        shader-source par references ``node``.
+
+        Only DATs can be shader sources, and ``mutation_touches_glsl`` fires on
+        any ``text`` key (which a textTOP write also carries) — the DAT pre-filter
+        keeps non-DAT text writes from paying the project walk. The walk reuses
+        the file lane's capped ``td.root.findChildren()`` pattern; no root (unit
+        stubs, teardown) degrades to no receipt, never an error.
+        """
+        if "dat" not in op_type_of(node).lower():
+            return None
+        root = getattr(td, "root", None)
+        if root is None:
+            return None
+        try:
+            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
+        except Exception:  # noqa: BLE001
+            return None
+        for o in all_ops:
+            if is_glsl_family(o) and self._op_references_dats(o, {node_path}, node):
+                return o
         return None
 
-    def _read_compiler_log(self, node: Any) -> str:
-        """Return the shader's Info DAT text, creating a temp Info DAT if needed.
+    @staticmethod
+    def _resolve_op_par(owner: Any, par: Any) -> Optional[Any]:
+        """Resolve a shader-source (OP-type) par to the operator it references.
 
-        Prefers a docked Info DAT or a sibling ``<name>_info`` (built ops ship one),
-        else creates ``temp_glsl_info_capture``, points its ``op`` par at the node,
-        cooks, reads ``.text``, and destroys it in a finally-equivalent — so a temp
-        Info DAT never leaks even on error.
+        PROVEN LIVE (2026-07-14, TD 099.2025.32820): ``OP.op(name)`` on a non-COMP
+        does NOT resolve sibling names — ``op('/x/glsl1').op('glsl1_pixel')`` is
+        None even though that is TD's own auto-docked default wiring. ``par.eval()``
+        on an OP-type par returns the referenced operator directly (and handles
+        expression-mode pars, where ``par.val`` is the raw expression string). For
+        string-y evals (odd/stub pars) fall back to resolving against the owner's
+        PARENT — sibling names anchor there, never at the owner itself.
+        """
+        try:
+            resolved = par.eval()
+        except Exception:  # noqa: BLE001 — stub/odd pars: fall back to .val
+            resolved = None
+        if resolved is not None and not isinstance(resolved, str):
+            return resolved
+        val = str(resolved or getattr(par, "val", "") or "")
+        if not val:
+            return None
+        try:
+            parent = owner.parent()
+            return parent.op(val) if parent is not None else None
+        except Exception:  # noqa: BLE001
+            return None
+
+    def _shader_sources(self, node: Any) -> list:
+        """One entry per populated shader-source par on a GLSL op: which DAT holds
+        the stage's shader and which on-disk file (the DAT's ``file`` par) feeds
+        it. A populated par whose reference doesn't resolve is reported with
+        ``dat=None`` and the raw par value — honesty over silence. Deduped by
+        resolved DAT: glslTOP exposes both ``pixeldat`` and ``pdat`` for the same
+        DAT (legacy alias, proven live 2026-07-14).
+        """
+        sources = []
+        seen = set()
+        for par_name in SHADER_SOURCE_PARS:
+            par = getattr(getattr(node, "par", None), par_name, None)
+            if par is None:
+                continue
+            raw = str(getattr(par, "val", "") or "")
+            ref = self._resolve_op_par(node, par)
+            if ref is None and not raw:
+                continue
+            if ref is not None:
+                entry = {
+                    "par": par_name,
+                    "dat": str(getattr(ref, "path", "")),
+                    "dat_name": str(getattr(ref, "name", "")),
+                    "file": self._dat_file_of(ref),
+                }
+            else:
+                entry = {"par": par_name, "dat": None, "dat_name": raw, "file": ""}
+            key = entry["dat"] or entry["dat_name"]
+            if key in seen:
+                continue
+            seen.add(key)
+            sources.append(entry)
+        return sources
+
+    @staticmethod
+    def _dat_file_of(dat: Any) -> str:
+        """The DAT's ``file`` par value (its synced .glsl/.vert/.frag), or ''
+        when the shader text is embedded (no file sync)."""
+        par = getattr(getattr(dat, "par", None), "file", None)
+        if par is None:
+            return ""
+        try:
+            val = par.eval()
+        except Exception:  # noqa: BLE001 — stub/odd pars: fall back to .val
+            val = None
+        if val is None or not isinstance(val, str):
+            val = getattr(par, "val", "") or ""
+        return str(val or "")
+
+    def _read_compiler_log(self, node: Any, persist_info: bool = False) -> str:
+        """Return the shader's Info DAT text, creating an Info DAT if needed.
+
+        Prefers a docked Info DAT or a sibling ``<name>_info`` (built ops ship one).
+        When none exists the behavior forks on ``persist_info`` (owner decision
+        2026-07-14):
+          * False (the READ_ONLY ``get_glsl_status`` surface): create
+            ``temp_glsl_info_capture``, read ``.text``, and destroy it in a
+            finally-equivalent — a pure status read never mutates the network.
+          * True (the W-A3 mutation receipt, inside update_node, class DESTRUCTIVE):
+            create a permanent ``<name>_info`` docked to the GLSL op — the same
+            Info DAT TD's own create() ships — and KEEP it on success (destroyed
+            only if the read errors out), so every op actually worked on ends up
+            with its compile-error surface.
         """
         info = self._find_existing_info_dat(node)
-        temp = None
+        created = None
+        keep_created = False
         try:
             if info is None:
                 parent = node.parent()
                 if parent is None:
                     return ""
-                # Clear any leaked temp from a prior aborted call so create() does
-                # not silently auto-suffix (we would then destroy the wrong node).
-                stale = parent.op(_TEMP_INFO_NAME)
-                if stale is not None and getattr(stale, "valid", False):
+                if persist_info:
+                    created = self._create_persistent_info_dat(node, parent)
+                else:
+                    # Clear any leaked temp from a prior aborted call so create()
+                    # does not silently auto-suffix (we would then destroy the
+                    # wrong node).
+                    stale = parent.op(_TEMP_INFO_NAME)
+                    if stale is not None and getattr(stale, "valid", False):
+                        try:
+                            stale.destroy()
+                        except Exception:
+                            pass
+                    created = parent.create("infoDAT", _TEMP_INFO_NAME)
                     try:
-                        stale.destroy()
+                        created.par.op = str(getattr(node, "path", ""))
                     except Exception:
                         pass
-                temp = parent.create("infoDAT", _TEMP_INFO_NAME)
-                try:
-                    temp.par.op = str(getattr(node, "path", ""))
-                except Exception:
-                    pass
-                try:
-                    temp.nodeX, temp.nodeY = node.nodeX, node.nodeY - 150
-                except Exception:
-                    pass
-                self._safe_cook(temp)
-                info = temp
+                    try:
+                        created.nodeX, created.nodeY = node.nodeX, node.nodeY - 150
+                    except Exception:
+                        pass
+                self._safe_cook(created)
+                info = created
             else:
                 self._safe_cook(info)
             text = getattr(info, "text", "") if info is not None else ""
+            keep_created = persist_info
             return str(text or "")
         except Exception as e:  # noqa: BLE001
             log_message(f"_read_compiler_log failed: {e}", LogLevel.WARNING)
             return ""
         finally:
-            if temp is not None:
+            if created is not None and not keep_created:
                 try:
-                    temp.destroy()
+                    created.destroy()
                 except Exception:
                     pass
+
+    @staticmethod
+    def _create_persistent_info_dat(node: Any, parent: Any) -> Any:
+        """Create the permanent ``<name>_info`` Info DAT docked to ``node``
+        (mutation path only). Mirrors the offline builder's
+        ``toe_builder_bridge._write_docked_info_dat`` and TD's own create()
+        convention: named ``<host>_info``, ``op`` par = relative sibling name,
+        docked to the host, placed at the docked-child offset (+160, -120).
+        Docking is best-effort: if the ``dock`` assignment fails, the name and
+        position still make the DAT discoverable via the ``<name>_info`` sibling
+        lookup in ``_find_existing_info_dat``.
+        """
+        info = parent.create("infoDAT", str(getattr(node, "name", "")) + "_info")
+        try:
+            info.par.op = str(getattr(node, "name", ""))
+        except Exception:
+            pass
+        try:
+            info.nodeX, info.nodeY = node.nodeX + 160, node.nodeY - 120
+        except Exception:
+            pass
+        try:
+            info.dock = node
+        except Exception:
+            pass
+        return info
 
     def _find_existing_info_dat(self, node: Any) -> Optional[Any]:
         """A docked Info DAT, or a sibling named ``<name>_info`` that is an infoDAT."""

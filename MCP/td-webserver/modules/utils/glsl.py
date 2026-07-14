@@ -105,8 +105,10 @@ def mutation_touches_glsl(op, properties) -> bool:
     write on a DAT: ``.text`` (``properties`` carries a 'text' key) or any
     ``SHADER_SOURCE_PARS`` par (pixeldat/vertexdat/computedat for TOP/POP,
     pdat/vdat for MAT). The caller decides which op to
-    actually status-check (the GLSL op, not the DAT). Detecting "this DAT feeds a
-    GLSL op" via a reverse-reference walk is explicitly OUT of scope (roadmap N6).
+    actually status-check (the GLSL op, not the DAT): it resolves cross-container
+    consumers via a GLSL-scoped *forward-pointer* check (dock shortcut + capped
+    scan reading GLSL ops' own ``SHADER_SOURCE_PARS``). A *general*
+    reverse-reference walk over arbitrary pars remains OUT of scope (roadmap N6).
     """
     if is_glsl_family(op):
         return True

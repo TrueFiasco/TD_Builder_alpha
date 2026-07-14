@@ -94,7 +94,7 @@ unattended.
 | get_mutation_status | READ_ONLY | reports what committed since server start (post-timeout recovery) |
 | **save_td_project** | **WRITE_CHECKPOINT** | dialog-proof filesystem copy of the last-saved `.toe`; never mutates the graph; overwrites a stable target |
 | **create_td_node** | **DESTRUCTIVE** | adds a node (auto-suffixes → not idempotent) |
-| **update_td_node_parameters** | **DESTRUCTIVE** | mutates params (may pulse / add sequence children); its W-A3 GLSL receipt may create+dock a persistent `<name>_info` Info DAT on the checked GLSL op if it lacks one (owner decision 2026-07-14 — within this class) |
+| **update_td_node_parameters** | **DESTRUCTIVE** | mutates params (may pulse / add sequence children); its W-A3 GLSL receipt may create+dock a persistent `<name>_info` Info DAT on the checked GLSL op if it lacks one (owner decision 2026-07-14 — within this class); the receipt resolves the consuming GLSL op via dock/sibling/capped project scan (read-only scan, no extra mutation) |
 | **delete_td_node** | **DESTRUCTIVE** | destroys a node + descendants |
 | **execute_python_script** | **DESTRUCTIVE** | arbitrary Python in TD |
 | **exec_node_method** | **DESTRUCTIVE** | arbitrary method (`.destroy()`, `.save()`, …) |

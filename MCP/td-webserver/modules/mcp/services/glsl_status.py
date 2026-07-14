@@ -15,6 +15,11 @@ GLSL op — the same Info DAT TD's own create() ships (owner decision 2026-07-14
 ``update_node`` mutation, it decides whether the change could affect a shader and,
 if so, returns a compact compile-status summary to staple onto the mutation
 receipt — so an agent that forgets to check errors is still told about a break.
+The consuming GLSL op is resolved by treating (GLSL op + shader DAT(s) + info
+DAT) as one unit: dock shortcut, then sibling scan, then a capped project scan
+over GLSL-family ops — always via the ops' own ``SHADER_SOURCE_PARS`` forward
+pointers. Statuses and receipts carry ``shader_sources`` (which DAT holds each
+stage, and the on-disk .glsl/.vert/.frag its ``file`` par syncs to).
 """
 
 from typing import Any, Optional
@@ -82,9 +87,11 @@ class GlslStatusService:
         if is_glsl:
             compiler_log = self._read_compiler_log(node, persist_info=persist_info)
             compiler_errors = scan_compiler_log(compiler_log)
+            shader_sources = self._shader_sources(node)
         else:
             compiler_log = ""
             compiler_errors = []
+            shader_sources = []
 
         compile_failed = bool(compiler_errors) or any(
             is_compile_failure_message(w) for w in warnings
@@ -102,6 +109,10 @@ class GlslStatusService:
                 "warnings": warnings,
                 "compiler_log": compiler_log,
                 "compiler_errors": compiler_errors,
+                # Which DAT holds each shader stage and the on-disk
+                # .glsl/.vert/.frag its `file` par syncs to — the "what do I
+                # edit to fix this" answer, in the status itself.
+                "shader_sources": shader_sources,
             }
         )
 
@@ -111,10 +122,12 @@ class GlslStatusService:
 
         Foolproof path: if the mutated op is itself GLSL-family, status-check it.
         Otherwise, if the write was a shader-source write (``.text`` / a shader par)
-        on a DAT, do a BOUNDED sibling scan (parent's direct children only) for a
-        GLSL op whose own shader-source par (``SHADER_SOURCE_PARS`` —
-        pixeldat/vertexdat/computedat on TOP/POP, pdat/vdat on MAT) references this
-        DAT — "via the op's own pars", never a full-project reverse walk (N6).
+        on a DAT, resolve the consuming GLSL op via the ladder in
+        ``_resolve_glsl_target`` (dock shortcut -> bounded sibling scan -> capped
+        project scan over GLSL-family ops). Every lane reads the GLSL ops' OWN
+        shader-source pars (``SHADER_SOURCE_PARS`` — pixeldat/vertexdat/computedat
+        on TOP/POP, pdat/vdat on MAT) — a *general* reverse-reference walk over
+        arbitrary pars remains out of scope (roadmap N6).
         Never raises: any failure returns None (a receipt must not break a mutation).
         """
         try:
@@ -144,6 +157,10 @@ class GlslStatusService:
                 "compile_failed": data["compile_failed"],
                 "compiler_errors": data["compiler_errors"][:20],
                 "warnings": data["warnings"][:20],
+                # Which DAT holds each shader stage (and the on-disk file feeding
+                # it) — so after a failed receipt the agent knows what to fix
+                # without a follow-up call.
+                "shader_sources": data.get("shader_sources", []),
             }
         except Exception as e:  # noqa: BLE001 — best-effort; never break the mutation
             log_message(f"GLSL receipt check skipped: {e}", LogLevel.WARNING)
@@ -153,7 +170,9 @@ class GlslStatusService:
     # Internals
     # ------------------------------------------------------------------
 
-    _FILE_SCAN_CAP = 8000
+    # Shared cap for both project-wide scan lanes: the file_path lane and the
+    # receipt's last-resort cross-container consumer scan.
+    _PROJECT_SCAN_CAP = 8000
 
     def _status_for_shader_file(self, file_path: str) -> Result:
         """Compile status for every GLSL op whose shader source is a DAT synced to
@@ -166,7 +185,7 @@ class GlslStatusService:
         if root is None:
             return error_result("td.root unavailable; cannot scan for shader DATs")
         try:
-            all_ops = list(root.findChildren())[: self._FILE_SCAN_CAP]
+            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
         except Exception as e:  # noqa: BLE001
             return error_result(f"Project scan failed: {e}")
 
@@ -206,16 +225,8 @@ class GlslStatusService:
 
         checked = []
         for o in all_ops:
-            if not is_glsl_family(o):
-                continue
-            for par_name in SHADER_SOURCE_PARS:
-                par = getattr(getattr(o, "par", None), par_name, None)
-                if par is None:
-                    continue
-                ref = self._resolve_op_par(o, par)
-                if ref is not None and str(getattr(ref, "path", "")) in dat_paths:
-                    checked.append(o)
-                    break
+            if is_glsl_family(o) and self._op_references_dats(o, dat_paths):
+                checked.append(o)
         if not checked:
             return error_result(
                 "Matched DAT(s) " + ", ".join(sorted(dat_paths)) +
@@ -237,26 +248,85 @@ class GlslStatusService:
         })
 
     def _resolve_glsl_target(self, node: Any, properties: Any) -> Optional[Any]:
-        """The GLSL op whose compile status a mutation on ``node`` should re-check."""
+        """The GLSL op whose compile status a mutation on ``node`` should re-check.
+
+        Ladder — first hit wins; the receipt is single-target by design (the
+        client note renders one node, and a shared shader breaks identically in
+        every consumer):
+          (a) the mutated op is itself GLSL-family;
+          (b) dock shortcut: TD's create() docks the shader DAT to its GLSL op,
+              so ``node.dock`` is the consumer for default wiring — verified via
+              the op's own shader-source pars, never trusted blindly (a docked
+              ``<name>_info`` has the same dock relationship but is no source);
+          (c) bounded sibling scan (parent's direct children) — same-container
+              manual wiring;
+          (d) capped project-wide scan over GLSL-family ops only — cross-container
+              ``../`` or absolute refs. Every lane reads the GLSL ops' OWN
+              forward pointers (``SHADER_SOURCE_PARS``); a general reverse walk
+              over arbitrary pars remains out of scope (roadmap N6).
+        """
         if is_glsl_family(node):
             return node
-        # DAT shader-source write: find the sibling GLSL op that references this DAT.
+        node_path = str(getattr(node, "path", ""))
+        # (b) dock shortcut. getattr does NOT swallow a raising property — guard it.
+        try:
+            dock = getattr(node, "dock", None)
+        except Exception:  # noqa: BLE001 — hostile/partial ops
+            dock = None
+        if dock is not None and is_glsl_family(dock) and self._op_references_dats(
+            dock, {node_path}, node
+        ):
+            return dock
+        # (c) bounded sibling scan.
         try:
             parent = node.parent()
             siblings = parent.findChildren(depth=1) if parent is not None else []
-        except Exception:
-            return None
-        node_path = str(getattr(node, "path", ""))
+        except Exception:  # noqa: BLE001
+            siblings = []
         for sib in siblings or []:
-            if not is_glsl_family(sib):
+            if is_glsl_family(sib) and self._op_references_dats(sib, {node_path}, node):
+                return sib
+        # (d) capped project scan.
+        return self._find_glsl_consumer_projectwide(node, node_path)
+
+    def _op_references_dats(
+        self, glsl_op: Any, dat_paths: set, dat_node: Any = None
+    ) -> bool:
+        """True if any shader-source par on ``glsl_op`` resolves (via
+        ``_resolve_op_par``) to ``dat_node`` (identity) or a path in ``dat_paths``."""
+        for par_name in SHADER_SOURCE_PARS:
+            par = getattr(getattr(glsl_op, "par", None), par_name, None)
+            if par is None:
                 continue
-            for par_name in SHADER_SOURCE_PARS:
-                par = getattr(getattr(sib, "par", None), par_name, None)
-                if par is None:
-                    continue
-                ref = self._resolve_op_par(sib, par)
-                if ref is node or (ref is not None and str(getattr(ref, "path", "")) == node_path):
-                    return sib
+            ref = self._resolve_op_par(glsl_op, par)
+            if ref is None:
+                continue
+            if ref is dat_node or str(getattr(ref, "path", "")) in dat_paths:
+                return True
+        return False
+
+    def _find_glsl_consumer_projectwide(self, node: Any, node_path: str) -> Optional[Any]:
+        """Ladder lane (d): first GLSL-family op anywhere in the project whose
+        shader-source par references ``node``.
+
+        Only DATs can be shader sources, and ``mutation_touches_glsl`` fires on
+        any ``text`` key (which a textTOP write also carries) — the DAT pre-filter
+        keeps non-DAT text writes from paying the project walk. The walk reuses
+        the file lane's capped ``td.root.findChildren()`` pattern; no root (unit
+        stubs, teardown) degrades to no receipt, never an error.
+        """
+        if "dat" not in op_type_of(node).lower():
+            return None
+        root = getattr(td, "root", None)
+        if root is None:
+            return None
+        try:
+            all_ops = list(root.findChildren())[: self._PROJECT_SCAN_CAP]
+        except Exception:  # noqa: BLE001
+            return None
+        for o in all_ops:
+            if is_glsl_family(o) and self._op_references_dats(o, {node_path}, node):
+                return o
         return None
 
     @staticmethod
@@ -285,6 +355,55 @@ class GlslStatusService:
             return parent.op(val) if parent is not None else None
         except Exception:  # noqa: BLE001
             return None
+
+    def _shader_sources(self, node: Any) -> list:
+        """One entry per populated shader-source par on a GLSL op: which DAT holds
+        the stage's shader and which on-disk file (the DAT's ``file`` par) feeds
+        it. A populated par whose reference doesn't resolve is reported with
+        ``dat=None`` and the raw par value — honesty over silence. Deduped by
+        resolved DAT: glslTOP exposes both ``pixeldat`` and ``pdat`` for the same
+        DAT (legacy alias, proven live 2026-07-14).
+        """
+        sources = []
+        seen = set()
+        for par_name in SHADER_SOURCE_PARS:
+            par = getattr(getattr(node, "par", None), par_name, None)
+            if par is None:
+                continue
+            raw = str(getattr(par, "val", "") or "")
+            ref = self._resolve_op_par(node, par)
+            if ref is None and not raw:
+                continue
+            if ref is not None:
+                entry = {
+                    "par": par_name,
+                    "dat": str(getattr(ref, "path", "")),
+                    "dat_name": str(getattr(ref, "name", "")),
+                    "file": self._dat_file_of(ref),
+                }
+            else:
+                entry = {"par": par_name, "dat": None, "dat_name": raw, "file": ""}
+            key = entry["dat"] or entry["dat_name"]
+            if key in seen:
+                continue
+            seen.add(key)
+            sources.append(entry)
+        return sources
+
+    @staticmethod
+    def _dat_file_of(dat: Any) -> str:
+        """The DAT's ``file`` par value (its synced .glsl/.vert/.frag), or ''
+        when the shader text is embedded (no file sync)."""
+        par = getattr(getattr(dat, "par", None), "file", None)
+        if par is None:
+            return ""
+        try:
+            val = par.eval()
+        except Exception:  # noqa: BLE001 — stub/odd pars: fall back to .val
+            val = None
+        if val is None or not isinstance(val, str):
+            val = getattr(par, "val", "") or ""
+        return str(val or "")
 
     def _read_compiler_log(self, node: Any, persist_info: bool = False) -> str:
         """Return the shader's Info DAT text, creating an Info DAT if needed.

@@ -1,0 +1,59 @@
+{
+  "id": "s15_glsl_break_detect",
+  "version": 1,
+  "gate": false,
+  "surface": "live",
+  "tags": [
+    "tier1",
+    "live",
+    "glsl",
+    "regression:wa-foolproof-glsl"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [
+    "td_live_running"
+  ],
+  "fixtures": [],
+  "prompt": "TouchDesigner is RUNNING and the live tools are connected. This is a diagnostic drill on shader-failure detection — a broken GLSL op runs as a silent no-op, and I want proof the toolchain catches it. Work entirely inside a fresh container you create at /eval_s15_scratch (do not touch anything else in the project, and do NOT save the project at any point). Look up the GLSL TOP in the knowledge base first. Then, inside the scratch container: create a GLSL TOP with a pixel shader that has a deliberate compile error (e.g. a missing semicolon). Check its compile status with the proper GLSL status tool and quote me the actual compiler error line it reports. Then fix the shader, confirm it now compiles clean, and delete the whole /eval_s15_scratch container. Report: how the failure surfaced, the exact compiler error, and confirmation of the clean recheck and cleanup.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "kb_lookup_any"
+      },
+      {
+        "tool_called": "get_glsl_status"
+      },
+      {
+        "tool_result_re": {
+          "tool": "get_glsl_status",
+          "re": "GLSL COMPILE FAILED"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "get_glsl_status",
+          "re": "GLSL COMPILE OK"
+        }
+      },
+      {
+        "tool_called": "delete_td_node"
+      },
+      {
+        "tool_not_called": "save_td_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "(?i)compil\\w*[^.]{0,60}(fail|error)"
+      ],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "W-A regression scenario (PR #26): foolproof GLSL compile-failure flagging. get_glsl_status is the shipped check (info DAT + folded op.warnings(), force-cooked); node.errors() stays empty on a broken shader, which is exactly the trap this drill proves closed. Born aspirational; runs only where TouchDesigner is up (td_live_running), auto-SKIPs elsewhere. validate:null + artifact.absent — nothing is built offline; the scenario must leave no stray artifacts in the run dir."
+}

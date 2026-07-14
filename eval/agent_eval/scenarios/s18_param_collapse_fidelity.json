@@ -1,0 +1,76 @@
+{
+  "id": "s18_param_collapse_fidelity",
+  "version": 1,
+  "gate": false,
+  "tags": [
+    "tier1",
+    "kb",
+    "hybrid-search",
+    "regression:wc-param-collapse"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [],
+  "fixtures": [],
+  "prompt": "KB fidelity check — no building, and use ONLY the hybrid_search tool for knowledge lookups (no other knowledge tools; that restriction is the whole point of the exercise). If the KB is still warming up, keep waiting and retrying — a cold server can take several minutes to load, so be patient rather than giving up or guessing. I want to know whether hybrid_search alone gives the full parameter-name picture for the GLSL compute POPs. Run a hybrid_search for the GLSL POP family (something like 'GLSL POP compute shader uniforms points') in compact mode, and run it again in full (non-compact) mode — keep the result count small (3 results) in both calls so the full-mode envelope stays inside the size budget; an oversized envelope gets shed down to a reduced shape and the fields I'm asking about disappear. Then answer, citing only what the tool returned: (1) For one GLSL POP hit of your choice, what is its total parameter count, and how many entries does the parameter_names list carry? (2) Uniform-style parameters come in numbered sequence blocks — quote the collapsed block label for the vector-uniform block exactly as the tool prints it. (3) In full mode, was the hydrated parameter detail truncated, and how is that flagged? (4) What does the per-hit score_kind field say about how the relevance scores were computed on this install? If hybrid_search alone can't answer any of these, say so plainly instead of reaching for another tool.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "hybrid_search"
+      },
+      {
+        "tool_not_called": [
+          "get_operator_info",
+          "query_graph",
+          "list_pop_operators",
+          "find_operator_examples",
+          "find_operator_combination",
+          "find_parameter_usage",
+          "find_similar_networks",
+          "get_parameter_detail",
+          "get_network_patterns"
+        ]
+      },
+      {
+        "tool_not_called": "td_build_project"
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "parameter_names"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "score_kind"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "parameters_capped"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "vec\\[0\\]\\{name,type,value\\}"
+        }
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "vec\\[0\\]",
+        "(?i)score|rank"
+      ],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "W-C regression scenario (PR #24/#26 + addendum 57ca958): hybrid_search hit-shape fidelity. Grounded against the real KB 2026-07-14: GLSL Create/Copy/Advanced POP hits carry parameter_names always (23/58/17 post-collapse names vs true counts 54/97/28), sequence blocks collapse to reconstructible labels (vec[0]{name,type,value}, sampler[0]{...}, const[0]{...}), full mode hydrates parameters capped at PARAM_HYDRATE_CAP=12 with parameters_capped:true, and every hit stamps score_kind (rank_fusion_only where the reranker bundle is absent — the degraded-install honesty field). The parameters_capped tool_result_re only matches a FULL-mode call, so the pair of runs is enforced by results, not by arg inspection. The tool_not_called list is the other 9 kb_lookup_any tools — fidelity must come from hybrid_search alone. The n_results=3 steer in the prompt is load-bearing (learned from dev run s18-dev-1): at the default result count the FULL-mode envelope exceeds HYBRID_SEARCH_MAX_BYTES and the reactive shed strips hits back to the pre-#24 shape — parameter_names/score_kind/parameters_capped all vanish (flagged separately as a product finding; the shed erasing the honesty fields is arguably a W-C gap). Born aspirational; offline, so it is blessable into the replay lane like any tier-1."
+}

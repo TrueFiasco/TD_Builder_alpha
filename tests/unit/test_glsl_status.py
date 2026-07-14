@@ -347,3 +347,96 @@ def test_receipt_for_mutation_none_when_unrelated(monkeypatch):
 
     # A non-shader write on a plain DAT with no GLSL sibling -> no receipt.
     assert mod.GlslStatusService().receipt_for_mutation(dat, {"length": 3}) is None
+
+
+# ---------------------------------------------------------------------------
+# W-A2 addendum — force-cook before status + file_path resolution
+# ---------------------------------------------------------------------------
+
+
+def test_get_glsl_status_force_cooks_the_op(monkeypatch):
+    # PROVEN LIVE (2026-07-14): a file-synced shader DAT reloads from disk on its
+    # own, but the GLSL op only RECOMPILES on its next cook — status read without
+    # a force-cook is stale-clean. The status check must cook the op first.
+    parent = FakeParent(info_text=COMPILE_LOG)
+    glsl = FakeOp("/project1/glsl1", "glslTOP", parent=parent)
+    parent.add(glsl)
+    mod = _load_service(monkeypatch, {glsl.path: glsl})
+
+    mod.GlslStatusService().get_glsl_status("/project1/glsl1")
+    assert glsl.cook_calls >= 1
+
+
+def test_get_glsl_status_does_not_cook_non_glsl(monkeypatch):
+    parent = FakeParent()
+    dat = FakeOp("/project1/table1", "tableDAT", parent=parent)
+    parent.add(dat)
+    mod = _load_service(monkeypatch, {dat.path: dat})
+
+    r = mod.GlslStatusService().get_glsl_status("/project1/table1")
+    assert r["success"] is True
+    assert dat.cook_calls == 0
+
+
+def _load_service_with_root(monkeypatch, registry, root):
+    if str(_MODULES_DIR) not in sys.path:
+        sys.path.append(str(_MODULES_DIR))
+    td_stub = types.ModuleType("td")
+    td_stub.op = lambda path: registry.get(path)
+    td_stub.root = root
+    monkeypatch.setitem(sys.modules, "td", td_stub)
+    return _load_by_path("td_glsl_status_file_undertest", _GLSL_SERVICE_PY)
+
+
+def _shader_file_rig(broken=True):
+    """A project with a textDAT synced to a shader file and a glslTOP fed by it."""
+    parent = FakeParent(info_text=COMPILE_LOG if broken else "Compiled Successfully")
+    dat = FakeOp("/project1/shader_src", "textDAT", parent=parent)
+    dat.par.file = FakePar(r"C:\proj\shaders\probe_shader.glsl")
+    parent.add(dat)
+    glsl = FakeOp(
+        "/project1/glsl1", "glslTOP",
+        warnings="Warning: The GLSL Shader has compile errors (Use Info DAT to see details)." if broken else "",
+        parent=parent,
+    )
+    glsl.par.pixeldat = FakePar("shader_src")
+    glsl._op_refs["shader_src"] = dat
+    parent.add(glsl)
+    registry = {dat.path: dat, glsl.path: glsl, parent.path: parent}
+    return parent, dat, glsl, registry
+
+
+def test_file_path_resolves_dat_and_checks_referencing_glsl_op(monkeypatch):
+    parent, dat, glsl, registry = _shader_file_rig(broken=True)
+    mod = _load_service_with_root(monkeypatch, registry, parent)
+
+    r = mod.GlslStatusService().get_glsl_status(file_path=r"C:\proj\shaders\probe_shader.glsl")
+    assert r["success"] is True, r.get("error")
+    d = r["data"]
+    assert d["matched_dats"] == ["/project1/shader_src"]
+    assert d["checked_ops"] == ["/project1/glsl1"]
+    assert d["compile_failed"] is True
+    assert d["ok"] is False
+    assert glsl.cook_calls >= 1        # the recompile actually happened
+
+
+def test_file_path_basename_fallback_matches_relative_dat_path(monkeypatch):
+    parent, dat, glsl, registry = _shader_file_rig(broken=False)
+    dat.par.file = FakePar("shaders/probe_shader.glsl")   # project-relative form
+    mod = _load_service_with_root(monkeypatch, registry, parent)
+
+    r = mod.GlslStatusService().get_glsl_status(
+        file_path=r"C:\somewhere\else\shaders\probe_shader.glsl"
+    )
+    assert r["success"] is True, r.get("error")
+    assert r["data"]["checked_ops"] == ["/project1/glsl1"]
+    assert r["data"]["ok"] is True
+
+
+def test_file_path_no_match_is_friendly_error(monkeypatch):
+    parent, dat, glsl, registry = _shader_file_rig()
+    mod = _load_service_with_root(monkeypatch, registry, parent)
+
+    r = mod.GlslStatusService().get_glsl_status(file_path=r"C:\nope\other.glsl")
+    assert r["success"] is False
+    assert "No op with a file par matching" in r["error"]

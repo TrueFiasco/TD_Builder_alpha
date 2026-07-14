@@ -14,6 +14,7 @@ if so, returns a compact compile-status summary to staple onto the mutation
 receipt — so an agent that forgets to check errors is still told about a break.
 """
 
+import os
 from typing import Any, Optional
 
 import td
@@ -42,19 +43,30 @@ class GlslStatusService:
     # Public
     # ------------------------------------------------------------------
 
-    def get_glsl_status(self, node_path: str) -> Result:
-        """Return the compile status of the op at ``node_path``.
+    def get_glsl_status(self, node_path: str = "", file_path: str = "") -> Result:
+        """Return the compile status of the op at ``node_path``, or of every GLSL
+        op whose shader source is a DAT synced to ``file_path`` (the check for the
+        edit-the-.glsl-file-on-disk workflow).
 
         ok=False iff the shader failed to compile (compiler-log ERROR lines or a
         compile-failure warning banner) OR the op reports plain errors. For a
         non-GLSL op we skip the Info DAT entirely (nothing to compile) and just
         report is_glsl=False with any errors/warnings.
         """
+        if not node_path and file_path:
+            return self._status_for_shader_file(file_path)
         node = td.op(node_path)
         if node is None or not getattr(node, "valid", False):
             return error_result(f"Node not found at path: {node_path}")
 
         is_glsl = is_glsl_family(node)
+        # PROVEN LIVE (2026-07-14): a file-synced shader DAT reloads from disk
+        # automatically, but the GLSL op only RECOMPILES on its next cook — an
+        # idle branch reads stale-clean without this force-cook. It also makes
+        # the W-A3 receipt (which routes through here) synchronous with the
+        # .text write it is annotating.
+        if is_glsl:
+            self._safe_cook(node)
         errors = self._lines(self._safe_call(node, "errors"))
         warnings = self._lines(self._safe_call(node, "warnings"))
 
@@ -127,6 +139,85 @@ class GlslStatusService:
     # ------------------------------------------------------------------
     # Internals
     # ------------------------------------------------------------------
+
+    _FILE_SCAN_CAP = 8000
+
+    def _status_for_shader_file(self, file_path: str) -> Result:
+        """Compile status for every GLSL op whose shader source is a DAT synced to
+        ``file_path``. TD auto-reloads a synced DAT when the file changes on disk,
+        but the recompile only happens on the op's next cook — the per-op status
+        check above force-cooks, so this is the one-call answer to "I just edited
+        a shader file; did it break anything?". Matching: exact normalized path
+        first, basename fallback (DAT file pars are often project-relative)."""
+        root = getattr(td, "root", None)
+        if root is None:
+            return error_result("td.root unavailable; cannot scan for shader DATs")
+        try:
+            all_ops = list(root.findChildren())[: self._FILE_SCAN_CAP]
+        except Exception as e:  # noqa: BLE001
+            return error_result(f"Project scan failed: {e}")
+
+        target = os.path.normcase(os.path.normpath(str(file_path)))
+        base = os.path.basename(target)
+        exact, by_name = [], []
+        for o in all_ops:
+            par = getattr(getattr(o, "par", None), "file", None)
+            if par is None:
+                continue
+            try:
+                val = str(par.eval() or "")
+            except Exception:  # noqa: BLE001 — stub/odd pars: fall back to .val
+                val = str(getattr(par, "val", "") or "")
+            if not val:
+                continue
+            norm = os.path.normcase(os.path.normpath(val))
+            if norm == target:
+                exact.append(o)
+            elif os.path.basename(norm) == base:
+                by_name.append(o)
+        dats = exact or by_name
+        if not dats:
+            return error_result(
+                f"No op with a file par matching '{file_path}' found "
+                f"(scanned {len(all_ops)} ops). Is the DAT's Sync-to-File path set?"
+            )
+        dat_paths = {str(getattr(d, "path", "")) for d in dats}
+
+        checked = []
+        for o in all_ops:
+            if not is_glsl_family(o):
+                continue
+            for par_name in SHADER_SOURCE_PARS:
+                par = getattr(getattr(o, "par", None), par_name, None)
+                if par is None:
+                    continue
+                try:
+                    val = str(getattr(par, "val", "") or "")
+                    ref = o.op(val) if val else None
+                except Exception:  # noqa: BLE001
+                    ref = None
+                if ref is not None and str(getattr(ref, "path", "")) in dat_paths:
+                    checked.append(o)
+                    break
+        if not checked:
+            return error_result(
+                "Matched DAT(s) " + ", ".join(sorted(dat_paths)) +
+                f" for '{file_path}', but no GLSL op references them via "
+                f"{'/'.join(SHADER_SOURCE_PARS)}."
+            )
+        statuses = []
+        for o in checked:
+            r = self.get_glsl_status(str(getattr(o, "path", "")))
+            if r.get("success"):
+                statuses.append(r["data"])
+        return success_result({
+            "file_path": file_path,
+            "matched_dats": sorted(dat_paths),
+            "checked_ops": [s["node_path"] for s in statuses],
+            "ok": bool(statuses) and all(s["ok"] for s in statuses),
+            "compile_failed": any(s["compile_failed"] for s in statuses),
+            "statuses": statuses,
+        })
 
     def _resolve_glsl_target(self, node: Any, properties: Any) -> Optional[Any]:
         """The GLSL op whose compile status a mutation on ``node`` should re-check."""

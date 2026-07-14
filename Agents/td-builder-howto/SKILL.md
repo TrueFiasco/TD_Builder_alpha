@@ -65,6 +65,13 @@ woven into the surrounding tools so a failure is hard to miss:
 - `update_td_node_parameters` auto-appends the compile status to its receipt when the
   edit touched a GLSL op (or a shader-source DAT) — you don't have to remember to check.
 
+**Edited a shader FILE on disk** (a `.glsl`/`.frag` a DAT is synced to via Sync-to-File)?
+Nothing fires automatically — TD reloads the synced DAT on its own, but the op only
+recompiles on its next cook, and no mutation receipt exists for a file edit. Call
+**`get_glsl_status(file_path=<the file you edited>)`** right after: it resolves every
+GLSL op fed by a DAT synced to that file, force-cooks them (so the recompile actually
+happens), and reports each one's status in one call.
+
 The manual recipe below is still valid (and is what the tools do under the hood).
 After ANY edit to a GLSL TOP or GLSL POP, read its info DAT and scan for **both errors and warnings in the same pass**:
 

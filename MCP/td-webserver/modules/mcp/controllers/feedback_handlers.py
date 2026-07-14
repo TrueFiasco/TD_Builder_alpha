@@ -413,14 +413,17 @@ def getGlslStatus(**kwargs) -> Result:
     log_message(f"getGlslStatus called with kwargs: {kwargs}", LogLevel.DEBUG)
 
     node_path = kwargs.get("node_path") or kwargs.get("nodePath")
+    # file_path: check every GLSL op whose shader source is a DAT synced to this
+    # disk file (the edit-the-.glsl-file workflow; TD reloads the DAT itself).
+    file_path = kwargs.get("file_path") or kwargs.get("filePath")
 
-    if not node_path:
+    if not node_path and not file_path:
         return {
             'success': False,
-            'error': "Missing required parameter: node_path"
+            'error': "Missing required parameter: node_path (or file_path)"
         }
 
-    return glsl_status_service.get_glsl_status(node_path)
+    return glsl_status_service.get_glsl_status(node_path or "", file_path or "")
 
 
 # Route mapping for the OpenAPI router

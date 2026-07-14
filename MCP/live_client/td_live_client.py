@@ -487,12 +487,21 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
 
 
 async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
-    """Report whether a GLSL op compiled — folds in the Info DAT + op.warnings()."""
+    """Report whether a GLSL op compiled — folds in the Info DAT + op.warnings().
+
+    Accepts node_path (one op) or file_path (every GLSL op fed by a DAT synced to
+    that disk file — the after-editing-a-.glsl-file check; the server force-cooks
+    so the recompile actually happens before status is read)."""
     try:
+        params = {}
+        if arguments.get("node_path"):
+            params["node_path"] = arguments["node_path"]
+        if arguments.get("file_path"):
+            params["file_path"] = arguments["file_path"]
+        if not params:
+            return [TextContent(type="text", text="Provide node_path or file_path.")]
         async with TDClient() as client:
-            response = await client.get("/api/feedback/glsl/status", params={
-                "node_path": arguments["node_path"]
-            })
+            response = await client.get("/api/feedback/glsl/status", params=params)
 
             if response.status_code != 200:
                 return [TextContent(type="text", text=f"TD Error: {response.text}")]
@@ -500,7 +509,22 @@ async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
             data = response.json()
             if data.get("success") and data.get("data"):
                 d = data["data"]
-                node = d.get("node_path", arguments["node_path"])
+                if "statuses" in d:
+                    head = ("✅ ALL SHADERS COMPILE OK" if d.get("ok")
+                            else "❌ GLSL COMPILE FAILED")
+                    lines = [f"{head} — shader file {d.get('file_path')}"]
+                    lines.append(f"Checked: {', '.join(d.get('checked_ops') or [])} "
+                                 f"(via {', '.join(d.get('matched_dats') or [])})")
+                    for s in d.get("statuses") or []:
+                        mark = "✅" if s.get("ok") else "❌"
+                        lines.append(f"\n{mark} `{s.get('node_path')}` ({s.get('op_type', '?')})")
+                        for ln in (s.get("compiler_errors") or [])[:10]:
+                            lines.append(f"  - {ln}")
+                        if not s.get("ok") and not s.get("compiler_errors"):
+                            for ln in (s.get("warnings") or [])[:5]:
+                                lines.append(f"  - {ln}")
+                    return [TextContent(type="text", text="\n".join(lines))]
+                node = d.get("node_path", arguments.get("node_path", "?"))
                 if not d.get("is_glsl"):
                     return [TextContent(
                         type="text",
@@ -1133,7 +1157,10 @@ TD_LIVE_TOOLS: List[Tool] = [
             "This tool reads the shader's Info DAT (creating a temporary one if "
             "none is docked) and folds in op.warnings(), returning "
             "{ok, compile_failed, errors, warnings, compiler_log, compiler_errors}. "
-            "Call it after ANY edit to a GLSL op or its shader-source DAT."
+            "Call it after ANY edit to a GLSL op or its shader-source DAT — "
+            "including after editing a shader FILE on disk (pass file_path): TD "
+            "auto-reloads a synced DAT but only recompiles on the next cook, so "
+            "this tool force-cooks the referencing op(s) before reading status."
         ),
         inputSchema={
             "type": "object",
@@ -1141,9 +1168,13 @@ TD_LIVE_TOOLS: List[Tool] = [
                 "node_path": {
                     "type": "string",
                     "description": "Path to the GLSL operator to check (e.g. /project1/glsl1)"
+                },
+                "file_path": {
+                    "type": "string",
+                    "description": "Alternative: a shader file on disk — checks every GLSL op fed by a DAT synced to it"
                 }
             },
-            "required": ["node_path"]
+            "required": []
         }
     ),
 

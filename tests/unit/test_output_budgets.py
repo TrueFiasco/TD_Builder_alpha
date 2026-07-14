@@ -384,3 +384,87 @@ def test_offline_annotation_constants_are_correct():
     assert consts["READ_ONLY"] == {"readOnlyHint": True}
     assert consts["WRITE_ADDITIVE"] == {
         "readOnlyHint": False, "destructiveHint": False, "idempotentHint": False}
+
+
+# ---------------------------------------------------------------------------
+# W-C addendum — sequence-block collapse + full pre-hydration name visibility
+# ---------------------------------------------------------------------------
+
+
+def _seq_params(codes):
+    return {c: {"code": c, "description": "d", "page": "Uniforms"} for c in codes}
+
+
+def test_collapse_glsl_uniform_vec_blocks():
+    codes = []
+    for i in range(2):
+        codes += [f"vec{i}name", f"vec{i}type", f"vec{i}valuex", f"vec{i}valuey",
+                  f"vec{i}valuez", f"vec{i}valuew"]
+    codes.append("active")
+    out = srv._collapse_param_families(list(_seq_params(codes).items()))
+    labels = [c for c, _ in out]
+    # 12 vec-block params -> ONE reconstructible entry; 'active' untouched
+    assert len(out) == 2
+    assert labels[0].startswith("vec[0-1]{")
+    assert "name" in labels[0] and "valuex" in labels[0]
+    assert labels[1] == "active"
+    desc = out[0][1]
+    assert desc["member_count"] == 12
+    assert desc["members"][0] == "vec0name"
+
+
+def test_collapse_single_index_multi_field_block():
+    # Attribute POP style: wiki documents only block 0 -> still folds (1 idx, 2 fields)
+    out = srv._collapse_param_families(list(_seq_params(["att0name", "att0val", "scope"]).items()))
+    labels = [c for c, _ in out]
+    assert len(out) == 2
+    assert labels[0].startswith("att[0]{")
+    assert labels[1] == "scope"
+
+
+def test_collapse_trailing_index_sequences_separately():
+    # Constant CHOP style: name0/value0/name1/value1 -> two block entries
+    out = srv._collapse_param_families(
+        list(_seq_params(["name0", "value0", "name1", "value1"]).items())
+    )
+    labels = [c for c, _ in out]
+    assert labels == ["name[0-1]", "value[0-1]"]
+
+
+def test_collapse_input_refs_and_lone_indexed_code():
+    out = srv._collapse_param_families(
+        list(_seq_params(["input0pop", "input1pop", "custom1"]).items())
+    )
+    labels = [c for c, _ in out]
+    # input refs fold; a lone indexed code ('custom1' - one idx, one field) never does
+    assert labels == ["input[0-1]{pop}", "custom1"]
+
+
+def test_big_sequence_descriptor_is_bounded():
+    codes = []
+    for i in range(16):
+        codes += [f"vec{i}name", f"vec{i}type", f"vec{i}valuex", f"vec{i}valuey",
+                  f"vec{i}valuez", f"vec{i}valuew"]
+    out = srv._collapse_param_families(list(_seq_params(codes).items()))
+    assert len(out) == 1
+    desc = out[0][1]
+    assert desc["member_count"] == 96
+    assert "members" not in desc            # bounded: sample only
+    assert len(desc["members_sample"]) == 6
+
+
+def test_hydrate_parameter_names_visible_in_both_modes():
+    codes = ["active", "att0name", "att0val", "tx", "ty", "tz"]
+    info = {"wiki_parameters": _seq_params(codes)}
+    for compact in (True, False):
+        result = {}
+        srv._hydrate_hit_params(result, info, compact=compact)
+        names = result["parameter_names"]
+        assert "active" in names
+        assert any(n.startswith("att[0]{") for n in names)
+        assert srv._TRANSFORM_LABEL in names
+        assert result["parameter_count"] == 6          # TRUE count untouched
+        if compact:
+            assert "parameters" not in result
+        else:
+            assert set(result["parameters"].keys()) == set(names)

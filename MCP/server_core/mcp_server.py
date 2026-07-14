@@ -583,30 +583,55 @@ _XYZ_SUFFIXES = ("x", "y", "z", "w")
 _RGBA_SUFFIXES = ("r", "g", "b", "a")
 _COMMON_LABEL = "Common page params"
 
+# W-C addendum — TD sequence-block params: <prefix><N><suffix>, e.g. GLSL uniform
+# blocks (vec0name/vec0type/vec0valuex..w, vec1...), Attribute POP (att0name/
+# att0val), Constant CHOP (name0/value0/name1...), Dimension POP (dim0num),
+# multi-input refs (input0pop/input1pop). One generic rule folds a whole sequence
+# into a single reconstructible entry instead of N*fields hydration slots.
+_SEQ_RE = re.compile(r"^([a-z]{2,}?)(\d+)([a-z0-9]*)$")
+
+
+def _sequence_label(prefix: str, idxs: list, sufs: list) -> str:
+    """Compact, reconstructible label for a sequence block, e.g.
+    ``vec[0-15]{name,type,valuex,valuey,valuez,valuew}`` or ``name[0-3]``."""
+    lo, hi = min(idxs), max(idxs)
+    rng = f"[{lo}]" if lo == hi else f"[{lo}-{hi}]"
+    fields = [s for s in sufs if s]
+    shown = ",".join(fields[:8]) + (f",+{len(fields) - 8} more" if len(fields) > 8 else "")
+    return f"{prefix}{rng}" + (f"{{{shown}}}" if fields else "")
+
 
 def _collapsed_descriptor(label: str, members: list) -> dict:
     """A self-describing stand-in for a collapsed param family — lists the member
-    codes so nothing is hidden (the caller can still get_parameter_detail any one)."""
-    return {
+    codes so nothing is hidden (the caller can still get_parameter_detail any one).
+    Big sequence blocks list a bounded sample: the label already encodes the full
+    prefix/index-range/field pattern, so every member code is reconstructible."""
+    d = {
         "collapsed_family": label,
-        "members": list(members),
         "member_count": len(members),
         "note": (
             f"{len(members)} related params folded into one entry to conserve "
             f"hydration slots; call get_parameter_detail for any member."
         ),
     }
+    if len(members) <= 12:
+        d["members"] = list(members)
+    else:
+        d["members_sample"] = list(members[:6])
+    return d
 
 
 def _collapse_param_families(items: list) -> list:
     """Collapse known parameter families in an ordered ``[(code, value), ...]`` list.
 
     Groups (priority order, each code joins at most one): the 3D transform tuplet/
-    split set + uniform scale; generic component triplets/quads (``<base>{x,y,z,w}``
-    and colorish ``<base>{r,g,b,a}`` with r+g+b present); and — last, over whatever
-    is left — params on the Common page. A group must have >=2 members to collapse
-    (folding one adds no value). Order is preserved; each collapsed group is emitted
-    at its first member's position. Returns the input unchanged when nothing groups.
+    split set + uniform scale; sequence blocks ``<prefix><N><suffix>`` (GLSL uniform
+    vec-blocks, att0name/att0val, name0/value0, input0pop, ...); generic component
+    triplets/quads (``<base>{x,y,z,w}`` and colorish ``<base>{r,g,b,a}`` with r+g+b
+    present); and — last, over whatever is left — params on the Common page. A group
+    must have >=2 members to collapse (folding one adds no value). Order is
+    preserved; each collapsed group is emitted at its first member's position.
+    Returns the input unchanged when nothing groups.
     """
     items = list(items)
     codes = [c for c, _ in items]
@@ -614,6 +639,7 @@ def _collapse_param_families(items: list) -> list:
 
     assigned: dict = {}            # code -> group label
     members_by_group: dict = {}    # group label -> [codes in order]
+    seq_labels: set = set()        # labels that are TD sequence blocks
 
     # 1. Transform tuplet/split + uniform scale (fold only with >=2 members AND at
     #    least one real t/r/s/p component, so a lone "scale" is never swallowed).
@@ -624,7 +650,35 @@ def _collapse_param_families(items: list) -> list:
             assigned[c] = _TRANSFORM_LABEL
         members_by_group[_TRANSFORM_LABEL] = transform
 
-    # 2. Generic component groups by <base><suffix>.
+    # 2. Sequence blocks (<prefix><N><suffix>) — runs BEFORE the xyz/rgba buckets so
+    #    vec0valuex folds into the vec-block, not a spurious "vec0value (xyz)" group.
+    #    A prefix qualifies with >=2 distinct indices (a real sequence) OR one index
+    #    but >=2 field suffixes (wiki pages often document only block 0, e.g.
+    #    att0name/att0val). A lone indexed code never folds.
+    seq_buckets: dict = {}
+    for c in codes:
+        if c in assigned:
+            continue
+        m = _SEQ_RE.match(lower[c])
+        if m:
+            prefix, idx, suf = m.group(1), int(m.group(2)), m.group(3)
+            seq_buckets.setdefault(prefix, []).append((c, idx, suf))
+    for prefix, entries in seq_buckets.items():
+        idxs = sorted({idx for _, idx, _ in entries})
+        sufs = []
+        for _, _, s in entries:
+            if s not in sufs:
+                sufs.append(s)
+        if len(entries) < 2 or (len(idxs) < 2 and len(sufs) < 2):
+            continue
+        label = _sequence_label(prefix, idxs, sufs)
+        group = [c for c, _, _ in entries]
+        for c in group:
+            assigned[c] = label
+        members_by_group[label] = group
+        seq_labels.add(label)
+
+    # 3. Generic component groups by <base><suffix>.
     xyz_buckets: dict = {}
     rgba_buckets: dict = {}
     for c in codes:
@@ -640,19 +694,20 @@ def _collapse_param_families(items: list) -> list:
             rgba_buckets.setdefault(base, []).append(c)
     for base, group in xyz_buckets.items():
         if len(group) >= 2:
-            label = f"{base} (xyz)"
+            present = {lower[c][-1] for c in group}
+            label = f"{base} ({''.join(s for s in _XYZ_SUFFIXES if s in present)})"
             for c in group:
                 assigned[c] = label
             members_by_group[label] = group
     for base, group in rgba_buckets.items():
         sufs = {lower[c][-1] for c in group}
         if len(group) >= 2 and {"r", "g", "b"} <= sufs:   # require a real color (r+g+b)
-            label = f"{base} (rgba)"
+            label = f"{base} ({''.join(s for s in _RGBA_SUFFIXES if s in sufs)})"
             for c in group:
                 assigned[c] = label
             members_by_group[label] = group
 
-    # 3. Common-page params (optional): fold the boilerplate common page into one.
+    # 4. Common-page params (optional): fold the boilerplate common page into one.
     common = []
     for c, v in items:
         if c in assigned:
@@ -676,7 +731,14 @@ def _collapse_param_families(items: list) -> list:
             out.append((c, v))
         elif label not in emitted:
             emitted.add(label)
-            out.append((label, _collapsed_descriptor(label, members_by_group[label])))
+            desc = _collapsed_descriptor(label, members_by_group[label])
+            if label in seq_labels:
+                desc["sequenced"] = True
+                desc["note"] += (
+                    " TD sequence block: the live op replicates these fields per"
+                    " index (the wiki typically documents block 0 only)."
+                )
+            out.append((label, desc))
     return out
 
 
@@ -684,11 +746,13 @@ def _hydrate_hit_params(result: dict, full_info: dict, compact: bool,
                         cap: int = PARAM_HYDRATE_CAP) -> None:
     """Attach bounded parameter data from ``full_info`` onto a hybrid_search hit.
 
-    Always stamps the TRUE counts (``parameter_count``/``ground_truth_param_count``).
-    ``compact=True`` omits the (large) per-hit ``parameters`` dict entirely; otherwise
-    known param families are collapsed (W-C) and the result is capped to ``cap`` items,
-    with ``parameters_capped`` flagging any POST-collapse truncation. Mutates ``result``
-    in place. No-op when ``full_info`` carries no ``wiki_parameters``.
+    Always stamps the TRUE counts (``parameter_count``/``ground_truth_param_count``)
+    and ``parameter_names`` — the full post-collapse name list (plain codes literally,
+    families/sequences as reconstructible labels) so every param is visible in BOTH
+    modes. ``compact=True`` omits the (large) per-hit ``parameters`` dict entirely;
+    otherwise known param families are collapsed (W-C) and the result is capped to
+    ``cap`` items, with ``parameters_capped`` flagging any POST-collapse truncation.
+    Mutates ``result`` in place. No-op when ``full_info`` carries no ``wiki_parameters``.
     """
     if not full_info or 'wiki_parameters' not in full_info:
         return
@@ -704,21 +768,27 @@ def _hydrate_hit_params(result: dict, full_info: dict, compact: bool,
     result['parameter_count'] = full_count
     if full_info.get('ground_truth_param_count'):
         result['ground_truth_param_count'] = full_info['ground_truth_param_count']
-    if compact:
-        result.pop('parameters', None)
-        return
     # Collapse families BEFORE the cap so the slots carry distinguishing params. The
     # TRUE full_count above is left untouched; parameters_capped reflects whether the
     # post-collapse list was still longer than the cap (i.e. genuinely truncated).
     if isinstance(wiki_params, dict):
-        collapsed = _collapse_param_families(items)
-        result['parameters'] = dict(collapsed[:cap])
+        pairs = items
     else:
         pairs = [
             ((p.get('name') or p.get('code') or str(i)) if isinstance(p, dict) else str(i), p)
             for i, p in enumerate(items)
         ]
-        collapsed = _collapse_param_families(pairs)
+    collapsed = _collapse_param_families(pairs)
+    # W-C addendum: EVERY param name is visible pre-hydration, in BOTH modes — plain
+    # codes literally, families/sequences as reconstructible labels (the cap below
+    # only bounds the hydrated detail, never name visibility).
+    result['parameter_names'] = [c for c, _ in collapsed]
+    if compact:
+        result.pop('parameters', None)
+        return
+    if isinstance(wiki_params, dict):
+        result['parameters'] = dict(collapsed[:cap])
+    else:
         result['parameters'] = [v for _, v in collapsed[:cap]]
     if len(collapsed) > cap:
         result['parameters_capped'] = True

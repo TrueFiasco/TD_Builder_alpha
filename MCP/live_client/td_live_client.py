@@ -129,6 +129,28 @@ def _restore_point_note(data: dict) -> str:
     )
 
 
+def _glsl_sidecar_note(sc) -> str:
+    """Create-reply note for a GLSL-family op: TD's create() ships docked shader
+    DAT(s) and a `<name>_info` — name them so the agent writes shader code into
+    the existing DAT (and reads compile errors from the info DAT) instead of
+    hunting or creating duplicates. Returns "" for non-GLSL creates."""
+    if not isinstance(sc, dict):
+        return ""
+    lines = []
+    for d in sc.get("docked") or []:
+        d_name = d.get("name") or "?"
+        d_type = d.get("type") or "?"
+        role = "compile errors/log" if d_type == "infoDAT" else "write shader code here"
+        lines.append(f"  docked: {d_name} ({d_type}) — {role}")
+    pars = sc.get("shader_source_pars") or {}
+    if pars:
+        wired = ", ".join(f"{k}={v}" for k, v in pars.items())
+        lines.append(f"  wired shader-source pars: {wired}")
+    if not lines:
+        return ""
+    return "\n" + "\n".join(lines)
+
+
 def _glsl_status_note(gs) -> str:
     """W-A3: a one-block note appended to an update_td_node_parameters receipt when
     the edit touched a shader. LOUD on a compile failure (the whole point — the
@@ -143,6 +165,13 @@ def _glsl_status_note(gs) -> str:
             lines.append(f"  - {ln}")
         for ln in (gs.get("warnings") or [])[:10]:
             lines.append(f"  - {ln}")
+        # Point at what to edit: the DAT holding each shader stage, and the
+        # on-disk file feeding it when the DAT is file-synced.
+        for src in (gs.get("shader_sources") or [])[:5]:
+            dat = src.get("dat") or src.get("dat_name") or "?"
+            file_ref = src.get("file") or ""
+            suffix = f" ← {file_ref}" if file_ref else ""
+            lines.append(f"  source: {dat}{suffix}")
         lines.append("Fix the shader before continuing — the op is running as a no-op.")
         return "\n".join(lines)
     if gs.get("is_glsl"):
@@ -692,6 +721,7 @@ async def create_td_node(arguments: dict) -> Sequence[TextContent]:
                 op_type = node.get("type", "unknown")
                 path = node.get("path", "unknown")
                 text = f"Created node: {name} ({op_type}) at {path}"
+                text += _glsl_sidecar_note(node.get("glsl_sidecars"))
                 text += _restore_point_note(node)
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
@@ -1156,7 +1186,11 @@ TD_LIVE_TOOLS: List[Tool] = [
             "op.warnings() and the Info DAT — get_td_node_errors alone misses it. "
             "This tool reads the shader's Info DAT (creating a temporary one if "
             "none is docked) and folds in op.warnings(), returning "
-            "{ok, compile_failed, errors, warnings, compiler_log, compiler_errors}. "
+            "{ok, compile_failed, errors, warnings, compiler_log, compiler_errors, "
+            "shader_sources}. shader_sources names the DAT holding each shader "
+            "stage (pixeldat/vertexdat/computedat/pdat/vdat) and the on-disk "
+            ".glsl/.vert/.frag file that DAT's file par syncs to — i.e. exactly "
+            "what to edit to fix a failure. "
             "Call it after ANY edit to a GLSL op or its shader-source DAT — "
             "including after editing a shader FILE on disk (pass file_path): TD "
             "auto-reloads a synced DAT but only recompiles on the next cook, so "
@@ -1235,7 +1269,13 @@ TD_LIVE_TOOLS: List[Tool] = [
     Tool(
         annotations=DESTRUCTIVE,
         name="create_td_node",
-        description="Create a new operator under a parent path in running TouchDesigner.",
+        description=(
+            "Create a new operator under a parent path in running TouchDesigner. "
+            "GLSL-family ops (glslTOP/glslPOP/glslMAT) ship with docked sidecars "
+            "TD creates automatically — the reply names the shader DAT(s) to "
+            "write code into, the <name>_info DAT where compile errors land, and "
+            "the pre-wired shader-source pars; use those, do not create your own."
+        ),
         inputSchema={
             "type": "object",
             "properties": {

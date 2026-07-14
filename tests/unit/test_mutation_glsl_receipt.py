@@ -120,6 +120,73 @@ def test_run_glsl_receipt_never_raises_without_service(api_mod):
 
 
 # ---------------------------------------------------------------------------
+# api_service._glsl_sidecar_summary — GLSL create ergonomics (proven live
+# 2026-07-14: TD's create() ships docked shader DAT(s) + <name>_info with the
+# shader-source pars pre-wired; the create reply must surface them).
+# ---------------------------------------------------------------------------
+
+
+class _FakeSidecar:
+    def __init__(self, name, optype):
+        self.name = name
+        self.OPType = optype
+
+
+class _FakeValPar:
+    def __init__(self, val=""):
+        self.val = val
+
+
+class _FakeCreatedGlslTop:
+    valid = True
+    path = "/project1/glsl1"
+    name = "glsl1"
+    OPType = "glslTOP"
+
+    def __init__(self):
+        self.docked = [
+            _FakeSidecar("glsl1_compute", "textDAT"),
+            _FakeSidecar("glsl1_pixel", "textDAT"),
+            _FakeSidecar("glsl1_info", "infoDAT"),
+        ]
+        self.par = _FakeParNS()
+        self.par.pixeldat = _FakeValPar("glsl1_pixel")
+        self.par.computedat = _FakeValPar("glsl1_compute")
+        # Live probe 2026-07-14: glslTOP mirrors pixeldat on the legacy pdat alias.
+        self.par.pdat = _FakeValPar("glsl1_pixel")
+
+
+def test_glsl_sidecar_summary_reports_docked_and_pars(api_mod):
+    sc = api_mod._glsl_sidecar_summary(_FakeCreatedGlslTop())
+    assert sc is not None
+    assert {d["name"] for d in sc["docked"]} == {
+        "glsl1_compute", "glsl1_pixel", "glsl1_info"
+    }
+    # pdat mirrors pixeldat's value — reported once, first par name wins.
+    assert sc["shader_source_pars"] == {
+        "pixeldat": "glsl1_pixel",
+        "computedat": "glsl1_compute",
+    }
+
+
+def test_glsl_sidecar_summary_none_for_non_glsl(api_mod):
+    class _Noise:
+        OPType = "noiseTOP"
+        docked = []
+
+    assert api_mod._glsl_sidecar_summary(_Noise()) is None
+
+
+def test_glsl_sidecar_summary_swallows_hostile_nodes(api_mod):
+    class _Hostile:
+        @property
+        def OPType(self):
+            raise RuntimeError("boom")
+
+    assert api_mod._glsl_sidecar_summary(_Hostile()) is None
+
+
+# ---------------------------------------------------------------------------
 # td_live_client — _glsl_status_note render + update wiring
 # ---------------------------------------------------------------------------
 
@@ -151,6 +218,24 @@ def test_glsl_status_note_loud_on_failure(client_mod):
     assert "ERROR: 0:3: syntax error" in note
 
 
+def test_glsl_status_note_names_shader_source(client_mod):
+    # The failure note points at what to edit: the shader-source DAT and, when
+    # file-synced, the on-disk .glsl feeding it.
+    note = client_mod._glsl_status_note({
+        "checked_node": "/project1/render/glsl1",
+        "compile_failed": True,
+        "is_glsl": True,
+        "compiler_errors": ["ERROR: 0:3: syntax error"],
+        "warnings": [],
+        "shader_sources": [
+            {"par": "pixeldat", "dat": "/project1/shaders/pixel",
+             "dat_name": "pixel", "file": "shaders/raymarch.glsl"},
+        ],
+    })
+    assert "source: /project1/shaders/pixel" in note
+    assert "shaders/raymarch.glsl" in note
+
+
 def test_glsl_status_note_ok_is_quiet(client_mod):
     note = client_mod._glsl_status_note({
         "checked_node": "/project1/glsl1", "compile_failed": False, "is_glsl": True,
@@ -162,6 +247,24 @@ def test_glsl_status_note_ok_is_quiet(client_mod):
 def test_glsl_status_note_absent_when_not_glsl(client_mod):
     assert client_mod._glsl_status_note(None) == ""
     assert client_mod._glsl_status_note({"is_glsl": False, "compile_failed": False}) == ""
+
+
+def test_glsl_sidecar_note_names_shader_dat_and_info(client_mod):
+    note = client_mod._glsl_sidecar_note({
+        "docked": [
+            {"name": "glsl1_pixel", "type": "textDAT"},
+            {"name": "glsl1_info", "type": "infoDAT"},
+        ],
+        "shader_source_pars": {"pixeldat": "glsl1_pixel"},
+    })
+    assert "glsl1_pixel" in note and "write shader code here" in note
+    assert "glsl1_info" in note and "compile errors" in note
+    assert "pixeldat=glsl1_pixel" in note
+
+
+def test_glsl_sidecar_note_empty_for_non_glsl_create(client_mod):
+    assert client_mod._glsl_sidecar_note(None) == ""
+    assert client_mod._glsl_sidecar_note({}) == ""
 
 
 class _Resp:

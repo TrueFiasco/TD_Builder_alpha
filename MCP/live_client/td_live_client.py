@@ -416,11 +416,14 @@ def _render_op_capture(result: dict) -> Sequence[Union[TextContent, ImageContent
 async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
     """Universal operator viewer - captures any operator type.
 
-    W-B two-phase: the op-viewer families (POP/MAT/COMP) render progressively and
-    only fully populate a real frame after wiring. Phase 1 primes a temp viewer and
-    returns a handle; we then wait ~0.5 s on THIS (client) thread — NEVER TD's main
-    thread — and phase 2 pulls the converged frame and destroys the viewer. The
-    direct families (TOP/DAT/CHOP/SOP) return their full result in phase 1.
+    W-B two-phase: the op-viewer families (POP/SOP/MAT/COMP) render progressively
+    and only fully populate one real UI frame after the prime pull (proven live).
+    Phase 1 primes a temp viewer and returns a handle + the prime-pull byte size;
+    we wait 0.1 s on THIS (client) thread — NEVER TD's main thread — then phase 2
+    pulls. The server refuses to accept a converged size that has not GROWN past
+    the prime (op_viewer_warming), in which case we wait another beat and retry,
+    bounded; the final attempt omits primed_bytes so the server accepts
+    best-effort stability. TOP/DAT/CHOP return their full result in phase 1.
     """
     try:
         async with TDClient(read_timeout=60.0) as client:
@@ -445,23 +448,37 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
                 # Direct family — full result already returned.
                 return _render_op_capture(r1)
 
-            # Phase 2 — let a real frame elapse on our own thread, then pull + destroy.
-            await asyncio.sleep(0.5)
-            resp2 = await client.post("/api/feedback/capture/op", json={
-                "phase": "pull",
-                "handle": r1["handle"],
-                "operator_path": r1.get("operator_path", arguments["operator_path"]),
-                "format": arguments.get("format", "jpeg"),
-                "quality": arguments.get("quality", 0.85),
-            })
+            # Phase 2 — let a real UI frame elapse on our own thread, then pull +
+            # destroy. One frame suffices after the prime, so 0.1 s is plenty; the
+            # warming handshake covers a hitched/slow-drawing TD.
+            primed_bytes = r1.get("primed_bytes")
+            attempts = 5
+            data2 = {}
+            for attempt in range(attempts):
+                await asyncio.sleep(0.1 if attempt == 0 else 0.15)
+                payload = {
+                    "phase": "pull",
+                    "handle": r1["handle"],
+                    "operator_path": r1.get("operator_path", arguments["operator_path"]),
+                    "format": arguments.get("format", "jpeg"),
+                    "quality": arguments.get("quality", 0.85),
+                }
+                # Final attempt drops primed_bytes -> server accepts best-effort
+                # stability and destroys the viewer (never leaks on our account).
+                if primed_bytes is not None and attempt < attempts - 1:
+                    payload["primed_bytes"] = primed_bytes
+                resp2 = await client.post("/api/feedback/capture/op", json=payload)
 
-            if resp2.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {resp2.text}")]
+                if resp2.status_code != 200:
+                    return [TextContent(type="text", text=f"TD Error: {resp2.text}")]
 
-            data2 = resp2.json()
-            if data2.get("success") and data2.get("data"):
+                data2 = resp2.json()
+                if not (data2.get("success") and data2.get("data")):
+                    return [TextContent(type="text", text=f"Capture failed: {data2.get('error')}")]
+                if data2["data"].get("type") == "op_viewer_warming":
+                    continue
                 return _render_op_capture(data2["data"])
-            return [TextContent(type="text", text=f"Capture failed: {data2.get('error')}")]
+            return [TextContent(type="text", text=f"Capture failed: viewer never converged for {arguments['operator_path']}")]
 
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
@@ -1077,7 +1094,7 @@ TD_LIVE_TOOLS: List[Tool] = [
     Tool(
         annotations=READ_ONLY,
         name="capture_op_viewer",
-        description="Universal operator viewer - captures any operator type (TOP, CHOP, SOP, DAT, MAT, COMP). Returns image for visual ops, text for DATs, geometry info for SOPs.",
+        description="Universal operator viewer - captures any operator type (TOP, CHOP, SOP, DAT, MAT, COMP, POP). Returns a rendered image for visual ops (POP/SOP images carry a point/prim-count + bounds sidecar), text for DATs, channel data for CHOPs. POP/SOP/MAT/COMP captures take ~0.1s (two-phase render).",
         inputSchema={
             "type": "object",
             "properties": {

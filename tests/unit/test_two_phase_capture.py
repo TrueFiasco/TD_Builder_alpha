@@ -406,3 +406,151 @@ def test_client_direct_family_no_sleep_no_pull(client_mod, monkeypatch):
     assert called["sleep"] is False
     assert [p.get("phase") for p in fake.posts] == ["prime"]
     assert any(type(i).__name__ == "ImageContent" for i in out)
+
+
+# ---------------------------------------------------------------------------
+# W-B addendum — warming handshake (growth-guarded pull) + SOP image capture
+# ---------------------------------------------------------------------------
+
+
+def test_pull_without_growth_returns_warming_and_keeps_viewer(monkeypatch):
+    # UI hasn't drawn since the prime: every pull returns the prime-size blank.
+    # The pull must NOT accept that plateau — it hands back a warming receipt
+    # and keeps the viewer alive for the client's retry.
+    registry = {}
+    parent = FakeParent(registry, viewer_sizes=[2274, 2274, 2274, 2274, 2274, 2274])
+    pop = FakePop("/project1/pts", parent)
+    parent.add(pop)
+    svc_mod = _load_capture(monkeypatch, registry)
+    svc = svc_mod.CaptureService()
+
+    r1 = svc.capture_op_viewer(pop.path, prime_only=True)
+    handle = r1["data"]["handle"]
+    primed = r1["data"]["primed_bytes"]
+    assert primed == 2274
+
+    r2 = svc.pull_op_viewer(handle, operator_path=pop.path, primed_bytes=primed)
+    assert r2["success"] is True
+    assert r2["data"]["type"] == "op_viewer_warming"
+    viewer = registry.get(handle)
+    assert viewer is not None and viewer.valid and not viewer.destroyed
+
+    # Best-effort final attempt (no primed_bytes) accepts stability + destroys.
+    r3 = svc.pull_op_viewer(handle, operator_path=pop.path)
+    assert r3["success"] is True
+    assert r3["data"]["type"] == "image"
+    assert registry.get(handle) is None
+
+
+def test_pull_with_growth_accepts_and_destroys(monkeypatch):
+    registry = {}
+    parent = FakeParent(registry, viewer_sizes=[2274, 55000, 55000])
+    pop = FakePop("/project1/pts", parent)
+    parent.add(pop)
+    svc_mod = _load_capture(monkeypatch, registry)
+    svc = svc_mod.CaptureService()
+
+    r1 = svc.capture_op_viewer(pop.path, prime_only=True)
+    r2 = svc.pull_op_viewer(
+        r1["data"]["handle"], operator_path=pop.path,
+        primed_bytes=r1["data"]["primed_bytes"],
+    )
+    assert r2["data"]["type"] == "image"
+    assert r2["data"]["bytes_raw"] == 55000
+    assert registry.get(r1["data"]["handle"]) is None
+
+
+class FakeSop:
+    family = "SOP"
+    OPType = "boxSOP"
+
+    def __init__(self, path, parent):
+        self.path = path
+        self.name = path.rsplit("/", 1)[-1]
+        self.valid = True
+        self.numPoints = 8
+        self.numPrims = 6
+        self.numVertices = 24
+        self.pointBoundingBox = _BBox()
+        self.nodeX = 0
+        self.nodeY = 0
+        self._parent = parent
+
+    def parent(self):
+        return self._parent
+
+
+def test_sop_routes_two_phase_with_info_sidecar(monkeypatch):
+    # SOPs render a real image via the op-viewer path (proven live 2026-07-14);
+    # the old text-only geometry info rides along as a sidecar like POPs.
+    registry = {}
+    parent = FakeParent(registry, viewer_sizes=[2274, 61000, 61000])
+    sop = FakeSop("/project1/box1", parent)
+    parent.add(sop)
+    svc_mod = _load_capture(monkeypatch, registry)
+    svc = svc_mod.CaptureService()
+
+    r1 = svc.capture_op_viewer(sop.path, prime_only=True)
+    assert r1["success"] is True
+    assert r1["data"].get("two_phase") is True
+
+    r2 = svc.pull_op_viewer(
+        r1["data"]["handle"], operator_path=sop.path,
+        primed_bytes=r1["data"]["primed_bytes"],
+    )
+    d = r2["data"]
+    assert d["type"] == "image"
+    assert d["family"] == "SOP"
+    assert d["num_points"] == 8
+    assert d["num_prims"] == 6
+    assert d["num_vertices"] == 24
+    assert d["bounds"]["size"] == [2, 2, 2]
+
+
+class _SeqPhaseClient(_PhaseClient):
+    """Pull payloads consumed in order (warming ... then the final image)."""
+
+    def __init__(self, prime_payload, pull_payloads):
+        super().__init__(prime_payload)
+        self.pull_payloads = list(pull_payloads)
+
+    async def post(self, endpoint, json=None):
+        self.posts.append(json)
+        if json.get("phase") == "pull":
+            return _Resp(self.pull_payloads.pop(0))
+        return _Resp(self.prime_payload)
+
+
+def test_client_retries_on_warming_then_renders(client_mod, monkeypatch):
+    prime = {"success": True, "data": {"two_phase": True,
+                                       "handle": "/project1/temp_opviewer_capture_pts",
+                                       "operator_path": "/project1/pts", "family": "POP",
+                                       "primed_bytes": 2274}}
+    warming = {"success": True, "data": {"type": "op_viewer_warming", "two_phase": True,
+                                         "handle": "/project1/temp_opviewer_capture_pts",
+                                         "operator_path": "/project1/pts",
+                                         "primed_bytes": 2274, "pull_sizes": [2274, 2274]}}
+    full = {"success": True, "data": {"type": "image", "image_base64": "AAAA", "format": "png",
+                                      "width": 512, "height": 512, "family": "POP",
+                                      "operator_path": "/project1/pts",
+                                      "two_phase": True, "pulls": 1, "pull_sizes": [70400]}}
+    fake = _SeqPhaseClient(prime, [warming, full])
+    monkeypatch.setattr(client_mod, "TDClient", lambda *a, **k: fake)
+
+    sleeps = []
+
+    async def _fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr(client_mod.asyncio, "sleep", _fake_sleep)
+
+    out = asyncio.run(client_mod.capture_op_viewer({"operator_path": "/project1/pts"}))
+    assert any(type(i).__name__ == "ImageContent" for i in out)
+    pulls = [p for p in fake.posts if p.get("phase") == "pull"]
+    assert len(pulls) == 2
+    # growth-guarded attempts carry the prime size forward
+    assert pulls[0]["primed_bytes"] == 2274
+    # first wait is the short one (0.1 s, not the old 0.5 s), retries slightly longer
+    assert len(sleeps) == 2
+    assert sleeps[0] == pytest.approx(0.1)
+    assert sleeps[1] == pytest.approx(0.15)

@@ -353,8 +353,14 @@ def captureOpViewer(**kwargs) -> Result:
         handle = body.get("handle") or kwargs.get("handle")
         if not handle:
             return {'success': False, 'error': "Missing required parameter: handle (phase=pull)"}
+        # primed_bytes: phase-1's prime-pull size. When present, the pull only
+        # accepts a converged size that GREW past it (else returns a retryable
+        # op_viewer_warming). Absent (legacy callers / the client's final
+        # attempt) = plain size-stability. 0 is meaningful — no `or` chaining.
+        primed_bytes = body.get("primed_bytes", kwargs.get("primed_bytes"))
         return capture_service.pull_op_viewer(
-            handle, operator_path=operator_path or "", format=format, quality=quality
+            handle, operator_path=operator_path or "", format=format, quality=quality,
+            primed_bytes=primed_bytes,
         )
 
     if not operator_path:

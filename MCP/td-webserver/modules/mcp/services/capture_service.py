@@ -318,8 +318,9 @@ class CaptureService:
             pull, return a handle (NO image). See ``_prime_op_viewer``.
           * ``pull_op_viewer(handle, ...)`` (a SECOND request, ~1 frame later) ->
             force-cook + saveByteArray, retry to size-stability, destroy the viewer.
-        The direct families (TOP/DAT/CHOP/SOP) return their full result on the prime
+        The direct families (TOP/DAT/CHOP) return their full result on the prime
         request (``two_phase`` absent), so the client renders them without a wait.
+        SOPs go through the op-viewer path too (real image + geometry-info sidecar).
 
         Args:
             operator_path: Full path to any operator
@@ -354,18 +355,19 @@ class CaptureService:
                 return self._capture_dat_data(target_op)
             elif family == 'CHOP':
                 return self._capture_chop_data(target_op)
-            elif family == 'SOP':
-                return self._capture_sop_info(target_op)
             else:
-                # POP / MAT / COMP / unknown -> op-viewer render (two-phase capable).
+                # POP / SOP / MAT / COMP / unknown -> op-viewer render (two-phase
+                # capable). SOPs render a real shaded, auto-framed image this way
+                # (proven live 2026-07-14: box/torus render fully) — the old
+                # text-only geometry info now rides along as a sidecar, like POPs.
                 if prime_only:
                     return self._prime_op_viewer(target_op, resolution, format)
                 # Legacy single-shot (kept for direct / no-phase HTTP callers). A POP
                 # will under-render here (no frame boundary); the MCP client always
-                # uses the two-phase path. POP info is merged either way.
+                # uses the two-phase path. Geometry info is merged either way.
                 result = self._capture_via_opviewer(target_op, resolution, format, quality)
-                if family == 'POP' and result.get('success') and isinstance(result.get('data'), dict):
-                    self._merge_pop_info(result['data'], target_op)
+                if result.get('success') and isinstance(result.get('data'), dict):
+                    self._merge_geo_info(result['data'], target_op, family)
                 return result
 
         except Exception as e:
@@ -605,12 +607,22 @@ class CaptureService:
         operator_path: str = "",
         format: str = "jpeg",
         quality: float = 0.85,
+        primed_bytes: Optional[int] = None,
     ) -> Result:
         """Phase 2 of the two-phase capture: pull the primed viewer to a stable byte
         size and encode it, then DESTROY the temp viewer in a finally-equivalent
         (leak-proof, including on error). ``operator_path`` is the ORIGINAL op — used
-        to attach the POP numPoints/bounds sidecar and report family."""
+        to attach the geometry sidecar (POP/SOP) and report family.
+
+        W-B addendum: stability alone can be the SAME-FRAME plateau (blank 2.2 KB ->
+        partial 7.5 KB axes pass; the content never appears without a UI frame after
+        the prime — proven live). When ``primed_bytes`` is supplied and the converged
+        size has not GROWN past it, the render has not crossed a frame boundary yet:
+        return a retryable ``op_viewer_warming`` receipt and KEEP the viewer alive —
+        the client owns the bounded retry (its final attempt omits primed_bytes to
+        accept best-effort stability, which also preserves legacy-caller behavior)."""
         temp_viewer = td.op(handle) if handle else None
+        keep_alive = False
         try:
             if temp_viewer is None or not getattr(temp_viewer, 'valid', False):
                 return {'success': False, 'error': f"Temp viewer handle not found: {handle}"}
@@ -636,6 +648,24 @@ class CaptureService:
             if not best:
                 return {'success': False, 'error': f"OP Viewer produced no bytes: {operator_path or handle}"}
 
+            try:
+                prime_size = int(primed_bytes) if primed_bytes is not None else None
+            except (TypeError, ValueError):
+                prime_size = None
+            if prime_size is not None and len(best) <= prime_size:
+                keep_alive = True
+                return {
+                    'success': True,
+                    'data': {
+                        'type': 'op_viewer_warming',
+                        'two_phase': True,
+                        'handle': handle,
+                        'operator_path': operator_path,
+                        'primed_bytes': prime_size,
+                        'pull_sizes': sizes,
+                    },
+                }
+
             width, height = temp_viewer.width, temp_viewer.height
             image_base64 = base64.b64encode(best).decode('utf-8')
 
@@ -656,8 +686,7 @@ class CaptureService:
             orig = td.op(operator_path) if operator_path else None
             if orig is not None and getattr(orig, 'valid', False):
                 family = orig.family if hasattr(orig, 'family') else 'unknown'
-                if family == 'POP':
-                    self._merge_pop_info(data, orig)
+                self._merge_geo_info(data, orig, family)
             data['family'] = family
 
             log_message(
@@ -670,7 +699,10 @@ class CaptureService:
             log_message(f"Error in pull_op_viewer: {str(e)}", LogLevel.ERROR)
             return {'success': False, 'error': str(e)}
         finally:
-            if temp_viewer is not None:
+            # Warming keeps the viewer alive for the client's retry; a leaked viewer
+            # (client never retries) is self-healed by the next prime of the same
+            # target (per-target name cleanup in _prime_op_viewer).
+            if temp_viewer is not None and not keep_alive:
                 try:
                     temp_viewer.destroy()
                 except Exception:
@@ -718,6 +750,24 @@ class CaptureService:
             data['num_points'] = d.get('num_points')
             if d.get('bounds') is not None:
                 data['bounds'] = d['bounds']
+
+    def _merge_sop_info(self, data: dict, sop_op) -> None:
+        """Merge the SOP points/prims/bounds sidecar into an image-capture data dict."""
+        info = self._capture_sop_info(sop_op)
+        if info.get('success') and isinstance(info.get('data'), dict):
+            d = info['data']
+            data['num_points'] = d.get('num_points')
+            data['num_prims'] = d.get('num_prims')
+            data['num_vertices'] = d.get('num_vertices')
+            if d.get('bounds') is not None:
+                data['bounds'] = d['bounds']
+
+    def _merge_geo_info(self, data: dict, orig, family: str) -> None:
+        """Attach the family's geometry sidecar (POP/SOP) to an image data dict."""
+        if family == 'POP':
+            self._merge_pop_info(data, orig)
+        elif family == 'SOP':
+            self._merge_sop_info(data, orig)
 
     def _capture_sop_info(self, sop_op) -> Result:
         """Return info about a SOP (full render chain is Phase 3.3)."""

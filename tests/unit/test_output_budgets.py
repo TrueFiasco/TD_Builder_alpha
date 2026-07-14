@@ -131,6 +131,114 @@ def test_hybrid_non_dict_passthrough():
     assert out == [1, 2, 3] and truncated is False
 
 
+# ---------------------------------------------------------------------------
+# W-C shed fidelity — a shed envelope degrades toward the COMPACT hit shape,
+# never the legacy (pre-#24) one: parameter_names / score_kind /
+# parameters_capped survive every shed stage. (Regression for the s18 finding:
+# the fields must stay visible in an over-budget envelope, in both modes.)
+# ---------------------------------------------------------------------------
+def _wc_hit(i: int, content_len: int = 1500, capped: bool = True) -> dict:
+    """A full-mode hybrid_search hit shaped like the real post-#24/#26 handler
+    output: content snippet + metadata + score(+kind) + W-C param fidelity."""
+    hit = {
+        "content": f"GLSL Op{i} POP (POP operator) 'GLSL' parameters: " + "x" * content_len,
+        "metadata": {"operator_name": f"GLSL Op{i} POP", "family": "POP"},
+        "score": 0.9 - i * 0.01,
+        "score_kind": "rank_fusion_only",
+        "parameter_count": 54,
+        "ground_truth_param_count": 54,
+        "parameter_names": [f"p{j}" for j in range(22)] + ["vec[0]{name,type,value}"],
+        "parameters": {f"p{j}": {"description": "y" * 200} for j in range(12)},
+    }
+    if capped:
+        hit["parameters_capped"] = True
+    return hit
+
+
+def test_hybrid_shed_keeps_wc_fidelity_fields():
+    results = {"query": "glsl pop uniforms",
+               "semantic_results": [_wc_hit(i) for i in range(5)],
+               "relationships": {}}
+    before = ob.sized(results)
+    out, truncated = ob.budget_hybrid_results(results, max_bytes=8192)
+    assert truncated is True
+    assert len(out["semantic_results"]) == 5
+    for hit in out["semantic_results"]:
+        # The W-C contract: even shed, a hit still answers "which params exist",
+        # "how was this scored", and "was the hydrated detail capped".
+        assert "vec[0]{name,type,value}" in hit["parameter_names"]
+        assert hit["score_kind"] == "rank_fusion_only"
+        assert hit["parameters_capped"] is True
+        assert hit["parameter_count"] == 54          # TRUE count survives
+        assert "parameters" not in hit               # only the hydrated flood goes
+        assert hit["parameters_omitted"] is True
+    assert ob.sized(out) < before
+    assert "never shed" in out["_truncation"]["hint"]
+
+
+def test_hybrid_shed_stage1_sufficient_leaves_content_and_rels_alone():
+    # Dropping the parameters dicts alone lands under budget -> later stages
+    # must NOT fire: content and relationship enrichment stay intact.
+    rels = {"GLSL Op0 POP": {"family": "POP",
+                             "sample_examples": [{"label": "ex1"}],
+                             "common_parameters": {"active": "on"}}}
+    results = {"query": "q",
+               "semantic_results": [_wc_hit(i, content_len=300) for i in range(3)],
+               "relationships": rels}
+    out, truncated = ob.budget_hybrid_results(results, max_bytes=8192)
+    assert truncated is True
+    for hit in out["semantic_results"]:
+        assert "content_chars_omitted" not in hit
+        assert len(hit["content"]) > 300
+    rel = out["relationships"]["GLSL Op0 POP"]
+    assert rel["sample_examples"] and rel["common_parameters"]
+    assert ob.sized(out) <= 8192
+
+
+def test_hybrid_shed_slims_relationships_before_touching_content():
+    rels = {f"Op{i}": {"family": "POP",
+                       "common_parameters": {f"c{j}": "z" * 300 for j in range(10)},
+                       "sample_examples": [{"label": "ex", "blob": "w" * 2000}] * 2}
+            for i in range(3)}
+    results = {"query": "q",
+               "semantic_results": [_wc_hit(0, content_len=100)],
+               "relationships": rels}
+    out, truncated = ob.budget_hybrid_results(results, max_bytes=4096)
+    assert truncated is True
+    for rel in out["relationships"].values():
+        assert "sample_examples" not in rel
+        assert rel["examples_omitted"] == 2                 # non-silent
+        assert "common_parameters" not in rel
+        assert rel["common_parameter_names"] == [f"c{j}" for j in range(10)]
+    # content was small enough to keep once relationships were slimmed
+    hit = out["semantic_results"][0]
+    assert "content_chars_omitted" not in hit
+    assert ob.sized(out) <= 4096
+
+
+def test_hybrid_shed_compact_envelope_actually_shrinks():
+    # Compact-mode hits carry NO `parameters` dicts; the shed must still be able
+    # to reduce an oversized envelope (stage 3 content trim) instead of no-opping,
+    # and the W-C fields still survive.
+    hits = []
+    for i in range(5):
+        h = _wc_hit(i, content_len=5000, capped=False)
+        h.pop("parameters")
+        hits.append(h)
+    results = {"query": "q", "semantic_results": hits, "relationships": {}}
+    before = ob.sized(results)
+    out, truncated = ob.budget_hybrid_results(results, max_bytes=8192)
+    assert truncated is True
+    assert ob.sized(out) < before
+    assert ob.sized(out) <= 8192
+    for hit in out["semantic_results"]:
+        assert "parameters_omitted" not in hit       # stage 1 had nothing to omit
+        assert hit["content_chars_omitted"] > 0      # trim is flagged, not silent
+        assert len(hit["content"]) <= ob.SHED_CONTENT_KEEP + 2
+        assert "vec[0]{name,type,value}" in hit["parameter_names"]
+        assert hit["score_kind"] == "rank_fusion_only"
+
+
 def test_env_caps_are_positive_ints():
     assert isinstance(ob.EXPAND_FULL_MAX_BYTES, int) and ob.EXPAND_FULL_MAX_BYTES > 0
     assert isinstance(ob.HYBRID_SEARCH_MAX_BYTES, int) and ob.HYBRID_SEARCH_MAX_BYTES > 0

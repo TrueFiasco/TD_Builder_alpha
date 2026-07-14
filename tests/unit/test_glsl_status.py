@@ -775,3 +775,125 @@ def test_receipt_carries_shader_sources(monkeypatch):
     assert receipt is not None
     assert receipt["shader_sources"][0]["dat"] == "/project1/shaders/pixel"
     assert receipt["shader_sources"][0]["par"] == "pixeldat"
+
+
+# ---------------------------------------------------------------------------
+# PR #29 review minors — negative-consumer memo (hit / TTL expiry / GLSL-write
+# invalidation), cap-hit visibility, and the exact-family DAT pre-filter.
+# ---------------------------------------------------------------------------
+
+
+def _consumerless_rig():
+    """A project where /project1/shaders/orphan (textDAT) has NO GLSL consumer:
+    the only GLSL op is wired at a different DAT, so the receipt's project-scan
+    lane runs to completion and comes back empty."""
+    root = FakeParent("/project1")
+    shaders = root.add(FakeParent("/project1/shaders"))
+    render = root.add(FakeParent("/project1/render", info_text=COMPILE_LOG))
+    orphan = shaders.add(FakeOp("/project1/shaders/orphan", "textDAT"))
+    other = shaders.add(FakeOp("/project1/shaders/other", "textDAT"))
+    glsl = render.add(FakeOp("/project1/render/glsl1", "glslTOP"))
+    glsl.par.pixeldat = FakePar(val="../shaders/other", target=other)
+    registry = {
+        root.path: root, orphan.path: orphan, other.path: other, glsl.path: glsl,
+    }
+    return root, orphan, other, glsl, registry
+
+
+def test_receipt_negative_memo_skips_repeat_project_scans(monkeypatch):
+    # Perf: every .text write on a consumerless DAT used to pay a full recursive
+    # findChildren() + GLSL scan on the TD main thread. The second write must be
+    # answered from the memo — no rescan.
+    root, orphan, other, glsl, registry = _consumerless_rig()
+    mod = _load_service_with_root(monkeypatch, registry, root)
+    svc = mod.GlslStatusService()
+
+    assert svc.receipt_for_mutation(orphan, {"text": "a"}) is None
+    assert root.findChildren_calls == 1
+    assert svc.receipt_for_mutation(orphan, {"text": "b"}) is None
+    assert root.findChildren_calls == 1          # memo hit: no second walk
+
+
+def test_receipt_negative_memo_expires_after_ttl(monkeypatch):
+    # The TTL is the staleness bound for wiring changed outside update_node
+    # (scripts, manual UI edits): after it lapses the lane must rescan.
+    root, orphan, other, glsl, registry = _consumerless_rig()
+    mod = _load_service_with_root(monkeypatch, registry, root)
+    t = {"now": 1000.0}
+    monkeypatch.setattr(mod, "time", types.SimpleNamespace(monotonic=lambda: t["now"]))
+    svc = mod.GlslStatusService()
+
+    assert svc.receipt_for_mutation(orphan, {"text": "a"}) is None
+    assert root.findChildren_calls == 1
+    t["now"] += svc._NO_CONSUMER_TTL_SECONDS - 1
+    assert svc.receipt_for_mutation(orphan, {"text": "b"}) is None
+    assert root.findChildren_calls == 1          # still inside the TTL
+    t["now"] += 2                                 # ...now past it
+    assert svc.receipt_for_mutation(orphan, {"text": "c"}) is None
+    assert root.findChildren_calls == 2          # memo expired: rescan
+
+
+def test_receipt_negative_memo_invalidated_by_glsl_op_write(monkeypatch):
+    # An orphan DAT gets memoized as consumerless; then a GLSL op is rewired at
+    # it via update_node (receipt_for_mutation with a GLSL-family node). The
+    # memo must be dropped so the NEXT edit on the DAT finds the new consumer
+    # immediately — not after the TTL.
+    root, orphan, other, glsl, registry = _consumerless_rig()
+    mod = _load_service_with_root(monkeypatch, registry, root)
+    svc = mod.GlslStatusService()
+
+    assert svc.receipt_for_mutation(orphan, {"text": "a"}) is None
+    glsl.par.pixeldat = FakePar(val="../shaders/orphan", target=orphan)
+    assert svc.receipt_for_mutation(glsl, {"pixeldat": "../shaders/orphan"}) is not None
+
+    receipt = svc.receipt_for_mutation(orphan, {"text": "b"})
+    assert receipt is not None
+    assert receipt["checked_node"] == "/project1/render/glsl1"
+    assert root.findChildren_calls == 2          # memo cleared: fresh walk ran
+
+
+def test_receipt_project_scan_cap_hit_is_logged(monkeypatch):
+    # Past the cap the receipt lane misses consumers SILENTLY — the truncation
+    # must at least be visible in the log (the file_path lane already reports
+    # its scan size; this mirrors that honesty).
+    root, orphan, other, glsl, registry = _consumerless_rig()
+    mod = _load_service_with_root(monkeypatch, registry, root)
+    logged = []
+    monkeypatch.setattr(mod, "log_message", lambda msg, level=None: logged.append(str(msg)))
+    monkeypatch.setattr(mod.GlslStatusService, "_PROJECT_SCAN_CAP", 3)
+    svc = mod.GlslStatusService()
+
+    assert svc.receipt_for_mutation(orphan, {"text": "a"}) is None
+    assert any("3-op cap" in m and "receipt" in m for m in logged)
+
+
+def test_file_path_scan_cap_hit_is_logged(monkeypatch):
+    # Same honesty for the file_path lane: a shader DAT past the cap would be
+    # silently invisible on a successful-looking result.
+    parent, dat, glsl, registry = _shader_file_rig(broken=False)
+    for i in range(6):
+        parent.add(FakeOp(f"/project1/filler{i}", "nullCHOP"))
+    mod = _load_service_with_root(monkeypatch, registry, parent)
+    logged = []
+    monkeypatch.setattr(mod, "log_message", lambda msg, level=None: logged.append(str(msg)))
+    monkeypatch.setattr(mod.GlslStatusService, "_PROJECT_SCAN_CAP", 3)
+
+    r = mod.GlslStatusService().get_glsl_status(
+        file_path=r"C:\proj\shaders\probe_shader.glsl"
+    )
+    assert r["success"] is True, r.get("error")
+    assert any("3-op cap" in m and "file_path" in m for m in logged)
+
+
+def test_receipt_project_scan_skipped_for_datto_family_text_write(monkeypatch):
+    # The DAT pre-filter is an exact family check (OPType ends with 'DAT') —
+    # a dattoCHOP carrying a stray 'text' key must not pay the project walk.
+    root, orphan, other, glsl, registry = _consumerless_rig()
+    render = registry["/project1/render/glsl1"].parent()
+    datto = render.add(FakeOp("/project1/render/datto1", "dattoCHOP"))
+    registry[datto.path] = datto
+    mod = _load_service_with_root(monkeypatch, registry, root)
+
+    receipt = mod.GlslStatusService().receipt_for_mutation(datto, {"text": "x"})
+    assert receipt is None
+    assert root.findChildren_calls == 0

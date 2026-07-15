@@ -489,8 +489,9 @@ class APIControllerOpenAPI(IController):
 			return "Internal Server Error"
 
 	def register_handlers(self) -> None:
-		"""Register all handlers (generated + feedback)"""
-		# Register generated handlers (from OpenAPI codegen)
+		"""Register all handlers (static + feedback)"""
+		# Register the static handler module (hand-maintained; the "generated"
+		# name is upstream heritage — nothing regenerates it here)
 		import mcp.controllers.generated_handlers as handlers
 
 		for operation_id in handlers.__all__:
@@ -531,9 +532,10 @@ class APIControllerOpenAPI(IController):
 	def _register_session_handlers(self) -> None:
 		"""Register D3 session endpoints (save_td_project + get_mutation_status).
 
-		Same dynamic-registration pattern as the feedback handlers — the OpenAPI
-		codegen (generated_handlers.py / openapi.yaml / mustache) is deliberately
-		untouched. The operationIds are the handler __name__s.
+		Same dynamic-registration pattern as the feedback handlers — the static
+		handler module (generated_handlers.py, hand-maintained) and the
+		openapi.yaml routing source are deliberately untouched. The operationIds
+		are the handler __name__s.
 		"""
 		try:
 			from mcp.controllers.session_handlers import get_session_routes

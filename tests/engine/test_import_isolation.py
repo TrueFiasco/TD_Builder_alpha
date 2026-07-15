@@ -84,6 +84,26 @@ _BANNED_SERVER_TOKENS = (
 )
 
 
+# Files quarantined by the 2026-07 dead-weight sweep: repo-root-relative paths
+# that must stay gone from their live locations (the preserved copies live under
+# quarantine/deadweight_2026_07/ -- see that manifest before reintroducing).
+_DEADWEIGHT_QUARANTINED_2026_07 = (
+    "MCP/td-webserver/genHandlers.js",
+    "MCP/td-webserver/templates/mcp/api_controller_handlers.mustache",
+)
+
+
+def test_deadweight_2026_07_absent_from_live_tree():
+    for rel in _DEADWEIGHT_QUARANTINED_2026_07:
+        leftover = _REPO_ROOT.joinpath(*rel.split("/"))
+        assert not leftover.exists(), (
+            f"{leftover} exists again -- it was quarantined by the 2026-07 "
+            f"dead-weight sweep under the quarantine-not-fix decision; see "
+            f"quarantine/README.md (deadweight_2026_07) before reintroducing "
+            f"(revival = owner decision + dedicated wave)"
+        )
+
+
 def test_orchestration_trio_absent_from_import_path():
     """The trio must be gone both as files in the execution package and as
     importable modules on the server's import path (bootstrap view)."""

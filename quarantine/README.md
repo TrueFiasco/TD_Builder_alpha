@@ -76,3 +76,43 @@ formerly `MCP/server_core/meta_agentic/execution/`.
   regression risk. Wire it against the shipped KB, never a dev-only path.
 - **Disposal trigger:** deletable outright once the shipped param corpus question is
   settled — nothing depends on it.
+
+### deadweight_2026_07/ (quarantined 2026-07-15, dead-weight sweep)
+
+Items moved here by the 2026-07 dead-weight sweep (the full per-item forensics —
+git history to the orphaning commit, replacement owner, revival costing — live in the
+sweep report `DEADWEIGHT_REPORT_2026-07-15.md`, a session artifact held by the owner;
+the load-bearing facts are carried inline below so each entry stands alone).
+Absence pins: `tests/engine/test_import_isolation.py::test_deadweight_2026_07_absent_from_live_tree`.
+
+#### openapi_codegen/ — `genHandlers.js` + `api_controller_handlers.mustache`
+
+Formerly `MCP/td-webserver/genHandlers.js` and
+`MCP/td-webserver/templates/mcp/api_controller_handlers.mustache`.
+
+- **What:** the OpenAPI→handler codegen pair inherited from the upstream
+  touchdesigner-mcp project: a Node script (imports fs-extra/mustache/yaml) that rendered
+  `modules/mcp/controllers/generated_handlers.py` from `openapi.yaml` via the mustache
+  template.
+- **Why quarantined:** born broken in this repo — all three of its paths resolve under a
+  `td/` prefix that has never existed in any commit (it is the upstream repo's layout),
+  no `package.json` ever existed so its deps were never installable, and nothing
+  references it. Worse than dead, it is an **active footgun**: "fix the paths and re-run
+  it" reads like maintenance, would silently replace the live, hand-maintained
+  `generated_handlers.py` — 365 lines of explicit per-route validation, including the
+  B17 recurse-threading and B25 mode-param handling and PR #24's F3 `get_nodes` limit
+  guard — with a naive reflection dispatcher that debug-prints full request bodies
+  (including `exec_python_script` source) to the TD textport, and would *look* fine:
+  the 12 operationIds in `openapi.yaml` still match the module's `__all__`, so every
+  route registers cleanly at startup while behavior silently degrades.
+- **Knowledge salvaged:** the four repo comments that described the codegen as live were
+  reworded in the same sweep commit (`bootstrap_mcp.py`, `api_controller.py` ×2,
+  `session_handlers.py`); `generated_handlers.py` is now consistently described as the
+  hand-maintained static handler module ("generated" in its name is upstream heritage).
+- **Revival condition:** none as-is. New TD-side routes extend via dynamic registration
+  (`feedback_handlers`/`session_handlers` `get_*_routes()` →
+  `OpenAPIRouter.register_route`) — the live seam. Genuine codegen revival would mean
+  porting the hand-written validation into the template plus a CI drift check (priced
+  L and negative-value in the sweep report) and is an owner decision.
+- **Disposal trigger:** deletable if the td-webserver asset ever drops the OpenAPI
+  routing layer, or once upstream provenance stops being worth keeping in-tree.

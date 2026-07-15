@@ -325,10 +325,10 @@ def main():
             "Other non-instantiable entries (verify token / deprecate): "
             + ", ".join(r["op"] for r in live_fail if r["op"] not in wiki_pages) + ".",
             "",
-            "## 5. Track D guardrail (build now, wire after review)", "",
+            "## 5. Track D guardrail (SHIPPED — W3a / PR #13)", "",
             "`canonical_op_map.json` is the grounding artifact (name→{builder_token, n_token, td_create}). "
-            "Wiring `GroundingValidator` into `td_validate` would close the builder↔validator disagreement so a "
-            "correctly-built op also validates. Deferred to a reviewed follow-up.",
+            "The guardrail shipped: `MCP/engine/validation/grounding_validator.py` runs as ValidationPipeline "
+            "stage 2.5, grounding from the shipped KB/operators.json, so a correctly-built op also validates.",
             ]
     (stage / "PROPOSED_FIXES.md").write_text("\n".join(fmd) + "\n", encoding="utf-8")
 

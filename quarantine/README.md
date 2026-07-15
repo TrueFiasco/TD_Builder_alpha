@@ -116,3 +116,29 @@ Formerly `MCP/td-webserver/genHandlers.js` and
   L and negative-value in the sweep report) and is an owner decision.
 - **Disposal trigger:** deletable if the td-webserver asset ever drops the OpenAPI
   routing layer, or once upstream provenance stops being worth keeping in-tree.
+
+#### track_d_grounding_prototype.py — gate-side `GroundingValidator` prototype
+
+Formerly `eval/build_gate/grounding_validator.py`.
+
+- **What:** the Track-D KB-grounding guardrail prototype (report-only): grounds a builder
+  design's operator tokens against the dev-corpus captured live-TD `.n` tokens via
+  `gate_common.CanonicalMap`, reporting `BUILD_TOKEN_MISMATCH` / `OP_NAME_NOT_GROUNDED`
+  findings through `check_design()` / `ground_design()` (its declared `NO_TD_CAPTURE`
+  check was never implemented). The Track-D design story stays intact in its docstring.
+- **Why quarantined:** superseded — the reviewed follow-up shipped in the very commit
+  that stamped this file SUPERSEDED (`b6c2470`, W3a / PR #13):
+  `MCP/engine/validation/grounding_validator.py` grounds from the shipped
+  `KB/operators.json` and runs as `ValidationPipeline` stage 2.5. The prototype was
+  imported by nothing but kept a class-name collision (two `GroundingValidator`s with
+  different grounding sources and different findings); post-sweep exactly one exists.
+  Its dev-corpus dependency means it must never ship (its own docstring says so).
+- **Knowledge salvaged:** within-family token mismatch is enforced at build time by the
+  builder's `_grounded_build_token` / engine `ground_design()`; the stale
+  "Deferred to a reviewed follow-up" prose that `build_gate.py` generated into every
+  `PROPOSED_FIXES.md` was corrected in the same sweep commit (the follow-up shipped
+  2026-07-04).
+- **Revival condition:** none foreseen — both of its entry points have shipped owners
+  (stage-2.5 validator; build-time grounding).
+- **Disposal trigger:** deletable outright once the Track-D prototype era stops being
+  referenced by build-gate docs — nothing depends on this copy.

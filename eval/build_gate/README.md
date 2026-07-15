@@ -23,8 +23,11 @@ read the gitignored KB from the MAIN tree, `GroundTruth`, `ParamDefaults`).
 | `track_a_offline.py` | offline build-correctness: build via `ToxBuilder` → real `toeexpand` → compare `.n` token + params vs the live capture + `td_validate`. `--seed` / `--all` / `--families` / `--resume`. |
 | `track_b_driver.py` | live round-trip (runs INSIDE TD via `execute_python_script`): create via `td_create` → read back `n.type`/`n.family` → set perturbed params → record to a resumable JSONL → destroy. Driven in slices (set `_B_START`/`_B_END`/`_B_RESET`, then `exec` it in a merged globals+locals namespace). |
 | `track_c_smoke.py` | search→build handoff: `hybrid_search`→`get_operator_info`→`get_parameter_detail`→build→`td_validate` over realistic briefs. |
-| `grounding_validator.py` | **Track D guardrail prototype (report-only, NOT wired)**: grounds a builder design's tokens against the captured ground truth; `check_design` (D2 validator) + `ground_design` (D1 build-time auto-correct). |
 | `build_gate.py` | merger: unifies A+B, generates `proposed_fixes`, emits `grounding_token_map.json`, computes the release verdict. |
+
+The Track-D guardrail *prototype* that used to live here shipped for real as
+`MCP/engine/validation/grounding_validator.py` (ValidationPipeline stage 2.5, W3a / PR #13);
+the gate-side prototype is preserved at `quarantine/deadweight_2026_07/track_d_grounding_prototype.py`.
 
 ## Run
 ```
@@ -33,7 +36,6 @@ py -3.11 eval/build_gate/track_a_offline.py --all  # offline, all ops (resumable
 # Track B: in TD, slice-by-slice exec track_b_driver.py (see its docstring)
 py -3.11 eval/build_gate/track_c_smoke.py          # handoff smoke
 py -3.11 eval/build_gate/build_gate.py             # merge + verdict + fixes
-py -3.11 eval/build_gate/grounding_validator.py    # guardrail demo
 ```
 
 ## Outputs (staged to `New KB build/Output/build_gate/`, never committed)

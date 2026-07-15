@@ -1299,9 +1299,10 @@ TD_LIVE_TOOLS: List[Tool] = [
         annotations=DESTRUCTIVE,
         name="update_td_node_parameters",
         description=(
-            "Update parameters of an existing node in running TouchDesigner. Note: this is a "
-            "programmatic par.val write and will NOT fire a Parameter Execute DAT's "
-            "onValueChange (UI-edit only) — to trigger one, run op('/path').par.<x>.pulse() "
+            "Update parameters of an existing node in running TouchDesigner. Note: a watching "
+            "Parameter Execute DAT WILL fire onValueChange on these writes — callbacks are a "
+            "value diff at the frame boundary, source-blind (rewriting an unchanged value "
+            "fires nothing). To fire a pulse par's onPulse, run op('/path').par.<x>.pulse() "
             "via execute_python_script (exec_node_method cannot resolve dotted par paths). "
             "GLSL-affecting writes get a compile-status receipt; if the checked GLSL op "
             "has no Info DAT, a persistent <name>_info is created and docked to it."
@@ -1360,12 +1361,14 @@ TD_LIVE_TOOLS: List[Tool] = [
             "the script — they block TD's single main thread and hang the live connection "
             "(~60 s, no timeout rescue). To checkpoint, use the save_td_project tool instead.\n"
             "\n"
-            "EXECUTE DAT CALLBACKS: onValueChange fires on UI edits only — NOT on par.val= "
-            "writes from this tool or from bind-driven changes; use onPulse (fires on "
-            "par.pulse()) to trigger programmatically. On the Execute DAT: op='.' is itself, "
-            "'..' is its parent; empty op/pars scope matches nothing and fails SILENTLY. The "
-            "pulse-enable toggle is named 'onpulse', not 'pulse'. Pulse/callback effects are "
-            "not visible until the next frame — verify with a separate call."
+            "EXECUTE DAT CALLBACKS: onValueChange fires for scripted par.val= writes from "
+            "this tool, bind-driven changes, and UI edits alike — a value diff at the frame "
+            "boundary, source-blind; rewriting an unchanged value fires nothing. onPulse "
+            "fires on par.pulse(). On the Execute DAT: op='.' is itself, '..' is its parent; "
+            "empty op/pars scope matches nothing and fails SILENTLY — a callback that never "
+            "fires is a scope bug, not a source filter. The pulse-enable toggle is named "
+            "'onpulse', not 'pulse'. Pulse/callback effects are not visible until the "
+            "next frame — verify with a separate call."
         ),
         inputSchema={
             "type": "object",

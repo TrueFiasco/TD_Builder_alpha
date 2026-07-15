@@ -41,17 +41,24 @@ def tier_map_path() -> Path:
     return Path(__file__).resolve().parents[4] / "live_tool_risk.json"
 
 
-def load_tier_map() -> dict:
+def load_tier_map() -> "tuple[dict, str | None]":
     """Load {operationId: class} from live_tool_risk.json. NEVER raises: on any
-    failure returns {} (with the flag OFF that changes nothing; with the flag ON an
-    empty map means every route fails closed — the correct posture for a
-    misconfigured observe-only deployment). Returns the parse error, if any, as a
-    second element for the caller to log."""
+    failure returns ({}, error-detail) (with the flag OFF that changes nothing; with
+    the flag ON an empty map means every route fails closed — the correct posture
+    for a misconfigured observe-only deployment). The second element is None on
+    success, else a one-line reason that distinguishes MISSING from MALFORMED so the
+    caller's boot warning can say which."""
+    path = tier_map_path()
     try:
-        raw = json.loads(tier_map_path().read_text(encoding="utf-8"))
-        return {op_id: entry["class"] for op_id, entry in raw.get("operations", {}).items()}
-    except Exception:  # noqa: BLE001 — tiering must never block boot
-        return {}
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        return (
+            {op_id: entry["class"] for op_id, entry in raw.get("operations", {}).items()},
+            None,
+        )
+    except FileNotFoundError:
+        return {}, f"risk file not found: {path}"
+    except Exception as e:  # noqa: BLE001 — tiering must never block boot
+        return {}, f"risk file unreadable/malformed ({path}): {e.__class__.__name__}: {e}"
 
 
 def read_only_denial(tier_map: dict, op_id) -> "str | None":

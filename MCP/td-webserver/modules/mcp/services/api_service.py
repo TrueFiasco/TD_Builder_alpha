@@ -374,6 +374,25 @@ class TouchDesignerApiService(IApiService):
 		}
 		self._dirty_since_snapshot = True
 
+	def _record_failed_mutation(self, tool: str, target: str) -> None:
+		"""R1 (review rider): an effectful call raised IN-BAND (script/method
+		exception) — the graph may be HALF-mutated, but the success-path stamp never
+		runs. mutation_seq must NOT advance (nothing committed a receipt — that part
+		of the contract is correct and kept), yet the session can no longer be
+		presumed clean: mark it dirty so get_mutation_status never reports
+		api_dirty_since_snapshot=false over a possibly-torn graph, and record the
+		failure (outcome='error', seq = last COMMITTED seq, unchanged) so the
+		recovery reader sees WHAT failed rather than a stale prior mutation.
+		"""
+		self._dirty_since_snapshot = True
+		self._last_mutation = {
+			"seq": self._mutation_seq,  # unchanged: receipt of the last COMMIT, not this failure
+			"tool": tool,
+			"target": target,
+			"timestamp": self._now_iso(),
+			"outcome": "error",
+		}
+
 	def _stamp_mutation(
 		self, data: dict, tool: str, target: str, outcome: str = "ok"
 	) -> dict:
@@ -480,6 +499,15 @@ class TouchDesignerApiService(IApiService):
 			"source_mtime": source_mtime,
 			"at_seq": self._mutation_seq,
 		}
+		if warning:
+			# R2: persist the torn-copy caveat PAST the one-shot response — in the
+			# timeout/recovery scenario the caller never saw it, and a recovery agent
+			# reading get_mutation_status.last_snapshot must not treat a possibly-torn
+			# anchor as a clean rollback target.
+			self._last_snapshot["warning"] = warning
+		# KEEP clearing even on a torn copy: this flag tracks post-snapshot API
+		# mutations, NOT snapshot quality — the quality caveat lives in
+		# last_snapshot["warning"] above.
 		self._dirty_since_snapshot = False
 
 		data = {
@@ -1014,7 +1042,14 @@ class TouchDesignerApiService(IApiService):
 		if not callable(method):
 			return error_result(f"{method} is not a callable method")
 
-		result = method(*args, **kwargs)
+		try:
+			result = method(*args, **kwargs)
+		except Exception:
+			# R1: the method may have mutated the graph before raising — flag the
+			# session dirty (NO seq bump) so recovery state stays honest, then let
+			# the exception propagate to the controller's error path unchanged.
+			self._record_failed_mutation("exec_node_method", node_path)
+			raise
 
 		log_message(
 			f"Method: {method}, args: {args}, kwargs: {kwargs}, result: {result}",
@@ -1153,6 +1188,11 @@ class TouchDesignerApiService(IApiService):
 				# access to this module's own globals; td/tdu are injected into local_vars.
 				exec(code, local_vars)
 			except Exception as exec_error:
+				# R1: the script may have mutated the graph before raising — flag
+				# the session dirty (NO seq bump) before returning the error. The
+				# earlier returns (parse/compile SyntaxError, time.sleep guard) fire
+				# BEFORE any user code runs, so they correctly stay clean.
+				self._record_failed_mutation("exec_python_script", "<script>")
 				# Fold any output captured before the failure into the error string —
 				# it is the only field guaranteed to reach the client on an error path.
 				partial_stdout = stdout_capture.getvalue()

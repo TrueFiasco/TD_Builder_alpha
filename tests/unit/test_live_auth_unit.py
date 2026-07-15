@@ -441,7 +441,11 @@ def test_save_project_locked_dst_fails_fast_no_partial(
     svc = api_service_mod.TouchDesignerApiService()
     res = svc.save_project()
     assert res["success"] is False
-    leftovers = list(tmp_path.rglob("*.tdbuilder-restore.toe*"))
+    # R5b: sweep BOTH the project tree and the fallback restore_dir explicitly —
+    # restore_dir currently nests under tmp_path, but the sweep must not silently
+    # lose the fallback target if the fixture ever moves it elsewhere.
+    roots = {tmp_path} | ({restore_dir} if restore_dir.exists() else set())
+    leftovers = sorted({p for root in roots for p in root.rglob("*.tdbuilder-restore.toe*")})
     assert leftovers == [], f"partial state left behind: {leftovers}"
     td.project.save.assert_not_called()
 
@@ -613,6 +617,94 @@ def test_get_mutation_status_after_explicit_save(api_service_mod, tmp_path, rest
     assert ms["last_snapshot"]["path"] == save["data"]["path"]
     assert ms["last_snapshot"]["at_seq"] == 1
     assert ms["last_committed_seq"] == 1  # the save did not advance the seq
+
+
+def test_exec_script_failure_marks_dirty_no_seq_bump(api_service_mod, tmp_path, restore_dir):
+    """R1: a script that raises IN-BAND may have half-mutated the graph before the
+    exception. The commit receipt must NOT advance (nothing committed), but the
+    session must go dirty and last_mutation must record outcome='error' — otherwise
+    get_mutation_status reports a clean api_dirty_since_snapshot=false over a
+    possibly-torn graph. (F2 reshaped this path to RETURN an error_result rather
+    than raise — the dirty-flag contract is identical either way.)"""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    res = svc.exec_python_script("x = 1\nraise RuntimeError('mid-script boom')")
+    assert res["success"] is False and "mid-script boom" in res["error"]
+    assert svc._mutation_seq == 0, "a failed exec must NOT advance the commit receipt"
+    assert svc._dirty_since_snapshot is True, "failed exec may have half-mutated the graph"
+    lm = svc._last_mutation
+    assert lm["outcome"] == "error" and lm["tool"] == "exec_python_script"
+    assert lm["seq"] == 0  # receipt of the last COMMIT, not this failure
+    ms = svc.get_mutation_status()["data"]
+    assert ms["last_committed_seq"] == 0 and ms["api_dirty_since_snapshot"] is True
+
+
+def test_exec_script_pre_execution_failure_stays_clean(api_service_mod, tmp_path, restore_dir):
+    """R1 boundary: failures BEFORE any user code runs — a parse SyntaxError and the
+    time.sleep static guard — cannot have mutated the graph, so they must NOT mark
+    the session dirty (only the in-band exec failure path does)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    assert svc.exec_python_script("def broken(:")["success"] is False
+    assert svc.exec_python_script("import time\ntime.sleep(5)")["success"] is False
+    assert svc._dirty_since_snapshot is False
+    assert svc._last_mutation is None
+
+
+def test_exec_node_method_failure_marks_dirty_no_seq_bump(
+    api_service_mod, tmp_path, restore_dir
+):
+    """R1 (same contract, effectful-method path): exec_node_method's method call
+    raises -> exception propagates unchanged, seq unchanged, dirty True."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    node = mock.MagicMock(name="node")
+    node.valid = True
+    node.cook = mock.Mock(side_effect=RuntimeError("cook exploded"))
+    with mock.patch.object(td, "op", return_value=node):
+        svc = api_service_mod.TouchDesignerApiService()
+        with pytest.raises(RuntimeError, match="cook exploded"):
+            svc.exec_node_method("/x", "cook", [], {})
+    assert svc._mutation_seq == 0
+    assert svc._dirty_since_snapshot is True
+    lm = svc._last_mutation
+    assert lm["outcome"] == "error" and lm["tool"] == "exec_node_method"
+    assert lm["target"] == "/x"
+
+
+def test_torn_snapshot_warning_persists_to_mutation_status(
+    api_service_mod, tmp_path, restore_dir, monkeypatch
+):
+    """R2: the D-R6 torn-copy warning must survive PAST the one-shot save response —
+    get_mutation_status.last_snapshot carries it (the timeout/recovery reader is
+    exactly who needs it). The dirty flag still clears: it tracks post-snapshot
+    mutations, not snapshot quality."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    monkeypatch.setattr(
+        api_service_mod.os.path, "getmtime", mock.Mock(side_effect=[1000.0, 2000.0])
+    )
+    svc = api_service_mod.TouchDesignerApiService()
+    svc._dirty_since_snapshot = True  # pretend a prior mutation dirtied the session
+    res = svc.save_project()
+    assert res["success"] is True and "warning" in res["data"]
+    ms = svc.get_mutation_status()["data"]
+    assert ms["last_snapshot"]["warning"] == res["data"]["warning"]
+    assert "torn" in ms["last_snapshot"]["warning"].lower()
+    assert ms["api_dirty_since_snapshot"] is False
+    td.project.save.assert_not_called()
+
+
+def test_clean_snapshot_has_no_warning_key(api_service_mod, tmp_path, restore_dir):
+    """R2 inverse: an untorn checkpoint's last_snapshot must NOT carry a warning key
+    (absence is the clean-anchor signal)."""
+    td = sys.modules["td"]
+    _saved_project(td, tmp_path, "proj.toe", b"bytes")
+    svc = api_service_mod.TouchDesignerApiService()
+    assert svc.save_project()["success"] is True
+    assert "warning" not in svc.get_mutation_status()["data"]["last_snapshot"]
 
 
 def test_restore_point_meta_captured_on_ok(api_service_mod, tmp_path, restore_dir):

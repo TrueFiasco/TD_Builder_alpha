@@ -91,12 +91,23 @@ class FakePop:
         self.path = path
         self.name = path.rsplit("/", 1)[-1]
         self.valid = True
-        self.numPoints = num_points
+        self._num_points = num_points
         self.nodeX = 0
         self.nodeY = 0
         self._parent = parent
-        if bbox:
-            self.pointBoundingBox = _BBox()
+        self._bbox = _BBox() if bbox else None
+
+    # Live POP class (TD 099.2025.32820): numPoints is a METHOD
+    # numPoints(delayed=False, max=False) -> int (GPU readback), NOT the SOP-style
+    # property, and pointBoundingBox does not exist — bounds come from
+    # computeBounds()/bounds. Modeling numPoints as an int attribute was the
+    # stub-vs-live divergence that shipped the bound-method-repr sidecar
+    # (P2, live verification 2026-07-14).
+    def numPoints(self, delayed=False, max=False):
+        return self._num_points
+
+    def computeBounds(self, delayed=False):
+        return self._bbox
 
     def parent(self):
         return self._parent
@@ -303,6 +314,38 @@ def test_capture_pop_info_shape(monkeypatch):
     assert r["data"]["family"] == "POP"
     assert r["data"]["num_points"] == 42
     assert r["data"]["bounds"]["size"] == [2, 2, 2]
+
+
+def test_pop_num_points_method_is_called_not_serialized(monkeypatch):
+    # Regression (P2, live 2026-07-14): POP numPoints is a method, so the old
+    # `pop_op.numPoints if hasattr(...)` passed the hasattr guard, grabbed the
+    # bound method, and the sidecar serialized
+    # "<built-in method numPoints of td.pointgeneratorPOP object at 0x...>".
+    # The service must CALL it and ship an int; bounds must come from
+    # computeBounds()/bounds because pointBoundingBox does not exist on POPs.
+    registry = {}
+    parent = FakeParent(registry)
+    pop = FakePop("/project1/pts", parent, num_points=10000)
+    parent.add(pop)
+    mod = _load_capture(monkeypatch, registry)
+    svc = mod.CaptureService()
+
+    r = svc._capture_pop_info(pop)
+    assert r["success"] is True
+    d = r["data"]
+    assert isinstance(d["num_points"], int)
+    assert d["num_points"] == 10000
+    assert d["bounds"] is not None
+    assert d["bounds"]["min"] == [-1, -1, -1]
+    assert d["bounds"]["max"] == [1, 1, 1]
+
+    # No bounds available -> field is None, sidecar still succeeds with the count.
+    pop_bare = FakePop("/project1/pts_bare", parent, num_points=7, bbox=False)
+    parent.add(pop_bare)
+    r2 = svc._capture_pop_info(pop_bare)
+    assert r2["success"] is True
+    assert r2["data"]["num_points"] == 7
+    assert r2["data"]["bounds"] is None
 
 
 # ---------------------------------------------------------------------------

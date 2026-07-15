@@ -75,6 +75,12 @@ _BANNED_SERVER_TOKENS = (
     "meta_agentic.compaction",
     "compact_events_to_state",
     "refresh_legacy_yaml",
+    # sub-agent tool executor: 0.1.1 removed its AgentWithTools callers
+    # (spawn_engineer/spawn_expert) but left the executor def-only; deleted by
+    # the 2026-07 dead-weight sweep. It had drifted to a shadow dispatch (11
+    # names vs the registry's 17, divergent error contract) — any future
+    # in-process tool access must wrap call_tool(), never a second if/elif.
+    "execute_tool_for_agent",
 )
 
 

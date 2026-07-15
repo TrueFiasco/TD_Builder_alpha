@@ -77,14 +77,6 @@ def build_from_vectordb(out_dir: Path) -> dict:
             "size_bytes": (lex / "bm25.pkl").stat().st_size}
 
 
-def build(idn=None, out_dir: Path | None = None) -> dict:
-    """build_kb-compatible entry point (idn unused; lexical index is content-only)."""
-    if out_dir is None:
-        import common as C
-        out_dir = C.OUT
-    return build_from_vectordb(Path(out_dir))
-
-
 if __name__ == "__main__":
     import argparse
     import sys

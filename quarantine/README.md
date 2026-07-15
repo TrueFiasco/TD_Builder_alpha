@@ -142,3 +142,32 @@ Formerly `eval/build_gate/grounding_validator.py`.
   (stage-2.5 validator; build-time grounding).
 - **Disposal trigger:** deletable outright once the Track-D prototype era stops being
   referenced by build-gate docs — nothing depends on this copy.
+
+#### lossless_writer.py — `LosslessWriter` (TDNetwork → expanded `.toe.dir`/`.tox.dir` writer)
+
+Formerly `MCP/engine/writers/lossless_writer.py` (the `writers/` package, left holding only
+a one-line `__init__.py`, was removed with it — no importer existed).
+
+- **What:** a full TDNetwork→disk writer for the expanded `.toe.dir`/`.tox.dir` format
+  (`.n` files with all sections in order, `.parm` files, extra files from
+  `lossless_data.raw_files`, `.toc` generation), aimed at perfect round-trip fidelity.
+- **Why quarantined:** never wired anywhere, ever — no external importer in any layout,
+  including the pre-main `77de821` baseline. Tracked in `docs/KNOWN_ISSUES.md` since
+  2026-06-30 for a "connect in or remove" decision; the 2026-07 dead-weight sweep is that
+  decision. The live directory writer is `TOEBuilder._build_lossless`
+  (`MCP/engine/builders/toe_builder.py`); `core/lossless_json.py` is a different layer
+  (TDNetwork ⇄ JSON dict) and never writes TD's on-disk tree.
+- **REVIVAL HAZARD — verbatim from its W2b docstring (still in the file):**
+  > OUT OF SHIPPING PATH (W2b audit, 2026-07): no importers anywhere in the repo
+  > (MCP/, tests/, eval/, scripts/). Its .parm emission is NOT quoting-aware --
+  > values go raw into f-strings (_format_parameter/_format_parameter_value), so a
+  > value or expression containing a space would truncate and desync TD's .parm
+  > parser. Do NOT revive this module without routing every .parm body line through
+  > the canonical writer: server_core/meta_agentic/execution/toe_builder_bridge._parm_line.
+- **Knowledge salvaged:** none needed beyond the hazard above — writing is owned by
+  `TOEBuilder._build_lossless`, `.parm` quoting by `toe_builder_bridge._parm_line`.
+- **Revival condition:** owner decision only, and only with every `.parm` body line routed
+  through `toe_builder_bridge._parm_line` plus round-trip fidelity proof (the
+  `td_fixture_pipeline` byte-compare is the existing yardstick).
+- **Disposal trigger:** deletable outright at the owner's convenience — nothing depends on
+  this copy; it is kept because quarantine preserves design work for review.

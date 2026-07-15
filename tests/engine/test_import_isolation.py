@@ -91,6 +91,7 @@ _DEADWEIGHT_QUARANTINED_2026_07 = (
     "MCP/td-webserver/genHandlers.js",
     "MCP/td-webserver/templates/mcp/api_controller_handlers.mustache",
     "eval/build_gate/grounding_validator.py",
+    "MCP/engine/writers/lossless_writer.py",
 )
 
 

@@ -3,7 +3,7 @@
 ## Overview
 
 This skill enables AI agents to analyze, understand, and explain TouchDesigner networks by combining:
-- ASCII network structure parsing (via toeexpand)
+- One-call network expansion + parsing (`expand_toe_file` — runs `toeexpand` for you)
 - Comprehensive operator documentation (673 operators)
 - Performance analysis patterns
 - Best practice guidelines
@@ -23,6 +23,8 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
   complete lossless JSON. Start here.
 - `get_operator_info` / `get_parameter_detail` - exact operator + parameter specs from the KB.
 - `hybrid_search` / `query_graph` / `find_operator_examples` - docs, relationships, real usage.
+- Optional: `get_network_patterns` / `find_similar_networks` / `find_parameter_usage` /
+  `find_operator_combination` - mined patterns + real-world usage, for corroboration (Step 5).
 
 **Required Knowledge:**
 - Operator documentation from project knowledge
@@ -61,13 +63,16 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
 - Special: Camera, Light, Geometry, Replicator
 - Physics: Actor, Bullet Solver
 
-**POP (Particle Operators)** - Particle systems
-- Data: Particle attributes (position, velocity, life, color)
-- Generators: Source, Object
-- Forces: Attract, Wind, Property
-- Modifiers: Limit, Collision, Color
+**POP (Point Operators)** - GPU-based 3D point data, including particle systems
+- Data: Point/vertex/primitive attributes (position, velocity, life, color) on the GPU
+- Generators: Point Generator, Particle, Grid, Line, Source
+- Forces: Force, Attractor, Drag, Field
+- Modifiers: Limit, Collision, Kill, Noise, Math, Feedback
 
-### Network Structure
+### Network Structure (what `expand_toe_file` parses for you)
+
+You never read these files yourself — `expand_toe_file` runs `toeexpand` and parses the
+result (see Step 1). For background, the expansion on disk looks like:
 
 **ASCII Format:**
 ```
@@ -79,7 +84,7 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
   └── directories/   # Nested containers
 ```
 
-**Key Files:**
+**Key files (all consumed by `expand_toe_file`):**
 - `operator_name.n` - Type, position, viewport, flags, color
 - `operator_name.parm` - Parameter values
 - `container/` - Nested operators inside components
@@ -91,9 +96,10 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
 ```
 # One call expands (toeexpand) + parses + returns the structure:
 expand_toe_file("path/to/project.toe", mode="summary")
-#   -> { project_name, node_count, connection_count, by_family,
+#   -> { project_name, mode, node_count, connection_count, by_family,
 #        operators: [{ path, op_type ("FAMILY:type"), params: [{name, value, mode}] }],
-#        connections: [{ from, to }] }
+#        connections: [{ from, to, source_output, target_input }],
+#        foreign_refs, manifest }
 # Only NON-DEFAULT params are listed (that's what TD stores), each with its
 # mode: constant / expression / reference / bind.
 # Use mode="full" when you need positions + the complete round-trippable lossless JSON.
@@ -180,6 +186,12 @@ SOP geometry
         → Render TOP (output)
 ```
 
+**Corroborate patterns against the KB:**
+- `get_network_patterns(min_frequency=...)` - operator combinations that recur across real examples
+- `find_similar_networks("analyzeCHOP/example1")` - alternative implementations of a network you identified
+- `find_parameter_usage(operator_type, parameter_name)` - real-world values for a suspicious parameter
+- `find_operator_combination` - how a given pair of operators is typically wired
+
 ## Using Operator Documentation
 
 ### Loading Operator Info
@@ -198,7 +210,7 @@ When you need details about an operator, query the KB via the MCP tools (never g
    Common Uses: Typical applications
    ```
 
-3. **Key info to extract:**
+4. **Key info to extract:**
    - What data does it process?
    - What are critical parameters?
    - What are performance considerations?
@@ -230,7 +242,7 @@ When you need details about an operator, query the KB via the MCP tools (never g
 **Performance:**
 - ✅ TOPs at appropriate resolution (no higher than needed)
 - ✅ Expensive operators (Blur, Edge) used sparingly
-- ✅ Time Slice mode for heavy COMPs
+- ✅ Selective cooking on heavy COMPs (cook flag off when idle)
 - ✅ Null TOPs at key points for optimization
 
 **Data Flow:**
@@ -408,10 +420,12 @@ RECOMMENDATIONS:
 
 **This skill works well with:**
 
-- **TD Audio-Reactive Skill** - For analyzing audio processing chains
-- **TD Performance Optimization Skill** - For detailed performance tuning
-- **TD Shader Development Skill** - For understanding GLSL operators
-- **TD Network Generation Skill** - For suggesting new operators to add
+- **`td-builder-howto`** (`Agents/td-builder-howto/SKILL.md`) - the build/live-edit companion.
+  This skill is read-only analysis; when the analysis leads to modifying or rebuilding the
+  network, load the how-to skill for the build pipeline and live-TD gotchas first.
+- **`get_expert_prompt` experts** - `td_designer`, `network_builder`, `td_glsl_expert`,
+  `td_python_expert`, `ui_expert`, `critic` - load one when the analysis turns into design,
+  optimization, or shader work.
 
 **This skill provides foundation for:**
 
@@ -439,7 +453,7 @@ RECOMMENDATIONS:
 ## Conclusion
 
 This skill enables systematic, intelligent analysis of TouchDesigner networks by combining:
-- Structural parsing (ASCII format)
+- Structural parsing (`expand_toe_file`)
 - Operator knowledge (comprehensive docs)
 - Pattern recognition (common workflows)
 - Performance analysis (best practices)
@@ -448,7 +462,8 @@ Use it as the foundation for understanding any TD network before suggesting modi
 
 ---
 
-**Skill Version:** 1.1 (release v0.2.0 — uses `expand_toe_file` + KB tools)  
-**Operator Database:** TouchDesigner 2025 (via `KB/operators.json`)  
+**Skill Version:** 1.2 (registrable frontmatter + content-accuracy pass; 1.1 shipped with release v0.2.0)  
+**Operator Database:** TouchDesigner 2025 (via `KB/operators.json` — a fetched artifact from `scripts/fetch_vector_db.py`, not committed)  
 **Dependencies:** the offline `td-builder` MCP tools — `expand_toe_file`, `get_operator_info`,
-`get_parameter_detail`, `hybrid_search`, `query_graph`, `find_operator_examples`
+`get_parameter_detail`, `hybrid_search`, `query_graph`, `find_operator_examples` (plus the
+optional pattern tools in Step 5)

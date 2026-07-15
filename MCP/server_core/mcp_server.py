@@ -81,7 +81,12 @@ try:
     UnifiedGraphQuery = unified_module.UnifiedGraphQuery
     print("Loaded unified graph query (wiki + examples)", file=sys.stderr)
 
-    # Load unified search adapter (enhanced with multiple embedding providers)
+    # Load unified search adapter (enhanced with multiple embedding providers).
+    # Deliberately no fallback: hybrid_search.py's HybridGraphRAG is the eval
+    # harness's frozen A/B baseline (eval/run_eval.py --backend legacy), not a
+    # server backend — a broken unified_search import is an install defect that
+    # must fail loudly. Missing optional deps (sentence-transformers, vector DB)
+    # surface later, in _load_kb(), as a partial-KB degrade.
     try:
         spec = importlib.util.spec_from_file_location("unified_search", str(Path(__file__).parent / "search" / "unified_search.py"))
         search_module = importlib.util.module_from_spec(spec)
@@ -89,17 +94,8 @@ try:
         UnifiedSearchAdapter = search_module.UnifiedSearchAdapter
         print("Loaded unified search adapter with enhanced embedding support", file=sys.stderr)
     except Exception as e:
-        # Fallback to legacy HybridGraphRAG
-        try:
-            spec = importlib.util.spec_from_file_location("hybrid_search", str(Path(__file__).parent / "hybrid_search.py"))
-            hybrid_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(hybrid_module)
-            UnifiedSearchAdapter = hybrid_module.HybridGraphRAG
-            print("Loaded legacy hybrid search (fallback)", file=sys.stderr)
-        except Exception as e2:
-            print(f"WARNING: Could not load search (vector DB unavailable): {e2}", file=sys.stderr)
-            print("  Unified graph will still work. To enable vector search, install: pip install sentence-transformers", file=sys.stderr)
-            UnifiedSearchAdapter = None
+        print(f"ERROR: Could not load unified search adapter (search/unified_search.py): {e}", file=sys.stderr)
+        sys.exit(1)
 
 except Exception as e:
     print(f"ERROR: Could not load unified graph query: {e}", file=sys.stderr)
@@ -435,17 +431,6 @@ def _load_kb():
             return
 
         # --- load hybrid_search (optional — degrade to partial, not failed) ---
-        if UnifiedSearchAdapter is None:
-            _KB_STATUS = "partial"
-            _KB_REASON = (
-                "Semantic search unavailable: sentence-transformers / "
-                "UnifiedSearchAdapter not importable in this Python env. "
-                "Graph tools (get_operator_info, find_operator_examples, "
-                "get_parameter_detail, etc.) still work. "
-                "Fix: `pip install -e \".[api,dev]\"` then restart the MCP server."
-            )
-            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
-            return
         if not vectordb_path.exists():
             _KB_STATUS = "partial"
             _KB_REASON = (

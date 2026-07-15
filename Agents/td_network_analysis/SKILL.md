@@ -1,3 +1,8 @@
+---
+name: td-network-analysis
+description: Load when analyzing, explaining, or reviewing an EXISTING TouchDesigner network — a .toe/.tox you did not just build — via the offline td-builder MCP. Triggers on analyze/explain this .toe or .tox, what does this network do, expand_toe_file, operator chain, data flow, network structure, performance bottlenecks, optimization review, or read-only mcp__td-builder__* lookups (get_operator_info, hybrid_search, query_graph). This skill is read-only analysis — to build or live-edit networks load td-builder-howto instead.
+---
+
 # TouchDesigner Network Analysis Skill
 
 ## Overview

@@ -5,7 +5,7 @@ quality-measurement harness lives in the dev repo, not the release).
 
 ## Run it
 ```powershell
-py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
+py -3.11 -m pytest tests\acceptance tests\measure -q     # ~34 checks
 ```
 
 - **Offline checks** (server identity, tool inventory, KB search, `td_validate`/`td_convert`/
@@ -18,7 +18,7 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
 ## Layout
 | File | Role |
 |---|---|
-| `acceptance/test_acceptance.py` | The main probes P01–P19 (offline + live). |
+| `acceptance/test_acceptance.py` | The main probes P01–P21 (offline + live). |
 | `measure/test_smoke.py` | Server-loads + tool-inventory + 5-stage validate smoke. |
 | `measure/_server.py`, `measure/probe.py` | In-process loaders for the two servers + the probe used by `conftest.py`. |
 | `engine/` | Unit tests for the TD-file engine (builder, expand, quoting, validators, …). Not part of the quick gate above — run with `py -3.11 -m pytest tests\engine -q`. |

@@ -171,3 +171,28 @@ a one-line `__init__.py`, was removed with it — no importer existed).
   `td_fixture_pipeline` byte-compare is the existing yardstick).
 - **Disposal trigger:** deletable outright at the owner's convenience — nothing depends on
   this copy; it is kept because quarantine preserves design work for review.
+
+#### lossless_v2.schema.json — JSON Schema for the lossless envelope (never wired)
+
+Formerly `MCP/engine/schemas/lossless_v2.schema.json`.
+
+- **What:** JSON Schema for the lossless format layer's envelope (the
+  `format_layer: "lossless"` const, metadata fields, and the `lossless_data` quartet
+  `raw_files`/`toc_order`/`toc_raw_lines`/`toc_disk_paths`) — the twin of the wired
+  `unified_v2.schema.json`, added in the same PR #3 commit.
+- **Why quarantined:** born orphaned — zero references in any commit (`git log -S` empty
+  across all history); `SchemaValidator` hardcodes the unified sibling and no code path
+  selects a schema by format layer. Sitting in `schemas/` it implied an enforcement that
+  never existed. Owner decision 2026-07-15: quarantine over wire-in, because it is
+  unconfirmed that lossless networks flow through `ValidationPipeline` at all — wiring it
+  now would create a new hypothetical seam.
+- **Accuracy note:** accurate as of 2026-07-15 — field-level match vs what
+  `lossless_json.py` emits (all four top-level required keys, the format_layer const,
+  metadata required/optional fields and types, the exact `lossless_data` quartet).
+  Revisit wire-in if a lossless validation path becomes real.
+- **Revival condition:** a real lossless validation path — lossless networks confirmed to
+  flow through `ValidationPipeline`, then teach `SchemaValidator` to select by
+  `format_layer` (~10–20 lines + a round-trip test covering the `raw_files` inner shape,
+  which is not dataclass-enforced), re-verifying schema accuracy first.
+- **Disposal trigger:** delete outright if a tagged release ships the lossless layer with
+  a different validation story (or a decision to have none).

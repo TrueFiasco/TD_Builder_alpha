@@ -5,7 +5,9 @@ with synthetic transcripts + hand-built artifacts (no KB, no model, no CLI).
 Run: py -3.11 -m pytest eval/agent_eval/tests/test_scorer.py -q
 Needs the fetched KB: the artifacts these tests score are built with the real
 ToxBuilder, which grounds op types against KB/operators.json. Runs on CI's
-kb-full lane (KB present), not the hermetic (KB-free) lane.
+kb-full lane (KB present), not the hermetic (KB-free) lane. The three
+artifact-collapse tests (guarded by _require_toecollapse) additionally need
+TD's toecollapse binary and self-skip on TD-free machines like hosted runners.
 """
 
 from __future__ import annotations
@@ -71,6 +73,27 @@ def _run(lines):
 # ---------------------------------------------------------------------------
 # A minimal real build, so artifact assertions have something on disk
 # ---------------------------------------------------------------------------
+def _require_toecollapse():
+    """Skip-guard for the tests whose assertions need the COLLAPSED artifact.
+
+    The builders' collapse step shells out to TD's toecollapse
+    (paths.resolve_td_tool); on a TD-free machine (hosted CI) build_tox logs
+    the miss and returns None — the expanded .dir lands, the .tox/.toe never
+    does. Same self-skip idiom as tests/retrieval_user/
+    test_register_component_server.py (and the TD-free branch of acceptance
+    test_p13_build_offline). Callers of _build_lfo_chain that assert
+    collapse-independent failure classes (writes_confined, validate.PASS,
+    kb_lookup_any) stay unguarded on purpose.
+    """
+    root = str(AGENT_EVAL_DIR.parents[1])
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    from paths import resolve_td_tool
+    if resolve_td_tool("toecollapse") is None:
+        pytest.skip("toecollapse not installed — TD-free environment; "
+                    "artifact-collapse self-tests need a real TD")
+
+
 def _build_lfo_chain(work: Path):
     for p in (str(AGENT_EVAL_DIR.parents[1]),
               str(AGENT_EVAL_DIR.parents[1] / "MCP" / "server_core"),
@@ -142,6 +165,7 @@ def test_r3_init_event_is_positive_evidence(tmp_path):
 
 
 def test_r3_successful_tool_result_is_evidence(tmp_path):
+    _require_toecollapse()   # asserts PASS -> needs the collapsed .tox on disk
     work = tmp_path / "work"
     work.mkdir()
     design = _build_lfo_chain(work)
@@ -471,6 +495,7 @@ def test_bug6_absent_ignores_staged_fixture_in_assets(tmp_path):
 def test_bug3_tox_wearing_toe_name_fails_the_toe_assertion(tmp_path):
     # s12's regression target: a component NAMED *.toe (the "mode dropped ->
     # silent .tox" defect) must FAIL, not pass on extension trust.
+    _require_toecollapse()   # renames the collapsed .tox -> needs it to exist
     import shutil
     work = tmp_path / "work"
     work.mkdir()
@@ -495,6 +520,7 @@ def test_bug3_tox_wearing_toe_name_fails_the_toe_assertion(tmp_path):
 
 
 def test_bug3_real_toe_is_recognized_as_project(tmp_path):
+    _require_toecollapse()   # is_project() inspects the collapsed .toe
     work = tmp_path / "work"
     work.mkdir()
     _build_noise_null(work, "tile_mini", mode="toe")

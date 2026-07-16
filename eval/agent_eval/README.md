@@ -193,19 +193,30 @@ transcript (always countable, even on a truncated stream).
 
 ## Versioning & identity
 
-Every result and baseline embeds an identity block:
+Every result and baseline embeds an identity block. The **hard (refuse) tier**
+is `AGENT_IDENTITY_FIELDS`:
 `{scenario_set_version, model_id, cli_version, server_version, kb_manifest_version,
 kb_sha, tool_inventory_hash, live_tool_inventory_hash, guidance_hash}`.
-`--compare` **refuses** on any mismatch (`--allow-identity-drift` overrides,
-marking the report NON-COMPARABLE) — except that a REPLAY-lane sweep compared
-against a model-lane baseline excludes `model_id`/`cli_version` from the check
-(replay has no model or CLI in the loop; those two are structurally None
-there, and every environment field still refuses on drift).
+`--compare` **refuses** on any hard-tier mismatch (`--allow-identity-drift`
+overrides, marking the report NON-COMPARABLE) — except that a REPLAY-lane sweep
+compared against a model-lane baseline excludes `model_id`/`cli_version` from
+the check (replay has no model or CLI in the loop; those two are structurally
+None there, and every environment field still refuses on drift).
 `live_tool_inventory_hash` (added at the 2026-07-14 re-bless) stamps the
 separate td-builder-live surface from its STATIC tool list — no running TD
 needed; proven blind spot: the offline hash stayed constant across the live
-21→22 `get_glsl_status` change. Baselines predating the field read as
+21→22 `get_glsl_status` change. Baselines predating a field read as
 *unknown* (warn, never refuse).
+
+The **soft (warn) tier** is `AGENT_IDENTITY_WARN_FIELDS`:
+`{engine_code_hash}` — a newline-normalized hash of `MCP/engine/**/*.py`, the
+builder/validation code that produced the run. It closes the `server_version`
+blind spot (a hand-bumped constant that stayed `"0.2.0"` while the validation
+pipeline went 4→6 stages). It flips on any engine edit, comments included,
+which is exactly why it **warns and proceeds** — never refuses, never touches
+the exit code. It stays unstamped in the committed baseline until the next
+`--capture-baseline`. The block also carries `git_sha` (the commit the sweep
+ran on) — informational only, in neither tier, never compared.
 
 - **Tool-surface changes** (later waves touch `mcp_server.py`'s 17-tool list):
   `tool_inventory_hash` flips → re-bless traces + re-capture, bump
@@ -295,6 +306,13 @@ Before tagging any post-remediation release:
   `tool_result_re`; new templates/fields as documented above. No
   scenario_set_version bump: adding scenarios needs no ceremony (§ Re-baseline)
   and every s01–s14 file is byte-identical.
+- **identity warn tier** (2026-07-16, hygiene bundle H4b): `engine_code_hash`
+  added as a soft-warn identity field (`AGENT_IDENTITY_WARN_FIELDS`) +
+  informational `git_sha` — see § Versioning & identity. No re-bless, no
+  baseline edit: traces are calls-only and identity is computed fresh per
+  sweep; the old baseline reads the new field as *unknown* (warn) until the
+  next capture stamps it. CI Lane R gained `--compare` in the same bundle, so
+  the refusal/warn machinery now actually executes in hosted runs.
 - **baseline n=5** (2026-07-05, W2c deferred deliverable): first full n=5 capture,
   on merged `main` @ `6a2f461` (Merge W3a: builder correctness + grounding/
   bare-comp validators). Spend $8.21 (s10–s14), under the $25 cap. **Gate set

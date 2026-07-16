@@ -33,6 +33,16 @@ AGENT_IDENTITY_FIELDS = (
     "live_tool_inventory_hash", "guidance_hash",
 )
 
+# Soft-warn tier (hygiene bundle H4b): mismatch prints a WARNING in --compare
+# but NEVER refuses and never touches the exit code. engine_code_hash flips on
+# ANY MCP/engine/**/*.py edit, comments included -- acceptable ONLY because
+# this tier warns; it is not fit for the refuse tuple. It closes the
+# server_version blind spot: a hand-bumped constant that stayed "0.2.0" across
+# builder changes that materially altered behavior (baseline _provenance
+# mixed_snapshot_disclosure: s01-s09 captured on a 4-stage validation
+# pipeline, s10-s14 on a 6-stage one, identity blind to the difference).
+AGENT_IDENTITY_WARN_FIELDS = ("engine_code_hash",)
+
 
 def redact_path(p, extra_roots: tuple[Path, ...] = ()) -> str:
     """Tree-relative form of a provenance path for COMMITTED files.
@@ -112,6 +122,50 @@ def cli_version(cli: str = "claude") -> str | None:
 def tool_inventory_hash(tool_names) -> str:
     """sha256 of the sorted tool-name list (P01b's inventory, hashed)."""
     return sha256_text("\n".join(sorted(tool_names)))
+
+
+def engine_code_hash(engine_root: Path) -> str | None:
+    """sha256 over sorted (posix-relpath, file-sha256) pairs of engine_root/**/*.py.
+
+    Soft-warn identity field (AGENT_IDENTITY_WARN_FIELDS): "did the engine
+    builder/validation code change since the baseline?". File bytes are hashed
+    with CRLF normalized to LF so the value is stable across checkout
+    newline conventions (core.autocrlf). Returns None when no .py files are
+    found (partial checkout) -- reads as "unknown" downstream (warn, never
+    refuse). Stdlib-only: pathlib + hashlib.
+    """
+    engine_root = Path(engine_root)
+    files = sorted(
+        (p for p in engine_root.rglob("*.py") if p.is_file()),
+        key=lambda p: p.relative_to(engine_root).as_posix(),
+    )
+    if not files:
+        return None
+    h = hashlib.sha256()
+    for f in files:
+        rel = f.relative_to(engine_root).as_posix()
+        content = hashlib.sha256(f.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        h.update(rel.encode("utf-8") + b"\0" + content.encode("ascii") + b"\n")
+    return h.hexdigest()
+
+
+def git_sha(repo_root: Path) -> str | None:
+    """`git rev-parse --short HEAD`; None when git/repo is unavailable.
+
+    INFORMATIONAL ONLY: stored in the identity dict for the human reading a
+    report or baseline, present in NEITHER field tuple, never compared
+    (identity_mismatches only inspects tuple fields). At --capture-baseline
+    time it will agree with the hand-written _provenance.captured_git_sha.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(repo_root), "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=30, shell=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    v = (out.stdout or "").strip()
+    return v if out.returncode == 0 and v else None
 
 
 def identity_mismatches(current: dict, prior: dict | None, fields) -> tuple[list, list]:

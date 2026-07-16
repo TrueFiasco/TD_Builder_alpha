@@ -16,6 +16,11 @@ resolvable regardless of current working directory.
 import sys
 from pathlib import Path
 
+# PHYSICAL code root for sys.path — deliberately NOT TD_BUILDER_ROOT-aware.
+# This is the chicken-and-egg bootstrapper: it must locate the code actually on
+# disk next to this file so `paths` becomes importable at all. The SEMANTIC root
+# (override-aware) is paths.REPO_ROOT — data resolution (KB/, Agents/, Config/)
+# goes through `paths`, never through this ROOT.
 ROOT = Path(__file__).resolve().parent
 
 # Engine import roots. Order matters: repo root first, then the subsystem

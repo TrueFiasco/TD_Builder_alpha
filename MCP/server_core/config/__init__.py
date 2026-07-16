@@ -9,23 +9,27 @@ Precedence, highest first:
      — legacy fallback: MCP/server_core/config/search_config.json
   4. The code defaults below
 
-The release root is TD_BUILDER_ROOT if set, else three levels above this file
-(config/ -> server_core -> MCP -> root). Relative configured paths resolve
-against the release root, never the process CWD.
+The release root comes from the repo-root `paths` module (paths.REPO_ROOT —
+the single source of truth for the TD_BUILDER_ROOT relocation knob). Relative
+configured paths resolve against the release root, never the process CWD.
 
 Key-free: local embeddings only. There are no cloud providers and no API keys.
 """
 
 import os
 import json
+import sys
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-_ROOT = (
-    Path(os.environ["TD_BUILDER_ROOT"]).resolve()
-    if os.environ.get("TD_BUILDER_ROOT")
-    else Path(__file__).resolve().parents[3]
-)
+# Release root: delegated to the repo-root `paths` module. Chicken-and-egg
+# self-bootstrap (same pattern as meta_agentic/execution/param_name_resolver.py):
+# insert the PHYSICAL root (config/ -> server_core -> MCP -> root) so `paths` is
+# importable even when this package loads before MCP/bootstrap.py has run.
+_REPO_PHYS = Path(__file__).resolve().parents[3]
+if str(_REPO_PHYS) not in sys.path:
+    sys.path.insert(0, str(_REPO_PHYS))
+from paths import REPO_ROOT as _ROOT  # noqa: E402
 
 
 def _load_env_file(path: Path) -> None:

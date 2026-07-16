@@ -9,7 +9,7 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~22 checks
 ```
 
 - **Offline checks** (server identity, tool inventory, KB search, `td_validate`/`td_convert`/
-  `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (17 tools).
+  `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (18 tools).
 - **Live checks** (identity / topology / capture / diagnostics / CRUD) run against the
   **`td-builder-live`** server (22 tools) and need TouchDesigner open (WebServer DAT on `:9981`).
   With TD down they still pass via the graceful "not running" path.

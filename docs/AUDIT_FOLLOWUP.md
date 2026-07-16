@@ -10,13 +10,13 @@
 
 **Concern (audit):** `mcp_server.py` ends `list_tools` with
 `if TD_LIVE_ENABLED and TD_LIVE_TOOLS: tools.extend(TD_LIVE_TOOLS)`, supposedly undercutting the clean
-offline / live split (17 offline / 19 live as of Round-3's `td_build_status`).
+offline / live split (18 offline / 22 live as of W7's `register_component`).
 
 **What's actually true.** The offline entry point `MCP/server.py` calls `bootstrap.setup()`, which puts
 only the repo root, `MCP/engine`, and `MCP/server_core` on `sys.path` — **not** `MCP/live_client`. So the
 guarded import `from td_live_client import TD_LIVE_TOOLS, …` (mcp_server.py, ~line 62) raises `ImportError`,
 `TD_LIVE_ENABLED` is set `False`, and the `tools.extend(...)` line is never reached. A normal offline
-launch advertises **the 17 offline tools only**, never the live set. The live tools are served only by `MCP/live_server.py`
+launch advertises **the 18 offline tools only**, never the live set. The live tools are served only by `MCP/live_server.py`
 (`td-builder-live`), which explicitly adds `live_client` to `sys.path`.
 
 **Recommendation (optional, defense-in-depth):** either have the offline entry point force live-off

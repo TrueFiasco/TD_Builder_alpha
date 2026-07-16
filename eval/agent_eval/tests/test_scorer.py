@@ -337,7 +337,9 @@ def test_r2_kb_lookup_any_enumeration():
     assert "get_expert_prompt" not in S.KB_LOOKUP_TOOLS
     assert "get_server_info" not in S.KB_LOOKUP_TOOLS
     assert set(S.TRACE_ALIASES["kb_lookup_any"]) == set(S.KB_LOOKUP_TOOLS)
-    assert len(S.OFFLINE_TOOLS) == 17
+    assert len(S.OFFLINE_TOOLS) == 18
+    assert "register_component" in S.OFFLINE_TOOLS
+    assert "register_component" not in S.KB_LOOKUP_TOOLS
 
 
 def test_r2_alias_matches_any_member(tmp_path):

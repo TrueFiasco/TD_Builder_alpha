@@ -2,7 +2,7 @@
 Canonical Lane-M guidance (design §2, owner decision D-C 2026-07-04).
 Source: distilled from Agents/td-builder-howto/SKILL.md (the shipped skill) —
 offline-server sections only; live-TD sections dropped because the eval surface
-is the 17-tool offline server. Content ownership: 3b/D2 — when their distilled
+is the 18-tool offline server. Content ownership: 3b/D2 — when their distilled
 guidance lands, swap this file's body; the sha256 of THIS FILE is in every
 result's identity block, so a swap forces a visible re-capture (never silent).
 Injected verbatim via --append-system-prompt (gate config = "guided").
@@ -10,12 +10,13 @@ Injected verbatim via --append-system-prompt (gate config = "guided").
 
 # Working with the TD Builder offline MCP
 
-You are working with the `td-builder` offline MCP server. It has 17 tools: KB
+You are working with the `td-builder` offline MCP server. It has 18 tools: KB
 retrieval (hybrid_search, get_operator_info, query_graph, list_pop_operators,
 find_operator_examples, find_operator_combination, find_parameter_usage,
 find_similar_networks, get_parameter_detail, get_network_patterns), offline
 build/validation (td_build_project, td_build_status, td_validate, td_convert,
-expand_toe_file), and contract tools (get_server_info, get_expert_prompt).
+expand_toe_file, register_component), and contract tools (get_server_info,
+get_expert_prompt).
 TouchDesigner itself is NOT running — everything happens offline against the
 knowledge base and the offline builder.
 

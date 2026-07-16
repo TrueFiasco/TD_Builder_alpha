@@ -38,6 +38,29 @@
   **Upgrade note:** a KB fetched before this change verifies via the committed pins automatically;
   a KB you built yourself needs one `python scripts/receipt_kb.py` run.
 
+### Removed
+- **Dead-weight sweep 2026-07** (11 audited items; manifests in `quarantine/README.md` →
+  `deadweight_2026_07/`). Quarantined: the broken upstream OpenAPI codegen pair
+  (`genHandlers.js` + mustache template — `generated_handlers.py` is hand-maintained, and the
+  four comments describing it as live codegen are reworded), the superseded Track-D grounding
+  prototype (ending the `GroundingValidator` name collision; `build_gate` no longer generates a
+  stale "Deferred" claim for the validator that shipped in W3a / PR #13), the never-wired
+  `lossless_writer.py` (manifest carries its `.parm`-quoting revival hazard), and the
+  never-referenced `lossless_v2.schema.json` (accurate at quarantine time; wire-in revisit noted).
+  Deleted in place: the orphaned `execute_tool_for_agent` shadow dispatcher (absence pinned), the
+  provably-broken legacy `HybridGraphRAG` server fallback — a broken `unified_search` import now
+  fails loudly, while `hybrid_search.py` itself stays as the eval harness's frozen A/B baseline —
+  the dead-on-arrival `build()` wrappers in `kb_build`, the `Agents/experts/__init__.py` duplicate
+  roster (single owner: `AVAILABLE_EXPERTS` in `mcp_server.py`), a leaked absolute worktree path in
+  `rebuild_graph.py`, and the `ControllerManager`/`ModuleFactory` ceremony in the TD-side webserver
+  script (collapsed to a direct controller call; disk-delivered, no `.tox` rebuild — live TD picks
+  it up after the install tree fast-forwards and the webserver DAT reloads).
+  `MCP/server_core/search/__init__.py` is reduced to a package marker, and the
+  `docs/KNOWN_ISSUES.md` "connect in or remove" trio entry is resolved. Revived:
+  `td_validate_expanded` is now launchable (`Tools/offline Builder tools/td_validate_expanded.py`)
+  — it audits an expanded `.toe/.tox.dir` against its `.toc`, the integrity check the lossless
+  parser silently swallows — with a README row and smoke test.
+
 ## 0.2.0 — knowledge-base redesign + hybrid retrieval
 
 A ground-up rebuild of the knowledge base and its search stack. The MCP tool surface is unchanged;

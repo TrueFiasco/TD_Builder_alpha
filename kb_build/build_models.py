@@ -48,14 +48,6 @@ def build_models(out_dir: Path, force: bool = False) -> dict:
     return {"status": "saved", "path": str(dest), "offline_smoke_score": round(score, 3)}
 
 
-def build(idn=None, out_dir: Path | None = None, force: bool = False) -> dict:
-    """build_kb-compatible entry point (idn unused)."""
-    if out_dir is None:
-        import common as C
-        out_dir = C.OUT
-    return build_models(Path(out_dir), force=force)
-
-
 if __name__ == "__main__":
     import argparse
     import sys

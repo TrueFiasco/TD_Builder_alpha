@@ -75,7 +75,36 @@ _BANNED_SERVER_TOKENS = (
     "meta_agentic.compaction",
     "compact_events_to_state",
     "refresh_legacy_yaml",
+    # sub-agent tool executor: 0.1.1 removed its AgentWithTools callers
+    # (spawn_engineer/spawn_expert) but left the executor def-only; deleted by
+    # the 2026-07 dead-weight sweep. It had drifted to a shadow dispatch (11
+    # names vs the registry's 17, divergent error contract) — any future
+    # in-process tool access must wrap call_tool(), never a second if/elif.
+    "execute_tool_for_agent",
 )
+
+
+# Files quarantined by the 2026-07 dead-weight sweep: repo-root-relative paths
+# that must stay gone from their live locations (the preserved copies live under
+# quarantine/deadweight_2026_07/ -- see that manifest before reintroducing).
+_DEADWEIGHT_QUARANTINED_2026_07 = (
+    "MCP/td-webserver/genHandlers.js",
+    "MCP/td-webserver/templates/mcp/api_controller_handlers.mustache",
+    "eval/build_gate/grounding_validator.py",
+    "MCP/engine/writers/lossless_writer.py",
+    "MCP/engine/schemas/lossless_v2.schema.json",
+)
+
+
+def test_deadweight_2026_07_absent_from_live_tree():
+    for rel in _DEADWEIGHT_QUARANTINED_2026_07:
+        leftover = _REPO_ROOT.joinpath(*rel.split("/"))
+        assert not leftover.exists(), (
+            f"{leftover} exists again -- it was quarantined by the 2026-07 "
+            f"dead-weight sweep under the quarantine-not-fix decision; see "
+            f"quarantine/README.md (deadweight_2026_07) before reintroducing "
+            f"(revival = owner decision + dedicated wave)"
+        )
 
 
 def test_orchestration_trio_absent_from_import_path():

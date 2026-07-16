@@ -36,8 +36,8 @@ def setup(modules_path):
 		# The schema file is JSON (despite the .yaml extension), so it loads with
 		# the stdlib json module — no PyYAML dependency, which some TouchDesigner
 		# builds lack (a missing `import yaml` used to abort setup() and 404 every
-		# CRUD/exec route). genHandlers.js codegen reads the same .yaml, so we keep
-		# one source file rather than shipping a duplicate .json.
+		# CRUD/exec route). The .yaml name is upstream heritage; runtime routing
+		# (this loader + openapi_router) is the schema's only live consumer.
 		with open(schema_path, "r", encoding="utf-8") as f:
 			openapi_schema = json.load(f)
 		if not isinstance(openapi_schema, dict) or "paths" not in openapi_schema:

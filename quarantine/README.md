@@ -76,3 +76,123 @@ formerly `MCP/server_core/meta_agentic/execution/`.
   regression risk. Wire it against the shipped KB, never a dev-only path.
 - **Disposal trigger:** deletable outright once the shipped param corpus question is
   settled — nothing depends on it.
+
+### deadweight_2026_07/ (quarantined 2026-07-15, dead-weight sweep)
+
+Items moved here by the 2026-07 dead-weight sweep (the full per-item forensics —
+git history to the orphaning commit, replacement owner, revival costing — live in the
+sweep report `DEADWEIGHT_REPORT_2026-07-15.md`, a session artifact held by the owner;
+the load-bearing facts are carried inline below so each entry stands alone).
+Absence pins: `tests/engine/test_import_isolation.py::test_deadweight_2026_07_absent_from_live_tree`.
+
+#### openapi_codegen/ — `genHandlers.js` + `api_controller_handlers.mustache`
+
+Formerly `MCP/td-webserver/genHandlers.js` and
+`MCP/td-webserver/templates/mcp/api_controller_handlers.mustache`.
+
+- **What:** the OpenAPI→handler codegen pair inherited from the upstream
+  touchdesigner-mcp project: a Node script (imports fs-extra/mustache/yaml) that rendered
+  `modules/mcp/controllers/generated_handlers.py` from `openapi.yaml` via the mustache
+  template.
+- **Why quarantined:** born broken in this repo — all three of its paths resolve under a
+  `td/` prefix that has never existed in any commit (it is the upstream repo's layout),
+  no `package.json` ever existed so its deps were never installable, and nothing
+  references it. Worse than dead, it is an **active footgun**: "fix the paths and re-run
+  it" reads like maintenance, would silently replace the live, hand-maintained
+  `generated_handlers.py` — 365 lines of explicit per-route validation, including the
+  B17 recurse-threading and B25 mode-param handling and PR #24's F3 `get_nodes` limit
+  guard — with a naive reflection dispatcher that debug-prints full request bodies
+  (including `exec_python_script` source) to the TD textport, and would *look* fine:
+  the 12 operationIds in `openapi.yaml` still match the module's `__all__`, so every
+  route registers cleanly at startup while behavior silently degrades.
+- **Knowledge salvaged:** the four repo comments that described the codegen as live were
+  reworded in the same sweep commit (`bootstrap_mcp.py`, `api_controller.py` ×2,
+  `session_handlers.py`); `generated_handlers.py` is now consistently described as the
+  hand-maintained static handler module ("generated" in its name is upstream heritage).
+- **Revival condition:** none as-is. New TD-side routes extend via dynamic registration
+  (`feedback_handlers`/`session_handlers` `get_*_routes()` →
+  `OpenAPIRouter.register_route`) — the live seam. Genuine codegen revival would mean
+  porting the hand-written validation into the template plus a CI drift check (priced
+  L and negative-value in the sweep report) and is an owner decision.
+- **Disposal trigger:** deletable if the td-webserver asset ever drops the OpenAPI
+  routing layer, or once upstream provenance stops being worth keeping in-tree.
+
+#### track_d_grounding_prototype.py — gate-side `GroundingValidator` prototype
+
+Formerly `eval/build_gate/grounding_validator.py`.
+
+- **What:** the Track-D KB-grounding guardrail prototype (report-only): grounds a builder
+  design's operator tokens against the dev-corpus captured live-TD `.n` tokens via
+  `gate_common.CanonicalMap`, reporting `BUILD_TOKEN_MISMATCH` / `OP_NAME_NOT_GROUNDED`
+  findings through `check_design()` / `ground_design()` (its declared `NO_TD_CAPTURE`
+  check was never implemented). The Track-D design story stays intact in its docstring.
+- **Why quarantined:** superseded — the reviewed follow-up shipped in the very commit
+  that stamped this file SUPERSEDED (`b6c2470`, W3a / PR #13):
+  `MCP/engine/validation/grounding_validator.py` grounds from the shipped
+  `KB/operators.json` and runs as `ValidationPipeline` stage 2.5. The prototype was
+  imported by nothing but kept a class-name collision (two `GroundingValidator`s with
+  different grounding sources and different findings); post-sweep exactly one exists.
+  Its dev-corpus dependency means it must never ship (its own docstring says so).
+- **Knowledge salvaged:** within-family token mismatch is enforced at build time by the
+  builder's `_grounded_build_token` / engine `ground_design()`; the stale
+  "Deferred to a reviewed follow-up" prose that `build_gate.py` generated into every
+  `PROPOSED_FIXES.md` was corrected in the same sweep commit (the follow-up shipped
+  2026-07-04).
+- **Revival condition:** none foreseen — both of its entry points have shipped owners
+  (stage-2.5 validator; build-time grounding).
+- **Disposal trigger:** deletable outright once the Track-D prototype era stops being
+  referenced by build-gate docs — nothing depends on this copy.
+
+#### lossless_writer.py — `LosslessWriter` (TDNetwork → expanded `.toe.dir`/`.tox.dir` writer)
+
+Formerly `MCP/engine/writers/lossless_writer.py` (the `writers/` package, left holding only
+a one-line `__init__.py`, was removed with it — no importer existed).
+
+- **What:** a full TDNetwork→disk writer for the expanded `.toe.dir`/`.tox.dir` format
+  (`.n` files with all sections in order, `.parm` files, extra files from
+  `lossless_data.raw_files`, `.toc` generation), aimed at perfect round-trip fidelity.
+- **Why quarantined:** never wired anywhere, ever — no external importer in any layout,
+  including the pre-main `77de821` baseline. Tracked in `docs/KNOWN_ISSUES.md` since
+  2026-06-30 for a "connect in or remove" decision; the 2026-07 dead-weight sweep is that
+  decision. The live directory writer is `TOEBuilder._build_lossless`
+  (`MCP/engine/builders/toe_builder.py`); `core/lossless_json.py` is a different layer
+  (TDNetwork ⇄ JSON dict) and never writes TD's on-disk tree.
+- **REVIVAL HAZARD — verbatim from its W2b docstring (still in the file):**
+  > OUT OF SHIPPING PATH (W2b audit, 2026-07): no importers anywhere in the repo
+  > (MCP/, tests/, eval/, scripts/). Its .parm emission is NOT quoting-aware --
+  > values go raw into f-strings (_format_parameter/_format_parameter_value), so a
+  > value or expression containing a space would truncate and desync TD's .parm
+  > parser. Do NOT revive this module without routing every .parm body line through
+  > the canonical writer: server_core/meta_agentic/execution/toe_builder_bridge._parm_line.
+- **Knowledge salvaged:** none needed beyond the hazard above — writing is owned by
+  `TOEBuilder._build_lossless`, `.parm` quoting by `toe_builder_bridge._parm_line`.
+- **Revival condition:** owner decision only, and only with every `.parm` body line routed
+  through `toe_builder_bridge._parm_line` plus round-trip fidelity proof (the
+  `td_fixture_pipeline` byte-compare is the existing yardstick).
+- **Disposal trigger:** deletable outright at the owner's convenience — nothing depends on
+  this copy; it is kept because quarantine preserves design work for review.
+
+#### lossless_v2.schema.json — JSON Schema for the lossless envelope (never wired)
+
+Formerly `MCP/engine/schemas/lossless_v2.schema.json`.
+
+- **What:** JSON Schema for the lossless format layer's envelope (the
+  `format_layer: "lossless"` const, metadata fields, and the `lossless_data` quartet
+  `raw_files`/`toc_order`/`toc_raw_lines`/`toc_disk_paths`) — the twin of the wired
+  `unified_v2.schema.json`, added in the same PR #3 commit.
+- **Why quarantined:** born orphaned — zero references in any commit (`git log -S` empty
+  across all history); `SchemaValidator` hardcodes the unified sibling and no code path
+  selects a schema by format layer. Sitting in `schemas/` it implied an enforcement that
+  never existed. Owner decision 2026-07-15: quarantine over wire-in, because it is
+  unconfirmed that lossless networks flow through `ValidationPipeline` at all — wiring it
+  now would create a new hypothetical seam.
+- **Accuracy note:** accurate as of 2026-07-15 — field-level match vs what
+  `lossless_json.py` emits (all four top-level required keys, the format_layer const,
+  metadata required/optional fields and types, the exact `lossless_data` quartet).
+  Revisit wire-in if a lossless validation path becomes real.
+- **Revival condition:** a real lossless validation path — lossless networks confirmed to
+  flow through `ValidationPipeline`, then teach `SchemaValidator` to select by
+  `format_layer` (~10–20 lines + a round-trip test covering the `raw_files` inner shape,
+  which is not dataclass-enforced), re-verifying schema accuracy first.
+- **Disposal trigger:** delete outright if a tagged release ships the lossless layer with
+  a different validation story (or a decision to have none).

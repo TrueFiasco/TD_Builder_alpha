@@ -171,8 +171,6 @@ def build(idn: C.Identity) -> dict:
 
 
 if __name__ == "__main__":
-    import sys
-    sys.path.insert(0, str(C.MAIN / ".claude" / "worktrees" / "nice-heyrovsky-887a89" / "kb_build"))
     idn = C.Identity()
     res = build(idn)
     print(json.dumps(res, indent=2))

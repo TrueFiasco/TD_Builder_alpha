@@ -70,9 +70,9 @@ This skill enables AI agents to analyze, understand, and explain TouchDesigner n
 
 **POP (Point Operators)** - GPU-based 3D point data, including particle systems
 - Data: Point/vertex/primitive attributes (position, velocity, life, color) on the GPU
-- Generators: Point Generator, Particle, Grid, Line, Source
-- Forces: Force, Attractor, Drag, Field
-- Modifiers: Limit, Collision, Kill, Noise, Math, Feedback
+- Generators: Point Generator, Particle, Grid, Line, SOP to POP, File In
+- Forces: Force, Force Radial, Field
+- Modifiers: Limit, Delete, Noise, Math, Feedback
 
 ### Network Structure (what `expand_toe_file` parses for you)
 
@@ -128,7 +128,7 @@ For what an operator or parameter means, look it up in the KB:
    - TOP: Movie File In, Video Device In, Noise
    - CHOP: Audio Device In, Constant, LFO
    - SOP: Box, Grid, File In
-   - POP: Source POP
+   - POP: Point Generator, SOP to POP, File In
 
 2. **Track Transformations** (processing operators)
    - TOP: Blur, Transform, Composite, Level

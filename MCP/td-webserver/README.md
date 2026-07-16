@@ -8,7 +8,7 @@ tools (`get_td_nodes`, `create_td_node`, `capture_op_viewer`,
 - `mcp_webserver_base.tox` — the base component (import this into your project)
 - `modules/mcp_webserver_script.py` — the WebServer DAT callback handler
 - `import_modules.py` — module loader used inside the .tox
-- `modules/`, `templates/` — supporting code/templates
+- `modules/` — supporting code
 
 ## Use
 1. Open TouchDesigner (2025+).

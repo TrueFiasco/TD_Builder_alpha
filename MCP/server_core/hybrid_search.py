@@ -307,9 +307,9 @@ def main():
     except Exception as e:
         print(f"\nERROR: Could not initialize Hybrid GraphRAG")
         print(f"  {e}")
-        print("\nMake sure you've run:")
-        print("  1. python build_embeddings.py td_graphrag.json")
-        print("  2. python build_knowledge_graph.py td_graphrag.json")
+        print("\nThis class is the frozen legacy A/B baseline for the retrieval eval")
+        print("harness — run it via: python eval/run_eval.py --backend legacy")
+        print("(the harness supplies the KB paths and working directory).")
         sys.exit(1)
     
     # Interactive mode

@@ -10,9 +10,10 @@ HTTP endpoint handlers for the two session-management tools added by D3:
     staleness), so a client that timed out can learn what actually committed.
 
 Registered dynamically via ``register_route`` (the same pattern as
-``feedback_handlers``) — the OpenAPI codegen (``generated_handlers.py`` /
-``openapi.yaml`` / mustache) is deliberately NOT touched. The operationIds are the
-handler ``__name__``s below; ``MCP/live_tool_risk.json`` classifies them.
+``feedback_handlers``) — the static handler module (``generated_handlers.py``,
+hand-maintained) and the ``openapi.yaml`` routing source are deliberately NOT
+touched. The operationIds are the handler ``__name__``s below;
+``MCP/live_tool_risk.json`` classifies them.
 """
 
 from mcp.services.api_service import api_service

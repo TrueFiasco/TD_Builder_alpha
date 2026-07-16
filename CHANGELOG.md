@@ -19,6 +19,13 @@
 - **Missing-family type fallback warns loudly** (`logger.warning`, not just verbose log) when an
   ungrounded op type with no `family` defaults to `TOP:*` — the silent path behind the GAPS
   BUG-1 base-COMP symptom.
+- **`Agents/td_network_analysis` skill wired in**: added the YAML frontmatter
+  (`name: td-network-analysis`) that skill-aware clients need to register it — advertised in the
+  docs since 0.1.1 but previously not loadable — plus a content-accuracy pass (POPs corrected to
+  Point Operators with real operator names, completed `expand_toe_file` summary schema, real
+  cross-skill integrations instead of nonexistent ones).
+- Removed the skill's three orphaned `examples/` files (pre-`expand_toe_file` manual-parsing
+  workflow, unverified benchmark figures); the worked example inside `SKILL.md` remains.
 
 ### Security
 - **Load-time integrity check for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
@@ -37,6 +44,29 @@
   `TD_BUILDER_TRUST_KB=1` bypasses verification with a loud warning (maintainer iteration only).
   **Upgrade note:** a KB fetched before this change verifies via the committed pins automatically;
   a KB you built yourself needs one `python scripts/receipt_kb.py` run.
+
+### Removed
+- **Dead-weight sweep 2026-07** (11 audited items; manifests in `quarantine/README.md` →
+  `deadweight_2026_07/`). Quarantined: the broken upstream OpenAPI codegen pair
+  (`genHandlers.js` + mustache template — `generated_handlers.py` is hand-maintained, and the
+  four comments describing it as live codegen are reworded), the superseded Track-D grounding
+  prototype (ending the `GroundingValidator` name collision; `build_gate` no longer generates a
+  stale "Deferred" claim for the validator that shipped in W3a / PR #13), the never-wired
+  `lossless_writer.py` (manifest carries its `.parm`-quoting revival hazard), and the
+  never-referenced `lossless_v2.schema.json` (accurate at quarantine time; wire-in revisit noted).
+  Deleted in place: the orphaned `execute_tool_for_agent` shadow dispatcher (absence pinned), the
+  provably-broken legacy `HybridGraphRAG` server fallback — a broken `unified_search` import now
+  fails loudly, while `hybrid_search.py` itself stays as the eval harness's frozen A/B baseline —
+  the dead-on-arrival `build()` wrappers in `kb_build`, the `Agents/experts/__init__.py` duplicate
+  roster (single owner: `AVAILABLE_EXPERTS` in `mcp_server.py`), a leaked absolute worktree path in
+  `rebuild_graph.py`, and the `ControllerManager`/`ModuleFactory` ceremony in the TD-side webserver
+  script (collapsed to a direct controller call; disk-delivered, no `.tox` rebuild — live TD picks
+  it up after the install tree fast-forwards and the webserver DAT reloads).
+  `MCP/server_core/search/__init__.py` is reduced to a package marker, and the
+  `docs/KNOWN_ISSUES.md` "connect in or remove" trio entry is resolved. Revived:
+  `td_validate_expanded` is now launchable (`Tools/offline Builder tools/td_validate_expanded.py`)
+  — it audits an expanded `.toe/.tox.dir` against its `.toc`, the integrity check the lossless
+  parser silently swallows — with a README row and smoke test.
 
 ## 0.2.0 — knowledge-base redesign + hybrid retrieval
 
@@ -79,7 +109,7 @@ this release is about retrieval quality, build correctness, and a leaner, fully-
 A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.
 
 ### Changed
-- **Two MCP servers** instead of one: `td-builder` (offline, **17 key-free tools**) and
+- **Two MCP servers** instead of one: `td-builder` (offline, **16 key-free tools**) and
   `td-builder-live` (**19 live-TD tools**). Splitting the live tools out keeps offline sessions from
   carrying ~19 unused tool schemas in context.
 - **Six-folder layout:** `MCP/` (`server.py` + `live_server.py` + `server_core/` + `engine/` +

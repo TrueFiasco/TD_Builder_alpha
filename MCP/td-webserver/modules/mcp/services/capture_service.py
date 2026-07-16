@@ -708,29 +708,51 @@ class CaptureService:
                 except Exception:
                     pass
 
+    @staticmethod
+    def _read_count(geo_op, attr: str) -> int:
+        """Read a geometry count that is a property on SOPs but a METHOD on POPs.
+
+        Live 2026-07-14 (TD 099.2025.32820): POP ``numPoints`` is
+        ``numPoints(delayed=False, max=False) -> int`` (GPU readback), so a bare
+        attribute read passes ``hasattr`` and hands back the bound method, which
+        the sidecar then serializes as its repr. The exact-count readback stall is
+        acceptable here — the capture is already a blocking byte readback.
+        """
+        val = getattr(geo_op, attr, 0)
+        try:
+            return int(val() if callable(val) else val)
+        except Exception:
+            return 0
+
     def _capture_pop_info(self, pop_op) -> Result:
         """POP geometry info sidecar (clone of ``_capture_sop_info``).
 
         Report L9 — a POP capture should carry numPoints + bounds so the caller can
-        verify a point cloud without a second ``poptoCHOP`` round-trip. Every read is
-        hasattr/try-guarded: if a given TD POP build does not expose an attribute the
-        field is simply omitted (needs live confirmation of the exact attr names).
+        verify a point cloud without a second ``poptoCHOP`` round-trip. Live-confirmed
+        2026-07-14: ``numPoints`` is a method on POPs and ``pointBoundingBox`` does
+        not exist — bounds come from ``computeBounds()`` / ``bounds``. Every read
+        stays guarded: a missing attribute omits the field, never fails the sidecar.
         """
         try:
-            num_points = pop_op.numPoints if hasattr(pop_op, 'numPoints') else 0
+            num_points = self._read_count(pop_op, 'numPoints')
 
             bounds = None
-            if hasattr(pop_op, 'pointBoundingBox'):
+            for attr in ('computeBounds', 'bounds'):
+                bbox = getattr(pop_op, attr, None)
+                if bbox is None:
+                    continue
                 try:
-                    bbox = pop_op.pointBoundingBox
+                    if callable(bbox):
+                        bbox = bbox()
                     bounds = {
                         'min': [bbox.min.x, bbox.min.y, bbox.min.z],
                         'max': [bbox.max.x, bbox.max.y, bbox.max.z],
                         'center': [bbox.center.x, bbox.center.y, bbox.center.z],
                         'size': [bbox.size.x, bbox.size.y, bbox.size.z],
                     }
+                    break
                 except Exception:
-                    pass
+                    continue
 
             return {
                 'success': True,
@@ -772,9 +794,9 @@ class CaptureService:
     def _capture_sop_info(self, sop_op) -> Result:
         """Return info about a SOP (full render chain is Phase 3.3)."""
         try:
-            num_points = sop_op.numPoints if hasattr(sop_op, 'numPoints') else 0
-            num_prims = sop_op.numPrims if hasattr(sop_op, 'numPrims') else 0
-            num_vertices = sop_op.numVertices if hasattr(sop_op, 'numVertices') else 0
+            num_points = self._read_count(sop_op, 'numPoints')
+            num_prims = self._read_count(sop_op, 'numPrims')
+            num_vertices = self._read_count(sop_op, 'numVertices')
 
             bounds = None
             if hasattr(sop_op, 'pointBoundingBox'):

@@ -81,7 +81,12 @@ try:
     UnifiedGraphQuery = unified_module.UnifiedGraphQuery
     print("Loaded unified graph query (wiki + examples)", file=sys.stderr)
 
-    # Load unified search adapter (enhanced with multiple embedding providers)
+    # Load unified search adapter (enhanced with multiple embedding providers).
+    # Deliberately no fallback: hybrid_search.py's HybridGraphRAG is the eval
+    # harness's frozen A/B baseline (eval/run_eval.py --backend legacy), not a
+    # server backend — a broken unified_search import is an install defect that
+    # must fail loudly. Missing optional deps (sentence-transformers, vector DB)
+    # surface later, in _load_kb(), as a partial-KB degrade.
     try:
         spec = importlib.util.spec_from_file_location("unified_search", str(Path(__file__).parent / "search" / "unified_search.py"))
         search_module = importlib.util.module_from_spec(spec)
@@ -89,17 +94,8 @@ try:
         UnifiedSearchAdapter = search_module.UnifiedSearchAdapter
         print("Loaded unified search adapter with enhanced embedding support", file=sys.stderr)
     except Exception as e:
-        # Fallback to legacy HybridGraphRAG
-        try:
-            spec = importlib.util.spec_from_file_location("hybrid_search", str(Path(__file__).parent / "hybrid_search.py"))
-            hybrid_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(hybrid_module)
-            UnifiedSearchAdapter = hybrid_module.HybridGraphRAG
-            print("Loaded legacy hybrid search (fallback)", file=sys.stderr)
-        except Exception as e2:
-            print(f"WARNING: Could not load search (vector DB unavailable): {e2}", file=sys.stderr)
-            print("  Unified graph will still work. To enable vector search, install: pip install sentence-transformers", file=sys.stderr)
-            UnifiedSearchAdapter = None
+        print(f"ERROR: Could not load unified search adapter (search/unified_search.py): {e}", file=sys.stderr)
+        sys.exit(1)
 
 except Exception as e:
     print(f"ERROR: Could not load unified graph query: {e}", file=sys.stderr)
@@ -436,17 +432,6 @@ def _load_kb():
             return
 
         # --- load hybrid_search (optional — degrade to partial, not failed) ---
-        if UnifiedSearchAdapter is None:
-            _KB_STATUS = "partial"
-            _KB_REASON = (
-                "Semantic search unavailable: sentence-transformers / "
-                "UnifiedSearchAdapter not importable in this Python env. "
-                "Graph tools (get_operator_info, find_operator_examples, "
-                "get_parameter_detail, etc.) still work. "
-                "Fix: `pip install -e \".[api,dev]\"` then restart the MCP server."
-            )
-            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
-            return
         if not vectordb_path.exists():
             _KB_STATUS = "partial"
             _KB_REASON = (
@@ -484,7 +469,7 @@ def _load_kb():
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
 # cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this offline
-# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 19
+# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 22
 # live tools live only on td-builder-live), so scope_for_server() resolves to the
 # offline scope ([always] rules only). The helper stays the single scope-follows-
 # tools source: a server that DID serve the live tools would ship the live scope,
@@ -840,99 +825,6 @@ def _find_param_code(wiki_params, code: str):
                 if c.lower() == target:
                     return _detail(c, p)
     return None
-
-
-def execute_tool_for_agent(tool_name: str, tool_params: dict) -> Any:
-    """Execute a tool request from a spawned agent"""
-    
-    # Check if knowledge graph is available for graph-based tools
-    if knowledge_graph is None and tool_name in ["get_operator_info", "query_graph", "list_pop_operators"]:
-        return {"error": "TD documentation not loaded"}
-
-    # Check if hybrid search is available (optional - requires sentence_transformers)
-    if hybrid_search is None and tool_name == "hybrid_search":
-        return {"error": "Hybrid search not initialized (requires sentence_transformers)"}
-
-    try:
-        if tool_name == "hybrid_search":
-            query = tool_params["query"]
-            n_results = tool_params.get("n_results", 5)
-            return hybrid_search.search(query, n_results=n_results)
-
-        elif tool_name == "get_operator_info":
-            operator_name = tool_params["operator_name"]
-            # Use knowledge_graph (UnifiedGraphQuery) instead of hybrid_search
-            return knowledge_graph.get_operator_info(operator_name)
-            
-        elif tool_name == "query_graph":
-            command = tool_params["command"]
-            if command == "params":
-                operator = tool_params.get("operator")
-                return knowledge_graph.get_operator_info(operator)
-            elif command == "related":
-                operator = tool_params.get("operator")
-                return knowledge_graph.get_operator_info(operator)
-            elif command == "family":
-                family = tool_params.get("family")
-                # Return operators by family (simplified - list operator nodes)
-                ops = [n for n in knowledge_graph.nodes.values()
-                      if n.get('type') == 'Operator' and n.get('family', '').upper() == family.upper()]
-                return [{'name': op['name'], 'family': op['family']} for op in ops]
-            else:
-                return {"error": f"Unknown command: {command}"}
-
-        elif tool_name == "find_operator_examples":
-            operator = tool_params.get("operator")
-            limit = tool_params.get("limit", 10)
-            return knowledge_graph.find_examples_by_operator(operator, limit)
-
-        elif tool_name == "find_operator_combination":
-            operator_types = tool_params.get("operator_types", [])
-            require_connection = tool_params.get("require_connection", True)
-            limit = tool_params.get("limit", 5)
-            return knowledge_graph.find_examples_by_operator_combination(operator_types, require_connection, limit)
-
-        elif tool_name == "find_parameter_usage":
-            operator_type = tool_params.get("operator_type")
-            parameter_name = tool_params.get("parameter_name")
-            limit = tool_params.get("limit", 10)
-            return knowledge_graph.find_parameter_usage(operator_type, parameter_name, limit)
-
-        elif tool_name == "find_similar_networks":
-            example_id = tool_params.get("example_id")
-            limit = tool_params.get("limit", 5)
-            return knowledge_graph.find_similar_patterns(example_id, limit)
-
-        elif tool_name == "get_network_patterns":
-            min_frequency = tool_params.get("min_frequency", 5)
-            return knowledge_graph.get_network_patterns(min_frequency)
-                
-        elif tool_name == "list_pop_operators":
-            return knowledge_graph.get_operators_by_family("POP")
-        
-        elif tool_name == "write_file":
-            file_path = Path(tool_params["file_path"])
-            content = tool_params["content"]
-            file_path.parent.mkdir(parents=True, exist_ok=True)
-            file_path.write_text(content, encoding='utf-8')
-            return {"status": "written", "path": str(file_path), "bytes": len(content)}
-        
-        elif tool_name == "list_directory":
-            dir_path = Path(tool_params["path"])
-            if not dir_path.exists():
-                return {"error": f"Directory not found: {dir_path}"}
-            items = [str(item.name) for item in sorted(dir_path.iterdir())]
-            return {"items": items, "count": len(items)}
-            
-        else:
-            return {"error": f"Unknown tool: {tool_name}"}
-            
-    except Exception as e:
-        return {"error": str(e)}
-
-
-
-
 
 
 async def td_build_project(design: Dict, project_name: str = None, output_dir: str = None) -> Dict:
@@ -1324,7 +1216,7 @@ async def list_tools() -> list[Tool]:
         Tool(
             annotations=READ_ONLY,
             name="list_pop_operators",
-            description="List all POP (Particle) operators available in TouchDesigner",
+            description="List all POP (Point) operators available in TouchDesigner",
             inputSchema={
                 "type": "object",
                 "properties": {},

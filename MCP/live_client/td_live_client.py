@@ -117,9 +117,13 @@ def _restore_point_note(data: dict) -> str:
     if status not in ("skipped", "unavailable"):
         return ""
     if status == "skipped":
+        # R3: the implicit restore point is once-per-process and never re-arms, so
+        # "save to enable restore points" would be false mid-session. The working
+        # remedy is an EXPLICIT checkpoint: save once, then call save_td_project.
         return (
-            "\n\n⚠️ Restore point unavailable — save the project once (Ctrl+S) to "
-            "enable restore points. This edit proceeded without a rollback point."
+            "\n\n⚠️ Restore point unavailable (project never saved to disk) — ask "
+            "the artist to save once (Ctrl+S), then call save_td_project to create "
+            "a checkpoint. This edit proceeded without a rollback point."
         )
     detail = rp.get("detail")
     return (
@@ -622,10 +626,14 @@ async def get_td_info(arguments: dict) -> Sequence[TextContent]:
                     detail = rp.get("detail")
                     text += f"| Restore point | {status if not detail else f'{status} ({detail})'} |\n"
                     if status not in ("ok", "not_run"):
+                        # R3: same wording fix as _restore_point_note — the implicit
+                        # copy never re-arms, so the working remedy is save once
+                        # (Ctrl+S) + an explicit save_td_project checkpoint.
                         text += (
                             f"\n⚠️ Session restore point **{status}** — the pre-mutation "
                             "safety copy was not created; edits proceed without a rollback "
-                            "point (save the project once to enable it).\n"
+                            "point (ask the artist to save once (Ctrl+S), then call "
+                            "save_td_project to create a checkpoint).\n"
                         )
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
@@ -834,8 +842,16 @@ async def exec_node_method(arguments: dict) -> Sequence[TextContent]:
 
             data = response.json()
             if data.get("success") and data.get("data"):
-                text = json.dumps(data["data"], indent=2)
-                text += _restore_point_note(data["data"])
+                # R5e dedupe: the full JSON dump already carries restorePoint, so on
+                # the skipped/unavailable states the appended note would render it
+                # twice. When the note fires, drop the raw key from the rendered
+                # copy — the note is the salient form; ok/not_run keep the raw JSON.
+                payload = data["data"]
+                note = _restore_point_note(payload)
+                if note:
+                    payload = {k: v for k, v in payload.items() if k != "restorePoint"}
+                text = json.dumps(payload, indent=2)
+                text += note
                 return [TextContent(type="text", text=text)]
             return [TextContent(type="text", text=f"Failed: {data.get('error')}")]
 
@@ -1299,9 +1315,10 @@ TD_LIVE_TOOLS: List[Tool] = [
         annotations=DESTRUCTIVE,
         name="update_td_node_parameters",
         description=(
-            "Update parameters of an existing node in running TouchDesigner. Note: this is a "
-            "programmatic par.val write and will NOT fire a Parameter Execute DAT's "
-            "onValueChange (UI-edit only) — to trigger one, run op('/path').par.<x>.pulse() "
+            "Update parameters of an existing node in running TouchDesigner. Note: a watching "
+            "Parameter Execute DAT WILL fire onValueChange on these writes — callbacks are a "
+            "value diff at the frame boundary, source-blind (rewriting an unchanged value "
+            "fires nothing). To fire a pulse par's onPulse, run op('/path').par.<x>.pulse() "
             "via execute_python_script (exec_node_method cannot resolve dotted par paths). "
             "GLSL-affecting writes get a compile-status receipt; if the checked GLSL op "
             "has no Info DAT, a persistent <name>_info is created and docked to it."
@@ -1360,12 +1377,14 @@ TD_LIVE_TOOLS: List[Tool] = [
             "the script — they block TD's single main thread and hang the live connection "
             "(~60 s, no timeout rescue). To checkpoint, use the save_td_project tool instead.\n"
             "\n"
-            "EXECUTE DAT CALLBACKS: onValueChange fires on UI edits only — NOT on par.val= "
-            "writes from this tool or from bind-driven changes; use onPulse (fires on "
-            "par.pulse()) to trigger programmatically. On the Execute DAT: op='.' is itself, "
-            "'..' is its parent; empty op/pars scope matches nothing and fails SILENTLY. The "
-            "pulse-enable toggle is named 'onpulse', not 'pulse'. Pulse/callback effects are "
-            "not visible until the next frame — verify with a separate call."
+            "EXECUTE DAT CALLBACKS: onValueChange fires for scripted par.val= writes from "
+            "this tool, bind-driven changes, and UI edits alike — a value diff at the frame "
+            "boundary, source-blind; rewriting an unchanged value fires nothing. onPulse "
+            "fires on par.pulse(). On the Execute DAT: op='.' is itself, '..' is its parent; "
+            "empty op/pars scope matches nothing and fails SILENTLY — a callback that never "
+            "fires is a scope bug, not a source filter. The pulse-enable toggle is named "
+            "'onpulse', not 'pulse'. Pulse/callback effects are not visible until the "
+            "next frame — verify with a separate call."
         ),
         inputSchema={
             "type": "object",
@@ -1532,8 +1551,11 @@ TD_LIVE_TOOLS: List[Tool] = [
             "metadata incl. how stale each is. RETRY it after a client timeout: it queues "
             "behind TD's busy main thread and answers once TD is free. Atomic mutators "
             "(create/update/delete): seq advanced => committed, unchanged => not. Exec "
-            "tools cannot self-distinguish partial-then-stalled — treat rollback as the "
-            "default posture on an exec timeout, disclosing what would be lost first."
+            "tools cannot self-distinguish partial success — on a TIMEOUT *or* an "
+            "in-band script/method ERROR the graph may be half-mutated even when seq "
+            "did not advance (the failure shows as last_mutation.outcome='error' with "
+            "api_dirty_since_snapshot=true). Treat rollback as the default posture in "
+            "both cases, disclosing what would be lost first."
         ),
         inputSchema={
             "type": "object",

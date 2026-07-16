@@ -224,11 +224,13 @@ This makes the project self-contained: it survives being moved, zipped, shared, 
 
 ### 6. Execute DAT firing semantics — parexec gotchas
 
-`onValueChange` on a CHOP/DAT/Parameter Execute DAT fires ONLY on UI edits (and certain
-internal changes) — it does **NOT** fire on a programmatic `par.val = x` write (including
-`update_td_node_parameters` or any script) and does **NOT** fire on a bind-driven change.
-If you need code to react to a programmatic change, drive the downstream logic yourself, or
-use `onPulse`, which **does** fire on `par.pulse()`.
+`onValueChange` on a Parameter Execute DAT fires for programmatic `par.val = x` writes
+(including `update_td_node_parameters` or any script), bind-driven changes, and UI edits
+alike — the mechanism is a value diff at the frame boundary, **source-blind** (live-verified
+TD 2025.32820; DAT Execute `onTableChange` likewise fires on scripted `.text=` writes).
+Rewriting an unchanged value fires nothing, and an expression-driven par fires **every
+frame**. `onPulse` fires on `par.pulse()`; a value write does not pulse a pulse par. If a
+callback "never fires", suspect the scope (below), not the edit's source.
 
 On the Execute DAT's `op`/`pars` (or channel-scope) parameters: `.` means the DAT itself —
 use `..` to watch the parent. An empty `op` or `pars` scope matches nothing and fails
@@ -356,7 +358,7 @@ You cannot read keyboard input via the MCP. Keys 1/2/3 are for the user after ha
 | Re-imported `.tox` has all-broken references | Export wrote absolute paths — should have built with relative refs from the start (see rule 5) |
 | Project breaks when moved/zipped/opened elsewhere | Asset referenced by absolute path — copy assets into project folder, reference relatively |
 | Phase / uniform value won't change | Check `.expr` not just `.val` — an expression binding will override fixed values; clear the expr |
-| Execute DAT callback never fires, button looks dead | Programmatic `par.val=` write or bind-driven change — `onValueChange` only fires on UI edits; use `onPulse` + `par.pulse()` to trigger from code |
+| Execute DAT callback never fires, button looks dead | NOT the edit source — `onValueChange` fires for scripted/bind/UI changes alike. Check the `op`/`pars` scope (next row); for pulse pars use `onPulse` + `par.pulse()` (a value write doesn't pulse a button) |
 | Parameter/DAT Execute DAT wired but nothing happens, no error | Empty `op`/`pars` scope matches nothing and fails silently; check `op` (`.`=self, `..`=parent) and `pars` are non-empty |
 | Pulse callback silent even though "enabled" | Toggle is named `onpulse`, not `pulse` — check the actual par name |
 

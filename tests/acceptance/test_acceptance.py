@@ -43,13 +43,17 @@ def _is_graceful_live_down(r) -> bool:
 
 
 def _route_absent(r) -> bool:
-    """True when the running TD returned a 'no route matched' / 'not found' for a
-    route that is not present in its install-tree modules yet. The D3 routes
-    (save_td_project, get_mutation_status) only go live once the OWNER syncs the
-    install tree + restarts TD (plan §11 'Live' step) — until then a running TD
-    404s them, and the corresponding acceptance test must SKIP, not FAIL."""
+    """True when the running TD returned a route-absent signal for a route that is
+    not present in its install-tree modules yet. The D3 routes (save_td_project,
+    get_mutation_status) only go live once the OWNER syncs the install tree +
+    restarts TD (plan §11 'Live' step) — until then a running TD 404s them, and the
+    corresponding acceptance test must SKIP, not FAIL. Matched EXACTLY (R5d): the
+    router's literal 404 text ('No route matched for ...', openapi_router.py) and
+    the stale-client dispatch miss ('Unknown live tool: ...', live_server.py) — a
+    broad 'not found' would mis-skip on real errors that merely contain the phrase
+    (e.g. 'Node not found at path')."""
     t = r.text.lower()
-    return "no route matched" in t or "not found" in t or "unknown live tool" in t
+    return "no route matched" in t or "unknown live tool" in t
 
 
 # --------------------------------------------------------------------------

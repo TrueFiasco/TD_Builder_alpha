@@ -86,7 +86,9 @@ whether to wire it or drop it during the wiring work.
 
 - **Dead `MCP/engine/writers/lossless_writer.py` (688 LOC).** Verified zero external importers
   (`LosslessWriter` is referenced only inside its own file + `__main__` demo). Duplicates
-  `toe_builder.py::TOEBuilder._build_lossless`. → **Decide: delete vs wire.**
+  `toe_builder.py::TOEBuilder._build_lossless`. → **Decided (2026-07 dead-weight sweep):
+  quarantined to `quarantine/deadweight_2026_07/lossless_writer.py` with its `.parm`-quoting
+  revival hazard in the manifest; the emptied `writers/` package was removed.**
 - **Redundant import-time `sys.path.insert(...)`** in ~8–10 engine modules (e.g.
   `MCP/engine/builders/toe_builder.py:14`, `api/network_builder.py:9`). `bootstrap.setup()` already covers
   the repo root / `MCP/engine` / `MCP/server_core`. **Deferred from Round 1** because several of these

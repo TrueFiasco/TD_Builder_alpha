@@ -98,10 +98,11 @@ def onOffToOn(channel, sampleIndex, val, prev):
 ```
 
 ### Parameter/DAT Execute gotchas
-- `onValueChange` fires ONLY on UI edits — it does NOT fire on a programmatic `par.val = x`
-  write (from a script or `update_td_node_parameters`) and does NOT fire on a bind-driven
-  change. To react to a programmatic change, drive the downstream logic yourself or use
-  `onPulse`, which DOES fire on `par.pulse()`.
+- `onValueChange` on a Parameter Execute DAT fires for programmatic `par.val = x` writes
+  (script or `update_td_node_parameters`), bind-driven changes, and UI edits alike — the
+  mechanism is a value diff at the frame boundary, source-blind. Rewriting an unchanged
+  value fires nothing; an expression-driven par fires every frame. `onPulse` fires on
+  `par.pulse()` (a value write does not pulse a pulse par).
 - Scope: on the Execute DAT, `op='.'` is the DAT itself and `'..'` is its parent. An empty
   `op`/`pars` scope matches nothing and fails silently (no error, callback never fires).
 - The pulse-enable toggle is named `onpulse`, not `pulse`.

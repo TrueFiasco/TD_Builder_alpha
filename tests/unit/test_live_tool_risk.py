@@ -11,7 +11,9 @@ Hermetic (no KB, no live TD): all three tiering guarantees are checkable offline
   3. READ-ONLY  — the policy decision (tier_policy.read_only_denial): READ_ONLY is
      MATRIX       allowed; DESTRUCTIVE, WRITE_CHECKPOINT, unmatched and unclassified
                   are denied; the flag toggles via env. (The HTTP-403 early-return
-                  wiring in api_controller is exercised by the GATE-B live matrix.)
+                  wiring in api_controller is statically guarded by
+                  test_readonly_wiring_guard.py and exercised at runtime by the
+                  GATE-B live matrix.)
 
 api_controller itself imports the live `mcp` package (which collides with the
 installed MCP SDK under test), so the decision logic lives in the dependency-free
@@ -61,17 +63,26 @@ def _risk_map() -> dict:
 
 
 def _dyn_operation_ids(module_file: Path) -> set:
-    """operationIds for a dynamically-registered handler module = its __all__ entries
-    (each handler's __name__ is registered as the operationId; __all__ lists them)."""
+    """operationIds for a dynamically-registered handler module, derived from its
+    *_ROUTES dict VALUES (FEEDBACK_ROUTES / SESSION_ROUTES) — the actual registration
+    source (api_controller registers each route value's handler.__name__). R5c: was
+    __all__-based, but a handler added to a ROUTES dict without an __all__ entry
+    would silently escape the coverage gate; the ROUTES dict cannot lie."""
     tree = ast.parse((CONTROLLERS / module_file).read_text(encoding="utf-8"))
     out: set = set()
     for node in ast.walk(tree):
-        if isinstance(node, ast.Assign) and any(
-            isinstance(t, ast.Name) and t.id == "__all__" for t in node.targets
+        if (
+            isinstance(node, ast.Assign)
+            and isinstance(node.value, ast.Dict)
+            and any(
+                isinstance(t, ast.Name) and t.id.endswith("_ROUTES")
+                for t in node.targets
+            )
         ):
-            for elt in node.value.elts:
-                if isinstance(elt, ast.Constant):
-                    out.add(elt.value)
+            for value in node.value.values:
+                if isinstance(value, ast.Name):
+                    out.add(value.id)
+    assert out, f"no *_ROUTES dict with handler values found in {module_file}"
     return out
 
 
@@ -140,7 +151,8 @@ def test_risk_map_covers_every_registered_operation():
 
 
 def test_load_tier_map_matches_json_classes():
-    tm = tier_policy.load_tier_map()
+    tm, err = tier_policy.load_tier_map()
+    assert err is None
     ops = _risk_map()["operations"]
     assert tm == {op_id: e["class"] for op_id, e in ops.items()}
     assert set(tm.values()) <= {"READ_ONLY", "WRITE_CHECKPOINT", "DESTRUCTIVE"}
@@ -151,7 +163,7 @@ def test_load_tier_map_matches_json_classes():
 # --------------------------------------------------------------------------
 
 def test_read_only_denial_matrix():
-    tm = tier_policy.load_tier_map()
+    tm, _ = tier_policy.load_tier_map()
     # READ_ONLY -> allowed (None)
     assert tier_policy.read_only_denial(tm, "get_td_info") is None
     assert tier_policy.read_only_denial(tm, "get_nodes") is None
@@ -184,11 +196,19 @@ def test_read_only_enabled_env_toggle(monkeypatch):
 
 
 def test_tier_map_file_override_and_missing(monkeypatch, tmp_path):
-    # Override path is honored.
+    # Override path is honored; success reports no error.
     custom = tmp_path / "risk.json"
     custom.write_text(json.dumps({"operations": {"x": {"class": "READ_ONLY"}}}), encoding="utf-8")
     monkeypatch.setenv(tier_policy.RISK_FILE_ENV, str(custom))
-    assert tier_policy.load_tier_map() == {"x": "READ_ONLY"}
-    # Missing file -> {} (never raises).
+    assert tier_policy.load_tier_map() == ({"x": "READ_ONLY"}, None)
+    # Missing file -> ({}, err) (never raises), err says NOT FOUND (R4: the boot
+    # warning must distinguish a partial install from a corrupt file).
     monkeypatch.setenv(tier_policy.RISK_FILE_ENV, str(tmp_path / "does_not_exist.json"))
-    assert tier_policy.load_tier_map() == {}
+    tm, err = tier_policy.load_tier_map()
+    assert tm == {} and "not found" in err
+    # Malformed file -> ({}, err) (never raises), err says MALFORMED, not missing.
+    broken = tmp_path / "broken.json"
+    broken.write_text("{not valid json", encoding="utf-8")
+    monkeypatch.setenv(tier_policy.RISK_FILE_ENV, str(broken))
+    tm, err = tier_policy.load_tier_map()
+    assert tm == {} and "malformed" in err and "not found" not in err

@@ -237,15 +237,15 @@ class APIControllerOpenAPI(IController):
 
 		# D3 tiering policy map (operationId -> class). Loaded once at boot; the
 		# per-request flag decides whether it is consulted. Empty map + flag unset =
-		# no-op (today's behavior). An empty map means the risk file was not found
-		# (partial install) — surface it so read-only mode's fail-closed isn't a
-		# silent mystery.
-		self._tier_map = load_tier_map()
+		# no-op (today's behavior). An empty map means the risk file is missing
+		# (partial install) OR malformed — the load error says which (R4), so
+		# read-only mode's fail-closed isn't a silent mystery.
+		self._tier_map, tier_map_error = load_tier_map()
 		if not self._tier_map:
+			reason = tier_map_error or "file loaded but contains no operations"
 			log_message(
-				"Live tool-risk map is empty (MCP/live_tool_risk.json not found?); "
-				"read-only mode (if enabled) will fail closed. Default-permissive "
-				"mode is unaffected.",
+				f"Live tool-risk map is empty — {reason}; read-only mode (if "
+				f"enabled) will fail closed. Default-permissive mode is unaffected.",
 				LogLevel.WARNING,
 			)
 
@@ -489,8 +489,9 @@ class APIControllerOpenAPI(IController):
 			return "Internal Server Error"
 
 	def register_handlers(self) -> None:
-		"""Register all handlers (generated + feedback)"""
-		# Register generated handlers (from OpenAPI codegen)
+		"""Register all handlers (static + feedback)"""
+		# Register the static handler module (hand-maintained; the "generated"
+		# name is upstream heritage — nothing regenerates it here)
 		import mcp.controllers.generated_handlers as handlers
 
 		for operation_id in handlers.__all__:
@@ -531,9 +532,10 @@ class APIControllerOpenAPI(IController):
 	def _register_session_handlers(self) -> None:
 		"""Register D3 session endpoints (save_td_project + get_mutation_status).
 
-		Same dynamic-registration pattern as the feedback handlers — the OpenAPI
-		codegen (generated_handlers.py / openapi.yaml / mustache) is deliberately
-		untouched. The operationIds are the handler __name__s.
+		Same dynamic-registration pattern as the feedback handlers — the static
+		handler module (generated_handlers.py, hand-maintained) and the
+		openapi.yaml routing source are deliberately untouched. The operationIds
+		are the handler __name__s.
 		"""
 		try:
 			from mcp.controllers.session_handlers import get_session_routes

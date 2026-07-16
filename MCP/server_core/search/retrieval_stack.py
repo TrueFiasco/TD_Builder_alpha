@@ -54,6 +54,50 @@ def _kb_integrity():
         spec.loader.exec_module(mod)
     return mod
 
+
+def _search_docs_mod():
+    """File-relative import of server_core/search_docs.py (embedding-regime
+    resolver) — same standalone-exec rationale as _kb_integrity."""
+    import importlib.util
+    mod = sys.modules.get("td_search_docs_regime")
+    if mod is None:
+        p = Path(__file__).resolve().parent.parent / "search_docs.py"
+        spec = importlib.util.spec_from_file_location("td_search_docs_regime", str(p))
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["td_search_docs_regime"] = mod
+        spec.loader.exec_module(mod)
+    return mod
+
+
+def _semantic_hash_of_entry(entry: dict) -> str:
+    """COPY of kb_build/user_components.semantic_hash_of_entry (the ingest side
+    is the source of truth) — the two must stay in lockstep or the staleness
+    guard misfires. Kept as a copy so the runtime stack never imports kb_build."""
+    import hashlib
+    basis = {
+        "summary": entry.get("summary") or "",
+        "use_cases": list(entry.get("use_cases") or []),
+        "contained_operators": list(entry.get("contained_operators") or []),
+        "custom_parameters": [[p.get("name") or "", p.get("description") or ""]
+                              for p in (entry.get("custom_parameters") or [])],
+    }
+    return hashlib.sha256(json.dumps(basis, sort_keys=True,
+                                     ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+class _UserStore:
+    """User-component store state, built complete and published via ONE
+    attribute assignment (W5 — GIL-atomic; concurrent anyio-dispatched searches
+    see the old or the new state, never a torn mix)."""
+
+    __slots__ = ("collection", "count", "semantic_hash", "norm_names")
+
+    def __init__(self, collection, count, semantic_hash, norm_names):
+        self.collection = collection
+        self.count = count
+        self.semantic_hash = semantic_hash        # {name: sha} — the name registry
+        self.norm_names = norm_names              # [(norm_key, name)] longest-first
+
 # Query tokenizer — MUST match kb_build/build_bm25.TOKENIZER_PATTERN exactly
 # (asserted against the value stored in the pickle at load time).
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
@@ -94,6 +138,13 @@ class RetrievalConfig:
         self.rerank_top = int(os.environ.get("RS_RERANK_TOP", "45"))
         self.rrf_k = int(os.environ.get("RS_RRF_K", "60"))
         self.rrf_prior = float(os.environ.get("RS_RRF_PRIOR", str(RRF_PRIOR)))
+        # W7 user-component injection: dense pre-select cap (bounds cross-encoder
+        # cost on bulk-heavy stores; exact-name direct-injection bypasses it) and
+        # the no-CE fallback scale (dense_score × scale into the rrf*100 fallback
+        # space — 4.0 puts an exact-name match (1.0) above the dual-ladder KB
+        # fallback ceiling ≈ 3.3, dense-preselected chunks proportionally below).
+        self.user_top = int(os.environ.get("RS_USER_TOP", "20"))
+        self.user_noce_scale = float(os.environ.get("RS_USER_NOCE_SCALE", "4.0"))
 
 
 # ---------------------------------------------------------------------------
@@ -171,7 +222,8 @@ SCORE_SHIFT = 1.5
 
 
 class RetrievalStack:
-    def __init__(self, kb_root, vector_search, knowledge_graph=None, config: Optional[RetrievalConfig] = None):
+    def __init__(self, kb_root, vector_search, knowledge_graph=None, config: Optional[RetrievalConfig] = None,
+                 user_store: Optional[Path] = None):
         self.kb_root = Path(kb_root)
         self.vector_search = vector_search           # TDDocSearch: .collection, .model
         self.collection = getattr(vector_search, "collection", None)
@@ -185,6 +237,10 @@ class RetrievalStack:
         self._bm25_metas: List[dict] = []
         self._reranker = None
         self._reranker_failed = False
+        # W7: user-component store (candidate injection). None = user search off;
+        # with no user store configured the search path is byte-identical to today.
+        self._user: Optional[_UserStore] = None
+        self._user_store_path: Optional[Path] = Path(user_store) if user_store else None
 
         self._load_bm25()
         self._load_identity()
@@ -192,6 +248,8 @@ class RetrievalStack:
         # (_load_reranker itself no-ops on repeat calls / after a failed load)
         if self.cfg.use_rerank:
             self._load_reranker()
+        if self._user_store_path is not None:
+            self.reload_user_store()
 
     # -- artifact loading ----------------------------------------------------
     def _load_bm25(self):
@@ -270,6 +328,157 @@ class RetrievalStack:
                 self._op_by_norm.setdefault(nk, {
                     "name": nm, "python_class": o.get("python_class"), "family": o.get("family")})
         self._op_norms_by_len = sorted(self._op_by_norm, key=len, reverse=True)
+
+    # -- user-component store (W7) --------------------------------------------
+    def reload_user_store(self, user_store: Optional[Path] = None):
+        """(Re)resolve + (re)open the user store. Idempotent; covers
+        store-absent-at-boot (the first commit creates the store and a reload
+        late-binds it). Returns (ok, reason) — every failure degrades loudly to
+        KB-only, never crashes a search.
+
+        Publication rule (W5): the COMPLETE new state (collection handle,
+        semantic-hash/name registry, count) is built locally and published via a
+        single assignment to self._user; live attributes are never mutated in
+        place (MCP dispatches requests as concurrent anyio tasks)."""
+        if user_store is not None:
+            self._user_store_path = Path(user_store)
+        path = self._user_store_path
+        if path is None:
+            self._user = None
+            return False, "no user store configured"
+        vdb = path / "vector_db"
+        manifest_p = path / "manifest.json"
+        if not vdb.exists() or not manifest_p.exists():
+            self._user = None
+            return False, f"user store absent at {path} (no registrations yet)"
+        try:
+            manifest = json.loads(manifest_p.read_text(encoding="utf-8")) or {}
+            if not isinstance(manifest, dict):
+                raise ValueError("manifest is not an object")
+        except Exception as e:
+            self._user = None
+            print(f"[retrieval_stack] user store REFUSED: unreadable manifest ({e}); "
+                  f"KB-only — run reindex_all")
+            return False, f"unreadable user_index/manifest.json ({e}) — run reindex_all"
+        # Regime guard: the user store must share the shipped KB's embedding
+        # space or its vectors are garbage against this query encoder.
+        try:
+            regime = _search_docs_mod()._resolve_embedding(self.kb_root)
+        except Exception as e:
+            self._user = None
+            print(f"[retrieval_stack] user store REFUSED: KB regime unresolvable ({e})")
+            return False, f"KB embedding regime unresolvable ({e})"
+        m_model = str(manifest.get("embedding_model") or "")
+        if (m_model.casefold() != str(regime["model_id"]).casefold()
+                or bool(manifest.get("normalize")) != bool(regime["normalize"])
+                or (manifest.get("query_prefix") or "") != (regime["query_prefix"] or "")):
+            self._user = None
+            print(f"[retrieval_stack] user store REFUSED: embedding regime mismatch "
+                  f"(store {m_model!r} vs KB {regime['model_id']!r}); KB-only — "
+                  f"run reindex_all")
+            return False, "user store embedding regime mismatch — run reindex_all"
+        try:
+            import chromadb                        # lazy — hermetic import hygiene
+            client = chromadb.PersistentClient(path=str(vdb))
+            coll = client.get_collection(manifest.get("collection") or "td_unified")
+            count = coll.count()
+        except Exception as e:
+            self._user = None
+            print(f"[retrieval_stack] user store load failed ({e}); KB-only")
+            return False, f"user store load failed ({e})"
+        if count == 0:
+            # W2 degrade-in-place contract: collection-count==0 ≡ store-absent
+            # (last-comp removal empties rows; the directory is never deleted).
+            self._user = None
+            return False, "user store empty"
+        hashes = {k: v for k, v in (manifest.get("semantic_hash") or {}).items()
+                  if isinstance(k, str)}
+        # Staleness check (loud, still serves — stale text beats absent): compare
+        # the manifest's semantic_hash against a recompute over the registry.
+        stale = []
+        reg_p = path.parent / "user_components.json"
+        try:
+            comps = (json.loads(reg_p.read_text(encoding="utf-8")) or {}).get(
+                "components") or {}
+            for nm, h in hashes.items():
+                e = comps.get(nm)
+                if isinstance(e, dict) and _semantic_hash_of_entry(e) != h:
+                    stale.append(nm)
+        except Exception:
+            pass
+        if stale:
+            print(f"[retrieval_stack] WARNING: user store STALE for {sorted(stale)} — "
+                  f"summaries edited since ingest; run register_component "
+                  f"(re-commit) or reindex_all")
+        # Name registry for exact-name direct-injection: normalize with the SAME
+        # regex as _route (:316) / the KB resolver (:268), longest-match-first.
+        # The KB resolver's len>=5 short-name guard is deliberately DROPPED here
+        # (R2.2-3): the user registry is tiny and name-scoped; the guard would
+        # silently exclude legitimately short names ('glow') from the exact-name
+        # recall guarantee.
+        norm_names = sorted(
+            ((re.sub(r"[^a-z0-9]", "", n.lower()), n) for n in hashes),
+            key=lambda t: len(t[0]), reverse=True)
+        norm_names = [(k, n) for k, n in norm_names if k]
+        if self._reranker is None:
+            print("[retrieval_stack] user-component search degraded — reranker "
+                  "unavailable; injected user chunks rank by scaled dense score")
+        self._user = _UserStore(coll, count, hashes, norm_names)
+        print(f"[retrieval_stack] user store: {count} chunks, "
+              f"{len(hashes)} component(s)")
+        return True, ""
+
+    def _inject_user(self, pool: Dict[str, dict], query: str):
+        """Candidate INJECTION of user-component chunks (W7 design B). User
+        chunks enter with rrf=0.0 (ZERO rank-fusion mass) + injected:True (the
+        existing keep-rule carries them into the rerank set), ranked purely by
+        cross-encoder + router boosts — the same arbitration KB chunks win by.
+        Two halves:
+          1. dense pre-select (RS_USER_TOP cap bounds cross-encoder cost);
+          2. exact-name direct-injection (W1 — scale-invariant, bypasses the
+             cap; ASSIGNED dense_score=1.0 per R2.2-1: Chroma get() returns no
+             distances, and the no-CE fallback needs a real signal there)."""
+        u = self._user
+        if u is None:
+            return
+
+        def _add(cid, doc, meta, dscore):
+            c = pool.get(cid)
+            if c is None:
+                pool[cid] = {"id": cid, "content": doc, "metadata": meta or {},
+                             "rrf": 0.0, "injected": True, "user_injected": True,
+                             "dense_score": dscore}
+            else:
+                c["injected"] = True
+                c["user_injected"] = True
+                c["dense_score"] = max(c.get("dense_score", 0.0), dscore)
+
+        try:
+            emb = self.model.encode(query, convert_to_numpy=True)
+            res = u.collection.query(
+                query_embeddings=[emb.tolist()],
+                n_results=min(u.count, self.cfg.user_top),
+                include=["documents", "metadatas", "distances"])
+            for cid, doc, meta, dist in zip(res["ids"][0], res["documents"][0],
+                                            res["metadatas"][0], res["distances"][0]):
+                _add(cid, doc, meta, 1.0 - dist)
+        except Exception as e:
+            print(f"[retrieval_stack] WARNING: user dense pre-select failed ({e})")
+
+        nq = re.sub(r"[^a-z0-9]", "", query.lower())
+        for nk, name in u.norm_names:
+            if nk in nq:
+                try:
+                    got = u.collection.get(where={"name": name},
+                                           include=["documents", "metadatas"])
+                    for cid, doc, meta in zip(got.get("ids", []),
+                                              got.get("documents", []),
+                                              got.get("metadatas", [])):
+                        _add(cid, doc, meta, 1.0)
+                except Exception as e:
+                    print(f"[retrieval_stack] WARNING: user exact-name injection "
+                          f"failed ({e})")
+                break
 
     # -- channels ------------------------------------------------------------
     def _dense(self, query: str, k: int) -> List[dict]:
@@ -531,6 +740,17 @@ class RetrievalStack:
             # boosts, NOT the query's semantic content — flag it so callers do not read
             # it as a calibrated relevance score.
             for c in cands:
+                if c.get("user_injected"):
+                    # W3/R2.2-2: injected user chunks carry rrf=0.0 — a literal rrf
+                    # substitution would leave user search silently inoperative in
+                    # this branch. Rank them by the stashed dense score scaled into
+                    # the rrf*100 fallback space, and label the signal honestly
+                    # (Δ1: dense-similarity-derived, neither reranked nor fusion).
+                    c["ce_logit"] = c.get("dense_score", 0.0) * self.cfg.user_noce_scale
+                    c["_rank"] = _sigmoid(self._boost_logit(c["ce_logit"], c["metadata"], route))
+                    c["score"] = c["_rank"]
+                    c["score_kind"] = "dense_fallback"
+                    continue
                 c["ce_logit"] = c.get("rrf", 0.0) * 100.0
                 c["_rank"] = _sigmoid(self._boost_logit(c["ce_logit"], c["metadata"], route))
                 c["score"] = c["_rank"]
@@ -590,6 +810,9 @@ class RetrievalStack:
                                                            "do_param_filter": False, "op_lookup": False}
         if cfg.use_router:
             self._inject_op_chunks(route, pool)
+        # W7: user-component candidate injection (rrf=0.0; kept by the injected
+        # keep-rule below). No-op when no user store is loaded.
+        self._inject_user(pool, query)
 
         # select the rerank candidate set: top by RRF + all injected/graph candidates
         ranked_ids = sorted(pool, key=lambda i: pool[i].get("rrf", 0.0), reverse=True)

@@ -99,6 +99,9 @@ jobs:
       # scoring logic over synthetic transcripts + ToxBuilder-built artifacts
       # (needs the KB for type grounding, so it lives on this lane, not the
       # hermetic one). No pinned floor — additive, not part of the 143.
+      # The three artifact-collapse tests self-skip here (no TouchDesigner ->
+      # no toecollapse on hosted runners); the rest are TD-free and this step
+      # stays a HARD gate for them — no continue-on-error.
       - name: Agent-eval scorer tests (seeded acceptance demos)
         shell: bash
         run: python -m pytest eval/agent_eval/tests -q
@@ -114,7 +117,12 @@ jobs:
       # (matching how every kb-full lane starts); promotion to blocking is a
       # documented one-line flip once it is green on hosted runners twice — see
       # eval/agent_eval/README.md "CI placement & promotion path".
+      # !cancelled(): an earlier red step must never silently suppress this
+      # gate again (the scorer step's toecollapse failure skipped Lane R on
+      # every nightly 2026-07-05..16 — the replay gate never ran on schedule).
+      # Deliberately not always(): a user cancel should still cancel.
       - name: Agent-eval Lane R (replay-gate; advisory at bring-up)
+        if: ${{ !cancelled() }}
         continue-on-error: true
         shell: bash
         run: |

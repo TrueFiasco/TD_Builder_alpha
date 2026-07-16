@@ -206,6 +206,13 @@ def build_identity(cfg: dict, lane: str, model_id: str | None) -> dict:
             inproc.live_tool_names()),
         "guidance_hash": identity_mod.sha256_text(
             GUIDANCE_PATH.read_text(encoding="utf-8")),
+        # Soft-warn tier (AGENT_IDENTITY_WARN_FIELDS): the engine
+        # builder/validation code that produced this run. Closes the
+        # server_version blind spot; warns on drift, never refuses.
+        "engine_code_hash": identity_mod.engine_code_hash(
+            REPO_ROOT / "MCP" / "engine"),
+        # Informational only — in neither field tuple, never compared.
+        "git_sha": identity_mod.git_sha(REPO_ROOT),
     }
     ident.update(identity_mod.kb_identity(kb_root(), extra_roots=(REPO_ROOT,)))
     return ident
@@ -680,6 +687,20 @@ def compare_against(args, sweep: dict) -> int:
                   file=sys.stderr)
             return 3
         print("[compare] NON-COMPARABLE (identity drift overridden)", file=sys.stderr)
+
+    # Soft tier: warn-only, exit-code-neutral by construction. Printed to
+    # stdout (unlike the hard-tier stderr lines) so it reaches CI's
+    # $GITHUB_STEP_SUMMARY through the tee alongside the DELTA table.
+    warn_mism, warn_unknown = identity_mod.identity_mismatches(
+        sweep["identity"], prior.get("identity"),
+        identity_mod.AGENT_IDENTITY_WARN_FIELDS)
+    for f, old, cur in warn_mism:
+        print(f"[compare] WARNING (soft identity) {f}: prior={old!r} "
+              f"current={cur!r} — engine code drifted since baseline; deltas "
+              f"may reflect code changes, not regressions. Proceeding.")
+    if warn_unknown:
+        print(f"[compare] WARNING: prior baseline has no soft identity for "
+              f"{warn_unknown} — unknown, proceeding (stamped at next capture).")
 
     combined = {sid: combine_verdict(t) for sid, t in sweep["results"].items()}
     print(f"\nDELTA vs {args.compare}:")

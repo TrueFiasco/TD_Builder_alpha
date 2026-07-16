@@ -20,9 +20,7 @@ from pathlib import Path
 UNIFIED_SYSTEM_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(UNIFIED_SYSTEM_ROOT))
 
-from core.operator_registry import OperatorRegistry
-from core.format_converter import FormatConverter
-from validation.pipeline import ValidationPipeline
+from api.validate import build_validation_stack
 
 
 def main():
@@ -95,9 +93,7 @@ Exit codes:
 
     # Initialize components
     try:
-        registry = OperatorRegistry()
-        converter = FormatConverter(registry)
-        validator = ValidationPipeline(registry)
+        registry, converter, validator = build_validation_stack()
     except Exception as e:
         print(f"Error: Failed to initialize validator: {e}", file=sys.stderr)
         return 2

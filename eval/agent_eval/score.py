@@ -360,21 +360,22 @@ _VALIDATOR = None
 
 
 def _validator():
-    """FormatConverter.from_builder + ValidationPipeline — the EXACT call chain
-    of the shipped td_validate handler (mcp_server.py:1991-2005), imported from
-    the engine directly so scoring works in the light-deps lanes (no ML stack).
-    Coordination point: if the server's td_validate handler changes its
-    canonicalization, update this mirror in the same PR."""
+    """FormatConverter.from_builder + ValidationPipeline — the EXACT stack of
+    the shipped td_validate handler, constructed through the engine's single
+    seam (MCP/engine/api/validate.py::build_validation_stack) and imported from
+    the engine directly so scoring works in the light-deps lanes (no ML stack,
+    no mcp_server import — the scorer must not trust the server surface it
+    scores). Canonicalization changes now land in the shared seam; this mirror
+    only owns the from_builder call in validate_design below."""
     global _VALIDATOR
     if _VALIDATOR is None:
         for p in (str(REPO_ROOT), str(ENGINE_ROOT)):
             if p not in sys.path:
                 sys.path.insert(0, p)
-        from core.format_converter import FormatConverter
-        from core.operator_registry import OperatorRegistry
-        from validation.pipeline import ValidationPipeline
-        registry = OperatorRegistry()
-        _VALIDATOR = (FormatConverter(registry), ValidationPipeline(registry))
+        # Lazy: `api` resolves only after the ENGINE_ROOT insert above.
+        from api.validate import build_validation_stack
+        _registry, converter, validator = build_validation_stack()
+        _VALIDATOR = (converter, validator)
     return _VALIDATOR
 
 

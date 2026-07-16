@@ -17,8 +17,19 @@ KB-resolution paths (delegated to ``paths``), NOT on ``param_name_resolver._REPO
 is the self-derived bootstrap root (a function of the file's on-disk location) and does not,
 and must not, move under the override.
 
-Both tests are KB-free (no operators.json load) — no ``requires_kb`` marker.
+B1 (config runtime equality) — ``config/__init__.py`` delegates its release root to
+``paths.REPO_ROOT`` (hygiene bundle H1). Proven in a child that inserts ONLY
+``MCP/server_core`` — config's own self-bootstrap must supply ``paths`` (the A1 property,
+for free) — under both default and TD_BUILDER_ROOT-override conditions.
+
+B2 (drift guard, source-level) — ``mcp_server.py`` is too heavy to import here (ChromaDB,
+KB loads), so its delegation to ``paths`` is pinned over ``ast.parse`` of the committed
+source: no local TD_BUILDER_ROOT env read, roots imported from ``paths``, no re-derivation,
+and the sanctioned physical-walk depth constants match the real tree layout.
+
+All tests are KB-free (no operators.json load) — no ``requires_kb`` marker.
 """
+import ast
 import json
 import os
 import subprocess
@@ -148,3 +159,200 @@ def test_migrated_resolvers_honor_td_builder_root(tmp_path):
     assert not results["pnr._REPO_ROOT"].startswith(ov), (
         f"pnr._REPO_ROOT wrongly moved under the override: {results['pnr._REPO_ROOT']}"
     )
+
+
+# ---------------------------------------------------------------------------
+# B1 — config/__init__.py delegates its root to paths.REPO_ROOT (H1)
+# ---------------------------------------------------------------------------
+_B1_CHILD = r'''
+import json
+import sys
+from pathlib import Path
+
+repo_root, server_core = sys.argv[1], sys.argv[2]
+
+# Isolation proof (A1 property): the repo root must NOT be reachable before
+# config's own self-bootstrap runs -- only server_core goes on the path.
+assert repo_root not in sys.path, "repo root leaked onto sys.path -- isolation broken"
+try:
+    import paths  # noqa: F401
+    raise SystemExit("FAIL: `paths` importable before config's self-bootstrap")
+except ModuleNotFoundError:
+    pass
+
+sys.path.insert(0, server_core)
+import config          # self-bootstraps the repo root, then imports paths
+import paths           # resolvable now ONLY because config inserted the root
+
+print(json.dumps({
+    "config_root": str(config._ROOT),
+    "paths_root": str(paths.REPO_ROOT),
+    "vector_db": str(config.SearchConfig.VECTOR_DB_PATH),
+}))
+'''
+
+
+def _run_b1_child(tmp_path, env):
+    env.pop("PYTHONPATH", None)
+    # Knobs that would legitimately relocate SearchConfig paths away from the
+    # root under test must not leak in from the developer environment.
+    env.pop("UNIFIED_VECTORDB_PATH", None)
+    proc = subprocess.run(
+        [sys.executable, "-I", "-c", _B1_CHILD, str(_REPO_ROOT),
+         str(_REPO_ROOT / "MCP" / "server_core")],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        cwd=str(tmp_path), env=env, timeout=120,
+    )
+    assert proc.returncode == 0, (
+        f"child crashed (rc={proc.returncode})\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"
+    )
+    return json.loads(proc.stdout.strip().splitlines()[-1])
+
+
+def test_config_root_agrees_with_paths_default(tmp_path):
+    env = dict(os.environ)
+    env.pop("TD_BUILDER_ROOT", None)
+    results = _run_b1_child(tmp_path, env)
+    assert results["config_root"] == results["paths_root"] == str(_REPO_ROOT), results
+
+
+def test_config_root_agrees_with_paths_under_override(tmp_path):
+    override = tmp_path / "relocated_root"
+    override.mkdir()
+    env = dict(os.environ)
+    env["TD_BUILDER_ROOT"] = str(override)
+    results = _run_b1_child(tmp_path, env)
+    assert results["config_root"] == results["paths_root"] == str(override), results
+    # KB-relative config resolution must relocate with the root.
+    assert results["vector_db"].startswith(str(override)), results
+
+
+# ---------------------------------------------------------------------------
+# B2 — mcp_server.py delegation pinned at source level (heavy import avoided)
+# ---------------------------------------------------------------------------
+_MCP_SERVER_FILE = _REPO_ROOT / "MCP" / "server_core" / "mcp_server.py"
+_CONFIG_INIT_FILE = _REPO_ROOT / "MCP" / "server_core" / "config" / "__init__.py"
+
+# The one sanctioned physical walk per file (chicken-and-egg sys.path bootstrap);
+# every other root must come from `paths`.
+_SANCTIONED_PARENTS_ASSIGNS = {"_REPO_PHYS"}
+
+
+def _env_reads(tree: ast.AST, var: str) -> list:
+    """AST nodes that READ os.environ[var] / os.environ.get(var, ...) / os.getenv(var, ...).
+
+    Comments are invisible to ast.parse, so documentation mentions of `var` stay legal.
+    """
+    def is_env_attr(node, attrs):
+        return (isinstance(node, ast.Attribute) and node.attr in attrs
+                and isinstance(node.value, ast.Name) and node.value.id == "os")
+
+    def first_arg_is(call, value):
+        return (call.args and isinstance(call.args[0], ast.Constant)
+                and call.args[0].value == value)
+
+    hits = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Subscript) and is_env_attr(node.value, {"environ"}):
+            if isinstance(node.slice, ast.Constant) and node.slice.value == var:
+                hits.append(node)
+        elif isinstance(node, ast.Call):
+            f = node.func
+            if isinstance(f, ast.Attribute) and f.attr == "get" and is_env_attr(f.value, {"environ"}):
+                if first_arg_is(node, var):
+                    hits.append(node)
+            elif is_env_attr(f, {"getenv"}):
+                if first_arg_is(node, var):
+                    hits.append(node)
+    return hits
+
+
+def _assigns(tree: ast.AST):
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Assign, ast.AnnAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            names = [t.id for t in targets if isinstance(t, ast.Name)]
+            yield node, names
+
+
+def test_runtime_resolvers_read_override_only_via_paths():
+    """TD_BUILDER_ROOT reads in the guarded server resolvers route via paths.py.
+
+    Scope: mcp_server.py + config/__init__.py (the two resolvers this bundle
+    single-sourced). Pre-existing readers in feedback.py and
+    server_instructions.py are outside this guard — follow-up tracked."""
+    for src_file in (_MCP_SERVER_FILE, _CONFIG_INIT_FILE):
+        tree = ast.parse(src_file.read_text(encoding="utf-8"))
+        hits = _env_reads(tree, "TD_BUILDER_ROOT")
+        assert not hits, (
+            f"{src_file.name} reads TD_BUILDER_ROOT locally (lines "
+            f"{[n.lineno for n in hits]}) -- the knob is owned by paths.py; "
+            f"import REPO_ROOT/KB_ROOT from `paths` instead (hygiene bundle H1)"
+        )
+
+
+def test_mcp_server_roots_come_from_paths():
+    tree = ast.parse(_MCP_SERVER_FILE.read_text(encoding="utf-8"))
+
+    # 1. Some `from paths import ...` binds both roots (the lazy resolve_td_tool
+    #    import elsewhere is fine -- we require at least one with these aliases).
+    bound = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "paths":
+            for a in node.names:
+                bound[a.asname or a.name] = a.name
+    assert bound.get("_RELEASE_ROOT") == "REPO_ROOT", f"paths imports found: {bound}"
+    assert bound.get("_KB_ROOT") == "KB_ROOT", f"paths imports found: {bound}"
+
+    # 2. Neither root is re-derived by assignment anywhere in the file.
+    for node, names in _assigns(tree):
+        clashes = {"_RELEASE_ROOT", "_KB_ROOT"} & set(names)
+        assert not clashes, (
+            f"mcp_server.py:{node.lineno} re-assigns {clashes} -- roots must come "
+            f"from `paths` only"
+        )
+
+    # 3. Any parents[N]-walk ASSIGNMENT is one of the sanctioned physical
+    #    sys.path bootstraps. (Deliberately Assign-target-scoped: bare-Expr
+    #    parents[] uses, e.g. sys.path.insert(..., parents[1]), are sys.path
+    #    plumbing, not root derivation.)
+    for node, names in _assigns(tree):
+        uses_parents = any(
+            isinstance(sub, ast.Attribute) and sub.attr == "parents"
+            for sub in ast.walk(node.value if isinstance(node, ast.Assign) else (node.value or node))
+        )
+        if uses_parents:
+            assert names and set(names) <= _SANCTIONED_PARENTS_ASSIGNS, (
+                f"mcp_server.py:{node.lineno} derives a root via parents[] into "
+                f"{names} -- only {_SANCTIONED_PARENTS_ASSIGNS} (physical sys.path "
+                f"bootstrap) may do that; semantic roots come from `paths`"
+            )
+
+
+def test_physical_walk_depths_match_tree_layout():
+    """The sanctioned physical walks' depth constants stay true to the layout:
+    a file move surfaces here as a red test, not as a ModuleNotFoundError in
+    some later direct-run context."""
+    assert _MCP_SERVER_FILE.resolve().parents[2] == _REPO_ROOT
+    assert _CONFIG_INIT_FILE.resolve().parents[3] == _REPO_ROOT
+
+
+# --- has-teeth self-tests for the matcher ----------------------------------
+
+def test_env_read_matcher_has_teeth():
+    src = (
+        "import os\n"
+        "A = os.environ['TD_BUILDER_ROOT']\n"
+        "B = os.environ.get('TD_BUILDER_ROOT')\n"
+        "C = os.getenv('TD_BUILDER_ROOT', 'x')\n"
+    )
+    assert len(_env_reads(ast.parse(src), "TD_BUILDER_ROOT")) == 3
+
+
+def test_env_read_matcher_ignores_comments_and_other_vars():
+    src = (
+        "import os\n"
+        "# honors the TD_BUILDER_ROOT relocation knob (via paths.REPO_ROOT)\n"
+        "D = os.getenv('UNIFIED_VECTORDB_PATH')\n"
+    )
+    assert _env_reads(ast.parse(src), "TD_BUILDER_ROOT") == []

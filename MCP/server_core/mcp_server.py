@@ -22,6 +22,16 @@ sys.path.insert(0, str(Path(__file__).parent))
 UNIFIED_SYSTEM_ROOT = Path(__file__).resolve().parent.parent / "engine"
 sys.path.insert(0, str(UNIFIED_SYSTEM_ROOT))
 
+# Physical repo root (<root>/MCP/server_core/mcp_server.py -> parents[2]) so the
+# root-seam module `paths` is importable regardless of launcher: MCP/server.py's
+# bootstrap normally provides this; direct imports (tests, tools) get it here.
+# Deliberately the PHYSICAL location (chicken-and-egg: `paths` isn't importable
+# yet, so we cannot ask it). The SEMANTIC root — which honors the TD_BUILDER_ROOT
+# relocation knob — is paths.REPO_ROOT, imported below as _RELEASE_ROOT.
+_REPO_PHYS = Path(__file__).resolve().parents[2]
+if str(_REPO_PHYS) not in sys.path:
+    sys.path.insert(0, str(_REPO_PHYS))
+
 # --------------------------------------------------------------------------
 # Stdout-pollution guard
 # --------------------------------------------------------------------------
@@ -116,15 +126,12 @@ except ImportError as e:
 # Import unified_system components for validation and format conversion
 try:
     from api.network_builder import NetworkBuilder
-    from core.format_converter import FormatConverter
-    from core.operator_registry import OperatorRegistry
-    from validation.pipeline import ValidationPipeline
+    from api.validate import build_validation_stack
     from builders.toe_builder import TOEBuilder
 
-    # Initialize validation/conversion components
-    _registry = OperatorRegistry()
-    _converter = FormatConverter(_registry)
-    _validator = ValidationPipeline(_registry)
+    # Initialize validation/conversion components via the engine's single
+    # construction seam (api/validate.py).
+    _registry, _converter, _validator = build_validation_stack()
     UNIFIED_SYSTEM_ENABLED = True
     print("Unified system validation/conversion enabled", file=sys.stderr)
 except (ImportError, FileNotFoundError) as e:
@@ -137,15 +144,12 @@ except (ImportError, FileNotFoundError) as e:
     _validator = None
     print(f"WARNING: Unified system not available: {e}", file=sys.stderr)
 
-# Release root: honor the documented TD_BUILDER_ROOT relocation knob (see
-# MCP/README.md / Config/SETTINGS.md), else infer from this file's location
-# (<root>/MCP/server_core/mcp_server.py). Everything the offline server
-# resolves on disk (Agents/, KB/) hangs off this.
-_RELEASE_ROOT = (
-    Path(os.environ["TD_BUILDER_ROOT"]).resolve()
-    if os.environ.get("TD_BUILDER_ROOT")
-    else Path(__file__).resolve().parents[2]
-)
+# Release root: delegated to the repo-root `paths` module — the single source
+# of truth for the documented TD_BUILDER_ROOT relocation knob (see MCP/README.md
+# / Config/SETTINGS.md). Everything the offline server resolves on disk
+# (Agents/, KB/) hangs off this. Do not re-derive either root locally; the
+# drift guard in tests/engine/test_root_resolution.py pins this delegation.
+from paths import KB_ROOT as _KB_ROOT, REPO_ROOT as _RELEASE_ROOT  # noqa: E402
 
 # Expert prompts for td_designer, network_builder, etc.
 EXPERTS_DIR = _RELEASE_ROOT / "Agents" / "experts"
@@ -265,7 +269,7 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
 try:
     # Prefer the consolidated alpha KB/ bundle (release-root/KB); fall back to
     # the legacy META_AGENTIC_TOOL/data layout (pre_alpha baseline).
-    _kb = _RELEASE_ROOT / "KB"
+    _kb = _KB_ROOT
     _data = Path(__file__).parent / "data"
     if (_kb / "operators.json").exists():
         enhanced_graph_path = _kb / "knowledge_graph_enhanced.gpickle"
@@ -284,8 +288,7 @@ except Exception as e:
 # KB identity for get_server_info: SERVER_VERSION is a code constant decoupled
 # from the installed KB, and that decoupling has already caused version
 # confusion (server reported one version while the KB was another). Surface the
-# KB manifest's own version next to it.
-_KB_ROOT = _RELEASE_ROOT / "KB"
+# KB manifest's own version next to it. (_KB_ROOT comes from `paths` above.)
 _KB_MANIFEST_VERSION = None
 _KB_TD_BUILD = None  # informational (the KB's TouchDesigner build pin); never compared
 try:
@@ -2014,7 +2017,9 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 import importlib.util
                 eng = sys.modules.get("td_user_components_engine")
                 if eng is None:
-                    eng_path = Path(__file__).resolve().parents[2] / "kb_build" / "user_components.py"
+                    # Ships-with-the-code module: physical root, not paths.REPO_ROOT
+                    # (same value as the old parents[2] — pinned by the root AST guard).
+                    eng_path = _REPO_PHYS / "kb_build" / "user_components.py"
                     spec = importlib.util.spec_from_file_location(
                         "td_user_components_engine", str(eng_path))
                     eng = importlib.util.module_from_spec(spec)

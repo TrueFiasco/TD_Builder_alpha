@@ -769,6 +769,34 @@ def test_resolve_token_unreadable_returns_none(client_mod, monkeypatch, tmp_path
 
 
 # --------------------------------------------------------------------------
+# auth-constant cross-process sync — client <-> TD side must agree to
+# authenticate at all. Both modules declare the env names + default token
+# path independently ("a rename is a one-line change on both sides"); these
+# tests are the enforcement that comment promises. Values are compared, not
+# symbols: the constant NAMES differ across the modules by design
+# (TD_API_TOKEN_ENV vs TOKEN_ENV).
+# --------------------------------------------------------------------------
+
+def test_token_env_names_match_across_processes(client_mod):
+    assert client_mod.TD_API_TOKEN_ENV == auth.TOKEN_ENV
+    assert client_mod.TD_API_TOKEN_FILE_ENV == auth.TOKEN_FILE_ENV
+
+
+def test_default_token_path_agrees_no_override(client_mod, monkeypatch):
+    monkeypatch.delenv(auth.TOKEN_FILE_ENV, raising=False)
+    assert client_mod._default_token_path() == auth.default_token_path()
+    # The contract both sides derive independently:
+    assert auth.default_token_path() == Path.home() / ".td_builder" / "api_token"
+
+
+def test_default_token_path_agrees_under_override(client_mod, monkeypatch, tmp_path):
+    target = tmp_path / "shared" / "api_token"
+    # Padded value: both sides must apply the same .strip().
+    monkeypatch.setenv(auth.TOKEN_FILE_ENV, f"  {target}  ")
+    assert client_mod._default_token_path() == auth.default_token_path() == target
+
+
+# --------------------------------------------------------------------------
 # schema loads with stdlib json (no PyYAML)
 # --------------------------------------------------------------------------
 

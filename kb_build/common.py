@@ -31,6 +31,9 @@ from typing import Any, Optional
 # ---------------------------------------------------------------------------
 # Paths — the pipeline reads only from Resources, writes only to Output/KB.
 # ---------------------------------------------------------------------------
+# MAIN deliberately anchors to the MAIN tree: KB-build Resources/Output live
+# there even when this code runs from a worktree. Do NOT adopt paths.REPO_ROOT
+# here — it is worktree-relative and would silently repoint KB-build I/O.
 MAIN = Path(r"C:\TD_Builder_Alpha_Build_V0.1.2")
 RES = MAIN / "New KB build" / "Resources"
 OUT = MAIN / "New KB build" / "Output" / "KB"

@@ -276,7 +276,11 @@ def _assigns(tree: ast.AST):
 
 
 def test_runtime_resolvers_read_override_only_via_paths():
-    """The TD_BUILDER_ROOT knob is read in exactly one place: paths.py."""
+    """TD_BUILDER_ROOT reads in the guarded server resolvers route via paths.py.
+
+    Scope: mcp_server.py + config/__init__.py (the two resolvers this bundle
+    single-sourced). Pre-existing readers in feedback.py and
+    server_instructions.py are outside this guard — follow-up tracked."""
     for src_file in (_MCP_SERVER_FILE, _CONFIG_INIT_FILE):
         tree = ast.parse(src_file.read_text(encoding="utf-8"))
         hits = _env_reads(tree, "TD_BUILDER_ROOT")

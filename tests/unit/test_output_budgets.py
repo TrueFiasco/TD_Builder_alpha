@@ -8,7 +8,8 @@ in the KB-free CI lane:
     flood with an explicit non-silent signal that keeps the scorer envelope valid;
   * risk annotations — every tool on both servers carries a `ToolAnnotations` risk
     tier. The live surface is checked by importing the real Tool objects; the offline
-    surface is checked by AST-parsing `mcp_server.py` (its full import pulls the KB).
+    surface is checked by AST-parsing `mcp_server.py` (kept dependency-free even
+    though mcp_server now imports KB-free — the KB loads lazily; see line ~251).
 
 See docs/TOOL_RISK_ANNOTATIONS.md for the owner-approved classification.
 """
@@ -460,24 +461,30 @@ def _offline_tool_annotations() -> dict:
     return out
 
 
-def test_offline_tools_all_annotated_17():
+def test_offline_tools_all_annotated_18():
     ann = _offline_tool_annotations()
-    assert len(ann) == 17, sorted(ann)
+    assert len(ann) == 18, sorted(ann)
     missing = [n for n, a in ann.items() if a is None]
     assert not missing, f"offline tools missing annotations: {missing}"
-    assert set(ann.values()) <= {"READ_ONLY", "WRITE_ADDITIVE"}
+    assert set(ann.values()) <= {"READ_ONLY", "WRITE_ADDITIVE",
+                                 "WRITE_ADDITIVE_IDEMPOTENT"}
 
 
-def test_offline_build_project_is_write_additive_status_is_readonly():
+def test_offline_write_class_is_exactly_the_named_two():
+    """W4b audit property, W7 rewrite: the write class is a NAMED 2-tool set —
+    a deliberate replacement of the old exactly-one-WRITE_ADDITIVE invariant.
+    register_component's delete-then-upsert is re-run-safe, so it carries the
+    honest idempotent variant (owner decision 1)."""
     ann = _offline_tool_annotations()
     assert ann["td_build_project"] == "WRITE_ADDITIVE"
+    assert ann["register_component"] == "WRITE_ADDITIVE_IDEMPOTENT"
     assert ann["td_build_status"] == "READ_ONLY"
-    # exactly one write-additive tool on the offline surface
-    assert sum(v == "WRITE_ADDITIVE" for v in ann.values()) == 1
+    writes = {n for n, v in ann.items() if v != "READ_ONLY"}
+    assert writes == {"td_build_project", "register_component"}
 
 
 def test_offline_annotation_constants_are_correct():
-    """The two source constants encode the intended hint values."""
+    """The three source constants encode the intended hint values."""
     tree = ast.parse(MCP_SERVER_PY.read_text(encoding="utf-8"))
     consts = {}
     for node in ast.walk(tree):
@@ -492,6 +499,12 @@ def test_offline_annotation_constants_are_correct():
     assert consts["READ_ONLY"] == {"readOnlyHint": True}
     assert consts["WRITE_ADDITIVE"] == {
         "readOnlyHint": False, "destructiveHint": False, "idempotentHint": False}
+    # W7: the honest-True additive-upsert variant (register_component). Same
+    # hint triple as the live WRITE_CHECKPOINT but a distinct offline class:
+    # idempotent additive registry/index UPSERT vs checkpoint OVERWRITE of a
+    # stable target.
+    assert consts["WRITE_ADDITIVE_IDEMPOTENT"] == {
+        "readOnlyHint": False, "destructiveHint": False, "idempotentHint": True}
 
 
 # ---------------------------------------------------------------------------

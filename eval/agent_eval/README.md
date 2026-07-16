@@ -135,7 +135,7 @@ behaviors: foolproof GLSL flagging, two-phase POP viewer capture,
   entirely, not just trace-asserted (a scenario's `tool_not_called` still
   scores any attempt). Residual soft boundary: `execute_python_script` could
   call `project.save()`; the live server's non-negotiables forbid it. Offline
-  scenarios keep the fixed 17-tool surface. `surface:"live"` implies the
+  scenarios keep the fixed 18-tool surface. `surface:"live"` implies the
   `td_live_running` gate BY CONSTRUCTION (`load_scenario` injects it), so a
   future live scenario cannot accidentally omit the opt-in.
 - **Lane R** routes live-tool calls to the in-process live server
@@ -218,7 +218,7 @@ the exit code. It stays unstamped in the committed baseline until the next
 `--capture-baseline`. The block also carries `git_sha` (the commit the sweep
 ran on) — informational only, in neither tier, never compared.
 
-- **Tool-surface changes** (later waves touch `mcp_server.py`'s 17-tool list):
+- **Tool-surface changes** (later waves touch `mcp_server.py`'s 18-tool list):
   `tool_inventory_hash` flips → re-bless traces + re-capture, bump
   `scenario_set_version` minor. **Every wave that edits the tool list must budget
   an agent-eval re-bless** (the program already serializes `mcp_server.py`

@@ -8,9 +8,7 @@ Ground every operator, parameter, and value in the live knowledge base via the M
 - get_operator_info / get_parameter_detail for exact specs and menu values
 - hybrid_search / query_graph for docs and relationships
 - find_operator_examples / find_operator_combination / find_similar_networks for real usage
-Treat these tool results as the only source of truth.
-
-Source of truth = the MCP tools above (get_operator_info, get_parameter_detail, hybrid_search).
+Treat these tool results as the only source of truth (KB-first is a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 **Docked callback DATs are the builder's job.** Many comm/script ops (Web Server / WebSocket
 / OSC In / TCP-IP / Serial / MIDI / Script CHOP|SOP|DAT, …) auto-dock a `*_callbacks` Text

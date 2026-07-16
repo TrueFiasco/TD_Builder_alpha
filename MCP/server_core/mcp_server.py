@@ -72,7 +72,7 @@ PARAM_HYDRATE_CAP = 12
 
 # TD Live Client tools live SOLELY on the separate `td-builder-live` server
 # (MCP/live_server.py). This offline `td-builder` server never co-loads them, so
-# its tool surface is a fixed 17 regardless of ambient import state — co-loading
+# its tool surface is a fixed 18 regardless of ambient import state — co-loading
 # would make the count depend on whether MCP/live_client happened to be importable
 # (it isn't on this server's sys.path). The three symbols stay defined (pinned
 # off) because scope_for_server() and get_server_info still read them.
@@ -306,13 +306,48 @@ hybrid_search = None
 #   warming  — _load_kb() is running right now
 #   ready    — both knowledge_graph AND hybrid_search loaded
 #   partial  — knowledge_graph loaded but hybrid_search is None (semantic search
-#              unavailable: vector_db missing OR sentence-transformers not installed
-#              OR semantic init exception). Graph-only tools still work.
+#              unavailable: vector_db missing OR present-but-EMPTY (0 documents —
+#              loads "successfully" then returns empty results forever) OR
+#              semantic init exception). Graph-only tools still work.
 #   failed   — knowledge_graph could not be loaded. No KB tools work.
 # _KB_REASON: human-readable detail for partial/failed states. Empty otherwise.
+# _DENSE_COUNT: vector-store document count measured at load. None = not measured
+#              (pending/warming, vector_db missing, init failed), 0 = measured
+#              empty (the trap above), N>0 = healthy. Surfaced by get_server_info.
 _KB_STATUS = "pending"
 _KB_REASON: str = ""
+_DENSE_COUNT: Optional[int] = None
 _kb_lock = threading.Lock()  # serializes warm-up thread vs first KB tool call
+
+
+def _kb_repair_message(problem: str) -> str:
+    """Compose the loud, actionable KB repair message for _KB_REASON.
+
+    The release coordinates come from scripts/vector_db_release.json AT CALL
+    TIME — never hardcoded — so the message cannot go stale when a new KB
+    release ships (the manifest is the single source; see its _note). Fix-first
+    ordering: even a clipped preview of the message shows the repair step.
+    Never raises; a missing/unreadable manifest degrades to the generic fix
+    line (e.g. a relocated TD_BUILDER_ROOT install without scripts/).
+    """
+    lines = [
+        problem,
+        "Fix: run  python scripts/fetch_vector_db.py  from the repo root, "
+        "then restart the MCP server.",
+    ]
+    try:
+        manifest = json.loads(
+            (_RELEASE_ROOT / "scripts" / "vector_db_release.json")
+            .read_text(encoding="utf-8"))
+        repo, tag, asset = manifest["repo"], manifest["tag"], manifest["asset"]
+        url = manifest.get("url") or (
+            f"https://github.com/{repo}/releases/download/{tag}/{asset}")
+        lines.append(f"Or download {asset} manually from {url} "
+                     f"and extract it into KB/.")
+        lines.append(f"Release page: https://github.com/{repo}/releases/tag/{tag}")
+    except Exception:
+        pass  # generic fix line above already covers it
+    return "\n".join(lines)
 
 
 def _ensure_kb():
@@ -337,8 +372,9 @@ def _kb_check(needs_semantic: bool = False) -> Optional[Dict[str, Any]]:
     (status + actionable message) to return to the caller as-is.
 
     needs_semantic=True means the tool requires hybrid_search (semantic
-    vector search). Only `hybrid_search` itself needs this; every other
-    KB tool only needs the knowledge_graph (graph-only).
+    vector search) — the _SEMANTIC_TOOLS set (hybrid_search itself, plus
+    register_component, whose ingest/reload needs the search adapter); every
+    other KB tool only needs the knowledge_graph (graph-only).
     """
     if _KB_STATUS == "ready":
         return None
@@ -375,8 +411,9 @@ def _load_kb():
     with an actionable message for partial/failed states so callers can
     surface a useful next step instead of a confusing AttributeError.
     """
-    global knowledge_graph, hybrid_search, _KB_STATUS, _KB_REASON
+    global knowledge_graph, hybrid_search, _KB_STATUS, _KB_REASON, _DENSE_COUNT
     _KB_STATUS = "warming"
+    _DENSE_COUNT = None
     # CRITICAL stdout-pollution guard: KB/search submodules
     # (UnifiedGraphQuery / UnifiedSearchAdapter / sentence-transformers /
     # chromadb) emit bare print() progress like "🔍 Loading ..." to stdout.
@@ -392,10 +429,8 @@ def _load_kb():
         # actionable error messages instead of opaque construction failures ---
         if not enhanced_graph_path.exists():
             _KB_STATUS = "failed"
-            _KB_REASON = (
-                f"Knowledge graph file not found at {enhanced_graph_path}. "
-                f"Fix: run `python scripts/fetch_vector_db.py` from the repo "
-                f"root, then restart the MCP server."
+            _KB_REASON = _kb_repair_message(
+                f"Knowledge graph file not found at {enhanced_graph_path}."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
@@ -436,38 +471,61 @@ def _load_kb():
         # --- load hybrid_search (optional — degrade to partial, not failed) ---
         if not vectordb_path.exists():
             _KB_STATUS = "partial"
-            _KB_REASON = (
+            _KB_REASON = _kb_repair_message(
                 f"Semantic search unavailable: vector DB missing at "
-                f"{vectordb_path}. Graph tools still work. "
-                f"Fix: `python scripts/fetch_vector_db.py` then restart the MCP server."
+                f"{vectordb_path}. Graph tools still work."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
         try:
-            hybrid_search = UnifiedSearchAdapter(
+            _adapter = UnifiedSearchAdapter(
                 graph_path=str(enhanced_graph_path),
                 vectordb_path=str(vectordb_path),
                 use_legacy=False,
+                # W7: auto-on user-component search on the live server (a no-op
+                # until the first register_component commit creates the store).
+                # Every eval/gate adapter passes user_search=False explicitly.
+                user_search=True,
             )
-            print("Loaded unified search", file=sys.stderr)
-            _KB_STATUS = "ready"
-            _KB_REASON = ""
         except Exception as e:
             _KB_STATUS = "partial"
-            _KB_REASON = (
+            _KB_REASON = _kb_repair_message(
                 f"Semantic search init error: {e}. Graph tools still work. "
-                f"Check server stderr for the full traceback."
+                f"Check server stderr for the full traceback. The most common "
+                f"cause is an incomplete or corrupt KB extract."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             import traceback
             traceback.print_exc()
+            return
+        # HEALTH GATE: an empty vector store constructs "successfully" and then
+        # returns empty semantic_results forever — dir-existence alone said
+        # "ready" while hybrid_search was useless (a trap this machine actually
+        # hit). Gate on the measured document count, and publish the adapter to
+        # the module global only after it passes, so un-gated readers
+        # (get_server_info) never see a doomed adapter.
+        _DENSE_COUNT = getattr(getattr(_adapter, "vector_search", None),
+                               "doc_count", None)
+        if not _DENSE_COUNT:
+            _KB_STATUS = "partial"
+            _KB_REASON = _kb_repair_message(
+                f"Vector DB at {vectordb_path} is EMPTY (documents: "
+                f"{_DENSE_COUNT!r}) — semantic search would return no results. "
+                f"Graph tools still work."
+            )
+            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
+            return
+        hybrid_search = _adapter
+        print("Loaded unified search", file=sys.stderr)
+        _KB_STATUS = "ready"
+        _KB_REASON = ""
     finally:
         sys.stdout = _saved_stdout
 
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
 # cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this offline
-# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 19
+# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 22
 # live tools live only on td-builder-live), so scope_for_server() resolves to the
 # offline scope ([always] rules only). The helper stays the single scope-follows-
 # tools source: a server that DID serve the live tools would ship the live scope,
@@ -508,7 +566,13 @@ _KB_DEPENDENT_TOOLS = {
     "hybrid_search", "get_operator_info", "query_graph", "list_pop_operators",
     "find_operator_examples", "find_operator_combination", "find_parameter_usage",
     "find_similar_networks", "get_parameter_detail", "get_network_patterns",
+    "register_component",
 }
+
+# Tools that require the SEMANTIC half (hybrid vector search), not just the
+# knowledge graph: a partial-KB install must return the structured `kb_partial`
+# envelope for these instead of an unstructured crash (W7 #31/#43).
+_SEMANTIC_TOOLS = {"hybrid_search", "register_component"}
 
 
 def _build_menu_options(param: Dict[str, Any]) -> List[Dict[str, str]]:
@@ -1104,14 +1168,25 @@ def _start_build_job(network_design, design, table_data, project_name, output_di
 #   READ_ONLY      — no environment change (all KB lookup / validate / convert / expand
 #                    / status tools; expand only writes a temp dir it cleans up).
 #   WRITE_ADDITIVE — creates a file/artifact, never the live graph (td_build_project).
-#                    The future D3 save/snapshot tool reuses this class with
-#                    idempotentHint=True so it stays allow-under-auto.
+#                    idempotentHint=False: re-running a build can mint new outputs.
+#   WRITE_ADDITIVE_IDEMPOTENT — same additive class, but the write is a delete-then-
+#                    upsert against stable name-keyed targets, so re-running it has
+#                    the same effect (register_component: user registry + user Chroma
+#                    + manifest + optional palette copy). Honest idempotentHint=True,
+#                    per the owner-approved D3 precedent (the live save tool shipped
+#                    the analogous honest-True hints as its own WRITE_CHECKPOINT
+#                    class — a checkpoint OVERWRITE of a stable target, live-side;
+#                    this constant is the offline additive-upsert counterpart, a
+#                    separate name because the offline vocabulary is test-pinned).
 #   (No DESTRUCTIVE tools on this offline server — all live-graph mutation and
 #    arbitrary-exec tools are on the separate td-builder-live surface.)
 # Shared singletons — never mutated. See docs/TOOL_RISK_ANNOTATIONS.md.
 READ_ONLY = ToolAnnotations(readOnlyHint=True)
 WRITE_ADDITIVE = ToolAnnotations(
     readOnlyHint=False, destructiveHint=False, idempotentHint=False
+)
+WRITE_ADDITIVE_IDEMPOTENT = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=False, idempotentHint=True
 )
 
 
@@ -1197,7 +1272,7 @@ async def list_tools() -> list[Tool]:
         Tool(
             annotations=READ_ONLY,
             name="list_pop_operators",
-            description="List all POP (Particle) operators available in TouchDesigner",
+            description="List all POP (Point) operators available in TouchDesigner",
             inputSchema={
                 "type": "object",
                 "properties": {},
@@ -1585,11 +1660,88 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": []
             }
+        ),
+        Tool(
+            annotations=WRITE_ADDITIVE_IDEMPOTENT,
+            name="register_component",
+            description=(
+                "Register the user's own .tox component(s) so they become SEARCHABLE "
+                "(hybrid_search) and BUILDABLE ({\"palette\": \"<name>\"}) exactly like "
+                "Derivative palette components — single, several, or a whole directory.\n"
+                "Two-step flow: 1) call with prepare=true — each .tox is parsed offline "
+                "and you get back its interface skeleton (in/out ops, contained "
+                "operators, custom parameters with defaults + menu tokens). 2) author a "
+                "discriminating one-line `summary` (+ optional `use_cases` and one-line "
+                "per-parameter `parameter_descriptions`) and call again with "
+                "prepare=false to commit: the registry entry is written, the comp's "
+                "2–3 search chunks are embedded incrementally into a separate user "
+                "store (the shipped KB is never touched), and the result carries "
+                "retrievable:true once the live search index has reloaded — same "
+                "session, no restart. Commits re-parse the .tox (stateless; "
+                "operator_count is echoed so a prepare/commit mismatch is visible).\n"
+                "save_to_palette=true copies each .tox into "
+                "<user palette>/<folder>/ and registers it palette-relative "
+                "(source 'user'); existing files are refused unless overwrite=true, "
+                "and a name that shadows a shipped Derivative palette component "
+                "additionally requires confirm_shadow=true (shadowed builds resolve "
+                "to YOUR component). Editing summary/use_cases/parameter descriptions "
+                "in user_components.json afterwards requires a re-commit (or engine "
+                "reindex_all) to reach search — the store flags stale entries loudly "
+                "until then. On installs without the reranker bundle, user hits rank "
+                "by scaled dense score (score_kind 'dense_fallback'). For large "
+                "directories, batch ~10–20 comps per call — a 100-comp prepare "
+                "payload plus 100 authored summaries risks context exhaustion."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "specs": {
+                        "type": "array",
+                        "description": (
+                            "1..N component specs: {tox_path (required), name?, "
+                            "source? ('project' default), category?, summary? "
+                            "(required at commit), use_cases?: [str], "
+                            "parameter_descriptions?: {parName: one-liner}}."
+                        ),
+                        "items": {"type": "object"}
+                    },
+                    "directory": {
+                        "type": "string",
+                        "description": "Alternative to specs: expand to one spec per *.tox in this directory."
+                    },
+                    "prepare": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "true = parse only and return skeletons for authoring; false = commit (requires summary per spec)."
+                    },
+                    "save_to_palette": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Copy each .tox into <user palette>/<folder>/ and register it palette-relative (source 'user')."
+                    },
+                    "folder": {
+                        "type": "string",
+                        "default": "TD_Builder",
+                        "description": "Palette subfolder for save_to_palette (bare name, no separators)."
+                    },
+                    "overwrite": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Allow save_to_palette to replace an existing .tox (reported as 'replaced')."
+                    },
+                    "confirm_shadow": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Required for save_to_palette adds whose name shadows a shipped Derivative palette component."
+                    }
+                },
+                "required": []
+            }
         )
     ]
 
-    # The 19 live-TD tools are served by the separate td-builder-live server, never
-    # co-loaded here — this offline server's surface is a fixed 17 (see the pinned-off
+    # The 22 live-TD tools are served by the separate td-builder-live server, never
+    # co-loaded here — this offline server's surface is a fixed 18 (see the pinned-off
     # TD_LIVE_* constants at module top).
     return tools
 
@@ -1765,28 +1917,46 @@ def _feedback_tool_names():
     tool_names=_feedback_tool_names(),
 )
 async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
-    """Handle tool calls"""
-    
-    try:
-        # Non-blocking KB readiness check for KB-dependent tools.
-        # If the background warmup hasn't finished yet, return a structured
-        # "kb_warming" response so the caller can wait and retry instead of
-        # blocking the MCP request and hitting the client timeout.
-        # If the KB partially or fully failed to load (missing files, missing
-        # deps, init exception), return a structured error naming the fix.
-        if name in _KB_DEPENDENT_TOOLS:
-            kb_err = _kb_check(needs_semantic=(name == "hybrid_search"))
-            if kb_err is not None:
-                return [TextContent(
-                    type="text",
-                    text=json.dumps({
-                        "ok": False,
-                        "data": None,
-                        "error": kb_err,
-                        "meta": {"tool": name, "server": SERVER_NAME},
-                    }, indent=2),
-                )]
+    """Handle tool calls: KB readiness gate → dispatch → partial-health advisory."""
+    # Non-blocking KB readiness check for KB-dependent tools.
+    # If the background warmup hasn't finished yet, return a structured
+    # "kb_warming" response so the caller can wait and retry instead of
+    # blocking the MCP request and hitting the client timeout.
+    # If the KB partially or fully failed to load (missing files, missing
+    # deps, init exception), return a structured error naming the fix.
+    if name in _KB_DEPENDENT_TOOLS:
+        kb_err = _kb_check(needs_semantic=(name in _SEMANTIC_TOOLS))
+        if kb_err is not None:
+            return [TextContent(
+                type="text",
+                text=json.dumps({
+                    "ok": False,
+                    "data": None,
+                    "error": kb_err,
+                    "meta": {"tool": name, "server": SERVER_NAME},
+                }, indent=2),
+            )]
 
+    result = await _dispatch_tool(name, arguments)
+
+    # A "partial" KB is a broken install that still half-works: graph tools
+    # proceed on the loaded knowledge_graph, but every KB-dependent response
+    # must carry the repair message so the degradation is impossible to miss
+    # (owner decision D1, 2026-07-16). Appended as a separate content block so
+    # each tool's own payload shape (index 0) stays untouched.
+    if name in _KB_DEPENDENT_TOOLS and _KB_STATUS == "partial":
+        result = list(result) + [TextContent(
+            type="text",
+            text=json.dumps({
+                "kb_health": {"status": "kb_partial", "message": _KB_REASON},
+            }, indent=2),
+        )]
+    return result
+
+
+async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
+    """The tool dispatch body (KB gate and health advisory live in call_tool)."""
+    try:
         if name == "hybrid_search":
             query = arguments["query"]
             n_results = arguments.get("n_results", 5)
@@ -1829,6 +1999,105 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 type="text",
                 text=json.dumps(results, indent=2)
             )]
+
+        elif name == "register_component":
+            # F2 stdout protocol invariant: this is the only tool that runs the
+            # heavy ingest machinery (chromadb + sentence-transformers via the
+            # user-components engine, then reload_user_store) MID-SESSION —
+            # after main() restored the real stdout, which IS the JSON-RPC
+            # channel. One bare print() from those libraries corrupts the
+            # protocol and disconnects the client, so the ENTIRE handler body
+            # runs under the same stdout->stderr swap _load_kb uses (~:390).
+            _saved_stdout = sys.stdout
+            sys.stdout = sys.stderr
+            try:
+                # Engine: kb_build/user_components.py, loaded by FILE path relative to
+                # this module (the engine ships with the code; it self-bootstraps its
+                # own sys.path). Lazy + memoized — never imported at server boot.
+                import importlib.util
+                eng = sys.modules.get("td_user_components_engine")
+                if eng is None:
+                    # Ships-with-the-code module: physical root, not paths.REPO_ROOT
+                    # (same value as the old parents[2] — pinned by the root AST guard).
+                    eng_path = _REPO_PHYS / "kb_build" / "user_components.py"
+                    spec = importlib.util.spec_from_file_location(
+                        "td_user_components_engine", str(eng_path))
+                    eng = importlib.util.module_from_spec(spec)
+                    sys.modules["td_user_components_engine"] = eng
+                    spec.loader.exec_module(eng)
+
+                def _reg_err(kind, message):
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": False, "data": None,
+                        "error": {"kind": kind, "message": message},
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2))]
+
+                specs = arguments.get("specs")
+                directory = arguments.get("directory")
+                if directory and not specs:
+                    d = Path(directory)
+                    if not d.is_dir():
+                        return _reg_err("bad_directory", f"not a directory: {d}")
+                    specs = [{"tox_path": str(p)} for p in sorted(d.glob("*.tox"))]
+                    if not specs:
+                        return _reg_err("empty_directory", f"no .tox files in {d}")
+                if not specs or not isinstance(specs, list):
+                    return _reg_err("bad_spec",
+                                    "'specs' (a list of {tox_path, ...}) or 'directory' "
+                                    "is required")
+
+                if arguments.get("prepare", False):
+                    try:
+                        prepared = eng.prepare_specs(specs)
+                    except Exception as e:
+                        return _reg_err(getattr(e, "kind", "prepare_failed"), str(e))
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": True,
+                        "prepared": prepared,
+                        "next": ("author a discriminating one-line 'summary' (+ optional "
+                                 "'use_cases' and per-parameter one-line "
+                                 "'parameter_descriptions') for each spec, then call "
+                                 "register_component again with prepare=false to commit"),
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2, ensure_ascii=False))]
+
+                # Commit. Pass the server's query encoder into the engine — it unwraps
+                # the raw sentence-transformer itself (passages must NEVER be embedded
+                # through the _QueryEncoder's prefix/normalize, W7 #24/#43).
+                model = getattr(getattr(hybrid_search, "vector_search", None), "model", None)
+                try:
+                    results = eng.commit_specs(
+                        specs,
+                        save_to_palette=bool(arguments.get("save_to_palette", False)),
+                        folder=arguments.get("folder", "TD_Builder"),
+                        overwrite=bool(arguments.get("overwrite", False)),
+                        confirm_shadow=bool(arguments.get("confirm_shadow", False)),
+                        model=model,
+                    )
+                except Exception as e:
+                    return _reg_err(getattr(e, "kind", "commit_failed"), str(e))
+
+                # In-session searchability (BLOCKER A): reload the live store; only a
+                # successful reload may stamp retrievable:true. A failed reload (e.g.
+                # RS_DISABLE dense-only mode) still leaves the commit valid —
+                # buildable ≠ searchable — and carries the reason.
+                committed = [r for r in results if r.get("ok")]
+                if committed:
+                    reload_ok, reload_reason = hybrid_search.reload_user_store()
+                else:
+                    reload_ok, reload_reason = False, "no components committed"
+                for r in committed:
+                    r["retrievable"] = bool(reload_ok)
+                    if not reload_ok:
+                        r["retrievable_reason"] = reload_reason
+                return [TextContent(type="text", text=json.dumps({
+                    "ok": bool(committed),
+                    "results": results,
+                    "meta": {"tool": name, "server": SERVER_NAME},
+                }, indent=2, ensure_ascii=False))]
+            finally:
+                sys.stdout = _saved_stdout
 
         elif name == "get_operator_info":
             if not knowledge_graph:
@@ -2397,9 +2666,19 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "version": SERVER_VERSION,
                     "kb_version": _KB_MANIFEST_VERSION,
                     "compat": _COMPAT,
+                    # KB health in one call (owner D3, 2026-07-16). kb_status:
+                    # pending|warming|ready|partial|failed; kb_reason carries
+                    # the repair message (null when healthy). dense_count is
+                    # the vector-store document count measured at KB load
+                    # (null = not measured yet; 0 = present but EMPTY — the
+                    # trap where semantic search returns nothing forever).
+                    "kb_status": _KB_STATUS,
+                    "kb_reason": _KB_REASON or None,
                     "retrieval_backend": {
                         "reranker_active": getattr(_rs, "_reranker", None) is not None,
                         "bm25_active": getattr(_rs, "_bm25", None) is not None,
+                        "dense_count": _DENSE_COUNT,
+                        "vector_db_present": vectordb_path.exists(),
                     },
                     "kb_root": str(_KB_ROOT),
                     "script_path": str(Path(__file__).resolve()),

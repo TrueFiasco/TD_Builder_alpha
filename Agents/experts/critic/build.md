@@ -76,7 +76,7 @@ Apply decision logic:
 ```yaml
 decision_process:
   overall_score: 0.XX
-  threshold: 0.65
+  threshold: 0.75   # pass; 0.65 = conditional pass (see UPDATED SCORING below)
 
   blocking_issues_found:
     - issue: "{{issue_type}}"
@@ -194,7 +194,7 @@ review:
   # Aggregate score
   overall_score:
     value: 0.XX
-    threshold: 0.65
+    threshold: 0.75   # pass; 0.65 = conditional pass (see UPDATED SCORING)
     calculation: "weighted_average"
     passed: true|false
 
@@ -400,19 +400,13 @@ scoring:
 
 ---
 
-## Legacy Checks (Still Apply)
+## Warn-Level Checks
 
-1. **Empty Container Check**
-   ```yaml
-   check: empty_container
-   procedure:
-     - For each container (COMP) in design
-     - Count child operators with parent == container
-     - If count == 0, BLOCK
-   result: "PASS|BLOCK"
-   ```
+The blocking structural checks are defined once, above (BLOCK-001 empty containers,
+BLOCK-002 chain completeness, BLOCK-003 connection integrity, BLOCK-004 unvalidated
+params, BLOCK-005 unresolved uncertainties). Two warn-level checks remain:
 
-2. **Orphan Operator Check**
+1. **Orphan Operator Check**
    ```yaml
    check: orphan_operator
    procedure:
@@ -422,30 +416,7 @@ scoring:
    result: "PASS|WARN"
    ```
 
-3. **Pattern Chain Completeness**
-   ```yaml
-   check: missing_chain_step
-   procedure:
-     - Get matched_pattern from design
-     - Load typical_chain from patterns KB
-     - For each step in typical_chain
-     - Check if at least one operator from step.operators exists
-     - If step missing, BLOCK
-   result: "PASS|BLOCK"
-   ```
-
-4. **Connection Integrity**
-   ```yaml
-   check: connection_to_nowhere
-   procedure:
-     - For each connection
-     - Verify connection.from exists in operators
-     - Verify connection.to exists in operators
-     - If either missing, BLOCK
-   result: "PASS|BLOCK"
-   ```
-
-5. **Uncertainty Review**
+2. **Uncertainty Review**
    ```yaml
    check: undocumented_uncertainty
    procedure:

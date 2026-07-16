@@ -58,7 +58,7 @@ future release). Summarize the lesson for the user using this shape:
   },
   "evidence": [
     {
-      "source_path": "tox_builder/tests/output/{{file}}.tox",
+      "source_path": "output/{{file}}.tox",
       "td_version": "2023.11880",
       "excerpt_hash": "sha256:{{hash}}"
     },
@@ -210,4 +210,5 @@ def calculate_confidence(pattern_stats):
 This event would trigger:
 1. Update `td_network_patterns.yaml#instancing.common_errors`
 2. Add `DESIGN-001` to `td_problems.yaml`
-3. Run compaction to materialize state
+(Report both as proposed updates — automated compaction is not available in this
+release; see "Compaction" above.)

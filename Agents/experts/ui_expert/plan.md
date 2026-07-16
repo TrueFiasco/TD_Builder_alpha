@@ -10,7 +10,7 @@ Ground every operator, parameter, value, and widget in the live knowledge base v
 - get_operator_info / get_parameter_detail for exact specs and menu values
 - hybrid_search / query_graph for docs, UI widgets, and relationships
 - find_operator_examples / find_operator_combination / find_similar_networks for real usage
-Treat these tool results as the only source of truth.
+Treat these tool results as the only source of truth (KB-first is a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 **Palette widgets are supported**: a per-operator `palette` field (e.g.
 `{"name": "s1", "palette": "sliderVert"}`) builds a placeholder that loads the real
@@ -72,8 +72,8 @@ Include lag/smoothing if needed for parameter changes.
 
 ### 5. Validate Widget Availability
 
-Build controls from TD's native panel gadget COMPs — palette widget embedding is not
-available in this release:
+Prefer a registered palette widget when one fits (see "Palette widgets are supported"
+above); TD's native panel gadget COMPs are the fallback for anything not in the registry:
 
 | Control | Native operator |
 |---------|-----------------|

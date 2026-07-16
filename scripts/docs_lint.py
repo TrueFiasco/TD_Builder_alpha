@@ -4,7 +4,7 @@
 Guards the documentation surface against the drift classes the v0.2.0
 packaging/docs-truth pass (c9f8c0d) fixed by hand:
 
-  * tool-count truth  -- the "17 offline / 22 live tools" claims across the
+  * tool-count truth  -- the "18 offline / 22 live tools" claims across the
     docs must match the counts parsed from the actual tool registries;
   * phantom patterns  -- references to things that do not exist (console
     shims, removed config knobs, cloud providers, dotenv, deleted paths);

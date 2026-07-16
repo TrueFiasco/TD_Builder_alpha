@@ -19,7 +19,9 @@ server resolves the KB bundle to <root>/KB exactly as in production.
 from __future__ import annotations
 
 import importlib.util
+import os
 import sys
+import tempfile
 import threading
 from pathlib import Path
 from types import ModuleType
@@ -44,6 +46,14 @@ def load_server() -> ModuleType:
         root = str(ALPHA_ROOT)
         if root not in sys.path:
             sys.path.insert(0, root)
+
+        # W7 hermeticity: pin the USER component dir to a fresh empty tmp dir
+        # BEFORE the server module import. The server boots user_search=True and
+        # the builder's registry merge resolves TD_BUILDER_USER_DIR at call time
+        # — without this pin, every gate run (tests/measure, tests/acceptance,
+        # agent-eval Lane R + identity derivation, all of which boot through this
+        # loader) would silently measure the maintainer's real ~/.td_builder.
+        os.environ["TD_BUILDER_USER_DIR"] = tempfile.mkdtemp(prefix="td_user_pin_")
 
         try:
             import bootstrap  # repo-root PYTHONPATH shim

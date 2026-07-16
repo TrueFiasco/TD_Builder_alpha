@@ -1,8 +1,12 @@
-"""G6: register_user_component.py rejects an absolute --tox-path for user/derivative
-sources (which emit an app.userPaletteFolder/app.samplesFolder-RELATIVE expression).
+"""G6: 'user'/'derivative' sources emit an app.userPaletteFolder/
+app.samplesFolder-RELATIVE expression, so an absolute tox_path must be refused.
 
-The guard runs BEFORE the manifest expand, so this needs no TouchDesigner tools — a
-stub file that merely exists is enough to reach the argument check.
+W7 rework: the guard's single home is the ENGINE (kb_build/user_components.py
+relative_path_guard, enforced inside build_entry and fail-fast in commit_specs
+— covered in tests/unit/test_user_components_engine.py); this file keeps the
+delegating CLI's contract: rc=2, the "must be RELATIVE" message on stderr, and
+NO registry write. The CLI pre-checks the guard BEFORE the manifest expand, so
+a stub file is enough — no TouchDesigner tools needed.
 """
 from __future__ import annotations
 

@@ -20,7 +20,9 @@ Hermetic: pure env + path resolution, no KB, no chromadb, no TD binary.
 """
 from __future__ import annotations
 
+import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -71,3 +73,39 @@ def test_palette_dir_never_resolves_into_the_real_documents(monkeypatch):
     # NB: deliberately not asserting "outside Path.home()" — on Windows the
     # pytest tmp tree lives at %LOCALAPPDATA%\Temp, i.e. UNDER the home dir, so
     # that assertion is unsatisfiable here. Real Documents is the invariant.
+
+
+# ---------------------------------------------------------------------------
+# The agent-eval harness pins its OWN env: it materializes a per-trial MCP
+# config and launches the servers as a separate process tree, so no pytest
+# fixture above reaches it. register_component sits in the fixed 18-tool
+# surface (score.py OFFLINE_TOOLS), so EVERY offline trial can call it with
+# save_to_palette=true — these keep both pins wired there too.
+# ---------------------------------------------------------------------------
+_TMPLS = ("mcp.eval.json.tmpl", "mcp.eval.live.json.tmpl")
+
+
+def test_agent_eval_templates_pin_both_user_and_palette_dirs():
+    agent_eval = REPO / "eval" / "agent_eval"
+    for name in _TMPLS:
+        env = json.loads((agent_eval / name).read_text(encoding="utf-8")) \
+            ["mcpServers"]["td-builder"]["env"]
+        assert env.get("TD_BUILDER_USER_DIR") == "{{USER_DIR}}", name
+        assert env.get("TD_USER_PALETTE_DIR") == "{{PALETTE_DIR}}", \
+            f"{name} must pin the palette root: it is NOT under ~/.td_builder, so " \
+            f"TD_BUILDER_USER_DIR does not cover it and an agent calling " \
+            f"register_component(save_to_palette=true) would write to the real palette"
+
+
+def test_agent_eval_substitutes_every_token_its_templates_declare():
+    """A token declared in a .tmpl with no substitution site would reach the
+    server as a LITERAL env value (a dir named '{{PALETTE_DIR}}'), i.e. a pin
+    that quietly stops pinning. run_agent_eval also raises on leftovers at
+    materialization time; this catches it in the KB-free lane instead."""
+    agent_eval = REPO / "eval" / "agent_eval"
+    runner = (agent_eval / "run_agent_eval.py").read_text(encoding="utf-8")
+    for name in _TMPLS:
+        raw = (agent_eval / name).read_text(encoding="utf-8")
+        for token in sorted(set(re.findall(r"\{\{[A-Z_]+\}\}", raw))):
+            assert f'"{token}"' in runner, \
+                f"{name} declares {token} but run_agent_eval.py never substitutes it"

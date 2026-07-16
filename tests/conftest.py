@@ -42,12 +42,24 @@ def pytest_collection_modifyitems(items):
 @pytest.fixture(scope="session", autouse=True)
 def _user_dir_pin(tmp_path_factory):
     """W7 hermeticity (belt-and-suspenders): no test may read or write the
-    maintainer's real ~/.td_builder — paths.user_components_path() /
-    user_index_dir() resolve TD_BUILDER_USER_DIR at call time, so this
-    session-wide pin covers tests/unit + tests/engine too (the measure/_server
-    loader force-pins again before the server import). Tests that need their
-    own dir monkeypatch.setenv over this."""
+    maintainer's real ~/.td_builder OR their real TD palette root. Two
+    independent env overrides, both resolved at CALL time, so this session-wide
+    pin covers tests/unit + tests/engine too (the measure/_server loader
+    force-pins TD_BUILDER_USER_DIR again before the server import):
+
+      * TD_BUILDER_USER_DIR -> paths.user_components_path() / user_index_dir()
+      * TD_USER_PALETTE_DIR -> paths.user_palette_dir(), which is NOT under
+        ~/.td_builder and so is NOT covered by the pin above. Its unpinned
+        fallback is the Windows known-folder Documents, i.e. the maintainer's
+        real Documents/Derivative/Palette; register_component(save_to_palette=
+        true) mkdirs a folder there before it copies, so an unpinned test that
+        fails mid-commit orphans an empty folder in a real user's palette.
+
+    Tests that need their own dir monkeypatch.setenv over this; the pin is the
+    safety net for the ones that forget (tests/unit/test_hermeticity_pins.py
+    holds the line structurally rather than by convention)."""
     os.environ["TD_BUILDER_USER_DIR"] = str(tmp_path_factory.mktemp("td_user_pin"))
+    os.environ["TD_USER_PALETTE_DIR"] = str(tmp_path_factory.mktemp("td_palette_pin"))
 
 
 @pytest.fixture(scope="session")

@@ -108,7 +108,9 @@ jobs:
       # and scores the built artifacts with the same 5-stage validator the
       # product uses. This is the REPLAY-gate only — NOT the agent-gate (Lane M,
       # model-in-the-loop) which stays on the maintainer machine (D-F) and never
-      # runs in hosted CI. continue-on-error: this lane is ADVISORY at bring-up
+      # runs in hosted CI. --compare diffs the sweep against the committed
+      # baseline; an identity-drift refusal (exit 3) is advisory here like any
+      # other failure. continue-on-error: this lane is ADVISORY at bring-up
       # (matching how every kb-full lane starts); promotion to blocking is a
       # documented one-line flip once it is green on hosted runners twice — see
       # eval/agent_eval/README.md "CI placement & promotion path".
@@ -117,7 +119,8 @@ jobs:
         shell: bash
         run: |
           python eval/agent_eval/run_agent_eval.py --lane replay --no-stage \
-            --run-id "ci-${GITHUB_RUN_ID}" | tee -a "$GITHUB_STEP_SUMMARY"
+            --run-id "ci-${GITHUB_RUN_ID}" \
+            --compare eval/agent_eval/baseline.json | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Upload eval artifacts
         if: always()

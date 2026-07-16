@@ -155,6 +155,23 @@ def checkpoint(run_id: str, n_expected: int, bless: bool) -> dict:
         "COMPLETE (reconstructed from on-disk trials by checkpoint.py)"
         if not out["incomplete_set"]
         else "IN-PROGRESS (partial checkpoint — reconstructed from on-disk trials)")
+    # B1 guard (PR #37 post-merge audit): checkpoint reconstructs EVERY
+    # scenario from this ONE run dir. Pointed at a scenario-subset recapture
+    # run it replaces committed records with empty stubs — the destructive
+    # overwrite capture_baseline's merge exists to prevent. Warn loudly;
+    # baseline.json is git-tracked, so restore beats committing this.
+    prior_scored = {sid for sid, rec in (prior.get("scenarios") or {}).items()
+                    if any(v in ("PASS", "FAIL")
+                           for v in rec.get("verdicts") or [])}
+    stomped = sorted(sid for sid in prior_scored
+                     if not out["scenarios"].get(sid, {}).get("verdicts"))
+    if stomped:
+        print(f"[checkpoint] WARNING: run '{run_id}' has NO trials for "
+              f"{len(stomped)} scenario(s) that carry scored records in the "
+              f"committed baseline ({', '.join(stomped)}). If this is a "
+              f"partial-recapture run, do NOT commit this checkpoint — let "
+              f"--capture-baseline's merge assemble the final file, or "
+              f"restore baseline.json from git.")
     BASELINE_PATH.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n",
                              encoding="utf-8")
     out["_meta_total_trials"] = total_trials

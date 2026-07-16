@@ -26,6 +26,8 @@ Usage:
   py -3.11 eval/agent_eval/run_agent_eval.py --lane model
   py -3.11 eval/agent_eval/run_agent_eval.py --lane model --all --k 3
   py -3.11 eval/agent_eval/run_agent_eval.py --lane model --capture-baseline --n 5
+  py -3.11 eval/agent_eval/run_agent_eval.py --lane model --capture-baseline --n 5 \
+      --scenario s05_palette_audio        # partial: merges with the committed baseline
   py -3.11 eval/agent_eval/run_agent_eval.py --lane replay --compare eval/agent_eval/baseline.json
   py -3.11 eval/agent_eval/run_agent_eval.py --lane model --scenario s05_palette_audio
   py -3.11 eval/agent_eval/run_agent_eval.py --bless <run-id>
@@ -606,14 +608,52 @@ def _stage_markdown(sweep, combined, fingerprints, by_id):
 # ---------------------------------------------------------------------------
 # Baseline capture / compare / bless
 # ---------------------------------------------------------------------------
+def _scenario_versions_on_disk() -> dict:
+    """{id: version} for every scenario file, read leniently — merge
+    bookkeeping must not die on a malformed or schema-drifted file."""
+    out = {}
+    for p in sorted(SCENARIOS_DIR.glob("s*.json")):
+        try:
+            sc = json.loads(p.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        if sc.get("id"):
+            out[sc["id"]] = sc.get("version")
+    return out
+
+
+def _baseline_membership(rec: dict) -> str | None:
+    """Which set a baseline scenario record belongs to, derived from the
+    RECORD alone so records reused across a partial recapture keep their
+    earned membership. Semantics mirror the fresh-capture rules and
+    checkpoint.py: gate is EARNED n/n-PASS (§5); all-SKIP joins no set;
+    all-ERROR is unmeasurable (harness fault — NOT "the model can't do it",
+    must not hide in aspirational); a checkpoint-shaped record with
+    complete=False stays incomplete."""
+    verdicts = rec.get("verdicts") or []
+    scored = [v for v in verdicts if v in ("PASS", "FAIL")]
+    if rec.get("complete") is False or not verdicts:
+        return "incomplete_set"
+    if all(v == "SKIP" for v in verdicts):
+        return None
+    if not scored:
+        return "unmeasurable_set"
+    if rec.get("gate_eligible") and rec.get("pass_rate") == 1.0 \
+            and len(scored) == len(verdicts):
+        return "gate_set"
+    return "aspirational_set"
+
+
 def capture_baseline(args, cfg, sweep: dict, scenarios: list):
     by_id = {s["id"]: s for s in scenarios}
+    prior = json.loads(BASELINE_PATH.read_text(encoding="utf-8")) \
+        if BASELINE_PATH.exists() else None
     out = {
         "captured_with": {"lane": sweep["lane"], "n": args.n,
                           "config": args.config, "run_id": sweep["run_id"]},
         "identity": sweep["identity"],
         "scenarios": {}, "gate_set": [], "aspirational_set": [],
-        "unmeasurable_set": [],
+        "unmeasurable_set": [], "incomplete_set": [],
     }
     for sid, trials in sorted(sweep["results"].items()):
         verdicts = [t.verdict for t in trials]
@@ -636,18 +676,75 @@ def capture_baseline(args, cfg, sweep: dict, scenarios: list):
             "failure_fingerprints": dict(sorted(fps.items())),
             "advisory_median": med,
         }
-        # Gate membership is EARNED: 5/5 (or n/n) in this capture (§5).
-        if by_id[sid].get("gate") and scored and pass_rate == 1.0 \
-                and len(scored) == len(verdicts):
-            out["gate_set"].append(sid)
-        elif verdicts and all(v == "SKIP" for v in verdicts):
-            pass  # skipped everywhere — neither set
-        elif not scored:
-            # every trial ERRORed — the harness never got a clean read; this is
-            # NOT "the model can't do it" and must not hide in aspirational.
-            out["unmeasurable_set"].append(sid)
-        else:
-            out["aspirational_set"].append(sid)
+
+    # B1 (PR #37 post-merge audit): a scenario-SUBSET capture MERGES with the
+    # committed baseline — non-swept records are reused verbatim, never
+    # silently erased. Before this, the documented partial re-bless
+    # (--capture-baseline --scenario s05 ...) dropped baseline.json from 14
+    # scenarios to 3 and blinded Lane R's --compare to the other 11.
+    recaptured = sorted(out["scenarios"])
+    reused, dropped, version_drift, skip_stomped = [], [], [], []
+    if prior:
+        prior_scenarios = prior.get("scenarios") or {}
+        left_out = sorted(set(prior_scenarios) - set(out["scenarios"]))
+        if left_out:
+            on_disk = _scenario_versions_on_disk()
+            for sid in left_out:
+                if sid not in on_disk:
+                    dropped.append(sid)  # scenario file deleted — record dies
+                    continue
+                rec = prior_scenarios[sid]
+                out["scenarios"][sid] = rec
+                reused.append(sid)
+                if rec.get("version") != on_disk[sid]:
+                    version_drift.append(sid)
+        # A recaptured scenario whose trials ALL skipped/errored replaces a
+        # prior record with real measurements — legal (it was explicitly
+        # swept) but worth a loud flag; baseline.json is git-tracked.
+        skip_stomped = [
+            sid for sid in recaptured if sid in prior_scenarios
+            and not [v for v in out["scenarios"][sid]["verdicts"]
+                     if v in ("PASS", "FAIL")]
+            and [v for v in (prior_scenarios[sid].get("verdicts") or [])
+                 if v in ("PASS", "FAIL")]]
+
+    if reused or dropped:
+        out["captured_with"]["partial"] = True
+        out["captured_with"]["recaptured"] = recaptured
+        # Mixed-snapshot disclosure (same convention as the 2026-07-05
+        # capture): reused records carry statistics measured under the PRIOR
+        # identity, while the file's top-level identity block describes only
+        # this sweep. Record the reuse + any identity drift in _provenance.
+        mism, _ = identity_mod.identity_mismatches(
+            sweep["identity"], prior.get("identity"),
+            identity_mod.AGENT_IDENTITY_FIELDS
+            + identity_mod.AGENT_IDENTITY_WARN_FIELDS)
+        prov = dict(prior.get("_provenance") or {})
+        prov[f"partial_recapture_{sweep['run_id']}"] = {
+            "recaptured": recaptured,
+            "reused_verbatim": reused,
+            "dropped_stale_records": dropped,
+            "reused_from_capture": {
+                k: (prior.get("captured_with") or {}).get(k)
+                for k in ("run_id", "lane", "n")},
+            "identity_drift_vs_prior": (
+                {f: {"prior": old, "current": cur} for f, old, cur in mism}
+                or "none"),
+            "note": "reused records carry statistics measured under the PRIOR "
+                    "identity; the top-level identity block describes the "
+                    "recaptured scenarios only.",
+        }
+        out["_provenance"] = prov
+    elif prior and prior.get("_provenance"):
+        print("[capture] full recapture: prior _provenance NOT carried forward "
+              "(fresh baseline) — write a fresh provenance note before "
+              "committing.")
+
+    for sid in sorted(out["scenarios"]):
+        member = _baseline_membership(out["scenarios"][sid])
+        if member:
+            out[member].append(sid)
+
     BASELINE_PATH.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n",
                              encoding="utf-8")
     sd = stage_dir()
@@ -656,7 +753,23 @@ def capture_baseline(args, cfg, sweep: dict, scenarios: list):
     print(f"\nbaseline captured -> {BASELINE_PATH}\n  gate_set: {out['gate_set']}"
           f"\n  aspirational: {out['aspirational_set']}"
           + (f"\n  UNMEASURABLE (all-ERROR — harness fault, investigate): "
-             f"{out['unmeasurable_set']}" if out['unmeasurable_set'] else ""))
+             f"{out['unmeasurable_set']}" if out['unmeasurable_set'] else "")
+          + (f"\n  INCOMPLETE (partial-checkpoint records): "
+             f"{out['incomplete_set']}" if out['incomplete_set'] else ""))
+    if reused:
+        print(f"  MERGED with prior baseline: reused {len(reused)} non-swept "
+              f"record(s) verbatim: {reused}")
+    if dropped:
+        print(f"  dropped {len(dropped)} prior record(s) whose scenario file "
+              f"no longer exists: {dropped}")
+    if version_drift:
+        print(f"  WARNING: reused record(s) {version_drift} predate an edit to "
+              f"their scenario file (version drift) — those scenarios need "
+              f"their own recapture (README § Re-baseline).")
+    if skip_stomped:
+        print(f"  WARNING: recaptured record(s) {skip_stomped} scored nothing "
+              f"(all SKIP/ERROR) but replaced prior records with real "
+              f"measurements — restore from git if unintended.")
 
 
 def compare_against(args, sweep: dict) -> int:
@@ -666,11 +779,18 @@ def compare_against(args, sweep: dict) -> int:
         # Cross-lane compare (the documented replay-vs-committed-baseline flow):
         # a replay sweep has NO model or CLI in the loop, so those two fields
         # are structurally None and comparing them to a model-lane baseline
-        # would refuse forever. The comparison still refuses on every
-        # environment field (scenario set, server, KB, tool surfaces, guidance).
-        fields = tuple(f for f in fields if f not in ("model_id", "cli_version"))
-        print("[compare] replay lane: model_id/cli_version excluded from the "
-              "identity check (model-lane facts; replay has neither)",
+        # would refuse forever. guidance_hash joins the exclusion (PR #37
+        # post-merge audit): replay injects no guidance either, but
+        # build_identity re-reads guidance.md from disk on every lane, so the
+        # field measures an artifact that plays no part in a replay sweep and
+        # every guidance.md edit would false-refuse this compare permanently.
+        # The comparison still refuses on every environment field replay
+        # actually exercises (scenario set, server, KB, tool surfaces).
+        fields = tuple(f for f in fields
+                       if f not in ("model_id", "cli_version", "guidance_hash"))
+        print("[compare] replay lane: model_id/cli_version/guidance_hash "
+              "excluded from the identity check (model-lane facts; a replay "
+              "sweep has no model, no CLI, and injects no guidance)",
               file=sys.stderr)
     mism, unknown = identity_mod.identity_mismatches(
         sweep["identity"], prior.get("identity"), fields)

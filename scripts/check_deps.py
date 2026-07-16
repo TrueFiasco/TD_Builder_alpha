@@ -19,6 +19,20 @@ OK = "[ OK ]"
 BAD = "[FAIL]"
 
 
+def _vector_db_doc_count(vdb: Path) -> int | None:
+    """Chroma document count via fetch_vector_db's seam (single source of
+    populated-truth; None = chromadb not importable, unmeasurable)."""
+    import importlib.util
+    try:
+        spec = importlib.util.spec_from_file_location(
+            "td_fetch_vector_db", str(Path(__file__).with_name("fetch_vector_db.py")))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod._vector_db_doc_count(vdb)
+    except Exception:  # noqa: BLE001 — diagnostics must never crash
+        return None
+
+
 def main() -> int:
     problems: list[str] = []
 
@@ -62,13 +76,26 @@ def main() -> int:
             print(f"{BAD} KB/{rel} missing")
             problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
 
-    # Vector store
+    # Vector store — same health rules as fetch_vector_db._already_populated():
+    # Chroma's sqlite must exist AND (when chromadb is importable) hold >0
+    # documents. An empty-but-present store is the trap where the server loads
+    # "successfully" and semantic search returns nothing forever.
     vdb = kb / "vector_db"
-    if vdb.exists() and any(vdb.iterdir()):
-        print(f"{OK} KB/vector_db/ populated")
-    else:
+    if not (vdb.exists() and any(vdb.iterdir())):
         print(f"{BAD} KB/vector_db/ empty - semantic search unavailable")
         problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
+    elif not (vdb / "chroma.sqlite3").exists():
+        print(f"{BAD} KB/vector_db/ has no Chroma store (chroma.sqlite3 missing)")
+        problems.append("Re-fetch the KB bundle: python scripts/fetch_vector_db.py")
+    else:
+        count = _vector_db_doc_count(vdb)
+        if count is None:
+            print(f"{OK} KB/vector_db/ present (document count unverified - chromadb not importable)")
+        elif count > 0:
+            print(f"{OK} KB/vector_db/ populated ({count:,} documents)")
+        else:
+            print(f"{BAD} KB/vector_db/ EMPTY (0 documents) - semantic search would return nothing")
+            problems.append("Re-fetch the KB bundle: python scripts/fetch_vector_db.py")
 
     # Phase-2 retrieval stack: BM25 lexical index + bundled cross-encoder reranker
     bm25 = kb / "lexical_index" / "bm25.pkl"

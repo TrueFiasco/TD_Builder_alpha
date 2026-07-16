@@ -303,13 +303,48 @@ hybrid_search = None
 #   warming  — _load_kb() is running right now
 #   ready    — both knowledge_graph AND hybrid_search loaded
 #   partial  — knowledge_graph loaded but hybrid_search is None (semantic search
-#              unavailable: vector_db missing OR sentence-transformers not installed
-#              OR semantic init exception). Graph-only tools still work.
+#              unavailable: vector_db missing OR present-but-EMPTY (0 documents —
+#              loads "successfully" then returns empty results forever) OR
+#              semantic init exception). Graph-only tools still work.
 #   failed   — knowledge_graph could not be loaded. No KB tools work.
 # _KB_REASON: human-readable detail for partial/failed states. Empty otherwise.
+# _DENSE_COUNT: vector-store document count measured at load. None = not measured
+#              (pending/warming, vector_db missing, init failed), 0 = measured
+#              empty (the trap above), N>0 = healthy. Surfaced by get_server_info.
 _KB_STATUS = "pending"
 _KB_REASON: str = ""
+_DENSE_COUNT: Optional[int] = None
 _kb_lock = threading.Lock()  # serializes warm-up thread vs first KB tool call
+
+
+def _kb_repair_message(problem: str) -> str:
+    """Compose the loud, actionable KB repair message for _KB_REASON.
+
+    The release coordinates come from scripts/vector_db_release.json AT CALL
+    TIME — never hardcoded — so the message cannot go stale when a new KB
+    release ships (the manifest is the single source; see its _note). Fix-first
+    ordering: even a clipped preview of the message shows the repair step.
+    Never raises; a missing/unreadable manifest degrades to the generic fix
+    line (e.g. a relocated TD_BUILDER_ROOT install without scripts/).
+    """
+    lines = [
+        problem,
+        "Fix: run  python scripts/fetch_vector_db.py  from the repo root, "
+        "then restart the MCP server.",
+    ]
+    try:
+        manifest = json.loads(
+            (_RELEASE_ROOT / "scripts" / "vector_db_release.json")
+            .read_text(encoding="utf-8"))
+        repo, tag, asset = manifest["repo"], manifest["tag"], manifest["asset"]
+        url = manifest.get("url") or (
+            f"https://github.com/{repo}/releases/download/{tag}/{asset}")
+        lines.append(f"Or download {asset} manually from {url} "
+                     f"and extract it into KB/.")
+        lines.append(f"Release page: https://github.com/{repo}/releases/tag/{tag}")
+    except Exception:
+        pass  # generic fix line above already covers it
+    return "\n".join(lines)
 
 
 def _ensure_kb():
@@ -372,8 +407,9 @@ def _load_kb():
     with an actionable message for partial/failed states so callers can
     surface a useful next step instead of a confusing AttributeError.
     """
-    global knowledge_graph, hybrid_search, _KB_STATUS, _KB_REASON
+    global knowledge_graph, hybrid_search, _KB_STATUS, _KB_REASON, _DENSE_COUNT
     _KB_STATUS = "warming"
+    _DENSE_COUNT = None
     # CRITICAL stdout-pollution guard: KB/search submodules
     # (UnifiedGraphQuery / UnifiedSearchAdapter / sentence-transformers /
     # chromadb) emit bare print() progress like "🔍 Loading ..." to stdout.
@@ -389,10 +425,8 @@ def _load_kb():
         # actionable error messages instead of opaque construction failures ---
         if not enhanced_graph_path.exists():
             _KB_STATUS = "failed"
-            _KB_REASON = (
-                f"Knowledge graph file not found at {enhanced_graph_path}. "
-                f"Fix: run `python scripts/fetch_vector_db.py` from the repo "
-                f"root, then restart the MCP server."
+            _KB_REASON = _kb_repair_message(
+                f"Knowledge graph file not found at {enhanced_graph_path}."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
@@ -433,31 +467,50 @@ def _load_kb():
         # --- load hybrid_search (optional — degrade to partial, not failed) ---
         if not vectordb_path.exists():
             _KB_STATUS = "partial"
-            _KB_REASON = (
+            _KB_REASON = _kb_repair_message(
                 f"Semantic search unavailable: vector DB missing at "
-                f"{vectordb_path}. Graph tools still work. "
-                f"Fix: `python scripts/fetch_vector_db.py` then restart the MCP server."
+                f"{vectordb_path}. Graph tools still work."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
         try:
-            hybrid_search = UnifiedSearchAdapter(
+            _adapter = UnifiedSearchAdapter(
                 graph_path=str(enhanced_graph_path),
                 vectordb_path=str(vectordb_path),
                 use_legacy=False,
             )
-            print("Loaded unified search", file=sys.stderr)
-            _KB_STATUS = "ready"
-            _KB_REASON = ""
         except Exception as e:
             _KB_STATUS = "partial"
-            _KB_REASON = (
+            _KB_REASON = _kb_repair_message(
                 f"Semantic search init error: {e}. Graph tools still work. "
-                f"Check server stderr for the full traceback."
+                f"Check server stderr for the full traceback. The most common "
+                f"cause is an incomplete or corrupt KB extract."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             import traceback
             traceback.print_exc()
+            return
+        # HEALTH GATE: an empty vector store constructs "successfully" and then
+        # returns empty semantic_results forever — dir-existence alone said
+        # "ready" while hybrid_search was useless (a trap this machine actually
+        # hit). Gate on the measured document count, and publish the adapter to
+        # the module global only after it passes, so un-gated readers
+        # (get_server_info) never see a doomed adapter.
+        _DENSE_COUNT = getattr(getattr(_adapter, "vector_search", None),
+                               "doc_count", None)
+        if not _DENSE_COUNT:
+            _KB_STATUS = "partial"
+            _KB_REASON = _kb_repair_message(
+                f"Vector DB at {vectordb_path} is EMPTY (documents: "
+                f"{_DENSE_COUNT!r}) — semantic search would return no results. "
+                f"Graph tools still work."
+            )
+            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
+            return
+        hybrid_search = _adapter
+        print("Loaded unified search", file=sys.stderr)
+        _KB_STATUS = "ready"
+        _KB_REASON = ""
     finally:
         sys.stdout = _saved_stdout
 
@@ -1762,28 +1815,46 @@ def _feedback_tool_names():
     tool_names=_feedback_tool_names(),
 )
 async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
-    """Handle tool calls"""
-    
-    try:
-        # Non-blocking KB readiness check for KB-dependent tools.
-        # If the background warmup hasn't finished yet, return a structured
-        # "kb_warming" response so the caller can wait and retry instead of
-        # blocking the MCP request and hitting the client timeout.
-        # If the KB partially or fully failed to load (missing files, missing
-        # deps, init exception), return a structured error naming the fix.
-        if name in _KB_DEPENDENT_TOOLS:
-            kb_err = _kb_check(needs_semantic=(name == "hybrid_search"))
-            if kb_err is not None:
-                return [TextContent(
-                    type="text",
-                    text=json.dumps({
-                        "ok": False,
-                        "data": None,
-                        "error": kb_err,
-                        "meta": {"tool": name, "server": SERVER_NAME},
-                    }, indent=2),
-                )]
+    """Handle tool calls: KB readiness gate → dispatch → partial-health advisory."""
+    # Non-blocking KB readiness check for KB-dependent tools.
+    # If the background warmup hasn't finished yet, return a structured
+    # "kb_warming" response so the caller can wait and retry instead of
+    # blocking the MCP request and hitting the client timeout.
+    # If the KB partially or fully failed to load (missing files, missing
+    # deps, init exception), return a structured error naming the fix.
+    if name in _KB_DEPENDENT_TOOLS:
+        kb_err = _kb_check(needs_semantic=(name == "hybrid_search"))
+        if kb_err is not None:
+            return [TextContent(
+                type="text",
+                text=json.dumps({
+                    "ok": False,
+                    "data": None,
+                    "error": kb_err,
+                    "meta": {"tool": name, "server": SERVER_NAME},
+                }, indent=2),
+            )]
 
+    result = await _dispatch_tool(name, arguments)
+
+    # A "partial" KB is a broken install that still half-works: graph tools
+    # proceed on the loaded knowledge_graph, but every KB-dependent response
+    # must carry the repair message so the degradation is impossible to miss
+    # (owner decision D1, 2026-07-16). Appended as a separate content block so
+    # each tool's own payload shape (index 0) stays untouched.
+    if name in _KB_DEPENDENT_TOOLS and _KB_STATUS == "partial":
+        result = list(result) + [TextContent(
+            type="text",
+            text=json.dumps({
+                "kb_health": {"status": "kb_partial", "message": _KB_REASON},
+            }, indent=2),
+        )]
+    return result
+
+
+async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
+    """The tool dispatch body (KB gate and health advisory live in call_tool)."""
+    try:
         if name == "hybrid_search":
             query = arguments["query"]
             n_results = arguments.get("n_results", 5)
@@ -2394,9 +2465,19 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "version": SERVER_VERSION,
                     "kb_version": _KB_MANIFEST_VERSION,
                     "compat": _COMPAT,
+                    # KB health in one call (owner D3, 2026-07-16). kb_status:
+                    # pending|warming|ready|partial|failed; kb_reason carries
+                    # the repair message (null when healthy). dense_count is
+                    # the vector-store document count measured at KB load
+                    # (null = not measured yet; 0 = present but EMPTY — the
+                    # trap where semantic search returns nothing forever).
+                    "kb_status": _KB_STATUS,
+                    "kb_reason": _KB_REASON or None,
                     "retrieval_backend": {
                         "reranker_active": getattr(_rs, "_reranker", None) is not None,
                         "bm25_active": getattr(_rs, "_bm25", None) is not None,
+                        "dense_count": _DENSE_COUNT,
+                        "vector_db_present": vectordb_path.exists(),
                     },
                     "kb_root": str(_KB_ROOT),
                     "script_path": str(Path(__file__).resolve()),

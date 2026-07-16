@@ -21,6 +21,7 @@ import json
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -37,15 +38,77 @@ def _load_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
+def _vector_db_doc_count(vdb: Path) -> int | None:
+    """Document count of the Chroma store, or None when unmeasurable.
+
+    None means exactly one thing: chromadb is not importable (this script must
+    run before deps may be installed). Any chromadb-level failure — collection
+    missing, corrupt/mismatched sqlite — counts as a measured 0: the store
+    holds nothing usable. Callers should check for chroma.sqlite3 first;
+    opening a store-less dir makes chromadb create a fresh empty sqlite in it.
+    """
+    try:
+        import chromadb
+    except ImportError:
+        return None
+    try:
+        client = chromadb.PersistentClient(path=str(vdb))
+        return client.get_collection("td_unified").count()
+    except Exception:
+        return 0
+
+
 def _already_populated() -> bool:
     vdb = KB_DIR / "vector_db"
     base = (KB_DIR / "operators.json").exists() and vdb.exists() and any(vdb.iterdir())
+    if not base:
+        return False
+    # KB health gate: a vector_db that exists but holds ZERO documents used to
+    # count as "populated", trapping the user in a loop (the MCP server says
+    # "run fetch_vector_db.py", this script says "nothing to do"). Require
+    # Chroma's sqlite file, and — when chromadb is importable — a non-zero
+    # document count. Without chromadb (bootstrap before deps) fall back to
+    # the file-level answer; the server cannot run in that env either.
+    if not (vdb / "chroma.sqlite3").exists():
+        return False
+    count = _vector_db_doc_count(vdb)
+    if count is not None and count <= 0:
+        return False
     # Phase 2: the retrieval stack also needs the BM25 lexical index and the bundled
     # cross-encoder reranker. Treat the KB as populated only when those are present too,
     # so an older (vector-only) extraction is re-fetched to pick up the new artifacts.
     lexical = (KB_DIR / "lexical_index" / "bm25.pkl").exists()
     reranker = (KB_DIR / "models" / "ms-marco-MiniLM-L-6-v2" / "config.json").exists()
-    return base and lexical and reranker
+    return lexical and reranker
+
+
+def _retire_unhealthy_vector_db() -> None:
+    """Move an existing-but-unhealthy vector_db/ aside before extraction.
+
+    Called only after the bundle is downloaded and sha-verified, so a manifest
+    or download failure can never touch the existing dir. Unhealthy = Chroma
+    sqlite missing, or a measured document count of zero / unreadable store.
+    Renamed, never deleted (non-destructive); extracting straight over a stale
+    store would interleave the fresh sqlite with orphaned segment dirs.
+    """
+    vdb = KB_DIR / "vector_db"
+    if not vdb.exists() or not any(vdb.iterdir()):
+        return  # nothing there (or bare dir): extraction fills it fresh
+    if (vdb / "chroma.sqlite3").exists():
+        count = _vector_db_doc_count(vdb)
+        if count is None or count > 0:
+            return  # healthy — or unmeasurable (no chromadb): leave it alone
+    graveyard = vdb.with_name(f"vector_db.bad-{time.strftime('%Y%m%d-%H%M%S')}")
+    print(f"Existing {vdb} holds no usable documents - moving it aside to {graveyard}")
+    print("  (delete the vector_db.bad-* dir once the fresh KB works)")
+    try:
+        vdb.rename(graveyard)
+    except OSError as e:
+        sys.exit(
+            f"Could not move the unhealthy vector_db aside ({e}).\n"
+            "  A running MCP server holds KB/vector_db open - stop the MCP server\n"
+            "  (and anything else using the KB), then re-run this script."
+        )
 
 
 def _sha256(path: Path) -> str:
@@ -162,6 +225,7 @@ def main() -> int:
         print("WARNING: no sha256 in manifest - skipping verification.")
 
     KB_DIR.mkdir(parents=True, exist_ok=True)
+    _retire_unhealthy_vector_db()
     print(f"Extracting the KB bundle into {KB_DIR} ...")
     with zipfile.ZipFile(zip_path) as zf:
         zf.extractall(KB_DIR)

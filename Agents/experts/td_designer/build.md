@@ -373,7 +373,7 @@ Your plan should have identified matching patterns from the KB. Now use them:
 
 Example: If plan matched `audio_reactive_visuals`, create:
 - Step 1: audiodevicein1 or audiofilein1
-- Step 2: analyze1 with param `function: Peak` or `function: RMS`
+- Step 2: analyze1 with param `function: "rmspower"` (or `"highestpeakvalue"` for peaks — exact `menuNames` tokens from `get_parameter_detail`, never display labels like "RMS Power")
 - Step 3: math1 for signal conditioning
 - Step 4: Wire to visual parameters
 
@@ -641,91 +641,29 @@ operators:
 
 ---
 
-### DECISION RULE FOR firstcolumn (GROUND TRUTH - READ THIS FIRST!)
+### FIRSTROW / FIRSTCOLUMN DECISION RULE (GROUND TRUTH - READ THIS FIRST!)
 
 **THIS IS THE DEFINITIVE RULE. Follow it EXACTLY.**
 
-Look at **Column 0** (the leftmost column) of your table:
+`firstrow` and `firstcolumn` are independent: `firstrow` describes **row 0** (the top
+horizontal row), `firstcolumn` describes **column 0** (the leftmost vertical column).
+For each, ask what it actually contains:
 
-| Column 0 Contains | Example Values | firstcolumn Setting |
-|-------------------|----------------|---------------------|
-| TEXT LABELS (row names) | "wave1", "speed", "row1", "channel_a", "*" | `"names"` |
-| NUMERIC VALUES (actual data) | "1.5", "0", "42.7", "100" | `"values"` |
-| Should be skipped | (garbage, index numbers) | `"ignore"` |
+| Look at... | Contains | Setting |
+|------------|----------|---------|
+| Row 0 | Column headers/names ("x", "y", "name", "value", "label") | `firstrow: "names"` |
+| Row 0 | Actual data values ("1.5", "hello", "42") | `firstrow: "values"` |
+| Row 0 | Garbage to skip | `firstrow: "ignore"` |
+| Column 0 | Row labels ("wave1", "speed", "channel_a", "*", "") | `firstcolumn: "names"` |
+| Column 0 | Actual data values ("1.5", "0", "-42.7") | `firstcolumn: "values"` |
+| Column 0 | Garbage to skip | `firstcolumn: "ignore"` |
 
-**Common Pattern - Table with BOTH Row and Column Headers:**
-```
-Table DAT content:
-      Col0         Col1        Col2          Col3
-      ----         ----        ----          ----
-Row0: ""           "speed"     "amplitude"   "frequency"   ← Column headers (firstrow: names)
-Row1: "wave1"      "1.5"       "0.8"         "2.0"         ← "wave1" is a ROW LABEL
-Row2: "wave2"      "2.3"       "0.5"         "3.5"         ← "wave2" is a ROW LABEL
-Row3: "wave3"      "0.7"       "1.2"         "1.0"         ← "wave3" is a ROW LABEL
-```
+**THE KEY INSIGHT**: if column 0 has ANY text labels identifying what each row
+represents, use `firstcolumn: "names"`; only use `"values"` when column 0 holds actual
+numeric data you want as channel values.
 
-Column 0 contains: "", "wave1", "wave2", "wave3" - these are ROW LABELS!
-**Therefore: `firstcolumn: "names"`**
-
-**CORRECT dattoCHOP for this table:**
-```yaml
-parameters:
-  firstrow: "names"      # Row 0 has column headers (speed, amplitude, frequency)
-  firstcolumn: "names"   # Column 0 has row labels (wave1, wave2, wave3)
-```
-
-**Ground Truth Source**: Working file `05_data_conversion.tox` uses BOTH set to `"names"` because BOTH row 0 and column 0 contain headers/labels.
-
-**DECISION FLOWCHART:**
-```
-Look at Column 0 (leftmost column):
-│
-├── Contains TEXT that NAMES each row?
-│   Examples: "wave1", "bass", "treble", "speed", "channel_a", "*", ""
-│   └── SET: firstcolumn: "names"
-│
-├── Contains NUMERIC DATA values?
-│   Examples: "1.5", "0", "-42.7", "100"
-│   └── SET: firstcolumn: "values"
-│
-└── Contains garbage to skip?
-    └── SET: firstcolumn: "ignore"
-```
-
-**THE KEY INSIGHT**: If column 0 has ANY text labels that identify what each row represents, use `firstcolumn: "names"`. Only use `firstcolumn: "values"` when column 0 contains actual numeric data you want as channel values.
-
----
-
-### FIRSTROW DECISION RULE (BUG FIX - MANDATORY)
-
-**CRITICAL BUG**: Agents output `firstrow: values` when they should use `firstrow: names`.
-
-**THE RULE**: Look at the Table DAT's first row:
-- If first row contains **column names/headers** (e.g., "x", "y", "z", "name", "value") → `firstrow: "names"`
-- If first row contains **actual data values** (e.g., "1.5", "hello", "42") → `firstrow: "values"`
-
-**COMMON MISTAKE**: Table has headers like `["name", "value"]` in row 0, but agent sets `firstrow: values`. This causes wrong channel naming and broken data conversion.
-
-**VISUAL DECISION TREE**:
-```
-Table DAT First Row Contains:
-│
-├── Column headers/names? (x, y, z, name, value, label, etc.)
-│   └── SET: firstrow: "names"
-│
-├── Actual data values? (1.5, "hello", 42, true)
-│   └── SET: firstrow: "values"
-│
-└── Garbage/skip? (row 0 should be ignored)
-    └── SET: firstrow: "ignore"
-```
-
-**UNDERSTANDING FIRSTROW vs FIRSTCOLUMN:**
-
-The key insight: **row 0** and **column 0** are independent concepts!
-
-- `firstrow` = What does **row 0** (the top horizontal row) contain?
-- `firstcolumn` = What does **column 0** (the leftmost vertical column) contain?
+**COMMON MISTAKE**: table has headers like `["name", "value"]` in row 0, but the agent
+sets `firstrow: values` — wrong channel naming and broken data conversion.
 
 **EXAMPLE 1 - Headers in Row 0 Only (Pure Column Headers)**:
 ```
@@ -771,29 +709,8 @@ CORRECT dattoCHOP parameters:
   firstcolumn: "values" ← Column 0 is data, not labels
 ```
 
-**Data Format Rules:**
-| Parameter | Value | Meaning |
-|-----------|-------|---------|
-| `firstrow` | `names` | Row 0 contains COLUMN headers/names |
-| `firstrow` | `values` | Row 0 contains actual data values |
-| `firstrow` | `ignore` | Skip row 0 entirely |
-| `firstcolumn` | `names` | Column 0 contains ROW labels/names |
-| `firstcolumn` | `values` | Column 0 contains actual data values |
-| `firstcolumn` | `ignore` | Skip column 0 entirely |
-
-**DECISION GUIDE:**
-
-| Look at... | Contains labels/headers? | Setting |
-|------------|-------------------------|---------|
-| Row 0 (top row) | YES (x, y, name, value...) | `firstrow: "names"` |
-| Row 0 (top row) | NO (actual data) | `firstrow: "values"` |
-| Column 0 (left column) | YES (row labels) | `firstcolumn: "names"` |
-| Column 0 (left column) | NO (actual data) | `firstcolumn: "values"` |
-
-**Common patterns:**
-- Simple data grid (no headers): `firstrow: "values"`, `firstcolumn: "values"`
-- Column headers only: `firstrow: "names"`, `firstcolumn: "values"`
-- Row and column headers: `firstrow: "names"`, `firstcolumn: "names"`
+**Ground Truth Source**: working file `05_data_conversion.tox` uses BOTH set to
+`"names"` because both row 0 and column 0 contain headers/labels.
 
 ---
 
@@ -938,21 +855,13 @@ Wire connections automatically set required params:
 
 ### 4. sopToCHOP DEFAULT SAMPLING (CRITICAL - BUG FIX)
 
-**HARD RULE: Default to `attribscope: "P"` (position only).**
+The rule and the attribscope table live in **"sopToCHOP Usage (BUG-016)"** above:
+default to `attribscope: "P"` unless the user explicitly asks for normals/UVs/colors.
+Builder-level additions:
 
-The agent was over-selecting attributes (UVs, normals, colors) when they weren't needed. This bloats the CHOP output and confuses downstream processing.
-
-**Unless the user EXPLICITLY asks for normals, UVs, or colors, ALWAYS set:**
-
-```yaml
-parameters:
-  attribscope: "P"  # Position only - THE CORRECT DEFAULT
-```
-
-**NEVER set these unless explicitly requested:**
-- `normal: 1` (samples normals - usually unwanted)
-- `textureuv: on` (samples UVs - usually unwanted)
-- `color: 1` (samples vertex color - usually unwanted)
+**NEVER set these unless explicitly requested** (each adds unwanted channels that bloat
+the CHOP output and confuse downstream processing):
+- `normal: 1` / `textureuv: on` / `color: 1` — scope attributes via `attribscope` instead
 
 **CORRECT sopToCHOP configuration:**
 ```yaml
@@ -962,32 +871,6 @@ parameters:
   parameters:
     sop: "sphere1"
     attribscope: "P"  # Position only - DEFAULT
-```
-
-**WRONG (adds unwanted channels):**
-```yaml
-parameters:
-  sop: "sphere1"
-  position: 1     # WRONG - use attribscope instead
-  normal: 1       # WRONG - adds N channels (usually unwanted)
-  textureuv: on   # WRONG - adds UV channels (usually unwanted)
-```
-
-**DECISION TREE:**
-```
-User asks for SOP → CHOP conversion:
-│
-├── Need position/point data only? (DEFAULT - most common)
-│   └── SET: attribscope: "P"
-│
-├── Need UVs for texture mapping?
-│   └── SET: attribscope: "P uv", textureuv: "on"
-│
-├── Need normals for lighting calculations?
-│   └── SET: attribscope: "P N"
-│
-└── Need specific custom attributes?
-    └── SET: attribscope: "P customAttr1 customAttr2"
 ```
 
 ### 5. Text DAT Content (`content` field)

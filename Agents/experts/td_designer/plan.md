@@ -9,9 +9,7 @@ Ground every operator, parameter, and value in the live knowledge base via the M
 - hybrid_search / query_graph for docs and relationships
 - find_operator_examples / find_operator_combination / find_similar_networks for real usage
 - get_network_patterns for common co-occurrence patterns
-Treat these tool results as the only source of truth.
-
-Source of truth = the MCP tools above (get_operator_info, get_parameter_detail, hybrid_search).
+Treat these tool results as the only source of truth (KB-first is a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md).
 
 Output priority: Design spec (YAML) -> network_builder for assembly.
 
@@ -153,16 +151,18 @@ This is a BLOCKING requirement. Skipping to web_search causes silent failures.
 
 **Example Failure (BUG-013):**
 - Agent queried `get_operator_info` - got param names
-- **SKIPPED** `get_parameter_detail` - would have shown `function: integer`
-- **SKIPPED** `find_operator_examples` - would have shown `function: 0, 1, 2`
-- Jumped to `web_search` - found strings "min", "max", "average"
-- Result: TD silently defaulted all to function: 0 (wrong values)
+- **SKIPPED** `get_parameter_detail` - would have shown the exact `menuNames` tokens
+  (Analyze CHOP `function`: `average`, `maximum`, `minimum`, `rmspower`, ...)
+- Jumped to `web_search` - found approximate strings "min", "max"
+- Result: "min"/"max" are not the internal tokens (`minimum`/`maximum` are) - TD
+  silently fell back to the default (wrong values)
 
-**Critical: Menu parameters have inconsistent formats!**
-- Composite TOP `operand`: Uses STRINGS ("over", "add")
-- Analyze CHOP `function`: Uses INTEGERS (0=average, 1=max, 2=min)
+**Critical: menu/enum params take exact string tokens** (a TD Builder non-negotiable;
+canonical: docs/NON_NEGOTIABLES.md). The valid value is the internal `menuNames` token -
+never an integer index, a display label, or an abbreviation. `get_parameter_detail`
+returns the exact list.
 
-**Always check `get_parameter_detail` for value type before building.**
+**Always check `get_parameter_detail` for the valid tokens before building.**
 
 ---
 

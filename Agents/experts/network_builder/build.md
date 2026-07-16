@@ -9,7 +9,7 @@ Executing as **Network Builder** expert. Task: turn the plan/design_spec into a 
 - Plan: {{execution_plan}}
 - Intent/context: {{intent}}
 - Constraints: TD version {{td_version_or_unknown}}, allowed families/operators, module boundaries.
-- Expertise: loaded in plan step (operators, patterns, parameters, network_building, problems).
+- Expertise: the curated YAMLs declared in this expert's config are appended to this prompt (network_building, operators, parameters, patterns, problems — see "Curated expertise" below).
 
 ### Design-Spec Input (when an earlier td_designer step produced one)
 - Design spec: {{design_spec}} - from the td_designer step with operators, hierarchy, connections
@@ -17,15 +17,15 @@ Executing as **Network Builder** expert. Task: turn the plan/design_spec into a 
 
 When receiving a design_spec from a td_designer step:
 1. Extract operator list, connections, parameters from design_spec
-2. Convert to tox_builder JSON format
+2. Convert to builder JSON format
 3. Embed GLSL shader code if provided
-4. Build .tox file via tox_builder
+4. Build via the `td_build_project` MCP tool
 
 ## Execution Rules
 1) Source-of-truth only: operator/parameter existence from the MCP tools (get_operator_info / get_parameter_detail / hybrid_search); usage evidence from find_operator_examples / find_operator_combination / find_similar_networks.
 2) No hallucinations: every operator/param/connection must trace to plan or evidence.
 3) Docked DATs are automatic: when `get_operator_info` lists a `docked_dats` block, the builder auto-creates + docks + file-backs + wires those helper DATs (GLSL `*_pixel`/`*_compute`/`*_info`, `*_callbacks` scripts, table DATs, …). Do NOT add them as separate operators or set their link params (`pixeldat`/`callbacks`/`dat`/…) — supply only the content (shader → `shader`, callbacks → `callbacks`/`script`). Hand-adding them creates duplicates.
-4) Validate before build: run the `td_validate` MCP tool (5-stage pipeline) on builder JSON before any build attempt.
+4) Validate before build: run the `td_validate` MCP tool (5 blocking + 2 advisory stages) on builder JSON before any build attempt.
 5) Artifact by intent: a whole **project** → `mode="toe"` (a real `.toe`); a reusable **component** → `mode="tox"` (a `.tox`). Fall back to Text DAT, then instructions, only if a build actually errors — graceful degradation, not a default.
 6) **MANDATORY TOOL CALL**: every build MUST go through the `td_build_project` MCP tool (a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md). No exceptions.
 
@@ -107,9 +107,9 @@ If design contains GLSL shaders:
 
 ---
 
-## Design Spec to ToxBuilder Conversion
+## Design Spec to Builder JSON Conversion
 
-When receiving a design_spec from td_designer, convert to tox_builder format:
+When receiving a design_spec from td_designer, convert to the builder JSON format `td_build_project` takes:
 
 ### Input Design Spec Format (from td_designer)
 
@@ -141,7 +141,7 @@ expressions:
     expr: "op('audio_analyze')['chan1']"
 ```
 
-### Output ToxBuilder JSON Format
+### Output Builder JSON Format
 
 ```json
 {
@@ -200,21 +200,13 @@ For unregistered `.tox` files use `external_tox: <path>`; `embed_tox` is removed
    - Enforce naming/layout conventions from `td_network_building.yaml`.
 
 2. Validate spec
-   - Run the `td_validate` MCP tool (5-stage pipeline: schema, semantic, reference, logical, td_rules).
+   - Run the `td_validate` MCP tool (5 blocking stages: schema, semantic, reference, logical, td_rules; plus 2 advisory stages: grounding, component_wiring).
    - If FAIL: capture errors, attempt minimal safe fixes; if still failing, fall back to Text DAT plan.
 
 3. Build artifacts (by intent)
-   - Whole **project** → `mode="toe"`: use `NetworkBuilder` with mode="toe" + `build_toe` (a real collapsed `.toe`).
-   - Reusable **component** → `mode="tox"`: build `.tox` via tox_builder:
-
-   ```python
-   from tox_builder.builder import ToxBuilder
-   builder = ToxBuilder(validate=True, verbose=True)
-   tox_path = builder.build(spec_json, output_dir="./output")
-   ```
-
+   - Every build goes through the `td_build_project` MCP tool: whole **project** → `mode="toe"` (a real collapsed `.toe`); reusable **component** → `mode="tox"` (a `.tox`).
    - **Composition:** a project `.toe` can pull in reusable component `.tox` files via `external_tox` references (a `.toe` that composes `.tox` building blocks). The builder manifest-parses the referenced `.tox` at build time: a bare `{"from"/"to": "comp"}` wire auto-resolves only when the component has exactly **one** inner out/in op — otherwise the build fails loudly naming the candidates, and you reference the inner op explicitly (`comp/<outOp>` / `comp/<inOp>`; the real names come from `expand_toe_file(mode='summary')`'s `manifest` — comps use custom names like `valueOut`, not always `out1`). A component is never itself a data source. Wired comps whose `.tox` is missing at build time fail the build; wrapper-style `.tox`es need `parameters.subcompname`.
-   - **Graceful degradation:** only if a build actually **errors**, fall back to Text DAT Python via `build_text_dat_script` (collision_policy reuse unless specified), then human instructions with exact params/connections.
+   - **Graceful degradation:** only if a build actually **errors**, fall back to a Text DAT script (a `text` DAT whose `content` field carries the Python), then human instructions with exact params/connections.
 
 4. Record outputs for self-improve
    - validation report summary
@@ -236,7 +228,7 @@ execution:
 
   validation:
     passed: true|false
-    stages: {schema: bool, semantic: bool, reference: bool, logical: bool, td_rules: bool}
+    stages: {schema: bool, semantic: bool, grounding: bool, reference: bool, component_wiring: bool, logical: bool, td_rules: bool}
     errors: [{stage, message}]
 
   evidence:

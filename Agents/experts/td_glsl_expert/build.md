@@ -322,8 +322,8 @@ vec4 in the `uniforms` array goes to the Vectors page instead — both feed the 
 
 GLSL POPs run per-particle compute, not per-pixel. They have a different
 attribute and uniform model than GLSL TOPs — what works in a TOP shader will
-NOT work in a POP shader. Source: TD's POP wiki + verified `feedback_td_glsl_*`
-memory entries.
+NOT work in a POP shader. Source: TD's POP wiki (`KB/wiki_supplemental/Write_GLSL_POPs.md`)
++ live-session verification.
 
 ### Attribute reads (`TDIn_<AttribName>`)
 
@@ -389,16 +389,15 @@ Decision rule:
 - **Uniforms added via UI pages**: leave them OUT of your source — TD injects them.
 - **Uniforms you want to type in source**: don't add them to the UI page.
 
-This matches the symmetric rule for GLSL TOP. See
-`memory/feedback_td_glsl_pop_samplers.md` for the recorded incident.
+This matches the symmetric rule for GLSL TOP (live-verified in a prior session).
 
 ### No string literals in TD attribute names
 
 `TDFetchChan("name", ...)` and similar string-keyed lookups do not exist for
 GLSL POP — the attribute name MUST be a literal identifier suffix on
 `TDIn_<Name>` / `TDOut_<Name>`. For named-array CHOP-style channels, use the
-CHOP Uniforms page on the POP (which exposes a typed array). See
-`memory/feedback_td_glsl_no_string_literals.md`.
+CHOP Uniforms page on the POP (which exposes a typed array). (Live-verified in a
+prior session.)
 
 ### Reserved GLSL keywords to avoid as identifiers
 

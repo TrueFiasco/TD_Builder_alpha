@@ -23,7 +23,7 @@ Output: GLSL shader code + (optional) build wrapper or usage instructions
 ### Step 3: Self-Improve
 Execute: `experts/td_glsl_expert/self_improve.md`
 Input: Results from Step 2
-Output: Event log update -> compaction -> refreshed td_glsl.yaml
+Output: Structured lesson report (no automated event log/compaction in this release)
 
 ## Error Handling
 - If Plan fails: report and stop.
@@ -31,4 +31,4 @@ Output: Event log update -> compaction -> refreshed td_glsl.yaml
 - If Self-Improve fails: log but do not block future runs.
 
 ## Output
-Combined results from all three steps, including any expertise updates via event log/compaction.
+Combined results from all three steps, including any lesson reports from self-improve.

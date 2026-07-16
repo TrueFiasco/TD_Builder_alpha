@@ -1,0 +1,73 @@
+{
+  "id": "s21_register_hit_parity",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "kb",
+    "register",
+    "hybrid-search",
+    "regression:w7-palette-parity"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [
+    "tool:register_component"
+  ],
+  "fixtures": [
+    "knotgen.tox.dir",
+    "knotgen.tox.toc"
+  ],
+  "prompt": "Envelope-shape check on registered components — no building. Register my component and then tell me exactly what a search result for it does and does not contain. The component is the already-expanded directory at {{RUN_DIR}}/assets/knotgen.tox.dir — pass that path as-is (no TouchDesigner install needed). If the knowledge base is still warming up, keep waiting and retrying rather than giving up. Use register_component with prepare=true first to get the skeleton, then prepare=false to commit, passing a one-line 'summary' that distinguishes it from other prebuilt shape generators, 2-3 concrete 'use_cases', and a one-line 'parameter_descriptions' entry for every custom parameter the skeleton reported. Register for the project only — do NOT copy it into the palette (leave save_to_palette off). Then run a hybrid_search for its exact name, knotgen, asking for about 8 results, in the default (non-compact) mode. Now answer strictly from the hit your component produced, quoting field names as the tool printed them: (1) Does the hit carry a score_kind field, and what is its value? (2) Does that hit include a parameter_names list or a parameters block — answer yes or no explicitly, and say plainly that parameter_names is absent if it is. (3) Given your component clearly HAS custom parameters, where in the hit is that parameter information actually carried instead? Do not guess or fill in fields the tool did not print.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "register_component"
+      },
+      {
+        "tool_called": "hybrid_search"
+      },
+      {
+        "call_order": [
+          "register_component",
+          "hybrid_search"
+        ]
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"retrievable\": true"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "\"license_tier\": \"user\"[\\s\\S]{0,1200}?\"score_kind\": \"(?:reranked|dense_fallback)\"\\s*\\}"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "Custom parameters:[\\s\\S]{0,400}?menu tokens: trefoil\\|figure8\\|torus\\|circle"
+        }
+      },
+      {
+        "tool_not_called": "td_build_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "parameter_names",
+        "(?i)parameter_names[\\s\\S]{0,140}?\\b(not|no|absent|omitted|missing|nor|without|does ?n.?t)\\b|\\b(not|no|absent|omitted|missing|without)\\b[\\s\\S]{0,140}?parameter_names",
+        "(?i)score_kind"
+      ],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "W7 Δ1 regression scenario (PR #37): palette-parity of the user-hit envelope, at the AGENT surface. The server-level guarantee is already unit-pinned in tests/retrieval_user/test_register_component_server.py; what this adds is that the MODEL sees the honest shape and reports the absence rather than hallucinating the fields it expects from operator hits. Parity is structural, not special-cased: user chunk metadata carries 'name' (kb_build/user_components.py base_meta), never 'operator_name', and mcp_server's hydration gate only fires when meta['operator_name'] / a top-level operator_name / a top-level 'name' resolves — a user hit satisfies none, so _hydrate_hit_params is never called and no parameter_names/parameters/parameters_capped appear, exactly as shipped Derivative palette block hits behave. The parity regex depends on hit SERIALIZATION ORDER: RetrievalStack.search emits {content, metadata, score, score_kind} in that order, so 'license_tier' (inside metadata) always precedes 'score_kind', and the trailing \\s*\\} proves the hit object CLOSES right after score_kind — any hydration field would append after it and break the match. The {0,1200} lazy span is bounded well above the ~400-char metadata block and cannot skate into the next hit, since every hit stamps score_kind. score_kind accepts reranked OR dense_fallback so the scenario is portable across a healthy install and a no-cross-encoder one (the KB ships the reranker, so 'reranked' is the normal value; dense_fallback is W7's no-CE value for user-injected chunks). Non-compact mode is deliberate: it is the mode where KB operator hits DO carry hydrated 'parameters', so a user hit lacking them is a real contrast rather than a mode artifact. See s19 notes for fixture provenance."
+}

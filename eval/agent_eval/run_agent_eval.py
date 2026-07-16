@@ -34,6 +34,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import functools
 import glob as globmod
 import json
 import os
@@ -62,7 +63,8 @@ SCENARIOS_DIR = AGENT_EVAL_DIR / "scenarios"
 TRACES_DIR = AGENT_EVAL_DIR / "traces"
 RUNS_DIR = AGENT_EVAL_DIR / "runs"
 BASELINE_PATH = AGENT_EVAL_DIR / "baseline.json"
-FIXTURES_GENERATED = AGENT_EVAL_DIR / "fixtures" / "generated"
+FIXTURES_DIR = AGENT_EVAL_DIR / "fixtures"
+FIXTURES_GENERATED = FIXTURES_DIR / "generated"
 
 # Built-in Claude Code tools removed from the Lane-M surface (design §2:
 # KB-first purity — with Read/Grep available the model could answer grounding
@@ -120,11 +122,35 @@ def _td_reachable(timeout: float = 2.0) -> bool:
         return False
 
 
+@functools.lru_cache(maxsize=1)
+def _known_tool_names() -> frozenset:
+    """Every tool name this checkout serves, offline + live (memoized: one probe
+    per process — the identity block already pays this cost each sweep)."""
+    import inproc
+    return frozenset(inproc.tool_names()) | frozenset(inproc.live_tool_names())
+
+
 def resolve_requires(requires: list) -> tuple[dict, str | None]:
     """Resolve scenario preconditions. Returns (template_vars, skip_reason)."""
     tvars: dict[str, str] = {}
     for req in requires or []:
-        if req == "td_live_running":
+        if req.startswith("tool:"):
+            # A scenario that exercises a tool this checkout may not serve yet
+            # (s19-s21 -> register_component, W7/PR #37). SKIP is the honest
+            # verdict on a pre-W7 bisect or an older branch: the tool is absent,
+            # so the behavior is unmeasurable — not failing. A probe failure
+            # SKIPs with the reason rather than killing the sweep (same posture
+            # as _td_reachable, review F5).
+            want = req.split(":", 1)[1]
+            try:
+                have = _known_tool_names()
+            except Exception as e:                              # pragma: no cover
+                return tvars, (f"requires '{req}' unresolved (tool inventory "
+                               f"probe failed: {type(e).__name__}: {e})")
+            if want not in have:
+                return tvars, (f"requires '{req}' not satisfied ('{want}' is not "
+                               f"on this checkout's tool surface)")
+        elif req == "td_live_running":
             # Live-surface scenarios (s15–s17): a RUNNING TouchDesigner with
             # the WebServer DAT up, PLUS an explicit opt-in. The env gate is
             # load-bearing: these scenarios MUTATE the open TD project (scratch
@@ -158,13 +184,22 @@ def resolve_requires(requires: list) -> tuple[dict, str | None]:
     return tvars, None
 
 
+def fixture_source(name: str) -> Path | None:
+    """Where fixture `name` lives, or None if it must be generated. COMMITTED
+    fixtures (fixtures/<name>, e.g. knotgen.tox.dir) win over generated ones —
+    they are repo content, not build output, so they are never regenerated."""
+    committed = FIXTURES_DIR / name
+    return committed if committed.exists() else None
+
+
 def ensure_fixtures(names: list) -> None:
-    missing = [n for n in names or [] if not (FIXTURES_GENERATED / n).exists()]
+    todo = [n for n in names or [] if fixture_source(n) is None]
+    missing = [n for n in todo if not (FIXTURES_GENERATED / n).exists()]
     if missing:
         sys.path.insert(0, str(AGENT_EVAL_DIR / "fixtures"))
         import make_fixtures
         make_fixtures.main()
-    for n in names or []:
+    for n in todo:
         if not (FIXTURES_GENERATED / n).exists():
             raise SystemExit(f"fixture '{n}' unavailable after generation")
 
@@ -177,7 +212,15 @@ def stage_fixtures(scenario: dict, work: Path) -> None:
     assets = work / "assets"
     assets.mkdir(parents=True, exist_ok=True)
     for n in names:
-        shutil.copy2(FIXTURES_GENERATED / n, assets / n)
+        src = fixture_source(n) or (FIXTURES_GENERATED / n)
+        # Staging under work/assets/ is load-bearing for BLESSED scenarios, not
+        # just tidiness: bless() only templates the run dir out of tool args, so
+        # a fixture referenced anywhere else would bake an absolute machine path
+        # into the committed trace and break hosted replay.
+        if src.is_dir():
+            shutil.copytree(src, assets / n, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src, assets / n)
 
 
 def template_prompt(scenario: dict, work: Path, tvars: dict) -> str:

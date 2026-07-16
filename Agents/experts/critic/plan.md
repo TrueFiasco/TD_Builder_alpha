@@ -9,7 +9,7 @@ Ground every technical claim (operators, parameters, feasibility) in the live kn
 - hybrid_search / query_graph for docs and relationships
 - find_operator_examples / find_operator_combination / find_similar_networks for real usage
 - td_validate to confirm a network design actually passes the 5-stage pipeline
-Treat these tool results as the only source of truth. Apply the quality criteria, common_issues, and feedback templates described below as your scoring framework.
+Treat these tool results as the only source of truth (KB-first is a TD Builder non-negotiable; canonical: docs/NON_NEGOTIABLES.md). Apply the quality criteria, common_issues, and feedback templates described below as your scoring framework.
 
 ## Review Types
 

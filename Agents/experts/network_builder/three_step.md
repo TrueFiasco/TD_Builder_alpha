@@ -23,7 +23,7 @@ Output: Validated spec + artifact chosen by intent (whole project → .toe, reus
 ### Step 3: Self-Improve
 Execute: `experts/network_builder/self_improve.md`
 Input: Results from Step 2
-Output: Event log update -> compaction -> refreshed expertise YAML
+Output: Structured lesson report (no automated event log/compaction in this release)
 
 ## Error Handling
 - If Plan fails: report and stop.

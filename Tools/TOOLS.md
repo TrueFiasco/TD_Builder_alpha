@@ -1,12 +1,12 @@
 # TD Builder — Tool Reference
 
-39 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
+40 tools across two MCP servers. All **offline** tools are key-free. The **live** tools require a
 running TouchDesigner (WebServer DAT on `:9981`); with TD down they return a clear "not running"
 message rather than failing.
 
 ---
 
-## Offline server `td-builder` — 17 tools
+## Offline server `td-builder` — 18 tools
 
 ### KB tools (search the knowledge base)
 | Tool | Purpose | Key inputs |
@@ -30,6 +30,7 @@ message rather than failing.
 | `td_build_project` | Build a `.tox`/`.toe` from a design dict | `network_design`/`design`, `project_name`, `output_dir`, `mode` |
 | `td_build_status` | Poll an async build started with `td_build_project(async_build=true)` | `job_id` |
 | `expand_toe_file` | Expand + parse a `.toe`/`.tox` → node/connection **summary** (non-default params with value+mode) or **full** lossless JSON | `toe_path`, `mode` (summary/full) |
+| `register_component` | Register your own `.tox` comps as searchable + buildable palette components (prepare → author summary → commit; incremental user-store ingest) | `specs`/`directory`, `prepare`, `save_to_palette`, `folder`, `overwrite`, `confirm_shadow` |
 
 *(Also available as command-line tools — see `Tools/offline Builder tools/`.)*
 

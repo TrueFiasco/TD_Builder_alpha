@@ -49,6 +49,7 @@ import os
 import statistics
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 _TRIAL_SENTINEL = "__TRIAL_JSON__"
@@ -68,6 +69,11 @@ os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 # rank-5/6 results run-to-run). Embedding 60 short queries single-threaded is sub-second.
 for _v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
     os.environ[_v] = "1"
+# W7 hermeticity (W8): pin the USER component dir to a fresh empty tmp dir for
+# every script-run gate (this module is also the env base for eval/build_gate).
+# The adapter is built user_search=False anyway — this pin additionally covers
+# the BUILDER's registry merge, which reads TD_BUILDER_USER_DIR at call time.
+os.environ["TD_BUILDER_USER_DIR"] = tempfile.mkdtemp(prefix="td_eval_user_pin_")
 
 EVAL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_DIR.parent                            # the (worktree) repo root
@@ -258,6 +264,7 @@ def build_adapter(use_legacy: bool, vectordb_path: Path, graph_path: Path):
             vectordb_path=str(vectordb_path),
             graph_path=str(graph_path),
             use_legacy=use_legacy,
+            user_search=False,   # pristine gate: never open the user store (W7)
         )
 
 

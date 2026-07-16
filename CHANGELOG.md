@@ -19,6 +19,13 @@
 - **Missing-family type fallback warns loudly** (`logger.warning`, not just verbose log) when an
   ungrounded op type with no `family` defaults to `TOP:*` — the silent path behind the GAPS
   BUG-1 base-COMP symptom.
+- **`Agents/td_network_analysis` skill wired in**: added the YAML frontmatter
+  (`name: td-network-analysis`) that skill-aware clients need to register it — advertised in the
+  docs since 0.1.1 but previously not loadable — plus a content-accuracy pass (POPs corrected to
+  Point Operators with real operator names, completed `expand_toe_file` summary schema, real
+  cross-skill integrations instead of nonexistent ones).
+- Removed the skill's three orphaned `examples/` files (pre-`expand_toe_file` manual-parsing
+  workflow, unverified benchmark figures); the worked example inside `SKILL.md` remains.
 
 ### Security
 - **Load-time integrity check for KB pickles** (`MCP/server_core/kb_integrity.py`): the server no
@@ -102,7 +109,7 @@ this release is about retrieval quality, build correctness, and a leaner, fully-
 A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.
 
 ### Changed
-- **Two MCP servers** instead of one: `td-builder` (offline, **17 key-free tools**) and
+- **Two MCP servers** instead of one: `td-builder` (offline, **16 key-free tools**) and
   `td-builder-live` (**19 live-TD tools**). Splitting the live tools out keeps offline sessions from
   carrying ~19 unused tool schemas in context.
 - **Six-folder layout:** `MCP/` (`server.py` + `live_server.py` + `server_core/` + `engine/` +

@@ -1,7 +1,7 @@
 """Conventional pass/fail acceptance tests for the td-builder MCP server.
 
-Exercises the key-free tool surface — 17 offline (`td-builder`) +
-21 live (`td-builder-live`) tools — across prompts P1-P21. Run it and every
+Exercises the key-free tool surface — 18 offline (`td-builder`) +
+22 live (`td-builder-live`) tools — across prompts P1-P21. Run it and every
 tool/feature shows PASSED or FAILED:
 
     & $PY -m pytest tests/acceptance -v
@@ -71,10 +71,10 @@ def test_p01_server_identity(probe):
 
 def test_p01b_tool_inventory(probe):
     names = sorted(t.name for t in probe.list_tools())
-    assert len(names) == 17, f"expected 17 offline tools, got {len(names)}: {names}"
+    assert len(names) == 18, f"expected 18 offline tools, got {len(names)}: {names}"
     for required in ("get_server_info", "td_validate", "td_convert",
                      "td_build_project", "td_build_status", "hybrid_search",
-                     "query_graph", "expand_toe_file"):
+                     "query_graph", "expand_toe_file", "register_component"):
         assert required in names
     # API / agent-spawning tools removed for the key-free release
     for gone in ("spawn_engineer", "spawn_expert", "td_compact_expertise"):

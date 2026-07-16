@@ -24,7 +24,7 @@ class OperatorFamily(Enum):
     MAT = "MAT"    # Material Operators
     DAT = "DAT"    # Data Operators
     COMP = "COMP"  # Component Operators
-    POP = "POP"    # Particle Operators
+    POP = "POP"    # Point Operators
 
 
 class ExpressionLanguage(Enum):

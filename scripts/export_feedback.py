@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 r"""Export local feedback records into one redacted bundle for a GitHub issue.
 
-STANDALONE CLI — deliberately NOT an MCP tool (adding a tool would rotate the 17-tool
+STANDALONE CLI — deliberately NOT an MCP tool (adding a tool would rotate the 18-tool
 P01b inventory and its hash). Reads the opt-in JSONL records written by
 ``MCP/feedback.py`` (``~/.td_builder/feedback/`` by default), defensively
 re-redacts every record, writes a Markdown report + the redacted raw JSONL into one

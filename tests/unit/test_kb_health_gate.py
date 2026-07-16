@@ -293,3 +293,12 @@ def test_get_server_info_pending_defaults(monkeypatch, tmp_path):
     assert data["kb_reason"] is None
     assert data["retrieval_backend"]["dense_count"] is None
     assert data["retrieval_backend"]["vector_db_present"] is False
+
+
+def test_semantic_tools_are_a_subset_of_kb_dependent_tools():
+    """Every tool gated on semantic (adapter) readiness must also be in the
+    KB-dependent set, or the _kb_check(needs_semantic=...) call in call_tool
+    is unreachable for it and a partial KB would let it run against a dead
+    adapter. Post-W7 both sets exist on this module (register_component joined
+    both); this pins the invariant for every future tool."""
+    assert srv._SEMANTIC_TOOLS <= srv._KB_DEPENDENT_TOOLS

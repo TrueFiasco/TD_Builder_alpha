@@ -232,7 +232,7 @@ def _subprocess_env() -> dict:
 
 
 def allowed_tools(live: bool) -> list:
-    """Lane M --allowedTools names. Offline scenarios: the fixed 17-tool
+    """Lane M --allowedTools names. Offline scenarios: the fixed 18-tool
     surface. Live scenarios additionally allow the td-builder-live tools MINUS
     save_td_project — the PERSISTENCE boundary: everything else a live
     scenario can break is recoverable precisely because the open project is
@@ -258,7 +258,7 @@ def run_model_once(scenario: dict, trial_dir: Path, cfg: dict, model_id: str,
     (trial_dir / "prompt.txt").write_text(prompt, encoding="utf-8")
 
     # Live-surface scenarios also register td-builder-live and allow its tools;
-    # offline scenarios keep the fixed 17-tool surface (hermeticity unchanged).
+    # offline scenarios keep the fixed 18-tool surface (hermeticity unchanged).
     live = scenario.get("surface") == "live"
     tmpl = MCP_LIVE_TMPL_PATH if live else MCP_TMPL_PATH
     # W7 hermeticity (W9): a fresh empty USER component dir per TRIAL — minted

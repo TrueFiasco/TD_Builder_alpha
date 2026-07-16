@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 r"""Seeded scorer tests — the design's acceptance criteria 4/5 + §12 R-3, proven
-with synthetic transcripts + hand-built artifacts (no KB, no model, no CLI).
+with synthetic transcripts + hand-built artifacts (no KB, no model, no CLI, and
+no live TouchDesigner — the `expect.live` probe is stubbed autouse below).
 
 Run: py -3.11 -m pytest eval/agent_eval/tests/test_scorer.py -q
 Needs the fetched KB: the artifacts these tests score are built with the real
@@ -13,6 +14,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -522,8 +524,47 @@ def _assistant_live_tool(tool, tid, inp):
         {"type": "tool_use", "id": tid, "name": S.LIVE_MCP_PREFIX + tool, "input": inp}]}})
 
 
+# --- live-outcome probe stub -----------------------------------------------
+# `expect.live.absent` asks a RUNNING TouchDesigner whether a node survived.
+# These are seeded unit tests, so the probe is stubbed process-wide (autouse):
+# without it the real one would drag the whole server stack into the light-deps
+# CI lane and then ERROR on the missing TD. Each test states the world it wants
+# back; the default is the clean one (scratch container gone).
+def _nodes_listing(*paths, parent="/", total=None):
+    """Render the get_td_nodes SUCCESS contract (td_live_client.py) — markdown,
+    not JSON, with the `_N of M node(s) shown._` footer the scorer trusts."""
+    lines = [f"## Nodes under {parent}\n"]
+    for p in paths:
+        lines.append(f"- `{p.rsplit('/', 1)[-1]}` (containerCOMP) - {p}")
+    lines.append(f"\n_{len(paths)} of "
+                 f"{len(paths) if total is None else total} node(s) shown._")
+    return "\n".join(lines)
+
+
+class _FakeLiveProbe:
+    def __init__(self, state):
+        self.state, self.calls = state, []
+
+    def call(self, name, args):
+        self.calls.append((name, args))
+        # ok=True even for TD's fault prose — mirrors the real Probe, which is
+        # the whole reason the scorer must not trust `ok` here.
+        return SimpleNamespace(name=name, ok=True, text=self.state["text"])
+
+
+@pytest.fixture(autouse=True)
+def live_world(monkeypatch):
+    """Default world: nothing matches -> the scratch container is gone."""
+    state = {"text": _nodes_listing()}
+    probe = _FakeLiveProbe(state)
+    state["probe"] = probe
+    monkeypatch.setattr(S, "_live_probe", lambda: probe)
+    return state
+
+
 def _s15_transcript(work, glsl_texts=("... GLSL COMPILE FAILED: `x` ...",
-                                      "... GLSL COMPILE OK: `x` ...")):
+                                      "... GLSL COMPILE OK: `x` ..."),
+                    cleanup="delete_td_node"):
     """A minimal transcript satisfying s15: KB lookup, live create, the
     status checks, cleanup, an honest report."""
     lines = [
@@ -538,9 +579,19 @@ def _s15_transcript(work, glsl_texts=("... GLSL COMPILE FAILED: `x` ...",
         lines += [_assistant_live_tool("get_glsl_status", tid,
                                        {"node_path": "/eval_s15_scratch/glsl1"}),
                   _tool_result(tid, text)]
+    if cleanup == "delete_td_node":
+        lines += [_assistant_live_tool("delete_td_node", "t9",
+                                       {"node_path": "/eval_s15_scratch"}),
+                  _tool_result("t9", "Deleted")]
+    elif cleanup == "destroy":
+        # The path the real 2026-07-16 live run took (run live-s15-17): no
+        # delete_td_node anywhere, cleanup via idiomatic python. v1 booked this
+        # honest run FAIL; v2 must book it PASS.
+        lines += [_assistant_live_tool("execute_python_script", "t9", {
+            "script": "op('/eval_s15_scratch').destroy()\n"
+                      "print(\"Exists:\", bool(op('/eval_s15_scratch')))"}),
+            _tool_result("t9", "Exists: False")]
     lines += [
-        _assistant_live_tool("delete_td_node", "t9", {"node_path": "/eval_s15_scratch"}),
-        _tool_result("t9", "Deleted"),
         _assistant_text("The compile failed as expected — compiler error 0:3 "
                         "'' : syntax error — then the fixed shader compiled clean "
                         "and I deleted the scratch container."),
@@ -601,6 +652,128 @@ def test_s15_pass_end_to_end(tmp_path):
     res = S.score_scenario(json.loads(json.dumps(S15)),
                            _run(_s15_transcript(work)), work)
     assert res.verdict == "PASS", res.to_json()
+
+
+# --- expect.live.absent: OUTCOME, not mechanism (s15 v2) --------------------
+def test_live_absent_scores_the_destroy_path_that_v1_failed(tmp_path, live_world):
+    """THE regression: the 2026-07-16 live run cleaned up correctly with
+    execute_python_script + .destroy() and v1 booked FAIL on
+    trace.tool_called[delete_td_node]. The container is gone; that is the
+    whole question, and v2 must answer PASS."""
+    work = tmp_path / "work"
+    work.mkdir()
+    run = _run(_s15_transcript(work, cleanup="destroy"))
+    assert "delete_td_node" not in {tc.name for tc in run.tool_calls}
+    res = S.score_scenario(json.loads(json.dumps(S15)), run, work)
+    assert res.verdict == "PASS", res.to_json()
+    # and it is not vacuous — the scorer really did go and look, read-only
+    assert live_world["probe"].calls == [
+        ("get_td_nodes", {"parent_path": "/", "pattern": "eval_s15_scratch"})]
+
+
+def test_live_absent_surviving_container_fails(tmp_path, live_world):
+    """The other half: delete_td_node CALLED but the container still there —
+    v1 passed this (the tool was called!), v2 fails it (the outcome is wrong)."""
+    work = tmp_path / "work"
+    work.mkdir()
+    live_world["text"] = _nodes_listing("/eval_s15_scratch")
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "FAIL", res.to_json()
+    assert res.fingerprints == ["live.absent[/eval_s15_scratch]"], res.failures
+
+
+def test_live_absent_matches_exact_path_not_bare_name(tmp_path, live_world):
+    """get_td_nodes applies `pattern` through findChildren(name=...), which TD
+    resolves RECURSIVELY — a same-named node somewhere else is not this node."""
+    work = tmp_path / "work"
+    work.mkdir()
+    live_world["text"] = _nodes_listing("/project1/backup/eval_s15_scratch")
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "PASS", res.to_json()
+
+
+@pytest.mark.parametrize("fault", [
+    "TD Error: 500 Internal Server Error",          # non-200 from the WebServer
+    "Failed: Parent node not found at path: /",     # TD-side error_result
+    "Cannot reach TouchDesigner on port 9981 — import mcp_webserver_base.tox",
+])
+def test_live_absent_td_fault_is_error_never_a_vacuous_pass(tmp_path, live_world,
+                                                            fault):
+    """The trap this primitive is built around: the live client reports TD
+    faults as bare prose. None of it starts with 'Error:', none of it is JSON,
+    so the envelope heuristic calls it ok=True — and it contains no node lines.
+    Trusting `ok` would read 'TouchDesigner fell over' as 'nothing matched' and
+    PASS the cleanup assertion in exactly the state it exists to catch."""
+    work = tmp_path / "work"
+    work.mkdir()
+    live_world["text"] = fault
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "ERROR", res.to_json()      # not PASS, not FAIL
+    assert "no node listing" in (res.error or "")
+
+
+def test_live_absent_truncated_listing_is_error(tmp_path, live_world):
+    # absence within a slice is not absence
+    work = tmp_path / "work"
+    work.mkdir()
+    live_world["text"] = _nodes_listing("/other", total=205)
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "ERROR", res.to_json()
+    assert "TRUNCATED" in (res.error or "")
+
+
+def test_live_absent_probe_crash_is_error_not_fail(tmp_path, monkeypatch):
+    # a dead probe is a harness fault — never "the model regressed" (§4)
+    work = tmp_path / "work"
+    work.mkdir()
+
+    def _boom():
+        raise ConnectionError("connection refused")
+
+    monkeypatch.setattr(S, "_live_probe", _boom)
+    res = S.score_scenario(json.loads(json.dumps(S15)),
+                           _run(_s15_transcript(work)), work)
+    assert res.verdict == "ERROR", res.to_json()
+    assert "ConnectionError" in (res.error or "")
+
+
+def test_live_probe_error_dominates_a_booked_failure(tmp_path, live_world):
+    """ERROR outranks FAIL: if we could not read the world, the verdict is
+    'unmeasured', even when another assertion already failed."""
+    work = tmp_path / "work"
+    work.mkdir()
+    live_world["text"] = "TD Error: boom"
+    res = S.score_scenario(          # detection never surfaced -> a real FAIL
+        json.loads(json.dumps(S15)),
+        _run(_s15_transcript(work, glsl_texts=("... GLSL COMPILE OK ...",))), work)
+    assert res.verdict == "ERROR", res.to_json()
+
+
+def test_expect_live_on_an_offline_scenario_is_refused_at_load(tmp_path):
+    """Structural coupling: expect.live reaches a running TD at SCORING time,
+    so it must sit behind td_live_running. On an offline scenario it would
+    never SKIP — it would import the server stack in the light-deps CI lane and
+    ERROR there. Fail loudly at load instead."""
+    p = tmp_path / "s99_bad.json"
+    p.write_text(json.dumps({
+        "id": "s99_bad", "version": 1, "prompt": "x",
+        "expect": {"live": {"absent": ["/x"]}},
+    }), encoding="utf-8")
+    with pytest.raises(ValueError, match="expect.live needs surface"):
+        S.load_scenario(p)
+
+
+def test_expect_live_on_a_live_scenario_loads(tmp_path):
+    p = tmp_path / "s99_ok.json"
+    p.write_text(json.dumps({
+        "id": "s99_ok", "version": 1, "prompt": "x", "surface": "live",
+        "expect": {"live": {"absent": ["/x"]}},
+    }), encoding="utf-8")
+    assert S.load_scenario(p)["requires"] == ["td_live_running"]
 
 
 def test_tool_result_re_detection_never_surfaced_fails(tmp_path):

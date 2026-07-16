@@ -1,6 +1,6 @@
 {
   "id": "s15_glsl_break_detect",
-  "version": 1,
+  "version": 2,
   "gate": false,
   "surface": "live",
   "tags": [
@@ -38,12 +38,14 @@
         }
       },
       {
-        "tool_called": "delete_td_node"
-      },
-      {
         "tool_not_called": "save_td_project"
       }
     ],
+    "live": {
+      "absent": [
+        "/eval_s15_scratch"
+      ]
+    },
     "artifact": {
       "absent": true
     },
@@ -55,5 +57,5 @@
     },
     "validate": null
   },
-  "notes": "W-A regression scenario (PR #26): foolproof GLSL compile-failure flagging. get_glsl_status is the shipped check (info DAT + folded op.warnings(), force-cooked); node.errors() stays empty on a broken shader, which is exactly the trap this drill proves closed. Born aspirational; runs only where TouchDesigner is up (td_live_running), auto-SKIPs elsewhere. validate:null + artifact.absent — nothing is built offline; the scenario must leave no stray artifacts in the run dir."
+  "notes": "W-A regression scenario (PR #26): foolproof GLSL compile-failure flagging. get_glsl_status is the shipped check (info DAT + folded op.warnings(), force-cooked); node.errors() stays empty on a broken shader, which is exactly the trap this drill proves closed. Born aspirational; runs only where TouchDesigner is up (td_live_running), auto-SKIPs elsewhere. validate:null + artifact.absent — nothing is built offline; the scenario must leave no stray artifacts in the run dir. v2 (2026-07-16): cleanup is asserted as an OUTCOME via live.absent (the scorer asks the running TD whether /eval_s15_scratch survives), replacing v1's `tool_called: delete_td_node`. v1 pinned the MECHANISM and so booked FAIL on the first-ever live run (live-s15-17) against an agent that cleaned up correctly with execute_python_script + .destroy() — an equally valid path the skill itself teaches for multi-op work. artifact.absent does NOT cover this: it globs *.tox/*.toe under the run dir and knows nothing about live TD state."
 }

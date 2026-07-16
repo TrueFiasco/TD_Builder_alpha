@@ -170,12 +170,27 @@ def offline_entry(manifest: dict, inner_type: str, *, source: str, tox_path: str
 
 def manifest_from_tox(tox_path, timeout_s: int = EXTERNAL_MANIFEST_TIMEOUT_S) -> dict:
     """toeexpand + lossless-parse a .tox (or already-expanded .dir) and return
-    `{"manifest": <component_manifest dict>, "inner_type": str, "subcompname": str|None}`.
+    `{"manifest": <component_manifest dict>, "inner_type": str, "subcompname": str|None,
+    "contained_operators": [str], "interface_files": {"cparm": str|None,
+    "parm_values": {name: str}}}`.
 
     `inner_type` is the op_type of the COMP at the manifest's interface_path (the token a
     placeholder .n would carry); `subcompname` is the wrapper's inner-comp leaf name when
     the manifest reports a wrapper, else None. Raises ComponentManifestError(kind=...) on
     every failure — callers decide whether that is fatal (wired component) or a warning.
+
+    `contained_operators` (W7) is the sorted distinct op_type inventory scoped to the
+    INTERFACE — ops strictly under interface_path, excluding the interface COMP itself —
+    so wrapper icon/help plumbing never pollutes it. Computed here (the one place that
+    holds both the parsed network and interface_path); `component_manifest()`'s own
+    return is untouched, so expand_toe_file(mode='summary') is unaffected by
+    construction.
+
+    `interface_files` (W7 Δ7) carries the interface COMP's raw `.cparm` text (custom
+    parameter DEFINITIONS live there) and its `.parm` VALUES (plain strings; non-default
+    saved values live there) so the user-component engine can parse custom parameters
+    without a second toeexpand. Multi-component/indexed .parm values are omitted
+    (conservative).
 
     NOTE: the offline manifest name-sorts inputs/outputs — it is a NAME authority only,
     never a connector-index authority (index order ≠ name order on real comps)."""
@@ -222,19 +237,39 @@ def manifest_from_tox(tox_path, timeout_s: int = EXTERNAL_MANIFEST_TIMEOUT_S) ->
 
         # Inner root type: the op_type of the COMP at interface_path (harvest logic).
         inner_type = None
+        iface_op = None
         scope = (man.get("interface_path") or "").rstrip("/")
+        contained = set()
         for op in network.operators:
             p = op.path.rstrip("/")
             if not p.startswith("/"):
                 p = "/" + p
             if p == scope:
                 inner_type = op.op_type or None
-                break
+                iface_op = op
+            elif scope and p.startswith(scope + "/") and op.op_type:
+                contained.add(op.op_type)
+
+        # Interface COMP extra files (W7 Δ7): raw .cparm text + flat .parm values.
+        cparm_text = None
+        parm_values = {}
+        if iface_op is not None:
+            cf = (getattr(iface_op, "extra_files", None) or {}).get("cparm")
+            if cf is not None and not getattr(cf, "is_binary", False):
+                cparm_text = cf.content
+            for pname, pval in (getattr(iface_op, "parameters", None) or {}).items():
+                if isinstance(pval, str):
+                    parm_values[pname] = pval
+                elif hasattr(pval, "value") and isinstance(getattr(pval, "value"), str):
+                    parm_values[pname] = pval.value
+                # indexed/dict component values: omitted (conservative)
 
         return {
             "manifest": man,
             "inner_type": inner_type or "COMP:base",
             "subcompname": scope.split("/")[-1] if man.get("wrapper") else None,
+            "contained_operators": sorted(contained),
+            "interface_files": {"cparm": cparm_text, "parm_values": parm_values},
         }
     finally:
         if cleanup_dir is not None:

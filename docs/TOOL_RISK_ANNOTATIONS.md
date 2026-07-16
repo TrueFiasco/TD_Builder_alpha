@@ -33,6 +33,7 @@ Per the MCP spec, `destructiveHint` and `idempotentHint` are meaningful **only w
 |---|---|---|---|---|
 | `READ_ONLY` | `True` | — | — | No environment change. |
 | `WRITE_ADDITIVE` | `False` | `False` | `False` | Creates a file/artifact; never mutates the live graph (offline `td-builder`). |
+| `WRITE_ADDITIVE_IDEMPOTENT` | `False` | `False` | `True` | Additive write whose targets are stable and name-keyed (delete-then-upsert), so re-running has the same effect (offline `register_component`). Same hint triple as `WRITE_CHECKPOINT` but a distinct class: an idempotent additive registry/index **upsert**, not a **checkpoint overwrite** of one stable target — and the offline constant vocabulary is test-pinned separately from the live one. Owner-approved (W7 decision 1, consistent with the D3 precedent below). |
 | `WRITE_CHECKPOINT` | `False` | `False` | `True` | Writes a file to a stable target; never mutates the live graph; overwriting is idempotent (live `save_td_project`). |
 | `DESTRUCTIVE` | `False` | `True` | `False` | May mutate/destroy live graph state or run arbitrary code. |
 
@@ -50,7 +51,7 @@ shape needs its own constant. That keeps `save_td_project` allow-under-auto with
 lying about read-only-ness — it is the pre-mutation safety primitive and must fire
 unattended.
 
-## Offline `td-builder` (17) — 16 read-only + 1 write-additive
+## Offline `td-builder` (18) — 16 read-only + 1 write-additive + 1 write-additive-idempotent
 
 | Tool | Class | Note |
 |---|---|---|
@@ -71,6 +72,7 @@ unattended.
 | expand_toe_file | READ_ONLY | reads a file; `toeexpand` writes only a temp dir cleaned up in `finally` — no persistent side effect |
 | td_build_status | READ_ONLY | polls in-memory job state |
 | **td_build_project** | **WRITE_ADDITIVE** | writes a `.tox`/`.toe` to disk; never touches the live graph |
+| **register_component** | **WRITE_ADDITIVE_IDEMPOTENT** | writes the user registry + user Chroma store + manifest (+ optional palette `.tox` copy) — all OUTSIDE the shipped KB; every write is a name-keyed delete-then-upsert, so re-running is idempotent (honest `idempotentHint=True`, W7 owner decision 1) |
 
 ## Live `td-builder-live` (22) — 16 read-only + 1 write-checkpoint + 5 destructive
 
@@ -101,8 +103,9 @@ unattended.
 
 ## Where the code lives
 
-- Offline: `MCP/server_core/mcp_server.py` — `READ_ONLY` / `WRITE_ADDITIVE` constants
-  above `list_tools()`; each `Tool(...)` carries `annotations=`.
+- Offline: `MCP/server_core/mcp_server.py` — `READ_ONLY` / `WRITE_ADDITIVE` /
+  `WRITE_ADDITIVE_IDEMPOTENT` constants above `list_tools()`; each `Tool(...)`
+  carries `annotations=`.
 - Live: `MCP/live_client/td_live_client.py` — `READ_ONLY` / `WRITE_CHECKPOINT` /
   `DESTRUCTIVE` constants above `TD_LIVE_TOOLS`; each `Tool(...)` carries `annotations=`.
 - The canonical operationId→class map for the live authorization tiering (D3) is
@@ -112,7 +115,8 @@ unattended.
 - The classification is regression-checked by `tests/unit/test_output_budgets.py` and
   `tests/unit/test_live_tool_risk.py`.
 
-Annotations add fields to `Tool(...)`; they change no **offline** tool **name** or
-**count**, so the P01b 17-tool inventory and the agent-eval `tool_inventory_hash`
-(sorted names of the offline server) are unaffected. D3 adds live tools (19→21) without
-touching the offline inventory or the hash; W7 is the change that flips it.
+Annotations add fields to `Tool(...)`; they change no tool **name** or **count** by
+themselves. D3/#26 added live tools (19→22) without touching the offline inventory or
+the agent-eval `tool_inventory_hash` (sorted names of the offline server); **W7's
+`register_component` (17→18 offline) is the change that flips that hash** — its
+owner-machine baseline re-capture is sequenced immediately after the W7 merge.

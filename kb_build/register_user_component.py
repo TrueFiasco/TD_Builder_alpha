@@ -1,34 +1,23 @@
 #!/usr/bin/env python3
-"""Register a user .tox as a BUILDABLE component (BUG-3 rider).
+"""Register a user .tox as a BUILDABLE component — thin CLI over the W7 engine.
 
-Writes an entry into the USER component registry (default
-~/.td_builder/user_components.json, directory overridable via TD_BUILDER_USER_DIR;
-never inside KB/ — the KB is a fetched, identity-hashed artifact). The builder merges
-the user registry over the shipped one at load (user wins on name collision), so the
-component becomes usable as a `palette` field in the very next build — no restart.
-
-Grounding is the OFFLINE manifest (toeexpand + lossless parse + interface scoping —
-the same phase the palette harvest runs): a NAME authority, not a connector-index
-authority. Entries are stamped harvest.method="offline_manifest", which makes the
-builder apply the strict wiring policy automatically (bare wires bind only
-single-connector comps; otherwise inner ops must be named explicitly). Wrapper-style
-.toxes get their subcompname recorded, so `palette` references load the inner comp
-wrapper-free.
-
-Registration is builder-only: ZERO vector-DB / search wiring. The optional
---emit-chunks flag stages ingest_palette-shaped block rows (JSONL) to a directory for
-a FUTURE search integration (remediation Wave 7) — nothing reads them today.
+All logic (offline manifest parse, harvest stamp, the G6 relative-path guard,
+registry upsert) lives in kb_build/user_components.py; this script only maps
+arguments and exit codes. The entry written here is buildable immediately (the
+builder merges the user registry over the shipped one at load, user-wins, no
+restart) but is NOT search-ingested: the search-wired add surface is the
+`register_component` MCP tool (prepare → author → commit), which authors a
+discriminating summary and incrementally embeds the comp's chunks into the user
+store. `--emit-chunks` is retired (Wave 7 shipped the real integration).
 
 Usage:
     py -3.11 kb_build/register_user_component.py <comp.tox> [--name N]
         [--source project|user|derivative] [--tox-path EMITTED]
-        [--registry FILE] [--emit-chunks DIR]
+        [--registry FILE] [--summary TEXT]
 """
 from __future__ import annotations
 
 import argparse
-import datetime
-import json
 import sys
 from pathlib import Path
 
@@ -40,56 +29,9 @@ import bootstrap  # noqa: E402
 bootstrap.setup()
 
 from paths import user_components_path  # noqa: E402
-from core.component_manifest import (  # noqa: E402
-    ComponentManifestError, manifest_from_tox, offline_entry)
-
-REGISTRY_SKELETON = {
-    "version": 1,
-    "description": ("TD Builder USER component registry (register_user_component.py). "
-                    "Merged over KB/palette_components.json at load; user entries win "
-                    "on name collision. Offline-grounded: NAME authority only."),
-    "components": {},
-}
-
-
-def _emit_chunks(outdir: Path, name: str, entry: dict) -> Path:
-    """Stage block_overview + block_io rows (kb_build/ingest_palette.py shapes) as
-    JSONL. Deliberately NO block_usecase (it needs semantic-catalog seeds a user
-    registration doesn't have) and NO search wiring (Wave 7's job)."""
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    import common as C
-
-    category = entry.get("category") or "User"
-    ins = [d["in_op"] for d in entry.get("inputs", [])]
-    outs = [d["out_op"] for d in entry.get("outputs", [])]
-    base_meta = {
-        "name": name,
-        "palette_name": name,
-        "category": category,
-        "has_ui": False,
-        "complexity": None,
-        "operator_count": entry.get("operator_count"),
-        "tox_path": entry.get("tox_path"),
-        "wiki_url": None,
-        "license_tier": "user",
-    }
-    oid = f"block:{C.slug(name)}:overview"
-    ov = (f"USER COMPONENT: {name} [{category}] — user-registered prebuilt component"
-          f" ({entry.get('operator_count')} inner operators)."
-          f" Instantiate via the builder: {{\"palette\": \"{name}\"}}."
-          f" Connectors: in={ins or 'none'}, out={outs or 'none'}.")
-    rows = [C.make_row(oid, ov, "block_overview", C.STORE_BLOCK, dict(base_meta))]
-    io_txt = (f"USER COMPONENT I/O: {name} ({category}) — in ops: {ins or 'none'};"
-              f" out ops: {outs or 'none'}. Wire inner ops explicitly"
-              f" ('{name}/<op>'); a component is never itself a data source.")
-    rows.append(C.make_row(f"block:{C.slug(name)}:io", io_txt, "block_io",
-                           C.STORE_BLOCK, dict(base_meta), parent=oid))
-
-    outdir.mkdir(parents=True, exist_ok=True)
-    out_path = outdir / f"{name}.blocks.jsonl"
-    out_path.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n",
-                        encoding="utf-8")
-    return out_path
+from kb_build.user_components import (  # noqa: E402
+    ComponentManifestError, UserComponentError, build_entry, parse_component,
+    upsert_registry_entry)
 
 
 def main(argv=None) -> int:
@@ -107,9 +49,10 @@ def main(argv=None) -> int:
                          "absolute path)")
     ap.add_argument("--registry", type=Path,
                     help="registry file to write (default: paths.user_components_path())")
-    ap.add_argument("--emit-chunks", dest="emit_chunks", type=Path,
-                    help="ALSO stage search-block JSONL rows to this directory "
-                         "(no search wiring — future integration point)")
+    ap.add_argument("--summary", default=None,
+                    help="one-line semantic summary stored on the entry (default: a "
+                         "minimal placeholder; author a real one via the MCP "
+                         "register_component tool to make the comp searchable)")
     args = ap.parse_args(argv)
 
     tox = args.tox.resolve()
@@ -117,54 +60,37 @@ def main(argv=None) -> int:
         print(f"error: not a file: {tox}", file=sys.stderr)
         return 2
     name = args.name or tox.stem
-
     emitted = (args.tox_path or str(tox)).replace("\\", "/")
-    # G6: user/derivative sources emit an app.userPaletteFolder/app.samplesFolder-relative
-    # EXPRESSION; an absolute path there produces a broken `app.userPaletteFolder +
-    # '/C:/Users/...'`. Require an explicit relative --tox-path (the default is the file's
-    # absolute path, so choosing user/derivative without --tox-path is caught here).
-    # Checked BEFORE the expand so a bad invocation fails fast without needing TD tools.
-    if args.source in ("user", "derivative") and (
-            Path(emitted).is_absolute() or (len(emitted) > 1 and emitted[1] == ":")):
-        root = "app.userPaletteFolder" if args.source == "user" else "app.samplesFolder"
-        print(f"error: --source {args.source} emits a {root}-relative expression, so "
-              f"--tox-path must be RELATIVE to that palette root (got '{emitted}'). "
-              f"Pass e.g. --tox-path {name}.tox, or use --source project for a plain "
-              f"absolute path constant.", file=sys.stderr)
+
+    try:
+        # G6 lives IN the engine (build_entry); pre-check it here so a bad
+        # invocation fails fast without needing TD tools for the expand.
+        from kb_build.user_components import relative_path_guard
+        relative_path_guard(args.source, emitted)
+    except UserComponentError as e:
+        print(f"error: {e}", file=sys.stderr)
         return 2
 
     try:
-        res = manifest_from_tox(tox)
+        skeleton = parse_component(tox)
     except ComponentManifestError as e:
         print(f"error [{e.kind}]: {e}", file=sys.stderr)
         return 1
 
-    entry = offline_entry(res["manifest"], res["inner_type"], source=args.source,
-                          tox_path=emitted, subcompname=res.get("subcompname"))
-    entry["harvest"] = {"method": "offline_manifest",
-                        "date": datetime.date.today().isoformat()}
+    try:
+        entry, warnings = build_entry(
+            skeleton, source=args.source, tox_path=emitted,
+            summary=args.summary or f"{name} user-registered component.")
+    except UserComponentError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
 
     reg_path = (args.registry or user_components_path()).resolve()
-    spec = None
-    if reg_path.is_file():
-        try:
-            spec = json.loads(reg_path.read_text(encoding="utf-8"))
-            if not isinstance(spec.get("components"), dict):
-                raise ValueError('missing "components" object')
-        except Exception as e:
-            print(f"error: existing registry {reg_path} is unreadable ({e}); "
-                  f"fix or remove it first", file=sys.stderr)
-            return 1
-    if spec is None:
-        spec = json.loads(json.dumps(REGISTRY_SKELETON))
-    replaced = name in spec["components"]
-    spec["components"][name] = entry
-
-    reg_path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = reg_path.with_name(reg_path.name + ".tmp")
-    tmp.write_text(json.dumps(spec, indent=2, ensure_ascii=False) + "\n",
-                   encoding="utf-8")
-    tmp.replace(reg_path)
+    try:
+        replaced = upsert_registry_entry(name, entry, registry_path=reg_path)
+    except UserComponentError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
 
     ins = [d["in_op"] for d in entry["inputs"]]
     outs = [d["out_op"] for d in entry["outputs"]]
@@ -175,13 +101,16 @@ def main(argv=None) -> int:
     if entry.get("subcompname"):
         print(f"  wrapper .tox -> subcompname={entry['subcompname']} recorded "
               f"(palette builds load the inner comp directly)")
+    if entry.get("custom_parameters"):
+        print(f"  custom parameters: {len(entry['custom_parameters'])} parsed "
+              f"from the interface .cparm")
+    for w in warnings:
+        print(f"  warning: {w}")
     print("  grounding: offline manifest (NAME authority) — bare wires bind only "
           "single-connector comps; name inner ops explicitly otherwise.")
     print(f"  build with: {{\"name\": \"myNode\", \"palette\": \"{name}\"}}")
-
-    if args.emit_chunks:
-        staged = _emit_chunks(args.emit_chunks, name, entry)
-        print(f"  chunks staged -> {staged} (NOT wired into search)")
+    print("  search: NOT ingested by this CLI — use the register_component MCP "
+          "tool (prepare -> author -> commit) to make it retrievable.")
     return 0
 
 

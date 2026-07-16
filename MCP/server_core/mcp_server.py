@@ -62,7 +62,7 @@ PARAM_HYDRATE_CAP = 12
 
 # TD Live Client tools live SOLELY on the separate `td-builder-live` server
 # (MCP/live_server.py). This offline `td-builder` server never co-loads them, so
-# its tool surface is a fixed 17 regardless of ambient import state — co-loading
+# its tool surface is a fixed 18 regardless of ambient import state — co-loading
 # would make the count depend on whether MCP/live_client happened to be importable
 # (it isn't on this server's sys.path). The three symbols stay defined (pinned
 # off) because scope_for_server() and get_server_info still read them.
@@ -334,8 +334,9 @@ def _kb_check(needs_semantic: bool = False) -> Optional[Dict[str, Any]]:
     (status + actionable message) to return to the caller as-is.
 
     needs_semantic=True means the tool requires hybrid_search (semantic
-    vector search). Only `hybrid_search` itself needs this; every other
-    KB tool only needs the knowledge_graph (graph-only).
+    vector search) — the _SEMANTIC_TOOLS set (hybrid_search itself, plus
+    register_component, whose ingest/reload needs the search adapter); every
+    other KB tool only needs the knowledge_graph (graph-only).
     """
     if _KB_STATUS == "ready":
         return None
@@ -445,6 +446,10 @@ def _load_kb():
                 graph_path=str(enhanced_graph_path),
                 vectordb_path=str(vectordb_path),
                 use_legacy=False,
+                # W7: auto-on user-component search on the live server (a no-op
+                # until the first register_component commit creates the store).
+                # Every eval/gate adapter passes user_search=False explicitly.
+                user_search=True,
             )
             print("Loaded unified search", file=sys.stderr)
             _KB_STATUS = "ready"
@@ -505,7 +510,13 @@ _KB_DEPENDENT_TOOLS = {
     "hybrid_search", "get_operator_info", "query_graph", "list_pop_operators",
     "find_operator_examples", "find_operator_combination", "find_parameter_usage",
     "find_similar_networks", "get_parameter_detail", "get_network_patterns",
+    "register_component",
 }
+
+# Tools that require the SEMANTIC half (hybrid vector search), not just the
+# knowledge graph: a partial-KB install must return the structured `kb_partial`
+# envelope for these instead of an unstructured crash (W7 #31/#43).
+_SEMANTIC_TOOLS = {"hybrid_search", "register_component"}
 
 
 def _build_menu_options(param: Dict[str, Any]) -> List[Dict[str, str]]:
@@ -1101,14 +1112,25 @@ def _start_build_job(network_design, design, table_data, project_name, output_di
 #   READ_ONLY      — no environment change (all KB lookup / validate / convert / expand
 #                    / status tools; expand only writes a temp dir it cleans up).
 #   WRITE_ADDITIVE — creates a file/artifact, never the live graph (td_build_project).
-#                    The future D3 save/snapshot tool reuses this class with
-#                    idempotentHint=True so it stays allow-under-auto.
+#                    idempotentHint=False: re-running a build can mint new outputs.
+#   WRITE_ADDITIVE_IDEMPOTENT — same additive class, but the write is a delete-then-
+#                    upsert against stable name-keyed targets, so re-running it has
+#                    the same effect (register_component: user registry + user Chroma
+#                    + manifest + optional palette copy). Honest idempotentHint=True,
+#                    per the owner-approved D3 precedent (the live save tool shipped
+#                    the analogous honest-True hints as its own WRITE_CHECKPOINT
+#                    class — a checkpoint OVERWRITE of a stable target, live-side;
+#                    this constant is the offline additive-upsert counterpart, a
+#                    separate name because the offline vocabulary is test-pinned).
 #   (No DESTRUCTIVE tools on this offline server — all live-graph mutation and
 #    arbitrary-exec tools are on the separate td-builder-live surface.)
 # Shared singletons — never mutated. See docs/TOOL_RISK_ANNOTATIONS.md.
 READ_ONLY = ToolAnnotations(readOnlyHint=True)
 WRITE_ADDITIVE = ToolAnnotations(
     readOnlyHint=False, destructiveHint=False, idempotentHint=False
+)
+WRITE_ADDITIVE_IDEMPOTENT = ToolAnnotations(
+    readOnlyHint=False, destructiveHint=False, idempotentHint=True
 )
 
 
@@ -1582,11 +1604,88 @@ async def list_tools() -> list[Tool]:
                 },
                 "required": []
             }
+        ),
+        Tool(
+            annotations=WRITE_ADDITIVE_IDEMPOTENT,
+            name="register_component",
+            description=(
+                "Register the user's own .tox component(s) so they become SEARCHABLE "
+                "(hybrid_search) and BUILDABLE ({\"palette\": \"<name>\"}) exactly like "
+                "Derivative palette components — single, several, or a whole directory.\n"
+                "Two-step flow: 1) call with prepare=true — each .tox is parsed offline "
+                "and you get back its interface skeleton (in/out ops, contained "
+                "operators, custom parameters with defaults + menu tokens). 2) author a "
+                "discriminating one-line `summary` (+ optional `use_cases` and one-line "
+                "per-parameter `parameter_descriptions`) and call again with "
+                "prepare=false to commit: the registry entry is written, the comp's "
+                "2–3 search chunks are embedded incrementally into a separate user "
+                "store (the shipped KB is never touched), and the result carries "
+                "retrievable:true once the live search index has reloaded — same "
+                "session, no restart. Commits re-parse the .tox (stateless; "
+                "operator_count is echoed so a prepare/commit mismatch is visible).\n"
+                "save_to_palette=true copies each .tox into "
+                "<user palette>/<folder>/ and registers it palette-relative "
+                "(source 'user'); existing files are refused unless overwrite=true, "
+                "and a name that shadows a shipped Derivative palette component "
+                "additionally requires confirm_shadow=true (shadowed builds resolve "
+                "to YOUR component). Editing summary/use_cases/parameter descriptions "
+                "in user_components.json afterwards requires a re-commit (or engine "
+                "reindex_all) to reach search — the store flags stale entries loudly "
+                "until then. On installs without the reranker bundle, user hits rank "
+                "by scaled dense score (score_kind 'dense_fallback'). For large "
+                "directories, batch ~10–20 comps per call — a 100-comp prepare "
+                "payload plus 100 authored summaries risks context exhaustion."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "specs": {
+                        "type": "array",
+                        "description": (
+                            "1..N component specs: {tox_path (required), name?, "
+                            "source? ('project' default), category?, summary? "
+                            "(required at commit), use_cases?: [str], "
+                            "parameter_descriptions?: {parName: one-liner}}."
+                        ),
+                        "items": {"type": "object"}
+                    },
+                    "directory": {
+                        "type": "string",
+                        "description": "Alternative to specs: expand to one spec per *.tox in this directory."
+                    },
+                    "prepare": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "true = parse only and return skeletons for authoring; false = commit (requires summary per spec)."
+                    },
+                    "save_to_palette": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Copy each .tox into <user palette>/<folder>/ and register it palette-relative (source 'user')."
+                    },
+                    "folder": {
+                        "type": "string",
+                        "default": "TD_Builder",
+                        "description": "Palette subfolder for save_to_palette (bare name, no separators)."
+                    },
+                    "overwrite": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Allow save_to_palette to replace an existing .tox (reported as 'replaced')."
+                    },
+                    "confirm_shadow": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Required for save_to_palette adds whose name shadows a shipped Derivative palette component."
+                    }
+                },
+                "required": []
+            }
         )
     ]
 
     # The 22 live-TD tools are served by the separate td-builder-live server, never
-    # co-loaded here — this offline server's surface is a fixed 17 (see the pinned-off
+    # co-loaded here — this offline server's surface is a fixed 18 (see the pinned-off
     # TD_LIVE_* constants at module top).
     return tools
 
@@ -1772,7 +1871,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
         # If the KB partially or fully failed to load (missing files, missing
         # deps, init exception), return a structured error naming the fix.
         if name in _KB_DEPENDENT_TOOLS:
-            kb_err = _kb_check(needs_semantic=(name == "hybrid_search"))
+            kb_err = _kb_check(needs_semantic=(name in _SEMANTIC_TOOLS))
             if kb_err is not None:
                 return [TextContent(
                     type="text",
@@ -1826,6 +1925,103 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                 type="text",
                 text=json.dumps(results, indent=2)
             )]
+
+        elif name == "register_component":
+            # F2 stdout protocol invariant: this is the only tool that runs the
+            # heavy ingest machinery (chromadb + sentence-transformers via the
+            # user-components engine, then reload_user_store) MID-SESSION —
+            # after main() restored the real stdout, which IS the JSON-RPC
+            # channel. One bare print() from those libraries corrupts the
+            # protocol and disconnects the client, so the ENTIRE handler body
+            # runs under the same stdout->stderr swap _load_kb uses (~:390).
+            _saved_stdout = sys.stdout
+            sys.stdout = sys.stderr
+            try:
+                # Engine: kb_build/user_components.py, loaded by FILE path relative to
+                # this module (the engine ships with the code; it self-bootstraps its
+                # own sys.path). Lazy + memoized — never imported at server boot.
+                import importlib.util
+                eng = sys.modules.get("td_user_components_engine")
+                if eng is None:
+                    eng_path = Path(__file__).resolve().parents[2] / "kb_build" / "user_components.py"
+                    spec = importlib.util.spec_from_file_location(
+                        "td_user_components_engine", str(eng_path))
+                    eng = importlib.util.module_from_spec(spec)
+                    sys.modules["td_user_components_engine"] = eng
+                    spec.loader.exec_module(eng)
+
+                def _reg_err(kind, message):
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": False, "data": None,
+                        "error": {"kind": kind, "message": message},
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2))]
+
+                specs = arguments.get("specs")
+                directory = arguments.get("directory")
+                if directory and not specs:
+                    d = Path(directory)
+                    if not d.is_dir():
+                        return _reg_err("bad_directory", f"not a directory: {d}")
+                    specs = [{"tox_path": str(p)} for p in sorted(d.glob("*.tox"))]
+                    if not specs:
+                        return _reg_err("empty_directory", f"no .tox files in {d}")
+                if not specs or not isinstance(specs, list):
+                    return _reg_err("bad_spec",
+                                    "'specs' (a list of {tox_path, ...}) or 'directory' "
+                                    "is required")
+
+                if arguments.get("prepare", False):
+                    try:
+                        prepared = eng.prepare_specs(specs)
+                    except Exception as e:
+                        return _reg_err(getattr(e, "kind", "prepare_failed"), str(e))
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": True,
+                        "prepared": prepared,
+                        "next": ("author a discriminating one-line 'summary' (+ optional "
+                                 "'use_cases' and per-parameter one-line "
+                                 "'parameter_descriptions') for each spec, then call "
+                                 "register_component again with prepare=false to commit"),
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2, ensure_ascii=False))]
+
+                # Commit. Pass the server's query encoder into the engine — it unwraps
+                # the raw sentence-transformer itself (passages must NEVER be embedded
+                # through the _QueryEncoder's prefix/normalize, W7 #24/#43).
+                model = getattr(getattr(hybrid_search, "vector_search", None), "model", None)
+                try:
+                    results = eng.commit_specs(
+                        specs,
+                        save_to_palette=bool(arguments.get("save_to_palette", False)),
+                        folder=arguments.get("folder", "TD_Builder"),
+                        overwrite=bool(arguments.get("overwrite", False)),
+                        confirm_shadow=bool(arguments.get("confirm_shadow", False)),
+                        model=model,
+                    )
+                except Exception as e:
+                    return _reg_err(getattr(e, "kind", "commit_failed"), str(e))
+
+                # In-session searchability (BLOCKER A): reload the live store; only a
+                # successful reload may stamp retrievable:true. A failed reload (e.g.
+                # RS_DISABLE dense-only mode) still leaves the commit valid —
+                # buildable ≠ searchable — and carries the reason.
+                committed = [r for r in results if r.get("ok")]
+                if committed:
+                    reload_ok, reload_reason = hybrid_search.reload_user_store()
+                else:
+                    reload_ok, reload_reason = False, "no components committed"
+                for r in committed:
+                    r["retrievable"] = bool(reload_ok)
+                    if not reload_ok:
+                        r["retrievable_reason"] = reload_reason
+                return [TextContent(type="text", text=json.dumps({
+                    "ok": bool(committed),
+                    "results": results,
+                    "meta": {"tool": name, "server": SERVER_NAME},
+                }, indent=2, ensure_ascii=False))]
+            finally:
+                sys.stdout = _saved_stdout
 
         elif name == "get_operator_info":
             if not knowledge_graph:

@@ -70,10 +70,13 @@ KB_LOOKUP_TOOLS = (
     "get_network_patterns",
 )
 
-# The 17-tool offline surface under test (P01b inventory).
+# The 18-tool offline surface under test (P01b inventory). register_component
+# is offline-buildable/searchable registration, NOT a KB lookup — it must be in
+# Lane-M's --allowedTools but never in the kb_lookup_any alias.
 OFFLINE_TOOLS = KB_LOOKUP_TOOLS + (
     "td_build_project", "td_build_status", "td_validate", "td_convert",
     "get_expert_prompt", "get_server_info", "expand_toe_file",
+    "register_component",
 )
 
 TRACE_ALIASES = {"kb_lookup_any": KB_LOOKUP_TOOLS}

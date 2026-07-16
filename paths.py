@@ -82,6 +82,47 @@ def user_components_path() -> Path:
     return root / "user_components.json"
 
 
+def user_index_dir() -> Path:
+    """Directory of the USER retrieval store (user_index/) — the mutable Chroma
+    collection + self-signed manifest.json that make registered user components
+    searchable (Wave 7). Sibling of user_components_path() (same TD_BUILDER_USER_DIR
+    override, default ~/.td_builder), so it lives OUTSIDE KB/ and the shipped KB
+    stays pristine. Resolved at CALL time like user_components_path()."""
+    return user_components_path().parent / "user_index"
+
+
+def user_palette_dir() -> Path:
+    """The user's TD palette root (TouchDesigner's ``app.userPaletteFolder``):
+    where register_component(save_to_palette=true) copies a .tox so builds that
+    emit ``app.userPaletteFolder + '/<folder>/<name>.tox'`` resolve at open time.
+    Resolution: TD_USER_PALETTE_DIR env override > Windows known-folder Documents
+    (handles OneDrive-redirected Documents) > home-based candidates."""
+    env = os.environ.get("TD_USER_PALETTE_DIR")
+    if env and env.strip():
+        return Path(env).expanduser()
+    docs = None
+    if os.name == "nt":
+        try:
+            import ctypes
+            import ctypes.wintypes
+            buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
+            # CSIDL_PERSONAL=5 (Documents), SHGFP_TYPE_CURRENT=0
+            if ctypes.windll.shell32.SHGetFolderPathW(None, 5, None, 0, buf) == 0 \
+                    and buf.value:
+                docs = Path(buf.value)
+        except Exception:
+            docs = None
+    if docs is None:
+        home = Path.home()
+        for cand in (home / "Documents", home / "OneDrive" / "Documents"):
+            if cand.exists():
+                docs = cand
+                break
+        else:
+            docs = home / "Documents"
+    return docs / "Derivative" / "Palette"
+
+
 def wiki_supplemental(name: str) -> Path:
     """Return the absolute path to a wiki_supplemental .md file.
 

@@ -39,6 +39,17 @@ def pytest_collection_modifyitems(items):
             item.add_marker(pytest.mark.requires_kb)
 
 
+@pytest.fixture(scope="session", autouse=True)
+def _user_dir_pin(tmp_path_factory):
+    """W7 hermeticity (belt-and-suspenders): no test may read or write the
+    maintainer's real ~/.td_builder — paths.user_components_path() /
+    user_index_dir() resolve TD_BUILDER_USER_DIR at call time, so this
+    session-wide pin covers tests/unit + tests/engine too (the measure/_server
+    loader force-pins again before the server import). Tests that need their
+    own dir monkeypatch.setenv over this."""
+    os.environ["TD_BUILDER_USER_DIR"] = str(tmp_path_factory.mktemp("td_user_pin"))
+
+
 @pytest.fixture(scope="session")
 def promote(pytestconfig) -> bool:
     return bool(pytestconfig.getoption("--promote"))

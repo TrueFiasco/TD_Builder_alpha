@@ -32,7 +32,8 @@ class UnifiedSearchAdapter:
     def __init__(self,
                  vectordb_path: Optional[str] = None,
                  graph_path: Optional[str] = None,
-                 use_legacy: bool = False):
+                 use_legacy: bool = False,
+                 user_search: bool = False):
         """
         Initialize search adapter.
 
@@ -40,6 +41,11 @@ class UnifiedSearchAdapter:
             vectordb_path: Path to vector database (defaults to config)
             graph_path: Path to knowledge graph (defaults to config)
             use_legacy: If True, use original HybridGraphRAG (for A/B testing)
+            user_search: If True, the retrieval stack also opens the USER
+                component store (paths.user_index_dir()) — auto-on for the live
+                MCP server, explicitly False for every eval/gate adapter so
+                machine state can never leak into a measurement (W7). A no-op
+                when no user store exists yet.
         """
         print("[INIT] Initializing Unified Search Adapter...")
 
@@ -47,6 +53,7 @@ class UnifiedSearchAdapter:
         self.vectordb_path = vectordb_path or str(SearchConfig.VECTOR_DB_PATH)
         self.graph_path = graph_path or str(SearchConfig.GRAPH_DATA_PATH)
         self.use_legacy = use_legacy
+        self.user_search = bool(user_search)
 
         print(f"  Embedding provider: {SearchConfig.EMBEDDING_PROVIDER}")
         print(f"  Embedding model: {SearchConfig.EMBEDDING_MODEL}")
@@ -114,6 +121,19 @@ class UnifiedSearchAdapter:
 
         self.backend_type = "enhanced"
 
+    @staticmethod
+    def _user_index_dir() -> Path:
+        """Late-resolve paths.user_index_dir() (fresh each call — the env
+        override and registrations must be visible without a module reload)."""
+        try:
+            from paths import user_index_dir
+        except ImportError:
+            repo_root = str(Path(__file__).resolve().parents[3])
+            if repo_root not in sys.path:
+                sys.path.insert(0, repo_root)
+            from paths import user_index_dir
+        return user_index_dir()
+
     def _init_retrieval_stack(self):
         """Construct the Phase-2 RetrievalStack behind the enhanced search path."""
         self.retrieval_stack = None
@@ -126,15 +146,34 @@ class UnifiedSearchAdapter:
             rs_module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(rs_module)
             kb_root = Path(self.vectordb_path).parent
+            user_store = self._user_index_dir() if self.user_search else None
             self.retrieval_stack = rs_module.RetrievalStack(
                 kb_root=kb_root,
                 vector_search=self.vector_search,
                 knowledge_graph=self.knowledge_graph,
+                user_store=user_store,
             )
             print("  Retrieval stack ready (Phase 2 hybrid)")
         except Exception as e:
             print(f"  Warning: retrieval stack init failed ({e}); dense-only fallback")
             self.retrieval_stack = None
+
+    def reload_user_store(self):
+        """Refresh the user-component store on the live stack (called by the
+        register_component handler after every successful commit). Late-resolves
+        paths.user_index_dir() fresh and delegates. Returns (ok, reason).
+
+        retrieval_stack=None branch (W6): in dense-only mode (RS_DISABLE or
+        stack-init failure) ALL user-store retrieval lives on the stack and is
+        structurally impossible — return False with the reason so the handler
+        reports retrievable:false while the commit itself still succeeds
+        (buildable ≠ searchable)."""
+        stack = getattr(self, "retrieval_stack", None)
+        if stack is None:
+            return False, "retrieval stack unavailable — dense-only mode"
+        if not self.user_search:
+            return False, "user_search disabled on this adapter"
+        return stack.reload_user_store(self._user_index_dir())
 
     def _init_vector_search(self):
         """Initialize vector search — local embeddings only (key-free release)."""
@@ -239,6 +278,7 @@ class UnifiedSearchAdapter:
         retrieval_backend = {
             'reranker_active': getattr(stack, '_reranker', None) is not None,
             'bm25_active': getattr(stack, '_bm25', None) is not None,
+            'user_store_active': getattr(stack, '_user', None) is not None,
         }
 
         return {

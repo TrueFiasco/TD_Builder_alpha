@@ -108,14 +108,11 @@ TD can crash, sometimes during heavy compute, sometimes for no obvious reason. W
 - **Never call `project.save()` — or any `ui.*` dialog call — from `execute_python_script`.** The live connection is served by a WebServer DAT handler running on TD's **single main thread**. If a save pops a modal dialog (Save-As on a never-saved project, an overwrite prompt on an incrementing save), that dialog blocks the main thread: TD freezes, the live connection hangs with no timeout rescue, and nothing can dismiss the dialog programmatically. One call can kill the whole session.
 - **The server takes an automatic pre-mutation restore point** — a pure filesystem copy of the last-saved on-disk `.toe`, once per server process, before the first mutation. Its outcome is in `get_td_info`'s `restorePoint` field: `status: ok` means a rollback copy exists (at `path`); `skipped`/`unavailable` means there is **no rollback point**. Either way it captures **last-saved state only** — unsaved in-session edits are never in it.
 - **To checkpoint, ask the user to save manually (Ctrl+S)** at milestones — before any operation you know is heavy (large bakes, big point ops, .tox exports) and every so often during long sessions. Manual saves auto-increment (heart.01.toe, heart.02.toe, …), so user-side checkpointing is free.
-- **For a programmatic checkpoint, use the dialog-proof `save_td_project` live tool** (details below) — never a scripted `project.save()`.
+- **For a programmatic checkpoint, use the dialog-proof `save_td_project` live tool** (details below).
 
-**Checkpoint before a risky batch — use `save_td_project`, not a scripted save.** The
-`save_td_project` live tool takes a **dialog-proof** filesystem copy of the last-saved
-`.toe` (into the project's `Backup/` folder). It never pops a TD save/overwrite dialog,
-so it is safe to call unattended — unlike `project.save()` **inside `execute_python_script`**,
-which runs on TD's single main thread and hangs the connection (~60 s) if it raises a
-modal. Never call `ui.*` or `project.save()` from a script.
+**Checkpoint before a risky batch — use `save_td_project`.** It takes a **dialog-proof**
+filesystem copy of the last-saved `.toe` (into the project's `Backup/` folder) — no TD
+save/overwrite dialog can fire, so it is safe to call unattended.
 
 `save_td_project` captures **last-manual-save state only** (it copies what is on disk,
 not unsaved in-memory edits). The safe fresh-checkpoint recipe before a risky exec batch:
@@ -343,7 +340,7 @@ You cannot read keyboard input via the MCP. Keys 1/2/3 are for the user after ha
 
 | Symptom | Real cause |
 |---|---|
-| `name 'np' / 'p' / 's' is not defined` | The name is genuinely unbound — a typo or a missing top-level `import` (top-level names ARE visible in comprehensions/nested defs now; the old flat-scope restriction is gone) |
+| `name 'np' / 'p' / 's' is not defined` | The name is genuinely unbound — a typo or a missing top-level `import` (top-level names ARE visible in comprehensions and nested defs) |
 | `time.sleep() is not allowed in execute_python_script` | Static guard rejects `time.sleep()` (freezes TD's main thread) — split the delay across multiple tool calls |
 | `'operator_path' Required` | You passed `node_path` to `capture_top_output` — it wants `operator_path` |
 | Shader runs but outputs zeros / uniform reads as 0 / custom attr missing downstream | Op-specific setup gotcha — search KB for the exemplar (don't guess at params) |

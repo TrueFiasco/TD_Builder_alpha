@@ -109,7 +109,7 @@ this release is about retrieval quality, build correctness, and a leaner, fully-
 A large consolidation/refactor of the 0.1.0 alpha into a clean, key-free public release.
 
 ### Changed
-- **Two MCP servers** instead of one: `td-builder` (offline, **17 key-free tools**) and
+- **Two MCP servers** instead of one: `td-builder` (offline, **16 key-free tools**) and
   `td-builder-live` (**19 live-TD tools**). Splitting the live tools out keeps offline sessions from
   carrying ~19 unused tool schemas in context.
 - **Six-folder layout:** `MCP/` (`server.py` + `live_server.py` + `server_core/` + `engine/` +

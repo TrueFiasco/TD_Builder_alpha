@@ -464,7 +464,7 @@ def _load_kb():
 # D2 (harness item 3b): the single-sourced non-negotiables are passed as the
 # server's always-on `instructions=` channel (delivered verbatim on Claude Code /
 # cowork; see docs/NON_NEGOTIABLES.md). SCOPE FOLLOWS TOOLS SERVED: this offline
-# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 19
+# `td-builder` server serves no live tools (TD_LIVE_ENABLED is pinned off — the 22
 # live tools live only on td-builder-live), so scope_for_server() resolves to the
 # offline scope ([always] rules only). The helper stays the single scope-follows-
 # tools source: a server that DID serve the live tools would ship the live scope,
@@ -1194,7 +1194,7 @@ async def list_tools() -> list[Tool]:
         Tool(
             annotations=READ_ONLY,
             name="list_pop_operators",
-            description="List all POP (Particle) operators available in TouchDesigner",
+            description="List all POP (Point) operators available in TouchDesigner",
             inputSchema={
                 "type": "object",
                 "properties": {},
@@ -1585,7 +1585,7 @@ async def list_tools() -> list[Tool]:
         )
     ]
 
-    # The 19 live-TD tools are served by the separate td-builder-live server, never
+    # The 22 live-TD tools are served by the separate td-builder-live server, never
     # co-loaded here — this offline server's surface is a fixed 17 (see the pinned-off
     # TD_LIVE_* constants at module top).
     return tools

@@ -126,15 +126,12 @@ except ImportError as e:
 # Import unified_system components for validation and format conversion
 try:
     from api.network_builder import NetworkBuilder
-    from core.format_converter import FormatConverter
-    from core.operator_registry import OperatorRegistry
-    from validation.pipeline import ValidationPipeline
+    from api.validate import build_validation_stack
     from builders.toe_builder import TOEBuilder
 
-    # Initialize validation/conversion components
-    _registry = OperatorRegistry()
-    _converter = FormatConverter(_registry)
-    _validator = ValidationPipeline(_registry)
+    # Initialize validation/conversion components via the engine's single
+    # construction seam (api/validate.py).
+    _registry, _converter, _validator = build_validation_stack()
     UNIFIED_SYSTEM_ENABLED = True
     print("Unified system validation/conversion enabled", file=sys.stderr)
 except (ImportError, FileNotFoundError) as e:

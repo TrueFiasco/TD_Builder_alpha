@@ -52,7 +52,8 @@ VERDICT_RANK = ["BUILD_FAIL", "EXPAND_FAIL", "OP_NOT_FOUND", "TOKEN_MISMATCH",
 
 
 # ---------------------------------------------------------------------------
-# In-process td_validate (mirrors mcp_server.py:126-134,1922-1930)
+# In-process td_validate — same stack as the shipped handler, constructed via
+# the engine's single seam (MCP/engine/api/validate.py::build_validation_stack)
 # ---------------------------------------------------------------------------
 _VALIDATOR = None
 _CONVERTER = None
@@ -62,12 +63,9 @@ def _validator():
     global _VALIDATOR, _CONVERTER
     if _VALIDATOR is None:
         gc.ensure_paths()
-        from core.operator_registry import OperatorRegistry
-        from core.format_converter import FormatConverter
-        from validation.pipeline import ValidationPipeline
-        reg = OperatorRegistry()
-        _CONVERTER = FormatConverter(reg)
-        _VALIDATOR = ValidationPipeline(reg)
+        # Lazy: `api` resolves only after ensure_paths() puts the engine root up.
+        from api.validate import build_validation_stack
+        _registry, _CONVERTER, _VALIDATOR = build_validation_stack()
     return _VALIDATOR, _CONVERTER
 
 

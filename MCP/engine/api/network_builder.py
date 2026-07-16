@@ -17,9 +17,7 @@ from core.models import (
     OperatorFamily, FormatLayer, Input, ParameterValue, ExpressionLanguage,
     ParameterMode, ValidationReport
 )
-from core.operator_registry import OperatorRegistry
-from core.format_converter import FormatConverter
-from validation.pipeline import ValidationPipeline
+from api.validate import build_validation_stack
 
 
 class NetworkBuilder:
@@ -46,9 +44,7 @@ class NetworkBuilder:
             mode: "toe" or "tox"
             root_comp: Root component path (default: "project1")
         """
-        self.registry = OperatorRegistry()
-        self.converter = FormatConverter(self.registry)
-        self.validator = ValidationPipeline(self.registry)
+        self.registry, self.converter, self.validator = build_validation_stack()
 
         # Initialize network
         self.metadata = Metadata(

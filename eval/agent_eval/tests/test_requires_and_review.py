@@ -15,6 +15,7 @@ test_scorer.py:340 and rot the same way.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -347,8 +348,25 @@ def test_extractor_harvests_authored_fields_and_actuals(_ledger, monkeypatch):
     md = (_ledger / "registration_quality.md").read_text(encoding="utf-8")
     assert "Generates a parametric knot curve" in md
     assert "which knot formula to generate" in md
-    assert "menu: trefoil|circle" in md            # actual column shows real tokens
+    # actual column shows the real tokens, pipe-ESCAPED so the markdown table
+    # survives (menu tokens are pipe-joined; a raw | would split the cell)
+    assert r"menu: trefoil\|circle" in md
     assert "Specificity:" in md and "verdict:" in md
+
+
+def test_ledger_table_rows_are_not_broken_by_menu_pipes(_ledger, monkeypatch):
+    """Every table row must have exactly the 3 declared columns."""
+    _seed_run(_ledger)
+    monkeypatch.setattr(sys, "argv", ["x", "--runs", "model-test", "--render"])
+    X.main()
+    md = (_ledger / "registration_quality.md").read_text(encoding="utf-8")
+    rows = [l for l in md.splitlines()
+            if l.startswith("| ") and "---" not in l and "parameter |" not in l]
+    assert rows, "expected parameter rows"
+    for r in rows:
+        # unescaped pipes = cell separators; 3 columns -> 4 delimiters
+        cells = re.split(r"(?<!\\)\|", r)
+        assert len(cells) == 5, f"row splits into {len(cells) - 2} cells: {r}"
 
 
 def test_extractor_is_idempotent(_ledger, monkeypatch):

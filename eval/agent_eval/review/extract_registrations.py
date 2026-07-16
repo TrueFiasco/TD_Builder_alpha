@@ -211,6 +211,12 @@ def collect(run_selectors: list, include_traces: bool) -> list:
 # ---------------------------------------------------------------------------
 # Render
 # ---------------------------------------------------------------------------
+def _cell(s) -> str:
+    """Markdown table cells are pipe-delimited, and menu tokens are rendered
+    pipe-joined ('trefoil|figure8|...') — escape or the table collapses."""
+    return str(s).replace("|", "\\|").replace("\n", " ")
+
+
 def _fmt_par(p: dict) -> str:
     bits = []
     if p.get("menu"):
@@ -271,9 +277,11 @@ def render(entries: list) -> str:
             names = list(dict.fromkeys(
                 list(a["parameter_descriptions"].keys()) + list(pars.keys())))
             for n in names:
-                desc = a["parameter_descriptions"].get(n) or "_(not described)_"
-                truth = _fmt_par(pars[n]) if n in pars else "_(no such parameter!)_"
-                L.append(f"| `{n}` | {desc} | {truth} |")
+                desc = (_cell(a["parameter_descriptions"][n])
+                        if a["parameter_descriptions"].get(n) else "_(not described)_")
+                truth = (_cell(_fmt_par(pars[n])) if n in pars
+                         else "**_(no such parameter!)_**")
+                L.append(f"| `{_cell(n)}` | {desc} | {truth} |")
             L.append("")
 
         if act:

@@ -1,0 +1,14 @@
+{"_meta": {"scenario": "s19_register_search_roundtrip", "blessed_from": "s19-21-cap1/s19_register_search_roundtrip", "scenario_version": 1, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir"}], "prepare": true}}
+{"tool": "register_component", "args": {"specs": [{"tox_path": "{{RUN_DIR}}/assets/knotgen.tox.dir", "name": "knotgen", "source": "project", "summary": "Procedural 3D knot-curve generator (POP) that samples mathematical knot paths \u2014 trefoil, figure-eight, torus (2,3), or circle \u2014 as a point cloud with controllable point count and XYZ scale.", "use_cases": ["Animate a ribbon or tube geometry along a looping 3D knot trajectory as a motion-graphics centerpiece", "Feed a mathematically precise closed-loop point path into particle systems or instancing for generative art or live-visual installations", "Prototype topology-aware looping curves by switching knot types from a menu without writing any custom GLSL"], "parameter_descriptions": {"Numpoints": "Number of points sampled along the knot curve (range 16\u20132000)", "Scale": "XYZ scale factors applied uniformly to the generated knot geometry", "Knottype": "Which knot shape to generate: trefoil, figure8, torus, or circle"}}], "prepare": false, "save_to_palette": false}}
+{"tool": "hybrid_search", "args": {"query": "generate a 3D looping mathematical knot curve as a point cloud with selectable knot shape", "n_results": 8}}
+{"tool": "hybrid_search", "args": {"query": "knotgen", "n_results": 8}}

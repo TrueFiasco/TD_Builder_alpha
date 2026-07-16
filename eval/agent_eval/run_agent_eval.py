@@ -261,9 +261,15 @@ def run_model_once(scenario: dict, trial_dir: Path, cfg: dict, model_id: str,
     # offline scenarios keep the fixed 17-tool surface (hermeticity unchanged).
     live = scenario.get("surface") == "live"
     tmpl = MCP_LIVE_TMPL_PATH if live else MCP_TMPL_PATH
+    # W7 hermeticity (W9): a fresh empty USER component dir per TRIAL — minted
+    # here beside the per-trial mcp.eval.json so no trial can see another
+    # trial's registrations (or the maintainer's real ~/.td_builder).
+    user_dir = trial_dir / "user_dir"
+    user_dir.mkdir(parents=True, exist_ok=True)
     mcp_cfg = tmpl.read_text(encoding="utf-8") \
         .replace("{{PYTHON}}", Path(sys.executable).as_posix()) \
-        .replace("{{REPO_ROOT}}", REPO_ROOT.as_posix())
+        .replace("{{REPO_ROOT}}", REPO_ROOT.as_posix()) \
+        .replace("{{USER_DIR}}", user_dir.as_posix())
     cfg_path = trial_dir / "mcp.eval.json"
     cfg_path.write_text(mcp_cfg, encoding="utf-8")
 

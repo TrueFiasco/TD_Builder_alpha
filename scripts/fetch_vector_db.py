@@ -16,9 +16,11 @@ Reads repo/tag/asset/sha256 (and optional direct `url`) from
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import shutil
+import sqlite3
 import subprocess
 import sys
 import time
@@ -39,21 +41,44 @@ def _load_manifest() -> dict:
 
 
 def _vector_db_doc_count(vdb: Path) -> int | None:
-    """Document count of the Chroma store, or None when unmeasurable.
+    """Document count of the Chroma store, measured with a stdlib sqlite3
+    READ-ONLY probe of ``chroma.sqlite3`` — deliberately NOT chromadb.
 
-    None means exactly one thing: chromadb is not importable (this script must
-    run before deps may be installed). Any chromadb-level failure — collection
-    missing, corrupt/mismatched sqlite — counts as a measured 0: the store
-    holds nothing usable. Callers should check for chroma.sqlite3 first;
-    opening a store-less dir makes chromadb create a fresh empty sqlite in it.
+    chromadb's ``PersistentClient`` keeps the sqlite file open for the life of
+    the process (Rust bindings, no close API; ``clear_system_cache()`` does not
+    release it), so on Windows a chromadb probe here made the later
+    ``_retire_unhealthy_vector_db`` rename fail against OUR OWN handle
+    (WinError 5) while the error blamed a phantom "running MCP server" — and
+    every retry re-downloaded the bundle first. The sqlite connection below is
+    closed deterministically, so callers may rename/move the store right after
+    probing. Bonus: the probe now works before deps are installed at all.
+
+    Contract:
+      - None  -> nothing to measure: ``chroma.sqlite3`` does not exist.
+      - 0     -> measured unusable: the file exists but the ``td_unified``
+                 collection is missing / holds zero embedding rows, or the
+                 file is unreadable at the sqlite level (corrupt, not a
+                 database, not a Chroma schema). The store holds nothing
+                 usable either way.
+      - N > 0 -> healthy: N embedding rows in the ``td_unified`` collection
+                 (matches chromadb's ``collection.count()``).
+    (check_deps.py mirrors this contract; keep the two in sync.)
     """
-    try:
-        import chromadb
-    except ImportError:
+    db = vdb / "chroma.sqlite3"
+    if not db.exists():
         return None
     try:
-        client = chromadb.PersistentClient(path=str(vdb))
-        return client.get_collection("td_unified").count()
+        # closing(): a bare `with sqlite3.connect(...)` only ends the
+        # transaction — it does NOT release the file handle we exist to release.
+        with contextlib.closing(
+                sqlite3.connect(db.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+            return conn.execute(
+                "SELECT COUNT(*) FROM embeddings e"
+                " JOIN segments s ON e.segment_id = s.id"
+                " WHERE s.collection ="
+                "   (SELECT id FROM collections WHERE name = ?)",
+                ("td_unified",),
+            ).fetchone()[0]
     except Exception:
         return 0
 
@@ -66,13 +91,13 @@ def _already_populated() -> bool:
     # KB health gate: a vector_db that exists but holds ZERO documents used to
     # count as "populated", trapping the user in a loop (the MCP server says
     # "run fetch_vector_db.py", this script says "nothing to do"). Require
-    # Chroma's sqlite file, and — when chromadb is importable — a non-zero
-    # document count. Without chromadb (bootstrap before deps) fall back to
-    # the file-level answer; the server cannot run in that env either.
+    # Chroma's sqlite file and a non-zero measured document count. The stdlib
+    # sqlite probe needs no installed deps, so there is no bootstrap fallback
+    # any more: None (store vanished mid-check) and 0 (measured unusable)
+    # both mean "not populated".
     if not (vdb / "chroma.sqlite3").exists():
         return False
-    count = _vector_db_doc_count(vdb)
-    if count is not None and count <= 0:
+    if not _vector_db_doc_count(vdb):
         return False
     # Phase 2: the retrieval stack also needs the BM25 lexical index and the bundled
     # cross-encoder reranker. Treat the KB as populated only when those are present too,
@@ -96,9 +121,16 @@ def _retire_unhealthy_vector_db() -> None:
         return  # nothing there (or bare dir): extraction fills it fresh
     if (vdb / "chroma.sqlite3").exists():
         count = _vector_db_doc_count(vdb)
-        if count is None or count > 0:
-            return  # healthy — or unmeasurable (no chromadb): leave it alone
-    graveyard = vdb.with_name(f"vector_db.bad-{time.strftime('%Y%m%d-%H%M%S')}")
+        if count is not None and count > 0:
+            return  # healthy: leave it alone
+        # None (sqlite vanished since the check above) falls through: a
+        # sqlite-less dir is retired just like the no-sqlite branch below.
+    stem = f"vector_db.bad-{time.strftime('%Y%m%d-%H%M%S')}"
+    graveyard = vdb.with_name(stem)
+    n = 0
+    while graveyard.exists():  # same-second reruns: uniquify, never collide
+        n += 1
+        graveyard = vdb.with_name(f"{stem}-{n}")
     print(f"Existing {vdb} holds no usable documents - moving it aside to {graveyard}")
     print("  (delete the vector_db.bad-* dir once the fresh KB works)")
     try:
@@ -106,7 +138,7 @@ def _retire_unhealthy_vector_db() -> None:
     except OSError as e:
         sys.exit(
             f"Could not move the unhealthy vector_db aside ({e}).\n"
-            "  A running MCP server holds KB/vector_db open - stop the MCP server\n"
+            "  Another process holds KB/vector_db open - stop the MCP server\n"
             "  (and anything else using the KB), then re-run this script."
         )
 

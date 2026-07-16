@@ -19,9 +19,23 @@ OK = "[ OK ]"
 BAD = "[FAIL]"
 
 
-def _vector_db_doc_count(vdb: Path) -> int | None:
+# Sentinel: scripts/fetch_vector_db.py itself failed to load/run — distinct
+# from the seam's own return values so the report never blames the vector
+# store for a broken helper module.
+_HELPER_FAILED = object()
+
+
+def _vector_db_doc_count(vdb: Path):
     """Chroma document count via fetch_vector_db's seam (single source of
-    populated-truth; None = chromadb not importable, unmeasurable)."""
+    populated-truth; a stdlib sqlite read-only probe, no chromadb involved —
+    chromadb importability matters to the SERVER and is reported separately
+    in the package checks above).
+
+    Seam contract (mirrors fetch_vector_db._vector_db_doc_count):
+      None = chroma.sqlite3 absent (nothing to measure), 0 = measured
+      unusable (td_unified missing/empty or sqlite unreadable), N = healthy.
+    Returns _HELPER_FAILED when the helper module cannot be loaded/run.
+    """
     import importlib.util
     try:
         spec = importlib.util.spec_from_file_location(
@@ -30,7 +44,7 @@ def _vector_db_doc_count(vdb: Path) -> int | None:
         spec.loader.exec_module(mod)
         return mod._vector_db_doc_count(vdb)
     except Exception:  # noqa: BLE001 — diagnostics must never crash
-        return None
+        return _HELPER_FAILED
 
 
 def main() -> int:
@@ -77,8 +91,9 @@ def main() -> int:
             problems.append("Download the KB bundle: python scripts/fetch_vector_db.py")
 
     # Vector store — same health rules as fetch_vector_db._already_populated():
-    # Chroma's sqlite must exist AND (when chromadb is importable) hold >0
-    # documents. An empty-but-present store is the trap where the server loads
+    # Chroma's sqlite must exist AND hold >0 measured documents (stdlib sqlite
+    # read-only probe; works even before chromadb is installed). An
+    # empty-but-present store is the trap where the server loads
     # "successfully" and semantic search returns nothing forever.
     vdb = kb / "vector_db"
     if not (vdb.exists() and any(vdb.iterdir())):
@@ -89,12 +104,20 @@ def main() -> int:
         problems.append("Re-fetch the KB bundle: python scripts/fetch_vector_db.py")
     else:
         count = _vector_db_doc_count(vdb)
-        if count is None:
-            print(f"{OK} KB/vector_db/ present (document count unverified - chromadb not importable)")
+        if count is _HELPER_FAILED:
+            print(f"{OK} KB/vector_db/ present (document count unverified - "
+                  "the scripts/fetch_vector_db.py helper failed to load)")
+        elif count is None:
+            # Seam contract: None = chroma.sqlite3 absent. It existed a moment
+            # ago (checked above), so the store vanished mid-check.
+            print(f"{BAD} KB/vector_db/ has no Chroma store (chroma.sqlite3 disappeared)")
+            problems.append("Re-fetch the KB bundle: python scripts/fetch_vector_db.py")
         elif count > 0:
             print(f"{OK} KB/vector_db/ populated ({count:,} documents)")
         else:
-            print(f"{BAD} KB/vector_db/ EMPTY (0 documents) - semantic search would return nothing")
+            print(f"{BAD} KB/vector_db/ holds no usable documents "
+                  "(td_unified missing/empty or store unreadable) - "
+                  "semantic search would return nothing")
             problems.append("Re-fetch the KB bundle: python scripts/fetch_vector_db.py")
 
     # Phase-2 retrieval stack: BM25 lexical index + bundled cross-encoder reranker

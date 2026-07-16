@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+### Changed
+- **Single-source hygiene bundle** (architecture-review candidate 9, owner-directed): four
+  facts that had to agree in N places, previously held together by comments, now have seams
+  or enforcement tests. (1) **Root resolution**: `mcp_server.py` and `config/__init__.py`
+  import `REPO_ROOT`/`KB_ROOT` from `paths.py` instead of re-deriving them with private
+  `parents[N]` walks (the `param_name_resolver` `parents[3]` bug's failure shape); drift
+  pinned KB-free in `tests/engine/test_root_resolution.py` (runtime equality for config,
+  AST guard + layout assertion for the server; `TD_BUILDER_ROOT` is now read in exactly one
+  place). (2) **Auth constants**: the `TD_API_TOKEN`/`TD_API_TOKEN_FILE` + default-token-path
+  mirror across `td_live_client.py` and td-webserver `utils/auth.py` is now test-enforced
+  (`tests/unit/test_live_auth_unit.py`). (3) **Validation stack**: the
+  `OperatorRegistry → FormatConverter → ValidationPipeline` trio, previously copy-pasted at
+  five sites, is constructed only by the new engine seam
+  `MCP/engine/api/validate.py::build_validation_stack()` (light-deps import and
+  KB-`FileNotFoundError` propagation pinned in `tests/engine/test_validation_stack_seam.py`).
+  (4) **Eval identity**: CI Lane R now runs `--compare` against the committed baseline
+  (advisory; the refusal machinery previously never executed in CI), and the identity block
+  gains a soft-warn tier — `engine_code_hash` warns (never refuses) when engine code drifted
+  since the baseline, closing the `server_version` blind spot — plus an informational,
+  never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
+
 ### Fixed
 - **Offline builder no longer re-stubs hand-edited shader/script files on rebuild**
   (`toe_builder_bridge._write_docked_dats`): when a design authors no content for a docked

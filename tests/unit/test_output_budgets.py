@@ -8,7 +8,8 @@ in the KB-free CI lane:
     flood with an explicit non-silent signal that keeps the scorer envelope valid;
   * risk annotations — every tool on both servers carries a `ToolAnnotations` risk
     tier. The live surface is checked by importing the real Tool objects; the offline
-    surface is checked by AST-parsing `mcp_server.py` (its full import pulls the KB).
+    surface is checked by AST-parsing `mcp_server.py` (kept dependency-free even
+    though mcp_server now imports KB-free — the KB loads lazily; see line ~251).
 
 See docs/TOOL_RISK_ANNOTATIONS.md for the owner-approved classification.
 """

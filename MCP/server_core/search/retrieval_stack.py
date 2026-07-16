@@ -257,7 +257,9 @@ class RetrievalStack:
             return
         pkl = self.kb_root / "lexical_index" / "bm25.pkl"
         if not pkl.exists():
-            print(f"[retrieval_stack] no BM25 index at {pkl}; dense-only lexical channel disabled")
+            print(f"[retrieval_stack] no BM25 index at {pkl}; dense-only lexical channel disabled. "
+                  f"Fix: run `python scripts/fetch_vector_db.py` from the repo root to restore "
+                  f"the full retrieval stack.")
             return
         try:
             # W2d trust boundary: a bm25.pkl that arrived corrupted through the
@@ -290,7 +292,9 @@ class RetrievalStack:
             return
         model_dir = self.kb_root / "models" / "ms-marco-MiniLM-L-6-v2"
         if not (model_dir / "config.json").exists():
-            print(f"[retrieval_stack] no reranker bundle at {model_dir}; rerank disabled")
+            print(f"[retrieval_stack] no reranker bundle at {model_dir}; rerank disabled. "
+                  f"Fix: run `python scripts/fetch_vector_db.py` from the repo root to restore "
+                  f"the full retrieval stack.")
             self._reranker_failed = True
             return
         try:

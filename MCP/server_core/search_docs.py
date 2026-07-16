@@ -158,8 +158,10 @@ class TDDocSearch:
         client = chromadb.PersistentClient(path=vectordb_path)
         self.collection = client.get_collection("td_unified")
 
-        count = self.collection.count()
-        print(f"✓ Ready! Loaded {count:,} documentation chunks\n")
+        # Exposed for the server's KB health gate: 0 documents means every
+        # semantic query returns empty results, which must read as unhealthy.
+        self.doc_count = self.collection.count()
+        print(f"✓ Ready! Loaded {self.doc_count:,} documentation chunks\n")
 
     def search(self, query: str, n_results: int = 5, filter_family: str = None) -> List[Dict]:
         """

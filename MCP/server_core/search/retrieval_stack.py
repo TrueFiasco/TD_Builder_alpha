@@ -357,8 +357,11 @@ class RetrievalStack:
                 raise ValueError("manifest is not an object")
         except Exception as e:
             self._user = None
+            # All reload/inject diagnostics go to stderr: reload_user_store runs
+            # MID-SESSION (register_component commit) when sys.stdout IS the MCP
+            # JSON-RPC channel — one stray byte disconnects the client (F2).
             print(f"[retrieval_stack] user store REFUSED: unreadable manifest ({e}); "
-                  f"KB-only — run reindex_all")
+                  f"KB-only — run reindex_all", file=sys.stderr)
             return False, f"unreadable user_index/manifest.json ({e}) — run reindex_all"
         # Regime guard: the user store must share the shipped KB's embedding
         # space or its vectors are garbage against this query encoder.
@@ -366,7 +369,8 @@ class RetrievalStack:
             regime = _search_docs_mod()._resolve_embedding(self.kb_root)
         except Exception as e:
             self._user = None
-            print(f"[retrieval_stack] user store REFUSED: KB regime unresolvable ({e})")
+            print(f"[retrieval_stack] user store REFUSED: KB regime unresolvable ({e})",
+                  file=sys.stderr)
             return False, f"KB embedding regime unresolvable ({e})"
         m_model = str(manifest.get("embedding_model") or "")
         if (m_model.casefold() != str(regime["model_id"]).casefold()
@@ -375,7 +379,7 @@ class RetrievalStack:
             self._user = None
             print(f"[retrieval_stack] user store REFUSED: embedding regime mismatch "
                   f"(store {m_model!r} vs KB {regime['model_id']!r}); KB-only — "
-                  f"run reindex_all")
+                  f"run reindex_all", file=sys.stderr)
             return False, "user store embedding regime mismatch — run reindex_all"
         try:
             import chromadb                        # lazy — hermetic import hygiene
@@ -384,7 +388,8 @@ class RetrievalStack:
             count = coll.count()
         except Exception as e:
             self._user = None
-            print(f"[retrieval_stack] user store load failed ({e}); KB-only")
+            print(f"[retrieval_stack] user store load failed ({e}); KB-only",
+                  file=sys.stderr)
             return False, f"user store load failed ({e})"
         if count == 0:
             # W2 degrade-in-place contract: collection-count==0 ≡ store-absent
@@ -409,7 +414,7 @@ class RetrievalStack:
         if stale:
             print(f"[retrieval_stack] WARNING: user store STALE for {sorted(stale)} — "
                   f"summaries edited since ingest; run register_component "
-                  f"(re-commit) or reindex_all")
+                  f"(re-commit) or reindex_all", file=sys.stderr)
         # Name registry for exact-name direct-injection: normalize with the SAME
         # regex as _route (:316) / the KB resolver (:268), longest-match-first.
         # The KB resolver's len>=5 short-name guard is deliberately DROPPED here
@@ -422,10 +427,11 @@ class RetrievalStack:
         norm_names = [(k, n) for k, n in norm_names if k]
         if self._reranker is None:
             print("[retrieval_stack] user-component search degraded — reranker "
-                  "unavailable; injected user chunks rank by scaled dense score")
+                  "unavailable; injected user chunks rank by scaled dense score",
+                  file=sys.stderr)
         self._user = _UserStore(coll, count, hashes, norm_names)
         print(f"[retrieval_stack] user store: {count} chunks, "
-              f"{len(hashes)} component(s)")
+              f"{len(hashes)} component(s)", file=sys.stderr)
         return True, ""
 
     def _inject_user(self, pool: Dict[str, dict], query: str):
@@ -463,7 +469,8 @@ class RetrievalStack:
                                             res["metadatas"][0], res["distances"][0]):
                 _add(cid, doc, meta, 1.0 - dist)
         except Exception as e:
-            print(f"[retrieval_stack] WARNING: user dense pre-select failed ({e})")
+            print(f"[retrieval_stack] WARNING: user dense pre-select failed ({e})",
+                  file=sys.stderr)
 
         nq = re.sub(r"[^a-z0-9]", "", query.lower())
         for nk, name in u.norm_names:
@@ -477,7 +484,7 @@ class RetrievalStack:
                         _add(cid, doc, meta, 1.0)
                 except Exception as e:
                     print(f"[retrieval_stack] WARNING: user exact-name injection "
-                          f"failed ({e})")
+                          f"failed ({e})", file=sys.stderr)
                 break
 
     # -- channels ------------------------------------------------------------

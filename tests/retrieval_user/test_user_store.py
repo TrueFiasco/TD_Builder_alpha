@@ -255,8 +255,9 @@ def test_t8_stale_summary_warns_loud(stack, emb_model, tmp_path, monkeypatch, ca
 
     ok, _ = stack.reload_user_store(tmp_path / "user_index")
     assert ok, "stale text beats absent — the store must still serve"
-    out = capfd.readouterr().out
-    assert "STALE" in out and "staleComp" in out
+    # F2: loud diagnostics live on STDERR — stdout is the MCP protocol channel.
+    err = capfd.readouterr().err
+    assert "STALE" in err and "staleComp" in err
 
 
 # ---------------------------------------------------------------------------
@@ -307,8 +308,9 @@ def test_t6_noce_fallback_exact_name_over_cap(rs, vector_search, emb_model,
     assert s2._reranker is None
     # 5 comps × 2 chunks (no inventory/pars -> no io chunk) = 10 > the cap of 3
     assert s2._user is not None and s2._user.count == 10 > s2.cfg.user_top
-    out = capfd.readouterr().out
-    assert "degraded" in out and "reranker unavailable" in out   # W3 loud log
+    # F2: loud diagnostics live on STDERR — stdout is the MCP protocol channel.
+    err = capfd.readouterr().err
+    assert "degraded" in err and "reranker unavailable" in err   # W3 loud log
 
     res = s2.search("zetaFlowMix_v2 component", 8)
     mine = _user_hits(res, "zetaFlowMix_v2")

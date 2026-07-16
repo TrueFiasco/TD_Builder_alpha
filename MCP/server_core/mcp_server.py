@@ -2035,89 +2035,101 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             )]
 
         elif name == "register_component":
-            # Engine: kb_build/user_components.py, loaded by FILE path relative to
-            # this module (the engine ships with the code; it self-bootstraps its
-            # own sys.path). Lazy + memoized — never imported at server boot.
-            import importlib.util
-            eng = sys.modules.get("td_user_components_engine")
-            if eng is None:
-                eng_path = Path(__file__).resolve().parents[2] / "kb_build" / "user_components.py"
-                spec = importlib.util.spec_from_file_location(
-                    "td_user_components_engine", str(eng_path))
-                eng = importlib.util.module_from_spec(spec)
-                sys.modules["td_user_components_engine"] = eng
-                spec.loader.exec_module(eng)
+            # F2 stdout protocol invariant: this is the only tool that runs the
+            # heavy ingest machinery (chromadb + sentence-transformers via the
+            # user-components engine, then reload_user_store) MID-SESSION —
+            # after main() restored the real stdout, which IS the JSON-RPC
+            # channel. One bare print() from those libraries corrupts the
+            # protocol and disconnects the client, so the ENTIRE handler body
+            # runs under the same stdout->stderr swap _load_kb uses (~:390).
+            _saved_stdout = sys.stdout
+            sys.stdout = sys.stderr
+            try:
+                # Engine: kb_build/user_components.py, loaded by FILE path relative to
+                # this module (the engine ships with the code; it self-bootstraps its
+                # own sys.path). Lazy + memoized — never imported at server boot.
+                import importlib.util
+                eng = sys.modules.get("td_user_components_engine")
+                if eng is None:
+                    eng_path = Path(__file__).resolve().parents[2] / "kb_build" / "user_components.py"
+                    spec = importlib.util.spec_from_file_location(
+                        "td_user_components_engine", str(eng_path))
+                    eng = importlib.util.module_from_spec(spec)
+                    sys.modules["td_user_components_engine"] = eng
+                    spec.loader.exec_module(eng)
 
-            def _reg_err(kind, message):
-                return [TextContent(type="text", text=json.dumps({
-                    "ok": False, "data": None,
-                    "error": {"kind": kind, "message": message},
-                    "meta": {"tool": name, "server": SERVER_NAME},
-                }, indent=2))]
+                def _reg_err(kind, message):
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": False, "data": None,
+                        "error": {"kind": kind, "message": message},
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2))]
 
-            specs = arguments.get("specs")
-            directory = arguments.get("directory")
-            if directory and not specs:
-                d = Path(directory)
-                if not d.is_dir():
-                    return _reg_err("bad_directory", f"not a directory: {d}")
-                specs = [{"tox_path": str(p)} for p in sorted(d.glob("*.tox"))]
-                if not specs:
-                    return _reg_err("empty_directory", f"no .tox files in {d}")
-            if not specs or not isinstance(specs, list):
-                return _reg_err("bad_spec",
-                                "'specs' (a list of {tox_path, ...}) or 'directory' "
-                                "is required")
+                specs = arguments.get("specs")
+                directory = arguments.get("directory")
+                if directory and not specs:
+                    d = Path(directory)
+                    if not d.is_dir():
+                        return _reg_err("bad_directory", f"not a directory: {d}")
+                    specs = [{"tox_path": str(p)} for p in sorted(d.glob("*.tox"))]
+                    if not specs:
+                        return _reg_err("empty_directory", f"no .tox files in {d}")
+                if not specs or not isinstance(specs, list):
+                    return _reg_err("bad_spec",
+                                    "'specs' (a list of {tox_path, ...}) or 'directory' "
+                                    "is required")
 
-            if arguments.get("prepare", False):
+                if arguments.get("prepare", False):
+                    try:
+                        prepared = eng.prepare_specs(specs)
+                    except Exception as e:
+                        return _reg_err(getattr(e, "kind", "prepare_failed"), str(e))
+                    return [TextContent(type="text", text=json.dumps({
+                        "ok": True,
+                        "prepared": prepared,
+                        "next": ("author a discriminating one-line 'summary' (+ optional "
+                                 "'use_cases' and per-parameter one-line "
+                                 "'parameter_descriptions') for each spec, then call "
+                                 "register_component again with prepare=false to commit"),
+                        "meta": {"tool": name, "server": SERVER_NAME},
+                    }, indent=2, ensure_ascii=False))]
+
+                # Commit. Pass the server's query encoder into the engine — it unwraps
+                # the raw sentence-transformer itself (passages must NEVER be embedded
+                # through the _QueryEncoder's prefix/normalize, W7 #24/#43).
+                model = getattr(getattr(hybrid_search, "vector_search", None), "model", None)
                 try:
-                    prepared = eng.prepare_specs(specs)
+                    results = eng.commit_specs(
+                        specs,
+                        save_to_palette=bool(arguments.get("save_to_palette", False)),
+                        folder=arguments.get("folder", "TD_Builder"),
+                        overwrite=bool(arguments.get("overwrite", False)),
+                        confirm_shadow=bool(arguments.get("confirm_shadow", False)),
+                        model=model,
+                    )
                 except Exception as e:
-                    return _reg_err(getattr(e, "kind", "prepare_failed"), str(e))
+                    return _reg_err(getattr(e, "kind", "commit_failed"), str(e))
+
+                # In-session searchability (BLOCKER A): reload the live store; only a
+                # successful reload may stamp retrievable:true. A failed reload (e.g.
+                # RS_DISABLE dense-only mode) still leaves the commit valid —
+                # buildable ≠ searchable — and carries the reason.
+                committed = [r for r in results if r.get("ok")]
+                if committed:
+                    reload_ok, reload_reason = hybrid_search.reload_user_store()
+                else:
+                    reload_ok, reload_reason = False, "no components committed"
+                for r in committed:
+                    r["retrievable"] = bool(reload_ok)
+                    if not reload_ok:
+                        r["retrievable_reason"] = reload_reason
                 return [TextContent(type="text", text=json.dumps({
-                    "ok": True,
-                    "prepared": prepared,
-                    "next": ("author a discriminating one-line 'summary' (+ optional "
-                             "'use_cases' and per-parameter one-line "
-                             "'parameter_descriptions') for each spec, then call "
-                             "register_component again with prepare=false to commit"),
+                    "ok": bool(committed),
+                    "results": results,
                     "meta": {"tool": name, "server": SERVER_NAME},
                 }, indent=2, ensure_ascii=False))]
-
-            # Commit. Pass the server's query encoder into the engine — it unwraps
-            # the raw sentence-transformer itself (passages must NEVER be embedded
-            # through the _QueryEncoder's prefix/normalize, W7 #24/#43).
-            model = getattr(getattr(hybrid_search, "vector_search", None), "model", None)
-            try:
-                results = eng.commit_specs(
-                    specs,
-                    save_to_palette=bool(arguments.get("save_to_palette", False)),
-                    folder=arguments.get("folder", "TD_Builder"),
-                    overwrite=bool(arguments.get("overwrite", False)),
-                    confirm_shadow=bool(arguments.get("confirm_shadow", False)),
-                    model=model,
-                )
-            except Exception as e:
-                return _reg_err(getattr(e, "kind", "commit_failed"), str(e))
-
-            # In-session searchability (BLOCKER A): reload the live store; only a
-            # successful reload may stamp retrievable:true. A failed reload (e.g.
-            # RS_DISABLE dense-only mode) still leaves the commit valid —
-            # buildable ≠ searchable — and carries the reason.
-            committed = [r for r in results if r.get("ok")]
-            if committed:
-                reload_ok, reload_reason = hybrid_search.reload_user_store()
-            else:
-                reload_ok, reload_reason = False, "no components committed"
-            for r in committed:
-                r["retrievable"] = bool(reload_ok)
-                if not reload_ok:
-                    r["retrievable_reason"] = reload_reason
-            return [TextContent(type="text", text=json.dumps({
-                "ok": bool(committed),
-                "results": results,
-                "meta": {"tool": name, "server": SERVER_NAME},
-            }, indent=2, ensure_ascii=False))]
+            finally:
+                sys.stdout = _saved_stdout
 
         elif name == "get_operator_info":
             if not knowledge_graph:

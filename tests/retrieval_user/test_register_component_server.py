@@ -9,6 +9,7 @@ parity). T7: a partial-KB install gets the structured kb_partial envelope.
 """
 from __future__ import annotations
 
+import io
 import json
 import sys
 from pathlib import Path
@@ -127,6 +128,58 @@ def test_t1b_save_to_palette_flow(probe, tmp_path, monkeypatch):
     res3 = r3.json()["results"][0]
     assert res3["ok"] and res3["replaced"].endswith("palComp.tox")
     assert res3["replaced_registry_entry"] is True
+
+
+def test_f2_register_component_stdout_silent(probe, tmp_path, monkeypatch):
+    """F2 (stdout protocol invariant): the offline server speaks JSON-RPC over
+    stdout — ONE stray byte mid-session corrupts the protocol and disconnects
+    the client. register_component is the only tool that deterministically runs
+    printing machinery (engine ingest via chromadb/sentence-transformers, then
+    reload_user_store's loud diagnostics) mid-session, so spy on the real
+    sys.stdout across the FULL prepare AND commit call_tool flows and require
+    zero bytes. Red without the handler's stdout->stderr guard: the reload
+    success line alone would trip it."""
+    monkeypatch.setenv("TD_BUILDER_USER_DIR", str(tmp_path))
+    fixture = str(FIXTURE_DIR / "pulseglow.tox.dir")
+
+    spy = io.StringIO()
+    monkeypatch.setattr(sys, "stdout", spy)
+
+    r = probe.call("register_component",
+                   {"specs": [{"tox_path": fixture}], "prepare": True})
+    assert r.ok, r.text[:400]
+    assert spy.getvalue() == "", (
+        "protocol-channel pollution — prepare flow wrote to stdout: "
+        f"{spy.getvalue()[:400]!r}")
+
+    r2 = probe.call("register_component", {"specs": [{
+        "tox_path": fixture, "name": "pulseglow", "summary": SUMMARY,
+    }]})
+    assert r2.ok, r2.text[:400]
+    # the reload really ran under the spy (its success print is the trigger)
+    assert r2.json()["results"][0]["retrievable"] is True
+    assert spy.getvalue() == "", (
+        "protocol-channel pollution — commit flow wrote to stdout: "
+        f"{spy.getvalue()[:400]!r}")
+
+
+def test_f2_reload_refusal_path_stdout_silent(probe, tmp_path, monkeypatch):
+    """F2 companion: reload_user_store's refusal diagnostics (unreadable
+    manifest) must also stay off stdout — the reload runs mid-session on every
+    commit, on whatever store state it finds."""
+    monkeypatch.setenv("TD_BUILDER_USER_DIR", str(tmp_path))
+    ui = tmp_path / "user_index"
+    (ui / "vector_db").mkdir(parents=True)
+    (ui / "manifest.json").write_text("{not json", encoding="utf-8")
+
+    spy = io.StringIO()
+    monkeypatch.setattr(sys, "stdout", spy)
+
+    ok, reason = probe.mod.hybrid_search.reload_user_store()
+    assert not ok and "unreadable" in reason
+    assert spy.getvalue() == "", (
+        "protocol-channel pollution — refusal path wrote to stdout: "
+        f"{spy.getvalue()[:400]!r}")
 
 
 def test_t7_partial_kb_gets_structured_envelope(probe):

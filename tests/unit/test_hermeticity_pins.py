@@ -24,6 +24,7 @@ import json
 import os
 import re
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -42,13 +43,24 @@ def test_user_dir_pin_is_in_effect():
 
 
 def test_palette_pin_is_in_effect(tmp_path_factory):
-    """TD_USER_PALETTE_DIR is pinned into this session's pytest tmp tree."""
+    """TD_USER_PALETTE_DIR is pinned to a throwaway temp location.
+
+    Asserts the property the pin must HAVE, not the exact dir it lands in:
+    there are two legitimate pinners and which one won depends on test order.
+    conftest._user_dir_pin pins into the pytest tmp tree; measure/_server then
+    re-pins to a tempfile.mkdtemp() before the server import (it has to — it is
+    also the server seam for non-pytest callers like agent-eval Lane R). So a
+    lane that loads the server first, as CI does with `pytest tests/engine
+    tests/unit`, legitimately sees the mkdtemp value here.
+    """
     pinned = os.environ.get("TD_USER_PALETTE_DIR", "")
     assert pinned.strip(), "conftest._user_dir_pin must pin TD_USER_PALETTE_DIR"
     resolved = paths.user_palette_dir().resolve()
     assert resolved == Path(pinned).resolve(), "the env override must win"
-    assert resolved.is_relative_to(tmp_path_factory.getbasetemp().resolve()), \
-        f"palette pin {resolved} escapes the pytest tmp tree"
+    tmp_roots = {Path(tempfile.gettempdir()).resolve(),
+                 tmp_path_factory.getbasetemp().resolve()}
+    assert any(resolved.is_relative_to(r) for r in tmp_roots), \
+        f"palette pin {resolved} is not a throwaway temp dir (roots: {sorted(tmp_roots)})"
 
 
 def test_palette_dir_never_resolves_into_the_real_documents(monkeypatch):

@@ -20,7 +20,7 @@ Given {{task_description}} and constraints, produce a plan from scratch.
 When receiving {{design_spec}} produced by a td_designer step:
 - Operators, hierarchy, connections already defined
 - Validate against ground truth
-- Plan tox_builder execution
+- Plan the td_build_project execution
 - Integrate GLSL shaders if a td_glsl_expert step provided them
 
 ## Planning Process

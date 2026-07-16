@@ -404,7 +404,7 @@ Example: If plan matched `audio_reactive_visuals`, create:
    - `viewer`: on/off - show viewer active
 
 5. **Generate spec**
-   - Output YAML format compatible with tox_builder
+   - Output YAML format compatible with the builder (td_build_project)
    - Include metadata for traceability
 
 ## Output Format
@@ -417,7 +417,7 @@ design:
   created_by: "td_designer"
   timestamp: "{{ISO8601}}"
 
-  # Flat operator list (for tox_builder)
+  # Flat operator list (for the builder)
   operators:
     - name: "geo1"
       type: "geoCOMP"
@@ -1244,7 +1244,7 @@ Only the creative ideation phase is optional for simple/technical requests.
 ## Handoff to network_builder
 
 The output spec is designed for `network_builder` to:
-1. Create .tox structure via `tox_builder`
+1. Create the .tox/.toe structure via `td_build_project`
 2. Write operators with correct types
 3. Set parameters and flags
 4. Handle hierarchy (children inside COMPs)

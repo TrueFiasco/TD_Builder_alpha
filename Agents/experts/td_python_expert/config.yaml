@@ -16,15 +16,25 @@ source_of_truth:
   - source: "hybrid_search / query_graph / get_network_patterns"
     type: "curator_index"
 
-expertise:
-  maintains:
-    - file: "td_python.yaml"
-      sections: ["referencing", "parameters", "expressions", "callbacks", "extensions", "tdu_utilities", "problems"]
-  reads:
-    - "td_operators.yaml"
-    - "td_parameters.yaml"
-    - "td_network_patterns.yaml"
-    - "td_problems.yaml"
+# Expertise files this expert reads — `expertise_inputs` is the key
+# _load_expert_expertise injects (size-capped) into get_expert_prompt.
+expertise_inputs:
+  - path: "Agents/expertise/td_python.yaml"
+    purpose: "TD Python referencing, expressions, callbacks, and extension patterns maintained by this expert"
+  - path: "Agents/expertise/td_operators.yaml"
+    purpose: "Operator mental models and usage patterns"
+  - path: "Agents/expertise/td_parameters.yaml"
+    purpose: "Parameter usage patterns by operator/family"
+  - path: "Agents/expertise/td_network_patterns.yaml"
+    purpose: "Pattern templates for common TD workflows"
+  - path: "Agents/expertise/td_problems.yaml"
+    purpose: "Known problems and pitfalls to avoid"
+
+# Expertise files this expert writes (self_improve lessons target these sections)
+expertise_outputs:
+  - path: "Agents/expertise/td_python.yaml"
+    purpose: "Record Python patterns, recipes, and problems from scripting work"
+    sections: ["referencing", "parameters", "expressions", "callbacks", "extensions", "tdu_utilities", "problems"]
 
 validation:
   strict: true

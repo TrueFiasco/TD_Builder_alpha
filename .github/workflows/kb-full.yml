@@ -122,7 +122,7 @@ jobs:
 
       # Agent-eval Lane R (replay-gate): deterministic, key-free, in-process.
       # It re-executes the blessed tool-call traces against the same cached KB
-      # and scores the built artifacts with the same 5-stage validator the
+      # and scores the built artifacts with the same 7-stage validator the
       # product uses. This is the REPLAY-gate only — NOT the agent-gate (Lane M,
       # model-in-the-loop) which stays on the maintainer machine (D-F) and never
       # runs in hosted CI. --compare diffs the sweep against the committed

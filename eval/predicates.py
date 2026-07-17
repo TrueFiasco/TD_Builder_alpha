@@ -76,8 +76,10 @@ class GroundTruth:
             if pyc:
                 self.valid_pyclass.add(pyc.lower())
 
-        # operator_types.json (live-TD capture) -> underscored names + td_create
-        # tokens; td_create + "_Class" is the derived python_class.
+        # operator_types.json (wiki-scrape name list, NOT a live-TD capture;
+        # td_create tokens are synthesized, incl. 5 phantom POPs — see
+        # eval/ground_truth/README.md) -> underscored names + td_create tokens;
+        # td_create + "_Class" is the derived python_class.
         for fam, entries in (gt.get("operators") or {}).items():
             for e in entries:
                 nm = e.get("name")          # e.g. "Ableton_Link_CHOP"

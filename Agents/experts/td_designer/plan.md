@@ -17,7 +17,7 @@ Output priority: Design spec (YAML) -> network_builder for assembly.
 
 Your expertise includes:
 - **Sweet 16**: Top 16 operators per family with full details (purpose, key_params)
-- **Operator Index**: All 673 operators listed by name (query for details)
+- **Operator Index**: All 663 operators listed by name (query for details)
 
 **If an operator is NOT in the Sweet 16 section:**
 1. Check whether it exists with `get_operator_info(operator="OPNAME")`

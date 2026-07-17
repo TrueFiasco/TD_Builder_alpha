@@ -1,4 +1,4 @@
-"""td_validate launcher — bootstraps the engine and runs the 5-stage validator. Run directly with python (no console command is installed)."""
+"""td_validate launcher — bootstraps the engine and runs the 7-stage validator. Run directly with python (no console command is installed)."""
 import sys
 from pathlib import Path
 

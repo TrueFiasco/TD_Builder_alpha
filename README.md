@@ -73,7 +73,7 @@ The KB and builder are gated by a published eval harness ([eval/](eval/)) — ev
   offline `.tox` files into a running TouchDesigner).
 - **Retrieval quality**: labeled benchmark (recall@k / MRR / nDCG) with a frozen trend gate,
   held-out paraphrases against overfitting, and a coverage tier spanning **≥90% of operators in
-  every family** (all 673 operators enumerated). Hybrid retrieval (dense + BM25 + reranker) took
+  every family** (all 663 operators enumerated). Hybrid retrieval (dense + BM25 + reranker) took
   the aggregate score from 0.86 → 0.93 over dense-only.
 - **Name integrity**: zero retokenized operator names in returned chunks (was 294 pre-redesign).
 

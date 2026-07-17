@@ -145,9 +145,9 @@ readMe-polluted. All cross-verified against the live MCP server. Phase-1 flags: 
 
 ## Coverage tier (`gen_coverage.py`, Phase 0.6)
 
-The frozen 78 (`labeled_queries.jsonl`) touches only **23 distinct operators (3.4% of 673)**;
+The frozen 78 (`labeled_queries.jsonl`) touches only **23 distinct operators (3.5% of 663)**;
 POP (100 ops) and MAT (13) are never tested, and ~13 of ~16.7k params appear — so "aggregate
-0.93" describes a CHOP/TOP-heavy slice and is silent about the other 96.6%. The coverage tier
+0.93" describes a CHOP/TOP-heavy slice and is silent about the other 96.5%. The coverage tier
 fills that hole: a **stratified, ground-truth-derived BREADTH set** across all 7 families, the
 main §6 chunk types, and the parameter kinds.
 
@@ -216,7 +216,7 @@ main-based branch only has the baseline dense path. (`run_eval` pins threads=1 f
 
 ### Coverage-maximization — greedy set-cover (Phase 0.6c)
 
-The default mode is **coverage-driven, not fixed-count**: `operator_lookup` ENUMERATES all 673 operators
+The default mode is **coverage-driven, not fixed-count**: `operator_lookup` ENUMERATES all 663 operators
 (no cap) and emits one for each that passes the gates; the rest are SKIPPED with a recorded reason. The
 `parameter` recipe is a **greedy set-cover**: Phase A recovers operators NOT covered by `operator_lookup`
 (1 op-specific param each → extends operator coverage), Phase B fills every family×kind cell to

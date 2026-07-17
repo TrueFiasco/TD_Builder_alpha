@@ -7,7 +7,7 @@ MCP/
 ├── server.py          # OFFLINE launcher → server_core/mcp_server.py  (register as "td-builder")
 ├── live_server.py     # LIVE launcher    → live_client/td_live_client (register as "td-builder-live")
 ├── server_core/       # the offline server brain: mcp_server.py + KB search stack + config/ + meta_agentic/{execution}
-├── engine/            # the TouchDesigner-file engine (parser, 5-stage validator, format converter, builder)
+├── engine/            # the TouchDesigner-file engine (parser, 7-stage validator, format converter, builder)
 ├── live_client/       # td_live_client.py — HTTP client + the 22 live-TD tools
 ├── td-webserver/      # the TouchDesigner-side asset: mcp_webserver_base.tox + handlers (WebServer DAT on :9981)
 └── COMM_LAYER.md      # the HTTP protocol between the live tools and TouchDesigner
@@ -52,7 +52,8 @@ Use `claude_desktop_config.json` (template below — replace `<RELEASE_ROOT>` wi
 ## What each server exposes
 
 - **`td-builder` (offline, 18 tools):** KB search + `td_validate` / `td_convert` / `td_build_project`
-  / `td_build_status` + `expand_toe_file` + `get_expert_prompt` + `get_server_info`. 100% key-free.
+  / `td_build_status` + `expand_toe_file` + `register_component` + `get_expert_prompt`
+  + `get_server_info`. 100% key-free.
 - **`td-builder-live` (22 tools):** capture / node CRUD / introspection of the running TD project.
 
 Full tool reference: [`../Tools/TOOLS.md`](../Tools/TOOLS.md).

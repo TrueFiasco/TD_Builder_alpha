@@ -24,7 +24,7 @@ Ask the model to use these tools:
 - `find_operator_examples` / `find_operator_combination` — real usage from the
   479 parsed example networks.
 
-Expected: structured results drawn from the canonical 673-operator KB
+Expected: structured results drawn from the canonical 663-operator KB
 (`KB/operators.json`) — real parameter names, no hallucination.
 
 ## 2. Build a network offline as a `.tox`
@@ -35,8 +35,8 @@ TouchDesigner required**.
 
 Then validate and convert without TD:
 
-- **`td_validate`** — runs the 5-stage pipeline (schema → semantic → reference
-  → logical → TD-rules) and reports errors/warnings.
+- **`td_validate`** — runs the 7-stage pipeline (schema → semantic → grounding →
+  reference → component-source → logical → TD-rules) and reports errors/warnings.
 - **`td_convert`** — converts the spec between the Builder ↔ Canonical layers.
 
 CLI equivalents (run with the venv's python from the release root — the install

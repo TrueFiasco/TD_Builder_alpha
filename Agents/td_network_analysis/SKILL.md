@@ -9,7 +9,7 @@ description: Load when analyzing, explaining, or reviewing an EXISTING TouchDesi
 
 This skill enables AI agents to analyze, understand, and explain TouchDesigner networks by combining:
 - One-call network expansion + parsing (`expand_toe_file` — runs `toeexpand` for you)
-- Comprehensive operator documentation (673 operators)
+- Comprehensive operator documentation (663 operators)
 - Performance analysis patterns
 - Best practice guidelines
 

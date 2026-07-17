@@ -184,7 +184,7 @@ def _glsl_status_note(gs) -> str:
 
 
 # =============================================================================
-# VISUAL FEEDBACK TOOLS (7 tools)
+# VISUAL FEEDBACK TOOLS (8 tools)
 # =============================================================================
 
 async def capture_top_output(arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
@@ -592,7 +592,7 @@ async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
 
 
 # =============================================================================
-# CORE TD CRUD TOOLS (12 tools)
+# CORE TD CRUD TOOLS (14 tools, incl. the D3/W6a session tools)
 # =============================================================================
 
 async def get_td_info(arguments: dict) -> Sequence[TextContent]:
@@ -1040,7 +1040,7 @@ DESTRUCTIVE = ToolAnnotations(
 )
 
 TD_LIVE_TOOLS: List[Tool] = [
-    # Visual Feedback Tools (7)
+    # Visual Feedback Tools (8)
     Tool(
         annotations=READ_ONLY,
         name="capture_top_output",
@@ -1228,7 +1228,7 @@ TD_LIVE_TOOLS: List[Tool] = [
         }
     ),
 
-    # Core TD CRUD Tools (13)
+    # Core TD CRUD Tools (14, incl. the D3/W6a session tools)
     Tool(
         annotations=READ_ONLY,
         name="get_td_info",

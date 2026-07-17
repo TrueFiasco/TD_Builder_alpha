@@ -69,7 +69,13 @@ class ToolResult:
 
 def _classify(text: str, data: Any) -> tuple[bool, str | None]:
     stripped = text.lstrip()
-    if stripped.startswith(("Error:", "ERROR:")):
+    # The live client's error strings come in three shapes the bare "Error:"
+    # check missed: f"TD Error: {...}" / f"TD Error ({status}): {...}" (non-200
+    # HTTP) and f"Failed: {...}" / f"Failed to get X: {...}" (success=False
+    # payloads). They evaded classification, so `assert r.ok` was toothless
+    # against them.
+    if stripped.startswith(("Error:", "ERROR:", "TD Error:", "TD Error (",
+                            "Failed:", "Failed to ")):
         kind = "exception_text" if "Traceback (most recent call last)" in text else "string"
         return False, kind
     if isinstance(data, dict):

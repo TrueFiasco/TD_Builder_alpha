@@ -247,6 +247,20 @@ def main() -> int:
                 "       auth the GitHub CLI (winget install GitHub.cli; gh auth login)."
             )
 
+    # Size sanity check BEFORE hashing: a truncated download should say so
+    # plainly instead of surfacing as a scary SHA mismatch (two consecutive
+    # ~4.6 MiB-short downloads on 2026-07-16 looked like tampering until the
+    # sizes were compared). The manifest's size_mb is MiB, rounded — allow 1%.
+    expected_mb = m.get("size_mb")
+    if expected_mb:
+        actual_mb = zip_path.stat().st_size / (1024 * 1024)
+        if abs(actual_mb - expected_mb) / expected_mb > 0.01:
+            shape = ("truncated/partial download" if actual_mb < expected_mb
+                     else "unexpectedly large download")
+            sys.exit(f"Size mismatch for {asset}: got {actual_mb:.2f} MiB, "
+                     f"manifest says {expected_mb} MiB - {shape}.\n"
+                     f"  Delete {zip_path} and retry.")
+
     if expected_sha:
         actual = _sha256(zip_path)
         if actual.lower() != expected_sha.lower():

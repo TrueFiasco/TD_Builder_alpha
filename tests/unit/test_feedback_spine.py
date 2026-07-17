@@ -1,9 +1,13 @@
 r"""Hermetic unit tests for the D4 feedback spine (MCP/feedback*.py).
 
-Deliberately NOT under tests/acceptance or tests/measure, so the standing
-`pytest tests\acceptance tests\measure` gate stays at exactly 26/26. These tests
+Lives in tests/unit so the hermetic + engine-kb CI lanes collect it (it sat
+at tests/ top level until 2026-07-17, which no lane selects — 38 orphaned
+tests). Deliberately NOT under tests/acceptance or tests/measure, keeping the
+standing `pytest tests\acceptance tests\measure` gate unchanged. These tests
 need no KB and no running server: they drive the decorator with a FAKE async
-dispatch and duck-typed envelope objects, and point TD_FEEDBACK_DIR at a tmp dir.
+dispatch and duck-typed envelope objects, and point TD_FEEDBACK_DIR at a tmp
+dir. (One exception: test_d4_01 uses the `server` fixture → auto requires_kb
+→ engine-kb lane only.)
 """
 from __future__ import annotations
 
@@ -17,7 +21,7 @@ from types import SimpleNamespace
 
 import pytest
 
-_REPO = Path(__file__).resolve().parents[1]
+_REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_REPO / "MCP"))
 
 import env_identity          # noqa: E402

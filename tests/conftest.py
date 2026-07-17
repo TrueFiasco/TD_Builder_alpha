@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import socket
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -25,12 +26,16 @@ def pytest_addoption(parser):
     )
 
 
-# Anything driving the in-process servers needs the fetched KB (the `server`
-# fixture fails loudly without it), so the KB-free CI lane must deselect those
-# tests via `-m "not requires_kb"`. Builder tests that read the KB directly
-# (no fixture) carry an explicit module-level pytestmark instead — fixture
-# inspection cannot see a ToxBuilder(...) call inside the test body.
-_KB_FIXTURES = {"server", "probe", "live_server", "live_probe"}
+# Anything driving the in-process OFFLINE server needs the fetched KB (the
+# `server` fixture fails loudly without it), so the KB-free CI lane must
+# deselect those tests via `-m "not requires_kb"`. The LIVE fixtures are
+# deliberately not here: MCP/live_server.py imports no KB artifacts (only
+# mcp/httpx, both in requirements-light), so live-fixture tests are
+# hermetic-lane safe — marking them was a conservative over-mark. Builder
+# tests that read the KB directly (no fixture) carry an explicit module-level
+# pytestmark instead — fixture inspection cannot see a ToxBuilder(...) call
+# inside the test body.
+_KB_FIXTURES = {"server", "probe"}
 
 
 def pytest_collection_modifyitems(items):
@@ -105,14 +110,38 @@ def probe(server):
     p.close()
 
 
+def _is_first_party_module(root: str) -> bool:
+    """True when `root` names one of our own modules (a live-server import
+    regression), not a third-party dependency."""
+    repo = Path(__file__).resolve().parent.parent
+    # tests/ is a candidate so `measure` itself (the loader package this
+    # fixture imports) counts as first-party, not a missing dependency.
+    candidates = (repo / "MCP", repo / "MCP" / "live_client",
+                  repo / "MCP" / "server_core", repo / "tests",
+                  repo / "tests" / "measure")
+    return any((d / f"{root}.py").exists() or (d / root).is_dir()
+               for d in candidates)
+
+
 @pytest.fixture(scope="session")
 def live_server():
-    """The imported live-TD MCP server module (MCP/live_server.py)."""
+    """The imported live-TD MCP server module (MCP/live_server.py).
+
+    Only a missing third-party dependency (light-deps env without mcp/httpx)
+    is a legitimate skip; a first-party module failing to import, or any other
+    load error, is an import regression and must fail loudly — before this
+    guard was narrowed, a real regression silently skipped every live test.
+    """
     try:
         from measure._server import load_live_server
         return load_live_server()
+    except ModuleNotFoundError as exc:
+        root = (exc.name or "").split(".")[0]
+        if not root or _is_first_party_module(root):
+            pytest.fail(f"live server import regression: {exc}", pytrace=False)
+        pytest.skip(f"live MCP server unavailable (missing dependency): {exc}")
     except Exception as exc:  # noqa: BLE001
-        pytest.skip(f"live MCP server unavailable: {exc}")
+        pytest.fail(f"live MCP server failed to load: {exc}", pytrace=False)
 
 
 @pytest.fixture(scope="session")

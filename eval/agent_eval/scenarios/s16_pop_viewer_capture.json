@@ -1,6 +1,6 @@
 {
   "id": "s16_pop_viewer_capture",
-  "version": 1,
+  "version": 2,
   "gate": false,
   "surface": "live",
   "tags": [
@@ -32,12 +32,14 @@
         }
       },
       {
-        "tool_called": "delete_td_node"
-      },
-      {
         "tool_not_called": "save_td_project"
       }
     ],
+    "live": {
+      "absent": [
+        "/eval_s16_scratch"
+      ]
+    },
     "artifact": {
       "absent": true
     },
@@ -49,5 +51,5 @@
     },
     "validate": null
   },
-  "notes": "W-B regression scenario (PR #26): two-phase op-viewer capture for POPs (prime → one real UI frame → pull, op_viewer_warming handshake handled inside the tool) plus the POP numPoints/bounds sidecar. The tool_result_re binds to the sidecar caption ('POP points: N' / 'Points: N | Prims: ...') — a blank/partial capture has no sidecar numbers to report. The [^\\n]{0,16} slack before the digit is deliberate: the 2026-07-14 live-verify filed BUG-B 'POP numPoints repr' (chip task_3afbf74d), so the count may render wrapped until that lands; the assertion still pins label + numeric content on one line. Born aspirational; td_live_running gated, auto-SKIPs elsewhere."
+  "notes": "W-B regression scenario (PR #26): two-phase op-viewer capture for POPs (prime → one real UI frame → pull, op_viewer_warming handshake handled inside the tool) plus the POP numPoints/bounds sidecar. The tool_result_re binds to the sidecar caption ('POP points: N' / 'Points: N | Prims: ...') — a blank/partial capture has no sidecar numbers to report. The [^\\n]{0,16} slack before the digit is deliberate: the 2026-07-14 live-verify filed BUG-B 'POP numPoints repr' (chip task_3afbf74d), so the count may render wrapped until that lands; the assertion still pins label + numeric content on one line. Born aspirational; td_live_running gated, auto-SKIPs elsewhere. v2 (2026-07-16): cleanup asserted as an OUTCOME via live.absent, replacing v1's `tool_called: delete_td_node` — same mechanism-over-outcome defect that failed s15 on its first live run (see s15 notes). s16 only ever passed because the agent happened to reach for delete_td_node; the .destroy() path would have failed it identically."
 }

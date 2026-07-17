@@ -1,0 +1,20 @@
+{"_meta": {"scenario": "s16_pop_viewer_capture", "blessed_from": "model-20260716-235741/s16_pop_viewer_capture", "scenario_version": 2, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Point Generator POP", "compact": true}}
+{"tool": "list_pop_operators", "args": {}}
+{"tool": "list_pop_operators", "args": {}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Point Generator POP", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP"}}
+{"tool": "list_pop_operators", "args": {}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP"}}
+{"tool": "list_pop_operators", "args": {}}
+{"tool": "get_server_info", "args": {}}
+{"tool": "find_operator_examples", "args": {"operator": "pointgenerator", "family": "POP"}}
+{"tool": "execute_python_script", "args": {"script": "\n# Create scratch container\nscratch = op('/').create('baseCOMP', 'eval_s16_scratch')\nscratch.nodeX = 0\nscratch.nodeY = -500\nresult = f\"Created: {scratch.path}\"\nprint(result)\nresult\n"}}
+{"tool": "create_td_node", "args": {"parent_path": "/eval_s16_scratch", "node_type": "pointgeneratorPOP", "node_name": "pointgen1"}}
+{"tool": "get_td_node_parameters", "args": {"node_path": "/eval_s16_scratch/pointgen1"}}
+{"tool": "update_td_node_parameters", "args": {"node_path": "/eval_s16_scratch/pointgen1", "parameters": "{\"numpoints\": 2500}"}}
+{"tool": "update_td_node_parameters", "args": {"node_path": "/eval_s16_scratch/pointgen1", "properties": {"numpoints": 2500}}}
+{"tool": "capture_op_viewer", "args": {"operator_path": "/eval_s16_scratch/pointgen1", "resolution": 512, "format": "jpeg"}}
+{"tool": "delete_td_node", "args": {"node_path": "/eval_s16_scratch"}}

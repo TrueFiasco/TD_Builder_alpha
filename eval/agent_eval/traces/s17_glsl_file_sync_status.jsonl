@@ -1,0 +1,23 @@
+{"_meta": {"scenario": "s17_glsl_file_sync_status", "blessed_from": "model-20260716-235741/s17_glsl_file_sync_status", "scenario_version": 2, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl TOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Text DAT", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl TOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Text DAT", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl TOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Text DAT", "compact": true}}
+{"tool": "find_operator_examples", "args": {"operator": "glsl TOP"}}
+{"tool": "get_operator_info", "args": {"operator_name": "Text DAT", "compact": true}}
+{"tool": "execute_python_script", "args": {"script": "\n# Introspect Text DAT and GLSL TOP parameter names\nimport os\n\nshader_path = r'{{RUN_DIR}}/assets/eval_fragment.glsl'\nprint(\"Shader file exists:\", os.path.exists(shader_path))\n\n# Check Text DAT params related to file sync\ntmp_c = root.createCOMP('container', name='_tmp_inspect')\ntmp_t = tmp_c.createDAT('text', name='t1')\nfile_pars = [p.name for p in tmp_t.pars() if 'file' in p.name.lower() or 'sync' in p.name.lower()]\nprint(\"Text DAT file/sync pars:\", file_pars)\n\n# Check GLSL TOP params related to pixel/shader DAT\ntmp_g = tmp_c.createTOP('glsl', name='g1')\nglsl_pars = [p.name for p in tmp_g.pars() if 'dat' in p.name.lower() or 'pixel' in p.name.lower() or 'shader' in p.name.lower() or 'vert' in p.name.lower()]\nprint(\"GLSL TOP shader DAT pars:\", glsl_pars)\n\n# Clean up temp container\ntmp_c.destroy()\n"}}
+{"tool": "execute_python_script", "args": {"script": "\n# Find a good parent to create in, and introspect param names\nimport os\n\nshader_path = r'{{RUN_DIR}}/assets/eval_fragment.glsl'\nprint(\"Shader file exists:\", os.path.exists(shader_path))\nprint(\"Shader content preview:\")\nwith open(shader_path) as f:\n    print(f.read()[:200])\n\n# Check what's at root level\nprint(\"/nRoot children:\", [c.name for c in root.children])\n"}}
+{"tool": "create_td_node", "args": {"parent_path": "/", "node_type": "containerCOMP", "node_name": "eval_s17_scratch"}}
+{"tool": "create_td_node", "args": {"parent_path": "/eval_s17_scratch", "node_type": "glslTOP", "node_name": "glsl1"}}
+{"tool": "create_td_node", "args": {"parent_path": "/eval_s17_scratch", "node_type": "textDAT", "node_name": "shader_dat"}}
+{"tool": "get_td_node_parameters", "args": {"node_path": "/eval_s17_scratch/shader_dat"}}
+{"tool": "update_td_node_parameters", "args": {"node_path": "/eval_s17_scratch/shader_dat", "properties": {"file": "{{RUN_DIR}}/assets/eval_fragment.glsl", "syncfile": true}}}
+{"tool": "update_td_node_parameters", "args": {"node_path": "/eval_s17_scratch/glsl1", "properties": {"pixeldat": "shader_dat"}}}
+{"tool": "get_glsl_status", "args": {"file_path": "{{RUN_DIR}}/assets/eval_fragment.glsl"}}
+{"tool": "execute_python_script", "args": {"script": "\nimport os\n\nshader_path = r'{{RUN_DIR}}/assets/eval_fragment.glsl'\n\n# Save original content first\nwith open(shader_path, 'r') as f:\n    original = f.read()\nprint(\"Original saved, length:\", len(original))\n\n# Write broken shader (invalid GLSL syntax)\nbroken = \"this is not valid GLSL syntax @@@ INTENTIONAL_BREAK\"\nwith open(shader_path, 'w') as f:\n    f.write(broken)\n\nprint(\"Broken shader written.\")\nprint(\"File now contains:\", repr(broken))\n"}}
+{"tool": "get_glsl_status", "args": {"file_path": "{{RUN_DIR}}/assets/eval_fragment.glsl"}}
+{"tool": "execute_python_script", "args": {"script": "\nshader_path = r'{{RUN_DIR}}/assets/eval_fragment.glsl'\n\noriginal = \"\"\"layout(location = 0) out vec4 fragColor;\n\nvoid main()\n{\n    fragColor = vec4(vUV.s, vUV.t, 0.5, 1.0);\n}\n\"\"\"\n\nwith open(shader_path, 'w') as f:\n    f.write(original)\n\nprint(\"Original shader restored.\")\nprint(\"Content:\", repr(original))\n"}}
+{"tool": "get_glsl_status", "args": {"file_path": "{{RUN_DIR}}/assets/eval_fragment.glsl"}}
+{"tool": "delete_td_node", "args": {"node_path": "/eval_s17_scratch"}}

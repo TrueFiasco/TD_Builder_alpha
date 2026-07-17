@@ -116,6 +116,17 @@ code + mode + value). Assertion vocabulary (closed set, in `score.py`):
   *called* it is a separate trace assertion). `null` skips it (used where the
   design crosses a palette/external_tox placeholder boundary the validator can't
   see inside — see the scenario `notes`).
+- `live` (live-surface only): `absent: [path, ...]` — after the run, the scorer
+  asks the **running TouchDesigner** whether anything survives at each path, via
+  the READ_ONLY `get_td_nodes` tool. The second out-of-band oracle alongside
+  `validate`, and the same reasoning: assert the **outcome**, never the
+  mechanism or the agent's word for it. Scores in **both lanes** (replay
+  re-executes the calls, then the same probe reads the same world). A probe that
+  cannot produce a trustworthy read books **ERROR**, never FAIL — "we could not
+  look" and "we looked and it was clean" must not collapse into one verdict.
+  `load_scenario` refuses `expect.live` on a non-live surface: the probe has to
+  stay behind the `td_live_running` gate or it would drag the live-server import
+  and a guaranteed ERROR into the light-deps CI lanes.
 - `writes_confined` (implicit, always on): all builds must pass `output_dir`
   under the run dir.
 
@@ -151,7 +162,20 @@ behaviors: foolproof GLSL flagging, two-phase POP viewer capture,
 - **Scoring**: the live server gets its own connection-evidence track — a live
   scenario with no td-builder-live evidence books **ERROR**, never FAIL (a
   dead live server is not "the model regressed"). Live results are asserted
-  with `tool_result_re` over the tool contract's rendered text.
+  with `tool_result_re` over the tool contract's rendered text, and live STATE
+  with `expect.live.absent` (above), which probes TD directly after the run.
+- **Assert outcomes, not mechanisms** (learned the hard way, 2026-07-16): v1 of
+  s15–s17 asserted `tool_called: delete_td_node` for cleanup. The first-ever
+  live run booked s15 FAIL against an agent that had cleaned up *correctly* —
+  it used `execute_python_script` + `.destroy()`, the path the skill itself
+  teaches for multi-op work. The container was gone; the scenario failed anyway,
+  because it was scoring **how** rather than **what**. s16 passed the same sweep
+  only because the agent happened to reach for the pinned tool. Broadening to an
+  any-of tool list would have papered over it (`execute_python_script` is called
+  for plenty of other reasons, so the assertion would pass vacuously), and
+  asserting on the agent's printed confirmation just relocates the self-report.
+  If an assertion can be satisfied by a model *saying* the right thing, it isn't
+  an assertion — go and look at the world instead.
 
 ## Verdicts (taxonomy is load-bearing)
 
@@ -339,6 +363,21 @@ Before tagging any post-remediation release:
   `tool_result_re`; new templates/fields as documented above. No
   scenario_set_version bump: adding scenarios needs no ceremony (§ Re-baseline)
   and every s01–s14 file is byte-identical.
+- **s15/s16/s17 v2 — live-outcome cleanup** (2026-07-16): new `expect.live.absent`
+  assertion (see § Assertions); s15/s16/s17 `version` 1 → 2, each swapping
+  `tool_called: delete_td_node` for `live.absent: ["/eval_sNN_scratch"]`.
+  Prompts are **byte-identical** — the defect was in the expectation, and
+  leaving the prompt alone keeps the re-run a clean test of the scorer change.
+  No `scenario_set_version` bump: the field guards *baseline comparability*, and
+  these three have **no baseline entries at all** (born aspirational at the PR
+  #24–#26 re-bless, never captured — `baseline.json` records `null` for each),
+  so no recorded number changes meaning. Same precedent as that entry, which
+  added these scenarios *and* the `tool_result_re` primitive without a bump.
+  Still open, deliberately: s17's `tool_called: execute_python_script` is a
+  near-vacuous proxy for "rewrote the file on disk" — retiring it needs an
+  on-disk outcome assertion the harness lacks (the file is restored by design,
+  so its final state cannot witness the intermediate edit). Owner call; see the
+  s17 `notes`.
 - **identity warn tier** (2026-07-16, hygiene bundle H4b): `engine_code_hash`
   added as a soft-warn identity field (`AGENT_IDENTITY_WARN_FIELDS`) +
   informational `git_sha` — see § Versioning & identity. No re-bless, no

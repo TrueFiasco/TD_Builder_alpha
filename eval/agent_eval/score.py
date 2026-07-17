@@ -395,6 +395,113 @@ def validate_design(design: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Out-of-band LIVE-outcome probe (surface:"live" scenarios only)
+# ---------------------------------------------------------------------------
+# The independence rule in the module docstring bites hardest here. A live
+# scenario's cleanup can be asserted three ways, and only one of them is
+# evidence:
+#   - the agent's prose ("I deleted the container")     -> self-report
+#   - a readback the agent itself authored and printed  -> self-report with
+#     extra steps (nothing stops a model emitting print("Exists: False"))
+#   - asking the RUNNING TouchDesigner                  -> evidence
+# So `expect.live.absent` asks TD directly, after the run. It scores the
+# OUTCOME ("nothing is left at this path") and is deliberately blind to the
+# MECHANISM that got there — delete_td_node, an execute_python_script
+# .destroy(), or whatever a future skill teaches are all equally correct. The
+# v1 scenarios asserted `tool_called: delete_td_node` instead, which booked a
+# FAIL on an honest run that cleaned up via .destroy() (live-s15-17,
+# 2026-07-16).
+#
+# Read-only BY CONSTRUCTION: get_td_nodes is the live surface's READ_ONLY
+# listing tool, so scoring can never mutate the project it scores.
+
+# The success shape of the get_td_nodes tool contract — markdown, not JSON
+# (td_live_client.py). Verbatim from TD 099.2025.32820, 2026-07-16:
+#   ## Nodes under /
+#
+#   - `local` (baseCOMP) - /local
+#   - `perform` (windowCOMP) - /perform
+#
+#   _2 of 2 node(s) shown._
+_LIVE_FOOTER_RE = re.compile(r"^_(\d+) of (\d+) node\(s\) shown\._", re.MULTILINE)
+_LIVE_NODE_RE = re.compile(r"^- `[^`]*` \([^)]*\) - (\S+)$", re.MULTILINE)
+
+
+def _live_probe():
+    """Lazy in-process td-builder-live Probe (reuses inproc's singleton).
+
+    Import is deferred on purpose: `inproc` pulls the full server dependency
+    stack, and this module must stay importable in the light-deps CI lanes.
+    Only a live-surface scenario carrying an `expect.live` block reaches here,
+    and load_scenario couples that block to surface:"live" -> td_live_running,
+    so a run without the TD_EVAL_LIVE opt-in SKIPs long before scoring.
+    """
+    if str(AGENT_EVAL_DIR) not in sys.path:
+        sys.path.insert(0, str(AGENT_EVAL_DIR))
+    import inproc
+    return inproc.get_live_probe()
+
+
+def _live_matching_paths(parent_path: str, name: str) -> tuple[list, str | None]:
+    """(paths, probe_error): the `path` of every child of `parent_path` whose
+    name matches `name`, as reported by the live get_td_nodes contract.
+
+    A listing is trusted ONLY on positive evidence — the `_N of M node(s)
+    shown._` footer the success path always emits. This is load-bearing, not
+    belt-and-braces: the live client reports TD faults as bare prose
+    ("TD Error: ...", "Failed: ...", the connection-error message), none of
+    which start with "Error:" and none of which are JSON, so `_envelope_ok`
+    (and Probe's mirror of it) classifies them ok=True. Trusting ok alone would
+    read "TouchDesigner fell over" as "nothing matched" — the absence assertion
+    would VACUOUSLY PASS in exactly the state it exists to catch. A truncated
+    page is refused for the same reason: absence within a slice is not absence.
+    """
+    try:
+        r = _live_probe().call("get_td_nodes",
+                               {"parent_path": parent_path, "pattern": name})
+    except Exception as e:  # noqa: BLE001 — a probe crash is a harness fault
+        return [], f"live probe raised: {type(e).__name__}: {e}"
+    text = r.text or ""
+    m = _LIVE_FOOTER_RE.search(text)
+    if not m:
+        return [], (f"get_td_nodes(parent_path={parent_path!r}, pattern={name!r}) "
+                    f"returned no node listing — TD unreachable or the tool "
+                    f"contract changed; got: {text.strip()[:200]!r}")
+    shown, total = int(m.group(1)), int(m.group(2))
+    if shown != total:
+        return [], (f"get_td_nodes(parent_path={parent_path!r}, pattern={name!r}) "
+                    f"listing TRUNCATED ({shown} of {total}) — absence unprovable")
+    return _LIVE_NODE_RE.findall(text), None
+
+
+def _score_live(spec, res: ScoreResult) -> str | None:
+    """`expect.live.absent`: [path, ...] that must NOT exist in the running TD.
+
+    Returns a probe-fault string (caller books ERROR) or None. A probe that
+    cannot produce a trustworthy read is a HARNESS fault, never a model FAIL
+    (§4 taxonomy) — "we could not look" and "we looked and it was clean" must
+    never collapse into the same verdict.
+    """
+    for path in spec.get("absent") or []:
+        norm = "/" + str(path).strip("/")
+        parent, _, name = norm.rpartition("/")
+        if not name:
+            return f"expect.live.absent[{path!r}]: not a node path"
+        hits, err = _live_matching_paths(parent or "/", name)
+        if err:
+            return f"expect.live.absent[{norm}]: {err}"
+        # Exact-path match, not mere name presence: get_td_nodes applies a
+        # pattern via findChildren(name=...), which TD resolves RECURSIVELY
+        # (no depth=1 on that branch). Matching the full path keeps the
+        # recursion harmless — a same-named node elsewhere is not this node.
+        if any(h.rstrip("/") == norm for h in hits):
+            _fail(res, f"live.absent[{norm}]",
+                  "node still exists in the running TouchDesigner project after "
+                  "the run — cleanup did not happen")
+    return None
+
+
+# ---------------------------------------------------------------------------
 # Scoring
 # ---------------------------------------------------------------------------
 @dataclass
@@ -442,7 +549,8 @@ def score_scenario(scenario: dict, run: NormalizedRun, work_dir: Path,
                    skip_reason: str | None = None) -> ScoreResult:
     """The deterministic gate. Order matters (§4 + R-3):
     SKIP -> runner ERROR -> connection barrier ERROR -> tool-leak ERROR ->
-    assertions (artifact/validation/trace/response/discipline) -> PASS/FAIL."""
+    assertions (artifact/validation/trace/response/discipline) -> live-outcome
+    probe (ERROR dominates) -> PASS/FAIL."""
     sid = scenario["id"]
     res = ScoreResult(scenario_id=sid, lane=run.lane, verdict="PASS")
     res.advisory = _advisory(run)
@@ -491,6 +599,16 @@ def score_scenario(scenario: dict, run: NormalizedRun, work_dir: Path,
     artifacts = _score_artifact(expect.get("artifact") or {}, run, work_dir, res)
     _score_validation(expect.get("validate"), run, res)
     _score_discipline(scenario, run, work_dir, res, artifacts)
+
+    # Last: the only assertion that leaves the process to ask the running TD.
+    # A probe fault ERRORs and DOMINATES any failure booked above — same rule
+    # as the connection barrier: without a trustworthy read of the world, the
+    # verdict is "we could not measure", not "the model was wrong".
+    live_error = _score_live(expect.get("live") or {}, res)
+    if live_error:
+        res.verdict = "ERROR"
+        res.error = live_error
+        return res
 
     if res.failures:
         res.verdict = "FAIL"
@@ -857,6 +975,15 @@ def load_scenario(path: Path) -> dict:
         reqs = list(sc.get("requires") or [])
         if "td_live_running" not in reqs:
             sc["requires"] = ["td_live_running"] + reqs
+    # Same coupling, other direction: `expect.live` reaches out to a RUNNING
+    # TouchDesigner at SCORING time. On an offline scenario that block would
+    # never SKIP, so it would drag the heavy live-server import — and a
+    # guaranteed ERROR — into the light-deps CI lanes. Refuse at LOAD time
+    # rather than let it surface as a mystery ERROR mid-sweep.
+    if (sc.get("expect") or {}).get("live") and sc.get("surface") != "live":
+        raise ValueError(
+            f"scenario {Path(path).name}: expect.live needs surface:'live' "
+            "(the probe must sit behind the td_live_running gate)")
     return sc
 
 

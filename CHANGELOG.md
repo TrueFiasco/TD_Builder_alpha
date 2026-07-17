@@ -25,6 +25,11 @@
   never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
 
 ### Fixed
+- **Nightly kb-full lane restored** (`.github/workflows/kb-full.yml`, `eval/agent_eval/tests/test_scorer.py`):
+  the three artifact-collapse scorer self-tests now self-skip on TD-free machines (hosted runners have no
+  `toecollapse`, so the scorer step failed on every scheduled run since 2026-07-05 and silently suppressed
+  Lane R — the replay gate, including its `--compare`, never executed on the schedule); Lane R now runs
+  under `if: ${{ !cancelled() }}` so a red scorer step can never suppress it again.
 - **Offline builder no longer re-stubs hand-edited shader/script files on rebuild**
   (`toe_builder_bridge._write_docked_dats`): when a design authors no content for a docked
   file-backed DAT, an existing `shaders/*.glsl` (or `scripts/`/`tables/` file) is preserved

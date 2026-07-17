@@ -136,3 +136,32 @@ def test_compare_missing_soft_identity_warns_and_proceeds(tmp_path, capsys):
     out = capsys.readouterr().out
     assert rc == 0, f"unknown soft identity must not refuse: rc={rc}"
     assert "no soft identity for ['engine_code_hash']" in out, out
+
+
+# ---------------------------------------------------------------------------
+# guidance_hash: replay-lane exclusion (PR #37 post-merge audit) — replay
+# injects no guidance, but build_identity re-reads guidance.md on every lane,
+# so without the exclusion every guidance.md edit false-refused Lane R's
+# --compare permanently.
+# ---------------------------------------------------------------------------
+def test_compare_replay_guidance_hash_excluded(tmp_path, capsys):
+    args, sweep = _replay_sweep_and_baseline(
+        tmp_path, diverge_field="guidance_hash", diverge_value="guidance-edited")
+    rc = R.compare_against(args, sweep)
+    assert rc == 0, \
+        f"guidance_hash drift false-refused the replay compare: rc={rc}"
+
+
+def test_compare_model_lane_guidance_hash_still_refuses(tmp_path):
+    ident = {f: "v" for f in identity.AGENT_IDENTITY_FIELDS}
+    baseline_path = tmp_path / "baseline.json"
+    baseline_path.write_text(
+        json.dumps({"identity": dict(ident), "scenarios": {}}),
+        encoding="utf-8")
+    args = argparse.Namespace(compare=str(baseline_path),
+                              allow_identity_drift=False)
+    sweep = {"lane": "model", "results": {},
+             "identity": dict(ident, guidance_hash="guidance-edited")}
+    rc = R.compare_against(args, sweep)
+    assert rc == 3, \
+        "guidance_hash is a model-lane fact and must still refuse there"

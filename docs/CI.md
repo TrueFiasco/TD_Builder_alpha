@@ -213,7 +213,9 @@ save/restore, runner images, the HF download — is the unproven remainder.
 
 - **Agent-eval Lane R** (work item 2c, `eval/agent_eval/`): **LANDED** — runs in
   `kb-full.yml` as a follow-on step (`--lane replay`), advisory
-  (`continue-on-error: true`) at bring-up, key-free and deterministic. Promotion
+  (`continue-on-error: true`) at bring-up, key-free and deterministic; it runs
+  `if: ${{ !cancelled() }}` so an earlier red step (e.g. the scorer gate)
+  cannot silently suppress it. Promotion
   to blocking is a documented one-line flip once green twice; see
   `eval/agent_eval/README.md` "CI placement & promotion path". Lane M
   (model-in-the-loop) stays out of CI by design (D-F). No `ANTHROPIC_API_KEY`

@@ -1,5 +1,5 @@
 {
-  "_comment": "Strict per-run MCP config template (design §2 Lane-M mechanics). Materialized into each run dir with {{PYTHON}} = the interpreter running the harness and {{REPO_ROOT}} = this checkout's root, then passed as --mcp-config with --strict-mcp-config so the maintainer's global td-builder/td-builder-live registrations can NEVER leak into the eval (this machine has both registered; without strict mode a run could silently exercise the deployed main-tree server or reach live TD). Shape mirrors MCP/claude_desktop_config.json.",
+  "_comment": "Strict per-run MCP config template (design §2 Lane-M mechanics). Materialized into each run dir with {{PYTHON}} = the interpreter running the harness and {{REPO_ROOT}} = this checkout's root, then passed as --mcp-config with --strict-mcp-config so the maintainer's global td-builder/td-builder-live registrations can NEVER leak into the eval (this machine has both registered; without strict mode a run could silently exercise the deployed main-tree server or reach live TD). Shape mirrors MCP/claude_desktop_config.json. TD_BUILDER_USER_DIR and TD_USER_PALETTE_DIR are BOTH per-trial tmp dirs and both are load-bearing: the palette root is not under ~/.td_builder, so USER_DIR does not cover it, and register_component (in the fixed 18-tool surface) would otherwise copy save_to_palette=true components into the maintainer's real Documents/Derivative/Palette.",
   "mcpServers": {
     "td-builder": {
       "command": "{{PYTHON}}",
@@ -7,7 +7,8 @@
       "env": {
         "PYTHONIOENCODING": "utf-8",
         "TD_BUILDER_ROOT": "{{REPO_ROOT}}",
-        "TD_BUILDER_USER_DIR": "{{USER_DIR}}"
+        "TD_BUILDER_USER_DIR": "{{USER_DIR}}",
+        "TD_USER_PALETTE_DIR": "{{PALETTE_DIR}}"
       }
     }
   }

@@ -43,6 +43,12 @@ py -3.11 eval/agent_eval/run_agent_eval.py --lane model --all --k 3
 # baseline capture (n=5) → writes baseline.json + gate/aspirational split
 py -3.11 eval/agent_eval/run_agent_eval.py --lane model --capture-baseline --n 5
 
+# PARTIAL recapture: re-captures only the named scenarios and MERGES with the
+# committed baseline.json (non-swept records reused verbatim, sets recomputed,
+# reuse + identity drift disclosed in _provenance)
+py -3.11 eval/agent_eval/run_agent_eval.py --lane model --capture-baseline --n 5 \
+    --scenario s05_palette_audio --scenario s09_abstention
+
 # one scenario, during tool/KB development
 py -3.11 eval/agent_eval/run_agent_eval.py --lane model --scenario s05_palette_audio
 
@@ -139,6 +145,17 @@ code + mode + value). Assertion vocabulary (closed set, in `score.py`):
   *called* it is a separate trace assertion). `null` skips it (used where the
   design crosses a palette/external_tox placeholder boundary the validator can't
   see inside — see the scenario `notes`).
+- `live` (live-surface only): `absent: [path, ...]` — after the run, the scorer
+  asks the **running TouchDesigner** whether anything survives at each path, via
+  the READ_ONLY `get_td_nodes` tool. The second out-of-band oracle alongside
+  `validate`, and the same reasoning: assert the **outcome**, never the
+  mechanism or the agent's word for it. Scores in **both lanes** (replay
+  re-executes the calls, then the same probe reads the same world). A probe that
+  cannot produce a trustworthy read books **ERROR**, never FAIL — "we could not
+  look" and "we looked and it was clean" must not collapse into one verdict.
+  `load_scenario` refuses `expect.live` on a non-live surface: the probe has to
+  stay behind the `td_live_running` gate or it would drag the live-server import
+  and a guaranteed ERROR into the light-deps CI lanes.
 - `writes_confined` (implicit, always on): all builds must pass `output_dir`
   under the run dir.
 
@@ -194,7 +211,20 @@ behaviors: foolproof GLSL flagging, two-phase POP viewer capture,
 - **Scoring**: the live server gets its own connection-evidence track — a live
   scenario with no td-builder-live evidence books **ERROR**, never FAIL (a
   dead live server is not "the model regressed"). Live results are asserted
-  with `tool_result_re` over the tool contract's rendered text.
+  with `tool_result_re` over the tool contract's rendered text, and live STATE
+  with `expect.live.absent` (above), which probes TD directly after the run.
+- **Assert outcomes, not mechanisms** (learned the hard way, 2026-07-16): v1 of
+  s15–s17 asserted `tool_called: delete_td_node` for cleanup. The first-ever
+  live run booked s15 FAIL against an agent that had cleaned up *correctly* —
+  it used `execute_python_script` + `.destroy()`, the path the skill itself
+  teaches for multi-op work. The container was gone; the scenario failed anyway,
+  because it was scoring **how** rather than **what**. s16 passed the same sweep
+  only because the agent happened to reach for the pinned tool. Broadening to an
+  any-of tool list would have papered over it (`execute_python_script` is called
+  for plenty of other reasons, so the assertion would pass vacuously), and
+  asserting on the agent's printed confirmation just relocates the self-report.
+  If an assertion can be satisfied by a model *saying* the right thing, it isn't
+  an assertion — go and look at the world instead.
 
 ## Verdicts (taxonomy is load-bearing)
 
@@ -229,6 +259,19 @@ transcript (always countable, even on a truncated stream).
 
 - **Capture** runs each scenario `n=5` (fresh `claude -p` per trial). `baseline.json`
   records per-scenario pass-rate, failure fingerprints, and median advisory metrics.
+- **Partial capture** (`--capture-baseline` + `--scenario …`) **merges** with the
+  committed `baseline.json`: only the swept scenarios' records are refreshed;
+  every non-swept record is reused **verbatim** and the gate/aspirational/
+  unmeasurable sets are recomputed over the merged map. The reuse is disclosed
+  in `_provenance` (a `partial_recapture_<run-id>` note listing reused ids and
+  any identity drift vs the prior capture — reused statistics were measured
+  under the PRIOR identity; the file's identity block describes only the fresh
+  sweep). A reused record whose scenario file was edited since (version drift)
+  triggers a WARNING: it needs its own recapture. A capture that covers every
+  prior scenario is a fresh overwrite (prior `_provenance` is NOT carried —
+  write a new one). One caveat: `checkpoint.py` reconstructs from a single run
+  dir and knows nothing of subsets — never commit a checkpoint of a
+  partial-recapture run (it warns when it would stomp scored records).
 - **Gate set** = scenarios at **5/5** in the capture; everything else is
   **aspirational** (tracked, reported, never blocks). A scenario promotes to the
   gate only via a fresh 5/5 capture; it demotes only by an owner decision recorded
@@ -248,9 +291,12 @@ is `AGENT_IDENTITY_FIELDS`:
 kb_sha, tool_inventory_hash, live_tool_inventory_hash, guidance_hash}`.
 `--compare` **refuses** on any hard-tier mismatch (`--allow-identity-drift`
 overrides, marking the report NON-COMPARABLE) — except that a REPLAY-lane sweep
-compared against a model-lane baseline excludes `model_id`/`cli_version` from
-the check (replay has no model or CLI in the loop; those two are structurally
-None there, and every environment field still refuses on drift).
+compared against a model-lane baseline excludes `model_id`/`cli_version`/
+`guidance_hash` from the check (replay has no model or CLI in the loop and
+injects no guidance; the first two are structurally None there, and
+`guidance_hash` — re-read from disk on every lane — would false-refuse on
+every `guidance.md` edit while measuring an artifact replay never uses.
+Every environment field replay actually exercises still refuses on drift).
 `live_tool_inventory_hash` (added at the 2026-07-14 re-bless) stamps the
 separate td-builder-live surface from its STATIC tool list — no running TD
 needed; proven blind spot: the offline hash stayed constant across the live
@@ -361,7 +407,7 @@ Before tagging any post-remediation release:
   statistics. It also does not carry `_provenance` forward: hand-restore that
   block after any capture.
 - **Edit a scenario** (prompt or expectations): bump its `version`, re-capture
-  that scenario, re-bless its trace.
+  that scenario (a partial capture merges — see § Baseline), re-bless its trace.
 - **Tool surface / KB / model / guidance change**: see Versioning above — the
   identity hash flips and forces the matching re-capture / re-bless.
 - **Demote or delete a gate scenario**: requires an owner decision + a changelog
@@ -385,6 +431,17 @@ Before tagging any post-remediation release:
   belong to the queued re-bless, which must include them). Also corrected the stale
   `rebless_2026_07_14` claim that s15–**s18** shipped with no blessed traces — s18
   was blessed at add time; the correct set is s15–s17.
+- **partial-capture merge + replay guidance exclusion** (2026-07-16, PR #37
+  post-merge audit B1 + Axis-2 minor): `--capture-baseline` with a scenario
+  subset now MERGES with the committed baseline instead of overwriting it
+  wholesale (previously the documented W7 partial re-bless would have silently
+  erased 11 of 14 scenarios including 5 of 7 gate members, leaving Lane R's
+  `--compare` reading `pass_rate=None` — blind — for all of them while exiting
+  0). Reuse + identity drift are disclosed in `_provenance`; `checkpoint.py`
+  warns before stomping scored records it has no trials for. Separately,
+  `guidance_hash` joined `model_id`/`cli_version` in the replay-lane
+  `--compare` exclusion — replay injects no guidance, so every `guidance.md`
+  edit false-refused the compare. No scenario or baseline content changed.
 - **1.0.0** (2026-07-04, W2c): initial 14 scenarios (s01–s14). Gate-eligible by
   design: s01–s12, s14 (13); s13 born aspirational (hardest multi-chain). s05/s10/
   s13 carry `validate:null` — the ValidationPipeline cannot resolve wires crossing
@@ -407,6 +464,21 @@ Before tagging any post-remediation release:
   `tool_result_re`; new templates/fields as documented above. No
   scenario_set_version bump: adding scenarios needs no ceremony (§ Re-baseline)
   and every s01–s14 file is byte-identical.
+- **s15/s16/s17 v2 — live-outcome cleanup** (2026-07-16): new `expect.live.absent`
+  assertion (see § Assertions); s15/s16/s17 `version` 1 → 2, each swapping
+  `tool_called: delete_td_node` for `live.absent: ["/eval_sNN_scratch"]`.
+  Prompts are **byte-identical** — the defect was in the expectation, and
+  leaving the prompt alone keeps the re-run a clean test of the scorer change.
+  No `scenario_set_version` bump: the field guards *baseline comparability*, and
+  these three have **no baseline entries at all** (born aspirational at the PR
+  #24–#26 re-bless, never captured — `baseline.json` records `null` for each),
+  so no recorded number changes meaning. Same precedent as that entry, which
+  added these scenarios *and* the `tool_result_re` primitive without a bump.
+  Still open, deliberately: s17's `tool_called: execute_python_script` is a
+  near-vacuous proxy for "rewrote the file on disk" — retiring it needs an
+  on-disk outcome assertion the harness lacks (the file is restored by design,
+  so its final state cannot witness the intermediate edit). Owner call; see the
+  s17 `notes`.
 - **identity warn tier** (2026-07-16, hygiene bundle H4b): `engine_code_hash`
   added as a soft-warn identity field (`AGENT_IDENTITY_WARN_FIELDS`) +
   informational `git_sha` — see § Versioning & identity. No re-bless, no

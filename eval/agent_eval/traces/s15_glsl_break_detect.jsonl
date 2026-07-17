@@ -1,0 +1,17 @@
+{"_meta": {"scenario": "s15_glsl_break_detect", "blessed_from": "model-20260716-235741/s15_glsl_break_detect", "scenario_version": 2, "note": "calls-only trace (tool + args, {{RUN_DIR}}-templated); result envelopes deliberately NOT stored \u2014 replay re-executes and re-scores (design \u00a77: storing them would leak KB-derived text into the repo)."}}
+{"tool": "find_operator_examples", "args": {"operator": "glslTOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "glslTOP", "limit": 3}}
+{"tool": "find_operator_examples", "args": {"operator": "glslTOP", "limit": 3}}
+{"tool": "get_operator_info", "args": {"operator_name": "glslTOP", "compact": "true"}}
+{"tool": "get_operator_info", "args": {"operator_name": "glslTOP", "compact": "true"}}
+{"tool": "execute_python_script", "args": {"script": "\n# Create the scratch container\nscratch = root.create(containerCOMP, 'eval_s15_scratch')\nscratch.nodeX = 0\nscratch.nodeY = 0\nprint('Created:', scratch.path)\n"}}
+{"tool": "get_operator_info", "args": {"operator_name": "glslTOP", "compact": true}}
+{"tool": "execute_python_script", "args": {"script": "\nscratch = root.create(op('/__').OPType, 'eval_s15_scratch') if op('/eval_s15_scratch') is None else op('/eval_s15_scratch')\nprint('path:', scratch.path, 'type:', scratch.OPType)\n"}}
+{"tool": "execute_python_script", "args": {"script": "\n# Find the containerCOMP type correctly\nimport td\n# Use op.type string approach\nparent_op = op('/project1') or root\nprint('root children:', [c.name for c in root.children[:5]])\nprint('root type:', type(root))\n# Try creating via scriptOp or the right class\nc = root.create('containerCOMP', 'eval_s15_scratch')\nprint('created:', c.path)\n"}}
+{"tool": "create_td_node", "args": {"parent_path": "/eval_s15_scratch", "node_type": "glslTOP", "node_name": "broken_glsl"}}
+{"tool": "find_operator_examples", "args": {"operator": "glslTOP", "limit": 2}}
+{"tool": "execute_python_script", "args": {"script": "\n# Write a broken pixel shader \u2014 missing semicolon after the out assignment\nbroken_shader = \"\"\"// Broken shader \u2014 missing semicolon\nout vec4 fragColor;\nvoid main() {\n    fragColor = vec4(1.0, 0.0, 0.0, 1.0)  // ERROR: missing semicolon\n}\n\"\"\"\nop('/eval_s15_scratch/broken_glsl_pixel').text = broken_shader\nprint('Wrote broken shader to broken_glsl_pixel')\nprint(op('/eval_s15_scratch/broken_glsl_pixel').text)\n"}}
+{"tool": "get_glsl_status", "args": {"node_path": "/eval_s15_scratch/broken_glsl"}}
+{"tool": "execute_python_script", "args": {"script": "\n# Write the fixed shader \u2014 semicolon restored\nfixed_shader = \"\"\"// Fixed shader\nout vec4 fragColor;\nvoid main() {\n    fragColor = vec4(1.0, 0.0, 0.0, 1.0);\n}\n\"\"\"\nop('/eval_s15_scratch/broken_glsl_pixel').text = fixed_shader\nprint('Wrote fixed shader')\n"}}
+{"tool": "get_glsl_status", "args": {"node_path": "/eval_s15_scratch/broken_glsl"}}
+{"tool": "delete_td_node", "args": {"node_path": "/eval_s15_scratch"}}

@@ -6,11 +6,79 @@ Search through all TD docs using natural language queries
 
 from sentence_transformers import SentenceTransformer
 import chromadb
+import contextlib
+import sqlite3
 from typing import List, Dict, Optional
 import json
 import os
 import sys
 from pathlib import Path
+
+
+# ---------------------------------------------------------------------------
+# KF1 — chromadb create-on-open guard.
+#
+# chromadb has NO read-only open mode: PersistentClient is create-if-missing
+# at every construction site, and its rust bindings hold the sqlite file open
+# read-write for the life of the process even for pure reads (a filesystem
+# read-only attribute breaks every consumer — empirically refuted). So any
+# consumer that boots against an absent/empty store silently MANUFACTURES a
+# ~188KB bare stub where the real store belongs — the confirmed root cause of
+# all 3 vector_db kills on the dev machine. Probe with STDLIB sqlite first
+# (read-only URI, deterministically closed) and refuse loudly.
+#
+# Contract mirrors scripts/fetch_vector_db.py::_vector_db_doc_count (and
+# check_deps.py; mcp_server._vector_db_ro_doc_count is the boot-side mirror) —
+# keep them in sync:
+#   None  -> chroma.sqlite3 does not exist (nothing to open)
+#   0     -> file exists but the collection is missing/empty/unreadable
+#   N > 0 -> healthy: N embedding rows in the named collection
+# ---------------------------------------------------------------------------
+class ChromaStoreUnavailable(RuntimeError):
+    """The Chroma store is absent/empty/unreadable and MUST NOT be opened with
+    chromadb (create-if-missing would manufacture a bare stub in its place)."""
+
+
+def chroma_store_doc_count(vdb_path, collection: str = "td_unified"):
+    """Embedding-row count of `collection`, via a stdlib READ-ONLY probe of
+    ``<vdb_path>/chroma.sqlite3`` — deliberately NOT chromadb (see above)."""
+    db = Path(vdb_path) / "chroma.sqlite3"
+    if not db.exists():
+        return None
+    try:
+        # closing(): a bare `with sqlite3.connect(...)` only ends the
+        # transaction — it does NOT release the file handle.
+        with contextlib.closing(
+                sqlite3.connect(db.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+            return conn.execute(
+                "SELECT COUNT(*) FROM embeddings e"
+                " JOIN segments s ON e.segment_id = s.id"
+                " WHERE s.collection ="
+                "   (SELECT id FROM collections WHERE name = ?)",
+                (collection,),
+            ).fetchone()[0]
+    except Exception:
+        return 0
+
+
+def open_chroma_or_refuse(vdb_path, collection: str = "td_unified",
+                          min_docs: int = 1):
+    """(client, collection) for an EXISTING healthy store; raises
+    ChromaStoreUnavailable otherwise. NEVER creates files — the read-only
+    probe runs before anything chromadb-shaped touches the path."""
+    n = chroma_store_doc_count(vdb_path, collection)
+    if n is None:
+        raise ChromaStoreUnavailable(
+            f"no Chroma store at {vdb_path} (chroma.sqlite3 missing) — refusing "
+            f"to open: a chromadb open would CREATE a bare stub store there. "
+            f"Fetch or rebuild the KB first (scripts/fetch_vector_db.py).")
+    if n < min_docs:
+        raise ChromaStoreUnavailable(
+            f"Chroma store at {vdb_path} holds {n} document(s) in "
+            f"'{collection}' (need >= {min_docs}) — refusing to serve an "
+            f"empty/foreign store. Fetch or rebuild the KB first.")
+    client = chromadb.PersistentClient(path=str(vdb_path))
+    return client, client.get_collection(collection)
 
 # Phase-3 embedder A/B: the embedder + regime (model id, L2-normalize, query
 # instruction prefix) are NOT hardcoded — they are resolved PER-KB so that
@@ -148,15 +216,18 @@ class TDDocSearch:
         print(f"  Embedder: {self.embedding_model} (normalize={self.embedding_normalize}, "
               f"query_prefix={self.embedding_query_prefix!r})")
 
+        # Connect to Chroma FIRST, through the KF1 guard — refusing an absent/
+        # empty store must happen before the (heavy) embedding model loads,
+        # and a plain PersistentClient here would CREATE the store it fails
+        # to find (the vector_db-kill root cause).
+        _client, self.collection = open_chroma_or_refuse(
+            Path(vectordb_path), "td_unified")
+
         # Load model, wrapped so QUERIES get the regime (prefix + normalize). The
         # wrapper is a pass-through for the shipped MiniLM/un-normalized control.
         self.model = _QueryEncoder(SentenceTransformer(self.embedding_model),
                                    query_prefix=self.embedding_query_prefix,
                                    normalize=self.embedding_normalize)
-
-        # Connect to Chroma
-        client = chromadb.PersistentClient(path=vectordb_path)
-        self.collection = client.get_collection("td_unified")
 
         # Exposed for the server's KB health gate: 0 documents means every
         # semantic query returns empty results, which must read as unhealthy.

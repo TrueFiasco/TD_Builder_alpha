@@ -175,6 +175,9 @@ def main():
     # ---- static KB-match + leak audit (independent) ----
     import chromadb
     from predicates import is_relevant
+    if not (KB / "vector_db" / "chroma.sqlite3").exists():
+        # KF1: PersistentClient is create-if-missing — refuse, never create
+        raise FileNotFoundError(f"no vector_db at {KB / 'vector_db'} — fetch the KB first")
     col = chromadb.PersistentClient(path=str(KB / "vector_db")).get_collection("td_unified")
     g = col.get(include=["metadatas", "documents"], limit=col.count())
     chunks = [{"metadata": m, "content": d} for m, d in zip(g["metadatas"], g["documents"])]

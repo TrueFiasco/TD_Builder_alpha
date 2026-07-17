@@ -290,7 +290,12 @@ def _gold_counts(kb_root: Path, queries: list[dict]) -> dict:
     global _GOLD_COUNTS
     if _GOLD_COUNTS is None:
         import chromadb
-        col = chromadb.PersistentClient(path=str(kb_root / "vector_db")).get_collection(COLLECTION)
+        vdb = kb_root / "vector_db"
+        if not (vdb / "chroma.sqlite3").exists():
+            # KF1: PersistentClient is create-if-missing — opening an absent
+            # store would manufacture a bare stub where the KB belongs.
+            raise FileNotFoundError(f"no vector_db at {vdb} — fetch the KB first")
+        col = chromadb.PersistentClient(path=str(vdb)).get_collection(COLLECTION)
         got = col.get(include=["documents", "metadatas"])
         chunks = [{"content": d, "metadata": m or {}}
                   for d, m in zip(got["documents"], got["metadatas"])]
@@ -555,7 +560,12 @@ def evaluate_backend(name, use_legacy, queries, gt, kb_root, args):
 def collection_count(kb_root: Path) -> int:
     try:
         import chromadb
-        return chromadb.PersistentClient(path=str(kb_root / "vector_db")).get_collection(COLLECTION).count()
+        vdb = kb_root / "vector_db"
+        if not (vdb / "chroma.sqlite3").exists():
+            # KF1: opening an absent store with chromadb would CREATE a stub;
+            # this probe used to do exactly that before swallowing into -1.
+            return -1
+        return chromadb.PersistentClient(path=str(vdb)).get_collection(COLLECTION).count()
     except Exception:
         return -1
 

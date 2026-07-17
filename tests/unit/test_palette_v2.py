@@ -184,6 +184,82 @@ def test_container_level_palette_field(registry, tmp_path):
     assert "subcompname 0 audioAnalysis" in parm
 
 
+# ---------------------------------------------------------------------------
+# A5 — a palette op's `parameters` are NOT applied (the placeholder loads the
+# .tox at open time with its saved defaults). That drop must be LOUD: a build
+# warning naming the op and every dropped key, surfaced in the tool envelope.
+# Silent-wrong with a green build is the repo's most-feared class.
+# ---------------------------------------------------------------------------
+def test_palette_op_parameters_drop_is_loud(registry, tmp_path):
+    design = {"operators": [
+        {"name": "glowA", "palette": "myUserComp", "position": [0, 0],
+         "parameters": {"Wavetype": "saw", "Rate": 4}}], "connections": []}
+    b = ToxBuilder(tmp_path, verbose=False)
+    b.build_tox(design, "pv2warn")
+    assert b.build_warnings, "palette+parameters must produce a build warning"
+    w = " ".join(b.build_warnings)
+    assert "glowA" in w and "Wavetype" in w and "Rate" in w
+    assert "NOT applied" in w
+
+
+def test_palette_op_expressions_drop_is_loud(registry, tmp_path):
+    # op-level `expressions` merge into params before the palette branch — the
+    # drop covers them identically
+    design = {"operators": [
+        {"name": "glowB", "palette": "myUserComp", "position": [0, 0],
+         "expressions": {"Rate": "me.time.seconds"}}], "connections": []}
+    b = ToxBuilder(tmp_path, verbose=False)
+    b.build_tox(design, "pv2warnx")
+    assert b.build_warnings and "glowB" in b.build_warnings[0]
+    assert "Rate" in b.build_warnings[0]
+
+
+def test_container_palette_parameters_drop_is_loud(registry, tmp_path):
+    design = {
+        "operators": [],
+        "containers": [{"name": "analysis", "palette": "audioAnalysis",
+                        "position": [0, 0], "parameters": {"Gain": 2.0}}],
+        "connections": [],
+    }
+    b = ToxBuilder(tmp_path, verbose=False)
+    b.build_tox(design, "pv2warnc")
+    assert b.build_warnings and "analysis" in b.build_warnings[0]
+    assert "Gain" in b.build_warnings[0]
+
+
+def test_palette_without_parameters_stays_quiet(built, registry, tmp_path):
+    # the big `built` design instantiates three palette comps with no parameter
+    # values — no warning may fire (loud means precise, not noisy)
+    b = ToxBuilder(tmp_path, verbose=False)
+    b.build_tox({"operators": [
+        {"name": "clean", "palette": "myUserComp", "position": [0, 0]}],
+        "connections": []}, "pv2quiet")
+    assert b.build_warnings == []
+
+
+def test_build_envelopes_surface_palette_drop_warnings(registry, tmp_path):
+    # both tool envelopes (simple td_build_project and advanced _run_build)
+    # must carry the warnings so the assistant SEES the drop
+    import asyncio
+    import mcp_server as srv
+
+    design = {"operators": [
+        {"name": "glowE", "palette": "myUserComp", "position": [0, 0],
+         "parameters": {"Wavetype": "saw"}}], "connections": []}
+
+    env_simple = asyncio.run(srv.td_build_project(
+        dict(design), "pv2envs", str(tmp_path / "simple")))
+    assert env_simple["status"] == "SUCCESS"
+    assert any("glowE" in w and "Wavetype" in w
+               for w in env_simple.get("warnings", [])), env_simple
+
+    env_adv = asyncio.run(srv._run_build(
+        dict(design), None, None, "pv2enva", str(tmp_path / "adv"), "tox"))
+    assert env_adv["status"] == "SUCCESS"
+    assert any("glowE" in w and "Wavetype" in w
+               for w in env_adv.get("warnings", [])), env_adv
+
+
 def test_shipped_registry_loads_and_has_audio_analysis():
     """The committed KB/palette_components.json parses and carries the seed entry
     with the builder-required interface fields."""

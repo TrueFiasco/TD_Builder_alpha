@@ -837,11 +837,25 @@ class ToeBuilderBridge:
         self.palette_io_map = {}  # Maps palette_name -> {"inputs": [...], "outputs": [...], "path": ...}
         self.container_io_map = {}  # BUG-C FIX: Maps container_name -> {"outputs": [...]} for regular containers
         self.external_components = []  # Round-4 #1: external-tox refs, for the build-log summary
+        self.build_warnings = []  # A5: loud non-fatal drops, surfaced in the tool envelope
 
     def log(self, msg: str):
         if self.verbose:
             print(msg)
         logger.info(msg)
+
+    def _warn_palette_param_drop(self, component_name: str, op_name: str, dropped: dict):
+        """A5 — record (and log) that parameter values on a palette reference are
+        NOT applied. Pre-Palette-v2 behavior silently discarded them while the
+        registration chunk text told the assistant to set them: green build,
+        wrong output. Loud, non-fatal; surfaced via the build-result envelope."""
+        w = (f"palette '{component_name}' as '{op_name}': parameter values "
+             f"{sorted(dropped)} are NOT applied by the builder — the placeholder "
+             f"loads the component's .tox at open time with its saved defaults. "
+             f"Set them after the build (e.g. update_td_node_parameters), by menu "
+             f"TOKEN for menu parameters.")
+        self.build_warnings.append(w)
+        self.log(f"    WARNING: {w}")
 
     def build_from_design(self, design: dict, project_name: str = None) -> Optional[Path]:
         """
@@ -1080,6 +1094,12 @@ end
         # component -> write the external-tox placeholder instead (raises on unknown).
         palette_name = container.get("palette")
         if palette_name:
+            # A5 fail-loud: same drop as the operator-level palette branch
+            dropped = dict(container.get("parameters") or {})
+            for k in (container.get("expressions") or {}):
+                dropped.setdefault(k, None)
+            if dropped:
+                self._warn_palette_param_drop(palette_name, name, dropped)
             self.log(f"  Palette component '{palette_name}' as '{name}'")
             self._embed_palette_v2(palette_name, name, parent_path, position)
             return
@@ -1340,6 +1360,12 @@ end
         # =================================================================
         palette_component = op.get("palette")
         if palette_component:
+            # A5 fail-loud: parameter values (incl. merged expressions) never
+            # reach a palette placeholder — it loads the component's .tox at
+            # open time with its SAVED defaults. Silently accepting them made
+            # a green build produce wrong output.
+            if params:
+                self._warn_palette_param_drop(palette_component, name, params)
             self._embed_palette_v2(palette_component, name, container_path, position)
             return
 

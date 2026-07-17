@@ -34,9 +34,6 @@ from kb_build import user_components as uc  # noqa: E402
 
 KB_ROOT = REPO / "KB"
 
-if not (KB_ROOT / "vector_db").exists():
-    pytest.skip("KB vector_db not fetched", allow_module_level=True)
-
 
 def _load_by_path(name: str, rel: str):
     mod = sys.modules.get(name)
@@ -46,6 +43,21 @@ def _load_by_path(name: str, rel: str):
         sys.modules[name] = mod
         spec.loader.exec_module(mod)
     return mod
+
+
+# Collection-health probe, not a dir-exists check: a present-but-empty store
+# (the chromadb create-on-open stub trap) used to sail past `vector_db.exists()`
+# and ERROR confusingly inside the fixtures. Same read-only sqlite probe as
+# scripts/check_deps.py: None = not fetched, 0 = stub/unreadable, N = healthy.
+_KB_DOCS = _load_by_path("td_fetch_vector_db",
+                         "scripts/fetch_vector_db.py")._vector_db_doc_count(KB_ROOT / "vector_db")
+if _KB_DOCS is None:
+    pytest.skip("KB vector_db not fetched (no chroma.sqlite3) - "
+                "run `python scripts/fetch_vector_db.py`", allow_module_level=True)
+if not _KB_DOCS:
+    pytest.skip("KB vector_db present but the td_unified collection is empty/unreadable "
+                "(create-on-open stub trap) - refetch with `python scripts/fetch_vector_db.py`",
+                allow_module_level=True)
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,90 @@
+{
+  "id": "s20_register_exact_name",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "kb",
+    "register",
+    "hybrid-search",
+    "regression:w7-exact-name-injection"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [
+    "tool:register_component"
+  ],
+  "fixtures": [
+    "knotgen.tox.dir",
+    "knotgen.tox.toc"
+  ],
+  "prompt": "Register my component and then look it up by name. The component is the already-expanded directory at {{RUN_DIR}}/assets/knotgen.tox.dir — pass that path as-is (it needs no TouchDesigner install). If the knowledge base is still warming up, keep waiting and retrying rather than giving up. I want it filed under the short name 'wisp' rather than its folder name, because that is what I call it in my project. Use register_component in two phases: prepare=true first to parse it and get the skeleton, then prepare=false to commit with name='wisp', a one-line 'summary' that distinguishes it from other prebuilt shape generators, 2-3 concrete 'use_cases', and a one-line 'parameter_descriptions' entry for every custom parameter the skeleton reported. Register it for the project only — do NOT copy it into the palette (leave save_to_palette off). Then run a hybrid_search whose query is exactly: wisp — and nothing else. Report, citing only tool output: (1) the name it was registered under, (2) whether searching that bare short name found it, and (3) its selectable knot-type tokens exactly as printed.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "register_component"
+      },
+      {
+        "tool_called": "hybrid_search"
+      },
+      {
+        "call_order": [
+          "register_component",
+          "hybrid_search"
+        ]
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"name\": \"wisp\""
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"retrievable\": true"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"shadows_shipped\": false"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "\"license_tier\": \"user\""
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "\"name\": \"wisp\""
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "menu tokens: trefoil\\|figure8\\|torus\\|circle"
+        }
+      },
+      {
+        "tool_not_called": "td_build_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "(?i)wisp",
+        "trefoil"
+      ],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "W7 regression scenario (PR #37): exact-name direct-injection (W1) + the per-spec name override. 'wisp' normalizes to 4 chars, which is the point: retrieval_stack._load_identity applies a len(normalized) >= 5 guard to the SHIPPED operator registry (:269), and W7 deliberately DROPS that guard for the user registry so short user names still get the exact-name guarantee — this scenario is the agent-surface lock on that. _inject_user does collection.get(where={name}) with an ASSIGNED dense_score of 1.0, so the hit is guaranteed independent of the RS_USER_TOP dense pre-select cap; a regression that reinstated the >=5 guard, or dropped the direct-injection half, would surface here as a miss on a bare 4-char query. 'wisp' and 'knotgen' were both checked at authoring time against all 277 entries in KB/palette_components.json — no exact match and no normalized-substring overlap either way, so shadows_shipped stays false and block_overview gains no override sentence (asserted above). Menu-token regex pinned from the rendered block_io of the committed fixture. See s19 notes for the fixture's provenance and live verification."
+}

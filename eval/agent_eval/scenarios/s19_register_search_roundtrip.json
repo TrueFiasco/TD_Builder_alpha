@@ -1,0 +1,97 @@
+{
+  "id": "s19_register_search_roundtrip",
+  "version": 1,
+  "gate": true,
+  "tags": [
+    "tier1",
+    "kb",
+    "register",
+    "hybrid-search",
+    "regression:w7-user-components"
+  ],
+  "budgets": {
+    "timeout_s": 900
+  },
+  "requires": [
+    "tool:register_component"
+  ],
+  "fixtures": [
+    "knotgen.tox.dir",
+    "knotgen.tox.toc"
+  ],
+  "prompt": "I have my own TouchDesigner component saved at {{RUN_DIR}}/assets/knotgen.tox.dir (an already-expanded component directory — pass that path as-is, it does not need TouchDesigner installed). I want it registered in your knowledge base so it turns up in future searches like the built-in components do. If the knowledge base is still warming up, keep waiting and retrying — a cold server can take several minutes to load, so be patient rather than giving up or guessing. Do this in two phases with register_component. FIRST call it with prepare=true to parse the component and hand you back a skeleton — do not invent any of this, read it off what the tool returns. THEN write the semantic description yourself and call register_component again with prepare=false to commit it, passing: a one-line 'summary' that would let someone tell this component apart from other prebuilt shape/pattern generators; 2-3 concrete 'use_cases'; and a 'parameter_descriptions' entry — one short line — for EVERY custom parameter the skeleton reported. Register it for the project only: do NOT copy it into the palette (leave save_to_palette off). Once it commits, prove it is actually findable: run a hybrid_search for what the component DOES, in the words someone would use who forgot its name (do not put its name in that query), asking for about 8 results; then run a second hybrid_search for its exact name. Report, citing only what the tools returned: (1) the custom parameter names the skeleton gave you, with each one's default; (2) for the menu parameter, its selectable tokens exactly as printed; (3) whether your component came back in each of the two searches; and (4) quote the component's I/O text from the search result that lists its custom parameters.",
+  "expect": {
+    "trace": [
+      {
+        "tool_called": "register_component"
+      },
+      {
+        "tool_called": "hybrid_search"
+      },
+      {
+        "call_order": [
+          "register_component",
+          "hybrid_search"
+        ]
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"custom_parameters\""
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "register_component",
+          "re": "\"retrievable\": true"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "\"license_tier\": \"user\""
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "Custom parameters:"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "Numpoints \\(Num Points; default 200; range 16\\.\\.2000\\)"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "menu tokens: trefoil\\|figure8\\|torus\\|circle; default trefoil"
+        }
+      },
+      {
+        "tool_result_re": {
+          "tool": "hybrid_search",
+          "re": "Scale \\(default 1, 1, 1\\)"
+        }
+      },
+      {
+        "tool_not_called": "td_build_project"
+      }
+    ],
+    "artifact": {
+      "absent": true
+    },
+    "response": {
+      "must_match": [
+        "(?i)knotgen",
+        "trefoil",
+        "(?i)\\b200\\b"
+      ],
+      "must_not_match": []
+    },
+    "validate": null
+  },
+  "notes": "W7 regression scenario (PR #37): the register->search roundtrip — owner goal (a), custom comps can be ADDED and then FOUND. Fixture knotgen.tox.dir is eval-owned OWN CONTENT (no Derivative material): a base COMP built live in TD 099.2025.32820 and toeexpand'd, whose inner circlePOP->glslPOP->outPOP deforms a circle onto a parametric knot; live-verified 2026-07-16 (distinct arc lengths per knot type 7.159/10.659/7.919/6.252, circle planar at z-span 0, Scale x2 doubles the x-span, Numpoints 64/200/500 drives the point count). Its .cparm exercises all three par classes the block_io renderer formats differently: an int with min/max, a vec3 whose default renders as a LIST ('default 1, 1, 1'), and a menu whose tokens ride VERBATIM (the #1 build rule — the LLM must set Knottype='trefoil', never an index). Every regex above is pinned from the ACTUAL rendered block_io text (kb_build/user_components.py component_block_rows), read off the committed fixture at authoring time — not hand-derived from the template. Note 'Scale (default 1, 1, 1)' has no label bit because _format_custom_par omits it when label == name. Results are json.dumps(indent=2) so '\": \"' spacing is stable; the em-dash before each parameter_description is escaped to \\u2014 by ensure_ascii, so no regex spans it. The n_results~8 steer is load-bearing and was MEASURED, not assumed (in-process probe over the real KB, 2026-07-16): across four no-name functional queries the component always took ranks 0-1 with its block_overview/block_usecase, but its block_io landed at rank 2/2/4/7 — so at the DEFAULT n_results=5 the io chunk (the only place custom-par text lives) would have fallen outside the cut in half of them. Hence the prompt asks for BOTH a functional query and an exact-name one, and tool_result_re matches ANY hybrid_search call: exact-name direct-injection guarantees all three chunks, so the io assertions are backstopped by the reliable query while the functional query still proves the owner's actual goal — findable WITHOUT knowing the name. User hits carry no hydration, so even 8 results stay ~6KB, far below the s18 shed threshold that erased its honesty fields. tool: gate keeps this SKIP-not-ERROR on a pre-W7 bisect."
+}

@@ -46,13 +46,19 @@ MCP/server_core/output/
 # TouchDesigner per-build scratch dirs
 *.tox.dir/
 *.toe.dir/
-# ...EXCEPT the committed W7 hermetic fixtures (hand-authored expanded dirs —
-# the whole point is that CI parses them with NO TouchDesigner binary). The
-# directory pattern itself must be re-included (git cannot re-include files
-# under an excluded parent); once the dir is re-included, git descends and
-# nothing else excludes the contents.
+# ...EXCEPT the committed hermetic component fixtures (expanded dirs — the whole
+# point is that CI parses them with NO TouchDesigner binary). The directory
+# pattern itself must be re-included (git cannot re-include files under an
+# excluded parent); once the dir is re-included, git descends and nothing else
+# excludes the contents.
+#   tests/fixtures/user_components — W7's hand-authored unit/engine fixtures
+#   eval/agent_eval/fixtures       — the agent-eval knotgen fixture (s19-s21),
+#                                    TD-authored then toeexpand'd; staged into
+#                                    work/assets/ by run_agent_eval.stage_fixtures
 !tests/fixtures/user_components/*.tox.dir/
 !tests/fixtures/user_components/*.tox.dir/**
+!eval/agent_eval/fixtures/*.tox.dir/
+!eval/agent_eval/fixtures/*.tox.dir/**
 
 # === KB — fetched via scripts/fetch_vector_db.py, never committed ===
 # The runtime KB ships as one GitHub Release asset (td_builder_kb_v0.2.0.zip)

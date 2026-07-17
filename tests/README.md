@@ -12,7 +12,9 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~34 checks
   `td_build_project`, `get_expert_prompt`, `expand_toe_file`) run against the **`td-builder`** server (18 tools).
 - **Live checks** (identity / topology / capture / diagnostics / CRUD) run against the
   **`td-builder-live`** server (22 tools) and need TouchDesigner open (WebServer DAT on `:9981`).
-  With TD down they still pass via the graceful "not running" path.
+  With TD down they still pass via the graceful "not running" path. The CRUD round-trip
+  (P19) additionally requires `TD_ACCEPT_LIVE=1` — it mutates the open project (inside a
+  throwaway sandbox container), so a reachable port alone is not treated as consent.
 - The first KB-dependent test warms the knowledge base (~1–2 min, one-time).
 
 ## Layout

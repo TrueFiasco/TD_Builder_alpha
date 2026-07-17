@@ -1,9 +1,10 @@
-"""Positive live-auth test — the acceptance probe is BLIND to auth failures.
+"""Positive live-auth test — asserts on raw HTTP status, not the probe.
 
-`probe._classify` marks a `"TD Error (401): ..."` string as ok=True, so the
-existing live tests pass green even on a persistent 401. This test therefore
-talks to the TD WebServer DAT directly with httpx and asserts on the raw HTTP
-status code:
+Historically `probe._classify` marked a `"TD Error (401): ..."` string as
+ok=True (the blindness that motivated this file); the classifier now flags
+`TD Error`/`Failed` prefixes, but this test deliberately keeps talking to the
+TD WebServer DAT directly with httpx — raw status codes are positive evidence
+the token matrix works, independent of any probe heuristics:
 
     no token            -> 401
     wrong token         -> 401

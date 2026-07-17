@@ -26,12 +26,16 @@ def pytest_addoption(parser):
     )
 
 
-# Anything driving the in-process servers needs the fetched KB (the `server`
-# fixture fails loudly without it), so the KB-free CI lane must deselect those
-# tests via `-m "not requires_kb"`. Builder tests that read the KB directly
-# (no fixture) carry an explicit module-level pytestmark instead — fixture
-# inspection cannot see a ToxBuilder(...) call inside the test body.
-_KB_FIXTURES = {"server", "probe", "live_server", "live_probe"}
+# Anything driving the in-process OFFLINE server needs the fetched KB (the
+# `server` fixture fails loudly without it), so the KB-free CI lane must
+# deselect those tests via `-m "not requires_kb"`. The LIVE fixtures are
+# deliberately not here: MCP/live_server.py imports no KB artifacts (only
+# mcp/httpx, both in requirements-light), so live-fixture tests are
+# hermetic-lane safe — marking them was a conservative over-mark. Builder
+# tests that read the KB directly (no fixture) carry an explicit module-level
+# pytestmark instead — fixture inspection cannot see a ToxBuilder(...) call
+# inside the test body.
+_KB_FIXTURES = {"server", "probe"}
 
 
 def pytest_collection_modifyitems(items):

@@ -16,6 +16,9 @@ See tests/README.md for the gate overview. Scoring rules:
 """
 from __future__ import annotations
 
+import os
+import uuid
+
 import pytest
 
 NET = {
@@ -336,6 +339,13 @@ def test_p16_live_identity_topology(live_probe, td_live):
 def test_p17_live_capture(live_probe, td_live):
     r = live_probe.call("get_top_info", {"operator_path": "/project1/out1"})
     if td_live:
+        # Whatever project happens to be open may not contain the standard
+        # probe target. Before the classifier learned the "Failed to ..."
+        # prefix this case PASSED vacuously (ok=True on the error string);
+        # a visible skip is the honest version of that tolerance.
+        if "Operator not found" in r.text:
+            pytest.skip("open TD project has no /project1/out1 (not the "
+                        "standard test project) - capture target unavailable")
         assert r.ok or r.images >= 1, r.text[:200]
     else:
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
@@ -356,10 +366,26 @@ def test_p19_live_crud_roundtrip(live_probe, td_live):
                                                "node_name": "td_accept_probe"})
         assert _is_graceful_live_down(r), f"not graceful: {r.text[:200]}"
         return
-    name = "td_accept_tmp"
-    path = f"/project1/{name}"
+    # A reachable :9981 is NOT consent to mutate whatever project is open (it
+    # could be a live show). The CRUD branch is explicit opt-in, and runs in
+    # its own throwaway container so /project1 (or its absence) is irrelevant.
+    if os.environ.get("TD_ACCEPT_LIVE") != "1":
+        pytest.skip("TouchDesigner is reachable on :9981 but TD_ACCEPT_LIVE=1 is "
+                    "not set - the live CRUD branch mutates the open project; set "
+                    "TD_ACCEPT_LIVE=1 to opt in (runs sandboxed in a temp container)")
+    sandbox = f"p19_sandbox_{uuid.uuid4().hex[:8]}"
+    sandbox_path = f"/{sandbox}"
+    created = False
     try:
-        c = live_probe.call("create_td_node", {"parent_path": "/project1",
+        s = live_probe.call("create_td_node", {"parent_path": "/",
+                                               "node_type": "containerCOMP",
+                                               "node_name": sandbox})
+        assert s.ok, s.text[:200]
+        assert sandbox in s.text, f"sandbox create reply dropped the name: {s.text[:200]}"
+        created = True
+        name = "td_accept_tmp"
+        path = f"{sandbox_path}/{name}"
+        c = live_probe.call("create_td_node", {"parent_path": sandbox_path,
                                                "node_type": "constantCHOP",
                                                "node_name": name})
         assert c.ok, c.text[:200]
@@ -370,7 +396,9 @@ def test_p19_live_crud_roundtrip(live_probe, td_live):
                             {"node_path": path, "properties": {"value0": 0.5}})
         assert u.ok, u.text[:200]
     finally:
-        live_probe.call("delete_td_node", {"node_path": path})
+        if created:
+            # Deleting the container takes the children with it - one call.
+            live_probe.call("delete_td_node", {"node_path": sandbox_path})
 
 
 def test_p20_live_save_checkpoint(live_probe, td_live):

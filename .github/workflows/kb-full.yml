@@ -74,7 +74,7 @@ jobs:
         run: |
           python -m pytest tests/acceptance tests/measure -q | tee acceptance.log
           passed=$(grep -Eo '[0-9]+ passed' acceptance.log | grep -Eo '[0-9]+' | head -1)
-          echo "acceptance passed: ${passed:-0} (floor 22 = measured TD-down pass count; 26 with live TD locally)"
+          echo "acceptance passed: ${passed:-0} (floor 22 = measured TD-down pass count; 26 with live TD + TD_ACCEPT_LIVE=1 locally)"
           test "${passed:-0}" -ge 22
 
       - name: Retrieval eval (median of 3; all writes redirected off-repo)

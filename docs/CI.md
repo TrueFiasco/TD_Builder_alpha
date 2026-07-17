@@ -37,8 +37,11 @@ dependency added to pyproject must also be added to requirements-light.txt**
 Two mechanisms, both required:
 
 1. `tests/conftest.py::pytest_collection_modifyitems` auto-marks any test
-   using the `server`/`probe`/`live_server`/`live_probe` fixtures (the
-   `server` fixture fails loudly without `KB/operators.json`).
+   using the `server`/`probe` fixtures (the `server` fixture fails loudly
+   without `KB/operators.json`). The live fixtures (`live_server`/
+   `live_probe`) are deliberately NOT auto-marked (narrowed 2026-07-17):
+   `MCP/live_server.py` imports no KB artifacts — only `mcp`/`httpx`, both in
+   requirements-light — so live-fixture tests are hermetic-lane safe.
 2. Module-level `pytestmark = pytest.mark.requires_kb` in the 13 test files
    that read KB artifacts **directly** (offline `ToxBuilder`/
    `ToeBuilderBridge` builds resolve types against `KB/operators.json` at
@@ -59,7 +62,7 @@ silently pass. Measured partition (2026-07-04, after W2b's GLSL suite + W2d's
 |---|---|---|---|
 | hermetic collection | ≥ 87 | W1 (53) + W2a (+2) = 55; W2d +32 hermetic integrity tests → 87 (measured on the rebased tree: 87/185 collected, 98 deselected) | deselection can't quietly eat the lane |
 | engine-kb collection | ≥ 185 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185 (measured with KB present) | whole engine+unit surface stays collected |
-| kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 with live TD locally) | live tests may skip; offline coverage may not shrink |
+| kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 locally with live TD **and `TD_ACCEPT_LIVE=1`** — since 2026-07-17 P19's live-CRUD branch is explicit opt-in and runs in a throwaway sandbox container) | live tests may skip; offline coverage may not shrink |
 
 Raising a floor when tests are added is routine; **lowering one requires the
 same review as changing a baseline** — say why in the PR, with receipts.

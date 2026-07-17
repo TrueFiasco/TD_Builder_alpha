@@ -3,6 +3,17 @@
 ## Unreleased
 
 ### Changed
+- **CI test-hardening** (2026-07-16 integrity-audit backlog + owner's P19 directive):
+  collection floors raised to measured actuals (hermetic 93→431, engine-kb 195→581 —
+  frozen since W3b while the suites quadrupled; docs/CI.md's tables were staler still at
+  87/185); the two orphaned suites now run in lanes (`tests/test_feedback_spine.py` →
+  `tests/unit/` so the PR lanes collect its 38 tests structurally; `tests/retrieval_user`
+  — the W7 server round-trip coverage that ran in NO lane while the 40-defect W7 cluster
+  shipped — is now a hard kb-full gate with pass floor 12); the `requires_kb` automark
+  narrowed to `server`/`probe` (the live fixtures import no KB artifacts); P19's live-CRUD
+  branch is explicit opt-in (`TD_ACCEPT_LIVE=1`) and runs in a throwaway uuid-named
+  sandbox container with teardown in `finally` — a reachable :9981 is no longer treated
+  as consent to mutate the open project.
 - **Single-source hygiene bundle** (architecture-review candidate 9, owner-directed): four
   facts that had to agree in N places, previously held together by comments, now have seams
   or enforcement tests. (1) **Root resolution**: `mcp_server.py` and `config/__init__.py`
@@ -25,6 +36,28 @@
   never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
 
 ### Fixed
+- **Acceptance probe blind to the live client's error strings**
+  (`tests/measure/probe.py`): `"TD Error: …"`, `"TD Error (401): …"`, `"Failed: …"` and
+  `"Failed to get X: …"` all scored `ok=True`, so `assert r.ok` was toothless against
+  them. The classifier now flags those prefixes; the fix immediately exposed P17 passing
+  vacuously against a TD project lacking `/project1/out1` (now an explicit skip), and
+  `test_live_auth.py`'s docstring no longer documents the 401-blindness as current fact.
+- **Truncated KB downloads now say so** (`scripts/fetch_vector_db.py`): the zip size is
+  checked against the manifest's `size_mb` before hashing, so a partial download reports
+  "truncated/partial download — delete and retry" instead of a SHA256 mismatch that reads
+  as tampering (bit us twice on 2026-07-16, and again — caught by the new check — during
+  this change's verification).
+- **Empty-vector-store skip trap** (`tests/retrieval_user/test_user_store.py`): the module
+  gate probes the `td_unified` collection's doc count (same read-only sqlite probe as
+  `scripts/check_deps.py`) instead of `vector_db/` dir existence — a present-but-empty
+  store (the chromadb create-on-open stub trap) now skips with an accurate reason instead
+  of erroring inside the fixtures, and trips the kb-full pass floor instead of vanishing.
+- **`live_server` fixture masked import regressions as skips** (`tests/conftest.py`): only
+  a missing third-party dependency skips now; a first-party module failing to import, or
+  any other load error, fails loudly (matching the offline `server` fixture's posture).
+- **Stale tool-count comments** in `MCP/live_server.py` ("21 tools") and
+  `MCP/live_client/td_live_client.py` (section headers 7/12/13): actual is 22 = 8
+  visual-feedback + 14 CRUD/session.
 - **Nightly kb-full lane restored** (`.github/workflows/kb-full.yml`, `eval/agent_eval/tests/test_scorer.py`):
   the three artifact-collapse scorer self-tests now self-skip on TD-free machines (hosted runners have no
   `toecollapse`, so the scorer step failed on every scheduled run since 2026-07-05 and silently suppressed

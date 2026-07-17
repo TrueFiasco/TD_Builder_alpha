@@ -54,6 +54,15 @@ def load_server() -> ModuleType:
         # agent-eval Lane R + identity derivation, all of which boot through this
         # loader) would silently measure the maintainer's real ~/.td_builder.
         os.environ["TD_BUILDER_USER_DIR"] = tempfile.mkdtemp(prefix="td_user_pin_")
+        # Pin the palette root too — a SEPARATE override, because the palette is
+        # NOT under ~/.td_builder and the pin above does not reach it. Unpinned it
+        # resolves to the maintainer's REAL Documents/Derivative/Palette, which
+        # register_component(save_to_palette=true) mkdirs and copies into. Needed
+        # HERE and not only in tests/conftest.py because this loader is also the
+        # server seam for non-pytest callers (agent-eval Lane R replays a recorded
+        # register_component through eval/agent_eval/inproc.py, where no pytest
+        # fixture is in play).
+        os.environ["TD_USER_PALETTE_DIR"] = tempfile.mkdtemp(prefix="td_palette_pin_")
 
         try:
             import bootstrap  # repo-root PYTHONPATH shim

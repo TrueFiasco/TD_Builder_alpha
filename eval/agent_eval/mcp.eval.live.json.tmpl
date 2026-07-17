@@ -1,5 +1,5 @@
 {
-  "_comment": "Live-surface variant of mcp.eval.json.tmpl (scenarios with surface:'live', s15-s17): registers BOTH the offline td-builder server (KB lookups stay in scope) and td-builder-live (the 22 running-TD tools). Only materialized when the td_live_running precondition held, so the live server always has a TouchDesigner WebServer DAT to reach (TD_API_URL inherited from the parent env, default http://127.0.0.1:9981). Same strict-mode rationale: --strict-mcp-config keeps the maintainer's global registrations out of the eval.",
+  "_comment": "Live-surface variant of mcp.eval.json.tmpl (scenarios with surface:'live', s15-s17): registers BOTH the offline td-builder server (KB lookups stay in scope) and td-builder-live (the 22 running-TD tools). Only materialized when the td_live_running precondition held, so the live server always has a TouchDesigner WebServer DAT to reach (TD_API_URL inherited from the parent env, default http://127.0.0.1:9981). Same strict-mode rationale: --strict-mcp-config keeps the maintainer's global registrations out of the eval. Same two-pin rationale as mcp.eval.json.tmpl: TD_USER_PALETTE_DIR is a SEPARATE override from TD_BUILDER_USER_DIR because the palette root lives outside ~/.td_builder.",
   "mcpServers": {
     "td-builder": {
       "command": "{{PYTHON}}",
@@ -7,7 +7,8 @@
       "env": {
         "PYTHONIOENCODING": "utf-8",
         "TD_BUILDER_ROOT": "{{REPO_ROOT}}",
-        "TD_BUILDER_USER_DIR": "{{USER_DIR}}"
+        "TD_BUILDER_USER_DIR": "{{USER_DIR}}",
+        "TD_USER_PALETTE_DIR": "{{PALETTE_DIR}}"
       }
     },
     "td-builder-live": {

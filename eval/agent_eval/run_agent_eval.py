@@ -39,6 +39,7 @@ import argparse
 import glob as globmod
 import json
 import os
+import re
 import shutil
 import statistics
 import subprocess
@@ -275,10 +276,33 @@ def run_model_once(scenario: dict, trial_dir: Path, cfg: dict, model_id: str,
     # trial's registrations (or the maintainer's real ~/.td_builder).
     user_dir = trial_dir / "user_dir"
     user_dir.mkdir(parents=True, exist_ok=True)
+    # ...and a fresh palette root per trial. SEPARATE override: the palette root
+    # is NOT under ~/.td_builder, so USER_DIR above does not cover it. Unpinned,
+    # paths.user_palette_dir() falls back to the known-folder Documents, i.e. the
+    # maintainer's REAL Derivative/Palette — and register_component is in the
+    # fixed 18-tool surface (score.py OFFLINE_TOOLS), so EVERY offline trial can
+    # reach it, not just the register_* scenarios. An agent that passes
+    # save_to_palette=true then copies into that real palette while its registry
+    # write lands in the pinned tmp user_dir above: a split state that leaves a
+    # stray .tox with no registry entry (observed 2026-07-16). Mirrors the
+    # session pin in tests/conftest.py::_user_dir_pin.
+    palette_dir = trial_dir / "palette_dir"
+    palette_dir.mkdir(parents=True, exist_ok=True)
     mcp_cfg = tmpl.read_text(encoding="utf-8") \
         .replace("{{PYTHON}}", Path(sys.executable).as_posix()) \
         .replace("{{REPO_ROOT}}", REPO_ROOT.as_posix()) \
-        .replace("{{USER_DIR}}", user_dir.as_posix())
+        .replace("{{USER_DIR}}", user_dir.as_posix()) \
+        .replace("{{PALETTE_DIR}}", palette_dir.as_posix())
+    # Keep the template/substitution pair honest BY CONSTRUCTION: a token added
+    # to a .tmpl without a matching .replace here would be handed to the server
+    # as a LITERAL env value — a forgotten {{PALETTE_DIR}} becomes a relative dir
+    # named "{{PALETTE_DIR}}" instead of an obvious failure, which is how a
+    # hermeticity pin silently stops pinning. Fail loudly instead.
+    leftover = sorted(set(re.findall(r"\{\{[A-Z_]+\}\}", mcp_cfg)))
+    if leftover:
+        raise RuntimeError(
+            f"{tmpl.name}: unsubstituted template token(s) {leftover} — every "
+            f"token must be replaced before the MCP config is materialized")
     cfg_path = trial_dir / "mcp.eval.json"
     cfg_path.write_text(mcp_cfg, encoding="utf-8")
 

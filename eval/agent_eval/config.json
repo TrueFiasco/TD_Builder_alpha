@@ -1,6 +1,6 @@
 {
   "_comment": "Agent-eval configuration (design §2/§5 + owner decisions D-A/D-B/D-F 2026-07-04). model_id is the D-B pin: the concrete snapshot the 'sonnet' alias resolved to at setup (2026-07-04), read empirically from the pilot run's stream-json (assistant message .model). Any change is a deliberate re-baseline event. Lane M auth is the maintainer's logged-in Claude subscription ONLY (D-A): the runner strips ANTHROPIC_API_KEY from the subprocess env; there is no API-key path anywhere in this harness. R-1: the pinned CLI (2.1.81) has no --max-turns — budgets are wall-clock timeout (per scenario) + the sweep-level spend cap below; exceeding either books ERROR, never FAIL. tolerated_builtin_tools: ToolSearch is the CLI's DEFERRED-TOOL schema loader (how the model discovers the MCP tools when they arrive deferred); it reads tool schemas, not the filesystem, so it is NOT a hermeticity hole and must not book ERROR. The real KB-off-disk guard is --disallowedTools (Bash/Read/Grep/etc., enforced at EXECUTION even for tools discovered via ToolSearch).",
-  "scenario_set_version": "1.0.0",
+  "scenario_set_version": "1.1.0",
   "model_id": "claude-sonnet-4-6",
   "model_resolution_alias": "sonnet",
   "cli": "claude",

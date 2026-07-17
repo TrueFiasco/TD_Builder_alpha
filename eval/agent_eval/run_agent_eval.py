@@ -261,6 +261,19 @@ def build_identity(cfg: dict, lane: str, model_id: str | None) -> dict:
         "git_sha": identity_mod.git_sha(REPO_ROOT),
     }
     ident.update(identity_mod.kb_identity(kb_root(), extra_roots=(REPO_ROOT,)))
+    # user_store (W7, decision ⑥): resolved through the product's own seam
+    # (paths.user_components_path / user_index_dir, TD_BUILDER_USER_DIR-aware
+    # at call time). ORDER MATTERS: inproc.tool_names() above already booted
+    # the in-process server, whose loader (tests/measure/_server.py) force-pins
+    # TD_BUILDER_USER_DIR to a fresh empty dir BEFORE the import — so this
+    # stamps the store the Lane-R/identity surface actually sees ("absent"
+    # when hermetic). Lane-M trials each mint their own fresh empty per-trial
+    # dir (run_model_once), the same "absent" semantics.
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    import paths as paths_mod
+    ident["user_store"] = identity_mod.user_store_identity(
+        paths_mod.user_components_path(), paths_mod.user_index_dir())
     return ident
 
 

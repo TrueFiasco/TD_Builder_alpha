@@ -62,6 +62,7 @@ from paths import (  # noqa: E402
 from core.component_manifest import (  # noqa: E402
     ComponentManifestError, manifest_from_tox)
 from core.component_manifest import offline_entry as _offline_entry  # noqa: E402
+from core.component_manifest import parm_quoted_fields as _parm_quoted_fields  # noqa: E402
 
 USER_COLLECTION = "td_unified"
 
@@ -127,10 +128,14 @@ def coerce_meta(meta: dict) -> dict:
 # .cparm mini-parser (Δ7) — custom parent parameter definitions.
 #
 # Ground truth: offline toeexpand of real palette comps on TD 2025.32820
-# (bloom.tox, moviePlayer.tox). Observed line grammar:
+# (bloom.tox, moviePlayer.tox; W1 widened to masterRadioMenu / noise /
+# graphPlot / changeColor + a 277-comp sweep). Observed line grammar:
 #   <typecode> <Name> <"Label"> <value fields...> <Page>
-#       [<menuflags> <menucount> (<token> <label>)*] <order> [<enable-expr>]
-# The value-field count varies by save format (bloom: one trailing string slot;
+#       [<menuflags> <menucount> (<token> <label>)*] <order>
+#       [2 <menu-source-expr>] [<enable-expr>] [1 <help>]
+# Multi-word page names arrive QUOTED on the par line (and in the pages
+# header); a quoted default embeds a quote of the active kind as \q. The
+# value-field count varies by save format (bloom: one trailing string slot;
 # moviePlayer: two) and by type (multi-component pars repeat
 # (<int> <default> <""×n>) groups). The parser is type-aware and CONSERVATIVE:
 # it extracts name/label/page/order, menu token+label pairs (tokens VERBATIM),
@@ -138,9 +143,10 @@ def coerce_meta(meta: dict) -> dict:
 # anything it cannot prove degrades to {name, label[, page]} with a warning —
 # a registration NEVER fails over an exotic par line.
 #
-# The extra string slot(s) semantics are UNCONFIRMED (a help-string slot is
-# suspected but was empty in every ground-truth sample) — they are deliberately
-# NOT interpreted; no "help" field is ever guessed.
+# The tail's help STRING is validated (the [1 <help>] marker form, confirmed
+# on graphPlot) but deliberately not emitted as a field yet; the extra value
+# string slot(s) semantics remain UNCONFIRMED and uninterpreted — no "help"
+# field is ever guessed from them.
 # ---------------------------------------------------------------------------
 _NUM_RE = re.compile(r"^-?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$")
 _INT_RE = re.compile(r"^-?\d+$")
@@ -151,33 +157,12 @@ _PULSE_TYPECODES = {772804869}
 _STRING_TYPECODES = {772804868, 772804877, 772804880}
 
 
-def _cparm_tokens(line: str) -> List[Tuple[str, bool]]:
-    """Quote-aware tokenizer: [(token, was_quoted)]. Handles double AND single
-    quoting (TD emits both: "Blur Size", 'none'); backslashes are literal (no
-    escape processing — Windows-path defaults must survive verbatim)."""
-    toks: List[Tuple[str, bool]] = []
-    i, n = 0, len(line)
-    while i < n:
-        ch = line[i]
-        if ch in " \t":
-            i += 1
-            continue
-        if ch in "\"'":
-            q = ch
-            i += 1
-            j = line.find(q, i)
-            if j < 0:               # unterminated quote — take the rest verbatim
-                toks.append((line[i:], True))
-                break
-            toks.append((line[i:j], True))
-            i = j + 1
-        else:
-            j = i
-            while j < n and line[j] not in " \t":
-                j += 1
-            toks.append((line[i:j], False))
-            i = j
-    return toks
+# Quote-aware tokenizer: [(token, was_quoted)] — the engine's parm_quoted_fields
+# is the SINGLE SOURCE for TD's quoting convention (double/single quoting, \q
+# escapes for the active quote kind, all other backslashes literal). The .parm
+# override seam (component_manifest) and this .cparm parser must never fork on
+# escaping (A1/A2), so this is a binding, not a copy.
+_cparm_tokens = _parm_quoted_fields
 
 
 def _num(s: str):
@@ -185,13 +170,21 @@ def _num(s: str):
 
 
 def _tail_rest_ok(rest: List[str], rest_q: List[bool]) -> bool:
-    """What may follow <order>: nothing | one expression (enable) | an int N
-    followed by exactly N expression tokens (dynamic-menu source + enable —
-    observed on scripted-menu pars like moviePlayer's Audiodriver)."""
-    if not rest or len(rest) == 1:
-        return True
-    return (not rest_q[0] and _INT_RE.match(rest[0])
-            and len(rest) == 1 + int(rest[0]))
+    """What may follow <order>:  [2 <menu-source-expr>] [<enable-expr>] [1 <help>]
+    — every element optional. Ground truth (TD 2025.32820): the leading 2 is a
+    MARKER (menu source is an expression: tdu.ParMenu / op('...').par.x — noise
+    'Format', masterRadioMenu 'Font'/'Value0', moviePlayer 'Audiodriver'), NOT a
+    count, and 1 marks a trailing help string (graphPlot 'Rangeoctavesy'). The
+    old int-N-then-N-tokens reading was generalized from the one shape it
+    happened to fit ([2 src enable]) and rejected every other real tail."""
+    i, n = 0, len(rest)
+    if i < n and not rest_q[i] and rest[i] == "2" and i + 1 < n:
+        i += 2                                     # 2 <menu-source-expr>
+    if i < n and not (not rest_q[i] and rest[i] == "1" and i + 1 < n):
+        i += 1                                     # <enable-expr>
+    if i + 1 < n and not rest_q[i] and rest[i] == "1":
+        i += 2                                     # 1 <help>
+    return i == n
 
 
 def _parse_cparm_tail(tail: List[str], tail_q: List[bool]):
@@ -236,13 +229,18 @@ def _extract_default(rec: dict, V: List[str], VQ: List[bool], typecode: int,
                     f"the menu tokens — omitted")
         return None
 
-    # trailing slot zone: empty / quoted / non-numeric tokens
+    # trailing slot zone: empty / quoted / non-numeric tokens. An UNQUOTED
+    # literal `None` is TD's empty-slot placeholder in some save formats
+    # (graphPlot 'Rangeoctavesy', typecode 773198338) — committing it as a
+    # string default would be silent-wrong, so it counts as empty; a QUOTED
+    # "None" stays a deliberate string value.
     k = len(V) - 1
-    slots: List[str] = []
+    slot_pairs: List[Tuple[str, bool]] = []
     while k >= 0 and (V[k] == "" or VQ[k] or not _NUM_RE.match(V[k])):
-        slots.append(V[k])
+        slot_pairs.append((V[k], VQ[k]))
         k -= 1
-    nonempty = [s for s in reversed(slots) if s != ""]
+    nonempty = [s for s, q in reversed(slot_pairs)
+                if s != "" and (q or s != "None")]
 
     if typecode in _PULSE_TYPECODES:
         rec["type_class"] = "pulse"
@@ -315,18 +313,29 @@ def parse_cparm(text: str) -> Tuple[List[str], List[dict], List[str]]:
         rec: dict = {"name": vals[1], "label": vals[2]}
         # page scan is LEFT-to-right with tail validation (the page always
         # precedes the menu block; a value field that collides with a page name
-        # fails tail validation and the scan continues).
+        # fails tail validation and the scan continues). Quoted tokens ARE
+        # candidates: TD quotes multi-word page names on the par line
+        # ("Change Color", "X Units") — skipping them degraded every par on
+        # such pages (A3).
         parsed = None
+        page_hint = None
         for i in range(3, len(vals) - 1):
-            if quoted[i] or vals[i] not in pages:
+            if vals[i] not in pages:
                 continue
+            if page_hint is None:
+                page_hint = vals[i]
             got = _parse_cparm_tail(vals[i + 1:], quoted[i + 1:])
             if got is not None:
                 parsed = (i, got)
                 break
         if parsed is None:
+            # degrade contract: {name, label[, page]} — the page rides along
+            # when a page token is present even though the tail failed.
+            if page_hint is not None:
+                rec["page"] = page_hint
             warnings.append(f".cparm par '{rec['name']}': page/tail not recognized — "
-                            f"degraded to name/label only")
+                            f"degraded to name/label"
+                            f"{'/page' if page_hint is not None else ''} only")
             pars.append(rec)
             continue
         i, (menu, order) = parsed
@@ -640,10 +649,17 @@ def component_block_rows(name: str, entry: dict,
             parts.append(f" Internal network of {op_count} operators"
                          f" ({', '.join(contained[:18])}).")
         if custom_pars:
+            # A5 honesty: the builder does NOT apply parameter values to a
+            # {"palette"} placeholder (it loads the .tox at open time with its
+            # saved defaults) — the old imperative "Set menu parameters by
+            # string token" induced exactly that silently-dropped call. Keep
+            # the verbatim-token rule; route value-setting to AFTER the build.
             parts.append(" Custom parameters: "
                          + "; ".join(_format_custom_par(p) for p in custom_pars)
-                         + ". Set menu parameters by string token (verbatim), "
-                           "never by index.")
+                         + ". Menu values by string TOKEN (verbatim, never "
+                           "index). The builder does not apply custom parameter "
+                           "values to {\"palette\"} instantiations — set them "
+                           "after the build (e.g. update_td_node_parameters).")
         parts.append(f" Wire inner ops explicitly ('{name}/<op>'); a component "
                      f"is never itself a data source.")
         io_meta = dict(base_meta)
@@ -688,11 +704,21 @@ def _resolve_user_regime() -> dict:
 
 
 def _open_user_collection(create: bool = False):
-    """(client, collection) for the user store, or (None, None) when absent."""
+    """(client, collection) for the user store, or (None, None) when absent.
+
+    KF1: the READ path (create=False) must never create — chromadb's
+    PersistentClient is create-if-missing, so opening an absent/empty store
+    would manufacture a bare stub in its place. Probe read-only first; a
+    missing store OR an empty collection reads as absent (the W2 degrade
+    contract: count 0 == store-absent). Only the commit path (create=True)
+    may create."""
     import chromadb                                    # lazy (hermetic CI)
     vdb = user_index_dir() / "vector_db"
-    if not create and not vdb.exists():
-        return None, None
+    if not create:
+        if not _search_docs_mod().chroma_store_doc_count(vdb, USER_COLLECTION):
+            return None, None                          # None or 0 rows
+        client = chromadb.PersistentClient(path=str(vdb))
+        return client, client.get_collection(USER_COLLECTION)
     vdb.mkdir(parents=True, exist_ok=True)
     client = chromadb.PersistentClient(path=str(vdb))
     coll = client.get_or_create_collection(USER_COLLECTION)  # default L2 space

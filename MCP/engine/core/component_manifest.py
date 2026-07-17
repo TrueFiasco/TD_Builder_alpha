@@ -33,6 +33,73 @@ class ComponentManifestError(Exception):
         self.kind = kind
 
 
+def parm_quoted_fields(line: str):
+    """Quote-aware field scanner for TD's .parm/.cparm serialization:
+    ``[(field, was_quoted)]``. Fields are whitespace-separated; a field
+    containing spaces is quote-wrapped (double AND single quoting both occur:
+    "Blur Size", 'none'), and an embedded quote of the ACTIVE kind is escaped
+    as \\q (ground truth: masterRadioMenu.tox 'Menulabels'/'Tableformat',
+    TD 2025.32820) — which unescapes to the bare quote. Every other backslash
+    is literal (Windows-path values survive verbatim; the other quote kind is
+    embedded UNescaped, e.g. "x == 'y'"). Unknown residual: a quoted value
+    ENDING in a literal backslash would need \\\\" from TD — no such sample
+    exists in the 2025.32820 palette, so that shape stays unspecified.
+
+    SINGLE SOURCE for the quoting convention (A1/A2): the Δ7 .cparm tokenizer
+    in kb_build/user_components binds to this same function — do not fork."""
+    toks = []
+    i, n = 0, len(line)
+    while i < n:
+        ch = line[i]
+        if ch in " \t":
+            i += 1
+            continue
+        if ch in "\"'":
+            q = ch
+            i += 1
+            buf = []
+            while i < n:
+                c = line[i]
+                if c == "\\" and i + 1 < n and line[i + 1] == q:
+                    buf.append(q)          # \q -> embedded quote
+                    i += 2
+                    continue
+                if c == q:                 # closing quote
+                    i += 1
+                    break
+                buf.append(c)
+                i += 1
+            # unterminated quote: the accumulated rest is taken verbatim
+            toks.append(("".join(buf), True))
+        else:
+            j = i
+            while j < n and line[j] not in " \t":
+                j += 1
+            toks.append((line[i:j], False))
+            i = j
+    return toks
+
+
+def _parm_effective_constant(raw: str, first_field_only: bool = False) -> str:
+    """Effective saved CONSTANT from a .parm value tail (A2). The lossless
+    parser splits .parm lines on whitespace only, so a quoted constant with
+    spaces reaches us either truncated at its first space (expression modes:
+    the remainder glued onto the expression payload) or with its quote
+    wrapping intact (constant modes hold the raw tail). Re-scan with the
+    quote-aware field scanner and return the first field (expression modes) /
+    the sole field (constant modes); fall back to the input verbatim when the
+    shape is not confidently recoverable. Caveat: rejoining value+expression
+    collapses a whitespace RUN at the first field boundary to one space (the
+    parser discarded the raw line); palette ground-truth values carry single
+    spaces only."""
+    fields = parm_quoted_fields(raw)
+    if not fields:
+        return raw
+    if first_field_only or len(fields) == 1:
+        return fields[0][0]
+    return raw
+
+
 def _engine_imports():
     """Lazy-import the engine-rooted dependencies (parsers/, paths).
 
@@ -258,10 +325,19 @@ def manifest_from_tox(tox_path, timeout_s: int = EXTERNAL_MANIFEST_TIMEOUT_S) ->
             if cf is not None and not getattr(cf, "is_binary", False):
                 cparm_text = cf.content
             for pname, pval in (getattr(iface_op, "parameters", None) or {}).items():
+                # A2: undo the lossless parser's whitespace-only split before a
+                # value becomes a durable user-facing default — a quoted
+                # constant with spaces must not commit truncated/quote-mangled
+                # (moviePlayer.tox 'File'). Expression preference for
+                # expression-mode pars is deliberately NOT taken here (AM4).
                 if isinstance(pval, str):
-                    parm_values[pname] = pval
+                    parm_values[pname] = _parm_effective_constant(pval)
                 elif hasattr(pval, "value") and isinstance(getattr(pval, "value"), str):
-                    parm_values[pname] = pval.value
+                    expr = getattr(pval, "expression", None)
+                    raw = pval.value + (" " + expr
+                                        if isinstance(expr, str) and expr else "")
+                    parm_values[pname] = _parm_effective_constant(
+                        raw, first_field_only=True)
                 # indexed/dict component values: omitted (conservative)
 
         return {

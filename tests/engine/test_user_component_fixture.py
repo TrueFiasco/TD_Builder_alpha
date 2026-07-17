@@ -77,6 +77,33 @@ def test_wrapglow_wrapper_pars_come_from_inner_comp():
     assert [m["token"] for m in by["Mode"]["menu"]] == ["soft", "hard"]
 
 
+def test_quotefont_parm_overrides_are_quote_aware():
+    """A2 — the .parm override seam must undo TD's field quoting instead of
+    committing a truncated, quote-mangled default (moviePlayer.tox 'File'
+    shape: an expression-mode line whose quoted constant contains spaces used
+    to commit as '"C:/Users/greg/Desktop/Media/VJ').
+
+    quotefont.tox.dir also carries the other real-TD serialization shapes the
+    Δ7 fixtures used to omit (board CM2): a multi-word QUOTED page name (A3),
+    a backslash-escaped-quote default (A1), and a marker-form dynamic-menu
+    tail (A4)."""
+    sk = uc.parse_component(FIXTURES / "quotefont.tox.dir")
+    assert sk["parse_warnings"] == []
+    by = {p["name"]: p for p in sk["custom_parameters"]}
+
+    # A2 expression-mode override: full constant, unquoted, spaces intact
+    assert by["Source"]["default"] == "C:/media/my clip file.mov"
+    # A2 mode-0 quoted override with spaces: unquoted verbatim
+    assert by["Labels"]["default"] == "Up Down"
+    # plain token / numeric overrides keep working (regression guards)
+    assert by["Face"]["default"] == "Serif"
+    assert by["Mix"]["default"] == 0.75
+
+    # the fixture's other real-TD shapes parse fully (A1/A3/A4 in one comp)
+    assert by["Labels"]["page"] == "Type Setup"          # A3 multi-word page
+    assert [m["token"] for m in by["Face"]["menu"]] == ["Sans", "Serif"]  # A4
+
+
 # ---------------------------------------------------------------------------
 # entry + chunk text — registry field, io-chunk content, description round-trip
 # ---------------------------------------------------------------------------

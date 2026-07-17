@@ -85,6 +85,46 @@ def test_cparm_float_menu_string_pulse():
     assert [p["name"] for p in pars] == ["Gain", "Blend", "File", "Reset"]
 
 
+def test_cparm_escaped_quote_default_survives_verbatim():
+    # A1 — TD escapes an embedded quote as \" inside a quoted token (shape from
+    # masterRadioMenu.tox 'Menulabels', TD 2025.32820). The tokenizer used to
+    # close the token at the first raw quote, committing a lone backslash as the
+    # default with NO warning (silent-wrong).
+    text = ('?\npages 1 Main\n'
+            '772804868 Labels "Item Labels (optional)" 1 1 0 0 1 1 1 2 0 '
+            '"\\"Alpha\\" \\"Beta\\" \\"Gamma\\"" "" Main 1\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert pars[0]["page"] == "Main"
+    assert pars[0]["type_class"] == "string"
+    assert pars[0]["default"] == '"Alpha" "Beta" "Gamma"'
+
+
+def test_cparm_escaped_quote_in_menu_label():
+    # A1 — menu LABELS carry \" too (shape from masterRadioMenu 'Tableformat':
+    # ... ExcludeFirstRow_LabeledCols "Use \"name\" and \"label\" columns")
+    text = ('?\npages 1 Main\n'
+            '772804879 Fmt "Table Format" 1 1 0 0 1 1 1 2 0 rowzero "" Main '
+            '4097 2 rowzero "Row 0 is header" labeled "Use \\"name\\" and '
+            '\\"label\\" columns" 5\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert [m["token"] for m in pars[0]["menu"]] == ["rowzero", "labeled"]
+    assert pars[0]["menu"][1]["label"] == 'Use "name" and "label" columns'
+    assert pars[0]["default"] == "rowzero"
+
+
+def test_cparm_windows_path_backslashes_stay_literal():
+    # A1 guard-rail — lone backslashes are NOT escape processing: a Windows-path
+    # default must survive byte-verbatim through the quoted tokenizer.
+    text = ('?\npages 1 Main\n'
+            '772804880 Cache "Cache Dir" 1 1 0 0 1 1 1 2 0 '
+            '"C:\\Media\\my clips" "" Main 2\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert pars[0]["default"] == "C:\\Media\\my clips"
+
+
 def test_cparm_two_slot_format_and_enable_expr():
     # moviePlayer-era save format: two trailing string slots + enable expression
     text = ('?\npages 1 Setup\n'
@@ -97,7 +137,10 @@ def test_cparm_two_slot_format_and_enable_expr():
 
 
 def test_cparm_dynamic_menu_source_expressions():
-    # scripted menu: <order> <n> <expr>*n tail (observed on device-list menus)
+    # A4 tail grammar: [2 <menu-source-expr>] [<enable-expr>] [1 <help>] — the
+    # leading 2 is a MARKER (menu source is an expression), NOT a count. This is
+    # the moviePlayer 'Audiodriver' shape (marker + source + unquoted enable),
+    # which the old exact-length reading fit only by coincidence.
     text = ("?\npages 1 Setup\n"
             "1846677775 Drv Driver 1 1 0 0 1 1 10 2 0 default \"\" Setup 4097 2 "
             "default Default asio ASIO 6 2 op('./devout').par.driver "
@@ -109,7 +152,119 @@ def test_cparm_dynamic_menu_source_expressions():
     assert pars[0]["default"] == "default"
 
 
-def test_cparm_multi_value_defaults():
+def test_cparm_tail_marker_source_without_enable():
+    # A4 — marker + source expression, NOTHING after (noise.tox 'Format' /
+    # masterRadioMenu 'Value0' shape). The old count reading demanded 2 more
+    # tokens and rejected the whole par: menu, page and default all lost.
+    text = ("?\npages 1 Gen\n"
+            "1846546703 Fmt \"Pixel Format\" 1 1 0 0 1 1 1 0 0 rgba8 Gen 4097 3 "
+            "use \"Use Input\" rgba8 \"8-bit\" rgba32 \"32-bit float\" 4 2 "
+            "op('./gen1').par.format\n?")
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert pars[0]["page"] == "Gen"
+    assert [m["token"] for m in pars[0]["menu"]] == ["use", "rgba8", "rgba32"]
+    assert pars[0]["default"] == "rgba8"
+
+
+def test_cparm_tail_marker_source_order_zero():
+    # A4 — same shape at order 0 (masterRadioMenu 'Value0': the tail is
+    # '0 2 op('./menu/entries').module.par()')
+    text = ("?\npages 1 Vals\n"
+            "1846546703 Value0 \"Value 0\" 1 1 0 0 1 1 1 2 0 alpha \"\" Vals "
+            "4097 2 alpha Alpha beta Beta 0 2 op('./entries').module.par()\n?")
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert [m["token"] for m in pars[0]["menu"]] == ["alpha", "beta"]
+    assert pars[0]["default"] == "alpha"
+
+
+def test_cparm_tail_enable_plus_help_marker():
+    # A4 — quoted enable expression followed by the help marker '1' + help
+    # string (graphPlot 'Rangeoctavesy' shape: ... 8 "me.par.U == 'x'" 1
+    # "Help not available."). Both tokens after the marker are quoted.
+    text = ('?\npages 1 Main\n'
+            '772935937 Oct Octaves 1 1 0 0 1 1 1 0 0.5 "" Main 8 '
+            '"me.par.Units == \'audio\'" 1 "Help not available."\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert pars[0]["page"] == "Main"
+    assert pars[0]["default"] == 0.5
+
+
+def test_cparm_tail_help_marker_without_enable():
+    # A4 — help marker directly after order (no enable expression)
+    text = ('?\npages 1 Main\n'
+            '772935937 Amt Amount 1 1 0 0 1 1 1 0 0.25 "" Main 3 '
+            '1 "Blend amount."\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert pars[0]["default"] == 0.25
+
+
+def test_cparm_tail_marker_source_plus_quoted_enable():
+    # A4 regression guard — the masterRadioMenu 'Font' shape (marker + source +
+    # QUOTED enable) must keep parsing after the grammar change
+    text = ("?\npages 1 Look\n"
+            "1846677775 Face Font 1 1 0 0 1 1 1 2 0 Sans \"\" Look 4097 2 "
+            "Sans Sans Serif Serif 5 2 op.Res.op('src').par.font "
+            "\"not me.par.Fontfile\"\n?")
+    _, pars, warns = uc.parse_cparm(text)
+    assert warns == []
+    assert [m["token"] for m in pars[0]["menu"]] == ["Sans", "Serif"]
+    assert pars[0]["default"] == "Sans"
+
+
+def test_cparm_multi_word_page_recovers_fully():
+    # A3 — TD QUOTES a multi-word page name on the par line ('Change Color' on
+    # changeColor.tox). The old scan skipped every quoted token as a page
+    # candidate, so all pars on such pages degraded to name/label — no page, no
+    # default, no menu tokens (~a quarter of real palette menu pars).
+    text = ('?\npages 2 "Color Mix" Advanced\n'
+            '772804879 Space "Color Space" 1 1 0 0 1 1 1 2 0 hue "" '
+            '"Color Mix" 4097 3 rgb RGB hue Hue chroma Chroma 2\n'
+            '772804865 Gain Gain 1 1 0 0 1 1 4 0 1.5 "" Advanced 0\n?')
+    pages, pars, warns = uc.parse_cparm(text)
+    assert pages == ["Color Mix", "Advanced"]
+    assert warns == []
+    by = {p["name"]: p for p in pars}
+    assert by["Space"]["page"] == "Color Mix"
+    assert [m["token"] for m in by["Space"]["menu"]] == ["rgb", "hue", "chroma"]
+    assert by["Space"]["default"] == "hue"
+    assert by["Gain"]["page"] == "Advanced"     # single-word page unaffected
+
+
+def test_cparm_degrade_record_carries_page():
+    # A3 — the spec says a par the parser cannot prove degrades to
+    # {name, label, page}; the page is emitted when a page token is present
+    # even though the tail failed validation.
+    text = ('?\npages 1 Main\n'
+            '772804868 Weird W 1 1 0 0 1 1 1 2 0 x "" Main "notanorder"\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert pars == [{"name": "Weird", "label": "W", "page": "Main"}]
+    assert warns and "Weird" in warns[0]
+
+
+def test_cparm_none_placeholder_slots_degrade_loudly():
+    # graphPlot 'Rangeoctavesy' shape (typecode-773198338 save format): the
+    # trailing slots carry TD's literal unquoted `None` placeholder instead of
+    # "". Committing the STRING 'None' as a default would be silent-wrong —
+    # the par must degrade to a LOUD default-omitted warning instead. (The
+    # sole palette-wide occurrence; measured in the W1 263-comp sweep.)
+    text = ('?\npages 1 Main\n'
+            '773198338 Rng "Range Y" 1 1 0 -8 1 1 8 1 0 -8 1 1 8 1 -3 None '
+            '1 4 None Main 8 "me.par.U == \'audio\'" 1 "Help not available."\n?')
+    _, pars, warns = uc.parse_cparm(text)
+    assert pars[0]["page"] == "Main"                # A3/A4: page+tail recovered
+    assert pars[0].get("default") != "None"         # never the placeholder text
+    assert "default" not in pars[0]
+    assert warns and "Rng" in warns[0] and "omitted" in warns[0]
+    # a QUOTED "None" is a deliberate string value and must survive
+    text2 = ('?\npages 1 Main\n'
+             '772804868 Word Word 1 1 0 0 1 1 1 2 0 "None" "" Main 1\n?')
+    _, pars2, warns2 = uc.parse_cparm(text2)
+    assert warns2 == []
+    assert pars2[0]["default"] == "None"
     # synthetic RGB color par: repeated (<int> <default> <""×s>) groups
     text = ('?\npages 1 Main\n'
             '772809473 Tint "Tint Color" 1 1 0 0 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 '
@@ -274,7 +429,14 @@ def test_block_io_carries_custom_pars_with_verbatim_menu_tokens():
     assert "Custom parameters:" in io
     assert "menu tokens: over|add|screen" in io       # VERBATIM tokens (Δ7)
     assert "Gain" in io and "default 1.5" in io and "range 0..4" in io
-    assert "Set menu parameters by string token" in io
+    # A5 — the io chunk must NOT tell the assistant to set parameter values at
+    # build time: {"palette"} builds silently drop them (the placeholder loads
+    # the .tox with its saved defaults). The honest wording keeps the verbatim
+    # menu-token rule and routes value-setting to AFTER the build.
+    assert "Set menu parameters by string token" not in io
+    assert "Menu values by string TOKEN (verbatim, never index)" in io
+    assert "does not apply custom parameter values" in io
+    assert "after the build" in io
 
 
 def test_block_io_emitted_for_pars_even_without_contained_ops():

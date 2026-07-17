@@ -77,6 +77,20 @@ jobs:
           echo "acceptance passed: ${passed:-0} (floor 22 = measured TD-down pass count; 26 with live TD + TD_ACCEPT_LIVE=1 locally)"
           test "${passed:-0}" -ge 22
 
+      # W7 server round-trip coverage. This suite ran in NO lane until
+      # 2026-07-17 (the 40-defect W7 cluster survived the gates precisely
+      # because of that). Needs the full ML stack (.[dev]) + the cached KB,
+      # so this job is its only possible home. Hard gate - no
+      # continue-on-error. The pass floor guards against silent skip-storms
+      # (e.g. an empty vector_db skips test_user_store's whole module).
+      - name: Retrieval user-store suite (full deps + KB; t1b self-skips without TD)
+        shell: bash
+        run: |
+          python -m pytest tests/retrieval_user -q | tee retrieval_user.log
+          passed=$(grep -Eo '[0-9]+ passed' retrieval_user.log | grep -Eo '[0-9]+' | head -1)
+          echo "retrieval_user passed: ${passed:-0} (floor 12 = 13 tests minus t1b's TD-binary skip on hosted runners)"
+          test "${passed:-0}" -ge 12
+
       - name: Retrieval eval (median of 3; all writes redirected off-repo)
         shell: bash
         run: |
@@ -139,5 +153,6 @@ jobs:
           path: |
             ${{ runner.temp }}/candidate.json
             acceptance.log
+            retrieval_user.log
             eval/agent_eval/runs/ci-${{ github.run_id }}/report.json
             eval/agent_eval/runs/ci-${{ github.run_id }}/verdicts.json

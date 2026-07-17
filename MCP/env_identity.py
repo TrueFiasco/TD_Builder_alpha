@@ -7,7 +7,7 @@ in the release distribution. So the small stdlib-only helpers the feedback recor
 needs are LIFTED here, into an ``MCP/``-level sibling of ``server_instructions.py``
 (importable by both servers).
 
-Kept byte-behaviour-compatible with the eval twin; ``tests/test_feedback_spine.py``
+Kept byte-behaviour-compatible with the eval twin; ``tests/unit/test_feedback_spine.py``
 asserts the two agree on fixtures so they cannot silently diverge. If you edit a
 helper here, mirror it in ``eval/agent_eval/identity.py`` (and vice-versa). Unifying
 the two into one shared module is a deferred follow-up (it would touch the eval

@@ -1,7 +1,9 @@
-"""W7 — user-store retrieval integration (T3/T5/T6/T8): LOCAL kb-full lane only.
+"""W7 — user-store retrieval integration (T3/T5/T6/T8): kb-full lane.
 
 Needs chromadb + sentence-transformers + the fetched KB (vector_db, bm25,
-reranker bundle), so it runs in NO CI lane — it is part of the local merge gate:
+reranker bundle), so it runs in the nightly kb-full job (hard gate, pass
+floor 12 — wired 2026-07-17; it ran in NO lane before that) and in the
+local merge gate:
 
     py -3.11 -m pytest tests/retrieval_user -q
 
@@ -47,8 +49,9 @@ def _load_by_path(name: str, rel: str):
 
 # Collection-health probe, not a dir-exists check: a present-but-empty store
 # (the chromadb create-on-open stub trap) used to sail past `vector_db.exists()`
-# and ERROR confusingly inside the fixtures. Same read-only sqlite probe as
-# scripts/check_deps.py: None = not fetched, 0 = stub/unreadable, N = healthy.
+# and ERROR confusingly inside the fixtures. Same read-only sqlite probe that
+# scripts/check_deps.py delegates to (fetch_vector_db._vector_db_doc_count):
+# None = not fetched, 0 = stub/unreadable, N = healthy.
 _KB_DOCS = _load_by_path("td_fetch_vector_db",
                          "scripts/fetch_vector_db.py")._vector_db_doc_count(KB_ROOT / "vector_db")
 if _KB_DOCS is None:

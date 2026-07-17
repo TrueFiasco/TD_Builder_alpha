@@ -380,9 +380,11 @@ def test_p19_live_crud_roundtrip(live_probe, td_live):
         s = live_probe.call("create_td_node", {"parent_path": "/",
                                                "node_type": "containerCOMP",
                                                "node_name": sandbox})
+        # Flag BEFORE the asserts: a create that succeeded but with an
+        # anomalous reply must still be torn down in finally.
+        created = s.ok
         assert s.ok, s.text[:200]
         assert sandbox in s.text, f"sandbox create reply dropped the name: {s.text[:200]}"
-        created = True
         name = "td_accept_tmp"
         path = f"{sandbox_path}/{name}"
         c = live_probe.call("create_td_node", {"parent_path": sandbox_path,

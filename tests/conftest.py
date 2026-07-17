@@ -114,8 +114,11 @@ def _is_first_party_module(root: str) -> bool:
     """True when `root` names one of our own modules (a live-server import
     regression), not a third-party dependency."""
     repo = Path(__file__).resolve().parent.parent
+    # tests/ is a candidate so `measure` itself (the loader package this
+    # fixture imports) counts as first-party, not a missing dependency.
     candidates = (repo / "MCP", repo / "MCP" / "live_client",
-                  repo / "MCP" / "server_core", repo / "tests" / "measure")
+                  repo / "MCP" / "server_core", repo / "tests",
+                  repo / "tests" / "measure")
     return any((d / f"{root}.py").exists() or (d / root).is_dir()
                for d in candidates)
 

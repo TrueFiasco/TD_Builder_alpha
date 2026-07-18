@@ -1,4 +1,4 @@
-# TD Builder — v0.2.0
+# TD Builder — v0.2.1
 
 A **key-free** Python system for AI-driven generation, validation, and conversion of
 TouchDesigner networks, exposed to LLM clients as **two MCP servers**, plus live
@@ -55,7 +55,7 @@ python scripts\check_deps.py        # expect all green
 ```
 
 > **First run:** the first KB-dependent call loads the knowledge base (~180 MB) + the local embedding
-> model + the bundled reranker (one-time, ~1–2 min), then every call is fast.
+> model + the bundled reranker (one-time, typically **5–10+ min**), then every call is fast.
 
 ## Modes
 

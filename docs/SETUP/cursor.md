@@ -14,7 +14,7 @@ macOS/Linux — a bare `python` is the system interpreter and fails with `Import
 
 Env: `PYTHONIOENCODING=utf-8`, `TD_BUILDER_ROOT=<RELEASE_ROOT>` (+ `TD_API_URL` for the live server).
 No API key. Run `.venv/Scripts/python.exe scripts/check_deps.py` to verify your install, then confirm
-with `get_server_info` (version `0.2.0`).
+with `get_server_info` (version `0.2.1`).
 
 ## Get better results
 - Before a complex build, have the model call **`get_expert_prompt`** and follow it (experts:

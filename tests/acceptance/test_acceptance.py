@@ -69,7 +69,7 @@ def test_p01_server_identity(probe):
     d = r.json()
     assert d["ok"] is True
     assert "mcp_server.py" in d["data"]["script_path"]
-    assert d["data"]["version"] == "0.2.0"
+    assert d["data"]["version"] == "0.2.1"
 
 
 def test_p01b_tool_inventory(probe):
@@ -85,8 +85,9 @@ def test_p01b_tool_inventory(probe):
 
 
 def test_p01c_server_compat(probe):
-    """W5: get_server_info surfaces a server<->KB version-compat block. Shipped server and
-    shipped KB are both 0.2.0 -> compatible. WARN-not-fail policy is advertised."""
+    """W5: get_server_info surfaces a server<->KB version-compat block. v0.2.1 ships server
+    0.2.1 against the unchanged 0.2.0 KB bundle; compat compares at semver-MINOR granularity
+    (compat._minor_tuple), so (0,2) == (0,2) -> compatible. WARN-not-fail policy is advertised."""
     r = probe.call("get_server_info", {})
     assert r.ok, f"errored: {r.text[:200]}"
     d = r.json()
@@ -95,7 +96,7 @@ def test_p01c_server_compat(probe):
     for key in ("compatible", "status", "server_version", "kb_version", "kb_td_build", "policy"):
         assert key in compat, f"compat missing key {key!r}: {compat}"
     assert compat["policy"] == "warn"
-    # Shipped release: SERVER_VERSION == KB manifest version == 0.2.0.
+    # Shipped release: SERVER_VERSION 0.2.1 vs KB manifest 0.2.0 -> same (major, minor).
     assert compat["compatible"] is True and compat["status"] == "compatible", compat
     assert compat["server_version"] == d["data"]["version"]
     assert compat["kb_version"] == d["data"]["kb_version"]

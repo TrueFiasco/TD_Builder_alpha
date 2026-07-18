@@ -24,7 +24,32 @@ Re-verified live 2026-07-17 against TouchDesigner **099.2025.32820**'s own
 |---|---|
 | **647** | **TouchDesigner's real creatable operator count** — CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 · MAT 13 · POP 100. **This is the count to quote for "how many operators does TD have".** |
 | **663** | entries in `KB/operators.json` — *not* a TD count. It carries **23 fossils** (names not creatable in this build) and is **missing 7** real ops, so `663 − 23 + 7 = 647`. Real KB coverage is **640 of 647**. |
-| **685** | entries in this wiki-scraped `operator_types.json` — the loosest set; a superset that also includes the 5 phantom POPs. |
+| **685** | entries in this wiki-scraped `operator_types.json` — **not a superset**; it is wrong in *both* directions. It invents the 5 phantom POPs **and** omits 4 real ones (`textPOP`, `tracePOP`, `triangulatePOP`, `alembicoutPOP`). Never treat it as a coverage floor. |
+
+### Why the KB has holes — and where the correct source already lives
+
+The 4 missing POPs above are exactly 4 of the KB's 7 coverage holes: the KB
+inherited them from this scrape. But TouchDesigner **ships** authoritative docs
+locally, at
+`C:\Program Files\Derivative\TouchDesigner\Samples\Learn\OfflineHelp\https.docs.derivative.ca\`
+— and that tree covers **647 of 647** live operators (`Text_POP.htm`,
+`Trace_POP.htm`, `Triangulate_POP.htm`, `Alembic_Out_POP.htm` all present; note
+`TCP/IP_DAT.htm` is nested because its page name contains a slash). It also has
+**no page for any of the 5 phantom POPs** — an independent confirmation that
+they were never real.
+
+So the two reliable sources are already on disk, and they are complementary:
+
+| source | authoritative for | caveat |
+|---|---|---|
+| live `families[]` registry | **what is creatable** (647) | needs TD running |
+| offline help tree | **what is documented** (647/647) | retains pages for retired ops (`Font_SOP.htm`, `CUDA_TOP.htm`, `UDT_In_DAT.htm`), so it is a documentation superset, not a creatable list |
+| wiki scrape | *nothing* | invents and omits |
+
+**Recommendation for W3 Census Lock:** seed the operator set from the live
+registry (creatable truth) and take documentation from the offline help tree —
+never from the wiki scrape. That combination structurally excludes phantoms (no
+page **and** not creatable) and closes holes (page **and** creatable).
 
 **23 fossils in the KB** (retired or renamed away): `Band EQ CHOP`,
 `Parametric EQ CHOP` (→ `audiobandeqCHOP`/`audioparaeqCHOP`), `FreeD CHOP`,

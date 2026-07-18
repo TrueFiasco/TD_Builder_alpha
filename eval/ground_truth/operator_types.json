@@ -1,13 +1,27 @@
 {
-  "total_operators": 685,
+  "total_operators": 647,
   "by_family": {
-    "CHOP": 174,
-    "TOP": 154,
-    "SOP": 117,
-    "DAT": 77,
-    "COMP": 43,
+    "CHOP": 165,
+    "TOP": 146,
+    "SOP": 112,
+    "DAT": 71,
+    "COMP": 40,
     "MAT": 13,
-    "POP": 107
+    "POP": 100
+  },
+  "provenance": {
+    "generator": "kb_build/gen_operator_types.py",
+    "operator_set_source": "eval/ground_truth/td_census.json (live families[] registry -- creatable authority)",
+    "name_source": "TouchDesigner shipped OfflineHelp operator page names, joined on lowercase-alphanumeric normalisation",
+    "td_build": "099.2025.32820",
+    "census_captured_utc": "2026-07-18T14:42:32Z",
+    "census_sha256": "701fbe1dc001e209e45be07340c0b48a8f4e20cce3d84373d9f9aa9a9a3f2437",
+    "subset_of_reality": "by construction -- the operator set is the live registry; no step can introduce a name TD does not have"
+  },
+  "semantics": {
+    "name": "TouchDesigner's own documentation page name (underscored display form). NOT guaranteed to match KB display names byte for byte -- join on normalised alphanumerics.",
+    "td_create": "the OPType, i.e. families[FAM] class __name__ (e.g. 'abletonlinkCHOP'). This is NOT the builder '.n' create token, which for that operator is 'CHOP:ableton' and is recorded as build_token in KB/operators.json. Three namespaces exist; do not conflate them.",
+    "python_class": "conventionally td_create + '_Class', with documented exceptions. The live class is authoritative."
   },
   "operators": {
     "CHOP": [
@@ -104,10 +118,6 @@
         "td_create": "audiowebrenderCHOP"
       },
       {
-        "name": "Band_EQ_CHOP",
-        "td_create": "bandeqCHOP"
-      },
-      {
         "name": "Beat_CHOP",
         "td_create": "beatCHOP"
       },
@@ -200,10 +210,6 @@
         "td_create": "envelopeCHOP"
       },
       {
-        "name": "EtherDream_CHOP",
-        "td_create": "etherdreamCHOP"
-      },
-      {
         "name": "Event_CHOP",
         "td_create": "eventCHOP"
       },
@@ -240,8 +246,8 @@
         "td_create": "filterCHOP"
       },
       {
-        "name": "FreeD_CHOP",
-        "td_create": "freedCHOP"
+        "name": "FreeD_In_CHOP",
+        "td_create": "freedinCHOP"
       },
       {
         "name": "FreeD_Out_CHOP",
@@ -258,10 +264,6 @@
       {
         "name": "Handle_CHOP",
         "td_create": "handleCHOP"
-      },
-      {
-        "name": "Helios_DAC_CHOP",
-        "td_create": "heliosdacCHOP"
       },
       {
         "name": "Hog_CHOP",
@@ -476,10 +478,6 @@
         "td_create": "parameterCHOP"
       },
       {
-        "name": "Parametric_EQ_CHOP",
-        "td_create": "parametriceqCHOP"
-      },
-      {
         "name": "Pattern_CHOP",
         "td_create": "patternCHOP"
       },
@@ -506,10 +504,6 @@
       {
         "name": "Pulse_CHOP",
         "td_create": "pulseCHOP"
-      },
-      {
-        "name": "RealSense_CHOP",
-        "td_create": "realsenseCHOP"
       },
       {
         "name": "Record_CHOP",
@@ -550,10 +544,6 @@
       {
         "name": "S_Curve_CHOP",
         "td_create": "scurveCHOP"
-      },
-      {
-        "name": "Scan_CHOP",
-        "td_create": "scanCHOP"
       },
       {
         "name": "Script_CHOP",
@@ -612,8 +602,8 @@
         "td_create": "stretchCHOP"
       },
       {
-        "name": "Stype_CHOP",
-        "td_create": "stypeCHOP"
+        "name": "Stype_In_CHOP",
+        "td_create": "stypeinCHOP"
       },
       {
         "name": "Stype_Out_CHOP",
@@ -692,20 +682,8 @@
         "td_create": "waveCHOP"
       },
       {
-        "name": "Write_a_CPlusPlus_CHOP",
-        "td_create": "writeacplusplusCHOP"
-      },
-      {
-        "name": "Write_a_Shared_Memory_CHOP",
-        "td_create": "writeasharedmemoryCHOP"
-      },
-      {
         "name": "ZED_CHOP",
         "td_create": "zedCHOP"
-      },
-      {
-        "name": "wrnchAI_CHOP",
-        "td_create": "wrnchaiCHOP"
       }
     ],
     "TOP": [
@@ -740,10 +718,6 @@
       {
         "name": "CPlusPlus_TOP",
         "td_create": "cplusplusTOP"
-      },
-      {
-        "name": "CUDA_TOP",
-        "td_create": "cudaTOP"
       },
       {
         "name": "Cache_Select_TOP",
@@ -850,10 +824,6 @@
         "td_create": "glslTOP"
       },
       {
-        "name": "Gradient_TOP",
-        "td_create": "gradientTOP"
-      },
-      {
         "name": "HSV_Adjust_TOP",
         "td_create": "hsvadjustTOP"
       },
@@ -888,10 +858,6 @@
       {
         "name": "Layer_Mix_TOP",
         "td_create": "layermixTOP"
-      },
-      {
-        "name": "Layer_TOP",
-        "td_create": "layerTOP"
       },
       {
         "name": "Layout_TOP",
@@ -970,8 +936,24 @@
         "td_create": "ndioutTOP"
       },
       {
+        "name": "NVIDIA_Denoise_TOP",
+        "td_create": "nvidiadenoiseTOP"
+      },
+      {
+        "name": "NVIDIA_Flex_TOP",
+        "td_create": "nvidiaflexTOP"
+      },
+      {
+        "name": "NVIDIA_Flow_TOP",
+        "td_create": "nvidiaflowTOP"
+      },
+      {
         "name": "NVIDIA_RTX_Video_TOP",
         "td_create": "nvidiartxvideoTOP"
+      },
+      {
+        "name": "NVIDIA_Upscaler_TOP",
+        "td_create": "nvidiaupscalerTOP"
       },
       {
         "name": "Ncam_TOP",
@@ -996,22 +978,6 @@
       {
         "name": "Nvidia_Background_TOP",
         "td_create": "nvidiabackgroundTOP"
-      },
-      {
-        "name": "Nvidia_Denoise_TOP",
-        "td_create": "nvidiadenoiseTOP"
-      },
-      {
-        "name": "Nvidia_Flex_TOP",
-        "td_create": "nvidiaflexTOP"
-      },
-      {
-        "name": "Nvidia_Flow_TOP",
-        "td_create": "nvidiaflowTOP"
-      },
-      {
-        "name": "Nvidia_Upscaler_TOP",
-        "td_create": "nvidiaupscalerTOP"
       },
       {
         "name": "OAK_Select_TOP",
@@ -1170,10 +1136,6 @@
         "td_create": "st2110outTOP"
       },
       {
-        "name": "SVG_TOP",
-        "td_create": "svgTOP"
-      },
-      {
         "name": "Scalable_Display_TOP",
         "td_create": "scalabledisplayTOP"
       },
@@ -1200,10 +1162,6 @@
       {
         "name": "Shared_Mem_Out_TOP",
         "td_create": "sharedmemoutTOP"
-      },
-      {
-        "name": "Simple_Render_TOP",
-        "td_create": "simplerenderTOP"
       },
       {
         "name": "Slope_TOP",
@@ -1304,18 +1262,6 @@
       {
         "name": "Web_Render_TOP",
         "td_create": "webrenderTOP"
-      },
-      {
-        "name": "Write_a_CPlusPlus_TOP",
-        "td_create": "writeacplusplusTOP"
-      },
-      {
-        "name": "Write_a_GLSL_TOP",
-        "td_create": "writeaglslTOP"
-      },
-      {
-        "name": "Write_a_Shared_Memory_TOP",
-        "td_create": "writeasharedmemoryTOP"
       },
       {
         "name": "ZED_Select_TOP",
@@ -1476,20 +1422,12 @@
         "td_create": "fitSOP"
       },
       {
-        "name": "Font_SOP",
-        "td_create": "fontSOP"
-      },
-      {
         "name": "Force_SOP",
         "td_create": "forceSOP"
       },
       {
         "name": "Fractal_SOP",
         "td_create": "fractalSOP"
-      },
-      {
-        "name": "Fuse_SOP",
-        "td_create": "fuseSOP"
       },
       {
         "name": "Grid_SOP",
@@ -1572,20 +1510,12 @@
         "td_create": "metaballSOP"
       },
       {
-        "name": "Mirror_SOP",
-        "td_create": "mirrorSOP"
-      },
-      {
         "name": "Model_SOP",
         "td_create": "modelSOP"
       },
       {
         "name": "Noise_SOP",
         "td_create": "noiseSOP"
-      },
-      {
-        "name": "Normals_SOP",
-        "td_create": "normalsSOP"
       },
       {
         "name": "Null_SOP",
@@ -1678,10 +1608,6 @@
       {
         "name": "Revolve_SOP",
         "td_create": "revolveSOP"
-      },
-      {
-        "name": "Scatter_SOP",
-        "td_create": "scatterSOP"
       },
       {
         "name": "Script_SOP",
@@ -1798,12 +1724,8 @@
     ],
     "DAT": [
       {
-        "name": "Analyze_DAT",
-        "td_create": "analyzeDAT"
-      },
-      {
         "name": "Art-Net_DAT",
-        "td_create": "art-netDAT"
+        "td_create": "artnetDAT"
       },
       {
         "name": "Audio_Devices_DAT",
@@ -1862,10 +1784,6 @@
         "td_create": "fifoDAT"
       },
       {
-        "name": "Fifo_DAT",
-        "td_create": "fifoDAT"
-      },
-      {
         "name": "File_In_DAT",
         "td_create": "fileinDAT"
       },
@@ -1880,10 +1798,6 @@
       {
         "name": "In_DAT",
         "td_create": "inDAT"
-      },
-      {
-        "name": "Indices_DAT",
-        "td_create": "indicesDAT"
       },
       {
         "name": "Info_DAT",
@@ -2034,7 +1948,7 @@
         "td_create": "switchDAT"
       },
       {
-        "name": "TCP_IP_DAT",
+        "name": "TCP/IP_DAT",
         "td_create": "tcpipDAT"
       },
       {
@@ -2070,14 +1984,6 @@
         "td_create": "udpoutDAT"
       },
       {
-        "name": "UDT_In_DAT",
-        "td_create": "udtinDAT"
-      },
-      {
-        "name": "UDT_Out_DAT",
-        "td_create": "udtoutDAT"
-      },
-      {
         "name": "Video_Devices_DAT",
         "td_create": "videodevicesDAT"
       },
@@ -2092,10 +1998,6 @@
       {
         "name": "Web_Client_DAT",
         "td_create": "webclientDAT"
-      },
-      {
-        "name": "Web_DAT",
-        "td_create": "webDAT"
       },
       {
         "name": "Web_Server_DAT",
@@ -2134,10 +2036,6 @@
       {
         "name": "Bone_COMP",
         "td_create": "boneCOMP"
-      },
-      {
-        "name": "Build_a_List_COMP",
-        "td_create": "buildalistCOMP"
       },
       {
         "name": "Bullet_Solver_COMP",
@@ -2188,10 +2086,6 @@
         "td_create": "glslCOMP"
       },
       {
-        "name": "Geo_COMP",
-        "td_create": "geoCOMP"
-      },
-      {
         "name": "Geo_Text_COMP",
         "td_create": "geotextCOMP"
       },
@@ -2204,10 +2098,6 @@
         "td_create": "handleCOMP"
       },
       {
-        "name": "Impulse_Force_COMP",
-        "td_create": "impulseforceCOMP"
-      },
-      {
         "name": "Light_COMP",
         "td_create": "lightCOMP"
       },
@@ -2216,12 +2106,12 @@
         "td_create": "listCOMP"
       },
       {
-        "name": "Null_COMP",
-        "td_create": "nullCOMP"
+        "name": "NVIDIA_Flex_Solver_COMP",
+        "td_create": "nvidiaflexsolverCOMP"
       },
       {
-        "name": "Nvidia_Flex_Solver_COMP",
-        "td_create": "nvidiaflexsolverCOMP"
+        "name": "Null_COMP",
+        "td_create": "nullCOMP"
       },
       {
         "name": "Nvidia_Flow_Emitter_COMP",
@@ -2340,20 +2230,16 @@
         "td_create": "accumulatePOP"
       },
       {
-        "name": "Add_POP",
-        "td_create": "addPOP"
-      },
-      {
         "name": "Alembic_In_POP",
         "td_create": "alembicinPOP"
       },
       {
-        "name": "Analyze_POP",
-        "td_create": "analyzePOP"
+        "name": "Alembic_Out_POP",
+        "td_create": "alembicoutPOP"
       },
       {
-        "name": "Attractor_POP",
-        "td_create": "attractorPOP"
+        "name": "Analyze_POP",
+        "td_create": "analyzePOP"
       },
       {
         "name": "Attribute_Combine_POP",
@@ -2400,10 +2286,6 @@
         "td_create": "circlePOP"
       },
       {
-        "name": "Collision_POP",
-        "td_create": "collisionPOP"
-      },
-      {
         "name": "Connectivity_POP",
         "td_create": "connectivityPOP"
       },
@@ -2440,10 +2322,6 @@
         "td_create": "dimensionPOP"
       },
       {
-        "name": "Drag_POP",
-        "td_create": "dragPOP"
-      },
-      {
         "name": "Extrude_POP",
         "td_create": "extrudePOP"
       },
@@ -2468,10 +2346,6 @@
         "td_create": "fileoutPOP"
       },
       {
-        "name": "Force_POP",
-        "td_create": "forcePOP"
-      },
-      {
         "name": "Force_Radial_POP",
         "td_create": "forceradialPOP"
       },
@@ -2482,10 +2356,6 @@
       {
         "name": "GLSL_Copy_POP",
         "td_create": "glslcopyPOP"
-      },
-      {
-        "name": "GLSL_Create_POP",
-        "td_create": "glslcreatePOP"
       },
       {
         "name": "GLSL_POP",
@@ -2516,10 +2386,6 @@
         "td_create": "inPOP"
       },
       {
-        "name": "Kill_POP",
-        "td_create": "killPOP"
-      },
-      {
         "name": "Limit_POP",
         "td_create": "limitPOP"
       },
@@ -2546,10 +2412,6 @@
       {
         "name": "Line_Smooth_POP",
         "td_create": "linesmoothPOP"
-      },
-      {
-        "name": "Line_Thick_POP",
-        "td_create": "linethickPOP"
       },
       {
         "name": "Lookup_Attribute_POP",
@@ -2696,10 +2558,6 @@
         "td_create": "sortPOP"
       },
       {
-        "name": "Source_POP",
-        "td_create": "sourcePOP"
-      },
-      {
         "name": "Sphere_POP",
         "td_create": "spherePOP"
       },
@@ -2720,6 +2578,10 @@
         "td_create": "toptoPOP"
       },
       {
+        "name": "Text_POP",
+        "td_create": "textPOP"
+      },
+      {
         "name": "Texture_Map_POP",
         "td_create": "texturemapPOP"
       },
@@ -2732,12 +2594,20 @@
         "td_create": "torusPOP"
       },
       {
+        "name": "Trace_POP",
+        "td_create": "tracePOP"
+      },
+      {
         "name": "Trail_POP",
         "td_create": "trailPOP"
       },
       {
         "name": "Transform_POP",
         "td_create": "transformPOP"
+      },
+      {
+        "name": "Triangulate_POP",
+        "td_create": "triangulatePOP"
       },
       {
         "name": "Trig_POP",
@@ -2750,14 +2620,6 @@
       {
         "name": "Twist_POP",
         "td_create": "twistPOP"
-      },
-      {
-        "name": "Velocity_POP",
-        "td_create": "velocityPOP"
-      },
-      {
-        "name": "Write_a_CPlusPlus_POP",
-        "td_create": "writeacplusplusPOP"
       },
       {
         "name": "ZED_POP",

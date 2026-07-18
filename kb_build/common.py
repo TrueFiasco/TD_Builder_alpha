@@ -327,6 +327,106 @@ def enrich_param_rules(operators: list[dict]) -> int:
     return applied
 
 
+# Populated python_class values that are live-verified WRONG (board GT5).
+#
+# Every entry below was arbitrated by INSTANTIATING the operator in TouchDesigner
+# 099.2025.32820 and reading `type(n).__name__` -- not by reading a doc page. That
+# matters: the shipped offline help is not a usable authority for classes (1,442
+# `*_Class` page names are referenced, only 656 ship), and for `Alembic In POP`
+# the doc page title "alembicPOP Class" actively CONTRADICTS the live class
+# `alembicinPOP`. Documentation lost; the running application won.
+#
+# All 24 probes returned type(n).__name__ == OPType == n.OPType with n.family
+# matching the KB, so the derived `<OPType>_Class` is correct for each. The KB
+# values they replace are wiki-parse debris -- the parser grabbed a neighbouring
+# page's class or a fragment of prose ('send MIDI messages', 'points', 'Par',
+# '<code>.sendOSC()</code>').
+#
+# This is an ALLOWLIST, not a rule. A populated value that disagrees with the
+# derivation and is NOT listed here is REPORTED, never overwritten -- so a future
+# operator whose class genuinely diverges from its OPType surfaces as a finding
+# instead of being silently clobbered.
+PYTHON_CLASS_OVERWRITE_VERIFIED: dict[tuple[str, str], str] = {
+    ("POP", "Alembic In POP"): "alembicinPOP_Class",        # was alembicPOP_Class (doc-page title, wrong)
+    ("CHOP", "Audio VST CHOP"): "audiovstCHOP_Class",       # was "send MIDI messages"
+    ("DAT", "FIFO DAT"): "fifoDAT_Class",                   # was "DAT Class"
+    ("DAT", "Keyboard In DAT"): "keyboardinDAT_Class",      # was "python callback in the attached script"
+    ("TOP", "Lens Distort TOP"): "lensdistortTOP_Class",    # was "kinectazureTOP class"
+    ("CHOP", "MIDI Out CHOP"): "midioutCHOP_Class",         # was "midioutCHOP Class" (space, not underscore)
+    ("DAT", "Multi Touch In DAT"): "multitouchinDAT_Class", # was PanelCOMP_Class
+    ("TOP", "Nvidia Flex TOP"): "nvidiaflexTOP_Class",      # was flexTOP_Class
+    ("COMP", "Nvidia Flow Emitter COMP"): "nvidiaflowemitterCOMP_Class",  # was flowEmitterCOMP_Class
+    ("TOP", "Nvidia Flow TOP"): "nvidiaflowTOP_Class",      # was flowTOP_Class
+    ("DAT", "OP Execute DAT"): "opexecuteDAT_Class",        # was "matching python method"
+    ("DAT", "OSC Out DAT"): "oscoutDAT_Class",              # was "<code>.sendOSC()</code>"
+    ("CHOP", "Panel CHOP"): "panelCHOP_Class",              # was "PanelCOMP Class"
+    ("DAT", "Panel Execute DAT"): "panelexecuteDAT_Class",  # was "default python method"
+    ("CHOP", "Parameter CHOP"): "parameterCHOP_Class",      # was "Par Class"
+    ("DAT", "ParGroup Execute DAT"): "pargroupexecuteDAT_Class",  # was "Par"
+    ("SOP", "Point SOP"): "pointSOP_Class",                 # was "PointSOP Class"
+    ("COMP", "Replicator COMP"): "replicatorCOMP_Class",    # was "parameter"
+    ("CHOP", "Script CHOP"): "scriptCHOP_Class",            # was "CHOP Class"
+    ("TOP", "Script TOP"): "scriptTOP_Class",               # was "TOP Class"
+    ("SOP", "Sprinkle SOP"): "sprinkleSOP_Class",           # was "points"
+    ("CHOP", "Stype Out CHOP"): "stypeoutCHOP_Class",       # was "Timecode Class"
+    ("CHOP", "Timecode CHOP"): "timecodeCHOP_Class",        # was "Timecode object"
+    ("DAT", "WebRTC DAT"): "webrtcDAT_Class",               # was "WebrtcDAT Class"
+}
+
+
+def enrich_python_class(operators: list[dict],
+                        gt_by_fam_name: dict[tuple[str, str], str]) -> tuple[int, int, list]:
+    """Backfill/repair `python_class` from the live-census ground truth (board GT5).
+
+    164 of 663 KB operators carry no python_class, 73 of them POPs. That is not a
+    fact about TouchDesigner -- every one of those operators HAS a class. It is a
+    scrape artifact: the KB harvested class names from offline-help class pages,
+    and that mirror ships under half the pages it references (104 of the missing
+    are POP classes), so operators whose page was absent were left null.
+
+    Returns (filled, corrected, unverified_mismatches):
+      * filled     -- null -> derived `<OPType>_Class`. Purely additive.
+      * corrected  -- a populated-but-wrong value replaced, ONLY for entries on
+                      the live-verified PYTHON_CLASS_OVERWRITE_VERIFIED allowlist.
+      * unverified -- populated values that disagree with the derivation and are
+                      NOT allowlisted. Reported to the caller, never written.
+
+    Fossils stay null on purpose: they are absent from the census (not creatable),
+    so there is nothing to derive, and inventing `cudaTOP_Class` for an operator
+    that cannot be created is exactly the fabrication this wave removes.
+
+    Idempotent. Must run BEFORE the pyclass_to_n / by_pyclass indexes are built,
+    or those indexes see the pre-backfill values.
+    """
+    filled = corrected = 0
+    unverified: list[tuple[str, str, str, str]] = []
+    for o in operators:
+        fam, name = o.get("family"), o.get("name")
+        tdc = gt_by_fam_name.get((fam, _norm(name)))
+        if not tdc:
+            continue                      # fossil / not in the census -- leave as is
+        derived = tdc + "_Class"
+        current = o.get("python_class")
+        if not current:
+            o["python_class"] = derived
+            filled += 1
+        elif current != derived:
+            override = PYTHON_CLASS_OVERWRITE_VERIFIED.get((fam, name))
+            if override:
+                # The allowlist is the reviewed artifact; assert it agrees with the
+                # derivation so the two cannot silently drift apart.
+                if override != derived:
+                    raise ValueError(
+                        f"PYTHON_CLASS_OVERWRITE_VERIFIED[{fam!r},{name!r}] is "
+                        f"{override!r} but the census derives {derived!r} -- "
+                        f"re-arbitrate against live TD before changing either.")
+                o["python_class"] = override
+                corrected += 1
+            else:
+                unverified.append((fam, name, current, derived))
+    return filled, corrected, unverified
+
+
 def enrich_docked_dats(operators: list[dict]) -> int:
     """Attach a LIGHTWEIGHT per-op docked-DAT summary from the live-TD harvest
     (operator_ground_truth/docked_dats/docked_dats_ground_truth.json) so the
@@ -383,17 +483,12 @@ class Identity:
         # Live-harvested docked-DAT summaries (same mutate-raw contract)
         self.docked_attached: int = enrich_docked_dats(self.operators)
 
-        self.by_pyclass: dict[str, dict] = {}
-        self.by_name_norm: dict[str, dict] = {}
-        for o in self.operators:
-            pc = o.get("python_class")
-            if pc:
-                self.by_pyclass[pc] = o
-            self.by_name_norm[_norm(o.get("name"))] = o
-
-        # python_class -> td_create (.n token), authoritative from the live-TD capture
+        # Ground truth is loaded BEFORE the indexes below because the
+        # python_class backfill feeds them -- build them first and they capture
+        # the pre-backfill nulls.
         self.pyclass_to_n: dict[str, str] = {}
         self.name_norm_to_n: dict[str, str] = {}
+        gt_by_fam_name: dict[tuple[str, str], str] = {}
         gt_path = (GT_OPERATOR_TYPES if GT_OPERATOR_TYPES.exists()
                    else GT_OPERATOR_TYPES_LEGACY)
         gt = json.loads(gt_path.read_text(encoding="utf-8"))
@@ -405,6 +500,22 @@ class Identity:
                     self.pyclass_to_n[tdc + "_Class"] = tdc
                     if nm:
                         self.name_norm_to_n[_norm(nm)] = tdc
+                        gt_by_fam_name[(fam, _norm(nm))] = tdc
+
+        # GT5: backfill the 150 census-resolvable python_class nulls and repair the
+        # 24 live-verified wrong values (same mutate-raw contract as the enrichers
+        # above, so the emitted operators.json carries them).
+        (self.python_class_filled,
+         self.python_class_corrected,
+         self.python_class_unverified) = enrich_python_class(self.operators, gt_by_fam_name)
+
+        self.by_pyclass: dict[str, dict] = {}
+        self.by_name_norm: dict[str, dict] = {}
+        for o in self.operators:
+            pc = o.get("python_class")
+            if pc:
+                self.by_pyclass[pc] = o
+            self.by_name_norm[_norm(o.get("name"))] = o
 
     def n_token(self, o: dict) -> Optional[str]:
         """The builder ``.n`` create token (OPType) for an operators.json record.

@@ -143,4 +143,4 @@ def build(idn: C.Identity) -> list[dict]:
     return rows
 
 
-INPUTS = [C.SHIPPED_KB / "operators.json", C.GT / "operator_types.json"]
+INPUTS = [C.SHIPPED_KB / "operators.json", C.GT_OPERATOR_TYPES]

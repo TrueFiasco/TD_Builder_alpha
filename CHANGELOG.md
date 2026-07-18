@@ -62,6 +62,25 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
+- **T0 Tag Polish — response formatting + four lying strings** (remediation map ticket 25,
+  board rows HL2/HL5). Strings and JSON formatting only; **zero behavior change**.
+  (1) Every one of the **36** `json.dumps` response-emit sites in `MCP/server_core/mcp_server.py`
+  drops `indent=2`. Indentation and newlines are pure-waste tokens carrying zero information,
+  and dropping them lands the emitted bytes **exactly** on what `output_budget._byte_len`
+  measures (`json.dumps` default separators) — closing the standing "budget measures compact
+  UTF-8, server emits `indent=2`" tag decision. ~24% fewer bytes on a representative payload.
+  (2) The `kb_warming` retry message no longer promises "~1–2 min": the honest measured range
+  is 5–10+ min after server start, 20+ if TouchDesigner is booting alongside it. The
+  do-NOT-fall-back-to-live-introspection instruction is unchanged.
+  (3)/(4) The `td_validate` tool description called the pipeline **5-stage** and named only
+  five stages; `ValidationPipeline` appends **seven**. Corrected to 7-stage with the real list
+  (Schema → Semantic → Grounding → Reference → Component wiring → Logical → TD Rules).
+  (`MCP/engine/validation/pipeline.py`'s module docstring carried the same stale count;
+  W3 Census Lock fixed it in parallel and that fuller version won the merge.)
+  (5) `register_component`'s description (tool-level and the `save_to_palette` argument) now
+  names the real destination — TouchDesigner's `app.userPaletteFolder`, by default
+  `Documents/Derivative/Palette`, overridable via `TD_USER_PALETTE_DIR` — instead of an
+  abstract `<user palette>`.
 - **CI collection floors raised to CI-measured actuals** (W3 Census Lock):
   hermetic **431 → 555**, engine-kb **581 → 724**. Itemised: the pre-wave CI
   actuals on `4f17520` were already 462/617, so **+31/+36 was drift** that landed

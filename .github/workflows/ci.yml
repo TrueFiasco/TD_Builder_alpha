@@ -2,11 +2,11 @@
 # runner rationale, floors, and the build-gate disposition).
 #
 #   docs-lint  : stdlib-only docs-consistency lint (scripts/docs_lint.py)
-#   hermetic   : the KB-free subset (431 as of 2026-07-17) on ubuntu+windows;
+#   hermetic   : the KB-free subset (544 as of 2026-07-18) on ubuntu+windows;
 #                the runner has NO KB and NO ML deps, so a mismarked/newly-
 #                KB-hungry test fails loudly here (physical enforcement of
 #                the requires_kb marker)
-#   engine-kb  : all engine+unit tests (581 as of 2026-07-17) with the
+#   engine-kb  : all engine+unit tests (713 as of 2026-07-18) with the
 #                release KB restored from cache (sha256-pinned via
 #                scripts/vector_db_release.json); still light deps —
 #                builders must never need the ML stack.
@@ -64,12 +64,12 @@ jobs:
           if [ -e KB/operators.json ]; then
             echo "KB/operators.json present on a hermetic runner — lane invalid"; exit 1
           fi
-      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d, 93 after W3b, 431 after the 2026-07-17 hardening catch-up (+37 feedback-spine move, +1 live-fixture unmark, rest = drift since W3b))
+      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d, 93 after W3b, 431 after the 2026-07-17 hardening catch-up, 544 after W3 Census Lock (+37 drift landed by #49/#50, +76 census-guard tests))
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit -m "not requires_kb" --co -q | grep -c "::" || true)
-          echo "hermetic tests collected: $n (floor 431)"
-          test "$n" -ge 431
+          echo "hermetic tests collected: $n (floor 544)"
+          test "$n" -ge 544
       - name: Hermetic tests (no KB, no ML deps)
         run: python -m pytest tests/engine tests/unit -m "not requires_kb" -q
 
@@ -107,11 +107,11 @@ jobs:
             KB/docked_contents.json
       - name: Fetch KB on cache miss (sha256-verified before extract)
         run: python scripts/fetch_vector_db.py
-      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d, 195 after W3b, 581 after the 2026-07-17 hardening catch-up (+38 feedback-spine move, rest = drift since W3b))
+      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d, 195 after W3b, 581 after the 2026-07-17 hardening catch-up, 713 after W3 Census Lock (+42 drift landed by #49/#50, +90 census-guard tests incl. 14 requires_kb))
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit --co -q | grep -c "::" || true)
-          echo "engine+unit tests collected: $n (floor 581)"
-          test "$n" -ge 581
+          echo "engine+unit tests collected: $n (floor 713)"
+          test "$n" -ge 713
       - name: Engine + unit tests (KB present; TD-binary tests self-skip)
         run: python -m pytest tests/engine tests/unit -q

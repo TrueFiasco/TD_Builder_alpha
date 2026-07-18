@@ -3,6 +3,49 @@
 ## Unreleased
 
 ### Added
+- **W3 Census Lock — the operator ground truth is now the live TouchDesigner
+  census, by construction** (defect board GT1/GT5/GT7 + ND1, remediation map
+  ticket 12). `eval/ground_truth/operator_types.json` was a **wiki scrape** that
+  was wrong in *both* directions: it invented **13 operators that have never
+  existed** (the known `Source/Attractor/Drag/Collision/Kill_POP` plus eight the
+  census surfaced — `Add_POP`, `Velocity_POP`, `Analyze_DAT`, `Fuse_SOP`,
+  `Mirror_SOP`, `Normals_SOP`, `Scatter_SOP`, `Gradient_TOP`), omitted **7 real
+  ones**, carried **6 tutorial articles** (`Write_a_*`) as operators, and
+  double-counted `FIFO_DAT`/`Fifo_DAT` — which is why its header said 685 while
+  it held 684 distinct tokens. The harm was not a retrieval miss: a model asked
+  to receive FreeD camera-tracking data found the retired `FreeD CHOP`, tried it,
+  and got a node that would not create, while the operator that does the job
+  (`freedinCHOP`) was invisible to it.
+  The operator SET now comes from TouchDesigner's own `families[]` registry, so
+  the ground truth is a **subset of reality by construction** — there is no step
+  left that could invent an operator. New `scripts/capture_td_census.py` commits
+  a versioned census snapshot (`eval/ground_truth/td_census.json`, 647 operators
+  @ `099.2025.32820`, build id **inside** the JSON, plus each operator's
+  inheritance chain); new `kb_build/gen_operator_types.py` joins it to
+  TouchDesigner's shipped offline-help operator pages for display names and
+  **aborts rather than synthesising** a name it cannot find. Receipts: capture
+  647 = CHOP 165 / TOP 146 / SOP 112 / DAT 71 / COMP 40 / MAT 13 / POP 100; name
+  join 647/647 with 0 unmatched and 0 ambiguous; diff `684 − 44 + 7 = 647`
+  decomposing exactly into 13 phantoms + 6 guide pages + 21 fossils + 2 renames +
+  the malformed `art-netDAT` + the legacy `geoCOMP`, with all 7 name changes
+  norm-invariant and 0 family reassignments.
+- **Mechanical census drift guard in CI** (board GT7). Today's drift — KB 663,
+  eval 685, live TD 647 — was found **by hand**, in an audit; nothing was red.
+  `scripts/census_guard.py` adds five checks over the committed snapshot:
+  identity/self-consistency, per-family pins, census↔KB reconciliation **in both
+  directions** (census−KB bounded by 7 named holes, KB−census exactly the 23
+  named fossils — a fossil quietly vanishing is drift too), eval-GT ⊆ census, and
+  count truth for all three numbers. Both allowlists carry **anti-rot** checks so
+  they cannot accumulate dead entries. The red-green demonstration lives in CI
+  rather than in a transcript: the negatives deepcopy the snapshot, mutate one
+  thing, and assert the **specific** finding text, and `--self-test` reproduces
+  the whole thing in memory with one command (6/6 mutations red, pristine
+  snapshot green, doctored file → exit 1 with 4 findings). `scripts/docs_lint.py`
+  gains an operator-count rule that pins the **phrase shape** rather than bare
+  numbers — 647/640/663 are all legitimate in context, and a proximity rule would
+  also fire on `636/636 operator tokens` and `Sweet 16 operators`; measured
+  against all 56 scannable files it matches exactly the 5 real claims with zero
+  false positives.
 - **`register_component` — register your own `.tox` components** (W7 user-components
   wave, PR #37). The 18th offline `td-builder` tool (offline surface **17 → 18**):
   registers user-authored `.tox` comps as searchable + buildable palette components
@@ -13,6 +56,14 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
+- **CI collection floors raised to measured actuals** (W3 Census Lock): hermetic
+  **431 → 544**, engine-kb **581 → 713**. Itemised: the pre-wave actuals on
+  `4f17520` were already 468/623, so **+37/+42 was drift** that landed with
+  PR #49/#50 and the floors had not caught up; **+76/+90 is this wave** (76
+  hermetic census/guard/backfill/expertise tests, plus the 14 `requires_kb` guard
+  tests which only the engine-kb lane collects). Raising a floor is routine per
+  `docs/CI.md`; the pre-existing drift is disclosed rather than folded silently
+  into the new number.
 - **W1 Honest Parsers** (defect board A1–A5 + KF1, remediation map ticket 10): the Δ7
   registration parsers no longer silently corrupt the parameter metadata the assistant
   builds from, and no KB consumer can create-on-open a stub vector store. (A1) the
@@ -102,6 +153,60 @@
   never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
 
 ### Fixed
+- **`python_class` backfilled from the census; 24 wrong values repaired**
+  (board GT5). 164 of 663 KB operators carried no `python_class`, 73 of them
+  POPs — never a fact about TouchDesigner, since every one of those operators
+  HAS a class. It was a mirror artifact: the KB harvested class names from
+  offline-help **class pages**, and that mirror ships under half the pages it
+  references (1,442 `*_Class` names referenced, 656 shipped; 104 of the missing
+  are POP classes). Nulls **164 → 14**, the remaining 14 being exactly the
+  fossils, which stay null because a non-creatable operator has no class to
+  derive. The 24 populated-but-wrong values were arbitrated by **instantiating
+  each operator in live TouchDesigner** and reading `type(n).__name__` — all 24
+  returned `type(n).__name__ == OPType == n.OPType` with the family matching.
+  That method mattered: for `Alembic In POP` the offline-help page title
+  `alembicPOP Class` **contradicts** the live class `alembicinPOP`, so
+  documentation would have talked us into keeping the wrong value. The rest were
+  wiki-parse debris (`'send MIDI messages'`, `'points'`, `'Par'`,
+  `'<code>.sendOSC()</code>'`, `PanelCOMP_Class` on a DAT). Overwrites are
+  allowlist-gated, so a future operator whose class genuinely diverges from its
+  OPType is **reported, not clobbered**. NOTE `KB/operators.json` is generated
+  and untracked, so this ships a source-side derivation; it reaches the artifact
+  at W7c's rebuild.
+- **The ground truth had two copies and CI read a different one than you did**
+  (board GT1 follow-on). `eval/ground_truth/operator_types.json` is tracked, but
+  every local default resolved a byte-identical untracked twin in the main-tree
+  corpus while CI passed the tracked file explicitly. They agreed only by being
+  identical — regenerating either would have made local eval runs and CI grade
+  against different ground truth with nothing red. Every resolver now prefers the
+  tracked file via `paths.operator_types_path()`, including `kb_build/common.py`,
+  a reader nobody had flagged and the one that feeds create-token resolution.
+  `params/` and `tox_expanded/` still resolve from the corpus (they are live-TD
+  captures, ~31 MB); the trap where `tool_coverage.py` derived
+  `params_dir = gt_types.parent/"params"` is closed, since that would now point
+  at a directory which does not exist.
+- **Fabricated operators removed from the agent-facing expertise YAML**
+  (board GT1 follow-on; prompt-side, unchunked, so no re-embed). Dropped 7
+  invented POP entries from `Agents/expertise/td_operators.yaml` (the
+  `python_class: ''` giveaway) and deleted the `particle_system` design pattern
+  from `td_network_patterns.yaml`, whose **four** operator types and container do
+  not exist — it shipped a guaranteed-to-fail network at `confidence: 0.8`. Not
+  repaired: inventing a replacement repeats the original sin. The new
+  creatability test then caught four more wrong tokens in unrelated patterns, so
+  **5** design patterns were unbuildable rather than 1; those are repaired as
+  spellings of operators that do exist (`geoCOMP` → `geometryCOMP`,
+  `choptosopSOP` → `choptoSOP`, `sliderCHOP`/`buttonCHOP` →
+  `sliderCOMP`/`buttonCOMP`).
+- **`eval/agent_eval` documented the validation pipeline as 5 stages; it has 7**
+  (board ND1). Re-verified at fix time — `MCP/engine/validation/pipeline.py`
+  appends 7. Three different numbers were in circulation, so the sweep is
+  deliberately not uniform: four present-tense "5-stage" claims and
+  `baseline.json`'s "current main runs 6 stages" are corrected to 7, while
+  `identity.py`'s and `README.md`'s "s01-s09 on a 4-stage pipeline, s10-s14 on a
+  6-stage one" are **left as history** and annotated — rewriting them to 7 would
+  replace one false statement with another. The pipeline's `2.5`/`3.5` stage
+  labels are why the count keeps being under-read. `mcp_server.py:1600` still
+  says 5-stage and is left for W4, whose slot that file is.
 - **User-store embedding-regime rewrite landmine** (ultra-audit A8/AN1 + board BM1;
   `kb_build/user_components.py`, remediation map ticket 04): `ingest_incremental`
   stamped the *current* KB regime into the store manifest unconditionally while

@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
+
+Certified against **TouchDesigner Build 2025.32820**. The KB bundle is unchanged from v0.2.0
+(`td_builder_kb_v0.2.0.zip`, indexed at TD `0.99.2025.32460`); `get_server_info`'s
+`compat.td_build_notice` discloses that gap at runtime. Re-embedding is deferred.
 
 ### Added
 - **W3 Census Lock — the operator ground truth is now the live TouchDesigner
@@ -62,6 +66,27 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
+- **Version bumped to 0.2.1** (`pyproject.toml`, `SERVER_VERSION`, the acceptance pin and
+  its compat docstring, the README / KNOWN_ISSUES / three SETUP-doc version references).
+  `KB/manifest.json` and `scripts/vector_db_release.json` deliberately stay at **0.2.0** —
+  the KB bundle is unchanged this cycle, `compat.py` compares at semver-**minor**
+  granularity so 0.2.1↔0.2.0 remains `compatible`, and bumping the release pin would
+  rotate the CI cache key onto an asset that does not exist.
+- **The "~1–2 min" KB warm-up claim was still live on nine surfaces** (board HL2, second
+  pass). PR #52 corrected the runtime `kb_warming` message, but the figure survived in
+  `Agents/td-builder-howto/SKILL.md`, `eval/agent_eval/guidance.md`, `README.md`,
+  `docs/KNOWN_ISSUES.md`, `tests/README.md` and four code comments — all now the measured
+  **5–10+ min**. The skill copy was the damaging one: it paired "1–2 min" with "wait the
+  suggested time", so an agent would give up early and fall back to the live introspection
+  the very same sentence forbids.
+- **`docs/KNOWN_ISSUES.md`: BUG-3 row rewritten, `td_validate`-on-palette added.** The
+  component-as-a-data-source row still presented the shipped `external_tox`/palette
+  wire-drop fix as a live issue; it now leads with the genuine residual (the comp-idiom
+  BUG-4 expression caveat) and records the wire-drop as fixed. A new row discloses that
+  **`td_validate` cannot validate a `palette` design** — it raises an unhandled
+  `ValueError` from `format_converter.py:203-205` and returns a raw traceback, so the
+  standing "validate first, never shorten the pipeline" rule is not satisfiable for
+  registered components. Deferred past this tag, but no longer undisclosed.
 - **T0 Tag Polish — response formatting + four lying strings** (remediation map ticket 25,
   board rows HL2/HL5). Strings and JSON formatting only; **zero behavior change**.
   (1) Every one of the **36** `json.dumps` response-emit sites in `MCP/server_core/mcp_server.py`
@@ -236,6 +261,28 @@
   spellings of operators that do exist (`geoCOMP` → `geometryCOMP`,
   `choptosopSOP` → `choptoSOP`, `sliderCHOP`/`buttonCHOP` →
   `sliderCOMP`/`buttonCOMP`).
+- **The build gate could not run its own Track C, and blended a stale track into a fresh
+  verdict** (board ND4/ND5/ND6, found during v0.2.1 release-prep). Three eval-side fixes,
+  no product surface: (1) `gate_common.py` imports the repo-root `paths` module lazily
+  inside `operator_types_json()`; Track A never reaches that line, so only
+  `track_c_smoke.py` died on `ModuleNotFoundError: No module named 'paths'` — and because
+  the build gate runs in **no CI lane**, nothing caught it. The repo root is now on
+  `sys.path` for every gate entry point. (2) `build_gate.py` merges Track A (offline) with
+  Track B (live-in-TD), which are produced by separate runs that can be weeks apart; the
+  verdict now **stamps each track's mtime and age** and flags any track not from this run,
+  so a stale capture can no longer masquerade as fresh. (3) Stale `graphrag.json`
+  references removed — it was retired in the v0.2.0 KB redesign, but the build-gate README
+  still told you to hardlink it, and that same instruction told you to create a `vector_db`
+  **directory junction**, which is the mechanism that has twice destroyed a real KB.
+- **A partial `--capture-baseline` destroyed the scenarios it did not sweep** (PR #44,
+  board B1). `capture_baseline` overwrote the whole baseline with only the swept
+  subset, so the documented 3-scenario re-bless command would have silently dropped
+  11 of 14 records — including their `_provenance`. It now **merges**: non-swept
+  records are reused verbatim, sets are recomputed, `_provenance` is carried forward
+  with a `partial_recapture` disclosure and identity drift, and `checkpoint.py` warns
+  before stomping. The same PR stopped `guidance_hash` from false-refusing the replay
+  lane's `--compare` on any `guidance.md` edit (`run_agent_eval.py`), which would
+  otherwise have compounded every re-bless.
 - **`eval/agent_eval` documented the validation pipeline as 5 stages; it has 7**
   (board ND1). Re-verified at fix time — `MCP/engine/validation/pipeline.py`
   appends 7. Three different numbers were in circulation, so the sweep is

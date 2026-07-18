@@ -186,7 +186,7 @@ def main():
         ]
         L += ["## DB COVERAGE (greedy set-cover) — the Phase-0.6c headline", "",
               "_Operators covered = appears as a gold in operator_lookup ∪ parameter ∪ build. "
-              "operator_lookup enumerates ALL 663 ops (no cap); ops it can't yield a valid query for are "
+              "operator_lookup enumerates ALL 663 KB entries (no cap); ops it can't yield a valid query for are "
               "recovered via an op-specific parameter, else listed as skipped (a KB-quality signal)._", "",
               "| family | covered/total | coverage% | via operator_lookup |", "|---|---|---|---|"]
         for f in FAMILIES:

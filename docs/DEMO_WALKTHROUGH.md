@@ -24,8 +24,8 @@ Ask the model to use these tools:
 - `find_operator_examples` / `find_operator_combination` — real usage from the
   479 parsed example networks.
 
-Expected: structured results drawn from the canonical 663-operator KB
-(`KB/operators.json`) — real parameter names, no hallucination.
+Expected: structured results drawn from the canonical KB
+(`KB/operators.json` — 640 of TouchDesigner 2025.32820's 647 operators) — real parameter names, no hallucination.
 
 ## 2. Build a network offline as a `.tox`
 

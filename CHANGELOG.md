@@ -48,13 +48,20 @@
 ### Fixed
 - **W2 Truth Surfaces — instruction-channel counts, labels, and paths regrounded**
   (defect-remediation map ticket 11). The numbers, labels, and paths the model reads
-  now match reality: (1) the stale pre-regrounding **`673` operator count** corrected to
-  the KB's real **663** (`len` of `KB/operators.json`'s array) across every tracked
-  instruction surface — the two `td_designer` prompts, the `td-builder-howto` and
-  `td_network_analysis` SKILLs, root `README.md`, `DEMO_WALKTHROUGH.md`, and the `eval/`
-  coverage docs/code (the derived `3.4% → 3.5%` share recomputed against 663). The
-  on-disk `KB/operators.json` `metadata.total_operators: 673` is an untracked
-  generated artifact; its writers already emit `len(operators)`, so a KB rebuild
+  now match reality: (1) the stale **`673` operator count** replaced with the **live-verified
+  truth**, re-measured against TouchDesigner **099.2025.32820**'s own `families[]` registry:
+  TD has **647** creatable operators (CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 ·
+  MAT 13 · POP 100), and the KB documents **640** of them. `KB/operators.json`'s 663 entries
+  are *not* a TD count — the set carries **23 fossils** (retired/renamed names such as
+  `CUDA TOP`, `SVG TOP`, `Font SOP`, `Web DAT`, `Band EQ CHOP`) and is **missing 7** real ops
+  (`textPOP`, `tracePOP`, `triangulatePOP`, `alembicoutPOP`, `tcpipDAT`, `freedinCHOP`,
+  `stypeinCHOP`), so `663 − 23 + 7 = 647`. Instruction surfaces (the two `td_designer`
+  prompts, the `td-builder-howto` and `td_network_analysis` SKILLs, root `README.md`,
+  `DEMO_WALKTHROUGH.md`) now quote **647/640**; `eval/` internals keep **663** but say
+  "KB entries", since that is the array the coverage code actually enumerates. The full
+  census + fossil/hole lists are recorded in `eval/ground_truth/README.md`; reconciling the
+  KB's *content* stays W3 Census Lock. The on-disk `metadata.total_operators: 673` is an
+  untracked generated artifact whose writers already emit `len(operators)`, so a KB rebuild
   self-corrects it (no code change). (2) `eval/ground_truth/operator_types.json`
   relabeled honestly as a **wiki scrape with synthesized `td_create` tokens** — including
   5 never-real "phantom" POPs (Source/Attractor/Drag/Collision/Kill) — **not** a

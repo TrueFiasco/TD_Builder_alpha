@@ -115,7 +115,7 @@ When you call `find_parameter_usage` and retrieve examples, extract **ALL** para
 
 ## Operator Lookup
 
-Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (all 663).
+Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (640 of TouchDesigner's 647 operators).
 
 **For operators NOT in Sweet 16:** Query `get_operator_info(operator="OPNAME")` (and `get_parameter_detail` / `hybrid_search`) before use.
 

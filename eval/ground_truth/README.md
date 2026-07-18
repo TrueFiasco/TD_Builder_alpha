@@ -15,6 +15,31 @@ as a permissive **name-integrity allowlist**, not as census ground truth.
 retrieval eval cannot run on a fresh clone (e.g. the kb-full CI lane; see
 `docs/CI.md`).
 
+## The three operator counts — which is real
+
+Re-verified live 2026-07-17 against TouchDesigner **099.2025.32820**'s own
+`families[]` registry (the creatable-operator authority):
+
+| number | what it actually is |
+|---|---|
+| **647** | **TouchDesigner's real creatable operator count** — CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 · MAT 13 · POP 100. **This is the count to quote for "how many operators does TD have".** |
+| **663** | entries in `KB/operators.json` — *not* a TD count. It carries **23 fossils** (names not creatable in this build) and is **missing 7** real ops, so `663 − 23 + 7 = 647`. Real KB coverage is **640 of 647**. |
+| **685** | entries in this wiki-scraped `operator_types.json` — the loosest set; a superset that also includes the 5 phantom POPs. |
+
+**23 fossils in the KB** (retired or renamed away): `Band EQ CHOP`,
+`Parametric EQ CHOP` (→ `audiobandeqCHOP`/`audioparaeqCHOP`), `FreeD CHOP`,
+`Stype CHOP` (→ `freedinCHOP`/`stypeinCHOP`), `EtherDream CHOP`,
+`Helios DAC CHOP`, `RealSense CHOP`, `Scan CHOP`, `wrnchAI CHOP`,
+`Build a List COMP`, `Impulse Force COMP`, `Indices DAT`, `UDT In DAT`,
+`UDT Out DAT`, `Web DAT`, `Force POP`, `GLSL Create POP`, `Line Thick POP`,
+`Font SOP`, `CUDA TOP`, `Layer TOP`, `SVG TOP`, `Simple Render TOP`.
+
+**7 real ops the KB is missing:** `freedinCHOP`, `stypeinCHOP`, `tcpipDAT`,
+`alembicoutPOP`, `textPOP`, `tracePOP`, `triangulatePOP`.
+
+Reconciling the KB's content (retiring fossils, adding the holes) is
+**W3 Census Lock** (board GT1/GT5) — this file only records the measurement.
+
 **The real live-capture corpus** is the (untracked) main-tree
 `New KB build\Resources\operator_ground_truth\` — its `sampling_results.json`
 (641 success / 0 failed / 44 skipped) and expanded-`.toe` evidence are the

@@ -63,6 +63,32 @@
   never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
 
 ### Fixed
+- **User-store embedding-regime rewrite landmine** (ultra-audit A8/AN1 + board BM1;
+  `kb_build/user_components.py`, remediation map ticket 04): `ingest_incremental`
+  stamped the *current* KB regime into the store manifest unconditionally while
+  re-upserting only the current call's components. After an embedding-regime change
+  (a model re-pin, a normalize/query_prefix flip — the eventual KB re-embed), a single
+  incremental re-commit would silently rewrite the manifest to the new regime and flip
+  the boot guard (`retrieval_stack.py`'s three-field health check) from REFUSED back to
+  ACCEPTED while every un-recommitted component kept **stale-regime vectors** — a store
+  that reports healthy and returns geometrically wrong neighbours, invisible to every
+  downstream check. **A8 fix (refuse-hard):** ingest now refuses a regime change
+  *before any embed or write* — manifest byte-unchanged, zero upserts — with a message
+  naming the runnable remedy. A regime change is authorised **only** for an explicit
+  reindex (`allow_regime_change=True`) **and** only when the store holds zero vectors
+  (the flag is independently verified against the store, never merely trusted); regime
+  change is exclusively `reindex_all`'s job. `commit_specs` pre-checks under the lock so
+  a refused commit never leaves the registry ahead of the store. **AN1:** `remove_component`
+  now resolves the manifest regime all-or-nothing (preserve when complete, else the current
+  regime as a unit) instead of pairing the stored `model_id` with a hardcoded
+  `normalize=False`/`query_prefix=""` — no more synthesised mixed regime. **BM1:**
+  `reindex_all` and `remove_component` — previously reachable only by hand-written Python
+  importing a `kb_build` internal — now have a runnable surface via
+  `kb_build/register_user_component.py --reindex-all` / `--remove NAME`, so the guard's
+  refusal names a command that actually exists (and there is finally a supported
+  un-register path). Red-first coverage: hermetic guard/AN1/CLI units
+  (`tests/unit/test_regime_guard.py`) + end-to-end "silent-heal is dead" / authorised-reindex
+  / remove-parity in the kb-full lane (`tests/retrieval_user/test_user_store.py`).
 - **W2 Truth Surfaces — instruction-channel counts, labels, and paths regrounded**
   (defect-remediation map ticket 11). The numbers, labels, and paths the model reads
   now match reality: (1) the stale **`673` operator count** replaced with the **live-verified

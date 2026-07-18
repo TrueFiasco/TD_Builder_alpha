@@ -42,6 +42,24 @@ def _load_jsonl(p: Path) -> list[dict]:
     return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
 
 
+def _track_provenance(path):
+    """ND6: age + mtime of a track's result file.
+
+    The verdict blends Track A (offline) with Track B (live-in-TD), but the two are
+    produced by separate runs that can be *weeks* apart — Track B is expensive and gets
+    re-used. Printing a merged "RELEASE VERDICT: PASS" with no provenance let a
+    2026-06-30 live capture ride into a 2026-07-18 release record looking fresh. Stamp
+    every track so a stale one can never masquerade as current again.
+    """
+    import datetime
+    if not path.exists():
+        return "ABSENT"
+    mt = datetime.datetime.fromtimestamp(path.stat().st_mtime)
+    age_days = (datetime.datetime.now() - mt).days
+    flag = "  <-- STALE, not from this run" if age_days >= 1 else ""
+    return f"{mt.strftime('%Y-%m-%d %H:%M')} ({age_days}d old){flag}"
+
+
 def main():
     stage = gc.stage_dir()
     cmap = gc.CanonicalMap.load()
@@ -340,6 +358,13 @@ def main():
     print(f"  live:    PASS {b_pass}/{b_creatable} ({live_pass_rate})")
     print(f"  cross-check: {payload['cross_check']['all_confirmed_live_correct']}/{len(mism)} offline mismatches confirmed live-correct")
     print(f"  fixes: {len(internal_name_map_additions)} INTERNAL_NAME_MAP + {len(ambiguous_additions)} AMBIGUOUS additions")
+    # ND6: this verdict blends tracks produced by separate runs. Never let it be quoted
+    # bare — say how old each input is.
+    print("  track provenance (a merged verdict is only as fresh as its oldest track):")
+    for label, fn in (("A offline", "track_a_results.jsonl"),
+                      ("B live   ", "track_b_results.jsonl"),
+                      ("C smoke  ", "track_c_smoke.json")):
+        print(f"    {label}: {_track_provenance(stage / fn)}")
     print("wrote BUILD_GATE.json/.md + proposed_fixes.json + PROPOSED_FIXES.md ->", stage)
 
 

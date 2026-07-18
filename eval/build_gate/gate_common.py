@@ -46,8 +46,15 @@ from pathlib import Path
 # --- make eval/ importable, then pull in the Phase-0 harness (env side effects) ---
 _THIS = Path(__file__).resolve()
 EVAL_DIR = _THIS.parent.parent                 # eval/
+REPO_ROOT = EVAL_DIR.parent                    # repo root — home of paths.py
 if str(EVAL_DIR) not in sys.path:
     sys.path.insert(0, str(EVAL_DIR))
+# ND4: operator_types_json() imports the repo-root `paths` module lazily. Track A never
+# reaches that line, so only track_c_smoke.py died on `ModuleNotFoundError: No module
+# named 'paths'` — and the build gate runs in no CI lane, so nothing caught it. Put the
+# repo root on sys.path here, once, for every gate entry point.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 import run_eval                                  # noqa: E402  (offline env + resolvers)
 from predicates import GroundTruth, OP_FAMILIES, _norm   # noqa: E402

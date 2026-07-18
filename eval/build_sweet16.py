@@ -14,7 +14,7 @@ Output: eval/sweet16_queries.jsonl ({id,query,category,relevant_predicate,notes,
 same schema run_eval/predicates score — category 'operator_lookup', gen.tier 'sweet16'.
 """
 from __future__ import annotations
-import io, json, re, sys
+import argparse, io, json, re, sys
 from pathlib import Path
 from collections import defaultdict
 
@@ -22,6 +22,7 @@ EVAL_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(EVAL_DIR))
 from predicates import GroundTruth, _norm  # noqa: E402
 import gen_coverage as G  # reuse the gates  # noqa: E402
+import run_eval  # noqa: E402  # resolve_gt_paths (tracked-GT-first since W3)
 
 WIKI = Path(r"C:\TD_Builder_Alpha_Build_V0.1.2\New KB build\Resources\Learn\OfflineHelp\https.docs.derivative.ca")
 KB = G.resolve_kb_root(None)
@@ -100,8 +101,18 @@ def build_op_tokens(ops):
 
 def main():
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+    # W3 Census Lock: default to the TRACKED ground truth. This was the only
+    # GroundTruth instantiation with no override at all, and it pointed at the
+    # untracked corpus twin -- so it silently graded against a different file
+    # than CI. --gt-types exists so a corpus copy can still be compared on demand.
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0] if __doc__ else None)
+    ap.add_argument("--gt-types", default=None,
+                    help="operator_types.json (default: tracked eval/ground_truth)")
+    args = ap.parse_args()
+    gt_types = (Path(args.gt_types) if args.gt_types
+                else run_eval.resolve_gt_paths(None, None, KB)[1])
     gt = GroundTruth(operators_json=KB / "operators.json",
-                     operator_types_json=RES / "operator_ground_truth" / "operator_types.json")
+                     operator_types_json=gt_types)
     ops = json.loads((KB / "operators.json").read_text(encoding="utf-8"))["operators"]
     by_name = {o["name"]: o for o in ops}
     safe_pyc = G.safe_python_classes(ops)

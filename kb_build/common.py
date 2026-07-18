@@ -53,6 +53,19 @@ PAL_LOSSLESS = RES / "palette_lossless"
 SNIPPETS = RES / "snippets"
 GT = RES / "operator_ground_truth"
 PARAMS_GT = GT / "params"               # live-TD param captures ({FAM}_{Name}_defaults.json)
+
+# operator_types.json is TRACKED (eval/ground_truth/), regenerated from the live
+# census by kb_build/gen_operator_types.py. It used to be read from GT above --
+# the untracked corpus twin -- so this build resolved create tokens against a
+# file CI never saw. The corpus path stays a legacy fallback; PARAMS_GT above is
+# genuinely corpus-only and must NOT be repointed.
+#
+# MAIN-anchored on purpose, per the rule above: KB-build inputs come from the
+# main tree even when this runs from a worktree. A worktree that regenerates the
+# ground truth therefore does NOT change what a KB build consumes until it is
+# merged -- which is the intended contract, not an oversight.
+GT_OPERATOR_TYPES = MAIN / "eval" / "ground_truth" / "operator_types.json"
+GT_OPERATOR_TYPES_LEGACY = GT / "operator_types.json"
 CONFIG = RES / "Config"
 WIKI = RES / "Learn" / "OfflineHelp"
 WIKI_DOCS = WIKI / "https.docs.derivative.ca"      # Write_a_*.htm guide pages
@@ -381,7 +394,9 @@ class Identity:
         # python_class -> td_create (.n token), authoritative from the live-TD capture
         self.pyclass_to_n: dict[str, str] = {}
         self.name_norm_to_n: dict[str, str] = {}
-        gt = json.loads((GT / "operator_types.json").read_text(encoding="utf-8"))
+        gt_path = (GT_OPERATOR_TYPES if GT_OPERATOR_TYPES.exists()
+                   else GT_OPERATOR_TYPES_LEGACY)
+        gt = json.loads(gt_path.read_text(encoding="utf-8"))
         for fam, entries in (gt.get("operators") or {}).items():
             for e in entries:
                 tdc = e.get("td_create")

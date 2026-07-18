@@ -40,8 +40,9 @@ exemplar, say so explicitly; an admitted gap is correct behavior, a guessed
 parameter is not. Never claim an operator exists without a KB hit backing it.
 
 If a KB tool returns `{"status": "kb_warming", "retry_after_seconds": N}`, the
-vector DB is still loading (1–2 min on a fresh server). Wait and retry — do
-NOT fall back to guessing because the KB is slow.
+vector DB is still loading (typically 5–10+ min on a fresh server). Wait the
+`retry_after_seconds` given and retry — do NOT fall back to guessing because
+the KB is slow.
 
 ## Offline build discipline
 

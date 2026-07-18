@@ -10,7 +10,7 @@ Two import side effects are handled here:
      guard for the JSON-RPC channel). We restore real stdout afterwards so
      pytest capture works.
   2. It starts a daemon KB warm-up thread and lazy-loads a sentence-transformers
-     model on the first KB-dependent tool call. That is slow (~1-2 min) on the
+     model on the first KB-dependent tool call. That is slow (~5-10+ min) on the
      first such call; callers should allow a generous timeout.
 
 `__file__` resolution is preserved (module loaded from its true path) so the

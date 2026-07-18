@@ -150,19 +150,61 @@ def test_provenance_census_sha_matches_the_committed_snapshot():
         "committed -- regenerate with kb_build/gen_operator_types.py")
 
 
-HELP_TREE = Path(
-    r"C:\Program Files\Derivative\TouchDesigner.2025.32820"
-    r"\Samples\Learn\OfflineHelp\https.docs.derivative.ca")
+# Derived from the census, never hardcoded -- see
+# test_no_hardcoded_build_in_the_generator below.
+HELP_TREE = Path(CENSUS["offline_help_root"]) if CENSUS.get("offline_help_root") else None
 
 
-@pytest.mark.skipif(not HELP_TREE.exists(),
-                    reason="needs a local TouchDesigner 2025.32820 install "
-                           "(the generator's name source); the committed output "
-                           "is asserted by the hermetic tests above")
+def test_census_records_where_it_came_from():
+    """A TD upgrade must be a re-run, not a code edit. The census carries the
+    install root and docs tree of the TouchDesigner it was captured on, so
+    regenerating after an upgrade is `capture -> generate` with no source change."""
+    assert CENSUS["td_install_root"], "census must record its TD install root"
+    assert CENSUS["offline_help_root"], "census must record its offline-help root"
+    build_tail = CENSUS["td_build"].split(".", 1)[-1]
+    assert build_tail in CENSUS["td_install_root"], (
+        "TouchDesigner install roots are version-stamped; if this fails the "
+        "recorded root does not belong to the recorded build")
+
+
+def test_provenance_records_the_resolved_help_tree():
+    p = GT["provenance"]
+    assert p["help_tree"], "which docs tree supplied these names must be auditable"
+    assert p["help_tree_resolved_from"], "and how it was chosen"
+    assert p["td_install_root"] == CENSUS["td_install_root"]
+
+
+def test_no_hardcoded_build_in_the_generator_or_capture():
+    """Neither script may carry a TD build number. A TD upgrade lands before
+    W7c's rebuild, and the response has to be a re-invocation -- if a version is
+    baked into the source, someone must edit code under time pressure and will
+    get it wrong."""
+    import re as _re
+
+    for rel in ("kb_build/gen_operator_types.py", "scripts/capture_td_census.py"):
+        text = (REPO / rel).read_text(encoding="utf-8")
+        for lineno, line in enumerate(text.splitlines(), 1):
+            stripped = line.strip()
+            if stripped.startswith("#") or stripped.startswith('"'):
+                continue          # prose/examples may name a build
+            if rel.endswith("capture_td_census.py") and "EXPECTED_BUILD" in line:
+                continue          # a --expect-build DEFAULT is a parameter, not a path
+            assert not _re.search(r"TouchDesigner\.\d{4}\.\d+", line), (
+                f"{rel}:{lineno} hardcodes a versioned TouchDesigner path: "
+                f"{stripped!r}")
+
+
+@pytest.mark.skipif(HELP_TREE is None or not HELP_TREE.exists(),
+                    reason="needs the local TouchDesigner install the census was "
+                           "captured on (the generator's name source); the "
+                           "committed output is asserted by the hermetic tests above")
 def test_generator_is_deterministic():
     """Same (snapshot, help tree) -> byte-identical output. This is the whole
-    reproducibility claim, in one assertion."""
+    reproducibility claim, in one assertion. Run with NO --help-tree so it also
+    proves the census-derived default resolves."""
     r = subprocess.run(
         [sys.executable, str(REPO / "kb_build" / "gen_operator_types.py"), "--check"],
         capture_output=True, text=True, cwd=str(REPO))
     assert r.returncode == 0, f"stdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    assert "census (app.samplesFolder" in r.stdout, (
+        "the default must resolve from the census, not a hardcoded path:\n" + r.stdout)

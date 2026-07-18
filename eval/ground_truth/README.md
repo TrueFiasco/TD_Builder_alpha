@@ -84,11 +84,38 @@ spelling is inconsistently cased (`NVIDIA_Flex_TOP` but
 `Nvidia_Flow_Emitter_COMP`), so the join normalises to alphanumerics. The
 generator **aborts** rather than synthesising a name it cannot find.
 
-> Use the **versioned** help path
-> `C:\Program Files\Derivative\TouchDesigner.2025.32820\Samples\Learn\OfflineHelp\https.docs.derivative.ca\`.
-> The unversioned `...\Derivative\TouchDesigner\` directory is a *different*
-> (older, 32460) build on maintainer machines. `TCP/IP_DAT.htm` nests into a
-> subdirectory because its page name contains a slash.
+> **The help-tree path is not hardcoded anywhere.** The capture records
+> `app.installFolder` and `app.samplesFolder` from the running TouchDesigner, and
+> the generator resolves the docs tree from the census by default — so it is, by
+> definition, the tree that shipped with the TouchDesigner the census came from.
+> Resolution order: `--help-tree` (explicit) → the census's `offline_help_root` →
+> discovery by build under `Program Files`. Whichever won is recorded in
+> `operator_types.json` `provenance.help_tree_resolved_from`.
+>
+> This matters because TouchDesigner install roots are **version-stamped**
+> (`...\TouchDesigner.2025.32820`), so the unversioned `...\Derivative\TouchDesigner\`
+> directory is a *different, older* build on a multi-install machine. Deriving
+> from the census makes picking the wrong one impossible without asking for it.
+> (`TCP/IP_DAT.htm` nests into a subdirectory because its page name contains a slash.)
+
+### After a TouchDesigner upgrade
+
+A TD upgrade will land before W7c's rebuild. The response is a **re-invocation,
+not a code edit** — no file in `scripts/` or `kb_build/` carries a build number,
+and `tests/unit/test_operator_census.py` fails if one appears:
+
+```powershell
+py -3.11 scripts/capture_td_census.py --dry-run --expect-build 099.2025.XXXXX
+py -3.11 scripts/capture_td_census.py --expect-build 099.2025.XXXXX \
+    --allow-count-change --reason "TD upgrade 32820 -> XXXXX"
+py -3.11 kb_build/gen_operator_types.py        # finds the new docs tree itself
+```
+
+Then **re-pin deliberately** — the guard is *supposed* to go red on an operator-set
+change, and a human decides what the new truth is: `FAMILY_PINS`, `EXPECTED_BUILD`,
+`EXPECTED_TOTAL`, and the two allowlists in `scripts/census_guard.py`, plus
+`expected_*` in `scripts/docs_lint_rules.json` and the compound claims in the five
+instruction surfaces. `py -3.11 scripts/census_guard.py` lists exactly what moved.
 
 ## Still outstanding — W7c's worklist
 

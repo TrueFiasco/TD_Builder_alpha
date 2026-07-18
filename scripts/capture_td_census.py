@@ -62,6 +62,7 @@ EXPECTED_BUILD = "099.2025.32820"
 # not available (scripts run outside any node). Prints one JSON object.
 REMOTE_SNIPPET = r'''
 import json
+import os
 
 fams = families
 seen = sorted(fams.keys())
@@ -88,6 +89,13 @@ for fam in seen:
         inherits[name] = chain
     operators[fam] = sorted(names)
 
+# Where this TouchDesigner lives, so downstream tools can locate the MATCHING
+# shipped documentation instead of a hardcoded versioned path. app.installFolder
+# is version-stamped ("...\TouchDesigner.2025.32820"), so an upgrade changes it
+# and the census carries the new location automatically.
+help_root = os.path.join(str(app.samplesFolder), "Learn", "OfflineHelp",
+                         "https.docs.derivative.ca")
+
 print(json.dumps({
     # app.version is only the series ("099"); app.build carries "2025.32820".
     # The build id everyone quotes is the two joined.
@@ -95,6 +103,10 @@ print(json.dumps({
     "td_version_series": app.version,
     "td_build_number": app.build,
     "td_product": app.product,
+    "td_install_root": str(app.installFolder).replace("\\", "/"),
+    "td_samples_folder": str(app.samplesFolder).replace("\\", "/"),
+    "offline_help_root": help_root.replace("\\", "/"),
+    "offline_help_root_exists": os.path.isdir(help_root),
     "families_seen": seen,
     "by_family": {k: len(v) for k, v in operators.items()},
     "total_operators": sum(len(v) for v in operators.values()),
@@ -161,6 +173,16 @@ def _guard(raw: dict, expect_total: int, expect_build: str | None,
             f"{raw['malformed'][:5]}"
         )
 
+    # Surface a missing docs tree HERE rather than two steps later inside the
+    # generator: the census is what tells the generator where to look, so a
+    # census that records a nonexistent path is a broken handoff.
+    if not raw.get("offline_help_root_exists"):
+        problems.append(
+            f"this TouchDesigner reports no offline-help tree at "
+            f"{raw.get('offline_help_root')!r}. kb_build/gen_operator_types.py "
+            f"needs it for operator display names; install the docs or pass "
+            f"--help-tree explicitly when generating.")
+
     total = raw.get("total_operators")
     if total != expect_total:
         msg = f"total_operators is {total}, expected {expect_total}"
@@ -205,6 +227,11 @@ def build_snapshot(raw: dict) -> dict:
         "_schema": SCHEMA,
         "td_build": raw["td_build"],
         "td_product": raw.get("td_product"),
+        # Recorded so a TD UPGRADE is a re-run, not a code edit: whoever
+        # regenerates operator_types.json locates the matching shipped
+        # documentation from here rather than from a hardcoded versioned path.
+        "td_install_root": raw.get("td_install_root"),
+        "offline_help_root": raw.get("offline_help_root"),
         "captured_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "capture_method": "families[] class registry (c.__name__); creatable tier",
         "capture_script": "scripts/capture_td_census.py",

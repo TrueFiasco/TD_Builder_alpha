@@ -11,8 +11,8 @@ self-hosted** (pre-CLA public-PR RCE risk).
 | Job | Trigger | Runner | Deps | KB | Runs | Gate |
 |---|---|---|---|---|---|---|
 | `docs-lint` | PR + push | ubuntu | none (stdlib) | – | `python scripts/docs_lint.py` | exit code |
-| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **556** |
-| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **725** |
+| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **559** |
+| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **728** |
 | `kb-full` | nightly + dispatch | windows | full `pip install ".[dev]"` | cached release fetch + HF model cache | acceptance+measure, then `tests/retrieval_user`, then retrieval eval vs committed baseline | 0 failures + pass floors **22** (acceptance) / **12** (retrieval_user); `scripts/ci_compare_eval.py` exit code |
 
 **Runner rationale.** The repo is public (hosted minutes are free), so the
@@ -57,14 +57,14 @@ silently pass. Measured partition (2026-07-04, after W2b's GLSL suite + W2d's
 **87 hermetic** (11 engine + 76 unit) + **98 requires_kb**.
 Re-measured 2026-07-17 (test-hardening catch-up, incl. the
 `test_feedback_spine.py` move into `tests/unit/`, then W3 Census Lock):
-**725** collected = **556 hermetic + 169 requires_kb**.
+**728** collected = **559 hermetic + 169 requires_kb**.
 
 ## Floors (silent-shrink guards)
 
 | Floor | Value | Measured by | Meaning |
 |---|---|---|---|
-| hermetic collection | ≥ 556 | W1 (53) + W2a (+2) = 55; W2d +32 → 87; W3b +6 → 93; 2026-07-17 catch-up → 431; **W3 Census Lock → 556** (measured 556/725, 169 deselected; +37 was drift already on main from #49/#50, +76 are this wave's census/guard tests) | deselection can't quietly eat the lane |
-| engine-kb collection | ≥ 725 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185; W3b +10 → 195; 2026-07-17 catch-up → 581; **W3 Census Lock → 725** (measured with KB present; +42 pre-existing drift, +90 this wave incl. the 14 `requires_kb` guard tests) | whole engine+unit surface stays collected |
+| hermetic collection | ≥ 559 | W1 (53) + W2a (+2) = 55; W2d +32 → 87; W3b +6 → 93; 2026-07-17 catch-up → 431; **W3 Census Lock → 559** (measured 559/728, 169 deselected; +37 was drift already on main from #49/#50, +76 are this wave's census/guard tests) | deselection can't quietly eat the lane |
+| engine-kb collection | ≥ 728 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185; W3b +10 → 195; 2026-07-17 catch-up → 581; **W3 Census Lock → 728** (measured with KB present; +42 pre-existing drift, +90 this wave incl. the 14 `requires_kb` guard tests) | whole engine+unit surface stays collected |
 | kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 locally with live TD **and `TD_ACCEPT_LIVE=1`** — since 2026-07-17 P19's live-CRUD branch is explicit opt-in and runs in a throwaway sandbox container) | live tests may skip; offline coverage may not shrink |
 | kb-full retrieval_user passes | ≥ 12 | 2026-07-17 wiring: 13 tests, minus `test_t1b_save_to_palette_flow`'s TD-binary self-skip on hosted runners | the W7 server round-trip suite can't silently skip-storm (an empty vector_db now skips the whole `test_user_store` module — the floor catches it) |
 

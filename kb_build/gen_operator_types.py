@@ -60,16 +60,49 @@ REPO = Path(__file__).resolve().parents[1]
 CENSUS = REPO / "eval" / "ground_truth" / "td_census.json"
 DEFAULT_OUT = REPO / "eval" / "ground_truth" / "operator_types.json"
 
-# Versioned path on purpose: the unversioned C:\...\Derivative\TouchDesigner\
-# directory is a DIFFERENT (older) build on maintainer machines -- 32460 while
-# the census is 32820. tests/engine/test_real_palette_parse.py:27 sets the same
-# precedent of pinning the versioned tree.
-HELP_TREE = Path(
-    r"C:\Program Files\Derivative\TouchDesigner.2025.32820"
-    r"\Samples\Learn\OfflineHelp\https.docs.derivative.ca"
-)
-
 FAMILY_ORDER = ["CHOP", "TOP", "SOP", "DAT", "COMP", "MAT", "POP"]
+
+# Last-resort fallback for a census captured before the snapshot recorded its own
+# install root. NOT a default -- see resolve_help_tree(). The unversioned
+# C:\...\Derivative\TouchDesigner\ directory is deliberately absent from this
+# list: on a machine with several installs it is a DIFFERENT (older) build than
+# the running one, which is exactly the mismatch this module must not make silently.
+_LEGACY_HELP_GLOB = r"C:\Program Files\Derivative\TouchDesigner.*"
+_HELP_SUBPATH = Path("Samples") / "Learn" / "OfflineHelp" / "https.docs.derivative.ca"
+
+
+def resolve_help_tree(census: dict, cli: Path | None) -> tuple[Path, str]:
+    """Locate the shipped docs tree matching this census. Returns (path, source).
+
+    Resolution order, most trustworthy first:
+      1. --help-tree            -- an explicit operator decision
+      2. the census's own `offline_help_root` -- recorded from `app.samplesFolder`
+         at capture time, so it is BY DEFINITION the tree that shipped with the
+         TouchDesigner the census came from
+      3. a build-matched directory under Program Files, for snapshots captured
+         before the schema carried the path
+
+    Deriving from the census is the point: a TD upgrade lands before W7c's
+    rebuild, and the correct response must be `capture -> generate`, not editing
+    a hardcoded version number in this file. There is no hardcoded build here.
+    """
+    if cli is not None:
+        return cli, "cli (--help-tree)"
+
+    recorded = census.get("offline_help_root")
+    if recorded:
+        return Path(recorded), "census (app.samplesFolder at capture time)"
+
+    build = census.get("td_build", "")
+    tail = build.split(".", 1)[-1]          # "099.2025.32820" -> "2025.32820"
+    for root in sorted(Path(_LEGACY_HELP_GLOB).parent.glob("TouchDesigner.*")):
+        if tail and tail in root.name:
+            return root / _HELP_SUBPATH, f"discovered by build {tail}"
+    raise SystemExit(
+        f"gen_operator_types: cannot locate the offline-help tree.\n"
+        f"  This census predates the schema that records it, and no install "
+        f"matching build {build!r} was found.\n"
+        f"  Re-capture (python scripts/capture_td_census.py) or pass --help-tree.")
 
 
 def _rel(path: Path) -> str:
@@ -104,7 +137,8 @@ def index_help_pages(help_tree: Path) -> dict[str, list[str]]:
     return idx
 
 
-def build(census: dict, help_idx: dict[str, list[str]], census_sha: str) -> dict:
+def build(census: dict, help_idx: dict[str, list[str]], census_sha: str,
+          help_tree: Path, help_source: str) -> dict:
     """Join census OPTypes to help-page names. Raises on any miss or ambiguity.
 
     `census_sha` is the sha256 of the snapshot FILE bytes (so `sha256sum` on the
@@ -151,6 +185,12 @@ def build(census: dict, help_idx: dict[str, list[str]], census_sha: str) -> dict
             "name_source": "TouchDesigner shipped OfflineHelp operator page names, "
                            "joined on lowercase-alphanumeric normalisation",
             "td_build": census["td_build"],
+            "td_install_root": census.get("td_install_root"),
+            # Recorded so a regeneration after a TD upgrade is auditable: which
+            # docs tree supplied these names, and how it was chosen. No build
+            # number is hardcoded anywhere in the generator.
+            "help_tree": help_tree.as_posix(),
+            "help_tree_resolved_from": help_source,
             "census_captured_utc": census["captured_utc"],
             "census_sha256": census_sha,
             "subset_of_reality": "by construction -- the operator set is the live "
@@ -176,7 +216,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
     ap.add_argument("--census", type=Path, default=CENSUS)
-    ap.add_argument("--help-tree", type=Path, default=HELP_TREE)
+    ap.add_argument("--help-tree", type=Path, default=None,
+                    help="offline-help root (default: the one the census recorded "
+                         "from the TouchDesigner it was captured on)")
     ap.add_argument("--check", action="store_true",
                     help="generate and compare to --out; write nothing. "
                          "Exit 1 if they differ.")
@@ -187,19 +229,37 @@ def main() -> int:
               f"  Capture it first: python scripts/capture_td_census.py",
               file=sys.stderr)
         return 2
-    if not args.help_tree.exists():
-        print(f"gen_operator_types: offline help tree missing: {args.help_tree}\n"
+
+    census_bytes = args.census.read_bytes()
+    census = json.loads(census_bytes.decode("utf-8"))
+    help_tree, help_source = resolve_help_tree(census, args.help_tree)
+
+    if not help_tree.exists():
+        print(f"gen_operator_types: offline help tree missing: {help_tree}\n"
+              f"  (resolved from: {help_source})\n"
               f"  This generator needs a local TouchDesigner install. The tracked "
               f"output is committed, so CI does not run this.", file=sys.stderr)
         return 2
 
-    census_bytes = args.census.read_bytes()
-    census = json.loads(census_bytes.decode("utf-8"))
-    help_idx = index_help_pages(args.help_tree)
-    doc = build(census, help_idx, hashlib.sha256(census_bytes).hexdigest())
+    # A stale tree paired with a newer census is THE post-upgrade hazard. The
+    # 647/647 join in build() is the hard gate -- a new operator would have no
+    # page and abort -- but name the suspicion up front rather than letting it
+    # surface as a confusing list of unmatched operators.
+    build_tail = census.get("td_build", "").split(".", 1)[-1]
+    if build_tail and build_tail not in help_tree.as_posix():
+        print(f"  ! help tree does not mention census build {build_tail}: "
+              f"{help_tree}\n"
+              f"    proceeding, but the name join must still be exact or this "
+              f"aborts.", file=sys.stderr)
+
+    help_idx = index_help_pages(help_tree)
+    doc = build(census, help_idx, hashlib.sha256(census_bytes).hexdigest(),
+                help_tree, help_source)
     text = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
 
     print(f"  td_build        : {doc['provenance']['td_build']}")
+    print(f"  help tree       : {help_tree}")
+    print(f"  resolved from   : {help_source}")
     print(f"  help pages      : {sum(len(v) for v in help_idx.values())}")
     print(f"  total_operators : {doc['total_operators']}")
     for fam in FAMILY_ORDER:

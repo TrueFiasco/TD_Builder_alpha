@@ -23,7 +23,13 @@
   @ `099.2025.32820`, build id **inside** the JSON, plus each operator's
   inheritance chain); new `kb_build/gen_operator_types.py` joins it to
   TouchDesigner's shipped offline-help operator pages for display names and
-  **aborts rather than synthesising** a name it cannot find. Receipts: capture
+  **aborts rather than synthesising** a name it cannot find. Neither script
+  carries a TouchDesigner version: the capture records `app.installFolder` /
+  `app.samplesFolder` from the running instance and the generator resolves the
+  docs tree from the census, so **a TD upgrade is a re-invocation, not a code
+  edit** (a test fails if a versioned path reappears in either file, and
+  `provenance.help_tree_resolved_from` records which of the three resolution
+  paths won). Receipts: capture
   647 = CHOP 165 / TOP 146 / SOP 112 / DAT 71 / COMP 40 / MAT 13 / POP 100; name
   join 647/647 with 0 unmatched and 0 ambiguous; diff `684 − 44 + 7 = 647`
   decomposing exactly into 13 phantoms + 6 guide pages + 21 fossils + 2 renames +
@@ -57,9 +63,9 @@
 
 ### Changed
 - **CI collection floors raised to measured actuals** (W3 Census Lock): hermetic
-  **431 → 556**, engine-kb **581 → 725**. Itemised: the pre-wave actuals on
+  **431 → 559**, engine-kb **581 → 728**. Itemised: the pre-wave actuals on
   `4f17520` were already 468/623, so **+37/+42 was drift** that landed with
-  PR #49/#50 and the floors had not caught up; **+88/+102 is this wave** (88
+  PR #49/#50 and the floors had not caught up; **+91/+105 is this wave** (91
   hermetic census/guard/backfill/expertise tests, plus the 14 `requires_kb` guard
   tests which only the engine-kb lane collects). Raising a floor is routine per
   `docs/CI.md`; the pre-existing drift is disclosed rather than folded silently

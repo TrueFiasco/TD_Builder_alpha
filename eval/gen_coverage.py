@@ -5,7 +5,7 @@ Phase-0.6 COVERAGE-tier query generator for the TD Builder KB eval harness.
 WHY this exists
 ---------------
 The frozen 78-query set (``labeled_queries.jsonl``) is a cross-phase TREND gate,
-but it touches only 23 distinct operators (3.4% of 673); POP (100) and MAT (13)
+but it touches only 23 distinct operators (3.5% of the KB's 663 entries); POP (100) and MAT (13)
 are never tested. This mints a stratified BREADTH set across all 7 families, the
 main §6 chunk types, and the parameter kinds.
 

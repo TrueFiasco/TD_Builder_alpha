@@ -21,7 +21,7 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~34 checks
 | File | Role |
 |---|---|
 | `acceptance/test_acceptance.py` | The main probes P01–P21 (offline + live). |
-| `measure/test_smoke.py` | Server-loads + tool-inventory + 5-stage validate smoke. |
+| `measure/test_smoke.py` | Server-loads + tool-inventory + 7-stage validate smoke. |
 | `measure/_server.py`, `measure/probe.py` | In-process loaders for the two servers + the probe used by `conftest.py`. |
 | `engine/` | Unit tests for the TD-file engine (builder, expand, quoting, validators, …). Not part of the quick gate above — run with `py -3.11 -m pytest tests\engine -q`. |
 | `conftest.py` | `probe` (offline) + `live_probe` (live) fixtures; warms the KB before KB tests. |

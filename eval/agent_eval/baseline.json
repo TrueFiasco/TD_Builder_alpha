@@ -1,23 +1,65 @@
 {
-  "_checkpoint": true,
   "_provenance": {
     "captured_date": "2026-07-05",
     "captured_git_ref": "main @ Merge W3a (PR #13): builder correctness + grounding/bare-comp validators (S6)",
     "captured_git_sha": "6a2f461",
     "lane_r_revalidation_on_current_main": "After capture, origin/main advanced 6a2f461->572ceed (W4a build-entry consolidation PR#16 + BUG-3 v0.2.1 bridge fixes PR#15, both touching toe_builder_bridge.py). Branch was merged up to 572ceed; all 13 blessed traces re-replayed PASS on the 572ceed builder (s11 SKIP), and verdicts.json is BYTE-IDENTICAL across all four Lane-R sweeps (2x on 6a2f461, 2x on 572ceed) -> the replay-gate is deterministic AND builder-invariant across the snapshot pair, so CI Lane R is green on current main. The model-lane baseline statistics stay pinned to 6a2f461 (a fresh full capture is a D-E release-tag requirement regardless).",
     "mixed_snapshot_disclosure": "s01-s09 model trials were sampled+scored on cbf01f1, whose builder LACKS W3a's grounding_validator and component_source_validator (pipeline stages 2.5/3.5). 7 of those 9 scenarios (s01-s04,s06-s08) carry validate:PASS and thus ran a 4-stage pipeline; current main runs 6 stages. The 8-field agent-identity block is INVARIANT across cbf01f1<->6a2f461 (server_version is a hardcoded '0.2.0' constant), so --compare cannot detect this split; this note + the git_sha are the only record.",
+    "partial_recapture_model-20260717-232224": {
+      "dropped_stale_records": [],
+      "identity_drift_vs_prior": {
+        "guidance_hash": {
+          "current": "c5db2446b0aab8fe9a446f0ba53c252b01a98bfe43cf9508fa9cf71f17570acc",
+          "prior": "9a94d95b68717cd43597f4ca034e7d3ab78092ad4397fe454291fb9bf1c050f5"
+        },
+        "scenario_set_version": {
+          "current": "1.1.0",
+          "prior": "1.0.0"
+        },
+        "tool_inventory_hash": {
+          "current": "ea8fd182cca8aecdc9746e384ecdbebfe1432ce12e917fdba9cab52d7dd88cb8",
+          "prior": "1c81e8b4cb1f701669641bcaad2fa6b1a322ab551ee5a0a4504d5339099baa4a"
+        }
+      },
+      "note": "reused records carry statistics measured under the PRIOR identity; the top-level identity block describes the recaptured scenarios only.",
+      "recaptured": [
+        "s05_palette_audio",
+        "s09_abstention",
+        "s10_external_trap",
+        "s19_register_search_roundtrip",
+        "s20_register_exact_name",
+        "s21_register_hit_parity"
+      ],
+      "reused_from_capture": {
+        "lane": "model",
+        "n": 5,
+        "run_id": "baseline-n5"
+      },
+      "reused_verbatim": [
+        "s01_chop_chain",
+        "s02_top_feedback",
+        "s03_sop_displace",
+        "s04_instancing",
+        "s06_glsl_top",
+        "s07_glsl_pop",
+        "s08_chop_execute",
+        "s11_wrapper_manifest",
+        "s12_dual_mode",
+        "s13_multi_chain",
+        "s14_param_grounding"
+      ]
+    },
+    "rebless_2026_07_14": "PR #24/#26 surface re-bless (main @ cc0a6c5): the OFFLINE identity is UNCHANGED (tool_inventory_hash 1c81e8b4... constant across the change \u2014 17 tool names identical; hybrid_search's hit shape gained parameter_names/score_kind/parameters_capped/compact + sequence-block collapse, and all 13 blessed traces re-replay PASS against the new envelopes, verdicts.json byte-identical across two Lane-R sweeps). The LIVE surface DID change (21->22, get_glsl_status) and the 8-field identity was blind to it, so live_tool_inventory_hash joined the identity block; the value below is stamped from the static 22-tool list at re-bless time, NOT from capture time (the model-lane statistics in this file never touched live tools \u2014 Lane M allowed only the 17 offline tools when they were sampled). Scenarios s15-s17 (live-surface tier-1) added born-aspirational with no blessed traces; s18 (hybrid collapse fidelity) is offline and WAS blessed at add time (traces/s18_param_collapse_fidelity.jsonl, from run s18-dev-4). Per \u00a75 an unblessed scenario joins the baseline only via a fresh capture.",
     "reuse_safeguard": "All 9 reused blessed traces (s01-s09) were re-validated by Lane R IN-PROCESS on 6a2f461 and PASS (2026-07-05) -> the post-W3a builder still produces valid artifacts from those exact call patterns (builder-neutrality proven through W3a).",
     "s01_s09_source": "REUSED verbatim from run baseline-n5 in worktree magical-moore-f0701c @ cbf01f1 (pre-W3a, 2026-07-04). Model-sampled there; NOT re-sampled on 6a2f461. Owner-approved reuse 2026-07-05 with full knowledge of the snapshot gap.",
     "s10_s14_source": "freshly captured n=5 on 6a2f461 (run baseline-n5-tail), spend $8.21",
-    "rebless_2026_07_14": "PR #24/#26 surface re-bless (main @ cc0a6c5): the OFFLINE identity is UNCHANGED (tool_inventory_hash 1c81e8b4... constant across the change — 17 tool names identical; hybrid_search's hit shape gained parameter_names/score_kind/parameters_capped/compact + sequence-block collapse, and all 13 blessed traces re-replay PASS against the new envelopes, verdicts.json byte-identical across two Lane-R sweeps). The LIVE surface DID change (21->22, get_glsl_status) and the 8-field identity was blind to it, so live_tool_inventory_hash joined the identity block; the value below is stamped from the static 22-tool list at re-bless time, NOT from capture time (the model-lane statistics in this file never touched live tools — Lane M allowed only the 17 offline tools when they were sampled). Scenarios s15-s17 (live-surface tier-1) added born-aspirational with no blessed traces; s18 (hybrid collapse fidelity) is offline and WAS blessed at add time (traces/s18_param_collapse_fidelity.jsonl, from run s18-dev-4). Per §5 an unblessed scenario joins the baseline only via a fresh capture.",
-    "s19_s21_added_2026_07_16": "W7 register_component companion (main @ 1e84d76, post-PR #37): s19 register->search roundtrip, s20 exact-name direct-injection under a 4-char name override, s21 Δ1 hit-parity (user hits carry score_kind but never parameter_names/parameters). All three are offline, gate:true BY DESIGN, and carry a new 'tool:register_component' requires token so they SKIP (never ERROR) on a checkout that predates #37. Their traces were blessed from a Lane M capture at the 18-tool identity; this file's identity block is NOT refreshed here and still carries the pre-#37 17-tool tool_inventory_hash + the pre-#37 guidance_hash, so `--lane replay --compare` against it REFUSES (rc 3) until the queued partial-recapture re-bless runs -- pre-existing since PR #40 wired --compare into CI Lane R (advisory, continue-on-error), NOT introduced by this PR. s19-s21 are absent from `scenarios`/`gate_set` deliberately: gate membership is EARNED at n/n, so the next --capture-baseline must INCLUDE them. Note --capture-baseline rewrites this file from scratch and does not carry _provenance forward -- hand-restore this block (including the s15-s17/s18 correction above) at the next capture."
+    "s19_s21_added_2026_07_16": "W7 register_component companion (main @ 1e84d76, post-PR #37): s19 register->search roundtrip, s20 exact-name direct-injection under a 4-char name override, s21 \u03941 hit-parity (user hits carry score_kind but never parameter_names/parameters). All three are offline, gate:true BY DESIGN, and carry a new 'tool:register_component' requires token so they SKIP (never ERROR) on a checkout that predates #37. Their traces were blessed from a Lane M capture at the 18-tool identity; this file's identity block is NOT refreshed here and still carries the pre-#37 17-tool tool_inventory_hash + the pre-#37 guidance_hash, so `--lane replay --compare` against it REFUSES (rc 3) until the queued partial-recapture re-bless runs -- pre-existing since PR #40 wired --compare into CI Lane R (advisory, continue-on-error), NOT introduced by this PR. s19-s21 are absent from `scenarios`/`gate_set` deliberately: gate membership is EARNED at n/n, so the next --capture-baseline must INCLUDE them. Note --capture-baseline rewrites this file from scratch and does not carry _provenance forward -- hand-restore this block (including the s15-s17/s18 correction above) at the next capture."
   },
   "aspirational_set": [
     "s02_top_feedback",
     "s04_instancing",
     "s06_glsl_top",
     "s07_glsl_pop",
-    "s09_abstention",
     "s11_wrapper_manifest",
     "s13_multi_chain"
   ],
@@ -25,29 +67,44 @@
     "config": "guided",
     "lane": "model",
     "n": 5,
-    "run_id": "baseline-n5",
-    "status": "COMPLETE (reconstructed from on-disk trials by checkpoint.py)"
+    "partial": true,
+    "recaptured": [
+      "s05_palette_audio",
+      "s09_abstention",
+      "s10_external_trap",
+      "s19_register_search_roundtrip",
+      "s20_register_exact_name",
+      "s21_register_hit_parity"
+    ],
+    "run_id": "model-20260717-232224"
   },
   "gate_set": [
     "s01_chop_chain",
     "s03_sop_displace",
     "s05_palette_audio",
     "s08_chop_execute",
+    "s09_abstention",
     "s10_external_trap",
     "s12_dual_mode",
-    "s14_param_grounding"
+    "s14_param_grounding",
+    "s19_register_search_roundtrip",
+    "s20_register_exact_name",
+    "s21_register_hit_parity"
   ],
   "identity": {
     "cli_version": "2.1.81 (Claude Code)",
-    "guidance_hash": "9a94d95b68717cd43597f4ca034e7d3ab78092ad4397fe454291fb9bf1c050f5",
+    "engine_code_hash": "8f9937cb13db35d3d00798e1c53256c9420ff45122bbcd9986ae9015109b0b88",
+    "git_sha": "05e6a98",
+    "guidance_hash": "c5db2446b0aab8fe9a446f0ba53c252b01a98bfe43cf9508fa9cf71f17570acc",
     "kb_manifest_version": "0.2.0",
     "kb_root": "KB",
     "kb_sha": "1a273d114ae9ebca531ac410dd5c01bb747046617de9dee5a87423a3e9207633",
     "live_tool_inventory_hash": "dd7ba185ea8bb72723151ca1e7422c5f411a94426b64d878e046cafe0ece2245",
     "model_id": "claude-sonnet-4-6",
-    "scenario_set_version": "1.0.0",
+    "scenario_set_version": "1.1.0",
     "server_version": "0.2.0",
-    "tool_inventory_hash": "1c81e8b4cb1f701669641bcaad2fa6b1a322ab551ee5a0a4504d5339099baa4a"
+    "tool_inventory_hash": "ea8fd182cca8aecdc9746e384ecdbebfe1432ce12e917fdba9cab52d7dd88cb8",
+    "user_store": "absent"
   },
   "incomplete_set": [],
   "scenarios": {
@@ -146,16 +203,14 @@
     },
     "s05_palette_audio": {
       "advisory_median": {
-        "cost_usd": 0.2582,
-        "tool_calls": 17,
+        "cost_usd": 0.3394,
+        "tool_calls": 16,
         "turns": 20,
-        "wall_s": 122.92
+        "wall_s": 136.67
       },
-      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 5,
-      "n_expected": 5,
+      "n": 5,
       "pass_rate": 1.0,
       "verdicts": [
         "PASS",
@@ -239,41 +294,34 @@
     },
     "s09_abstention": {
       "advisory_median": {
-        "cost_usd": 0.2153,
-        "tool_calls": 15,
-        "turns": 17,
-        "wall_s": 67.96
+        "cost_usd": 0.1974,
+        "tool_calls": 11,
+        "turns": 14,
+        "wall_s": 78.98
       },
-      "complete": true,
-      "failure_fingerprints": {
-        "response.must_match[(?i)(instanc|script|glsl|table)]": 1,
-        "response.must_not_match[(?i)penrose\\w*(SOP|TOP|POP|CHOP|DAT|COMP|MAT)]": 1
-      },
+      "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 5,
-      "n_expected": 5,
-      "pass_rate": 0.6,
+      "n": 5,
+      "pass_rate": 1.0,
       "verdicts": [
         "PASS",
-        "FAIL",
         "PASS",
-        "FAIL",
+        "PASS",
+        "PASS",
         "PASS"
       ],
       "version": 1
     },
     "s10_external_trap": {
       "advisory_median": {
-        "cost_usd": 0.2107,
-        "tool_calls": 12,
-        "turns": 15,
-        "wall_s": 94.28
+        "cost_usd": 0.2059,
+        "tool_calls": 14,
+        "turns": 17,
+        "wall_s": 89.35
       },
-      "complete": true,
       "failure_fingerprints": {},
       "gate_eligible": true,
-      "n_captured": 5,
-      "n_expected": 5,
+      "n": 5,
       "pass_rate": 1.0,
       "verdicts": [
         "PASS",
@@ -366,6 +414,66 @@
       "gate_eligible": true,
       "n_captured": 5,
       "n_expected": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s19_register_search_roundtrip": {
+      "advisory_median": {
+        "cost_usd": 0.2151,
+        "tool_calls": 10,
+        "turns": 13,
+        "wall_s": 81.94
+      },
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s20_register_exact_name": {
+      "advisory_median": {
+        "cost_usd": 0.1688,
+        "tool_calls": 9,
+        "turns": 12,
+        "wall_s": 62.74
+      },
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n": 5,
+      "pass_rate": 1.0,
+      "verdicts": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "version": 1
+    },
+    "s21_register_hit_parity": {
+      "advisory_median": {
+        "cost_usd": 0.2612,
+        "tool_calls": 17,
+        "turns": 20,
+        "wall_s": 106.63
+      },
+      "failure_fingerprints": {},
+      "gate_eligible": true,
+      "n": 5,
       "pass_rate": 1.0,
       "verdicts": [
         "PASS",

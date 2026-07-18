@@ -104,15 +104,26 @@ end
 | `operator_ground_truth/mode_numbers.json` | Mode number analysis |
 | `operator_ground_truth/param_catalog.json` | Params per operator |
 | `FORMAT_SPECIFICATION.md` | Complete format docs |
-| `tox_builder/builder.py` | High-level .tox builder |
-| `TOX_BUILDER_PLAN.md` | Implementation plan |
+| `MCP/server_core/meta_agentic/execution/tox_builder.py` | `ToxBuilder` — high-level .tox builder (subclass of `ToeBuilderBridge`) |
+
+> **Note (builder path update):** the standalone `tox_builder/` tree (and its
+> `TOX_BUILDER_PLAN.md`) described in this historical session log was retired and
+> folded into the engine. `ToxBuilder` now lives at
+> `MCP/server_core/meta_agentic/execution/tox_builder.py` as a subclass of
+> `ToeBuilderBridge`, and the canonical way to build is the **`td_build_project`
+> MCP tool** (which routes through `_run_build` → `ToxBuilder`/`ToeBuilderBridge`),
+> never a direct import.
 
 ## Builder Usage
 
-```python
-from tox_builder.builder import ToxBuilder
+The supported entry point is the `td_build_project` MCP tool (validate first with
+`td_validate`). The low-level class it drives:
 
-spec = {
+```python
+# import path after the engine consolidation
+from meta_agentic.execution.tox_builder import ToxBuilder   # subclass of ToeBuilderBridge
+
+design = {  # builder-format network
     "name": "my_component",
     "operators": [
         {"name": "noise1", "type": "noiseCHOP", "parameters": {"amp": 2.0}},
@@ -120,5 +131,5 @@ spec = {
     ]
 }
 
-builder = ToxBuilder()
-tox_path = builder.build(spec, output_dir="./output")
+builder = ToxBuilder("./output", verbose=True)
+tox_path = builder.build_tox(design, project_name="my_component")

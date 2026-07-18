@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Added
+- **`register_component` — register your own `.tox` components** (W7 user-components
+  wave, PR #37). The 18th offline `td-builder` tool (offline surface **17 → 18**):
+  registers user-authored `.tox` comps as searchable + buildable palette components
+  via a prepare → author-summary → commit flow (`specs`/`directory`, `prepare`,
+  `save_to_palette`, `folder`, `overwrite`, `confirm_shadow`), with incremental ingest
+  into a per-user component store so first-party components are retrievable by KB search
+  and usable by `td_build_project`. Also exposed as an offline CLI launcher. See
+  `Tools/TOOLS.md` and `MCP/README.md`.
+
 ### Changed
 - **W1 Honest Parsers** (defect board A1–A5 + KF1, remediation map ticket 10): the Δ7
   registration parsers no longer silently corrupt the parameter metadata the assistant
@@ -42,6 +52,23 @@
   CM2), and `tests/engine/test_real_palette_parse.py` re-proves A1–A4 against the real
   TD 2025.32820 palette on machines that have it (skips elsewhere; nothing from the
   palette is committed).
+- **Agent-eval W7 re-bless** (v0.2.1 precondition B; defect-remediation map ticket 01):
+  the committed `eval/agent_eval/baseline.json` now carries the **18-tool** offline
+  identity (`register_component`, PR #37), clearing the Lane R `--compare` / nightly
+  kb-full refusal on `tool_inventory_hash` 17→18. Partial n=5 recapture (MERGES with
+  the prior baseline per PR #44) of **s05/s09/s10** (re-sampled + re-blessed, the
+  documented W7 command) and **s19–s21** (stats-only — their PR #37-era 18-tool traces
+  and the queued `review/` registration ledger are left intact; the rider only owes
+  them the baseline numbers gate membership is earned from). The other **11** scenarios
+  are reused verbatim, with the reuse + identity drift disclosed in
+  `_provenance.partial_recapture_model-20260717-232224`. All 30 model trials PASS,
+  spend **$7.14**; **gate set 7→11** (s09 promoted 0.6→5/5; s19/s20/s21 earned at n/n).
+  `scenario_set_version` 1.0.0→1.1.0. New **`user_store`** hard-identity field
+  (decision ⑥): `"absent"` for a hermetic (pinned-empty) run, else a content sha —
+  a dirty user store now refuses `--compare` instead of silently measuring KB ∪
+  user-store under a KB-only identity (`eval/agent_eval/tests/test_user_store_identity.py`).
+  Also folds in the Δ6c sanctioned-reuse README note; the stale s18 `_provenance`
+  sentence was already corrected upstream (PR #42).
 - **CI test-hardening** (2026-07-16 integrity-audit backlog + owner's P19 directive):
   collection floors raised to measured actuals (hermetic 93→431, engine-kb 195→581 —
   frozen since W3b while the suites quadrupled; docs/CI.md's tables were staler still at
@@ -75,6 +102,35 @@
   never-compared `git_sha` (`eval/agent_eval/tests/test_identity_tiers.py`).
 
 ### Fixed
+- **W2 Truth Surfaces — instruction-channel counts, labels, and paths regrounded**
+  (defect-remediation map ticket 11). The numbers, labels, and paths the model reads
+  now match reality: (1) the stale **`673` operator count** replaced with the **live-verified
+  truth**, re-measured against TouchDesigner **099.2025.32820**'s own `families[]` registry:
+  TD has **647** creatable operators (CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 ·
+  MAT 13 · POP 100), and the KB documents **640** of them. `KB/operators.json`'s 663 entries
+  are *not* a TD count — the set carries **23 fossils** (retired/renamed names such as
+  `CUDA TOP`, `SVG TOP`, `Font SOP`, `Web DAT`, `Band EQ CHOP`) and is **missing 7** real ops
+  (`textPOP`, `tracePOP`, `triangulatePOP`, `alembicoutPOP`, `tcpipDAT`, `freedinCHOP`,
+  `stypeinCHOP`), so `663 − 23 + 7 = 647`. Instruction surfaces (the two `td_designer`
+  prompts, the `td-builder-howto` and `td_network_analysis` SKILLs, root `README.md`,
+  `DEMO_WALKTHROUGH.md`) now quote **647/640**; `eval/` internals keep **663** but say
+  "KB entries", since that is the array the coverage code actually enumerates. The full
+  census + fossil/hole lists are recorded in `eval/ground_truth/README.md`; reconciling the
+  KB's *content* stays W3 Census Lock. The on-disk `metadata.total_operators: 673` is an
+  untracked generated artifact whose writers already emit `len(operators)`, so a KB rebuild
+  self-corrects it (no code change). (2) `eval/ground_truth/operator_types.json`
+  relabeled honestly as a **wiki scrape with synthesized `td_create` tokens** — including
+  5 never-real "phantom" POPs (Source/Attractor/Drag/Collision/Kill) — **not** a
+  "live-TD capture", in its README and `eval/predicates.py`. (3) The `td_validate`
+  pipeline's **"5-stage" name corrected to its real 7 stages** (adds `grounding` and
+  `component-source`) across ~10 prompts/docs/CLI. (4) `MCP/README.md`'s offline
+  enumeration now names all **18** tools (`register_component` was missing). (5) The
+  retired standalone `tox_builder/builder.py` references updated to the current
+  `MCP/server_core/meta_agentic/execution/tox_builder.py` in `docs/TOE_FORMAT_LEARNINGS.md`
+  and two `Agents/expertise/*.yaml` files; the phantom `glsl_swarm.tox`
+  `reference_implementation` dropped. (6) The dead `eval/build_gate/operator_ground_truth/`
+  path claim corrected to the real untracked corpus at `New KB build/Resources/`, and
+  `TD_USER_PALETTE_DIR` documented in `Config/SETTINGS.md`.
 - **Acceptance probe blind to the live client's error strings**
   (`tests/measure/probe.py`): `"TD Error: …"`, `"TD Error (401): …"`, `"Failed: …"` and
   `"Failed to get X: …"` all scored `ok=True`, so `assert r.ok` was toothless against

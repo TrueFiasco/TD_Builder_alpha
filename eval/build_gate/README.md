@@ -3,7 +3,10 @@
 Pre-release gate: proves the KB's build-critical data (op names, `.n` `FAMILY:type`
 tokens, parameter codes, defaults) actually **BUILDS valid TouchDesigner** through both
 the offline builder (`ToxBuilder`/`td_build_project`) and live TD, against the
-live-TD ground truth (`operator_ground_truth`, captured on TD 099.2025.32820).
+live-TD ground truth — the untracked main-tree corpus at
+`New KB build/Resources/operator_ground_truth/` (captured on TD 099.2025.32820).
+Bare `operator_ground_truth` references below resolve there via
+`gate_common.gt_dir()`, **not** to a directory under `eval/build_gate/`.
 
 It is the build-side complement to the retrieval gates (`eval/run_eval.py`,
 `eval/tool_coverage.py`) and reuses their scaffolding (offline env, KB resolvers that

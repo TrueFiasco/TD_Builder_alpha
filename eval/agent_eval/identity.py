@@ -27,10 +27,16 @@ KB_IDENTITY_FIELDS = ("kb_manifest_version", "kb_sha")
 # it stayed 1c81e8b4… across the 21→22 get_glsl_status change), so the live
 # inventory is stamped as its own field. Pre-existing baselines lack it — that
 # reads as "unknown" (warn, don't refuse) by design.
+# user_store (added 2026-07-16, W7 re-bless, owner decision ⑥): what USER
+# component store the run could see — "absent" for a hermetic (pinned-empty)
+# run, else a content sha. The W7 pins (mcp.eval.json.tmpl per-trial,
+# _server.py pre-import) should make every eval run "absent"; a deliberately
+# dirty run (or a pin regression) therefore REFUSES --compare instead of
+# silently measuring KB ∪ user-store under a KB-only identity.
 AGENT_IDENTITY_FIELDS = (
     "scenario_set_version", "model_id", "cli_version", "server_version",
     "kb_manifest_version", "kb_sha", "tool_inventory_hash",
-    "live_tool_inventory_hash", "guidance_hash",
+    "live_tool_inventory_hash", "guidance_hash", "user_store",
 )
 
 # Soft-warn tier (hygiene bundle H4b): mismatch prints a WARNING in --compare
@@ -122,6 +128,31 @@ def cli_version(cli: str = "claude") -> str | None:
 def tool_inventory_hash(tool_names) -> str:
     """sha256 of the sorted tool-name list (P01b's inventory, hashed)."""
     return sha256_text("\n".join(sorted(tool_names)))
+
+
+def user_store_identity(components_json: Path, index_dir: Path) -> str:
+    """Identity of the USER component store a run can see (W7, decision ⑥).
+
+    Returns the literal string "absent" when neither the user registry
+    (user_components.json) nor the user index manifest (user_index/
+    manifest.json) exists — the hermetic state every pinned eval run must be
+    in. Otherwise returns a sha256 over the bytes of whichever of the two
+    exists (registry first), so ANY visible user store — even an empty or
+    malformed registry file — flips the field and refuses --compare. The
+    chroma payload under user_index/ is deliberately NOT hashed (sqlite bytes
+    are not deterministic); the registry + self-signed manifest are the
+    durable content of record. Stdlib-only, mirrors kb_identity's shape.
+    """
+    components_json, index_dir = Path(components_json), Path(index_dir)
+    manifest = index_dir / "manifest.json"
+    present = [f for f in (components_json, manifest) if f.exists()]
+    if not present:
+        return "absent"
+    h = hashlib.sha256()
+    for f in present:
+        h.update(f.name.encode("utf-8") + b":")
+        h.update(sha256_file(f).encode("ascii"))
+    return h.hexdigest()
 
 
 def engine_code_hash(engine_root: Path) -> str | None:

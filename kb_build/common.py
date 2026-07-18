@@ -346,6 +346,17 @@ def enrich_param_rules(operators: list[dict]) -> int:
 # derivation and is NOT listed here is REPORTED, never overwritten -- so a future
 # operator whose class genuinely diverges from its OPType surfaces as a finding
 # instead of being silently clobbered.
+#
+# WHY 24 AND NOT THE 26 MEASURED BEFORE GT1: regenerating the ground truth
+# dissolved two of them, and neither was fixed by hand.
+#   * "Build a List COMP" is a fossil -- it left the ground truth with the
+#     census regeneration, so there is nothing left to disagree with.
+#   * "Art-Net DAT" was a FALSE mismatch: the wiki scrape's malformed
+#     `art-netDAT` token derived `art-netDAT_Class`, while the KB already held
+#     the correct `artnetDAT_Class`. The census supplies the real OPType
+#     (`artnetDAT`), so the two now agree.
+# Re-measured both ways against the same KB: 26 vs the old 685-entry file, 24 vs
+# the census-derived one, with ZERO new mismatches introduced by the regeneration.
 PYTHON_CLASS_OVERWRITE_VERIFIED: dict[tuple[str, str], str] = {
     ("POP", "Alembic In POP"): "alembicinPOP_Class",        # was alembicPOP_Class (doc-page title, wrong)
     ("CHOP", "Audio VST CHOP"): "audiovstCHOP_Class",       # was "send MIDI messages"

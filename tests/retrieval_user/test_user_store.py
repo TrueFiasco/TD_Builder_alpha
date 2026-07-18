@@ -452,3 +452,24 @@ def test_a8_remove_component_preserves_regime(stack, emb_model, tmp_path,
     assert man["embedding_model"].casefold() == "all-minilm-l6-v2"
     assert bool(man["normalize"]) is False and man["query_prefix"] == ""
     assert set(man["semantic_hash"]) == {"b"}
+
+
+def test_a8_commit_specs_refuses_without_touching_registry(stack, rs, emb_model,
+                                                           tmp_path, monkeypatch):
+    """commit_specs pre-checks the regime under the lock, BEFORE any registry
+    write — so a refused (regime-changed) commit never leaves the registry ahead
+    of the store."""
+    _register(monkeypatch, tmp_path,
+              {"seed": ("Seed comp.", ["CHOP:math"], None)}, emb_model)
+    reg_p = tmp_path / "user_components.json"
+    reg_before = reg_p.read_bytes()
+
+    _force_kb_regime(monkeypatch, rs, Y_NORM)
+    fixture = str(REPO / "tests" / "fixtures" / "user_components" / "pulseglow.tox.dir")
+    with pytest.raises(uc.UserComponentError) as ei:
+        uc.commit_specs([{"tox_path": fixture, "name": "pulseglow",
+                          "summary": "Should never reach the registry."}],
+                        model=emb_model)
+    assert ei.value.kind == "regime_mismatch"
+    assert reg_p.read_bytes() == reg_before, \
+        "registry must be byte-unchanged on a refused commit (no torn state)"

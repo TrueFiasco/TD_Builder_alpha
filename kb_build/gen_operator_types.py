@@ -105,6 +105,25 @@ def resolve_help_tree(census: dict, cli: Path | None) -> tuple[Path, str]:
         f"  Re-capture (python scripts/capture_td_census.py) or pass --help-tree.")
 
 
+def census_sha256(census_bytes: bytes) -> str:
+    """sha256 of the census in its CANONICAL (LF) form -- i.e. the git blob.
+
+    NOT the raw working-tree bytes. This repo runs `core.autocrlf=true` with no
+    .gitattributes, so on Windows every tracked JSON is CRLF in the working tree
+    and LF in the object store. Hashing raw bytes therefore records a
+    Windows-only value that matches nothing on a Linux checkout -- the ubuntu
+    hermetic lane reads LF bytes and the provenance test fails.
+
+    Normalising here makes the recorded hash platform-independent and equal to:
+        git show HEAD:eval/ground_truth/td_census.json | sha256sum
+    which is also what `sha256sum` gives directly on any LF checkout. Writers use
+    newline="\\n" as well, so a freshly generated tree needs no re-checkout to
+    agree -- but the normalisation is what makes it durable, since autocrlf will
+    re-introduce CRLF on the next Windows checkout regardless.
+    """
+    return hashlib.sha256(census_bytes.replace(b"\r\n", b"\n")).hexdigest()
+
+
 def _rel(path: Path) -> str:
     """Repo-relative when possible; --out may legitimately point outside the tree."""
     try:
@@ -141,8 +160,9 @@ def build(census: dict, help_idx: dict[str, list[str]], census_sha: str,
           help_tree: Path, help_source: str) -> dict:
     """Join census OPTypes to help-page names. Raises on any miss or ambiguity.
 
-    `census_sha` is the sha256 of the snapshot FILE bytes (so `sha256sum` on the
-    committed file reproduces it), passed in rather than recomputed here.
+    `census_sha` is census_sha256() of the snapshot -- its CANONICAL (LF) bytes,
+    not the raw working-tree bytes, so the value is the same on Windows and
+    Linux. Passed in rather than recomputed here.
     """
     operators: dict[str, list[dict]] = {}
     missing: list[tuple[str, str]] = []
@@ -253,7 +273,7 @@ def main() -> int:
               f"aborts.", file=sys.stderr)
 
     help_idx = index_help_pages(help_tree)
-    doc = build(census, help_idx, hashlib.sha256(census_bytes).hexdigest(),
+    doc = build(census, help_idx, census_sha256(census_bytes),
                 help_tree, help_source)
     text = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
 
@@ -269,6 +289,8 @@ def main() -> int:
         if not args.out.exists():
             print(f"\n  --check: {args.out} does not exist", file=sys.stderr)
             return 1
+        # read_text() already normalises newlines on read, so this
+        # comparison is CRLF-insensitive by construction.
         current = args.out.read_text(encoding="utf-8")
         if current != text:
             print(f"\n  --check: {_rel(args.out)} is STALE "
@@ -278,7 +300,9 @@ def main() -> int:
         return 0
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(text, encoding="utf-8")
+    # Explicit LF: without it, Python's text mode writes CRLF on Windows and the
+    # working tree stops matching its own git blob.
+    args.out.write_text(text, encoding="utf-8", newline="\n")
     print(f"\n  wrote {_rel(args.out)}")
     return 0
 

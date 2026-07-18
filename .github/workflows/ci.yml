@@ -2,11 +2,11 @@
 # runner rationale, floors, and the build-gate disposition).
 #
 #   docs-lint  : stdlib-only docs-consistency lint (scripts/docs_lint.py)
-#   hermetic   : the KB-free subset (559 as of 2026-07-18) on ubuntu+windows;
+#   hermetic   : the KB-free subset (555 as of 2026-07-18, CI-measured) on ubuntu+windows;
 #                the runner has NO KB and NO ML deps, so a mismarked/newly-
 #                KB-hungry test fails loudly here (physical enforcement of
 #                the requires_kb marker)
-#   engine-kb  : all engine+unit tests (728 as of 2026-07-18) with the
+#   engine-kb  : all engine+unit tests (724 as of 2026-07-18, CI-measured) with the
 #                release KB restored from cache (sha256-pinned via
 #                scripts/vector_db_release.json); still light deps —
 #                builders must never need the ML stack.
@@ -64,12 +64,19 @@ jobs:
           if [ -e KB/operators.json ]; then
             echo "KB/operators.json present on a hermetic runner — lane invalid"; exit 1
           fi
-      - name: Collection floor (silent-shrink guard; 55 by W1+W2a, 87 after W2d, 93 after W3b, 431 after the 2026-07-17 hardening catch-up, 559 after W3 Census Lock (+37 drift landed by #49/#50, +76 census-guard tests))
+      # FLOORS ARE CI-MEASURED, not measured on a dev box. chromadb is excluded
+      # by design from .github/requirements-light.txt, so tests/engine/test_chroma_guard.py
+      # (module-level importorskip) collects 6 here and 6 MORE on a machine that
+      # has chromadb installed -- a locally-measured floor reds this lane.
+      # History: 55 by W1+W2a; 87 after W2d; 93 after W3b; 431 at the 2026-07-17
+      # catch-up; 555 after W3 Census Lock (+31 was drift already on main from
+      # PR #49/#50, +93 is W3's census/guard suite).
+      - name: Collection floor (hermetic, silent-shrink guard)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit -m "not requires_kb" --co -q | grep -c "::" || true)
-          echo "hermetic tests collected: $n (floor 559)"
-          test "$n" -ge 559
+          echo "hermetic tests collected: $n (floor 555)"
+          test "$n" -ge 555
       - name: Hermetic tests (no KB, no ML deps)
         run: python -m pytest tests/engine tests/unit -m "not requires_kb" -q
 
@@ -107,11 +114,15 @@ jobs:
             KB/docked_contents.json
       - name: Fetch KB on cache miss (sha256-verified before extract)
         run: python scripts/fetch_vector_db.py
-      - name: Collection floor (all engine+unit; 145 by W1+W2a, 185 after W2b+W2d, 195 after W3b, 581 after the 2026-07-17 hardening catch-up, 728 after W3 Census Lock (+42 drift landed by #49/#50, +90 census-guard tests incl. 14 requires_kb))
+      # CI-measured, same chromadb caveat as the hermetic lane above (-6 vs a
+      # chromadb-equipped dev box). History: 145 by W1+W2a; 185 after W2b+W2d;
+      # 195 after W3b; 581 at the 2026-07-17 catch-up; 724 after W3 Census Lock
+      # (+36 pre-existing drift, +107 W3, incl. 14 requires_kb guard tests).
+      - name: Collection floor (engine+unit, silent-shrink guard)
         shell: bash
         run: |
           n=$(python -m pytest tests/engine tests/unit --co -q | grep -c "::" || true)
-          echo "engine+unit tests collected: $n (floor 728)"
-          test "$n" -ge 728
+          echo "engine+unit tests collected: $n (floor 724)"
+          test "$n" -ge 724
       - name: Engine + unit tests (KB present; TD-binary tests self-skip)
         run: python -m pytest tests/engine tests/unit -q

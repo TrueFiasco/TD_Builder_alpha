@@ -87,28 +87,63 @@ def test_no_phantom_operator_named(path):
         "help):\n  " + "\n  ".join(hits))
 
 
-def test_every_node_spec_type_in_network_patterns_is_creatable():
-    """Broadest-value assertion here: it caught all four fabricated types in the
-    particle_system pattern at once, plus four more wrong tokens in unrelated
-    patterns, without anyone knowing to look for them.
+def test_every_operator_reference_in_network_patterns_is_creatable():
+    """Every place a pattern NAMES an operator must name a real one.
 
-    Scoped to NODE SPECS -- mappings carrying both `name` and `type`, which is the
-    shape of a hierarchy entry. The key `type` is also used for connection kinds
-    ('wire', 'expression'), path kinds ('relative sibling') and GLSL template
-    kinds ('fragment_shader'); none of those are operators.
+    Two shapes carry operator names, and the first version of this test only
+    covered one of them:
+
+      * NODE SPECS -- a mapping with both `name` and `type` (a hierarchy entry)
+      * PARAMETER SPECS -- a mapping with an `operator:` key (a parameters entry)
+
+    Covering only node specs let `sliderCHOP` and `choptosopSOP` survive in
+    `parameters:` blocks of the very patterns whose hierarchies had just been
+    respelled -- internally contradictory, and structurally invisible to the
+    guard. Widened so that cannot recur.
+
+    The bare key `type` is deliberately NOT swept on its own: it also carries
+    connection kinds ('wire', 'expression'), path kinds ('relative sibling') and
+    GLSL template kinds ('fragment_shader'), none of which are operators.
+
+    SCOPED TO `design_patterns`, which holds concrete buildable specs. The
+    sibling `workflows` section is prose guidance and names operators
+    conversationally -- `operator: "analyze"`, `"beat"`, `"geometry"`, and
+    chains like "particle SOP" / "popnet" -- so holding it to OPType spelling
+    would be a category error. It is the same split that governed deleting
+    `design_patterns.particle_system` (fabricated, concrete, unbuildable) while
+    leaving `workflows.particle_system` (prose, self-labelled
+    `validated: false`) alone.
     """
     doc = yaml.safe_load(
         (EXPERTISE / "td_network_patterns.yaml").read_text(encoding="utf-8"))
     bad = []
-    for path, node in _walk(doc):
-        if "name" not in node or "type" not in node:
-            continue
-        t = node.get("type")
-        if isinstance(t, str) and t and t not in CENSUS_TYPES:
-            bad.append(f"{path}: name={node['name']!r} type={t!r}")
+    for path, node in _walk(doc.get("design_patterns") or {}, "$.design_patterns"):
+        # node spec: {name, type, ...}
+        if "name" in node and "type" in node:
+            t = node.get("type")
+            if isinstance(t, str) and t and t not in CENSUS_TYPES:
+                bad.append(f"{path}: name={node['name']!r} type={t!r}")
+        # parameter spec: {operator, param, value, ...}
+        op = node.get("operator")
+        if isinstance(op, str) and op and op not in CENSUS_TYPES:
+            bad.append(f"{path}: operator={op!r} param={node.get('param')!r}")
     assert bad == [], (
-        "these node specs name operators that are not creatable in the census -- "
+        "these references name operators that are not creatable in the census -- "
         "a pattern containing them cannot build:\n  " + "\n  ".join(bad))
+
+
+def test_no_phantom_spelling_survives_anywhere_in_network_patterns():
+    """Belt-and-braces over the structured check above: a raw text sweep for the
+    specific wrong spellings this wave corrected, so they cannot reappear in a
+    shape the parser-based test does not model (prose `cause:`/`fix:` guidance
+    named `geoCOMP` too, and that teaches the wrong token just as effectively)."""
+    text = (EXPERTISE / "td_network_patterns.yaml").read_text(encoding="utf-8")
+    wrong = ["sliderCHOP", "buttonCHOP", "choptosopSOP", "geoCOMP",
+             "addPOP", "sourcePOP", "forcePOP", "renderPOP"]
+    hits = [f"{w} (line {i})"
+            for i, line in enumerate(text.splitlines(), 1)
+            for w in wrong if w in line]
+    assert hits == [], "corrected spellings reappeared:\n  " + "\n  ".join(hits)
 
 
 def test_phantom_free_files_still_reference_real_operators():

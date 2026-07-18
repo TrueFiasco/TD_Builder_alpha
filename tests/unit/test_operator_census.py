@@ -142,12 +142,29 @@ def test_provenance_block_is_populated():
 
 
 def test_provenance_census_sha_matches_the_committed_snapshot():
-    import hashlib
-    actual = hashlib.sha256(
-        (REPO / "eval" / "ground_truth" / "td_census.json").read_bytes()).hexdigest()
-    assert GT["provenance"]["census_sha256"] == actual, (
+    """Uses the generator's own canonical hash, NOT raw file bytes.
+
+    This repo has core.autocrlf=true and no .gitattributes, so on Windows the
+    working tree is CRLF while the git blob is LF. Hashing raw bytes here would
+    make this test platform-dependent -- green on Windows, red on the ubuntu
+    hermetic lane -- which is exactly how it was written first.
+    """
+    from kb_build.gen_operator_types import census_sha256
+
+    census_bytes = (REPO / "eval" / "ground_truth" / "td_census.json").read_bytes()
+    assert GT["provenance"]["census_sha256"] == census_sha256(census_bytes), (
         "operator_types.json was generated from a DIFFERENT census than the one "
         "committed -- regenerate with kb_build/gen_operator_types.py")
+
+
+def test_census_sha_is_line_ending_independent():
+    """The canonical hash must be identical for CRLF and LF renderings of the
+    same content, or the provenance check is a platform coin-flip."""
+    from kb_build.gen_operator_types import census_sha256
+
+    lf = (REPO / "eval" / "ground_truth" / "td_census.json").read_bytes().replace(b"\r\n", b"\n")
+    crlf = lf.replace(b"\n", b"\r\n")
+    assert census_sha256(lf) == census_sha256(crlf)
 
 
 # Derived from the census, never hardcoded -- see

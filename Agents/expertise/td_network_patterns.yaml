@@ -472,8 +472,8 @@ design_patterns:
         value: "path/to/instance_source"
     common_errors:
       - error: "Geometry outside COMP"
-        cause: "Geometry SOP is sibling not child of geoCOMP"
-        fix: "Move geometry SOP inside geoCOMP"
+        cause: "Geometry SOP is sibling not child of geometryCOMP"
+        fix: "Move geometry SOP inside geometryCOMP"
       - error: "No render flag"
         cause: "Internal SOP missing render flag"
         fix: "Set render flag on internal geometry"
@@ -911,10 +911,10 @@ design_patterns:
       - operator: "containerCOMP"
         param: "h"
         value: "300"
-      - operator: "sliderCHOP"
+      - operator: "sliderCOMP"
         param: "rangex1"
         value: "0"
-      - operator: "sliderCHOP"
+      - operator: "sliderCOMP"
         param: "rangex2"
         value: "1"
     common_errors:
@@ -962,7 +962,7 @@ design_patterns:
         param: "firstcolumn"
         value: "names"
         note: "names=first col is channel names, values=first col is data"
-      - operator: "choptosopSOP"
+      - operator: "choptoSOP"
         param: "channelscope"
         value: "tx ty tz"
     common_errors:

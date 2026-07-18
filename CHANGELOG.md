@@ -62,14 +62,25 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
-- **CI collection floors raised to measured actuals** (W3 Census Lock): hermetic
-  **431 → 559**, engine-kb **581 → 728**. Itemised: the pre-wave actuals on
-  `4f17520` were already 468/623, so **+37/+42 was drift** that landed with
-  PR #49/#50 and the floors had not caught up; **+91/+105 is this wave** (91
-  hermetic census/guard/backfill/expertise tests, plus the 14 `requires_kb` guard
-  tests which only the engine-kb lane collects). Raising a floor is routine per
-  `docs/CI.md`; the pre-existing drift is disclosed rather than folded silently
-  into the new number.
+- **CI collection floors raised to CI-measured actuals** (W3 Census Lock):
+  hermetic **431 → 555**, engine-kb **581 → 724**. Itemised: the pre-wave CI
+  actuals on `4f17520` were already 462/617, so **+31/+36 was drift** that landed
+  with PR #49/#50 and the floors had not caught up; **+93/+107 is this wave**
+  (93 hermetic census/guard/backfill/expertise tests, plus the 14 `requires_kb`
+  guard tests which only the engine-kb lane collects).
+  **Floors are now measured the way CI measures them, and `docs/CI.md` says so.**
+  A dev box collects **6 more** than either lane because
+  `tests/engine/test_chroma_guard.py` carries a module-level
+  `importorskip("chromadb")` and chromadb is excluded by design from
+  `requirements-light.txt` — so a locally-measured floor reds the very lane it
+  protects. That is how this PR's first floor bump was wrong, and it is why the
+  convention is now written down.
+- **The KF1 chroma-guard suite now runs in a lane** (`kb-full`, floor 6). Found
+  while reconciling the above: those 6 tests ran in **no CI lane at all** — ci.yml
+  skips them at collection for want of chromadb, and kb-full (the only full-deps
+  job) never ran `tests/engine`. They guard the create-on-open behaviour behind
+  three historical `vector_db` losses, so a silent skip was the wrong failure
+  mode. Pre-existing gap from PR #49; this wave only exposed it.
 - **W1 Honest Parsers** (defect board A1–A5 + KF1, remediation map ticket 10): the Δ7
   registration parsers no longer silently corrupt the parameter metadata the assistant
   builds from, and no KB consumer can create-on-open a stub vector store. (A1) the
@@ -165,9 +176,12 @@
   HAS a class. It was a mirror artifact: the KB harvested class names from
   offline-help **class pages**, and that mirror ships under half the pages it
   references (1,442 `*_Class` names referenced, 656 shipped; 104 of the missing
-  are POP classes). Nulls **164 → 14**, the remaining 14 being exactly the
-  fossils, which stay null because a non-creatable operator has no class to
-  derive. The 24 populated-but-wrong values were arbitrated by **instantiating
+  are POP classes). Nulls **164 → 14**. All 14 remaining are fossils — a *subset*
+  of the 23, not an identity: the other 9 fossils keep the value the wiki parse
+  gave them (mostly plausible, like `fontSOP_Class`, plus debris like
+  `'Dependency Class'` on Build a List COMP). The 14 stay null because a
+  non-creatable operator has no class to derive; the 9 are left alone because
+  this backfill only fills nulls and W7c retires all 23 anyway. The 24 populated-but-wrong values were arbitrated by **instantiating
   each operator in live TouchDesigner** and reading `type(n).__name__` — all 24
   returned `type(n).__name__ == OPType == n.OPType` with the family matching.
   That method mattered: for `Alembic In POP` the offline-help page title

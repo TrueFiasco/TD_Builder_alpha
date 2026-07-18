@@ -69,6 +69,22 @@ jobs:
           key: hf-minilm-v1
           path: ~/.cache/huggingface
 
+      # KF1 chroma-guard suite. This ran in NO lane at all until W3 Census Lock
+      # exposed it while reconciling the collection floors: the tests carry a
+      # module-level `importorskip("chromadb")`, and chromadb is excluded by
+      # design from .github/requirements-light.txt, so on ci.yml's two lanes the
+      # module is skipped at collection and contributes 0. kb-full is the only
+      # job that installs the full deps, so it is the only place these can run.
+      # They guard the create-on-open behaviour behind three historical
+      # vector_db losses -- worth an explicit floor rather than a silent skip.
+      - name: KF1 chroma guard (only lane with chromadb installed)
+        shell: bash
+        run: |
+          python -m pytest tests/engine/test_chroma_guard.py -q | tee chroma_guard.log
+          passed=$(grep -Eo '[0-9]+ passed' chroma_guard.log | grep -Eo '[0-9]+' | head -1)
+          echo "chroma guard passed: ${passed:-0} (floor 6)"
+          test "${passed:-0}" -ge 6
+
       - name: Acceptance + measure (offline subset; live tests skip without TD)
         shell: bash
         run: |

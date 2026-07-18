@@ -293,7 +293,12 @@ def main() -> int:
         return 0
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(snapshot, indent=2) + "\n", encoding="utf-8")
+    # Explicit LF: the generator records a sha of this file and the ubuntu lane
+    # reads LF bytes, so the working tree must match its own git blob. (The
+    # generator also normalises when hashing -- autocrlf re-introduces CRLF on
+    # the next Windows checkout regardless of what we write here.)
+    args.out.write_text(json.dumps(snapshot, indent=2) + "\n",
+                        encoding="utf-8", newline="\n")
     print(f"\n  wrote {args.out.relative_to(REPO).as_posix()}")
     return 0
 

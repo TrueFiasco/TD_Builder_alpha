@@ -109,8 +109,20 @@ def test_a_corpus_twin_is_never_preferred_over_the_tracked_file():
     assert not missing.exists()
 
 
-def test_resolvers_prefer_the_tracked_file():
-    """Every default path must land on the tracked file, not a corpus copy."""
+def test_resolvers_prefer_the_tracked_file(tmp_path):
+    """Every default path must land on the tracked file, not a corpus copy.
+
+    HERMETIC ON PURPOSE. This first called `run_eval.resolve_kb_root(None)`, which
+    raises FileNotFoundError on a machine with no KB anywhere -- it passed locally
+    only because that resolver silently walks up to the MAIN TREE's KB when a
+    worktree has none. That is the same class of hidden environment dependence
+    this PR disclosed for module-scope reads, just at runtime instead of import
+    time, so the AST check could not see it.
+
+    `kb_root` only seeds resolve_gt_paths' fallback candidates, so handing it a
+    scratch directory both removes the dependence and strengthens the claim: the
+    tracked file must win for ANY kb_root, not just the real one.
+    """
     from paths import operator_types_path
 
     assert operator_types_path().resolve() == TRACKED.resolve()
@@ -118,7 +130,7 @@ def test_resolvers_prefer_the_tracked_file():
     sys.path.insert(0, str(REPO / "eval"))
     import run_eval
 
-    _, gt_types = run_eval.resolve_gt_paths(None, None, run_eval.resolve_kb_root(None))
+    _, gt_types = run_eval.resolve_gt_paths(None, None, tmp_path)
     assert gt_types.resolve() == TRACKED.resolve()
 
 

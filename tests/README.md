@@ -15,7 +15,7 @@ py -3.11 -m pytest tests\acceptance tests\measure -q     # ~34 checks
   With TD down they still pass via the graceful "not running" path. The CRUD round-trip
   (P19) additionally requires `TD_ACCEPT_LIVE=1` — it mutates the open project (inside a
   throwaway sandbox container), so a reachable port alone is not treated as consent.
-- The first KB-dependent test warms the knowledge base (~1–2 min, one-time).
+- The first KB-dependent test warms the knowledge base (typically 5–10+ min, one-time).
 
 ## Layout
 | File | Role |

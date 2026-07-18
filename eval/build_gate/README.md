@@ -14,9 +14,13 @@ read the gitignored KB from the MAIN tree, `GroundTruth`, `ParamDefaults`).
 
 ## Prerequisites
 - `py -3.11` (3.14 has no chromadb wheel).
-- In a worktree, hardlink the KB from the main tree first (OperatorRegistry resolves
-  `KB/operators.json` relative to its own `__file__`): hardlink `operators.json`,
-  `graphrag.json`, `knowledge_graph_enhanced.gpickle` + junction `vector_db`.
+- In a worktree, bring the KB over from the main tree first (OperatorRegistry resolves
+  `KB/operators.json` relative to its own `__file__`): per-FILE hardlink or real-copy
+  `operators.json` and `knowledge_graph_enhanced.gpickle`, and **real-copy** `vector_db/`,
+  `lexical_index/`, `models/`.
+  **Never use a directory junction** — recursive deletes traverse junctions and have twice
+  destroyed real KBs (remediation ticket 20). `graphrag.json` is *not* needed: it was retired
+  in the v0.2.0 KB redesign and its chunks now live as pointer chunks inside `vector_db/`.
 - TouchDesigner running with the `td-builder-live` MCP for Track B.
 
 ## Files

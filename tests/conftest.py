@@ -99,7 +99,7 @@ def probe(server):
     p = Probe(server)
     # The KB warm-up thread only starts in main(); when the server is imported
     # in-process the tool handlers just report "kb_warming". Trigger the blocking
-    # load ourselves so KB-dependent tests see a ready KB (~1-2 min, one-time).
+    # load ourselves so KB-dependent tests see a ready KB (~5-10+ min, one-time).
     ensure = getattr(server, "_ensure_kb", None)
     if callable(ensure):
         try:

@@ -261,7 +261,7 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
 # Lazy knowledge-base init  (FAST STARTUP — fixes Desktop init timeouts)
 # --------------------------------------------------------------------------
 # The enhanced graph (~37k nodes) + ChromaDB + sentence-transformers take
-# 1-2 min to load. Doing that at import blocks the MCP `initialize` handshake,
+# 5-10+ min to load. Doing that at import blocks the MCP `initialize` handshake,
 # so trivial tools (get_server_info) and the client connection itself time out
 # in Claude/ChatGPT Desktop — especially with multiple servers contending.
 # Fix: resolve bundle paths now (cheap) and DEFER the heavy construction to
@@ -596,7 +596,7 @@ _NON_NEGOTIABLES = load_instructions(
 app = Server("touchdesigner-mcp-server", instructions=_NON_NEGOTIABLES)
 
 SERVER_NAME = "touchdesigner-mcp-server"
-SERVER_VERSION = "0.2.0"
+SERVER_VERSION = "0.2.1"
 
 # Server <-> KB version-compat check (Wave 5). Computed here because it needs both
 # SERVER_VERSION (just defined) and the KB manifest version/td_build (loaded above).
@@ -2878,7 +2878,7 @@ async def main():
         file=sys.stderr,
     )
     # Warm the KB in the background so the first KB-dependent tool call
-    # doesn't pay the ~1-2 min load on a silent socket (clients time out at
+    # doesn't pay the ~5-10+ min load on a silent socket (clients time out at
     # ~4 min). Non-blocking: get_server_info / live-TD stay instant; a first
     # KB call either finds it already warm or briefly waits on _kb_lock.
     #

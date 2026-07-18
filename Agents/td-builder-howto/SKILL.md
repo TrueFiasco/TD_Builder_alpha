@@ -308,7 +308,7 @@ In a recent session, ~10% of all `execute_python_script` calls were doing one of
 
 ### What to do when the KB tool times out or returns "warming"
 
-KB tools may return `{"status": "kb_warming", "retry_after_seconds": N}` on a fresh session — the vector DB takes 1–2 min to load. If you see this: tell the user, wait the suggested time, and retry. Do **not** fall back to live introspection because the KB is slow — that's how the prior session ended up with zero KB lookups across 729 calls. Wait it out.
+KB tools may return `{"status": "kb_warming", "retry_after_seconds": N}` on a fresh session — the vector DB plus the reranker typically take **5–10+ minutes** to load after server start (measured; the old "1–2 min" figure was wrong). If you see this: tell the user it may take that long, wait the `retry_after_seconds` the response gives you, and retry — repeatedly if needed. Do **not** fall back to live introspection because the KB is slow — that's how the prior session ended up with zero KB lookups across 729 calls. Wait it out.
 
 ### What to do when the KB returns no exemplar
 

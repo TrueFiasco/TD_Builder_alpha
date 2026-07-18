@@ -82,6 +82,9 @@ def build_graph(kb_root: Path):
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         return mod.UnifiedGraphQuery(
+            # graphrag.json was retired in the v0.2.0 KB redesign and is absent from the
+            # shipped bundle; UnifiedGraphQuery treats a missing path as "enhanced graph
+            # only". Passed for signature compatibility, same as mcp_server.py does.
             graphrag_json_path=str(kb_root / "graphrag.json"),
             enhanced_graph_path=str(kb_root / "knowledge_graph_enhanced.gpickle"),
             enriched_wiki_path=str(kb_root / "operators.json"),
@@ -454,7 +457,7 @@ def main():
     probes = derive_probes(queries)
     print(f"KB: {kb_root}\nprobes: {len(probes['operators'])} operators, "
           f"{sum(len(p['codes']) for p in probes['params'])} param checks, "
-          f"{len(PATTERN_INTENTS)} pattern intents\nbuilding UnifiedGraphQuery (this loads graphrag.json + gpickle)...\n",
+          f"{len(PATTERN_INTENTS)} pattern intents\nbuilding UnifiedGraphQuery (this loads the gpickle graph)...\n",
           file=sys.stderr)
 
     kg = build_graph(kb_root)

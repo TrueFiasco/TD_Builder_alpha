@@ -16,7 +16,7 @@ macOS/Linux. A bare `python` is the system interpreter — no deps, `ImportError
 Set env `PYTHONIOENCODING=utf-8` (and `TD_BUILDER_ROOT=<RELEASE_ROOT>` for relocatability;
 `TD_API_URL=http://127.0.0.1:9981` for the live server). The full config shape is in
 [`../../MCP/README.md`](../../MCP/README.md) / `MCP/claude_desktop_config.json`. Confirm with
-`get_server_info` (version `0.2.0`).
+`get_server_info` (version `0.2.1`).
 
 ## Get better results
 - Before a complex build, ask the model to call **`get_expert_prompt`** and follow it (experts:

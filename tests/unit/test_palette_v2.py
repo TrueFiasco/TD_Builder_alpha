@@ -242,6 +242,15 @@ def test_build_envelopes_surface_palette_drop_warnings(registry, tmp_path):
     # must carry the warnings so the assistant SEES the drop
     import asyncio
     import mcp_server as srv
+    from paths import resolve_td_tool
+    if resolve_td_tool("toecollapse") is None:
+        # Unlike this module's parse-level tests, this one drives the FULL
+        # build (collapse included) to reach the real tool envelopes — on a
+        # TD-free machine (hosted engine-kb lane) the envelope is honestly
+        # ERROR, so self-skip per the lane's TD-binary contract (PR #41
+        # pattern).
+        pytest.skip("needs the TD 'toecollapse' binary to produce a SUCCESS "
+                    "build envelope")
 
     design = {"operators": [
         {"name": "glowE", "palette": "myUserComp", "position": [0, 0],

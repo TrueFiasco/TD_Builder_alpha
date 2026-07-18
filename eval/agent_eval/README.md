@@ -288,7 +288,7 @@ transcript (always countable, even on a truncated stream).
 Every result and baseline embeds an identity block. The **hard (refuse) tier**
 is `AGENT_IDENTITY_FIELDS`:
 `{scenario_set_version, model_id, cli_version, server_version, kb_manifest_version,
-kb_sha, tool_inventory_hash, live_tool_inventory_hash, guidance_hash}`.
+kb_sha, tool_inventory_hash, live_tool_inventory_hash, guidance_hash, user_store}`.
 `--compare` **refuses** on any hard-tier mismatch (`--allow-identity-drift`
 overrides, marking the report NON-COMPARABLE) — except that a REPLAY-lane sweep
 compared against a model-lane baseline excludes `model_id`/`cli_version`/
@@ -302,6 +302,14 @@ separate td-builder-live surface from its STATIC tool list — no running TD
 needed; proven blind spot: the offline hash stayed constant across the live
 21→22 `get_glsl_status` change. Baselines predating a field read as
 *unknown* (warn, never refuse).
+`user_store` (added at the 2026-07-16 W7 re-bless, owner decision ⑥) stamps
+what USER component store the run could see: the literal `"absent"` for a
+hermetic (pinned-empty) run — which every eval run must be, via the W7
+`TD_BUILDER_USER_DIR`/`TD_USER_PALETTE_DIR` pins (`tests/measure/_server.py`
+pre-import; the `mcp.eval*.json.tmpl` per-trial dirs) — else a content sha
+over the user registry + index manifest, so a deliberately-dirty run (or a
+hermeticity-pin regression) refuses `--compare` instead of silently measuring
+KB ∪ user-store under a KB-only identity.
 
 The **soft (warn) tier** is `AGENT_IDENTITY_WARN_FIELDS`:
 `{engine_code_hash}` — a newline-normalized hash of `MCP/engine/**/*.py`, the
@@ -415,6 +423,28 @@ Before tagging any post-remediation release:
 
 ## Changelog
 
+- **1.1.0 / W7 re-bless** (2026-07-18, main @ `05e6a98`; capture run
+  `model-20260717-232224`): refreshed `baseline.json` to the **18-tool** offline
+  identity (`register_component`, PR #37) so Lane R `--compare` and the nightly
+  kb-full stop refusing on `tool_inventory_hash` 17→18 (v0.2.1 precondition B).
+  **Partial recapture** (n=5, MERGES per PR #44): s05/s09/s10 re-sampled **and
+  re-blessed** (the documented W7 command), s19–s21 re-sampled **stats-only** —
+  their #37-era 18-tool traces and the queued `review/` ledger are left intact,
+  since the rider only owes them the baseline numbers gate membership is *earned*
+  from. The other **11** scenarios are reused verbatim;
+  `_provenance.partial_recapture_model-20260717-232224` lists the reuse and the
+  identity drift. All 30 model trials PASS; spend **$7.14** (under the $25 cap).
+  **Gate set 7→11:** s09 promoted (0.6→5/5) and s19/s20/s21 earned membership at
+  n/n; aspirational is now s02/s04/s06/s07/s11/s13. New **`user_store`** hard
+  identity field (decision ⑥) — see § Versioning & identity.
+  **Sanctioned reuse (Δ6c):** the 11 reused records' model statistics were
+  sampled under the **pre-PR #24/#26** hybrid_search envelope; #24/#26 changed the
+  hit shape (`parameter_names`/`score_kind`/`parameters_capped`/`compact` +
+  sequence-block collapse) *after* those samples, but every reused blessed trace
+  re-replays PASS against the new envelopes (Lane R verdicts byte-identical across
+  sweeps), so the reused statistics stay meaning-stable. The top-level identity
+  block describes the **recaptured** scenarios only; the drift is on the record in
+  `_provenance`.
 - **1.0.0 / W7 register_component companion** (2026-07-16, main @ 1e84d76): added
   **s19–s21** for the 18th offline tool (PR #37) — s19 register→search roundtrip
   (owner goal: a custom comp can be ADDED and then FOUND), s20 exact-name

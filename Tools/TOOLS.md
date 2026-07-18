@@ -25,7 +25,7 @@ message rather than failing.
 ### offline Builder tools (build · validate · analyze `.toe`·`.tox`)
 | Tool | Purpose | Key inputs |
 |---|---|---|
-| `td_validate` | 5-stage validation (schema→semantic→reference→logical→TD-rules) | `network`, `format_layer`, `verbose` |
+| `td_validate` | 7-stage validation (schema→semantic→grounding→reference→component-source→logical→TD-rules) | `network`, `format_layer`, `verbose` |
 | `td_convert` | Convert between format layers (builder/canonical) | `network`, `source_layer`, `target_layer` |
 | `td_build_project` | Build a `.tox`/`.toe` from a design dict | `network_design`/`design`, `project_name`, `output_dir`, `mode` |
 | `td_build_status` | Poll an async build started with `td_build_project(async_build=true)` | `job_id` |

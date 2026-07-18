@@ -210,7 +210,7 @@ def test_c4_success_claim_over_missing_artifact_fails(tmp_path):
 def test_c4_validation_is_out_of_band_not_self_report(tmp_path):
     work = tmp_path / "work"
     work.mkdir()
-    # build a REAL artifact but feed a design that FAILS the 5-stage pipeline;
+    # build a REAL artifact but feed a design that FAILS the 7-stage pipeline;
     # the agent's own td_validate claims valid. Out-of-band validation must
     # still FAIL the scenario (criterion 4 + §4.2).
     _build_lfo_chain(work)

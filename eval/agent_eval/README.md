@@ -140,7 +140,7 @@ code + mode + value). Assertion vocabulary (closed set, in `score.py`):
   the artifact), `min_total_ops`, `min_families`, `absent`.
 - `response` (model lane only): `must_match` / `must_not_match` over the
   assistant text.
-- `validate`: `"PASS"` runs the 5-stage `ValidationPipeline` **out-of-band** on
+- `validate`: `"PASS"` runs the 7-stage `ValidationPipeline` **out-of-band** on
   the built design (we do NOT trust the agent's own `td_validate` — whether it
   *called* it is a separate trace assertion). `null` skips it (used where the
   design crosses a palette/external_tox placeholder boundary the validator can't
@@ -315,7 +315,7 @@ The **soft (warn) tier** is `AGENT_IDENTITY_WARN_FIELDS`:
 `{engine_code_hash}` — a newline-normalized hash of `MCP/engine/**/*.py`, the
 builder/validation code that produced the run. It closes the `server_version`
 blind spot (a hand-bumped constant that stayed `"0.2.0"` while the validation
-pipeline went 4→6 stages). It flips on any engine edit, comments included,
+pipeline went 4→6 stages, and is 7 on current main). It flips on any engine edit, comments included,
 which is exactly why it **warns and proceeds** — never refuses, never touches
 the exit code. It stays unstamped in the committed baseline until the next
 `--capture-baseline`. The block also carries `git_sha` (the commit the sweep

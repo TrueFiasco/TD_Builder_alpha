@@ -148,7 +148,15 @@ def gt_dir() -> Path:
 
 
 def operator_types_json() -> Path:
-    return gt_dir() / "operator_types.json"
+    """TRACKED eval/ground_truth/operator_types.json (corpus copy = legacy fallback).
+
+    Deliberately NOT gt_dir()-derived: the corpus twin is untracked, so resolving
+    it here made local runs and CI grade against different files the moment either
+    was regenerated. gt_dir() stays corpus-pointed for params/ and tox_expanded/,
+    which really do live only there.
+    """
+    from paths import operator_types_path
+    return operator_types_path(legacy_fallback=gt_dir() / "operator_types.json")
 
 
 def params_dir() -> Path:

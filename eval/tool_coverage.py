@@ -439,7 +439,14 @@ def main():
     out_path = Path(args.out).resolve()
     # GT resolved INDEPENDENTLY of --kb (flags win) so it stays valid for a rebuilt KB.
     gt_ops, gt_types = run_eval.resolve_gt_paths(args.gt_operators, args.gt_types, kb_root)
-    params_dir = (Path(args.params_dir) if args.params_dir else gt_types.parent / "params").resolve()
+    # NOT gt_types.parent/"params": since W3 gt_types resolves to the TRACKED
+    # eval/ground_truth/, which has no params/. The param captures are live-TD
+    # artifacts (~31 MB) that genuinely live only in the main-tree corpus, so
+    # resolve them from the corpus directly.
+    _mt = run_eval._main_tree() or run_eval.REPO_ROOT
+    params_dir = (Path(args.params_dir) if args.params_dir
+                  else _mt / "New KB build" / "Resources"
+                       / "operator_ground_truth" / "params").resolve()
 
     gt = GroundTruth(operators_json=gt_ops, operator_types_json=gt_types)
     defaults = ParamDefaults(params_dir)

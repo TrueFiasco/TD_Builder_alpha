@@ -47,6 +47,10 @@ AGENT_IDENTITY_FIELDS = (
 # builder changes that materially altered behavior (baseline _provenance
 # mixed_snapshot_disclosure: s01-s09 captured on a 4-stage validation
 # pipeline, s10-s14 on a 6-stage one, identity blind to the difference).
+# Those two numbers are HISTORY and stay as written -- they describe the
+# pipeline each snapshot actually ran on. Current main runs SEVEN stages
+# (MCP/engine/validation/pipeline.py appends 7); the "2.5"/"3.5" stage labels
+# in that file's comments are why 5 and 6 keep being miscounted.
 AGENT_IDENTITY_WARN_FIELDS = ("engine_code_hash",)
 
 

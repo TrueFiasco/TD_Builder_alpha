@@ -1,55 +1,125 @@
-# eval/ground_truth — committed CI snapshot
+# eval/ground_truth — the census, and the operator list generated from it
 
-`operator_types.json` (~60 KB) is a **wiki-scrape-derived** operator name list
-(`{family -> [{name, td_create}]}`, 685 entries) — **NOT a live-TouchDesigner
-capture.** Its `td_create` tokens are SYNTHESIZED by string-munging TouchDesigner
-wiki page titles (the untracked
-`New KB build\Resources\operator_ground_truth\extract_all_operators.py`), not read
-from a running TD, so it includes 5 never-real "phantom" POPs — `Source_POP`, `Attractor_POP`,
-`Drag_POP`, `Collision_POP`, `Kill_POP` — that carry no TD class and are absent
-from the live operator registry (see the 2026-07-17 ground-truth audit). Treat it
-as a permissive **name-integrity allowlist**, not as census ground truth.
+Two committed files, one generated from the other:
 
-`eval/run_eval.py`'s name-integrity gate requires it — `eval/predicates.py`
-`GroundTruth.__init__` reads it unconditionally, so without this file the
-retrieval eval cannot run on a fresh clone (e.g. the kb-full CI lane; see
-`docs/CI.md`).
+| file | what it is |
+|---|---|
+| `td_census.json` (~52 KB) | a versioned dump of **TouchDesigner's own `families[]` class registry** at build `099.2025.32820` — the creatable-operator authority, 647 entries, plus each operator's inheritance chain. Captured by `scripts/capture_td_census.py`. This is CI's stand-in for a live TouchDesigner. |
+| `operator_types.json` (~48 KB) | `{family -> [{name, td_create}]}`, **647 entries, generated from the census** by `kb_build/gen_operator_types.py`. It is a subset of reality **by construction**. |
 
-## The three operator counts — which is real
+`eval/predicates.py` `GroundTruth.__init__` reads `operator_types.json`
+unconditionally, so without it the retrieval eval cannot run on a fresh clone
+(the kb-full CI lane; see `docs/CI.md`).
 
-Re-verified live 2026-07-17 against TouchDesigner **099.2025.32820**'s own
-`families[]` registry (the creatable-operator authority):
+## What changed, and why it mattered
+
+Until W3 Census Lock this file was a **wiki scrape**. Its `td_create` tokens were
+synthesized by string-munging wiki page titles, and it was wrong in *both*
+directions:
+
+- it **invented 13 operators** that have never existed — `Source_POP`,
+  `Attractor_POP`, `Drag_POP`, `Collision_POP`, `Kill_POP`, `Add_POP`,
+  `Velocity_POP`, `Analyze_DAT`, `Fuse_SOP`, `Mirror_SOP`, `Normals_SOP`,
+  `Scatter_SOP`, `Gradient_TOP` (the first five were the known set; the census
+  surfaced the other eight);
+- it **omitted 7 real ones**;
+- it carried **6 tutorial articles** as if they were operators (`Write_a_*`);
+- and it double-counted one operator under two spellings (`FIFO_DAT` and
+  `Fifo_DAT`), which is why its own header said 685 while it held 684 distinct
+  tokens.
+
+The harm was not a retrieval miss. A model asked to receive FreeD camera-tracking
+data found the retired `FreeD CHOP`, tried it, and got a node that would not
+create — while the operator that actually does the job, `freedinCHOP`, was
+invisible. A miss degrades gracefully; a confident wrong answer does not.
+
+## The three counts — which is which
+
+Live-verified against `families[]` at **099.2025.32820**, twice.
 
 | number | what it actually is |
 |---|---|
-| **647** | **TouchDesigner's real creatable operator count** — CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 · MAT 13 · POP 100. **This is the count to quote for "how many operators does TD have".** |
-| **663** | entries in `KB/operators.json` — *not* a TD count. It carries **23 fossils** (names not creatable in this build) and is **missing 7** real ops, so `663 − 23 + 7 = 647`. Real KB coverage is **640 of 647**. |
-| **685** | entries in this wiki-scraped `operator_types.json` — **not a superset**; it is wrong in *both* directions. It invents the 5 phantom POPs **and** omits 4 real ones (`textPOP`, `tracePOP`, `triangulatePOP`, `alembicoutPOP`). Never treat it as a coverage floor. |
+| **647** | **TouchDesigner's creatable operator count** — CHOP 165 · TOP 146 · SOP 112 · DAT 71 · COMP 40 · MAT 13 · POP 100. Quote this for "how many operators does TD have". Also the size of `operator_types.json`. |
+| **663** | entries in `KB/operators.json` — *not* a TD count. 23 fossils, 7 missing, so `663 − 23 + 7 = 647`. |
+| **640** | **KB coverage** of the census (663 − 23). Quote this for "how much does the KB cover". |
 
-### Why the KB has holes — and where the correct source already lives
+`scripts/census_guard.py` asserts all three mechanically, and
+`scripts/docs_lint.py` checks that the docs quoting them still agree.
 
-The 4 missing POPs above are exactly 4 of the KB's 7 coverage holes: the KB
-inherited them from this scrape. But TouchDesigner **ships** authoritative docs
-locally, at
-`C:\Program Files\Derivative\TouchDesigner\Samples\Learn\OfflineHelp\https.docs.derivative.ca\`
-— and that tree covers **647 of 647** live operators (`Text_POP.htm`,
-`Trace_POP.htm`, `Triangulate_POP.htm`, `Alembic_Out_POP.htm` all present; note
-`TCP/IP_DAT.htm` is nested because its page name contains a slash). It also has
-**no page for any of the 5 phantom POPs** — an independent confirmation that
-they were never real.
+## Regenerating
 
-So the two reliable sources are already on disk, and they are complementary:
+```powershell
+# 1. capture the registry (needs TouchDesigner RUNNING and NOT minimized --
+#    a minimized TD accepts the socket but never answers)
+py -3.11 scripts/capture_td_census.py --dry-run   # verify 647 first
+py -3.11 scripts/capture_td_census.py
+
+# 2. regenerate the operator list from it (needs a local TD install for names)
+py -3.11 kb_build/gen_operator_types.py
+py -3.11 kb_build/gen_operator_types.py --check   # byte-identical?
+
+# 3. re-verify
+py -3.11 scripts/census_guard.py
+py -3.11 scripts/census_guard.py --self-test
+```
+
+The capture **refuses to write** if the total moves off 647 unless you pass
+`--allow-count-change --reason "..."`. A count change is either a TD upgrade or a
+broken capture, and the second is far more likely.
+
+### The two sources, and what each is authoritative for
 
 | source | authoritative for | caveat |
 |---|---|---|
 | live `families[]` registry | **what is creatable** (647) | needs TD running |
-| offline help tree | **what is documented** (647/647) | retains pages for retired ops (`Font_SOP.htm`, `CUDA_TOP.htm`, `UDT_In_DAT.htm`), so it is a documentation superset, not a creatable list |
+| offline help **operator** pages | **how names are spelled** (647/647) | a documentation superset — it retains pages for retired ops (`Font_SOP.htm`, `CUDA_TOP.htm`), so it is not a creatable list |
+| offline help **class** pages | *nothing* | **under half complete**: 1,442 `*_Class` names are referenced, only 656 ship. `Bind_CHOP.htm` links `bindCHOP_Class`, which is not in the tree at all. Do not use it to arbitrate class names — use live TD. |
 | wiki scrape | *nothing* | invents and omits |
 
-**Recommendation for W3 Census Lock:** seed the operator set from the live
-registry (creatable truth) and take documentation from the offline help tree —
-never from the wiki scrape. That combination structurally excludes phantoms (no
-page **and** not creatable) and closes holes (page **and** creatable).
+The intersection is what makes both failure modes cancel: the registry excludes
+phantoms and fossils, the help tree guarantees every real operator has a name.
+Names are **not** derivable from the OPType (`rerangePOP` → `ReRange_POP`,
+`choptoPOP` → `CHOP_to_POP`, `oakselectPOP` → `OAK_Select_POP`) and TD's own
+spelling is inconsistently cased (`NVIDIA_Flex_TOP` but
+`Nvidia_Flow_Emitter_COMP`), so the join normalises to alphanumerics. The
+generator **aborts** rather than synthesising a name it cannot find.
+
+> **The help-tree path is not hardcoded anywhere.** The capture records
+> `app.installFolder` and `app.samplesFolder` from the running TouchDesigner, and
+> the generator resolves the docs tree from the census by default — so it is, by
+> definition, the tree that shipped with the TouchDesigner the census came from.
+> Resolution order: `--help-tree` (explicit) → the census's `offline_help_root` →
+> discovery by build under `Program Files`. Whichever won is recorded in
+> `operator_types.json` `provenance.help_tree_resolved_from`.
+>
+> This matters because TouchDesigner install roots are **version-stamped**
+> (`...\TouchDesigner.2025.32820`), so the unversioned `...\Derivative\TouchDesigner\`
+> directory is a *different, older* build on a multi-install machine. Deriving
+> from the census makes picking the wrong one impossible without asking for it.
+> (`TCP/IP_DAT.htm` nests into a subdirectory because its page name contains a slash.)
+
+### After a TouchDesigner upgrade
+
+A TD upgrade will land before W7c's rebuild. The response is a **re-invocation,
+not a code edit** — no file in `scripts/` or `kb_build/` carries a build number,
+and `tests/unit/test_operator_census.py` fails if one appears:
+
+```powershell
+py -3.11 scripts/capture_td_census.py --dry-run --expect-build 099.2025.XXXXX
+py -3.11 scripts/capture_td_census.py --expect-build 099.2025.XXXXX \
+    --allow-count-change --reason "TD upgrade 32820 -> XXXXX"
+py -3.11 kb_build/gen_operator_types.py        # finds the new docs tree itself
+```
+
+Then **re-pin deliberately** — the guard is *supposed* to go red on an operator-set
+change, and a human decides what the new truth is: `FAMILY_PINS`, `EXPECTED_BUILD`,
+`EXPECTED_TOTAL`, and the two allowlists in `scripts/census_guard.py`, plus
+`expected_*` in `scripts/docs_lint_rules.json` and the compound claims in the five
+instruction surfaces. `py -3.11 scripts/census_guard.py` lists exactly what moved.
+
+## Still outstanding — W7c's worklist
+
+These are KB **content** changes; they need a re-embed and are not this file's job.
 
 **23 fossils in the KB** (retired or renamed away): `Band EQ CHOP`,
 `Parametric EQ CHOP` (→ `audiobandeqCHOP`/`audioparaeqCHOP`), `FreeD CHOP`,
@@ -62,38 +132,38 @@ page **and** not creatable) and closes holes (page **and** creatable).
 **7 real ops the KB is missing:** `freedinCHOP`, `stypeinCHOP`, `tcpipDAT`,
 `alembicoutPOP`, `textPOP`, `tracePOP`, `triangulatePOP`.
 
-Reconciling the KB's content (retiring fossils, adding the holes) is
-**W3 Census Lock** (board GT1/GT5) — this file only records the measurement.
+Both lists are pinned as allowlists in `scripts/census_guard.py`, with anti-rot
+checks: an entry that stops being a hole (or a fossil) is itself a finding, so
+the lists cannot silently accumulate dead names.
 
-**The real live-capture corpus** is the (untracked) main-tree
-`New KB build\Resources\operator_ground_truth\` — its `sampling_results.json`
-(641 success / 0 failed / 44 skipped) and expanded-`.toe` evidence are the
-actual per-operator TouchDesigner captures. That directory ALSO carries a copy of
-this same wiki-scrape `operator_types.json`; **this committed file is a pinned
-snapshot of that copy for CI**, not a second source of truth — local runs of
-`run_eval.py` keep defaulting to the corpus copy; CI passes
-`--gt-types eval/ground_truth/operator_types.json` explicitly.
+## Provenance and licensing
 
-- **TD build pin:** `0.99.2025.32460` — the KB v0.2 capture pin recorded in
-  `KB/manifest.json` `td_build`. The wiki scrape itself is not version-locked;
-  this pin describes the corpus harvest it was filed alongside.
-- **Do NOT hand-regenerate for a census correction.** Dropping the phantom-5 and
-  reconciling the 685-vs-663 count against a real live census is tracked as
-  **W3 Census Lock** (board GT1), not a `Copy-Item`. The historical snapshot
-  refresh (after a corpus re-harvest against a new TD pin — keep the two in
-  lockstep, and re-run the eval + build gates when they move) was:
+- **TD build pin:** `099.2025.32820`, recorded **inside** `td_census.json` (not
+  only in this prose) so tests can assert it. Note `KB/manifest.json` still pins
+  the KB's own capture at `0.99.2025.32460` — the KB is 360 builds older, which
+  is why a few "fossils" are really cross-version renames.
+- **Licensing note:** committed with owner sign-off (2026-07-04, extended to the
+  census 2026-07-18). The content (operator display names, class names, and the
+  inheritance chain) is a strict subset of the information already published in
+  the v0.2.0 release asset's `operators.json` and in TouchDesigner's own shipped
+  documentation.
 
-  ```powershell
-  # from the main tree root
-  Copy-Item "New KB build\Resources\operator_ground_truth\operator_types.json" `
-            "eval\ground_truth\operator_types.json"
-  ```
+## The corpus, and the twin that used to live there
 
-- **Licensing note:** committed with owner sign-off (2026-07-04). The content
-  (operator display names + `td_create` class names) is a strict subset of the
-  information already published in the v0.2.0 release asset's `operators.json`.
+The per-operator **live-capture corpus** is the untracked main-tree
+`New KB build\Resources\operator_ground_truth\` — `sampling_results.json`
+(641 success / 0 failed / 44 skipped), `params/` and `tox_expanded/` (~31 MB).
+That directory stays untracked on purpose: it feeds the build gate's Track A,
+which needs TouchDesigner's `toeexpand`/`toecollapse` binaries and cannot run on
+hosted CI at all.
 
-The rest of the corpus (`tox_expanded/`, `params/`, ~31 MB) stays untracked on
-purpose: it feeds the build gate's Track A, which needs TouchDesigner's own
-`toeexpand`/`toecollapse` binaries and therefore cannot run on hosted CI at
-all — see the build-gate disposition in `docs/CI.md`.
+It also used to hold a byte-identical **copy** of `operator_types.json`. CI read
+the tracked file; every local default read the copy. They agreed only by being
+identical — so regenerating either would have made local runs and CI grade
+against different ground truth, silently. Since W3 every resolver prefers the
+tracked file (`paths.operator_types_path()`), with the corpus path kept only as a
+legacy fallback, and `tests/unit/test_ground_truth_no_twin.py` fails if any
+source file starts constructing the corpus path again.
+
+**The `params/` and `tox_expanded/` directories still resolve from the corpus** —
+only the operator list moved. Never derive one from the other's parent.

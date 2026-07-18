@@ -13,6 +13,23 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
+- **Agent-eval W7 re-bless** (v0.2.1 precondition B; defect-remediation map ticket 01):
+  the committed `eval/agent_eval/baseline.json` now carries the **18-tool** offline
+  identity (`register_component`, PR #37), clearing the Lane R `--compare` / nightly
+  kb-full refusal on `tool_inventory_hash` 17→18. Partial n=5 recapture (MERGES with
+  the prior baseline per PR #44) of **s05/s09/s10** (re-sampled + re-blessed, the
+  documented W7 command) and **s19–s21** (stats-only — their PR #37-era 18-tool traces
+  and the queued `review/` registration ledger are left intact; the rider only owes
+  them the baseline numbers gate membership is earned from). The other **11** scenarios
+  are reused verbatim, with the reuse + identity drift disclosed in
+  `_provenance.partial_recapture_model-20260717-232224`. All 30 model trials PASS,
+  spend **$7.14**; **gate set 7→11** (s09 promoted 0.6→5/5; s19/s20/s21 earned at n/n).
+  `scenario_set_version` 1.0.0→1.1.0. New **`user_store`** hard-identity field
+  (decision ⑥): `"absent"` for a hermetic (pinned-empty) run, else a content sha —
+  a dirty user store now refuses `--compare` instead of silently measuring KB ∪
+  user-store under a KB-only identity (`eval/agent_eval/tests/test_user_store_identity.py`).
+  Also folds in the Δ6c sanctioned-reuse README note; the stale s18 `_provenance`
+  sentence was already corrected upstream (PR #42).
 - **CI test-hardening** (2026-07-16 integrity-audit backlog + owner's P19 directive):
   collection floors raised to measured actuals (hermetic 93→431, engine-kb 195→581 —
   frozen since W3b while the suites quadrupled; docs/CI.md's tables were staler still at

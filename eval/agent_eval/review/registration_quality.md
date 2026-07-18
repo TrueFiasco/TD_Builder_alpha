@@ -32,7 +32,7 @@ Entries: **3**
 
 <sub>committed: retrievable=True · chunks=3 · shadows_shipped=False</sub>
 
-`Specificity: _/2   Correctness: _/2   Searchability: _/2   → verdict: ____`
+`Specificity: 2/2   Correctness: 2/2   Searchability: 2/2   → verdict: __6/6__`
 
 ---
 
@@ -58,7 +58,7 @@ Entries: **3**
 
 <sub>committed: retrievable=True · chunks=3 · shadows_shipped=False</sub>
 
-`Specificity: _/2   Correctness: _/2   Searchability: _/2   → verdict: ____`
+`Specificity: 2/2   Correctness: 2/2   Searchability: 2/2   → verdict: 6/6`
 
 ---
 
@@ -84,6 +84,6 @@ Entries: **3**
 
 <sub>committed: retrievable=True · chunks=3 · shadows_shipped=False</sub>
 
-`Specificity: _/2   Correctness: _/2   Searchability: _/2   → verdict: ____`
+`Specificity: 2/2   Correctness: 2/2   Searchability: 2/2   → verdict: 6/6`
 
 ---

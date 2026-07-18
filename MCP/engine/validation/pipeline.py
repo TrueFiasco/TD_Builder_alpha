@@ -1,6 +1,6 @@
 """Validation Pipeline - Orchestrates multi-stage validation.
 
-Runs all 5 validation stages in sequence and aggregates results.
+Runs all 7 validation stages in sequence and aggregates results.
 """
 
 import sys

@@ -382,7 +382,8 @@ def _kb_check(needs_semantic: bool = False) -> Optional[Dict[str, Any]]:
         return {
             "status": "kb_warming",
             "message": (
-                "KB is still loading (~1–2 min after server start). "
+                "KB is still loading (typically 5–10+ min after server start, "
+                "and 20+ min if TouchDesigner is booting alongside it). "
                 "Wait and retry; do NOT fall back to live introspection — "
                 "the answer is in the KB."
             ),
@@ -1597,9 +1598,10 @@ async def list_tools() -> list[Tool]:
             annotations=READ_ONLY,
             name="td_validate",
             description=(
-                "Validate a TouchDesigner network JSON against the unified 5-stage validation pipeline. "
+                "Validate a TouchDesigner network JSON against the unified 7-stage validation pipeline. "
                 "Returns validation report with errors, warnings, and suggestions. "
-                "Stages: Schema -> Semantic -> Reference -> Logical -> TD Rules."
+                "Stages: Schema -> Semantic -> Grounding -> Reference -> Component wiring "
+                "-> Logical -> TD Rules."
             ),
             inputSchema={
                 "type": "object",
@@ -1735,8 +1737,11 @@ async def list_tools() -> list[Tool]:
                 "retrievable:true once the live search index has reloaded — same "
                 "session, no restart. Commits re-parse the .tox (stateless; "
                 "operator_count is echoed so a prepare/commit mismatch is visible).\n"
-                "save_to_palette=true copies each .tox into "
-                "<user palette>/<folder>/ and registers it palette-relative "
+                "save_to_palette=true copies each .tox into TouchDesigner's user "
+                "palette root (app.userPaletteFolder — by default "
+                "Documents/Derivative/Palette; override with the "
+                "TD_USER_PALETTE_DIR env var) under /<folder>/, and registers it "
+                "palette-relative "
                 "(source 'user'); existing files are refused unless overwrite=true, "
                 "and a name that shadows a shipped Derivative palette component "
                 "additionally requires confirm_shadow=true (shadowed builds resolve "
@@ -1773,7 +1778,7 @@ async def list_tools() -> list[Tool]:
                     "save_to_palette": {
                         "type": "boolean",
                         "default": False,
-                        "description": "Copy each .tox into <user palette>/<folder>/ and register it palette-relative (source 'user')."
+                        "description": "Copy each .tox into the user palette root (app.userPaletteFolder, default Documents/Derivative/Palette; TD_USER_PALETTE_DIR overrides) under /<folder>/ and register it palette-relative (source 'user')."
                     },
                     "folder": {
                         "type": "string",
@@ -1990,7 +1995,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
                     "data": None,
                     "error": kb_err,
                     "meta": {"tool": name, "server": SERVER_NAME},
-                }, indent=2),
+                }),
             )]
 
     result = await _dispatch_tool(name, arguments)
@@ -2005,7 +2010,7 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
             type="text",
             text=json.dumps({
                 "kb_health": {"status": "kb_partial", "message": _KB_REASON},
-            }, indent=2),
+            }),
         )]
     return result
 
@@ -2053,7 +2058,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
 
             return [TextContent(
                 type="text",
-                text=json.dumps(results, indent=2)
+                text=json.dumps(results)
             )]
 
         elif name == "register_component":
@@ -2087,7 +2092,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                         "ok": False, "data": None,
                         "error": {"kind": kind, "message": message},
                         "meta": {"tool": name, "server": SERVER_NAME},
-                    }, indent=2))]
+                    }))]
 
                 specs = arguments.get("specs")
                 directory = arguments.get("directory")
@@ -2116,7 +2121,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                                  "'parameter_descriptions') for each spec, then call "
                                  "register_component again with prepare=false to commit"),
                         "meta": {"tool": name, "server": SERVER_NAME},
-                    }, indent=2, ensure_ascii=False))]
+                    }, ensure_ascii=False))]
 
                 # Commit. Pass the server's query encoder into the engine — it unwraps
                 # the raw sentence-transformer itself (passages must NEVER be embedded
@@ -2151,7 +2156,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     "ok": bool(committed),
                     "results": results,
                     "meta": {"tool": name, "server": SERVER_NAME},
-                }, indent=2, ensure_ascii=False))]
+                }, ensure_ascii=False))]
             finally:
                 sys.stdout = _saved_stdout
 
@@ -2193,7 +2198,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                         "in another family."
                     ),
                 }
-                return [TextContent(type="text", text=json.dumps(not_found, indent=2))]
+                return [TextContent(type="text", text=json.dumps(not_found))]
 
             # Compact mode: return essential fields + all params with types
             if compact and info:
@@ -2250,12 +2255,12 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 }
                 return [TextContent(
                     type="text",
-                    text=json.dumps(compact_info, indent=2)
+                    text=json.dumps(compact_info)
                 )]
 
             return [TextContent(
                 type="text",
-                text=json.dumps(info, indent=2)
+                text=json.dumps(info)
             )]
         
         elif name == "query_graph":
@@ -2321,7 +2326,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     }
                     return [TextContent(
                         type="text",
-                        text=json.dumps(compact_result, indent=2)
+                        text=json.dumps(compact_result)
                     )]
 
             else:
@@ -2329,7 +2334,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
 
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
         
         elif name == "list_pop_operators":
@@ -2352,7 +2357,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             ]
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "find_operator_examples":
@@ -2373,7 +2378,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             )
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "find_operator_combination":
@@ -2387,7 +2392,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             )
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "find_parameter_usage":
@@ -2421,12 +2426,12 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 }
                 return [TextContent(
                     type="text",
-                    text=json.dumps(compact_result, indent=2)
+                    text=json.dumps(compact_result)
                 )]
 
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "find_similar_networks":
@@ -2437,7 +2442,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             result = knowledge_graph.find_similar_networks(example_id, limit)
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "get_parameter_detail":
@@ -2486,7 +2491,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
 
             return [TextContent(
                 type="text",
-                text=json.dumps(param_detail, indent=2)
+                text=json.dumps(param_detail)
             )]
 
         elif name == "get_network_patterns":
@@ -2496,7 +2501,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             result = knowledge_graph.get_network_patterns(min_frequency)
             return [TextContent(
                 type="text",
-                text=json.dumps(result, indent=2)
+                text=json.dumps(result)
             )]
 
         elif name == "td_build_project":
@@ -2546,7 +2551,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                         "message": "Unknown operator types — not in registry",
                         "unknown_types": sorted(set(unknown)),
                         "hint": "Use query_graph(command='family') or hybrid_search to look up valid types.",
-                    }, indent=2))]
+                    }))]
 
             # Opt-in async (R2-A): run the build in a background thread and return a job id
             # immediately, so a long build never hits the MCP client's ~45s tool-call timeout.
@@ -2558,7 +2563,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     "status": "STARTED",
                     "job_id": job_id,
                     "hint": "Poll td_build_status with this job_id; the .tox completes on disk.",
-                }, indent=2))]
+                }))]
 
             # Synchronous (default, unchanged behavior).
             result = await _run_build(network_design, design, table_data,
@@ -2567,13 +2572,13 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             # rides the build result to surfaces where instructions= is dropped.
             if isinstance(result, dict):
                 result.setdefault("non_negotiables", "docs/NON_NEGOTIABLES.md")
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            return [TextContent(type="text", text=json.dumps(result))]
 
         elif name == "td_build_status":
             job_id = arguments.get("job_id")
             if not job_id:
                 return [TextContent(type="text", text=json.dumps({
-                    "status": "ERROR", "message": "Missing required argument 'job_id'."}, indent=2))]
+                    "status": "ERROR", "message": "Missing required argument 'job_id'."}))]
             with _build_lock:
                 job = _build_jobs.get(job_id)
                 snapshot = dict(job) if job else None
@@ -2582,19 +2587,19 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     "status": "ERROR",
                     "message": f"Unknown job_id: {job_id}",
                     "hint": "Job ids are not persisted across server restarts.",
-                }, indent=2))]
+                }))]
             started = snapshot.get("started")
             if started is not None:
                 end = snapshot.get("finished") or time.time()
                 snapshot["elapsed"] = round(end - started, 2)
-            return [TextContent(type="text", text=json.dumps(snapshot, indent=2, default=str))]
+            return [TextContent(type="text", text=json.dumps(snapshot, default=str))]
 
         elif name == "td_validate":
             if not UNIFIED_SYSTEM_ENABLED:
                 return [TextContent(type="text", text=json.dumps({
                     "error": "Unified system validation not available",
                     "hint": "Check unified_system imports"
-                }, indent=2))]
+                }))]
 
             try:
                 network_json = arguments.get("network")
@@ -2617,7 +2622,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                         "error": f"format_layer '{format_layer}' is not implemented in this release.",
                         "hint": "Use 'builder' or 'canonical'. 'extended' is the internal in-memory "
                                 "representation and has no JSON form to validate.",
-                    }, indent=2))]
+                    }))]
 
                 # Validate
                 project_name = network_json.get("meta", {}).get("project_name", "network")
@@ -2643,20 +2648,20 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                             "warnings": len(stage_report.warnings)
                         }
 
-                return [TextContent(type="text", text=json.dumps(result, indent=2))]
+                return [TextContent(type="text", text=json.dumps(result))]
             except Exception as e:
                 import traceback
                 return [TextContent(type="text", text=json.dumps({
                     "error": f"Validation error: {str(e)}",
                     "traceback": traceback.format_exc()
-                }, indent=2))]
+                }))]
 
         elif name == "td_convert":
             if not UNIFIED_SYSTEM_ENABLED:
                 return [TextContent(type="text", text=json.dumps({
                     "error": "Unified system format converter not available",
                     "hint": "Check unified_system imports"
-                }, indent=2))]
+                }))]
 
             try:
                 network_json = arguments.get("network")
@@ -2679,7 +2684,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                         "error": f"format layer '{bad}' is not implemented in this release.",
                         "hint": "Use 'builder' or 'canonical'. Conversion already passes through the "
                                 "internal Extended (TDNetwork) hub; it has no JSON form to emit or ingest.",
-                    }, indent=2))]
+                    }))]
 
                 # Convert source -> Extended hub (in-memory)
                 if source_layer == "builder":
@@ -2693,13 +2698,13 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 else:  # canonical
                     result_json = _converter.to_canonical(network)
 
-                return [TextContent(type="text", text=json.dumps(result_json, indent=2))]
+                return [TextContent(type="text", text=json.dumps(result_json))]
             except Exception as e:
                 import traceback
                 return [TextContent(type="text", text=json.dumps({
                     "error": f"Conversion error: {str(e)}",
                     "traceback": traceback.format_exc()
-                }, indent=2))]
+                }))]
 
         elif name == "get_expert_prompt":
             expert_name = arguments["expert_name"]
@@ -2752,7 +2757,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 },
                 "meta": {"tool": "get_server_info", "server": SERVER_NAME},
             }
-            return [TextContent(type="text", text=json.dumps(info, indent=2))]
+            return [TextContent(type="text", text=json.dumps(info))]
 
         elif name == "expand_toe_file":
             import shutil as _shutil
@@ -2767,7 +2772,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 return [TextContent(type="text", text=json.dumps({
                     "ok": False, "data": None, "error": err,
                     "meta": {"tool": "expand_toe_file", "server": SERVER_NAME},
-                }, indent=2))]
+                }))]
 
             toe_path_arg = arguments.get("toe_path") or arguments.get("path")
             out_mode = (arguments.get("mode") or "summary").lower()
@@ -2843,7 +2848,7 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 _meta["truncated"] = True
             return [TextContent(type="text", text=json.dumps({
                 "ok": True, "data": data, "meta": _meta,
-            }, indent=2, default=str))]
+            }, default=str))]
 
         # (Live-TD tools are dispatched by the separate td-builder-live server;
         # this offline server has no live handlers.)

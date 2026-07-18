@@ -770,15 +770,91 @@ def _load_embedder(regime: dict):
     return SentenceTransformer(regime["model_id"])
 
 
+def _regime_differs(manifest: dict, regime: dict) -> bool:
+    """True if the store manifest's recorded regime differs from `regime` on any
+    of the three fields the boot guard compares (model_id casefolded, normalize,
+    query_prefix). Mirrors retrieval_stack's user-store health check EXACTLY so
+    ingest refuses on precisely the mismatches the boot guard would refuse."""
+    return (str(manifest.get("embedding_model") or "").casefold()
+                != str(regime["model_id"]).casefold()
+            or bool(manifest.get("normalize")) != bool(regime["normalize"])
+            or (manifest.get("query_prefix") or "") != (regime["query_prefix"] or ""))
+
+
+def _manifest_regime_or_current(manifest: dict) -> dict:
+    """Regime for a manifest REWRITE, resolved all-or-nothing (AN1): preserve the
+    manifest's regime verbatim when it records ALL THREE fields, else fall back to
+    the current KB regime as a UNIT. Never synthesise a mixed regime — a preserved
+    model_id paired with a defaulted normalize/query_prefix could spuriously pass
+    or fail the boot guard's three-field compare."""
+    if (manifest.get("embedding_model")
+            and "normalize" in manifest and "query_prefix" in manifest):
+        return {"model_id": manifest["embedding_model"],
+                "normalize": bool(manifest["normalize"]),
+                "query_prefix": manifest.get("query_prefix") or ""}
+    return _resolve_user_regime()
+
+
+def _user_store_vector_count() -> int:
+    """Number of vectors in the user collection (0 if the store is absent)."""
+    _client, coll = _open_user_collection(create=False)
+    if coll is None:
+        return 0
+    return len(coll.get().get("ids") or [])
+
+
+def _guard_regime_change(regime: dict, allow_regime_change: bool) -> None:
+    """Refuse-hard (A8) if adopting `regime` would CHANGE an existing store's
+    recorded regime without authorisation — BEFORE any embed or write, so the
+    manifest stays byte-unchanged and no vectors are upserted. Incremental ingest
+    must never mix embedding spaces: one re-commit after a regime change would
+    otherwise flip the boot guard from REFUSED to ACCEPTED while every
+    un-recommitted component keeps stale-regime vectors.
+
+    A regime change is authorised ONLY for an explicit reindex
+    (allow_regime_change=True) AND only when the store holds zero vectors — the
+    flag is independently VERIFIED against the store, never merely trusted, so a
+    regressed caller cannot silently re-open the hole. First ingest (no manifest
+    regime) and a same-regime re-commit are no-ops. The default (no-flag) path is
+    a pure manifest read — no chromadb. Regime change is exclusively
+    reindex_all's job."""
+    prev = _read_user_manifest()
+    if not prev.get("embedding_model") or not _regime_differs(prev, regime):
+        return
+    if not allow_regime_change:
+        raise UserComponentError(
+            "regime_mismatch",
+            f"user store was built under embedding regime "
+            f"{prev.get('embedding_model')!r} but the current KB regime is "
+            f"{regime['model_id']!r}. Incremental ingest cannot mix embedding "
+            f"spaces (the un-recommitted components would keep stale-regime "
+            f"vectors and every retrieval would be geometrically wrong). Re-embed "
+            f"the whole user store: `py -3.11 kb_build/register_user_component.py "
+            f"--reindex-all` (or call kb_build.user_components.reindex_all()).")
+    n = _user_store_vector_count()
+    if n:
+        raise UserComponentError(
+            "regime_mismatch",
+            f"allow_regime_change set on a NON-EMPTY user store ({n} vectors): a "
+            f"regime change must drop every existing vector first. Use "
+            f"reindex_all(), which wipes before it re-embeds.")
+
+
 def ingest_incremental(rows: List[dict], semantic_hashes: Dict[str, str],
-                       model=None) -> Dict[str, int]:
+                       model=None, *, allow_regime_change: bool = False
+                       ) -> Dict[str, int]:
     """Embed + upsert the given block rows into the user store; name-scoped
     delete first (never delete by the NEW rows' ids — that strands stale chunks
     when a re-registered comp's chunk count shrinks); manifest updated with the
     regime + merged semantic_hash map. Caller holds the commit lock.
 
+    Refuses (A8) BEFORE any write if adopting the current regime would change an
+    existing store's regime without authorisation — regime change is exclusively
+    reindex_all's job (it passes allow_regime_change=True after wiping the store).
+
     Returns {name: chunk_count}."""
     regime = _resolve_user_regime()
+    _guard_regime_change(regime, allow_regime_change)  # refuse-hard BEFORE any write
     by_name: Dict[str, List[dict]] = {}
     for r in rows:
         by_name.setdefault(r["meta"]["name"], []).append(r)
@@ -827,12 +903,9 @@ def remove_component(name: str, registry_path=None) -> dict:
             manifest = _read_user_manifest()
             hashes = dict(manifest.get("semantic_hash") or {})
             hashes.pop(name, None)
-            regime = {
-                "model_id": manifest.get("embedding_model") or
-                _resolve_user_regime()["model_id"],
-                "normalize": manifest.get("normalize", False),
-                "query_prefix": manifest.get("query_prefix", ""),
-            }
+            # AN1: preserve the stored regime all-or-nothing — never pair the
+            # current model_id with defaulted normalize/query_prefix (a mix).
+            regime = _manifest_regime_or_current(manifest)
             _write_user_manifest(hashes, regime)
     return {"name": name, "removed_from_registry": existed,
             "chunks_deleted": chunks_deleted}
@@ -857,7 +930,10 @@ def reindex_all(model=None, registry_path=None) -> dict:
             hashes[name] = semantic_hash_of_entry(entry)
         counts: Dict[str, int] = {}
         if rows:
-            counts = ingest_incremental(rows, hashes, model=model)
+            # the store was just wiped above — this is the ONE authorised path
+            # allowed to adopt a changed regime (verified empty by the guard).
+            counts = ingest_incremental(rows, hashes, model=model,
+                                        allow_regime_change=True)
         else:
             _write_user_manifest({}, _resolve_user_regime())
     return {"components": len(comps), "chunks": sum(counts.values())}
@@ -994,6 +1070,10 @@ def commit_specs(specs: List[dict], *, save_to_palette: bool = False,
 
     if staged:
         with commit_lock():
+            # A8: refuse a regime-changing commit up front — before any registry
+            # write — so a mismatch never leaves the registry ahead of the store
+            # (ingest_incremental re-checks as the last line of defence).
+            _guard_regime_change(_resolve_user_regime(), allow_regime_change=False)
             for name, entry, _rows in staged:
                 replaced = upsert_registry_entry(name, entry)
                 for res in results:

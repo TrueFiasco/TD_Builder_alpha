@@ -362,3 +362,114 @@ def test_t6_rs_disable_dense_only_adapter(tmp_path, monkeypatch):
     assert adapter.retrieval_stack is None
     ok, reason = adapter.reload_user_store()
     assert not ok and "dense-only" in reason
+
+
+# ---------------------------------------------------------------------------
+# A8 — the ingest regime-rewrite landmine (map ticket 04): an incremental
+# re-commit must NOT silently "heal" a store the boot guard correctly refuses.
+# Same-model, flags-only regime change (normalize + query_prefix) keeps the
+# vector dimension fixed — the realistic same-dimension silent-poison case.
+# ---------------------------------------------------------------------------
+Y_NORM = {"model_id": "all-MiniLM-L6-v2", "normalize": True,
+          "query_prefix": "query: "}
+
+
+def _force_kb_regime(monkeypatch, rs, regime):
+    """Make BOTH the ingest side (uc) and the boot-guard side (retrieval_stack)
+    resolve `regime` — simulating a KB re-embed WITHOUT touching the real KB. An
+    EMBEDDING_MODEL env override that disagrees with the KB manifest hard-raises
+    in _resolve_embedding (search_docs.py), so monkeypatch is the only clean
+    lever that flips both surfaces uniformly."""
+    monkeypatch.setattr(uc, "_resolve_user_regime", lambda: dict(regime))
+    monkeypatch.setattr(rs._search_docs_mod(), "_resolve_embedding",
+                        lambda root: dict(regime))
+
+
+def test_a8_recommit_does_not_silently_heal(stack, rs, emb_model, tmp_path,
+                                            monkeypatch):
+    monkeypatch.delenv("TD_BUILDER_TRUST_KB", raising=False)   # never false-green
+    _register(monkeypatch, tmp_path,
+              {"heal": ("A8 silent-heal fixture.", ["CHOP:math"], None)}, emb_model)
+    mp = tmp_path / "user_index" / "manifest.json"
+    man_before = mp.read_bytes()
+
+    # KB re-embeds to a new regime. The store, built under the old one, is now
+    # correctly REFUSED by the boot guard (manifest regime != KB regime).
+    _force_kb_regime(monkeypatch, rs, Y_NORM)
+    ok, reason = stack.reload_user_store(tmp_path / "user_index")
+    assert not ok and "regime mismatch" in reason and stack._user is None
+
+    # A re-commit under the changed regime must REFUSE — not rewrite the manifest
+    # to the new regime (which is exactly the silent heal A8 describes).
+    with pytest.raises(uc.UserComponentError) as ei:
+        _register(monkeypatch, tmp_path,
+                  {"heal2": ("Second comp, post-regime-change.", [], None)},
+                  emb_model)
+    assert ei.value.kind == "regime_mismatch"
+    assert mp.read_bytes() == man_before, "manifest must be byte-unchanged on refusal"
+
+    # the heal is dead: the boot guard STILL refuses (it would have ACCEPTED with
+    # stale-regime vectors still in the store, pre-fix).
+    ok, reason = stack.reload_user_store(tmp_path / "user_index")
+    assert not ok and "regime mismatch" in reason and stack._user is None
+    assert stack.search("blur an image", 3), "KB-only search unaffected"
+
+
+def test_a8_reindex_all_is_the_authorised_regime_change(stack, rs, emb_model,
+                                                        tmp_path, monkeypatch):
+    """The refusal's named remedy actually works: reindex_all (wipe-then-embed)
+    is the ONE path allowed to adopt a new regime — on a now-empty store."""
+    _register(monkeypatch, tmp_path,
+              {"comp": ("Reindex fixture.", ["CHOP:math"], None)}, emb_model)
+    _force_kb_regime(monkeypatch, rs, Y_NORM)
+
+    # a bare incremental ingest is refused on the populated store...
+    with pytest.raises(uc.UserComponentError):
+        uc.ingest_incremental(
+            [{"id": "x", "text": "t", "meta": {"name": "comp"}}],
+            {"comp": "h"}, model=emb_model)
+
+    # ...but reindex_all is authorised and adopts the new regime cleanly.
+    res = uc.reindex_all(model=emb_model,
+                         registry_path=tmp_path / "user_components.json")
+    assert res["components"] == 1
+    man = json.loads((tmp_path / "user_index" / "manifest.json").read_text("utf-8"))
+    assert bool(man["normalize"]) is True and man["query_prefix"] == "query: "
+    ok, _ = stack.reload_user_store(tmp_path / "user_index")
+    assert ok, "store is consistent again after the authorised reindex"
+
+
+def test_a8_remove_component_preserves_regime(stack, emb_model, tmp_path,
+                                              monkeypatch):
+    """AN1 integration: removing a comp rewrites the manifest with the STORED
+    regime preserved as a unit — never the current model_id paired with
+    defaulted normalize/query_prefix."""
+    _register(monkeypatch, tmp_path,
+              {"a": ("Comp A.", ["CHOP:math"], None),
+               "b": ("Comp B.", ["CHOP:lfo"], None)}, emb_model)
+    uc.remove_component("a", registry_path=tmp_path / "user_components.json")
+    man = json.loads((tmp_path / "user_index" / "manifest.json").read_text("utf-8"))
+    assert man["embedding_model"].casefold() == "all-minilm-l6-v2"
+    assert bool(man["normalize"]) is False and man["query_prefix"] == ""
+    assert set(man["semantic_hash"]) == {"b"}
+
+
+def test_a8_commit_specs_refuses_without_touching_registry(stack, rs, emb_model,
+                                                           tmp_path, monkeypatch):
+    """commit_specs pre-checks the regime under the lock, BEFORE any registry
+    write — so a refused (regime-changed) commit never leaves the registry ahead
+    of the store."""
+    _register(monkeypatch, tmp_path,
+              {"seed": ("Seed comp.", ["CHOP:math"], None)}, emb_model)
+    reg_p = tmp_path / "user_components.json"
+    reg_before = reg_p.read_bytes()
+
+    _force_kb_regime(monkeypatch, rs, Y_NORM)
+    fixture = str(REPO / "tests" / "fixtures" / "user_components" / "pulseglow.tox.dir")
+    with pytest.raises(uc.UserComponentError) as ei:
+        uc.commit_specs([{"tox_path": fixture, "name": "pulseglow",
+                          "summary": "Should never reach the registry."}],
+                        model=emb_model)
+    assert ei.value.kind == "regime_mismatch"
+    assert reg_p.read_bytes() == reg_before, \
+        "registry must be byte-unchanged on a refused commit (no torn state)"

@@ -233,11 +233,14 @@ def resolve_gt_paths(cli_ops, cli_types, kb_root: Path):
     if cli_types:
         gt_types = Path(cli_types)
     else:
-        cands = []
+        # TRACKED file first (W3 Census Lock). It used to be corpus-first, so CI
+        # (which passes --gt-types explicitly) and local runs read different
+        # copies of the same name -- fine only while they stayed byte-identical.
+        cands = [REPO_ROOT / "eval" / "ground_truth" / "operator_types.json"]
         if mt:
             cands.append(mt / "New KB build" / "Resources" / "operator_ground_truth" / "operator_types.json")
         cands.append(kb_root.parent / "New KB build" / "Resources" / "operator_ground_truth" / "operator_types.json")
-        gt_types = next((c for c in cands if c.exists()), cands[-1])
+        gt_types = next((c for c in cands if c.exists()), cands[0])
     return gt_ops.resolve(), gt_types.resolve()
 
 

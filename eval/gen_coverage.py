@@ -56,7 +56,9 @@ from pathlib import Path
 EVAL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_DIR.parent
 sys.path.insert(0, str(EVAL_DIR))
+sys.path.insert(0, str(REPO_ROOT))
 from predicates import GroundTruth, _norm  # reuse the harness's resolver + norm  # noqa: E402
+from paths import operator_types_path  # noqa: E402  (tracked-GT-first since W3)
 
 FAMILIES = ["CHOP", "TOP", "SOP", "DAT", "COMP", "MAT", "POP"]
 GENERATOR_VERSION = "0.6.1"
@@ -882,8 +884,10 @@ def main():
     kb_root = resolve_kb_root(args.kb).resolve()
     res = resolve_resources(args.resources, kb_root).resolve()
     gt_ops = Path(args.gt_operators) if args.gt_operators else kb_root / "operators.json"
+    # W3 Census Lock: TRACKED ground truth first; the untracked corpus twin is a
+    # legacy fallback only (they diverge the moment either is regenerated).
     gt_types = Path(args.gt_types) if args.gt_types else \
-        res / "operator_ground_truth" / "operator_types.json"
+        operator_types_path(legacy_fallback=res / "operator_ground_truth" / "operator_types.json")
     print(f"KB:        {kb_root}\nResources: {res}", file=sys.stderr)
 
     gt = GroundTruth(operators_json=gt_ops, operator_types_json=gt_types)

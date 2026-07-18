@@ -11,8 +11,8 @@ self-hosted** (pre-CLA public-PR RCE risk).
 | Job | Trigger | Runner | Deps | KB | Runs | Gate |
 |---|---|---|---|---|---|---|
 | `docs-lint` | PR + push | ubuntu | none (stdlib) | – | `python scripts/docs_lint.py` | exit code |
-| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **431** |
-| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **581** |
+| `hermetic` | PR + push | ubuntu **+** windows | `.github/requirements-light.txt` | **absent** (guard step enforces) | `pytest tests/engine tests/unit -m "not requires_kb" -q` | 0 failures + collection floor **555** |
+| `engine-kb` | PR + push | windows | same light list | cached release fetch | `pytest tests/engine tests/unit -q` | 0 failures + collection floor **724** |
 | `kb-full` | nightly + dispatch | windows | full `pip install ".[dev]"` | cached release fetch + HF model cache | acceptance+measure, then `tests/retrieval_user`, then retrieval eval vs committed baseline | 0 failures + pass floors **22** (acceptance) / **12** (retrieval_user); `scripts/ci_compare_eval.py` exit code |
 
 **Runner rationale.** The repo is public (hosted minutes are free), so the
@@ -56,20 +56,28 @@ silently pass. Measured partition (2026-07-04, after W2b's GLSL suite + W2d's
 +32 integrity tests): `tests/engine + tests/unit` collect **185** tests =
 **87 hermetic** (11 engine + 76 unit) + **98 requires_kb**.
 Re-measured 2026-07-17 (test-hardening catch-up, incl. the
-`test_feedback_spine.py` move into `tests/unit/`): **581** collected =
-**431 hermetic + 150 requires_kb**.
+`test_feedback_spine.py` move into `tests/unit/`, then W3 Census Lock):
+**724** collected = **555 hermetic + 169 requires_kb** (CI-measured; a dev box with chromadb installed sees 6 more in each, from `tests/engine/test_chroma_guard.py`).
 
 ## Floors (silent-shrink guards)
 
 | Floor | Value | Measured by | Meaning |
 |---|---|---|---|
-| hermetic collection | ≥ 431 | W1 (53) + W2a (+2) = 55; W2d +32 → 87; W3b +6 → 93; **2026-07-17 catch-up → 431** (measured 431/581 collected, 150 deselected; +37 from the feedback-spine move, +1 live-fixture unmark, remainder = floor drift since W3b while tests kept landing) | deselection can't quietly eat the lane |
-| engine-kb collection | ≥ 581 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185; W3b +10 → 195; **2026-07-17 catch-up → 581** (measured with KB present; +38 feedback-spine move, remainder = drift) | whole engine+unit surface stays collected |
+| hermetic collection | ≥ 555 | W1 (53) + W2a (+2) = 55; W2d +32 → 87; W3b +6 → 93; 2026-07-17 catch-up → 431; **W3 Census Lock → 555** (CI-measured 555/724, 169 deselected; +31 was drift already on main from #49/#50, +93 are this wave's census/guard tests). Measure floors the way CI does: chromadb is excluded from `requirements-light.txt`, so a dev box collects 6 more | deselection can't quietly eat the lane |
+| engine-kb collection | ≥ 724 | W1 (143) + W2a (+2) + W2b GLSL suite = 153; W2d +32 → 185; W3b +10 → 195; 2026-07-17 catch-up → 581; **W3 Census Lock → 724** (CI-measured with KB present; +36 pre-existing drift, +107 this wave incl. the 14 `requires_kb` guard tests) | whole engine+unit surface stays collected |
 | kb-full acceptance passes | ≥ 22 | W1 rehearsal with TD down: **22 passed, 4 skipped, 0 failed** (26/26 locally with live TD **and `TD_ACCEPT_LIVE=1`** — since 2026-07-17 P19's live-CRUD branch is explicit opt-in and runs in a throwaway sandbox container) | live tests may skip; offline coverage may not shrink |
 | kb-full retrieval_user passes | ≥ 12 | 2026-07-17 wiring: 13 tests, minus `test_t1b_save_to_palette_flow`'s TD-binary self-skip on hosted runners | the W7 server round-trip suite can't silently skip-storm (an empty vector_db now skips the whole `test_user_store` module — the floor catches it) |
 
+| kb-full chroma guard passes | ≥ 6 | W3 Census Lock, 2026-07-18: `tests/engine/test_chroma_guard.py` ran in **no lane at all** until the floor reconciliation exposed it. Its module-level `importorskip("chromadb")` means ci.yml's two lanes skip it at collection (chromadb is excluded by design from `requirements-light.txt`), and kb-full — the only full-deps job — did not run `tests/engine`. | the KF1 create-on-open guard, behind three historical `vector_db` losses, actually executes somewhere |
+
 Raising a floor when tests are added is routine; **lowering one requires the
 same review as changing a baseline** — say why in the PR, with receipts.
+
+**Measure collection floors the way CI does.** A dev box with `chromadb`
+installed collects **6 more** than either ci.yml lane, because
+`tests/engine/test_chroma_guard.py` skips at collection wherever chromadb is
+absent. A locally-measured floor therefore reds the lane it was meant to
+protect — this is how W3's first floor bump was wrong.
 Failures are always loud regardless of floors (pytest exit codes gate first).
 
 ## KB caching

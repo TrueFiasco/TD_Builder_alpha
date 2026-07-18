@@ -1,0 +1,227 @@
+"""eval/ground_truth/operator_types.json is the census, by construction (board GT1).
+
+HERMETIC: tracked JSON only. No `requires_kb` mark, so it runs in both ci.yml
+lanes. One test needs a local TouchDesigner install and self-skips.
+
+This file used to come from a wiki scrape that INVENTED 13 operators and OMITTED
+7 real ones. It is now generated from TouchDesigner's own `families[]` registry
+by kb_build/gen_operator_types.py, so the phantoms cannot return -- there is no
+step left that could synthesise a name. These tests pin that property rather
+than the symptom: the shape, the counts, the absence of the specific phantoms,
+and the presence of the operators the scrape had missed.
+"""
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+REPO = Path(__file__).resolve().parents[2]
+for p in (str(REPO), str(REPO / "scripts")):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+import census_guard as G  # noqa: E402
+
+GT_PATH = REPO / "eval" / "ground_truth" / "operator_types.json"
+GT = json.loads(GT_PATH.read_text(encoding="utf-8"))
+CENSUS = json.loads(
+    (REPO / "eval" / "ground_truth" / "td_census.json").read_text(encoding="utf-8"))
+
+FAMILIES = ["CHOP", "TOP", "SOP", "DAT", "COMP", "MAT", "POP"]
+
+# Never real. Absent from the live registry AND from TouchDesigner's shipped
+# offline help. The first five were the known set; the census surfaced eight more.
+PHANTOMS = [
+    "sourcePOP", "attractorPOP", "dragPOP", "collisionPOP", "killPOP",
+    "addPOP", "velocityPOP", "analyzeDAT", "fuseSOP", "mirrorSOP",
+    "normalsSOP", "scatterSOP", "gradientTOP",
+]
+
+# Real operators the scrape omitted. Their absence is why a model asked to
+# receive FreeD or Stype camera-tracking data was offered a fossil that cannot
+# create, with the working operator invisible.
+FORMER_HOLES = [
+    "freedinCHOP", "stypeinCHOP", "tcpipDAT", "alembicoutPOP",
+    "textPOP", "tracePOP", "triangulatePOP",
+]
+
+
+def _entries():
+    for fam in FAMILIES:
+        for e in GT["operators"][fam]:
+            yield fam, e
+
+
+def test_totals_match_the_census():
+    assert GT["total_operators"] == 647
+    assert GT["by_family"] == {
+        "CHOP": 165, "TOP": 146, "SOP": 112, "DAT": 71,
+        "COMP": 40, "MAT": 13, "POP": 100,
+    }
+
+
+def test_by_family_cache_is_consistent():
+    """by_family is denormalised; no code reads it, but the README and humans do."""
+    for fam in FAMILIES:
+        assert GT["by_family"][fam] == len(GT["operators"][fam]), fam
+    assert sum(GT["by_family"].values()) == GT["total_operators"]
+
+
+def test_entry_schema_is_exactly_name_and_td_create():
+    """Three consumers index these two keys (eval/predicates.py,
+    eval/build_gate/gate_common.py, kb_build/common.py). Adding a per-entry key
+    is a consumer-visible change; adding a TOP-LEVEL key is not."""
+    for fam, e in _entries():
+        assert set(e) == {"name", "td_create"}, (fam, e)
+
+
+def test_lists_are_sorted_by_name():
+    for fam in FAMILIES:
+        names = [e["name"] for e in GT["operators"][fam]]
+        assert names == sorted(names), fam
+
+
+def test_no_phantom_operators():
+    tokens = {e["td_create"] for _, e in _entries()}
+    normed = {G._norm(e["name"]) for _, e in _entries()}
+    for p in PHANTOMS:
+        assert p not in tokens, p
+        assert G._norm(p) not in normed, p
+
+
+def test_formerly_missing_operators_are_present():
+    tokens = {e["td_create"] for _, e in _entries()}
+    for h in FORMER_HOLES:
+        assert h in tokens, h
+
+
+def test_no_wiki_guide_pages():
+    """`Write_a_CPlusPlus_CHOP` and friends are tutorial ARTICLES that the scrape's
+    filename pattern swept in as operators. reground_operators.py already strips
+    them from the KB; nothing stripped them here."""
+    for fam, e in _entries():
+        assert not e["name"].startswith(("Write_a_", "Write_", "Anatomy_of_")), e
+
+
+def test_td_create_is_the_OPType_not_the_builder_n_token():
+    """THREE namespaces exist and conflating them is a recurring bug:
+        td_create / OPType  'abletonlinkCHOP'   <- this file
+        builder .n token    'CHOP:ableton'      <- KB build_token
+        wiki display name   'Ableton_Link_CHOP' <- this file's `name`
+    Pinned with a case where all three differ, so nobody "corrects" it back."""
+    chop = {e["name"]: e["td_create"] for e in GT["operators"]["CHOP"]}
+    assert chop["Ableton_Link_CHOP"] == "abletonlinkCHOP"
+    top = {e["name"]: e["td_create"] for e in GT["operators"]["TOP"]}
+    assert top["Composite_TOP"] == "compositeTOP"
+
+
+def test_every_td_create_is_in_the_census():
+    assert G.check_gt_subset(CENSUS, GT) == []
+
+
+def test_names_survive_normalisation_collisions():
+    """The join into the KB is on normalised alphanumerics, so two entries that
+    normalise alike would make that lookup ambiguous."""
+    seen: dict[str, str] = {}
+    for fam, e in _entries():
+        key = (fam, G._norm(e["name"]))
+        assert key not in seen, (key, seen.get(key), e["name"])
+        seen[key] = e["name"]
+
+
+def test_provenance_block_is_populated():
+    p = GT["provenance"]
+    assert p["generator"] == "kb_build/gen_operator_types.py"
+    assert p["td_build"] == "099.2025.32820"
+    assert len(p["census_sha256"]) == 64
+    assert "semantics" in GT and "td_create" in GT["semantics"]
+
+
+def test_provenance_census_sha_matches_the_committed_snapshot():
+    """Uses the generator's own canonical hash, NOT raw file bytes.
+
+    This repo has core.autocrlf=true and no .gitattributes, so on Windows the
+    working tree is CRLF while the git blob is LF. Hashing raw bytes here would
+    make this test platform-dependent -- green on Windows, red on the ubuntu
+    hermetic lane -- which is exactly how it was written first.
+    """
+    from kb_build.gen_operator_types import census_sha256
+
+    census_bytes = (REPO / "eval" / "ground_truth" / "td_census.json").read_bytes()
+    assert GT["provenance"]["census_sha256"] == census_sha256(census_bytes), (
+        "operator_types.json was generated from a DIFFERENT census than the one "
+        "committed -- regenerate with kb_build/gen_operator_types.py")
+
+
+def test_census_sha_is_line_ending_independent():
+    """The canonical hash must be identical for CRLF and LF renderings of the
+    same content, or the provenance check is a platform coin-flip."""
+    from kb_build.gen_operator_types import census_sha256
+
+    lf = (REPO / "eval" / "ground_truth" / "td_census.json").read_bytes().replace(b"\r\n", b"\n")
+    crlf = lf.replace(b"\n", b"\r\n")
+    assert census_sha256(lf) == census_sha256(crlf)
+
+
+# Derived from the census, never hardcoded -- see
+# test_no_hardcoded_build_in_the_generator below.
+HELP_TREE = Path(CENSUS["offline_help_root"]) if CENSUS.get("offline_help_root") else None
+
+
+def test_census_records_where_it_came_from():
+    """A TD upgrade must be a re-run, not a code edit. The census carries the
+    install root and docs tree of the TouchDesigner it was captured on, so
+    regenerating after an upgrade is `capture -> generate` with no source change."""
+    assert CENSUS["td_install_root"], "census must record its TD install root"
+    assert CENSUS["offline_help_root"], "census must record its offline-help root"
+    build_tail = CENSUS["td_build"].split(".", 1)[-1]
+    assert build_tail in CENSUS["td_install_root"], (
+        "TouchDesigner install roots are version-stamped; if this fails the "
+        "recorded root does not belong to the recorded build")
+
+
+def test_provenance_records_the_resolved_help_tree():
+    p = GT["provenance"]
+    assert p["help_tree"], "which docs tree supplied these names must be auditable"
+    assert p["help_tree_resolved_from"], "and how it was chosen"
+    assert p["td_install_root"] == CENSUS["td_install_root"]
+
+
+def test_no_hardcoded_build_in_the_generator_or_capture():
+    """Neither script may carry a TD build number. A TD upgrade lands before
+    W7c's rebuild, and the response has to be a re-invocation -- if a version is
+    baked into the source, someone must edit code under time pressure and will
+    get it wrong."""
+    import re as _re
+
+    for rel in ("kb_build/gen_operator_types.py", "scripts/capture_td_census.py"):
+        text = (REPO / rel).read_text(encoding="utf-8")
+        for lineno, line in enumerate(text.splitlines(), 1):
+            stripped = line.strip()
+            if stripped.startswith("#") or stripped.startswith('"'):
+                continue          # prose/examples may name a build
+            if rel.endswith("capture_td_census.py") and "EXPECTED_BUILD" in line:
+                continue          # a --expect-build DEFAULT is a parameter, not a path
+            assert not _re.search(r"TouchDesigner\.\d{4}\.\d+", line), (
+                f"{rel}:{lineno} hardcodes a versioned TouchDesigner path: "
+                f"{stripped!r}")
+
+
+@pytest.mark.skipif(HELP_TREE is None or not HELP_TREE.exists(),
+                    reason="needs the local TouchDesigner install the census was "
+                           "captured on (the generator's name source); the "
+                           "committed output is asserted by the hermetic tests above")
+def test_generator_is_deterministic():
+    """Same (snapshot, help tree) -> byte-identical output. This is the whole
+    reproducibility claim, in one assertion. Run with NO --help-tree so it also
+    proves the census-derived default resolves."""
+    r = subprocess.run(
+        [sys.executable, str(REPO / "kb_build" / "gen_operator_types.py"), "--check"],
+        capture_output=True, text=True, cwd=str(REPO))
+    assert r.returncode == 0, f"stdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    assert "census (app.samplesFolder" in r.stdout, (
+        "the default must resolve from the census, not a hardcoded path:\n" + r.stdout)

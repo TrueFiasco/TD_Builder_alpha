@@ -86,9 +86,17 @@ def main():
     print("[load] Identity registry (operator_ground_truth + operators.json)...")
     idn = C.Identity()
     print(f"  operators={len(idn.operators)} classes={len(idn.classes)} concepts={len(idn.concepts)}")
+    print(f"  python_class: filled={idn.python_class_filled} "
+          f"corrected={idn.python_class_corrected} "
+          f"still-null={sum(1 for o in idn.operators if not o.get('python_class'))} "
+          f"(nulls remaining are fossils absent from the census -- W7c retires them)")
+    for fam, name, cur, derived in idn.python_class_unverified:
+        # Not an error: a populated value disagreeing with the derivation is
+        # REPORTED, never overwritten, until it is arbitrated against live TD.
+        print(f"  ! python_class unverified: {fam} {name}: {cur!r} != derived {derived!r}")
 
     rows: list[dict] = []
-    inputs: list[Path] = [idn.source_path, C.GT / "operator_types.json"]
+    inputs: list[Path] = [idn.source_path, C.GT_OPERATOR_TYPES]
     section_counts: dict[str, int] = {}
 
     for mod_name, label in SECTION_ORDER:

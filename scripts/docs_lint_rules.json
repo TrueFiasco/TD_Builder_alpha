@@ -37,6 +37,29 @@
     ]
   },
 
+  "operator_counts": {
+    "_comment": "THREE numbers, three meanings — never conflate them (owner ruling): 647 = operators in TouchDesigner (eval/ground_truth/td_census.json, the live families[] census); 663 = KB ENTRIES (KB/manifest.json); 640 = KB coverage of the census (663 minus 23 fossils). Docs state all three in ONE compound phrase, and this rule pins that PHRASE SHAPE rather than bare numbers — a number-near-the-word-operator rule would fire on '636/636 operator tokens' (build-gate metric), 'Sweet 16 operators' and '7 real operators', and an allowlist of every plausible number has no teeth. min_compound_claims is the reverse check: delete a claim and this fires, so the forward check cannot pass vacuously. Bumping any expected_* requires fresh census receipts (scripts/capture_td_census.py).",
+    "census_file": "eval/ground_truth/td_census.json",
+    "kb_manifest": "KB/manifest.json",
+    "kb_manifest_key": [
+      "chunk_type_histogram",
+      "operator_overview"
+    ],
+    "expected_census": 647,
+    "expected_kb_entries": 663,
+    "expected_kb_coverage": 640,
+    "expected_td_build": "099.2025.32820",
+    "compound_claim_regex": "(\\d+)\\s+of\\s+TouchDesigner\\s+([0-9][0-9.]*)\\S{0,3}\\s+(\\d+)\\s+(?:[A-Za-z-]+\\s+){0,2}operators?\\b",
+    "min_compound_claims": 5,
+    "claim_files": [
+      "Agents/td-builder-howto/SKILL.md",
+      "Agents/experts/td_designer/build.md",
+      "Agents/experts/td_designer/plan.md",
+      "Agents/td_network_analysis/SKILL.md",
+      "docs/DEMO_WALKTHROUGH.md"
+    ]
+  },
+
   "phantom_patterns": [
     {
       "id": "console-shims",

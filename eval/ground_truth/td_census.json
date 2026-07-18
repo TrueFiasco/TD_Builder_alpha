@@ -1,0 +1,3324 @@
+{
+  "_schema": "td_census/1",
+  "td_build": "099.2025.32820",
+  "td_product": "TouchDesigner",
+  "td_install_root": "C:/Program Files/Derivative/TouchDesigner.2025.32820",
+  "offline_help_root": "C:/Program Files/Derivative/TouchDesigner.2025.32820/Samples/Learn/OfflineHelp/https.docs.derivative.ca",
+  "captured_utc": "2026-07-18T17:58:27Z",
+  "capture_method": "families[] class registry (c.__name__); creatable tier",
+  "capture_script": "scripts/capture_td_census.py",
+  "notes": "Creatable operators only. The td module exposes MORE classes (retired operators keep a class), so never enumerate td for a census. Names are OPTypes -- NOT the builder '.n' create token (that is 'CHOP:ableton', recorded as build_token in KB/operators.json).",
+  "families_seen": [
+    "CHOP",
+    "COMP",
+    "DAT",
+    "MAT",
+    "POP",
+    "SOP",
+    "TOP"
+  ],
+  "total_operators": 647,
+  "by_family": {
+    "CHOP": 165,
+    "COMP": 40,
+    "DAT": 71,
+    "MAT": 13,
+    "POP": 100,
+    "SOP": 112,
+    "TOP": 146
+  },
+  "operators": {
+    "CHOP": [
+      "abletonlinkCHOP",
+      "analyzeCHOP",
+      "angleCHOP",
+      "attributeCHOP",
+      "audiobandeqCHOP",
+      "audiobinauralCHOP",
+      "audiodeviceinCHOP",
+      "audiodeviceoutCHOP",
+      "audiodynamicsCHOP",
+      "audiofileinCHOP",
+      "audiofileoutCHOP",
+      "audiofilterCHOP",
+      "audiomovieCHOP",
+      "audiondiCHOP",
+      "audiooscillatorCHOP",
+      "audioparaeqCHOP",
+      "audioplayCHOP",
+      "audiorenderCHOP",
+      "audiospectrumCHOP",
+      "audiostreaminCHOP",
+      "audiostreamoutCHOP",
+      "audiovstCHOP",
+      "audiowebrenderCHOP",
+      "beatCHOP",
+      "bindCHOP",
+      "blacktraxCHOP",
+      "blendCHOP",
+      "blobtrackCHOP",
+      "bodytrackCHOP",
+      "bulletsolverCHOP",
+      "clipCHOP",
+      "clipblenderCHOP",
+      "clockCHOP",
+      "compositeCHOP",
+      "constantCHOP",
+      "copyCHOP",
+      "countCHOP",
+      "cplusplusCHOP",
+      "crossCHOP",
+      "cycleCHOP",
+      "dattoCHOP",
+      "delayCHOP",
+      "deleteCHOP",
+      "dmxinCHOP",
+      "dmxoutCHOP",
+      "envelopeCHOP",
+      "eventCHOP",
+      "expressionCHOP",
+      "extendCHOP",
+      "facetrackCHOP",
+      "fanCHOP",
+      "feedbackCHOP",
+      "fileinCHOP",
+      "fileoutCHOP",
+      "filterCHOP",
+      "freedinCHOP",
+      "freedoutCHOP",
+      "functionCHOP",
+      "gestureCHOP",
+      "handleCHOP",
+      "hogCHOP",
+      "hokuyoCHOP",
+      "holdCHOP",
+      "importselectCHOP",
+      "inCHOP",
+      "infoCHOP",
+      "interpolateCHOP",
+      "inversecurveCHOP",
+      "inversekinCHOP",
+      "joinCHOP",
+      "joystickCHOP",
+      "keyboardinCHOP",
+      "keyframeCHOP",
+      "kinectCHOP",
+      "kinectazureCHOP",
+      "lagCHOP",
+      "laserCHOP",
+      "laserdeviceCHOP",
+      "leapmotionCHOP",
+      "leuzerod4CHOP",
+      "lfoCHOP",
+      "limitCHOP",
+      "logicCHOP",
+      "lookupCHOP",
+      "ltcinCHOP",
+      "ltcoutCHOP",
+      "mathCHOP",
+      "mergeCHOP",
+      "midiinCHOP",
+      "midiinmapCHOP",
+      "midioutCHOP",
+      "mosysCHOP",
+      "mouseinCHOP",
+      "mouseoutCHOP",
+      "ncamCHOP",
+      "noiseCHOP",
+      "nullCHOP",
+      "oakdeviceCHOP",
+      "oakselectCHOP",
+      "objectCHOP",
+      "oculusaudioCHOP",
+      "oculusriftCHOP",
+      "openvrCHOP",
+      "optitrackinCHOP",
+      "oscinCHOP",
+      "oscoutCHOP",
+      "outCHOP",
+      "overrideCHOP",
+      "panelCHOP",
+      "pangolinCHOP",
+      "pantiltCHOP",
+      "parameterCHOP",
+      "patternCHOP",
+      "performCHOP",
+      "phaserCHOP",
+      "pipeinCHOP",
+      "pipeoutCHOP",
+      "poptoCHOP",
+      "posistagenetCHOP",
+      "pulseCHOP",
+      "recordCHOP",
+      "renameCHOP",
+      "renderpickCHOP",
+      "renderstreaminCHOP",
+      "reorderCHOP",
+      "replaceCHOP",
+      "resampleCHOP",
+      "scriptCHOP",
+      "scurveCHOP",
+      "selectCHOP",
+      "sequencerCHOP",
+      "serialCHOP",
+      "sharedmeminCHOP",
+      "sharedmemoutCHOP",
+      "shiftCHOP",
+      "shuffleCHOP",
+      "slopeCHOP",
+      "soptoCHOP",
+      "sortCHOP",
+      "speedCHOP",
+      "spliceCHOP",
+      "springCHOP",
+      "st2110deviceCHOP",
+      "stretchCHOP",
+      "stypeinCHOP",
+      "stypeoutCHOP",
+      "switchCHOP",
+      "syncinCHOP",
+      "syncoutCHOP",
+      "tabletCHOP",
+      "timecodeCHOP",
+      "timelineCHOP",
+      "timerCHOP",
+      "timesliceCHOP",
+      "toptoCHOP",
+      "touchinCHOP",
+      "touchoutCHOP",
+      "trailCHOP",
+      "transformCHOP",
+      "transformxyzCHOP",
+      "triggerCHOP",
+      "trimCHOP",
+      "warpCHOP",
+      "waveCHOP",
+      "zedCHOP"
+    ],
+    "COMP": [
+      "actorCOMP",
+      "ambientlightCOMP",
+      "animationCOMP",
+      "annotateCOMP",
+      "baseCOMP",
+      "blendCOMP",
+      "boneCOMP",
+      "bulletsolverCOMP",
+      "buttonCOMP",
+      "cameraCOMP",
+      "camerablendCOMP",
+      "constraintCOMP",
+      "containerCOMP",
+      "engineCOMP",
+      "environmentlightCOMP",
+      "fbxCOMP",
+      "fieldCOMP",
+      "forceCOMP",
+      "geometryCOMP",
+      "geotextCOMP",
+      "glslCOMP",
+      "handleCOMP",
+      "lightCOMP",
+      "listCOMP",
+      "nullCOMP",
+      "nvidiaflexsolverCOMP",
+      "nvidiaflowemitterCOMP",
+      "opviewerCOMP",
+      "parameterCOMP",
+      "replicatorCOMP",
+      "selectCOMP",
+      "sharedmeminCOMP",
+      "sharedmemoutCOMP",
+      "sliderCOMP",
+      "tableCOMP",
+      "textCOMP",
+      "timeCOMP",
+      "usdCOMP",
+      "widgetCOMP",
+      "windowCOMP"
+    ],
+    "DAT": [
+      "artnetDAT",
+      "audiodevicesDAT",
+      "chopexecuteDAT",
+      "choptoDAT",
+      "clipDAT",
+      "convertDAT",
+      "cplusplusDAT",
+      "datexecuteDAT",
+      "dmxmapDAT",
+      "errorDAT",
+      "etherdreamDAT",
+      "evaluateDAT",
+      "examineDAT",
+      "executeDAT",
+      "fifoDAT",
+      "fileinDAT",
+      "fileoutDAT",
+      "folderDAT",
+      "inDAT",
+      "infoDAT",
+      "insertDAT",
+      "jsonDAT",
+      "keyboardinDAT",
+      "lookupDAT",
+      "mediafileinfoDAT",
+      "mergeDAT",
+      "midieventDAT",
+      "midiinDAT",
+      "monitorsDAT",
+      "mpcdiDAT",
+      "mqttclientDAT",
+      "multitouchinDAT",
+      "ndiDAT",
+      "nullDAT",
+      "opexecuteDAT",
+      "opfindDAT",
+      "oscinDAT",
+      "oscoutDAT",
+      "outDAT",
+      "panelexecuteDAT",
+      "parameterDAT",
+      "parameterexecuteDAT",
+      "pargroupexecuteDAT",
+      "performDAT",
+      "poptoDAT",
+      "renderpickDAT",
+      "reorderDAT",
+      "scriptDAT",
+      "selectDAT",
+      "serialDAT",
+      "serialdevicesDAT",
+      "socketioDAT",
+      "soptoDAT",
+      "sortDAT",
+      "substituteDAT",
+      "switchDAT",
+      "tableDAT",
+      "tcpipDAT",
+      "textDAT",
+      "touchinDAT",
+      "touchoutDAT",
+      "transposeDAT",
+      "tuioinDAT",
+      "udpinDAT",
+      "udpoutDAT",
+      "videodevicesDAT",
+      "webclientDAT",
+      "webrtcDAT",
+      "webserverDAT",
+      "websocketDAT",
+      "xmlDAT"
+    ],
+    "MAT": [
+      "constantMAT",
+      "depthMAT",
+      "glslMAT",
+      "inMAT",
+      "lineMAT",
+      "nullMAT",
+      "outMAT",
+      "pbrMAT",
+      "phongMAT",
+      "pointspriteMAT",
+      "selectMAT",
+      "switchMAT",
+      "wireframeMAT"
+    ],
+    "POP": [
+      "accumulatePOP",
+      "alembicinPOP",
+      "alembicoutPOP",
+      "analyzePOP",
+      "attributePOP",
+      "attributecombinePOP",
+      "attributeconvertPOP",
+      "blendPOP",
+      "boxPOP",
+      "cachePOP",
+      "cacheblendPOP",
+      "cacheselectPOP",
+      "choptoPOP",
+      "circlePOP",
+      "connectivityPOP",
+      "convertPOP",
+      "copyPOP",
+      "cplusplusPOP",
+      "curvePOP",
+      "dattoPOP",
+      "deletePOP",
+      "dimensionPOP",
+      "dmxfixturePOP",
+      "dmxoutPOP",
+      "extrudePOP",
+      "facetPOP",
+      "feedbackPOP",
+      "fieldPOP",
+      "fileinPOP",
+      "fileoutPOP",
+      "forceradialPOP",
+      "glslPOP",
+      "glsladvancedPOP",
+      "glslcopyPOP",
+      "glslselectPOP",
+      "gridPOP",
+      "groupPOP",
+      "histogramPOP",
+      "importselectPOP",
+      "inPOP",
+      "limitPOP",
+      "linePOP",
+      "linebreakPOP",
+      "linedividePOP",
+      "linemetricsPOP",
+      "lineresamplePOP",
+      "linesmoothPOP",
+      "lookupattributePOP",
+      "lookupchannelPOP",
+      "lookuptexturePOP",
+      "mathPOP",
+      "mathcombinePOP",
+      "mathmixPOP",
+      "mergePOP",
+      "neighborPOP",
+      "noisePOP",
+      "normalPOP",
+      "normalizePOP",
+      "nullPOP",
+      "oakselectPOP",
+      "outPOP",
+      "particlePOP",
+      "patternPOP",
+      "phaserPOP",
+      "planePOP",
+      "pointPOP",
+      "pointfileinPOP",
+      "pointgeneratorPOP",
+      "polygonizePOP",
+      "primitivePOP",
+      "projectionPOP",
+      "proximityPOP",
+      "quantizePOP",
+      "randomPOP",
+      "rayPOP",
+      "rectanglePOP",
+      "rerangePOP",
+      "revolvePOP",
+      "selectPOP",
+      "skinPOP",
+      "skindeformPOP",
+      "soptoPOP",
+      "sortPOP",
+      "spherePOP",
+      "sprinklePOP",
+      "subdividePOP",
+      "switchPOP",
+      "textPOP",
+      "texturemapPOP",
+      "topologyPOP",
+      "toptoPOP",
+      "torusPOP",
+      "tracePOP",
+      "trailPOP",
+      "transformPOP",
+      "triangulatePOP",
+      "trigPOP",
+      "tubePOP",
+      "twistPOP",
+      "zedPOP"
+    ],
+    "SOP": [
+      "addSOP",
+      "alembicSOP",
+      "alignSOP",
+      "armSOP",
+      "attributeSOP",
+      "attributecreateSOP",
+      "basisSOP",
+      "blendSOP",
+      "bonegroupSOP",
+      "booleanSOP",
+      "boxSOP",
+      "bridgeSOP",
+      "cacheSOP",
+      "capSOP",
+      "captureSOP",
+      "captureregionSOP",
+      "carveSOP",
+      "choptoSOP",
+      "circleSOP",
+      "claySOP",
+      "clipSOP",
+      "convertSOP",
+      "copySOP",
+      "cplusplusSOP",
+      "creepSOP",
+      "curveclaySOP",
+      "curvesectSOP",
+      "dattoSOP",
+      "deformSOP",
+      "deleteSOP",
+      "divideSOP",
+      "extrudeSOP",
+      "facetSOP",
+      "facetrackSOP",
+      "fileinSOP",
+      "filletSOP",
+      "fitSOP",
+      "forceSOP",
+      "fractalSOP",
+      "gridSOP",
+      "groupSOP",
+      "holeSOP",
+      "importselectSOP",
+      "inSOP",
+      "inversecurveSOP",
+      "isosurfaceSOP",
+      "joinSOP",
+      "jointSOP",
+      "kinectSOP",
+      "latticeSOP",
+      "limitSOP",
+      "lineSOP",
+      "linethickSOP",
+      "lodSOP",
+      "lsystemSOP",
+      "magnetSOP",
+      "materialSOP",
+      "mergeSOP",
+      "metaballSOP",
+      "modelSOP",
+      "noiseSOP",
+      "nullSOP",
+      "objectmergeSOP",
+      "oculusriftSOP",
+      "openvrSOP",
+      "outSOP",
+      "particleSOP",
+      "pointSOP",
+      "polyloftSOP",
+      "polypatchSOP",
+      "polyreduceSOP",
+      "polysplineSOP",
+      "polystitchSOP",
+      "poptoSOP",
+      "primitiveSOP",
+      "profileSOP",
+      "projectSOP",
+      "railsSOP",
+      "rasterSOP",
+      "raySOP",
+      "rectangleSOP",
+      "refineSOP",
+      "resampleSOP",
+      "revolveSOP",
+      "scriptSOP",
+      "selectSOP",
+      "sequenceblendSOP",
+      "skinSOP",
+      "sortSOP",
+      "sphereSOP",
+      "springSOP",
+      "sprinkleSOP",
+      "spriteSOP",
+      "stitchSOP",
+      "subdivideSOP",
+      "superquadSOP",
+      "surfsectSOP",
+      "sweepSOP",
+      "switchSOP",
+      "textSOP",
+      "textureSOP",
+      "torusSOP",
+      "traceSOP",
+      "trailSOP",
+      "transformSOP",
+      "trimSOP",
+      "tristripSOP",
+      "tubeSOP",
+      "twistSOP",
+      "vertexSOP",
+      "wireframeSOP",
+      "zedSOP"
+    ],
+    "TOP": [
+      "addTOP",
+      "analyzeTOP",
+      "antialiasTOP",
+      "blobtrackTOP",
+      "bloomTOP",
+      "blurTOP",
+      "cacheTOP",
+      "cacheselectTOP",
+      "channelmixTOP",
+      "choptoTOP",
+      "chromakeyTOP",
+      "circleTOP",
+      "compositeTOP",
+      "constantTOP",
+      "convolveTOP",
+      "cornerpinTOP",
+      "cplusplusTOP",
+      "cropTOP",
+      "crossTOP",
+      "cubemapTOP",
+      "depthTOP",
+      "differenceTOP",
+      "directdisplayoutTOP",
+      "directxinTOP",
+      "directxoutTOP",
+      "displaceTOP",
+      "edgeTOP",
+      "embossTOP",
+      "feedbackTOP",
+      "fitTOP",
+      "flipTOP",
+      "functionTOP",
+      "glslTOP",
+      "glslmultiTOP",
+      "hsvadjustTOP",
+      "hsvtorgbTOP",
+      "importselectTOP",
+      "inTOP",
+      "insideTOP",
+      "kinectTOP",
+      "kinectazureTOP",
+      "kinectazureselectTOP",
+      "layermixTOP",
+      "layoutTOP",
+      "leapmotionTOP",
+      "lensdistortTOP",
+      "levelTOP",
+      "limitTOP",
+      "lookupTOP",
+      "lumablurTOP",
+      "lumalevelTOP",
+      "mathTOP",
+      "matteTOP",
+      "mirrorTOP",
+      "monochromeTOP",
+      "mosysTOP",
+      "moviefileinTOP",
+      "moviefileoutTOP",
+      "mpcdiTOP",
+      "multiplyTOP",
+      "ncamTOP",
+      "ndiinTOP",
+      "ndioutTOP",
+      "noiseTOP",
+      "normalmapTOP",
+      "notchTOP",
+      "nullTOP",
+      "nvidiabackgroundTOP",
+      "nvidiadenoiseTOP",
+      "nvidiaflexTOP",
+      "nvidiaflowTOP",
+      "nvidiartxvideoTOP",
+      "nvidiaupscalerTOP",
+      "oakselectTOP",
+      "oculusriftTOP",
+      "opencolorioTOP",
+      "openvrTOP",
+      "opticalflowTOP",
+      "opviewerTOP",
+      "orbbecTOP",
+      "orbbecselectTOP",
+      "ousterTOP",
+      "ousterselectTOP",
+      "outTOP",
+      "outsideTOP",
+      "overTOP",
+      "packTOP",
+      "photoshopinTOP",
+      "pointfileinTOP",
+      "pointfileselectTOP",
+      "pointtransformTOP",
+      "poptoTOP",
+      "prefiltermapTOP",
+      "projectionTOP",
+      "rampTOP",
+      "realsenseTOP",
+      "rectangleTOP",
+      "remapTOP",
+      "renderTOP",
+      "renderpassTOP",
+      "renderselectTOP",
+      "rendersimpleTOP",
+      "renderstreaminTOP",
+      "renderstreamoutTOP",
+      "reorderTOP",
+      "resolutionTOP",
+      "rgbkeyTOP",
+      "rgbtohsvTOP",
+      "scalabledisplayTOP",
+      "screenTOP",
+      "screengrabTOP",
+      "scriptTOP",
+      "selectTOP",
+      "sharedmeminTOP",
+      "sharedmemoutTOP",
+      "sickTOP",
+      "slopeTOP",
+      "spectrumTOP",
+      "ssaoTOP",
+      "st2110inTOP",
+      "st2110outTOP",
+      "stypeTOP",
+      "substanceTOP",
+      "substanceselectTOP",
+      "subtractTOP",
+      "switchTOP",
+      "syphonspoutinTOP",
+      "syphonspoutoutTOP",
+      "textTOP",
+      "texture3dTOP",
+      "thresholdTOP",
+      "tileTOP",
+      "timemachineTOP",
+      "tonemapTOP",
+      "touchinTOP",
+      "touchoutTOP",
+      "transformTOP",
+      "underTOP",
+      "videodeviceinTOP",
+      "videodeviceoutTOP",
+      "videostreaminTOP",
+      "videostreamoutTOP",
+      "viosoTOP",
+      "webrenderTOP",
+      "zedTOP",
+      "zedselectTOP"
+    ]
+  },
+  "inherits": {
+    "abletonlinkCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "analyzeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "angleCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "attributeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiobandeqCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiodeviceinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiodynamicsCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiofilterCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiooscillatorCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audioparaeqCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiospectrumCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiostreaminCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiostreamoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "beatCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "bindCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "blendCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "blobtrackCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "bodytrackCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "clockCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "compositeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "constantCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "copyCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "countCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "crossCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "cycleCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "dattoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "delayCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "deleteCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "dmxinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "dmxoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "envelopeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "eventCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "expressionCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "extendCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "facetrackCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "fanCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "feedbackCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "fileinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "fileoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "filterCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "freedinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "freedoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "functionCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "gestureCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "hogCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "holdCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "inCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "infoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "interpolateCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "joinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "kinectCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "lagCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "laserdeviceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "leapmotionCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "leuzerod4CHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "lfoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "limitCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "logicCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "lookupCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "ltcinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "ltcoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "mathCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "mergeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "midiinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "midiinmapCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "midioutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "mosysCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "ncamCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "noiseCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "nullCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oakdeviceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oakselectCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oculusriftCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "openvrCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "optitrackinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "outCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "overrideCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "pantiltCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "parameterCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "patternCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "performCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "phaserCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "pipeinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "pipeoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "pulseCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "recordCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "renameCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "renderstreaminCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "reorderCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "replaceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "resampleCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "scriptCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "scurveCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "selectCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "sequencerCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "sharedmeminCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "sharedmemoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "shiftCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "shuffleCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "slopeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "sortCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "speedCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "spliceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "springCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "st2110deviceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "stretchCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "stypeinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "stypeoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "switchCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "timelineCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "timerCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "timesliceCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "trailCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "transformCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "transformxyzCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "triggerCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "trimCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "warpCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "waveCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiofileinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiofileoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiodeviceoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audioplayCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "blacktraxCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "bulletsolverCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "joystickCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "tabletCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "cplusplusCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiomovieCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiowebrenderCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "clipCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "clipblenderCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "handleCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "importselectCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "hokuyoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "inversecurveCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "inversekinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "keyboardinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "keyframeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "kinectazureCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "mouseinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "mouseoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "objectCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oscinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oscoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "panelCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "pangolinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "posistagenetCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "renderpickCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "serialCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "soptoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "syncinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "syncoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "timecodeCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "toptoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "touchinCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "touchoutCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "oculusaudioCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiorenderCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiobinauralCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiondiCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "audiovstCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "zedCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "poptoCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "laserCHOP": [
+      "CHOP",
+      "OP"
+    ],
+    "baseCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "engineCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "sharedmeminCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "sharedmemoutCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "timeCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "ambientlightCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "blendCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "boneCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "cameraCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "constraintCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "environmentlightCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "nvidiaflowemitterCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "geometryCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "handleCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "lightCOMP": [
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "camerablendCOMP": [
+      "cameraCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "actorCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "bulletsolverCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "fbxCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "nvidiaflexsolverCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "forceCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "geotextCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "nullCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "usdCOMP": [
+      "geometryCOMP",
+      "ObjectCOMP",
+      "COMP",
+      "OP"
+    ],
+    "animationCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "annotateCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "replicatorCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "windowCOMP": [
+      "COMP",
+      "OP"
+    ],
+    "buttonCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "containerCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "fieldCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "glslCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "listCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "opviewerCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "parameterCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "selectCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "sliderCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "tableCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "textCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "widgetCOMP": [
+      "PanelCOMP",
+      "COMP",
+      "OP"
+    ],
+    "convertDAT": [
+      "DAT",
+      "OP"
+    ],
+    "evaluateDAT": [
+      "DAT",
+      "OP"
+    ],
+    "examineDAT": [
+      "DAT",
+      "OP"
+    ],
+    "fileinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "fileoutDAT": [
+      "DAT",
+      "OP"
+    ],
+    "folderDAT": [
+      "DAT",
+      "OP"
+    ],
+    "inDAT": [
+      "DAT",
+      "OP"
+    ],
+    "infoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "insertDAT": [
+      "DAT",
+      "OP"
+    ],
+    "jsonDAT": [
+      "DAT",
+      "OP"
+    ],
+    "lookupDAT": [
+      "DAT",
+      "OP"
+    ],
+    "mergeDAT": [
+      "DAT",
+      "OP"
+    ],
+    "mpcdiDAT": [
+      "DAT",
+      "OP"
+    ],
+    "nullDAT": [
+      "DAT",
+      "OP"
+    ],
+    "opfindDAT": [
+      "DAT",
+      "OP"
+    ],
+    "outDAT": [
+      "DAT",
+      "OP"
+    ],
+    "parameterDAT": [
+      "DAT",
+      "OP"
+    ],
+    "performDAT": [
+      "DAT",
+      "OP"
+    ],
+    "reorderDAT": [
+      "DAT",
+      "OP"
+    ],
+    "scriptDAT": [
+      "DAT",
+      "OP"
+    ],
+    "selectDAT": [
+      "DAT",
+      "OP"
+    ],
+    "sortDAT": [
+      "DAT",
+      "OP"
+    ],
+    "substituteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "switchDAT": [
+      "DAT",
+      "OP"
+    ],
+    "transposeDAT": [
+      "DAT",
+      "OP"
+    ],
+    "webrtcDAT": [
+      "DAT",
+      "OP"
+    ],
+    "artnetDAT": [
+      "DAT",
+      "OP"
+    ],
+    "audiodevicesDAT": [
+      "DAT",
+      "OP"
+    ],
+    "chopexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "choptoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "clipDAT": [
+      "DAT",
+      "OP"
+    ],
+    "cplusplusDAT": [
+      "DAT",
+      "OP"
+    ],
+    "datexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "dmxmapDAT": [
+      "DAT",
+      "OP"
+    ],
+    "errorDAT": [
+      "DAT",
+      "OP"
+    ],
+    "etherdreamDAT": [
+      "DAT",
+      "OP"
+    ],
+    "executeDAT": [
+      "DAT",
+      "OP"
+    ],
+    "fifoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "keyboardinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "mediafileinfoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "midieventDAT": [
+      "DAT",
+      "OP"
+    ],
+    "midiinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "monitorsDAT": [
+      "DAT",
+      "OP"
+    ],
+    "mqttclientDAT": [
+      "DAT",
+      "OP"
+    ],
+    "multitouchinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "ndiDAT": [
+      "DAT",
+      "OP"
+    ],
+    "opexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "oscinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "oscoutDAT": [
+      "DAT",
+      "OP"
+    ],
+    "panelexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "parameterexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "pargroupexecuteDAT": [
+      "DAT",
+      "OP"
+    ],
+    "renderpickDAT": [
+      "DAT",
+      "OP"
+    ],
+    "serialDAT": [
+      "DAT",
+      "OP"
+    ],
+    "serialdevicesDAT": [
+      "DAT",
+      "OP"
+    ],
+    "socketioDAT": [
+      "DAT",
+      "OP"
+    ],
+    "soptoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "tableDAT": [
+      "DAT",
+      "OP"
+    ],
+    "tcpipDAT": [
+      "DAT",
+      "OP"
+    ],
+    "textDAT": [
+      "DAT",
+      "OP"
+    ],
+    "touchinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "touchoutDAT": [
+      "DAT",
+      "OP"
+    ],
+    "tuioinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "udpinDAT": [
+      "DAT",
+      "OP"
+    ],
+    "udpoutDAT": [
+      "DAT",
+      "OP"
+    ],
+    "videodevicesDAT": [
+      "DAT",
+      "OP"
+    ],
+    "webclientDAT": [
+      "DAT",
+      "OP"
+    ],
+    "webserverDAT": [
+      "DAT",
+      "OP"
+    ],
+    "websocketDAT": [
+      "DAT",
+      "OP"
+    ],
+    "xmlDAT": [
+      "DAT",
+      "OP"
+    ],
+    "poptoDAT": [
+      "DAT",
+      "OP"
+    ],
+    "constantMAT": [
+      "MAT",
+      "OP"
+    ],
+    "depthMAT": [
+      "MAT",
+      "OP"
+    ],
+    "glslMAT": [
+      "MAT",
+      "OP"
+    ],
+    "inMAT": [
+      "MAT",
+      "OP"
+    ],
+    "lineMAT": [
+      "MAT",
+      "OP"
+    ],
+    "nullMAT": [
+      "MAT",
+      "OP"
+    ],
+    "outMAT": [
+      "MAT",
+      "OP"
+    ],
+    "pbrMAT": [
+      "MAT",
+      "OP"
+    ],
+    "phongMAT": [
+      "MAT",
+      "OP"
+    ],
+    "pointspriteMAT": [
+      "MAT",
+      "OP"
+    ],
+    "selectMAT": [
+      "MAT",
+      "OP"
+    ],
+    "switchMAT": [
+      "MAT",
+      "OP"
+    ],
+    "wireframeMAT": [
+      "MAT",
+      "OP"
+    ],
+    "accumulatePOP": [
+      "POP",
+      "OP"
+    ],
+    "alembicinPOP": [
+      "POP",
+      "OP"
+    ],
+    "alembicoutPOP": [
+      "POP",
+      "OP"
+    ],
+    "analyzePOP": [
+      "POP",
+      "OP"
+    ],
+    "attributePOP": [
+      "POP",
+      "OP"
+    ],
+    "attributecombinePOP": [
+      "POP",
+      "OP"
+    ],
+    "attributeconvertPOP": [
+      "POP",
+      "OP"
+    ],
+    "blendPOP": [
+      "POP",
+      "OP"
+    ],
+    "boxPOP": [
+      "POP",
+      "OP"
+    ],
+    "cachePOP": [
+      "POP",
+      "OP"
+    ],
+    "cacheblendPOP": [
+      "POP",
+      "OP"
+    ],
+    "cacheselectPOP": [
+      "POP",
+      "OP"
+    ],
+    "choptoPOP": [
+      "POP",
+      "OP"
+    ],
+    "circlePOP": [
+      "POP",
+      "OP"
+    ],
+    "connectivityPOP": [
+      "POP",
+      "OP"
+    ],
+    "convertPOP": [
+      "POP",
+      "OP"
+    ],
+    "copyPOP": [
+      "POP",
+      "OP"
+    ],
+    "curvePOP": [
+      "POP",
+      "OP"
+    ],
+    "dattoPOP": [
+      "POP",
+      "OP"
+    ],
+    "deletePOP": [
+      "POP",
+      "OP"
+    ],
+    "dimensionPOP": [
+      "POP",
+      "OP"
+    ],
+    "dmxfixturePOP": [
+      "POP",
+      "OP"
+    ],
+    "dmxoutPOP": [
+      "POP",
+      "OP"
+    ],
+    "extrudePOP": [
+      "POP",
+      "OP"
+    ],
+    "facetPOP": [
+      "POP",
+      "OP"
+    ],
+    "feedbackPOP": [
+      "POP",
+      "OP"
+    ],
+    "fieldPOP": [
+      "POP",
+      "OP"
+    ],
+    "fileinPOP": [
+      "POP",
+      "OP"
+    ],
+    "fileoutPOP": [
+      "POP",
+      "OP"
+    ],
+    "forceradialPOP": [
+      "POP",
+      "OP"
+    ],
+    "glslPOP": [
+      "POP",
+      "OP"
+    ],
+    "glsladvancedPOP": [
+      "POP",
+      "OP"
+    ],
+    "glslcopyPOP": [
+      "POP",
+      "OP"
+    ],
+    "glslselectPOP": [
+      "POP",
+      "OP"
+    ],
+    "gridPOP": [
+      "POP",
+      "OP"
+    ],
+    "groupPOP": [
+      "POP",
+      "OP"
+    ],
+    "histogramPOP": [
+      "POP",
+      "OP"
+    ],
+    "importselectPOP": [
+      "POP",
+      "OP"
+    ],
+    "inPOP": [
+      "POP",
+      "OP"
+    ],
+    "limitPOP": [
+      "POP",
+      "OP"
+    ],
+    "linePOP": [
+      "POP",
+      "OP"
+    ],
+    "linebreakPOP": [
+      "POP",
+      "OP"
+    ],
+    "linedividePOP": [
+      "POP",
+      "OP"
+    ],
+    "linemetricsPOP": [
+      "POP",
+      "OP"
+    ],
+    "lineresamplePOP": [
+      "POP",
+      "OP"
+    ],
+    "linesmoothPOP": [
+      "POP",
+      "OP"
+    ],
+    "lookupattributePOP": [
+      "POP",
+      "OP"
+    ],
+    "lookupchannelPOP": [
+      "POP",
+      "OP"
+    ],
+    "lookuptexturePOP": [
+      "POP",
+      "OP"
+    ],
+    "mathPOP": [
+      "POP",
+      "OP"
+    ],
+    "mathcombinePOP": [
+      "POP",
+      "OP"
+    ],
+    "mathmixPOP": [
+      "POP",
+      "OP"
+    ],
+    "mergePOP": [
+      "POP",
+      "OP"
+    ],
+    "neighborPOP": [
+      "POP",
+      "OP"
+    ],
+    "noisePOP": [
+      "POP",
+      "OP"
+    ],
+    "normalPOP": [
+      "POP",
+      "OP"
+    ],
+    "normalizePOP": [
+      "POP",
+      "OP"
+    ],
+    "nullPOP": [
+      "POP",
+      "OP"
+    ],
+    "oakselectPOP": [
+      "POP",
+      "OP"
+    ],
+    "outPOP": [
+      "POP",
+      "OP"
+    ],
+    "particlePOP": [
+      "POP",
+      "OP"
+    ],
+    "patternPOP": [
+      "POP",
+      "OP"
+    ],
+    "phaserPOP": [
+      "POP",
+      "OP"
+    ],
+    "planePOP": [
+      "POP",
+      "OP"
+    ],
+    "pointPOP": [
+      "POP",
+      "OP"
+    ],
+    "pointfileinPOP": [
+      "POP",
+      "OP"
+    ],
+    "pointgeneratorPOP": [
+      "POP",
+      "OP"
+    ],
+    "polygonizePOP": [
+      "POP",
+      "OP"
+    ],
+    "primitivePOP": [
+      "POP",
+      "OP"
+    ],
+    "projectionPOP": [
+      "POP",
+      "OP"
+    ],
+    "proximityPOP": [
+      "POP",
+      "OP"
+    ],
+    "quantizePOP": [
+      "POP",
+      "OP"
+    ],
+    "randomPOP": [
+      "POP",
+      "OP"
+    ],
+    "rayPOP": [
+      "POP",
+      "OP"
+    ],
+    "rectanglePOP": [
+      "POP",
+      "OP"
+    ],
+    "rerangePOP": [
+      "POP",
+      "OP"
+    ],
+    "revolvePOP": [
+      "POP",
+      "OP"
+    ],
+    "selectPOP": [
+      "POP",
+      "OP"
+    ],
+    "skinPOP": [
+      "POP",
+      "OP"
+    ],
+    "skindeformPOP": [
+      "POP",
+      "OP"
+    ],
+    "soptoPOP": [
+      "POP",
+      "OP"
+    ],
+    "sortPOP": [
+      "POP",
+      "OP"
+    ],
+    "spherePOP": [
+      "POP",
+      "OP"
+    ],
+    "sprinklePOP": [
+      "POP",
+      "OP"
+    ],
+    "subdividePOP": [
+      "POP",
+      "OP"
+    ],
+    "switchPOP": [
+      "POP",
+      "OP"
+    ],
+    "textPOP": [
+      "POP",
+      "OP"
+    ],
+    "texturemapPOP": [
+      "POP",
+      "OP"
+    ],
+    "topologyPOP": [
+      "POP",
+      "OP"
+    ],
+    "toptoPOP": [
+      "POP",
+      "OP"
+    ],
+    "torusPOP": [
+      "POP",
+      "OP"
+    ],
+    "tracePOP": [
+      "POP",
+      "OP"
+    ],
+    "trailPOP": [
+      "POP",
+      "OP"
+    ],
+    "transformPOP": [
+      "POP",
+      "OP"
+    ],
+    "triangulatePOP": [
+      "POP",
+      "OP"
+    ],
+    "trigPOP": [
+      "POP",
+      "OP"
+    ],
+    "tubePOP": [
+      "POP",
+      "OP"
+    ],
+    "twistPOP": [
+      "POP",
+      "OP"
+    ],
+    "zedPOP": [
+      "POP",
+      "OP"
+    ],
+    "cplusplusPOP": [
+      "POP",
+      "OP"
+    ],
+    "addSOP": [
+      "SOP",
+      "OP"
+    ],
+    "alignSOP": [
+      "SOP",
+      "OP"
+    ],
+    "attributeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "attributecreateSOP": [
+      "SOP",
+      "OP"
+    ],
+    "basisSOP": [
+      "SOP",
+      "OP"
+    ],
+    "blendSOP": [
+      "SOP",
+      "OP"
+    ],
+    "bonegroupSOP": [
+      "SOP",
+      "OP"
+    ],
+    "booleanSOP": [
+      "SOP",
+      "OP"
+    ],
+    "boxSOP": [
+      "SOP",
+      "OP"
+    ],
+    "bridgeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "cacheSOP": [
+      "SOP",
+      "OP"
+    ],
+    "capSOP": [
+      "SOP",
+      "OP"
+    ],
+    "captureregionSOP": [
+      "SOP",
+      "OP"
+    ],
+    "carveSOP": [
+      "SOP",
+      "OP"
+    ],
+    "choptoSOP": [
+      "SOP",
+      "OP"
+    ],
+    "circleSOP": [
+      "SOP",
+      "OP"
+    ],
+    "claySOP": [
+      "SOP",
+      "OP"
+    ],
+    "clipSOP": [
+      "SOP",
+      "OP"
+    ],
+    "convertSOP": [
+      "SOP",
+      "OP"
+    ],
+    "creepSOP": [
+      "SOP",
+      "OP"
+    ],
+    "curveclaySOP": [
+      "SOP",
+      "OP"
+    ],
+    "curvesectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "divideSOP": [
+      "SOP",
+      "OP"
+    ],
+    "extrudeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "facetSOP": [
+      "SOP",
+      "OP"
+    ],
+    "fileinSOP": [
+      "SOP",
+      "OP"
+    ],
+    "filletSOP": [
+      "SOP",
+      "OP"
+    ],
+    "fitSOP": [
+      "SOP",
+      "OP"
+    ],
+    "forceSOP": [
+      "SOP",
+      "OP"
+    ],
+    "fractalSOP": [
+      "SOP",
+      "OP"
+    ],
+    "gridSOP": [
+      "SOP",
+      "OP"
+    ],
+    "holeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "inSOP": [
+      "SOP",
+      "OP"
+    ],
+    "isosurfaceSOP": [
+      "SOP",
+      "OP"
+    ],
+    "joinSOP": [
+      "SOP",
+      "OP"
+    ],
+    "jointSOP": [
+      "SOP",
+      "OP"
+    ],
+    "kinectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "latticeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "lineSOP": [
+      "SOP",
+      "OP"
+    ],
+    "lodSOP": [
+      "SOP",
+      "OP"
+    ],
+    "lsystemSOP": [
+      "SOP",
+      "OP"
+    ],
+    "magnetSOP": [
+      "SOP",
+      "OP"
+    ],
+    "materialSOP": [
+      "SOP",
+      "OP"
+    ],
+    "mergeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "metaballSOP": [
+      "SOP",
+      "OP"
+    ],
+    "modelSOP": [
+      "SOP",
+      "OP"
+    ],
+    "noiseSOP": [
+      "SOP",
+      "OP"
+    ],
+    "nullSOP": [
+      "SOP",
+      "OP"
+    ],
+    "oculusriftSOP": [
+      "SOP",
+      "OP"
+    ],
+    "openvrSOP": [
+      "SOP",
+      "OP"
+    ],
+    "outSOP": [
+      "SOP",
+      "OP"
+    ],
+    "particleSOP": [
+      "SOP",
+      "OP"
+    ],
+    "pointSOP": [
+      "SOP",
+      "OP"
+    ],
+    "polyloftSOP": [
+      "SOP",
+      "OP"
+    ],
+    "polypatchSOP": [
+      "SOP",
+      "OP"
+    ],
+    "polysplineSOP": [
+      "SOP",
+      "OP"
+    ],
+    "polystitchSOP": [
+      "SOP",
+      "OP"
+    ],
+    "profileSOP": [
+      "SOP",
+      "OP"
+    ],
+    "projectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "railsSOP": [
+      "SOP",
+      "OP"
+    ],
+    "rasterSOP": [
+      "SOP",
+      "OP"
+    ],
+    "raySOP": [
+      "SOP",
+      "OP"
+    ],
+    "refineSOP": [
+      "SOP",
+      "OP"
+    ],
+    "resampleSOP": [
+      "SOP",
+      "OP"
+    ],
+    "revolveSOP": [
+      "SOP",
+      "OP"
+    ],
+    "scriptSOP": [
+      "SOP",
+      "OP"
+    ],
+    "selectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "sequenceblendSOP": [
+      "SOP",
+      "OP"
+    ],
+    "skinSOP": [
+      "SOP",
+      "OP"
+    ],
+    "sphereSOP": [
+      "SOP",
+      "OP"
+    ],
+    "springSOP": [
+      "SOP",
+      "OP"
+    ],
+    "sprinkleSOP": [
+      "SOP",
+      "OP"
+    ],
+    "stitchSOP": [
+      "SOP",
+      "OP"
+    ],
+    "subdivideSOP": [
+      "SOP",
+      "OP"
+    ],
+    "superquadSOP": [
+      "SOP",
+      "OP"
+    ],
+    "surfsectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "sweepSOP": [
+      "SOP",
+      "OP"
+    ],
+    "switchSOP": [
+      "SOP",
+      "OP"
+    ],
+    "torusSOP": [
+      "SOP",
+      "OP"
+    ],
+    "traceSOP": [
+      "SOP",
+      "OP"
+    ],
+    "trailSOP": [
+      "SOP",
+      "OP"
+    ],
+    "trimSOP": [
+      "SOP",
+      "OP"
+    ],
+    "tristripSOP": [
+      "SOP",
+      "OP"
+    ],
+    "tubeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "twistSOP": [
+      "SOP",
+      "OP"
+    ],
+    "vertexSOP": [
+      "SOP",
+      "OP"
+    ],
+    "wireframeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "alembicSOP": [
+      "SOP",
+      "OP"
+    ],
+    "armSOP": [
+      "SOP",
+      "OP"
+    ],
+    "captureSOP": [
+      "SOP",
+      "OP"
+    ],
+    "copySOP": [
+      "SOP",
+      "OP"
+    ],
+    "cplusplusSOP": [
+      "SOP",
+      "OP"
+    ],
+    "dattoSOP": [
+      "SOP",
+      "OP"
+    ],
+    "deformSOP": [
+      "SOP",
+      "OP"
+    ],
+    "deleteSOP": [
+      "SOP",
+      "OP"
+    ],
+    "facetrackSOP": [
+      "SOP",
+      "OP"
+    ],
+    "groupSOP": [
+      "SOP",
+      "OP"
+    ],
+    "importselectSOP": [
+      "SOP",
+      "OP"
+    ],
+    "inversecurveSOP": [
+      "SOP",
+      "OP"
+    ],
+    "limitSOP": [
+      "SOP",
+      "OP"
+    ],
+    "linethickSOP": [
+      "SOP",
+      "OP"
+    ],
+    "objectmergeSOP": [
+      "SOP",
+      "OP"
+    ],
+    "polyreduceSOP": [
+      "SOP",
+      "OP"
+    ],
+    "primitiveSOP": [
+      "SOP",
+      "OP"
+    ],
+    "rectangleSOP": [
+      "SOP",
+      "OP"
+    ],
+    "sortSOP": [
+      "SOP",
+      "OP"
+    ],
+    "spriteSOP": [
+      "SOP",
+      "OP"
+    ],
+    "textSOP": [
+      "SOP",
+      "OP"
+    ],
+    "textureSOP": [
+      "SOP",
+      "OP"
+    ],
+    "transformSOP": [
+      "SOP",
+      "OP"
+    ],
+    "zedSOP": [
+      "SOP",
+      "OP"
+    ],
+    "poptoSOP": [
+      "SOP",
+      "OP"
+    ],
+    "addTOP": [
+      "TOP",
+      "OP"
+    ],
+    "analyzeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "blobtrackTOP": [
+      "TOP",
+      "OP"
+    ],
+    "bloomTOP": [
+      "TOP",
+      "OP"
+    ],
+    "blurTOP": [
+      "TOP",
+      "OP"
+    ],
+    "cacheTOP": [
+      "TOP",
+      "OP"
+    ],
+    "cacheselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "channelmixTOP": [
+      "TOP",
+      "OP"
+    ],
+    "choptoTOP": [
+      "TOP",
+      "OP"
+    ],
+    "chromakeyTOP": [
+      "TOP",
+      "OP"
+    ],
+    "circleTOP": [
+      "TOP",
+      "OP"
+    ],
+    "compositeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "constantTOP": [
+      "TOP",
+      "OP"
+    ],
+    "convolveTOP": [
+      "TOP",
+      "OP"
+    ],
+    "cornerpinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "cropTOP": [
+      "TOP",
+      "OP"
+    ],
+    "crossTOP": [
+      "TOP",
+      "OP"
+    ],
+    "cubemapTOP": [
+      "TOP",
+      "OP"
+    ],
+    "differenceTOP": [
+      "TOP",
+      "OP"
+    ],
+    "directdisplayoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "directxinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "directxoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "displaceTOP": [
+      "TOP",
+      "OP"
+    ],
+    "edgeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "embossTOP": [
+      "TOP",
+      "OP"
+    ],
+    "feedbackTOP": [
+      "TOP",
+      "OP"
+    ],
+    "fitTOP": [
+      "TOP",
+      "OP"
+    ],
+    "flipTOP": [
+      "TOP",
+      "OP"
+    ],
+    "functionTOP": [
+      "TOP",
+      "OP"
+    ],
+    "glslTOP": [
+      "TOP",
+      "OP"
+    ],
+    "glslmultiTOP": [
+      "TOP",
+      "OP"
+    ],
+    "hsvadjustTOP": [
+      "TOP",
+      "OP"
+    ],
+    "hsvtorgbTOP": [
+      "TOP",
+      "OP"
+    ],
+    "inTOP": [
+      "TOP",
+      "OP"
+    ],
+    "insideTOP": [
+      "TOP",
+      "OP"
+    ],
+    "kinectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "kinectazureTOP": [
+      "TOP",
+      "OP"
+    ],
+    "kinectazureselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "layermixTOP": [
+      "TOP",
+      "OP"
+    ],
+    "layoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "leapmotionTOP": [
+      "TOP",
+      "OP"
+    ],
+    "lensdistortTOP": [
+      "TOP",
+      "OP"
+    ],
+    "levelTOP": [
+      "TOP",
+      "OP"
+    ],
+    "limitTOP": [
+      "TOP",
+      "OP"
+    ],
+    "lookupTOP": [
+      "TOP",
+      "OP"
+    ],
+    "lumablurTOP": [
+      "TOP",
+      "OP"
+    ],
+    "lumalevelTOP": [
+      "TOP",
+      "OP"
+    ],
+    "mathTOP": [
+      "TOP",
+      "OP"
+    ],
+    "matteTOP": [
+      "TOP",
+      "OP"
+    ],
+    "mirrorTOP": [
+      "TOP",
+      "OP"
+    ],
+    "monochromeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "moviefileinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "multiplyTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ndiinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ndioutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "noiseTOP": [
+      "TOP",
+      "OP"
+    ],
+    "normalmapTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nullTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiabackgroundTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiadenoiseTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiaupscalerTOP": [
+      "TOP",
+      "OP"
+    ],
+    "oculusriftTOP": [
+      "TOP",
+      "OP"
+    ],
+    "opencolorioTOP": [
+      "TOP",
+      "OP"
+    ],
+    "openvrTOP": [
+      "TOP",
+      "OP"
+    ],
+    "opticalflowTOP": [
+      "TOP",
+      "OP"
+    ],
+    "orbbecTOP": [
+      "TOP",
+      "OP"
+    ],
+    "orbbecselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ousterTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ousterselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "outTOP": [
+      "TOP",
+      "OP"
+    ],
+    "outsideTOP": [
+      "TOP",
+      "OP"
+    ],
+    "overTOP": [
+      "TOP",
+      "OP"
+    ],
+    "packTOP": [
+      "TOP",
+      "OP"
+    ],
+    "photoshopinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "pointfileselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "prefiltermapTOP": [
+      "TOP",
+      "OP"
+    ],
+    "projectionTOP": [
+      "TOP",
+      "OP"
+    ],
+    "rampTOP": [
+      "TOP",
+      "OP"
+    ],
+    "realsenseTOP": [
+      "TOP",
+      "OP"
+    ],
+    "rectangleTOP": [
+      "TOP",
+      "OP"
+    ],
+    "remapTOP": [
+      "TOP",
+      "OP"
+    ],
+    "renderstreaminTOP": [
+      "TOP",
+      "OP"
+    ],
+    "renderstreamoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "reorderTOP": [
+      "TOP",
+      "OP"
+    ],
+    "resolutionTOP": [
+      "TOP",
+      "OP"
+    ],
+    "rgbkeyTOP": [
+      "TOP",
+      "OP"
+    ],
+    "rgbtohsvTOP": [
+      "TOP",
+      "OP"
+    ],
+    "scalabledisplayTOP": [
+      "TOP",
+      "OP"
+    ],
+    "screenTOP": [
+      "TOP",
+      "OP"
+    ],
+    "screengrabTOP": [
+      "TOP",
+      "OP"
+    ],
+    "scriptTOP": [
+      "TOP",
+      "OP"
+    ],
+    "selectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "sharedmeminTOP": [
+      "TOP",
+      "OP"
+    ],
+    "sharedmemoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "sickTOP": [
+      "TOP",
+      "OP"
+    ],
+    "slopeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "spectrumTOP": [
+      "TOP",
+      "OP"
+    ],
+    "substanceTOP": [
+      "TOP",
+      "OP"
+    ],
+    "substanceselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "subtractTOP": [
+      "TOP",
+      "OP"
+    ],
+    "switchTOP": [
+      "TOP",
+      "OP"
+    ],
+    "syphonspoutinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "syphonspoutoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "texture3dTOP": [
+      "TOP",
+      "OP"
+    ],
+    "thresholdTOP": [
+      "TOP",
+      "OP"
+    ],
+    "tileTOP": [
+      "TOP",
+      "OP"
+    ],
+    "timemachineTOP": [
+      "TOP",
+      "OP"
+    ],
+    "tonemapTOP": [
+      "TOP",
+      "OP"
+    ],
+    "transformTOP": [
+      "TOP",
+      "OP"
+    ],
+    "underTOP": [
+      "TOP",
+      "OP"
+    ],
+    "videostreaminTOP": [
+      "TOP",
+      "OP"
+    ],
+    "viosoTOP": [
+      "TOP",
+      "OP"
+    ],
+    "zedTOP": [
+      "TOP",
+      "OP"
+    ],
+    "zedselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "pointfileinTOP": [
+      "moviefileinTOP",
+      "TOP",
+      "OP"
+    ],
+    "cplusplusTOP": [
+      "TOP",
+      "OP"
+    ],
+    "depthTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiaflexTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiaflowTOP": [
+      "TOP",
+      "OP"
+    ],
+    "mosysTOP": [
+      "TOP",
+      "OP"
+    ],
+    "moviefileoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "mpcdiTOP": [
+      "TOP",
+      "OP"
+    ],
+    "notchTOP": [
+      "TOP",
+      "OP"
+    ],
+    "importselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "opviewerTOP": [
+      "TOP",
+      "OP"
+    ],
+    "pointtransformTOP": [
+      "TOP",
+      "OP"
+    ],
+    "renderTOP": [
+      "TOP",
+      "OP"
+    ],
+    "rendersimpleTOP": [
+      "TOP",
+      "OP"
+    ],
+    "renderpassTOP": [
+      "TOP",
+      "OP"
+    ],
+    "renderselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "videodeviceinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "st2110inTOP": [
+      "TOP",
+      "OP"
+    ],
+    "st2110outTOP": [
+      "TOP",
+      "OP"
+    ],
+    "webrenderTOP": [
+      "TOP",
+      "OP"
+    ],
+    "videostreamoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "videodeviceoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ssaoTOP": [
+      "TOP",
+      "OP"
+    ],
+    "stypeTOP": [
+      "TOP",
+      "OP"
+    ],
+    "antialiasTOP": [
+      "TOP",
+      "OP"
+    ],
+    "textTOP": [
+      "TOP",
+      "OP"
+    ],
+    "touchinTOP": [
+      "TOP",
+      "OP"
+    ],
+    "touchoutTOP": [
+      "TOP",
+      "OP"
+    ],
+    "ncamTOP": [
+      "TOP",
+      "OP"
+    ],
+    "oakselectTOP": [
+      "TOP",
+      "OP"
+    ],
+    "poptoTOP": [
+      "TOP",
+      "OP"
+    ],
+    "nvidiartxvideoTOP": [
+      "TOP",
+      "OP"
+    ]
+  }
+}

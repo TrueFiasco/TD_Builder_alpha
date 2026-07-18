@@ -9,7 +9,7 @@ Verdict taxonomy (load-bearing for regression diagnosis, §5):
   SKIP  — declared precondition absent (scenario `requires`)
 
 The scorer is INDEPENDENT of agent self-report: verdicts come from artifacts
-on disk + an out-of-band re-run of the 5-stage ValidationPipeline + transcript
+on disk + an out-of-band re-run of the 7-stage ValidationPipeline + transcript
 facts — never from the agent's own success claims (acceptance criterion 4).
 
 R-2: `kb_lookup_any` is the EXPLICIT enumeration below (10 knowledge-retrieval
@@ -380,7 +380,7 @@ def _validator():
 
 
 def validate_design(design: dict) -> dict:
-    """Run the 5-stage pipeline on a builder-format design. Never raises."""
+    """Run the 7-stage pipeline on a builder-format design. Never raises."""
     try:
         converter, validator = _validator()
         network = converter.from_builder(design)

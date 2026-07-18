@@ -453,7 +453,7 @@ design_patterns:
     confidence: 0.9
     hierarchy:
       - name: "geo1"
-        type: "geoCOMP"
+        type: "geometryCOMP"
         children:
           - name: "sphere1"
             type: "sphereSOP"
@@ -464,16 +464,16 @@ design_patterns:
         type: "reference"
         param: "instanceop"
     parameters:
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instancing"
         value: "on"
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instanceop"
         value: "path/to/instance_source"
     common_errors:
       - error: "Geometry outside COMP"
-        cause: "Geometry SOP is sibling not child of geoCOMP"
-        fix: "Move geometry SOP inside geoCOMP"
+        cause: "Geometry SOP is sibling not child of geometryCOMP"
+        fix: "Move geometry SOP inside geometryCOMP"
       - error: "No render flag"
         cause: "Internal SOP missing render flag"
         fix: "Set render flag on internal geometry"
@@ -805,7 +805,7 @@ design_patterns:
         type: "noiseCHOP"
         notes: "Produces tx, ty, tz channels"
       - name: "geo1"
-        type: "geoCOMP"
+        type: "geometryCOMP"
         children:
           - name: "sphere1"
             type: "sphereSOP"
@@ -816,78 +816,25 @@ design_patterns:
         type: "reference"
         param: "instanceop"
     parameters:
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instancing"
         value: "on"
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instanceop"
         value: "chop_source"
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instancetx"
         value: "tx"
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instancety"
         value: "ty"
-      - operator: "geoCOMP"
+      - operator: "geometryCOMP"
         param: "instancetz"
         value: "tz"
     common_errors:
       - error: "All instances at origin"
         cause: "Channel names don't match instancet* params"
         fix: "Ensure CHOP has tx, ty, tz channels or update param names"
-
-  particle_system:
-    description: "Create and simulate particles using POPs"
-    complexity: "hard"
-    families: ["POP", "COMP"]
-    confidence: 0.8
-    hierarchy:
-      - name: "geo1"
-        type: "geoCOMP"
-        children:
-          - name: "add1"
-            type: "addPOP"
-          - name: "source1"
-            type: "sourcePOP"
-          - name: "force1"
-            type: "forcePOP"
-          - name: "render1"
-            type: "renderPOP"
-            flags: {display: on}
-    connections:
-      - from: "add1"
-        to: "source1"
-        type: "wire"
-      - from: "source1"
-        to: "force1"
-        type: "wire"
-      - from: "force1"
-        to: "render1"
-        type: "wire"
-      - from: "emitter_geo"
-        to: "source1"
-        type: "reference"
-        param: "soppath"
-    parameters:
-      - operator: "addPOP"
-        param: "birthrate"
-        value: "100"
-        notes: "Particles per second"
-      - operator: "forcePOP"
-        param: "forcey"
-        value: "-9.8"
-        notes: "Gravity"
-      - operator: "renderPOP"
-        param: "type"
-        value: "point"
-        notes: "point|sprite|line"
-    common_errors:
-      - error: "No particles visible"
-        cause: "renderPOP missing display flag"
-        fix: "Enable display flag on renderPOP"
-      - error: "Particles don't move"
-        cause: "No forcePOP in chain"
-        fix: "Add forcePOP between source and render"
 
   render_pipeline:
     description: "Standard 3D render setup with camera, lights, geometry"
@@ -896,7 +843,7 @@ design_patterns:
     confidence: 0.9
     hierarchy:
       - name: "geo1"
-        type: "geoCOMP"
+        type: "geometryCOMP"
         children:
           - name: "sphere1"
             type: "sphereSOP"
@@ -949,9 +896,9 @@ design_patterns:
         type: "containerCOMP"
         children:
           - name: "slider1"
-            type: "sliderCHOP"
+            type: "sliderCOMP"
           - name: "button1"
-            type: "buttonCHOP"
+            type: "buttonCOMP"
     connections:
       - from: "slider1"
         to: "target_param"
@@ -964,10 +911,10 @@ design_patterns:
       - operator: "containerCOMP"
         param: "h"
         value: "300"
-      - operator: "sliderCHOP"
+      - operator: "sliderCOMP"
         param: "rangex1"
         value: "0"
-      - operator: "sliderCHOP"
+      - operator: "sliderCOMP"
         param: "rangex2"
         value: "1"
     common_errors:
@@ -989,9 +936,9 @@ design_patterns:
       - name: "datToChop1"
         type: "dattoCHOP"
       - name: "chopToSop1"
-        type: "choptosopSOP"
+        type: "choptoSOP"
       - name: "geo1"
-        type: "geoCOMP"
+        type: "geometryCOMP"
     connections:
       # CRITICAL: dattoCHOP does NOT connect via wire!
       # It uses the 'dat' parameter to reference the source DAT
@@ -1015,7 +962,7 @@ design_patterns:
         param: "firstcolumn"
         value: "names"
         note: "names=first col is channel names, values=first col is data"
-      - operator: "choptosopSOP"
+      - operator: "choptoSOP"
         param: "channelscope"
         value: "tx ty tz"
     common_errors:

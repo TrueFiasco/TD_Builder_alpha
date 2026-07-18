@@ -1,6 +1,10 @@
 """Validation Pipeline - Orchestrates multi-stage validation.
 
-Runs all 7 validation stages in sequence and aggregates results.
+Runs all 7 validation stages in sequence and aggregates results: schema,
+semantic, grounding, reference, component-source, logical, TD-rules. The stage
+COMMENTS below number to 5 because two arrived as "2.5" and "3.5" (grounding and
+component-source, added in W3a/BUG-3) -- that labelling is why the count has been
+repeatedly under-read as 5 or 6. The list length is 7; count `stages.append`.
 """
 
 import sys

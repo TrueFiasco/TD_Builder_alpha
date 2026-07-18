@@ -1183,6 +1183,11 @@ def _check_against_kb(rows, kb_root: Path):
     except Exception as e:
         print(f"\n(skipping --check-kb: {e})", file=sys.stderr)
         return None
+    if not (kb_root / "vector_db" / "chroma.sqlite3").exists():
+        # KF1: PersistentClient is create-if-missing — refuse, never create
+        print(f"\n(skipping --check-kb: no vector_db at {kb_root / 'vector_db'})",
+              file=sys.stderr)
+        return None
     col = chromadb.PersistentClient(path=str(kb_root / "vector_db")).get_collection("td_unified")
     g = col.get(include=["metadatas", "documents"], limit=col.count())
     chunks = [{"metadata": m, "content": d} for m, d in zip(g["metadatas"], g["documents"])]

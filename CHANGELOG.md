@@ -13,6 +13,45 @@
   `Tools/TOOLS.md` and `MCP/README.md`.
 
 ### Changed
+- **W1 Honest Parsers** (defect board A1–A5 + KF1, remediation map ticket 10): the Δ7
+  registration parsers no longer silently corrupt the parameter metadata the assistant
+  builds from, and no KB consumer can create-on-open a stub vector store. (A1) the
+  `.cparm`/`.parm` quote scanner understands TD's `\q` escapes — an escaped-quote default
+  used to commit as a lone backslash with no warning (masterRadioMenu 'Menulabels'); the
+  scanner is now single-sourced in `component_manifest.parm_quoted_fields` (the .cparm
+  tokenizer binds to it). (A2) the `.parm` override seam re-splits quote-aware — a quoted
+  constant with spaces used to commit truncated + quote-mangled (moviePlayer 'File'
+  committed `"C:/Users/greg/Desktop/Media/VJ`); expression-preference (AM4) deliberately
+  untouched. (A3) quoted multi-word page names ("Change Color", "X Units") are valid page
+  candidates, and the degrade record carries `page` per spec. (A4) `_tail_rest_ok` parses
+  the real tail grammar `[2 <menu-source-expr>] [<enable-expr>] [1 <help>]` — the leading
+  2 is a MARKER, not a count; `tdu.ParMenu`/`op().par.x` dynamic menus (noise 'Format',
+  masterRadioMenu 'Font'/'Value0') lost their whole par under the old exact-length
+  reading. Unquoted literal `None` slot placeholders degrade loudly instead of committing
+  the string 'None'. Measured across all 263 expanded shipped palette comps (9,134 pars):
+  degraded pars 1,588 → 0, menu pars with tokens 1,091 → 1,418 (+327: 23% of real menu
+  pars lost every token), verbatim menu tokens 16,025 → 21,298, warnings 1,671 → 149 (all
+  honest loud degrades), ZERO pars lost anything they had before. (A5) a `palette` op's
+  `parameters` are silently discarded by the builder while the Δ7 io-chunk text said to
+  set them — the drop is now LOUD (build warning naming every dropped key, surfaced as
+  `warnings` in both build-tool envelopes) and the chunk text routes value-setting to
+  after the build; actually applying palette params stays future work (needs a live
+  save+expand proof). (KF1) chromadb `PersistentClient` is create-if-missing at every
+  one of the repo's 13 construction sites and holds the sqlite open read-write even for
+  pure reads (filesystem RO attribute empirically refuted) — booting against an
+  absent/empty store manufactured the ~188KB bare stub behind all 3 vector_db kills on
+  the dev machine. New guard `search_docs.open_chroma_or_refuse` + stdlib read-only
+  probes (`chroma_store_doc_count`, boot-side `mcp_server._vector_db_ro_doc_count`,
+  mirroring `fetch_vector_db`'s contract) now front the server boot, `TDDocSearch`, the
+  user-store read paths (`retrieval_stack`, `_open_user_collection(create=False)` — the
+  latter also no longer mkdirs on read), and the four eval CLI probes; creators
+  (ingest/reembed/user-store commit) keep creating. Guard test pins "opening a
+  missing/empty store RAISES and creates NO file". New own-content fixture
+  `quotefont.tox.dir` carries the real-TD shapes the old fixtures omitted (escaped
+  quotes, multi-word quoted page, marker tail, expression-mode `.parm` override — board
+  CM2), and `tests/engine/test_real_palette_parse.py` re-proves A1–A4 against the real
+  TD 2025.32820 palette on machines that have it (skips elsewhere; nothing from the
+  palette is committed).
 - **Agent-eval W7 re-bless** (v0.2.1 precondition B; defect-remediation map ticket 01):
   the committed `eval/agent_eval/baseline.json` now carries the **18-tool** offline
   identity (`register_component`, PR #37), clearing the Lane R `--compare` / nightly

@@ -62,7 +62,9 @@ def _vector_db_doc_count(vdb: Path) -> int | None:
                  usable either way.
       - N > 0 -> healthy: N embedding rows in the ``td_unified`` collection
                  (matches chromadb's ``collection.count()``).
-    (check_deps.py mirrors this contract; keep the two in sync.)
+    (check_deps.py, MCP/server_core/search_docs.chroma_store_doc_count and
+    mcp_server._vector_db_ro_doc_count mirror this contract — keep them in
+    sync.)
     """
     db = vdb / "chroma.sqlite3"
     if not db.exists():

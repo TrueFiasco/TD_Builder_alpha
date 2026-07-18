@@ -70,8 +70,13 @@ def _boom_adapter(**_kw):
 
 
 def _wire_kb(monkeypatch, tmp_path, *, gpickle=True, vdb=True,
-             adapter=None, manifest=_SYNTH_MANIFEST):
-    """Point every path/class global _load_kb uses at a tmp fixture tree."""
+             adapter=None, manifest=_SYNTH_MANIFEST, probe=1234):
+    """Point every path/class global _load_kb uses at a tmp fixture tree.
+
+    `probe` fakes the KF1 read-only store precheck (_vector_db_ro_doc_count):
+    default healthy so the tests aimed at the post-construct gates still reach
+    them over their empty tmp dirs; pass "real" to exercise the actual stdlib
+    probe (the refuse-before-create tests)."""
     kb = tmp_path / "KB"
     kb.mkdir(exist_ok=True)
     gp = kb / "knowledge_graph_enhanced.gpickle"
@@ -93,6 +98,8 @@ def _wire_kb(monkeypatch, tmp_path, *, gpickle=True, vdb=True,
     monkeypatch.setattr(srv, "UnifiedGraphQuery", _FakeGraph)
     monkeypatch.setattr(srv, "UnifiedSearchAdapter",
                         adapter if adapter is not None else _adapter_factory(1234))
+    if probe != "real":
+        monkeypatch.setattr(srv, "_vector_db_ro_doc_count", lambda p: probe)
     return vdb_dir
 
 
@@ -120,6 +127,34 @@ def test_healthy_kb_is_ready_and_counts_documents(monkeypatch, tmp_path):
     assert srv._DENSE_COUNT == 1234
     assert srv.hybrid_search is not None
     assert srv.hybrid_search.vector_search.doc_count == 1234
+
+
+def test_boot_refuses_to_create_store_when_sqlite_missing(monkeypatch, tmp_path):
+    """KF1 — vector_db/ EXISTS but chroma.sqlite3 does not: the boot must
+    refuse BEFORE any adapter/chromadb construction (a PersistentClient here
+    would manufacture the bare stub that killed 3 real stores) and leave the
+    directory byte-untouched. Real probe, no fake."""
+    def _never(**_kw):
+        raise AssertionError("adapter constructed despite the refuse-precheck")
+    vdb_dir = _wire_kb(monkeypatch, tmp_path, adapter=_never, probe="real")
+    srv._load_kb()
+    assert srv._KB_STATUS == "partial"
+    assert srv._DENSE_COUNT is None
+    assert "chroma.sqlite3 missing" in srv._KB_REASON
+    assert "REFUSING" in srv._KB_REASON
+    assert "python scripts/fetch_vector_db.py" in srv._KB_REASON
+    assert list(vdb_dir.iterdir()) == [], "boot precheck manufactured files"
+
+
+def test_boot_refuses_empty_store_measured_read_only(monkeypatch, tmp_path):
+    """KF1 — the probe measures 0 documents: refuse before construction."""
+    def _never(**_kw):
+        raise AssertionError("adapter constructed despite the refuse-precheck")
+    _wire_kb(monkeypatch, tmp_path, adapter=_never, probe=0)
+    srv._load_kb()
+    assert srv._KB_STATUS == "partial"
+    assert srv._DENSE_COUNT == 0
+    assert "EMPTY" in srv._KB_REASON and "REFUSING" in srv._KB_REASON
 
 
 def test_missing_vector_db_dir_goes_partial_with_repair_message(monkeypatch, tmp_path):

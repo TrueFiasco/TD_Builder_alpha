@@ -404,6 +404,35 @@ def _kb_check(needs_semantic: bool = False) -> Optional[Dict[str, Any]]:
     }
 
 
+def _vector_db_ro_doc_count(vdb):
+    """KF1 boot-side probe: td_unified row count via STDLIB read-only sqlite —
+    deliberately NOT chromadb (PersistentClient is create-if-missing and holds
+    the file open for process life; booting against an absent/empty store
+    manufactured the ~188KB stub behind all 3 vector_db kills). Runs before
+    anything chromadb-shaped touches the path. Contract mirrors
+    scripts/fetch_vector_db.py::_vector_db_doc_count and
+    search_docs.chroma_store_doc_count — keep the three in sync:
+    None = chroma.sqlite3 absent; 0 = present but empty/unreadable; N>0 rows.
+    (stdlib-only so hermetic tests can call/fake it without chromadb.)"""
+    import contextlib
+    import sqlite3
+    db = Path(vdb) / "chroma.sqlite3"
+    if not db.exists():
+        return None
+    try:
+        with contextlib.closing(
+                sqlite3.connect(db.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+            return conn.execute(
+                "SELECT COUNT(*) FROM embeddings e"
+                " JOIN segments s ON e.segment_id = s.id"
+                " WHERE s.collection ="
+                "   (SELECT id FROM collections WHERE name = ?)",
+                ("td_unified",),
+            ).fetchone()[0]
+    except Exception:
+        return 0
+
+
 def _load_kb():
     """One-time KB + search construction. Always runs under _kb_lock.
 
@@ -474,6 +503,26 @@ def _load_kb():
             _KB_REASON = _kb_repair_message(
                 f"Semantic search unavailable: vector DB missing at "
                 f"{vectordb_path}. Graph tools still work."
+            )
+            print(f"WARNING: {_KB_REASON}", file=sys.stderr)
+            return
+        # KF1 refuse-before-create: probe the store READ-ONLY before any
+        # chromadb construction. A PersistentClient pointed at a dir whose
+        # chroma.sqlite3 is missing/empty CREATES a bare stub store in its
+        # place — this boot path racing an empty/mid-restore vector_db is the
+        # confirmed root cause of the machine's 3 vector_db kills. Refuse to
+        # construct and leave the directory byte-untouched.
+        _ro_count = _vector_db_ro_doc_count(vectordb_path)
+        if not _ro_count:
+            _KB_STATUS = "partial"
+            _DENSE_COUNT = _ro_count
+            _KB_REASON = _kb_repair_message(
+                f"Semantic search unavailable: vector DB at {vectordb_path} "
+                + ("has no Chroma store (chroma.sqlite3 missing)"
+                   if _ro_count is None else
+                   "is EMPTY (0 td_unified documents, measured read-only)")
+                + " — REFUSING to open it: a chromadb open would create a bare"
+                  " stub store in its place. Graph tools still work."
             )
             print(f"WARNING: {_KB_REASON}", file=sys.stderr)
             return
@@ -965,7 +1014,7 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
         tox_path = builder.build_tox(design, project_name)
 
         if tox_path and tox_path.exists():
-            return {
+            result = {
                 "status": "SUCCESS",
                 "project_name": project_name,
                 "output_file": str(tox_path),
@@ -973,6 +1022,10 @@ async def td_build_project(design: Dict, project_name: str = None, output_dir: s
                 "operators": len(design.get('operators', [])),
                 "connections": len(design.get('connections', []))
             }
+            # A5: loud non-fatal drops (palette parameter values) reach the caller
+            if builder.build_warnings:
+                result["warnings"] = list(builder.build_warnings)
+            return result
         else:
             return {
                 "status": "ERROR",
@@ -1080,6 +1133,9 @@ async def _run_build(network_design, design, table_data, project_name, output_di
                     "file_size": Path(result_path).stat().st_size,
                     "operators": op_count,
                     "connections": conn_count,
+                    # A5: loud non-fatal drops (palette parameter values)
+                    **({"warnings": list(bridge.build_warnings)}
+                       if bridge.build_warnings else {}),
                     "features_used": {
                         "containers": len(network_design.get("containers", [])) > 0,
                         "palette": any(

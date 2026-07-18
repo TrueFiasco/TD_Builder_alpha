@@ -385,21 +385,33 @@ class RetrievalStack:
                   f"(store {m_model!r} vs KB {regime['model_id']!r}); KB-only — "
                   f"run reindex_all", file=sys.stderr)
             return False, "user store embedding regime mismatch — run reindex_all"
+        # KF1: probe read-only BEFORE chromadb touches the path — a
+        # PersistentClient on an absent/empty store would CREATE a bare stub
+        # (create-on-open; the vector_db-kill class). The stdlib probe also
+        # answers the W2 empty-store degrade without opening anything.
+        coll_name = manifest.get("collection") or "td_unified"
+        probe = _search_docs_mod().chroma_store_doc_count(vdb, coll_name)
+        if probe is None:
+            self._user = None
+            print(f"[retrieval_stack] user store REFUSED: no Chroma store at "
+                  f"{vdb} (chroma.sqlite3 missing) — refusing create-on-open; "
+                  f"KB-only — run reindex_all", file=sys.stderr)
+            return False, "user store has no Chroma sqlite — run reindex_all"
+        if probe == 0:
+            # W2 degrade-in-place contract: collection-count==0 ≡ store-absent
+            # (last-comp removal empties rows; the directory is never deleted).
+            self._user = None
+            return False, "user store empty"
         try:
             import chromadb                        # lazy — hermetic import hygiene
             client = chromadb.PersistentClient(path=str(vdb))
-            coll = client.get_collection(manifest.get("collection") or "td_unified")
+            coll = client.get_collection(coll_name)
             count = coll.count()
         except Exception as e:
             self._user = None
             print(f"[retrieval_stack] user store load failed ({e}); KB-only",
                   file=sys.stderr)
             return False, f"user store load failed ({e})"
-        if count == 0:
-            # W2 degrade-in-place contract: collection-count==0 ≡ store-absent
-            # (last-comp removal empties rows; the directory is never deleted).
-            self._user = None
-            return False, "user store empty"
         hashes = {k: v for k, v in (manifest.get("semantic_hash") or {}).items()
                   if isinstance(k, str)}
         # Staleness check (loud, still serves — stale text beats absent): compare

@@ -17,7 +17,7 @@ Output priority: Design spec (YAML) -> network_builder for assembly.
 
 Your expertise includes:
 - **Sweet 16**: Top 16 operators per family with full details (purpose, key_params)
-- **Operator Index**: All 673 operators listed by name (query for details)
+- **Operator Index**: 663 operator names listed (query for details) — covers 640 of TouchDesigner 2025.32820's 647 real operators; 23 listed names are retired/renamed and will not create, and 7 real operators are missing
 
 **If an operator is NOT in the Sweet 16 section:**
 1. Check whether it exists with `get_operator_info(operator="OPNAME")`

@@ -40,6 +40,21 @@ Set `TD_BUILDER_ROOT` to this release folder's absolute path (in the MCP client 
 `MCP/README.md`). The servers then resolve `KB/`, `Agents/`, `Config/`, and the root `.env` from
 there regardless of where you run them from — so you can move/copy the folder anywhere.
 
+## `TD_USER_PALETTE_DIR` (register_component palette root)
+`register_component(save_to_palette=true)` copies your `.tox` into TouchDesigner's user
+palette so a build that references `app.userPaletteFolder + '/<folder>/<name>.tox'`
+resolves when the project is opened in TD. The offline server resolves that palette root,
+highest precedence first: **`TD_USER_PALETTE_DIR`** (env override) > the Windows
+*Documents* known-folder (OneDrive-redirect aware) > home-based fallbacks
+(`paths.user_palette_dir()`).
+
+Set `TD_USER_PALETTE_DIR` to your real TD user-palette folder whenever the auto-resolved
+root is wrong — a non-standard Documents location, a non-Windows host, or a TD install
+whose `app.userPaletteFolder` differs. Point it at the same folder TouchDesigner reports
+for `app.userPaletteFolder`; `register_component` writes there and the build's palette
+reference reads back from it at open time. It is read from the process environment (or the
+root `.env`), like the other offline knobs above.
+
 ## TouchDesigner endpoint (live server only)
 - `TD_API_URL` (default `http://127.0.0.1:9981`) — the WebServer DAT the live tools talk to.
 - `TD_API_TOKEN` — shared-secret token the live server presents to the TD webserver (local

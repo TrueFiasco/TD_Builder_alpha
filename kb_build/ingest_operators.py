@@ -1,5 +1,5 @@
 """
-§6.1 operator_overview (~673) + §6.2 parameter_group (~1,700).
+§6.1 operator_overview (~663) + §6.2 parameter_group (~1,700).
 
 Both are re-grounded from operators.json, which is ALREADY ground-truth-merged:
 each parameter carries a typed `default` (5 / "average" / True), real `type`

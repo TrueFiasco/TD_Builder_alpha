@@ -3,7 +3,7 @@
 td_validate: Validate TouchDesigner network JSON
 
 Command-line tool for validating TD network JSON files using the
-5-stage validation pipeline.
+7-stage validation pipeline.
 
 Usage (run directly — no console command is installed):
     python "Tools/offline Builder tools/td_validate.py" network.json

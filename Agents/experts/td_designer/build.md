@@ -115,7 +115,7 @@ When you call `find_parameter_usage` and retrieve examples, extract **ALL** para
 
 ## Operator Lookup
 
-Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** (all 673).
+Your expertise includes **Sweet 16** operators (full details) plus an **Operator Index** of 663 names covering 640 of TouchDesigner 2025.32820's 647 operators — 23 of the listed names are retired/renamed and will NOT create, and 7 real operators are absent.
 
 **For operators NOT in Sweet 16:** Query `get_operator_info(operator="OPNAME")` (and `get_parameter_detail` / `hybrid_search`) before use.
 
@@ -1164,7 +1164,7 @@ Before outputting design, verify ALL of these:
 
 Before final output:
 
-1. Validate with the `td_validate` MCP tool (runs the 5-stage pipeline) on the design's network JSON
+1. Validate with the `td_validate` MCP tool (runs the 7-stage pipeline) on the design's network JSON
 2. Check result:
    - If `valid: true` → proceed to output
    - If `valid: false` → fix all `blocking` issues

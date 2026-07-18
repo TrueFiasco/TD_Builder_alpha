@@ -77,7 +77,10 @@ end
 
 ## Files Generated
 
-- `operator_ground_truth/operator_types.json` - All 685 valid operators
+- `eval/ground_truth/operator_types.json` - the 647 creatable operators, generated
+  from the live TouchDesigner census by `kb_build/gen_operator_types.py`
+  (was "all 685 valid operators" from a wiki scrape that invented 13 operators
+  and omitted 7 real ones; the corpus path above is a legacy fallback only)
 - `operator_param_schemas.json` - 13,035 parameters with types/defaults
 - `operator_ground_truth/tox/` - Ground truth .tox files (after sampling)
 - `operator_ground_truth/params/` - Default and perturbed param JSONs

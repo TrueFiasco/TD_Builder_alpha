@@ -138,7 +138,7 @@ def check_tool_counts(rules: dict, findings: list[Finding]) -> None:
 # ---------------------------------------------------------------------------
 # Operator-count truth (W3 Census Lock, board GT7 check (e))
 # ---------------------------------------------------------------------------
-def check_operator_counts(rules: dict, findings: list) -> None:
+def check_operator_counts(rules: dict, findings: list[Finding]) -> None:
     """Docs' operator-count claims must match the artifacts.
 
     THREE numbers are legitimate and mean different things (owner ruling):
@@ -216,7 +216,10 @@ def check_operator_counts(rules: dict, findings: list) -> None:
                     findings.append(("error", rel, lineno, "operator-count",
                                      f"claims {coverage} covered by the KB; "
                                      f"expected {exp_coverage}: {line.strip()!r}"))
-                if build not in exp_build:
+                # Equality against the census build's "YYYY.NNNNN" tail, NOT a
+                # substring test: `build in exp_build` would accept "2025" or
+                # "099" and defeat the point of pinning the build at all.
+                if build != exp_build.split(".", 1)[-1]:
                     findings.append(("error", rel, lineno, "operator-count",
                                      f"claims TouchDesigner build {build}; the census "
                                      f"is {exp_build}: {line.strip()!r}"))

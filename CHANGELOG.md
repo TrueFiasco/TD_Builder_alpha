@@ -57,9 +57,9 @@
 
 ### Changed
 - **CI collection floors raised to measured actuals** (W3 Census Lock): hermetic
-  **431 → 544**, engine-kb **581 → 713**. Itemised: the pre-wave actuals on
+  **431 → 556**, engine-kb **581 → 725**. Itemised: the pre-wave actuals on
   `4f17520` were already 468/623, so **+37/+42 was drift** that landed with
-  PR #49/#50 and the floors had not caught up; **+76/+90 is this wave** (76
+  PR #49/#50 and the floors had not caught up; **+88/+102 is this wave** (88
   hermetic census/guard/backfill/expertise tests, plus the 14 `requires_kb` guard
   tests which only the engine-kb lane collects). Raising a floor is routine per
   `docs/CI.md`; the pre-existing drift is disclosed rather than folded silently

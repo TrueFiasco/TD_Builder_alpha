@@ -42,8 +42,10 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 import sys
 from pathlib import Path
+from typing import Callable
 
 REPO = Path(__file__).resolve().parents[1]
 CENSUS_PATH = REPO / "eval" / "ground_truth" / "td_census.json"
@@ -87,9 +89,20 @@ KNOWN_FOSSILS: frozenset[tuple[str, str]] = frozenset({
 
 
 def _norm(s: str | None) -> str:
-    """Lowercase alphanumerics. Local copy so this stays stdlib-only and importable
-    from the docs lane, which installs nothing."""
-    return "".join(ch for ch in (s or "").lower() if ch.isalnum())
+    """Lowercase ASCII alphanumerics -- the operator-name join key.
+
+    A local copy on purpose (this must stay stdlib-only and import-free so it can
+    run in the docs lane, which installs nothing), but it MUST stay
+    byte-compatible with the other copies -- eval/predicates.py, kb_build/common.py
+    and kb_build/gen_operator_types.py all key the SAME name->OPType join, and a
+    join that disagrees with itself resolves differently in different tools.
+
+    Specifically `[^a-z0-9]`, not `str.isalnum()`: isalnum() is Unicode-aware and
+    would KEEP characters the other three strip, so a name carrying any non-ASCII
+    alphanumeric would normalise two ways. tests/unit/test_census_snapshot.py pins
+    the agreement.
+    """
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
 
 
 # ---------------------------------------------------------------------------
@@ -148,7 +161,7 @@ def check_snapshot(census: dict, expected_build: str = EXPECTED_BUILD) -> list[s
 # ---------------------------------------------------------------------------
 # (b) per-family pins
 # ---------------------------------------------------------------------------
-def check_family_pins(census: dict, pins: dict[str, int] = None) -> list[str]:
+def check_family_pins(census: dict, pins: dict[str, int] | None = None) -> list[str]:
     pins = pins or FAMILY_PINS
     out: list[str] = []
     by_fam = census.get("by_family") or {}
@@ -268,7 +281,7 @@ def check_counts(census: dict, kb_operators: list[dict], gt: dict) -> list[str]:
 # ---------------------------------------------------------------------------
 # Self-test: the red-green demonstration
 # ---------------------------------------------------------------------------
-def _mutations(census: dict, gt: dict) -> list[tuple[str, callable, str]]:
+def _mutations(census: dict, gt: dict) -> list[tuple[str, Callable, str]]:
     """(label, doctor_fn, substring the resulting finding must contain)."""
     def wrong_build(c, g):
         c["td_build"] = "099.2025.32460"

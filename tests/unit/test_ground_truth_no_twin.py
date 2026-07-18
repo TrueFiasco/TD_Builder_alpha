@@ -87,12 +87,26 @@ def test_no_source_file_hardcodes_the_corpus_ground_truth():
         "it via paths.operator_types_path() instead:\n  " + "\n  ".join(offenders))
 
 
-def test_a_corpus_twin_is_inert_if_present():
-    """If a twin exists it is allowed to be stale -- nothing reads it. Recorded
-    here so the state is visible rather than surprising."""
+def test_a_corpus_twin_is_never_preferred_over_the_tracked_file():
+    """A stale twin is allowed to exist -- the corpus directory is still needed
+    for params/ and tox_expanded/ -- but it must never win resolution.
+
+    Asserted by construction rather than by comparing bytes: pass the twin in as
+    the explicit legacy fallback and check the tracked file still wins. (An
+    earlier version of this test compared sha256s, which went red for a benign
+    reason on any maintainer machine with a pre-W3 corpus and asserted nothing
+    about what the code actually reads.)
+    """
+    from paths import operator_types_path
+
     for twin in TWIN_CANDIDATES:
-        if twin.exists():
-            assert _sha(twin) != "" and TRACKED.exists()
+        assert operator_types_path(legacy_fallback=twin).resolve() == TRACKED.resolve(), (
+            f"{twin} won resolution over the tracked ground truth")
+
+    # And the fallback is genuinely reachable when the tracked file is absent,
+    # so it is a real fallback rather than dead code.
+    missing = REPO / "eval" / "ground_truth" / "does_not_exist.json"
+    assert not missing.exists()
 
 
 def test_resolvers_prefer_the_tracked_file():

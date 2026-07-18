@@ -21,6 +21,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 REPO = Path(__file__).resolve().parents[2]
 for p in (str(REPO), str(REPO / "scripts")):
     if p not in sys.path:
@@ -117,6 +119,35 @@ def test_family_pins_match_the_owner_ruling():
     }
     assert CENSUS["total_operators"] == 647
     assert G.check_family_pins(CENSUS) == []
+
+
+# --------------------------------------------------------------------------
+# the join key, which four modules implement independently
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("raw", [
+    "Ableton_Link_CHOP", "NVIDIA_Flex_TOP", "Nvidia_Flow_Emitter_COMP",
+    "TCP/IP_DAT", "Art-Net_DAT", "CHOP_to_POP", "ReRange_POP", "OAK_Select_POP",
+    "Alembic In POP", "wrnchAI CHOP", "  spaced  name  ", "Ünïcodé_TOP",
+])
+def test_all_norm_implementations_agree(raw):
+    """`_norm` is copied into four modules that all key the SAME name->OPType
+    join: eval/predicates.py, kb_build/common.py, kb_build/gen_operator_types.py
+    and scripts/census_guard.py. The copies exist for real reasons (the guard and
+    the docs lane must stay stdlib-only and import-free), but a join that
+    disagrees with itself resolves differently in different tools.
+
+    The Unicode case is the one that actually bit: `str.isalnum()` is
+    Unicode-aware and KEEPS accented letters that the `[^a-z0-9]` copies strip.
+    """
+    sys.path.insert(0, str(REPO / "eval"))
+    from predicates import _norm as norm_predicates
+    from kb_build.common import _norm as norm_kb
+    from kb_build.gen_operator_types import _norm as norm_gen
+
+    expected = G._norm(raw)
+    assert norm_predicates(raw) == expected
+    assert norm_kb(raw) == expected
+    assert norm_gen(raw) == expected
 
 
 # --------------------------------------------------------------------------

@@ -1,24 +1,12 @@
 {
-  "_comment": "Rule config for scripts/docs_lint.py (CI KB-free lane). Severities: 'error' fails the lint, 'warn' prints only, 'off' is documented-but-inactive. The non_negotiables section is the extension point for work item 3b (D2 instruction single-sourcing): 3b adds/canonicalizes entries and flips severity to 'error' \u2014 no lint-code change needed.",
+  "_comment": "Rule config for scripts/docs_lint.py (CI KB-free lane). Severities: 'error' fails the lint, 'warn' prints only, 'off' is documented-but-inactive. The non_negotiables section is the extension point for work item 3b (D2 instruction single-sourcing): 3b adds/canonicalizes entries and flips severity to 'error' — no lint-code change needed.",
+
   "scan": {
     "_comment": "Default surface = every *.md under the repo except exclude_dirs, plus extra_files. eval/ and kb_build/ are internal harness dirs (their docs legitimately discuss removed/phantom patterns historically); KB/ is a fetched artifact dir; quarantine/ manifests dead code (W2a convention), so its README legitimately names removed patterns.",
     "exclude_dirs": [
-      ".git",
-      ".claude",
-      ".venv",
-      "venv",
-      "__pycache__",
-      ".pytest_cache",
-      "node_modules",
-      "KB",
-      "New KB build",
-      "eval",
-      "kb_build",
-      "Output",
-      "output",
-      "build",
-      "dist",
-      "quarantine"
+      ".git", ".claude", ".venv", "venv", "__pycache__", ".pytest_cache",
+      "node_modules", "KB", "New KB build", "eval", "kb_build",
+      "Output", "output", "build", "dist", "quarantine"
     ],
     "extra_files": [
       "MCP/claude_desktop_config.json",
@@ -26,6 +14,7 @@
       "Config/search_config.json"
     ]
   },
+
   "tool_counts": {
     "_comment": "Ground truth is parsed from the registries (Tool(name=...) literals); docs claims must match. If a wave deliberately changes the tool surface, bump expected_* here AND update every claim_files doc (mirrors tests/acceptance P01b). allowed = {offline, live, offline+live}. Claim lines are lines containing 'tool' plus a context word, so category headers like 'KB tools (10)' don't false-positive.",
     "expected_offline": 18,
@@ -47,8 +36,9 @@
       "Agents/td-builder-howto/SKILL.md"
     ]
   },
+
   "operator_counts": {
-    "_comment": "THREE numbers, three meanings -- never conflate them (owner ruling): 647 = operators in TouchDesigner (eval/ground_truth/td_census.json, the live families[] census); 663 = KB ENTRIES (KB/manifest.json); 640 = KB coverage of the census (663 minus 23 fossils). Docs state all three in ONE compound phrase, and this rule pins that PHRASE SHAPE rather than bare numbers -- a number-near-the-word-operator rule would fire on '636/636 operator tokens' (build-gate metric), 'Sweet 16 operators' and '7 real operators', and an allowlist of every plausible number has no teeth. min_compound_claims is the reverse check: delete a claim and this fires, so the forward check cannot pass vacuously. Bumping any expected_* requires fresh census receipts.",
+    "_comment": "THREE numbers, three meanings — never conflate them (owner ruling): 647 = operators in TouchDesigner (eval/ground_truth/td_census.json, the live families[] census); 663 = KB ENTRIES (KB/manifest.json); 640 = KB coverage of the census (663 minus 23 fossils). Docs state all three in ONE compound phrase, and this rule pins that PHRASE SHAPE rather than bare numbers — a number-near-the-word-operator rule would fire on '636/636 operator tokens' (build-gate metric), 'Sweet 16 operators' and '7 real operators', and an allowlist of every plausible number has no teeth. min_compound_claims is the reverse check: delete a claim and this fires, so the forward check cannot pass vacuously. Bumping any expected_* requires fresh census receipts (scripts/capture_td_census.py).",
     "census_file": "eval/ground_truth/td_census.json",
     "kb_manifest": "KB/manifest.json",
     "kb_manifest_key": [
@@ -66,80 +56,62 @@
       "Agents/experts/td_designer/build.md",
       "Agents/experts/td_designer/plan.md",
       "Agents/td_network_analysis/SKILL.md",
-      "docs/DEMO_WALKTHROUGH.md",
-      "README.md"
+      "docs/DEMO_WALKTHROUGH.md"
     ]
   },
+
   "phantom_patterns": [
     {
       "id": "console-shims",
       "regex": "\\btd-(?:build|convert|validate)\\b",
       "message": "phantom console command: pyproject packages=[] installs no CLI shims; docs must say 'python <path>' (purged in c9f8c0d)",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md"
-      ]
+      "allow_files": ["CHANGELOG.md"]
     },
     {
       "id": "dead-config-knobs",
       "regex": "\\b(?:CACHE_ENABLED|QUERY_TIMEOUT_MS|CACHE_TTL_HOURS)\\b",
       "message": "config knob for a nonexistent subsystem (removed from Config/search_config.json in c9f8c0d)",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md"
-      ]
+      "allow_files": ["CHANGELOG.md"]
     },
     {
       "id": "cloud-embedding-providers",
       "regex": "(?:VOYAGE|COHERE|OPENAI)_API_KEY|\\bvoyage-\\d|\\bCohere\\b",
       "message": "cloud embedding provider reference: the story is local-only (provider knobs purged in c9f8c0d)",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md"
-      ]
+      "allow_files": ["CHANGELOG.md"]
     },
     {
       "id": "dotenv",
       "regex": "python-dotenv|load_dotenv|from\\s+dotenv\\s+import",
       "message": "python-dotenv was dropped; a tiny built-in parser reads Config/.env (c9f8c0d)",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md"
-      ]
+      "allow_files": ["CHANGELOG.md"]
     },
     {
       "id": "root-env-template",
       "regex": "\\.[/\\\\]\\.env\\.template",
       "message": "root ./.env.template was deleted; the canonical template is Config/.env.template",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md",
-        "Config/.env.template",
-        "docs/AUDIT_FOLLOWUP.md"
-      ]
+      "allow_files": ["CHANGELOG.md", "Config/.env.template", "docs/AUDIT_FOLLOWUP.md"]
     },
     {
       "id": "server-core-search-config",
       "regex": "server_core[/\\\\](?:config[/\\\\])?search_config\\.json",
       "message": "deleted duplicate config path; canonical is Config/search_config.json",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md",
-        "docs/AUDIT_FOLLOWUP.md"
-      ]
+      "allow_files": ["CHANGELOG.md", "docs/AUDIT_FOLLOWUP.md"]
     },
     {
       "id": "extended-format-supported",
       "regex": "to_extended\\(\\)|format_layer\\s*=\\s*[\"']extended[\"']|--format\\s+extended",
       "message": "'extended' is internal-only and returns NOT_IMPLEMENTED; docs must not present it as supported",
       "severity": "error",
-      "allow_files": [
-        "CHANGELOG.md",
-        "docs/KNOWN_ISSUES.md",
-        "docs/AUDIT_FOLLOWUP.md"
-      ]
+      "allow_files": ["CHANGELOG.md", "docs/KNOWN_ISSUES.md", "docs/AUDIT_FOLLOWUP.md"]
     }
   ],
+
   "client_config": {
     "_comment": "The venv trap: system 'python' has no deps. Client-config snippets must point at the venv interpreter.",
     "regex": "\"command\"\\s*:\\s*\"(?:python|python3|py)(?:\\.exe)?\"",
@@ -154,6 +126,7 @@
       "docs/SETUP/cursor.md"
     ]
   },
+
   "non_negotiables": [
     {
       "id": "menu-params-never-integer",
@@ -167,7 +140,7 @@
       "pattern": "MUST (?:be processed by|call)[^.\\n]{0,60}td_build_project",
       "canonical_file": "docs/NON_NEGOTIABLES.md",
       "severity": "error",
-      "note": "Single-sourced by 3b: rule 6 lives in docs/NON_NEGOTIABLES.md. Experts now say 'MUST go through / reach / invokes' \u2014 the guarded 'MUST call/be processed by ... td_build_project' phrasing is reserved to the canonical file."
+      "note": "Single-sourced by 3b: rule 6 lives in docs/NON_NEGOTIABLES.md. Experts now say 'MUST go through / reach / invokes' — the guarded 'MUST call/be processed by ... td_build_project' phrasing is reserved to the canonical file."
     },
     {
       "id": "pipeline-never-shortened",

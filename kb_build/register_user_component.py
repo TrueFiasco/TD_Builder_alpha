@@ -14,6 +14,13 @@ Usage:
     py -3.11 kb_build/register_user_component.py <comp.tox> [--name N]
         [--source project|user|derivative] [--tox-path EMITTED]
         [--registry FILE] [--summary TEXT]
+    py -3.11 kb_build/register_user_component.py --reindex-all [--registry FILE]
+    py -3.11 kb_build/register_user_component.py --remove NAME [--registry FILE]
+
+--reindex-all and --remove are the store-maintenance surface (BM1): --reindex-all
+is the runnable remedy the A8 regime guard names when an incremental ingest is
+refused after an embedding-regime change; --remove is the only supported
+un-register path. Both are thin wrappers over the same kb_build engine.
 """
 from __future__ import annotations
 
@@ -31,12 +38,23 @@ bootstrap.setup()
 from paths import user_components_path  # noqa: E402
 from kb_build.user_components import (  # noqa: E402
     ComponentManifestError, UserComponentError, build_entry, parse_component,
-    upsert_registry_entry)
+    reindex_all, remove_component, upsert_registry_entry)
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("tox", type=Path, help="the component .tox to register")
+    ap.add_argument("tox", type=Path, nargs="?",
+                    help="the component .tox to register (omit for "
+                         "--reindex-all/--remove)")
+    # BM1: give the store-recovery internals a runnable surface. The A8 regime
+    # guard refuses an incremental ingest after a regime change and names
+    # --reindex-all as the remedy; --remove is the only supported un-register path.
+    ap.add_argument("--reindex-all", dest="reindex_all", action="store_true",
+                    help="drop every user-store vector and re-embed the whole "
+                         "registry (regime change / manifest corruption recovery)")
+    ap.add_argument("--remove", metavar="NAME",
+                    help="remove a registered component: registry entry + its "
+                         "chunks + its manifest hash")
     ap.add_argument("--name", help="registry name (default: the file stem)")
     ap.add_argument("--source", choices=("project", "user", "derivative"),
                     default="project",
@@ -54,6 +72,37 @@ def main(argv=None) -> int:
                          "minimal placeholder; author a real one via the MCP "
                          "register_component tool to make the comp searchable)")
     args = ap.parse_args(argv)
+
+    # BM1 store-maintenance modes (mutually exclusive with registration).
+    if args.reindex_all or args.remove:
+        if args.reindex_all and args.remove:
+            print("error: --reindex-all and --remove are mutually exclusive",
+                  file=sys.stderr)
+            return 2
+        if args.tox is not None:
+            print("error: --reindex-all/--remove take no .tox argument",
+                  file=sys.stderr)
+            return 2
+        reg_path = (args.registry or user_components_path()).resolve()
+        try:
+            if args.remove:
+                res = remove_component(args.remove, registry_path=reg_path)
+                print(f"removed '{res['name']}' "
+                      f"(registry={res['removed_from_registry']}, "
+                      f"chunks={res['chunks_deleted']}) -> {reg_path}")
+            else:
+                res = reindex_all(registry_path=reg_path)
+                print(f"reindexed {res['components']} component(s), "
+                      f"{res['chunks']} chunk(s) -> {reg_path}")
+        except (UserComponentError, ComponentManifestError) as e:
+            print(f"error [{getattr(e, 'kind', 'error')}]: {e}", file=sys.stderr)
+            return 1
+        return 0
+
+    if args.tox is None:
+        print("error: a .tox argument is required (or use --reindex-all/--remove)",
+              file=sys.stderr)
+        return 2
 
     tox = args.tox.resolve()
     if not tox.is_file():

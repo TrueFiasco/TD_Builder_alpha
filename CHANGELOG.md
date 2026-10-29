@@ -9,6 +9,11 @@
   `AttributeError: 'Server' object has no attribute 'list_tools'`, and the
   nightly KB-full lane had been red since then. The server is unchanged;
   only the dependency range is narrowed to the API it was written against.
+- **Pinned `pytest>=8,<9.2`** (dev extra + light requirements). pytest 9.2.0
+  changed `monkeypatch.setattr` so it no longer sees attributes a bare
+  `MagicMock` would create on demand; the 28 td-webserver unit tests that
+  stub the `td` module that way fail under it (`has no attribute 'op'`).
+  9.1.1 passes 562/562. The tests are unchanged.
 
 ## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
 

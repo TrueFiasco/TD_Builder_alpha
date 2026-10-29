@@ -9,7 +9,7 @@
 # heavy import, the lanes go red (extends W0's de-hostage guarantee).
 # If pyproject gains a NEW light dependency, add it here too; the drift fails
 # loud (ImportError in CI), never silent.
-mcp>=1.0.0
+mcp>=1.0.0,<2
 httpx>=0.25
 numpy>=1.24.0
 scikit-learn>=1.3.0

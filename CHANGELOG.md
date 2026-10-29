@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- **Pinned `mcp>=1.0.0,<2`** (pyproject + `.github/requirements-light.txt`). The
+  `mcp` 2.x line removed `Server.list_tools`, so every install since 2.0.0
+  shipped (early August) failed at import with
+  `AttributeError: 'Server' object has no attribute 'list_tools'`, and the
+  nightly KB-full lane had been red since then. The server is unchanged;
+  only the dependency range is narrowed to the API it was written against.
+
 ## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
 
 Certified against **TouchDesigner Build 2025.32820**. The KB bundle is unchanged from v0.2.0

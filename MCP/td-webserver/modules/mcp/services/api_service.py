@@ -1077,11 +1077,12 @@ class TouchDesignerApiService(IApiService):
 
 		self._ensure_restore_point_tracked()
 
-		# B16 — verified-available globals (probed via hasattr(td, ...) in live TD,
-		# 2026-05-14). `me` and `parent` get sentinels — they would otherwise be
-		# misleading (no node context; td.parent() resolves to /mcp_webserver_base).
-		# Names without `hasattr(td, ...)` (runEnv, clamp) are intentionally absent
-		# so users get a clean `NameError` instead of `AttributeError: 'NoneType'`.
+		# Script namespace rule: start from the public names of the `td` module (the
+		# same set `from td import *` gives a Text DAT: ParMode, run, the operator
+		# classes such as textDAT/glslTOP/TOP, ...), then lay the entries below on top.
+		# `me` and `parent` get sentinels -- td.me / td.parent would otherwise leak in
+		# and point at the webserver component (td.parent() resolves to
+		# /mcp_webserver_base). `result` and `place` are this tool's own.
 
 		# place(host, x, y): position an op AND its docked children as a group. TD has no
 		# native group-move (only op.docked + per-op nodeX/nodeY), so this is injected as a
@@ -1092,7 +1093,11 @@ class TouchDesignerApiService(IApiService):
 				child.nodeX, child.nodeY = x + i * 160, y - 120
 			return host
 
-		local_vars = {
+		_td_names = getattr(td, "__all__", None) or [
+			n for n in dir(td) if not n.startswith("_")
+		]
+		local_vars = {n: getattr(td, n) for n in _td_names if hasattr(td, n)}
+		local_vars.update({
 			# Workhorse functions
 			"op":        td.op,
 			"ops":       td.ops,
@@ -1129,7 +1134,7 @@ class TouchDesignerApiService(IApiService):
 			"result":    None,
 			# Layout helper (def'd above): move an op + its docked children as a group.
 			"place":     place,
-		}
+		})
 
 		stdout_capture = io.StringIO()
 		stderr_capture = io.StringIO()
@@ -1642,10 +1647,40 @@ class TouchDesignerApiService(IApiService):
 		if isinstance(item, (int, float, str, bool)) or item is None:
 			return item
 
-		if hasattr(td, "op") and callable(td.op):
-			node = td.op(item)
-			if node and hasattr(node, "valid") and node.valid:
-				return self._get_node_summary(node)
+		# Containers recurse FIRST. They must never reach td.op(): from the webserver's
+		# context td.op(<dict/list/tuple>) resolves to an unrelated operator.
+		if isinstance(item, dict):
+			return {
+				(k if isinstance(k, str) else str(k)): self._process_item(v)
+				for k, v in item.items()
+			}
+		if isinstance(item, (list, tuple, set, frozenset)):
+			return [self._process_item(v) for v in item]
+
+		# numpy: scalars -> plain numbers, arrays -> shape/dtype (no text dump).
+		if type(item).__module__ == "numpy" or type(item).__module__.startswith("numpy."):
+			if hasattr(item, "shape") and getattr(item, "ndim", 0) > 0:
+				return f"<ndarray shape={tuple(item.shape)} dtype={item.dtype}>"
+			if hasattr(item, "item"):
+				try:
+					return item.item()
+				except Exception:
+					pass
+
+		# An operator is only ever recognised by type, never by asking td.op().
+		if hasattr(td, "OP") and isinstance(item, td.OP):
+			if getattr(item, "valid", True):
+				return self._get_node_summary(item)
+			return str(item)
+
+		if hasattr(td, "Par") and isinstance(item, td.Par):
+			try:
+				value = item.eval()
+				if hasattr(td, "OP") and isinstance(value, td.OP):
+					return value.path
+				return self._process_item(value)
+			except Exception as e:
+				return f"<Error: {str(e)}>"
 
 		if not callable(item) and hasattr(item, "name"):
 			return str(item)

@@ -3,6 +3,17 @@
 ## Unreleased
 
 ### Fixed
+- **Live script tool: nested results no longer come back as an unrelated
+  operator, and every TouchDesigner script name now resolves.** A script
+  result holding a dict/list/tuple inside another one had the inner part
+  silently replaced by the summary of an unrelated operator (12 wrong answers
+  in one long real-world build). Containers now recurse, operators are
+  recognised by type (never by `td.op()`), numpy scalars become plain numbers
+  and arrays their shape/dtype. `exec_python_script` also starts its
+  namespace from the `td` module's public names, so `ParMode`, `run`,
+  `textDAT`, `TOP` and the other operator classes work unprefixed (42 failed
+  scripts in the same build); `me`/`parent` keep their sentinels. Takes effect
+  after the install tree is updated and TouchDesigner restarted.
 - **Pinned `mcp>=1.0.0,<2`** (pyproject + `.github/requirements-light.txt`). The
   `mcp` 2.x line removed `Server.list_tools`, so every install since 2.0.0
   shipped (early August) failed at import with

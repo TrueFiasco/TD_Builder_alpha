@@ -110,3 +110,131 @@ def test_syntax_error_returns_error_result_not_raise(service):
     r = service.exec_python_script("def broken(:\n    pass\n")
     assert r["success"] is False
     assert "Script execution failed" in r["error"]
+
+
+# ---------------------------------------------------------------------------
+# Tickets 01 + 02: nested results stay intact; script namespace = td's names.
+# These tests swap a small fake ``td`` module into the loaded api_service module
+# (the shared MagicMock cannot answer ``isinstance(x, td.OP)``).
+# ---------------------------------------------------------------------------
+import types
+
+
+class _FakeOP:
+    valid = True
+
+    def __init__(self, path):
+        self.path = path
+        self.name = path.rsplit("/", 1)[-1]
+        self.id = 1
+        self.OPType = "fakeOP"
+
+
+class _FakePar:
+    def __init__(self, name, value):
+        self.name = name
+        self._value = value
+
+    def eval(self):
+        return self._value
+
+
+class _FakeParMode:
+    EXPRESSION = "EXPRESSION"
+
+
+def _make_fake_td():
+    fake = types.ModuleType("td")
+    fake.OP = _FakeOP
+    fake.Par = _FakePar
+    fake.ParMode = _FakeParMode
+    fake.TOP = type("TOP", (), {})
+    fake.textDAT = type("textDAT", (), {})
+    fake.run = lambda *a, **k: "ran"
+    fake.mod = object()
+    fake.absTime = object()
+    for n in ("ops", "project", "root", "app", "ui", "iop", "ipar", "ext",
+              "families", "monitors", "licenses", "sysinfo"):
+        setattr(fake, n, object())
+    # A real node resolves for paths only; anything else (a dict, list, tuple)
+    # resolves to an unrelated operator -- the observed fault.
+    stray = _FakeOP("/mcp_webserver_base/parameter1")
+    fake.op = lambda x: stray
+    # td.me / td.parent exist in real td and must not leak into scripts.
+    fake.me = "LEAKED_ME"
+    fake.parent = "LEAKED_PARENT"
+    return fake
+
+
+@pytest.fixture()
+def fake_service(monkeypatch):
+    module = _load_api_service_module()
+    fake = _make_fake_td()
+    monkeypatch.setattr(module, "td", fake)
+    monkeypatch.setattr(module, "tdu", object())
+    svc = module.TouchDesignerApiService()
+    # The summary shape is incidental; keep it small and recognisable.
+    svc._get_node_summary = lambda node: {"summary_of": node.path}
+    return svc
+
+
+def test_nested_dict_in_dict_intact(fake_service):
+    r = fake_service._process_method_result({"a": {"b": 1.5, "c": "x"}})
+    assert r == {"a": {"b": 1.5, "c": "x"}}
+
+
+def test_list_of_tuples_intact(fake_service):
+    r = fake_service._process_method_result([(1, 2), (3, 4)])
+    assert r == [[1, 2], [3, 4]]
+
+
+def test_tuple_in_dict_intact(fake_service):
+    r = fake_service._process_method_result({"k": (1, "two", None)})
+    assert r == {"k": [1, "two", None]}
+
+
+def test_non_string_keys_become_strings(fake_service):
+    r = fake_service._process_method_result({"outer": {1: "a", 2: "b"}})
+    assert r == {"outer": {"1": "a", "2": "b"}}
+
+
+def test_operator_inside_list_still_summarised(fake_service):
+    r = fake_service._process_method_result([_FakeOP("/project1/geo1")])
+    assert r == [{"summary_of": "/project1/geo1"}]
+
+
+def test_parameter_inside_dict_still_evaluated(fake_service):
+    r = fake_service._process_method_result({"p": _FakePar("tx", 0.25)})
+    assert r == {"p": 0.25}
+
+
+def test_numpy_scalar_and_array(fake_service):
+    np = pytest.importorskip("numpy")
+    r = fake_service._process_method_result(
+        {"s": np.float32(0.5), "i": np.int64(3), "a": np.zeros((2, 3))}
+    )
+    assert r["s"] == 0.5 and type(r["s"]) is float
+    assert r["i"] == 3 and type(r["i"]) is int
+    assert "2" in str(r["a"]) and "3" in str(r["a"])
+    assert len(str(r["a"])) < 80  # shape/type, not a full dump
+
+
+def test_script_namespace_has_td_names_and_sentinels(fake_service):
+    script = (
+        "ok = [ParMode.EXPRESSION, run, textDAT, TOP, mod]\n"
+        "try:\n"
+        "    me.name\n"
+        "except Exception as e:\n"
+        "    me_msg = str(e)\n"
+        "try:\n"
+        "    parent()\n"
+        "except Exception as e:\n"
+        "    parent_msg = str(e)\n"
+        "result = [me_msg, parent_msg]\n"
+    )
+    r = fake_service.exec_python_script(script)
+    assert r["success"] is True, r.get("error")
+    me_msg, parent_msg = r["data"]["result"]
+    assert "LEAKED" not in me_msg + parent_msg
+    assert "outside any node" in me_msg
+    assert "mcp_webserver_base" in parent_msg

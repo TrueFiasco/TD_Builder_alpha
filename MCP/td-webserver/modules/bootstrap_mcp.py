@@ -1,33 +1,36 @@
 """MCP webserver boot logic — DISK-DELIVERED.
 
-The embedded ``import_modules`` DAT inside ``mcp_webserver_base.tox`` is a THIN
-bootstrap: it only puts ``<tox_dir>/modules`` and ``modules/td_server`` on
-``sys.path`` (it has to live in the DAT because it calls TD's ``parent()``
-builtin) and then delegates here. Keeping the real setup body on disk means every
-future change is disk-delivered — no ``.tox`` rebuild and, crucially, no embedded
-Text-DAT drift (the bug class where the embedded copy silently diverges from the
-on-disk file).
+The ``import_modules`` DAT inside ``mcp_webserver_base.tox`` finds the modules
+(a ``modules`` folder on disk, or the copy embedded in the standalone .tox; see
+``MCP/td-webserver/import_modules.py``) and then delegates here.
 
-``setup(modules_path)`` takes the modules path as an argument (no ``parent()``,
-no ``td``), so it is fully importable and testable offline.
+``setup(modules_path, schema_text=None, source=None)`` takes everything as
+arguments (no ``parent()``, no ``td``), so it is importable and testable offline.
 """
 
 import json
 import os
 
 
-def setup(modules_path):
+def setup(modules_path, schema_text=None, source=None):
 	"""Load the OpenAPI schema and publish it on the ``mcp`` package.
 
-	Called by the embedded ``import_modules`` bootstrap AFTER ``sys.path`` is set
-	up, so ``import mcp`` and the disk modules resolve. Sets both
-	``mcp.openapi_schema`` and ``mcp.schema_load_error`` (None on success) — the
-	API controller surfaces the latter so a load failure is an actionable error
-	rather than a silent 404.
+	Called by the ``import_modules`` bootstrap AFTER the modules are importable.
+	Sets ``mcp.openapi_schema`` and ``mcp.schema_load_error`` (None on success) —
+	the API controller surfaces the latter so a load failure is an actionable
+	error rather than a silent 404 — and ``mcp.modules_source``, which says where
+	the running modules came from (``{"kind": "disk"|"embedded", "path": ...}``).
+
+	``schema_text`` is the schema's contents when it comes from the copy embedded
+	in the .tox; otherwise the schema is looked up on disk under ``modules_path``.
 	"""
 	import mcp
 
-	schema_path = find_openapi_schema_path(modules_path)
+	mcp.modules_source = dict(source) if source else {"kind": "disk", "path": modules_path}
+	if schema_text is not None:
+		schema_path = "the copy embedded in the .tox"
+	else:
+		schema_path = find_openapi_schema_path(modules_path)
 	try:
 		if schema_path is None:
 			raise FileNotFoundError(
@@ -38,8 +41,11 @@ def setup(modules_path):
 		# builds lack (a missing `import yaml` used to abort setup() and 404 every
 		# CRUD/exec route). The .yaml name is upstream heritage; runtime routing
 		# (this loader + openapi_router) is the schema's only live consumer.
-		with open(schema_path, "r", encoding="utf-8") as f:
-			openapi_schema = json.load(f)
+		if schema_text is not None:
+			openapi_schema = json.loads(schema_text)
+		else:
+			with open(schema_path, "r", encoding="utf-8") as f:
+				openapi_schema = json.load(f)
 		if not isinstance(openapi_schema, dict) or "paths" not in openapi_schema:
 			raise ValueError(f"schema at {schema_path} loaded but has no 'paths' key")
 		mcp.openapi_schema = openapi_schema

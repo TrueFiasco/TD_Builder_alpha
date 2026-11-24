@@ -14,6 +14,18 @@
   `MagicMock` would create on demand; the 28 td-webserver unit tests that
   stub the `td` module that way fail under it (`has no attribute 'op'`).
   9.1.1 passes 562/562. The tests are unchanged.
+- **Exact KB lookups no longer wait for the search warm-up.** The knowledge
+  graph loads in seconds, but every KB tool answered `kb_warming` until the
+  search stack (embedding model, vector store, reranker) had also loaded,
+  which takes minutes. In a long real-world build one exact lookup in four was
+  lost this way. The KB now passes through a new `graph_ready` state: graph-only
+  tools (`get_operator_info`, `get_parameter_detail`, `query_graph`,
+  `find_operator_examples`, …) answer as soon as the graph is loaded, while
+  `hybrid_search` and `register_component` keep answering `kb_warming`, now
+  with a message that says exact lookups already work. `get_server_info`
+  reports `kb_status: "graph_ready"` in that window. Measured on the real
+  server: first successful exact lookup about 19 s after start, down from
+  about 126 s (the time to full readiness on this machine).
 
 ## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
 

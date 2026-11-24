@@ -301,9 +301,15 @@ except Exception as _e:
 
 knowledge_graph = None
 hybrid_search = None
-# _KB_STATUS values: "pending" | "warming" | "ready" | "partial" | "failed"
+# _KB_STATUS values:
+#   "pending" | "warming" | "graph_ready" | "ready" | "partial" | "failed"
 #   pending  — warmup hasn't started yet
-#   warming  — _load_kb() is running right now
+#   warming  — _load_kb() is running, knowledge_graph not loaded yet
+#   graph_ready — _load_kb() is still running, but knowledge_graph is loaded
+#              (seconds after start) while the search stack (embedding model,
+#              vector store, reranker; minutes) is still being built. Graph-only
+#              tools answer; _SEMANTIC_TOOLS still get "kb_warming". Transient:
+#              the loader always moves on to ready | partial.
 #   ready    — both knowledge_graph AND hybrid_search loaded
 #   partial  — knowledge_graph loaded but hybrid_search is None (semantic search
 #              unavailable: vector_db missing OR present-but-EMPTY (0 documents —
@@ -378,16 +384,30 @@ def _kb_check(needs_semantic: bool = False) -> Optional[Dict[str, Any]]:
     """
     if _KB_STATUS == "ready":
         return None
+    if _KB_STATUS == "graph_ready":
+        if not needs_semantic:
+            return None  # the graph is loaded; exact lookups need nothing else
+        return {
+            "status": "kb_warming",
+            "message": (
+                "Semantic search is still loading (it can take several minutes "
+                "after server start). Exact lookups ALREADY WORK: use "
+                "get_operator_info, get_parameter_detail, query_graph, "
+                "find_operator_examples now, and retry this call later. Do NOT "
+                "fall back to live introspection — the answer is in the KB."
+            ),
+            "retry_after_seconds": 30,
+        }
     if _KB_STATUS in ("pending", "warming"):
         return {
             "status": "kb_warming",
             "message": (
-                "KB is still loading (typically 5–10+ min after server start, "
-                "and 20+ min if TouchDesigner is booting alongside it). "
-                "Wait and retry; do NOT fall back to live introspection — "
-                "the answer is in the KB."
+                "KB is still loading. The knowledge graph (exact lookups) is "
+                "usually ready within seconds of server start; semantic search "
+                "takes several minutes more. Wait and retry; do NOT fall back to "
+                "live introspection — the answer is in the KB."
             ),
-            "retry_after_seconds": 30,
+            "retry_after_seconds": 10,
         }
     if _KB_STATUS == "partial":
         if not needs_semantic:
@@ -437,7 +457,9 @@ def _vector_db_ro_doc_count(vdb):
 def _load_kb():
     """One-time KB + search construction. Always runs under _kb_lock.
 
-    Sets _KB_STATUS to one of: ready | partial | failed. Sets _KB_REASON
+    Sets _KB_STATUS to one of: ready | partial | failed (passing through
+    warming -> graph_ready on the way; graph_ready opens the graph-only tools
+    while the search stack is still building). Sets _KB_REASON
     with an actionable message for partial/failed states so callers can
     surface a useful next step instead of a confusing AttributeError.
     """
@@ -485,6 +507,14 @@ def _load_kb():
                 enriched_wiki_path=str(enriched_wiki_path),
             )
             print(f"Loaded unified TD knowledge graph with {len(knowledge_graph.nodes)} nodes", file=sys.stderr)
+            # Open the graph-only tools now (ticket: exact lookups waited minutes
+            # on the search stack below). Safe while the search half is still
+            # building: graph-only handlers read only knowledge_graph, which is
+            # complete here; hybrid_search stays None until it passes the health
+            # gate. The stdout->stderr swap above does not reach tool answers —
+            # stdio_server wrapped the real stdout's buffer at startup, before
+            # this thread runs — and any stray handler print lands on stderr.
+            _KB_STATUS = "graph_ready"
         except Exception as e:
             _KB_STATUS = "failed"
             _KB_REASON = (
@@ -1981,7 +2011,8 @@ async def call_tool(name: str, arguments: dict) -> Sequence[Union[TextContent, I
     """Handle tool calls: KB readiness gate → dispatch → partial-health advisory."""
     # Non-blocking KB readiness check for KB-dependent tools.
     # If the background warmup hasn't finished yet, return a structured
-    # "kb_warming" response so the caller can wait and retry instead of
+    # "kb_warming" response (graph-only tools are let through as soon as the
+    # graph half is loaded — status "graph_ready") so the caller can wait and retry instead of
     # blocking the MCP request and hitting the client timeout.
     # If the KB partially or fully failed to load (missing files, missing
     # deps, init exception), return a structured error naming the fix.
@@ -2728,7 +2759,9 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     "kb_version": _KB_MANIFEST_VERSION,
                     "compat": _COMPAT,
                     # KB health in one call (owner D3, 2026-07-16). kb_status:
-                    # pending|warming|ready|partial|failed; kb_reason carries
+                    # pending|warming|graph_ready|ready|partial|failed
+                    # (graph_ready = exact lookups work, semantic search still
+                    # loading); kb_reason carries
                     # the repair message (null when healthy). dense_count is
                     # the vector-store document count measured at KB load
                     # (null = not measured yet; 0 = present but EMPTY — the

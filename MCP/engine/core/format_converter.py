@@ -55,6 +55,37 @@ def extract_component_io(node: Dict[str, Any], family: "OperatorFamily") -> Opti
     }
 
 
+def declared_paths(builder_json: Dict[str, Any], root_comp: str = "project1") -> set:
+    """Every absolute path the builder will create for a builder-shape design: top-level
+    operators, every container, and every operator inside a container at any depth.
+
+    `from_builder` flattens a design down to its top-level `operators`, so a wire such as
+    ``A/out1`` -> ``B/in1`` resolves to ``/project1/A/out1`` yet nothing in the converted
+    network owns that path. The reference stage unions this set in so it knows what the
+    builder knows. The walk accepts the same container shapes the builder reads: flat
+    ``operators``/``containers``, a nested ``network`` block, and ``children``.
+    """
+    paths: set = set()
+
+    def walk(nodes, parent: str) -> None:
+        for node in nodes or []:
+            if not isinstance(node, dict):
+                continue
+            name = node.get("path") or node.get("name")
+            if not name:
+                continue
+            path = name if name.startswith("/") else f"{parent}/{name}"
+            paths.add(path)
+            inner = node.get("network") or {}
+            walk(node.get("operators") or inner.get("operators") or node.get("children"), path)
+            walk(node.get("containers") or inner.get("containers"), path)
+
+    root = f"/{root_comp}"
+    walk(builder_json.get("operators"), root)
+    walk(builder_json.get("containers"), root)
+    return paths
+
+
 class FormatConverter:
     """
     Hub for converting between Builder, Extended, Canonical, and Lossless formats.
@@ -140,6 +171,8 @@ class FormatConverter:
             operators=operators,
             connections=connections
         )
+        # Container contents are flattened away above; keep the paths for the reference stage.
+        network.declared_paths = declared_paths(builder_json, metadata.root_comp)
 
         return network
 

@@ -3,6 +3,14 @@
 ## Unreleased
 
 ### Fixed
+- **`td_validate` no longer rejects wires that touch a container.** A design with
+  `containers` and a wire such as `A/out1` -> `B/in1` (or `A` -> `B`) failed the
+  reference stage with "Connection source ... does not exist" while the same
+  design built. Cause: `FormatConverter.from_builder` keeps only top-level
+  `operators`, so containers and their inner operators never reached the
+  reference check. The converter now records every path the design declares
+  (containers and inner operators, any depth) and the reference stage accepts
+  them. A wire to a path that exists nowhere in the design is still rejected.
 - **Pinned `mcp>=1.0.0,<2`** (pyproject + `.github/requirements-light.txt`). The
   `mcp` 2.x line removed `Server.list_tools`, so every install since 2.0.0
   shipped (early August) failed at import with

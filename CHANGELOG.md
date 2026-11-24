@@ -26,6 +26,26 @@
   reports `kb_status: "graph_ready"` in that window. Measured on the real
   server: first successful exact lookup about 19 s after start, down from
   about 126 s (the time to full readiness on this machine).
+- **Default answers fit a 24 KB budget, and say how to get the rest.** In a
+  long real-world build some answers were too big to read, so the call was
+  spent and nothing learned. One budget, `ANSWER_MAX_BYTES` (24 KB, env
+  `TD_ANSWER_MAX_BYTES`), measured with the existing `output_budget.sized`:
+  - `get_operator_info` now defaults to the compact form (every parameter name
+    and type, plus `example_count`/`has_examples`; 7.5 KB at most across the
+    KB, was up to 86 KB). Its note names `get_parameter_detail` for one
+    parameter and `compact=false` for everything.
+  - `expand_toe_file` `summary` mode: a summary over budget becomes an
+    overview (counts, by-family totals, interface manifest, component tree to
+    depth 3 with the operator count under each component, top-level
+    operators) with a `_truncated` block saying how to open one component at
+    a time with the new `component` argument (a COMP path, or a single
+    operator's path). TouchDesigner's own 8,300-operator UI component went
+    from 4.7 MB to 3.6 KB. Summaries under budget are unchanged.
+  - `get_expert_prompt`: every expert prompt was 41–77 KB (phase text plus
+    the curated expertise). Prompts over budget now come in parts (`part`
+    argument); each answer's first line says "part k of N", how to get the
+    next part and where each expertise file starts. The parts join back into
+    the whole prompt, so nothing is trimmed.
 
 ## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
 

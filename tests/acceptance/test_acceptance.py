@@ -157,12 +157,15 @@ def test_p02d_operator_info_not_found_is_explicit(probe):
 
 def test_p02e_has_examples_invariant_and_multiword_lookup(probe):
     # F6c: has_examples must never contradict example_count.
+    # Checked in both forms: compact is the default and carries the same two fields.
     for op in ("GLSL POP", "SOP to CHOP", "Composite TOP"):
-        r = probe.call("get_operator_info", {"operator_name": op})
-        assert r.ok, r.text[:200]
-        d = r.json()
-        assert bool(d.get("example_count", 0)) == bool(d.get("has_examples")), \
-            (op, d.get("example_count"), d.get("has_examples"))
+        for compact in (True, False):
+            r = probe.call("get_operator_info", {"operator_name": op, "compact": compact})
+            assert r.ok, r.text[:200]
+            d = r.json()
+            assert "example_count" in d, (op, compact, sorted(d))
+            assert bool(d.get("example_count", 0)) == bool(d.get("has_examples")), \
+                (op, compact, d.get("example_count"), d.get("has_examples"))
     # F6d: a multi-word wiki name now resolves servable examples (was [] pre-fix).
     ex = probe.call("find_operator_examples", {"operator_name": "SOP to CHOP"})
     assert ex.ok, ex.text[:200]

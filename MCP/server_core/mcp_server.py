@@ -63,6 +63,17 @@ except ImportError:
 # Output budgets for the two flood-prone tools (W4b). server_core is on sys.path
 # (inserted above); output_budget is a pure json/os module — safe to import here.
 from output_budget import budget_full_expand, budget_hybrid_results  # noqa: E402
+from output_budget import _cap as _budget_cap, sized as _sized  # noqa: E402
+
+# One budget for a DEFAULT answer a session must be able to read in full
+# (bytes, measured with output_budget.sized like the other budgets). In a long
+# real-world build, answers of 16 KB were read and answers of 42-59 KB were
+# not (the client spilled them to a file). Applies to expand_toe_file's
+# summary mode and to get_expert_prompt; get_operator_info's compact default
+# sits far under it (7.5 KB worst case across the KB). Env-tunable.
+ANSWER_MAX_BYTES = _budget_cap("TD_ANSWER_MAX_BYTES", 24 * 1024)
+# Room left for the {ok, data, meta} envelope around a budgeted payload.
+_ENVELOPE_MARGIN = 1024
 
 # hybrid_search proactively caps how many wiki_parameters it hydrates per hit, so a
 # multi-hit envelope stays small even when it is under HYBRID_SEARCH_MAX_BYTES (the
@@ -255,6 +266,69 @@ def load_expert_prompt(expert_name: str, phase: str = "build") -> str:
     return base + _load_expert_expertise(expert_name)
 
 
+
+
+def _split_text(text: str, max_bytes: int) -> List[str]:
+    """Split ``text`` into consecutive pieces of at most ``max_bytes`` UTF-8 bytes,
+    at line ends where possible. ``"".join(pieces) == text``."""
+    pieces: List[str] = []
+    cur, cur_b = [], 0
+    for line in text.splitlines(keepends=True):
+        b = len(line.encode("utf-8"))
+        while b > max_bytes:  # a single over-long line: cut it by characters
+            if cur:
+                pieces.append("".join(cur))
+                cur, cur_b = [], 0
+            cut = max_bytes
+            while len(line[:cut].encode("utf-8")) > max_bytes:
+                cut -= 1
+            pieces.append(line[:cut])
+            line = line[cut:]
+            b = len(line.encode("utf-8"))
+        if cur_b + b > max_bytes and cur:
+            pieces.append("".join(cur))
+            cur, cur_b = [], 0
+        cur.append(line)
+        cur_b += b
+    if cur or not pieces:
+        pieces.append("".join(cur))
+    return pieces
+
+
+def _expert_prompt_part(text: str, expert_name: str, phase: str, part=1) -> str:
+    """One readable answer of an expert prompt (answer budget, ticket 11).
+
+    A prompt under the budget is returned unchanged. Over it, the prompt is
+    split into parts; each answer is one header line + that part's text, and
+    the parts joined give back the whole prompt (nothing is trimmed — the
+    curated expertise must still reach the expert). The header says which
+    part this is, how to get the next, and where each expertise file starts.
+    """
+    total = len(text.encode("utf-8"))
+    if total < ANSWER_MAX_BYTES and part in (1, None, "1"):
+        return text
+    parts = _split_text(text, ANSWER_MAX_BYTES - _ENVELOPE_MARGIN - 512)
+    try:
+        k = int(part or 1)
+    except (TypeError, ValueError):
+        k = 0
+    n = len(parts)
+    if not 1 <= k <= n:
+        return (f"ERROR: part {part!r} out of range: {expert_name}/{phase} comes in "
+                f"part 1 of {n} to part {n} of {n}.")
+    nxt = (f"Next: get_expert_prompt(expert_name='{expert_name}', phase='{phase}', "
+           f"part={k + 1})." if k < n else "This is the last part.")
+    head = (f"[get_expert_prompt {expert_name}/{phase}: part {k} of {n}. The prompt is "
+            f"{total} bytes, over the {ANSWER_MAX_BYTES}-byte answer budget, so it comes "
+            f"in parts; read them all. {nxt}")
+    if k == 1:
+        starts = []
+        for i, body in enumerate(parts, 1):
+            for m in re.finditer(r"^### (\S+\.ya?ml)\b", body, re.M):
+                starts.append(f"{m.group(1)} (part {i})")
+        if starts:
+            head += " Curated expertise: " + ", ".join(starts) + "."
+    return head + "]\n" + parts[k - 1]
 
 
 # --------------------------------------------------------------------------
@@ -1310,7 +1384,13 @@ async def list_tools() -> list[Tool]:
         Tool(
             annotations=READ_ONLY,
             name="get_operator_info",
-            description="Get info about a TouchDesigner operator. Use compact=true to save context (returns name, family, type, summary).",
+            description=(
+                "Get info about a TouchDesigner operator. By default returns the compact form: "
+                "name, family, type, summary and every parameter name with its type (always small). "
+                "For one parameter's description, menu tokens and default use get_parameter_detail; "
+                "compact=false returns everything incl. every parameter's description (up to ~86 KB "
+                "on the heaviest operators)."
+            ),
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -1320,8 +1400,11 @@ async def list_tools() -> list[Tool]:
                     },
                     "compact": {
                         "type": "boolean",
-                        "description": "If true, returns minimal info to save context. Default: false",
-                        "default": False
+                        "description": (
+                            "Default true: parameter names + types only. false = the full record "
+                            "with every parameter's description (large)."
+                        ),
+                        "default": True
                     }
                 },
                 "required": ["operator_name"]
@@ -1702,6 +1785,15 @@ async def list_tools() -> list[Tool]:
                         "enum": ["build", "plan", "self_improve"],
                         "default": "build",
                         "description": "Which phase prompt to load (build is most common)"
+                    },
+                    "part": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "default": 1,
+                        "description": (
+                            "Prompts over the ~24 KB answer budget come in parts; the first "
+                            "line of each answer says 'part k of N' and how to get the next."
+                        )
                     }
                 },
                 "required": ["expert_name"]
@@ -1724,7 +1816,10 @@ async def list_tools() -> list[Tool]:
                 "Expand a TouchDesigner .toe/.tox file (via toeexpand.exe) and parse it OFFLINE. "
                 "mode='summary' (default) returns each node's op_type plus its NON-DEFAULT parameters "
                 "with value + mode (constant/expression/reference/bind), and the connection list — "
-                "ideal for understanding/explaining an existing network. mode='full' returns the complete "
+                "ideal for understanding/explaining an existing network. A summary over the ~24 KB answer "
+                "budget comes back as an overview instead (counts, component tree with operator counts, "
+                "interface manifest); then pass component='<path>' to open one component at a time. "
+                "mode='full' returns the complete "
                 "lossless JSON (operator positions + raw files + .toc) that round-trips back into a "
                 ".toe.dir/.tox. Also accepts an already-expanded .toe.dir/.tox.dir (skips toeexpand)."
             ),
@@ -1744,6 +1839,14 @@ async def list_tools() -> list[Tool]:
                         "enum": ["summary", "full"],
                         "default": "summary",
                         "description": "summary = node/connection map with non-default params; full = complete round-trippable lossless JSON."
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": (
+                            "summary mode only: the absolute path of one COMP (e.g. "
+                            "'/project1/scene'); summarizes that component and everything under it. "
+                            "Use a path from the overview's component_tree."
+                        )
                     }
                 },
                 "required": []
@@ -1938,6 +2041,153 @@ def _collapse_seq_params(params, family_threshold: int = 2, keep_per_family: int
 # without a circular import (this module imports ToeBuilderBridge). Re-exported under the
 # original name — tests and the harvest script read `_component_manifest` off this module.
 from core.component_manifest import component_manifest as _component_manifest  # noqa: E402
+
+
+SUMMARY_TREE_DEPTH = 3  # component-tree levels shown when a summary is over budget
+
+
+def _summary_view(summary: dict, component: Optional[str] = None,
+                  max_bytes: int = ANSWER_MAX_BYTES,
+                  tree_depth: int = SUMMARY_TREE_DEPTH) -> Optional[dict]:
+    """The readable view of an expand_toe_file summary.
+
+    ``component`` scopes the summary to one COMP (its path and everything under
+    it); ``None`` if no operator has that path. A view under ``max_bytes`` is
+    returned with full per-operator detail (the whole-network view unchanged).
+    Over budget it becomes an overview — counts, by-family totals, the
+    interface manifest, the component tree to ``tree_depth`` levels with the
+    operator count under each component, the top-level operators (name and
+    type), and a ``_truncated`` block saying how much was left out and how to
+    open one component at a time. Never a silent cut.
+    """
+    view = summary
+    scope = None
+    if component:
+        scope = "/" + component.strip().strip("/")
+        ops = [o for o in summary.get("operators", [])
+               if o["path"] == scope or o["path"].startswith(scope + "/")]
+        if not ops:
+            return None
+        paths = {o["path"] for o in ops}
+        conns = [c for c in summary.get("connections", [])
+                 if c.get("from") in paths or c.get("to") in paths]
+        fam: Dict[str, int] = {}
+        for o in ops:
+            f = (o.get("op_type") or "").split(":")[0]
+            if f:
+                fam[f] = fam.get(f, 0) + 1
+        view = {
+            "project_name": summary.get("project_name"),
+            "mode": summary.get("mode"),
+            "component": scope,
+            "node_count": len(ops),
+            "connection_count": len(conns),
+            "by_family": fam,
+            "operators": ops,
+            "connections": conns,
+            "foreign_refs": [r for r in summary.get("foreign_refs", [])
+                             if r.get("path") in paths],
+        }
+
+    full_bytes = _sized(view)
+    if full_bytes <= max_bytes:
+        return view
+
+    ops = view.get("operators", [])
+    base = scope.count("/") if scope else 0
+
+    def _depth(path):
+        return path.count("/") - base
+
+    comps = [o for o in ops if (o.get("op_type") or "").startswith("COMP")]
+    all_paths = sorted(o["path"] for o in ops)
+    import bisect
+
+    def _under(path):  # operators strictly inside `path`
+        lo = bisect.bisect_left(all_paths, path + "/")
+        hi = bisect.bisect_left(all_paths, path + "0")  # '0' sorts right after '/'
+        return hi - lo
+
+    tree_all = sorted(
+        ({"path": c["path"], "op_type": c["op_type"], "operators": _under(c["path"]),
+          "_d": _depth(c["path"])} for c in comps),
+        key=lambda c: (c["_d"], c["path"]))
+    # Top-level operators: directly inside the scoped component, or inside the
+    # root component(s) of the whole network. COMPs are already in the tree.
+    top_depth = 1 if scope else 2
+    top_all = [{"path": o["path"], "op_type": o["op_type"]} for o in ops
+               if 0 < _depth(o["path"]) <= top_depth
+               and not (o.get("op_type") or "").startswith("COMP")]
+
+    foreign = view.get("foreign_refs", [])
+    header = {k: view[k] for k in ("project_name", "mode", "component", "node_count",
+                                   "connection_count", "by_family", "manifest")
+              if k in view}
+    header["foreign_refs"] = foreign[:20]
+    if len(foreign) > 20:
+        header["foreign_ref_count"] = len(foreign)
+
+    where = f"component='{scope}'" if scope else "the whole network"
+    hint = (
+        f"The summary of {where} is {full_bytes} bytes, over the {max_bytes}-byte "
+        "answer budget, so per-operator parameters and the connection list are left "
+        "out. Open one component at a time: expand_toe_file(toe_path=..., "
+        "component='<a path from component_tree>'). mode='full' returns the lossless "
+        "JSON (also size-capped)."
+    )
+
+    def _build(tree, top):
+        out = dict(header)
+        out["component_tree"] = [{k: v for k, v in c.items() if k != "_d"} for c in tree]
+        out["component_tree_depth"] = max((c["_d"] for c in tree), default=0)
+        out["top_level_operators"] = top
+        out["_truncated"] = {
+            "full_bytes": full_bytes, "max_bytes": max_bytes,
+            "component_tree_omitted": len(tree_all) - len(tree),
+            "top_level_operators_omitted": len(top_all) - len(top),
+            "hint": hint,
+        }
+        return out
+
+    floor = 1 if scope else 2
+    out = None
+    for d in range(max(tree_depth, floor), floor - 1, -1):
+        tree = [c for c in tree_all if c["_d"] <= d]
+        cand = _build(tree, top_all)
+        if _sized(cand) <= max_bytes:
+            out = cand
+            break
+    if out is None:
+        # Still over at the floor depth: keep the shallowest entries that fit.
+        tree = [c for c in tree_all if c["_d"] <= floor]
+        top = top_all
+        while _sized(_build(tree, top)) > max_bytes and (tree or top):
+            if len(top) >= len(tree) and top:
+                top = top[: len(top) // 2]
+            else:
+                tree = tree[: len(tree) // 2]
+        out = _build(tree, top)
+
+    if scope:
+        # An opened component that is still over budget: fill what is left of
+        # the budget with its operators in full detail (path order), so even a
+        # leaf component full of heavy operators shows real parameters. Any
+        # operator's own path works as `component` to open it alone.
+        out["operators"] = []
+        listed = 0
+        room = max_bytes - _sized(out) - 64  # slack for the omitted count
+        for o in ops:
+            cost = _sized(o) + 2
+            if cost > room:
+                break
+            out["operators"].append(o)
+            room -= cost
+            listed += 1
+        out["_truncated"]["operators_omitted"] = len(ops) - listed
+        out["_truncated"]["hint"] += (
+            " Operators are listed in full detail until the budget runs out; open a "
+            "sub-component, or a single operator, by passing its path as component.")
+    return out
 
 
 def _summarize_td_network(network) -> dict:
@@ -2196,7 +2446,9 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 return [TextContent(type="text", text="ERROR: Tools not initialized")]
 
             operator_name = arguments["operator_name"]
-            compact = arguments.get("compact", False)
+            # Compact by default (an answer too big to read is a spent call): the
+            # full form runs to ~86 KB on the heaviest operators.
+            compact = arguments.get("compact", True)
 
             # Use knowledge_graph (UnifiedGraphQuery) for comprehensive operator info
             info = knowledge_graph.get_operator_info(operator_name)
@@ -2282,8 +2534,18 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     "type": info.get("op_type") or info.get("type"),
                     "summary": info.get("summary") or info.get("description", "")[:200],
                     "parameters": params_compact,
-                    "_note": "Use get_parameter_detail for full descriptions"
                 }
+                # Whether exemplars exist is cheap and steers the next call
+                # (find_operator_examples); carry it when the KB has it.
+                for _k in ("example_count", "has_examples"):
+                    if _k in info:
+                        compact_info[_k] = info[_k]
+                compact_info["_note"] = (
+                    "Compact form. For one parameter's description, menu tokens and "
+                    "default: get_parameter_detail(operator_name, parameter_name). "
+                    "For everything (every parameter's description, can be large): "
+                    "get_operator_info(..., compact=false)."
+                )
                 return [TextContent(
                     type="text",
                     text=json.dumps(compact_info)
@@ -2741,6 +3003,9 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
             expert_name = arguments["expert_name"]
             phase = arguments.get("phase", "build")
             prompt_content = load_expert_prompt(expert_name, phase)
+            if not prompt_content.startswith("ERROR"):
+                prompt_content = _expert_prompt_part(
+                    prompt_content, expert_name, phase, arguments.get("part", 1))
             return [TextContent(
                 type="text",
                 text=prompt_content
@@ -2813,6 +3078,9 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                 return _expand_err("Missing required argument 'toe_path' (or 'path').")
             if out_mode not in ("summary", "full"):
                 return _expand_err(f"Invalid mode '{out_mode}'. Use 'summary' or 'full'.")
+            component_arg = (arguments.get("component") or "").strip() or None
+            if component_arg and out_mode != "summary":
+                return _expand_err("'component' applies to mode='summary' only.")
             src = Path(toe_path_arg)
             if not src.exists():
                 return _expand_err(f"Path not found: {src}",
@@ -2869,7 +3137,17 @@ async def _dispatch_tool(name: str, arguments: dict) -> Sequence[Union[TextConte
                     # explicit pointer. Stays ok=True so the scorer envelope is fine.
                     data, expand_truncated, _ = budget_full_expand(data)
                 else:
-                    data = _summarize_td_network(network)
+                    # Answer budget: over it, the summary becomes an overview
+                    # that says how to open one component at a time.
+                    data = _summary_view(_summarize_td_network(network),
+                                         component=component_arg,
+                                         max_bytes=ANSWER_MAX_BYTES - _ENVELOPE_MARGIN)
+                    if data is None:
+                        return _expand_err(
+                            f"No operator at component path '{component_arg}'.",
+                            "Call expand_toe_file without 'component' and use a path from "
+                            "the overview's component_tree (absolute, e.g. '/project1/scene').")
+                    expand_truncated = "_truncated" in data
             except Exception as pe:
                 return _expand_err(f"Failed to parse expanded network: {pe}")
             finally:

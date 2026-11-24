@@ -14,6 +14,26 @@
   `MagicMock` would create on demand; the 28 td-webserver unit tests that
   stub the `td` module that way fail under it (`has no attribute 'op'`).
   9.1.1 passes 562/562. The tests are unchanged.
+- **Operator-name lookups answer a correct name with the right operator**
+  (build-review ticket 05). Three faults, each of which returned something that
+  looked like an answer:
+  - `get_operator_info("moviefileinTOP")` (any multi-word operator by its class
+    name) returned a shell with no parameters, while `"Movie File In TOP"`
+    answered in full. Names now resolve through one alias index built from the
+    documented name, a well-formed `python_class`, and the examples graph's
+    `canonical_name`. A sweep of all 663 documented operators: class-style and
+    spaced names disagreed on **245** before, **0** after. A name only the
+    examples graph knows is now marked `documentation: "missing"` with a
+    warning in `summary`, never an unmarked shell. `query_graph related` uses
+    the same resolution.
+  - `find_operator_examples("textTOP")` served Texture 3D TOP examples and
+    `"inTOP"` served Point File In TOP, because matching was by substring. It
+    now matches the type exactly; the substring fallback runs only when no
+    operator matches exactly, and every example it serves is marked
+    `match: "substring"` + `matched_operator`.
+  - A known operator with no examples (e.g. GLSL POP) returned a bare `[]`. It
+    now returns `{"_resolution": "no-examples", ...}` with a message pointing at
+    `get_operator_info` and `hybrid_search`. Unknown names still return `[]`.
 
 ## 0.2.1 — honesty pass: census-true ground truth, honest parsers, guarded KB
 

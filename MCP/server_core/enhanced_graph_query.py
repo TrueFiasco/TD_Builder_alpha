@@ -154,8 +154,14 @@ class EnhancedGraphQuery:
         operator_name: str,
         limit: int = 10,
         family: Optional[str] = None,
+        allow_substring: bool = True,
     ) -> Union[List[Dict], Dict]:
         """Find examples demonstrating an operator.
+
+        Matching is exact on the operator type first. Only when no operator
+        matches exactly (and `allow_substring` is true) does it fall back to a
+        substring match, and then every served example carries
+        `match: "substring"` + `matched_operator`.
 
         Returns a flat list when the operator resolves to one family — either
         because `family` was supplied, the operator name parsed to a family
@@ -187,12 +193,23 @@ class EnhancedGraphQuery:
         scope_family = (family or parsed_fam or "").strip().upper() or None
         match_needle = parsed_type or operator_name.lower()
 
-        op_nodes = [
+        in_scope = [
             n for n in self.nodes.values()
             if n.get('type') == 'Operator'
-            and match_needle in n['name'].lower()
             and (scope_family is None or n.get('family', '').upper() == scope_family)
         ]
+        # Exact type match first. Substring matching alone served the wrong operator
+        # ('text' is inside 'texture3dTOP', 'in' inside 'pointfileinTOP'), and the
+        # first hit filled the limit. When an exact node exists we never fall back,
+        # even if it has no servable examples: wrong examples are worse than none.
+        op_nodes = [
+            n for n in in_scope
+            if _normalize_op_type_for_filter(n.get('name', ''))[1] == match_needle
+        ]
+        loose = False
+        if not op_nodes and allow_substring:
+            op_nodes = [n for n in in_scope if match_needle in n['name'].lower()]
+            loose = bool(op_nodes)
 
         # W5.2 — bare-name match spans multiple families: return bucketed.
         if scope_family is None:
@@ -204,7 +221,8 @@ class EnhancedGraphQuery:
                     bucket = buckets.setdefault(fam, [])
                     if len(bucket) >= limit:
                         continue
-                    bucket.extend(self._collect_examples_for_op(op_node, limit - len(bucket)))
+                    bucket.extend(self._collect_examples_for_op(
+                        op_node, limit - len(bucket), loose=loose))
                 return {
                     "_resolution": "multi-family",
                     "_query": operator_name,
@@ -217,17 +235,21 @@ class EnhancedGraphQuery:
         # Single-family path (scope_family is set, OR bare name matched one family).
         results: List[Dict] = []
         for op_node in op_nodes:
-            results.extend(self._collect_examples_for_op(op_node, limit - len(results)))
+            results.extend(self._collect_examples_for_op(
+                op_node, limit - len(results), loose=loose))
             if len(results) >= limit:
                 break
         return results[:limit]
 
-    def _collect_examples_for_op(self, op_node: Dict, limit: int) -> List[Dict]:
+    def _collect_examples_for_op(self, op_node: Dict, limit: int,
+                                 loose: bool = False) -> List[Dict]:
         """Walk DEMONSTRATES edges from an operator node, return enriched examples.
 
         W5.2 helper, factored out of find_examples_by_operator so the
         multi-family bucketed path can per-bucket-budget without duplicating
-        the walk logic.
+        the walk logic. `loose=True` marks each example as served by the
+        substring fallback (`match: "substring"`, `matched_operator: <node name>`)
+        so the caller can see it was not an exact match.
         """
         out: List[Dict] = []
         if limit <= 0:
@@ -237,7 +259,11 @@ class EnhancedGraphQuery:
                 continue
             ex = self.nodes.get(edge['to'])
             if ex and ex.get('is_useful'):
-                out.append(self._enrich_example(ex))
+                enriched = self._enrich_example(ex)
+                if loose:
+                    enriched['match'] = 'substring'
+                    enriched['matched_operator'] = op_node.get('name')
+                out.append(enriched)
                 if len(out) >= limit:
                     break
         return out

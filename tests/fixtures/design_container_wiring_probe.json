@@ -1,0 +1,108 @@
+{
+ "containers": [
+  {
+   "name": "A",
+   "type": "base",
+   "family": "COMP",
+   "position": [
+    0,
+    0
+   ],
+   "operators": [
+    {
+     "name": "null1",
+     "type": "TOP:null",
+     "position": [
+      0,
+      0
+     ]
+    },
+    {
+     "name": "out1",
+     "type": "TOP:out",
+     "position": [
+      200,
+      0
+     ],
+     "parameters": {
+      "label": "feet"
+     }
+    },
+    {
+     "name": "out2",
+     "type": "CHOP:out",
+     "position": [
+      200,
+      -150
+     ],
+     "parameters": {
+      "label": "status"
+     }
+    },
+    {
+     "name": "README",
+     "type": "DAT:text",
+     "position": [
+      0,
+      -300
+     ],
+     "text": "A readme line one\nline two",
+     "parameters": {
+      "language": "text"
+     }
+    }
+   ],
+   "connections": [
+    {
+     "from": "null1",
+     "to": "out1"
+    }
+   ]
+  },
+  {
+   "name": "B",
+   "type": "base",
+   "family": "COMP",
+   "position": [
+    300,
+    0
+   ],
+   "operators": [
+    {
+     "name": "in1",
+     "type": "TOP:in",
+     "position": [
+      0,
+      0
+     ],
+     "parameters": {
+      "label": "feet"
+     }
+    },
+    {
+     "name": "in2",
+     "type": "CHOP:in",
+     "position": [
+      0,
+      -150
+     ],
+     "parameters": {
+      "label": "status"
+     }
+    }
+   ],
+   "connections": []
+  }
+ ],
+ "operators": [],
+ "connections": [
+  {
+   "from": "A/out1",
+   "to": "B/in1"
+  },
+  {
+   "from": "A/out2",
+   "to": "B/in2"
+  }
+ ]
+}

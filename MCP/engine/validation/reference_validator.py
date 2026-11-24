@@ -8,6 +8,7 @@ from pathlib import Path as PathLib
 sys.path.insert(0, str(PathLib(__file__).parent.parent))
 
 from typing import List, Dict, Any, Set
+from core.format_converter import declared_paths
 from core.models import ValidationError, StageReport, TDNetwork
 
 
@@ -42,15 +43,20 @@ class ReferenceValidator:
             operators_data = [self._operator_to_dict(op) for op in network_json.operators]
             connections_data = [self._connection_to_dict(c) for c in network_json.connections]
             root_comp = f"/{network_json.metadata.root_comp}"
+            # from_builder flattens containers away; it records what it dropped here.
+            nested_paths = set(getattr(network_json, "declared_paths", None) or ())
         else:
             operators_data = network_json.get("operators", [])
             connections_data = network_json.get("connections", [])
             metadata = network_json.get("metadata", {})
             root_comp = f"/{metadata.get('root_comp', 'project1')}"
+            nested_paths = declared_paths(network_json, metadata.get("root_comp", "project1"))
 
         # Build operator path set for fast lookup (including root comp)
         operator_paths = {op.get("path") for op in operators_data if op.get("path")}
         operator_paths.add(root_comp)  # Root component always exists
+        # Containers and the operators inside them (any depth) are created by the builder too.
+        operator_paths |= nested_paths
 
         # Check for duplicate paths
         path_counts = {}

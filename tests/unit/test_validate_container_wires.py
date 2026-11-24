@@ -14,7 +14,8 @@ for p in (str(REPO), str(REPO / "MCP"), str(REPO / "MCP" / "engine")):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-from api.validate import build_validation_stack  # noqa: E402
+from core.format_converter import FormatConverter, declared_paths  # noqa: E402
+from validation.reference_validator import ReferenceValidator  # noqa: E402
 
 FIX = REPO / "tests" / "fixtures" / "container_wires"
 
@@ -24,9 +25,11 @@ def _load(name):
 
 
 def _reference_errors(design):
-    _, conv, pipe = build_validation_stack()
-    report = pipe.validate(conv.from_builder(design), "t")
-    return [e.message for e in report.get_errors() if e.stage == "reference"]
+    # Registry-free on purpose: from_builder and the reference stage never read the KB,
+    # so these run in the hermetic (KB-free) lane. A placeholder registry avoids the
+    # default OperatorRegistry() load.
+    net = FormatConverter(registry=object()).from_builder(design)
+    return [e.message for e in ReferenceValidator().validate(net).errors]
 
 
 @pytest.mark.parametrize("fx", ["containers_wire_inner_ops.json",
@@ -55,3 +58,20 @@ def test_nested_container_paths_known():
         "operators": [{"name": "o", "type": "TOP:null"}]}]
     d["connections"] = [{"from": "A/deep/o", "to": "B/in1"}]
     assert _reference_errors(d) == []
+
+
+def test_declared_paths_walks_every_container_shape():
+    d = {"operators": [{"name": "top", "type": "TOP:null"}],
+         "containers": [
+             {"name": "A", "operators": [{"name": "x"}],
+              "containers": [{"name": "deep", "children": [{"name": "y"}]}]},
+             {"name": "N", "network": {"operators": [{"name": "z"}]}}]}
+    assert declared_paths(d) == {
+        "/project1/top", "/project1/A", "/project1/A/x", "/project1/A/deep",
+        "/project1/A/deep/y", "/project1/N", "/project1/N/z"}
+
+
+def test_dict_input_also_knows_container_paths():
+    d = _load("containers_wire_inner_ops.json")
+    d["connections"] = [{"from": "/project1/A/out1", "to": "/project1/B/in1"}]
+    assert ReferenceValidator().validate(d).errors == []

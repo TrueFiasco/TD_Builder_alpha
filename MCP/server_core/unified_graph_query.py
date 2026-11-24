@@ -6,9 +6,19 @@ Ensures we find all available data
 """
 
 import importlib.util
+import re
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Set
+from typing import Dict, List, Optional, Any, Set, Union
 from collections import defaultdict
+
+_FAMILIES = ('CHOP', 'TOP', 'SOP', 'MAT', 'DAT', 'COMP', 'POP')
+_WELL_FORMED_CLASS = re.compile(r'^([a-z0-9]+)(CHOP|TOP|SOP|MAT|DAT|COMP|POP)_Class$')
+
+
+def _compact_op_key(name: str) -> str:
+    """'Movie File In TOP' / 'moviefileinTOP' / 'Art-Net DAT' -> one comparable key
+    ('moviefileintop', 'artnetdat'): lower-cased, everything but letters and digits dropped."""
+    return re.sub(r'[^a-z0-9]', '', (name or '').lower())
 
 # Docked-DAT specs (KB/docked_dats.json), loaded once and surfaced in get_operator_info
 # so experts see which helper DATs the builder auto-creates + docks for an op.
@@ -202,6 +212,7 @@ class UnifiedGraphQuery:
         enh_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(enh_module)
         self.enhanced_graph_query = enh_module.EnhancedGraphQuery(enhanced_graph_path)
+        self._normalize_op_type = enh_module._normalize_op_type_for_filter
         print(f"    [OK] Enhanced graph loaded: {len(self.enhanced_graph_query.nodes)} nodes")
 
         print("[OK] Unified Graph Query ready!\n")
@@ -274,28 +285,7 @@ class UnifiedGraphQuery:
         # Try multiple name variations
         if self.wiki_loaded:
             try:
-                # Try exact match first
-                wiki_info = self.wiki_data.get(operator_name.lower())
-
-                # Try with space + family suffix (e.g., "speed chop")
-                if not wiki_info:
-                    # Common family suffixes
-                    for suffix in [' CHOP', ' TOP', ' SOP', ' MAT', ' DAT', ' COMP', ' POP']:
-                        variant = (operator_name + suffix).lower()
-                        wiki_info = self.wiki_data.get(variant)
-                        if wiki_info:
-                            break
-
-                # Try removing CHOP/TOP/etc suffix (e.g., "speedchop" -> "speed chop")
-                if not wiki_info:
-                    for suffix in ['chop', 'top', 'sop', 'mat', 'dat', 'comp', 'pop']:
-                        if operator_name.lower().endswith(suffix):
-                            base = operator_name[:-len(suffix)]
-                            variant = (base + ' ' + suffix.upper()).lower()
-                            wiki_info = self.wiki_data.get(variant)
-                            if wiki_info:
-                                break
-
+                wiki_info = self._lookup_doc(self.wiki_data, operator_name)
                 if wiki_info:
                     result['wiki_data'] = wiki_info
                     result['has_wiki_docs'] = True
@@ -305,25 +295,7 @@ class UnifiedGraphQuery:
         # Get from enriched wiki (has ground truth params)
         if self.enriched_loaded:
             try:
-                # Try same name variations as wiki
-                enriched_info = self.enriched_wiki.get(operator_name.lower())
-
-                if not enriched_info:
-                    for suffix in [' CHOP', ' TOP', ' SOP', ' MAT', ' DAT', ' COMP', ' POP']:
-                        variant = (operator_name + suffix).lower()
-                        enriched_info = self.enriched_wiki.get(variant)
-                        if enriched_info:
-                            break
-
-                if not enriched_info:
-                    for suffix in ['chop', 'top', 'sop', 'mat', 'dat', 'comp', 'pop']:
-                        if operator_name.lower().endswith(suffix):
-                            base = operator_name[:-len(suffix)]
-                            variant = (base + ' ' + suffix.upper()).lower()
-                            enriched_info = self.enriched_wiki.get(variant)
-                            if enriched_info:
-                                break
-
+                enriched_info = self._lookup_doc(self.enriched_wiki, operator_name)
                 if enriched_info:
                     result['enriched_data'] = enriched_info
                     result['has_enriched'] = True
@@ -342,9 +314,107 @@ class UnifiedGraphQuery:
         # Merge the results
         if result['has_wiki_docs'] or result['has_enriched'] or result['has_examples']:
             merged = self._merge_operator_info(result)
+            if not (result['has_wiki_docs'] or result['has_enriched']):
+                # Only the examples graph knows this name. Never hand back an unmarked
+                # shell: an empty parameter list reads as "this operator has no
+                # parameters". `summary` carries the warning too, because compact mode
+                # keeps only name/family/type/summary/parameters.
+                merged['documentation'] = 'missing'
+                merged['summary'] = (
+                    f"No documentation in the knowledge base for '{operator_name}'; only its "
+                    "use in example networks is known, so no parameters are listed. Check "
+                    "the name (the documented form is spaced, e.g. 'Movie File In TOP') or "
+                    "try hybrid_search."
+                )
             return merged
 
         return None
+
+    # --- operator-name resolution -------------------------------------------------
+    def _doc_alias_index(self) -> Dict[str, str]:
+        """compact key -> documentation key (the lower-cased spaced name).
+
+        Lets a class-style name ('moviefileinTOP') reach the documented entry
+        ('movie file in top'). Sources, strongest first:
+          1. the documented name itself, compacted;
+          2. a well-formed `python_class` ('flexTOP_Class' for 'Nvidia Flex TOP'):
+             only the `<lower><FAMILY>_Class` shape with the entry's own family,
+             because the field also holds scraped prose and nulls;
+          3. the examples graph's Operator nodes, which carry `canonical_name`
+             next to their class-style `name` / `optype`.
+        A key claimed by two different operators at the same strength is dropped
+        rather than guessed. Built once, on first use.
+        """
+        idx = getattr(self, '_alias_index', None)
+        if idx is not None:
+            return idx
+        docs = set(getattr(self, 'wiki_data', {})) | set(getattr(self, 'enriched_wiki', {}))
+        idx = {}
+        ambiguous: Set[str] = set()
+
+        def add_tier(pairs):
+            tier: Dict[str, Set[str]] = defaultdict(set)
+            for alias, key in pairs:
+                if alias and key in docs:
+                    tier[alias].add(key)
+            for alias, keys in tier.items():
+                if alias in idx or alias in ambiguous:
+                    continue
+                if len(keys) == 1:
+                    idx[alias] = next(iter(keys))
+                else:
+                    ambiguous.add(alias)
+
+        add_tier((_compact_op_key(k), k) for k in docs)
+        cls_pairs = []
+        for k, info in getattr(self, 'enriched_wiki', {}).items():
+            m = _WELL_FORMED_CLASS.match(info.get('python_class') or '')
+            if m and m.group(2) == (info.get('family') or '').upper():
+                cls_pairs.append((_compact_op_key(m.group(1) + m.group(2)), k))
+        add_tier(cls_pairs)
+        graph_pairs = []
+        try:
+            nodes = list(self.enhanced_graph_query.nodes.values())
+        except Exception:
+            nodes = []
+        for n in nodes:
+            if n.get('type') != 'Operator' or not n.get('canonical_name'):
+                continue
+            key = str(n['canonical_name']).lower()
+            for alias in (n.get('name'), n.get('optype')):
+                graph_pairs.append((_compact_op_key(alias), key))
+        add_tier(graph_pairs)
+        self._alias_index = idx
+        return idx
+
+    def _lookup_doc_key(self, table: Dict[str, Any], operator_name: str) -> Optional[str]:
+        """Find operator_name's key in a documentation table (keys are lower-cased
+        spaced names). Tries, in order: exact; name + ' FAMILY' (bare 'speed' ->
+        'speed chop', first family wins); a concatenated family suffix split off
+        ('speedchop' -> 'speed chop'); then the alias index, which is what makes
+        multi-word class-style names ('moviefileinTOP') resolve."""
+        if not table or not operator_name:
+            return None
+        low = operator_name.lower()
+        if low in table:
+            return low
+        for fam in _FAMILIES:
+            k = (operator_name + ' ' + fam).lower()
+            if k in table:
+                return k
+        for fam in _FAMILIES:
+            if low.endswith(fam.lower()):
+                k = (operator_name[:-len(fam)] + ' ' + fam).lower()
+                if k in table:
+                    return k
+        k = self._doc_alias_index().get(_compact_op_key(operator_name))
+        if k in table:
+            return k
+        return None
+
+    def _lookup_doc(self, table: Dict[str, Any], operator_name: str) -> Optional[Dict]:
+        k = self._lookup_doc_key(table, operator_name)
+        return table.get(k) if k else None
 
     def _merge_operator_info(self, result: Dict) -> Dict:
         """Merge wiki data + enriched wiki + example data into unified response"""
@@ -480,24 +550,11 @@ class UnifiedGraphQuery:
     def _resolve_op_id(self, operator_name: str) -> Optional[str]:
         """Map an operator name to its td_graphrag op-id, trying common name variants.
 
-        Mirrors the name-resolution ladder in get_operator_info (exact match,
-        then with family suffix, then stripping a concatenated family suffix).
+        Uses the same name resolution as get_operator_info (_lookup_doc_key), so a
+        class-style name ('moviefileinTOP') resolves here too.
         """
-        needle = operator_name.lower()
-        op_id = self.op_name_to_id.get(needle)
-        if op_id:
-            return op_id
-        for suffix in [' CHOP', ' TOP', ' SOP', ' MAT', ' DAT', ' COMP', ' POP']:
-            op_id = self.op_name_to_id.get((operator_name + suffix).lower())
-            if op_id:
-                return op_id
-        for suffix in ['chop', 'top', 'sop', 'mat', 'dat', 'comp', 'pop']:
-            if operator_name.lower().endswith(suffix):
-                base = operator_name[:-len(suffix)]
-                op_id = self.op_name_to_id.get((base + ' ' + suffix.upper()).lower())
-                if op_id:
-                    return op_id
-        return None
+        k = self._lookup_doc_key(self.op_name_to_id, operator_name)
+        return self.op_name_to_id.get(k) if k else None
 
     def get_related_operators(self, operator_name: str, limit: int = 20) -> List[Dict[str, Any]]:
         """Return operators related to operator_name via three blended signals.
@@ -587,15 +644,73 @@ class UnifiedGraphQuery:
         operator_name: str,
         limit: int = 10,
         family: Optional[str] = None,
-    ) -> List[Dict]:
-        """Find real examples (from enhanced graph only).
+    ) -> Union[List[Dict], Dict]:
+        """Find real examples (from the enhanced graph).
 
-        B24 — optional `family` disambiguates bare names. Forwarded to
-        EnhancedGraphQuery.find_examples_by_operator unchanged.
+        B24 — optional `family` disambiguates bare names; forwarded unchanged.
+
+        When the name (with its family) resolves to a documented operator, the
+        match is exact only, never a substring fallback onto a different operator,
+        and if that operator has no servable examples the answer says so:
+
+            {"_resolution": "no-examples", "operator": "GLSL POP", "family": "POP",
+             "examples": [], "message": "... get_operator_info ... hybrid_search ..."}
+
+        A bare `[]` is left for names the knowledge base does not know at all.
         """
-        return self.enhanced_graph_query.find_examples_by_operator(
-            operator_name, limit, family=family,
-        )
+        egq = self.enhanced_graph_query
+        doc_key = self._resolve_family_scoped_doc_key(operator_name, family)
+        if doc_key is None:
+            return egq.find_examples_by_operator(operator_name, limit, family=family)
+
+        info = self.enriched_wiki.get(doc_key) or self.wiki_data.get(doc_key) or {}
+        display = info.get('operator_name') or doc_key
+        fam = (info.get('family') or family or '').upper()
+        candidates = [operator_name, display]
+        m = _WELL_FORMED_CLASS.match(info.get('python_class') or '')
+        if m:
+            candidates.append(m.group(1) + m.group(2))
+        for cand in dict.fromkeys(candidates):
+            found = egq.find_examples_by_operator(
+                cand, limit, family=family, allow_substring=False)
+            if found:
+                return found
+        return {
+            "_resolution": "no-examples",
+            "_query": operator_name,
+            "operator": display,
+            "family": fam,
+            "examples": [],
+            "message": (
+                f"{display} is a known operator, but the knowledge base has no example "
+                f"networks for it. This is a gap in the examples, not a failed search. "
+                f"Use get_operator_info('{display}') for its parameters and "
+                f"hybrid_search for usage notes."
+            ),
+        }
+
+    def _resolve_family_scoped_doc_key(self, operator_name: str,
+                                       family: Optional[str]) -> Optional[str]:
+        """Documentation key for a name whose family is known (from the name itself
+        or the `family` argument). None for bare names, so their multi-family
+        bucketing stays with the enhanced graph."""
+        normalize = getattr(self, '_normalize_op_type', None)
+        if normalize is None or not operator_name:
+            return None
+        parsed_fam, parsed_type = normalize(operator_name)
+        fam = (family or parsed_fam or '').strip().upper()
+        if not fam or fam == 'ALL':
+            return None
+        query = operator_name if (parsed_fam and ':' not in operator_name) \
+            else f"{parsed_type} {fam}"
+        key = (self._lookup_doc_key(self.enriched_wiki, query)
+               or self._lookup_doc_key(self.wiki_data, query))
+        if not key:
+            return None
+        info = self.enriched_wiki.get(key) or self.wiki_data.get(key) or {}
+        if (info.get('family') or '').upper() not in ('', fam):
+            return None
+        return key
 
     def find_examples_by_operator_combination(self, operators: List[str],
                                               require_connection: bool = True,

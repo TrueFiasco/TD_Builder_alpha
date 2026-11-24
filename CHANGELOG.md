@@ -3,6 +3,18 @@
 ## Unreleased
 
 ### Fixed
+- **The offline builder now writes wires into components the design defines**
+  (build-review ticket 07). A wire such as `A/out1 -> B/in1`, where `B` is a
+  container in the design, was written onto the In op inside `B`, where
+  TouchDesigner drops it on open, while the build reported SUCCESS and counted
+  it; a long real-world build had to add these wires with a hand-written script
+  after every build. They now go into TouchDesigner's own `compinputs` block in
+  `B.network`, the same writer palette and `external_tox` components use. Bare
+  `A -> B` works when each side has exactly one Out/In op; an ambiguous side
+  fails naming the candidates. Any declared wire the builder cannot write now
+  fails the build instead of vanishing, so the receipt counts only wires in the
+  file. A bare `"from": "A"` also now finds `A`'s Out op when it is typed
+  `TOP:out` (it was only found for the plain type `out`).
 - **Pinned `mcp>=1.0.0,<2`** (pyproject + `.github/requirements-light.txt`). The
   `mcp` 2.x line removed `Server.list_tools`, so every install since 2.0.0
   shipped (early August) failed at import with

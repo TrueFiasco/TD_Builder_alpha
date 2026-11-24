@@ -838,6 +838,17 @@ class ToeBuilderBridge:
         self.container_io_map = {}  # BUG-C FIX: Maps container_name -> {"outputs": [...]} for regular containers
         self.external_components = []  # Round-4 #1: external-tox refs, for the build-log summary
         self.build_warnings = []  # A5: loud non-fatal drops, surfaced in the tool envelope
+        # Components the design defines itself (containers with children). Primed by
+        # _prepass_design_comps; see _write_design_comp_network for the wiring policy.
+        self.design_comp_io = {}       # id(container dict) -> interface entry
+        self.design_comp_by_rel = {}   # '<name>' / '<parent>/<name>' -> entry (source resolution)
+        self._design_comp_at = {}      # written container path -> entry
+        # Every declared wire, as the (target key, source) pair the connection map holds,
+        # and the ones actually written. A declared wire that never lands fails the build
+        # (_raise_on_unwritten_wires), so a SUCCESS receipt counts only wires in the file.
+        self._declared_wires = set()
+        self._written_wires = set()
+        self.wires_written = 0         # wire rows written (.n inputs lines + compinputs rows)
 
     def log(self, msg: str):
         if self.verbose:
@@ -943,6 +954,10 @@ class ToeBuilderBridge:
         references (Round-4 #1) — `<project>.components.md` in the output dir. Each entry is
         a reusable, file-backed component; this makes the project self-documenting and is the
         place a component manifest (inputs/outputs/params) is surfaced (extended in #1b)."""
+        # Both builders (.toe here, .tox in ToxBuilder.build_tox) call this right after the
+        # last operator is written and before collapsing, so it is the one place every
+        # declared wire can be checked against what was written.
+        self._raise_on_unwritten_wires()
         comps = getattr(self, "external_components", None)
         if not comps:
             return
@@ -1158,24 +1173,24 @@ end
         if container_connections:
             self.log(f"    Added {len(container_connections)} container connections")
 
-        # Write operators and track out operators for BUG-C
-        out_operators = []
+        # This container's interface (In/Out ops) was primed by _prepass_design_comps —
+        # out-op resolution (BUG-C) no longer depends on design order. Registering the
+        # written path lets _write_operator recognise this container's In ops.
+        entry = self.design_comp_io.get(id(container))
+        if entry is not None:
+            self._design_comp_at[container_path] = entry
+
         for idx, op in enumerate(operators):
             self._write_operator(op, container_path, idx)
-            # Track out operators for container output resolution
-            op_type = op.get("type", "").lower()
-            if op_type in ["out", "out1"]:
-                out_operators.append({"name": op.get("name", f"out{idx}"), "family": op.get("family", "")})
-
-        # BUG-C FIX: Store container output info for source resolution
-        if out_operators:
-            self.container_io_map[name] = {"outputs": out_operators}
-            self.log(f"    Tracked {len(out_operators)} out operators in container '{name}'")
 
         # BUG-J FIX: Recursively process nested containers
         nested_containers = container.get("containers", []) or network.get("containers", [])
         for nested in nested_containers:
             self._write_container(nested, container_path)
+
+        # Wires INTO this container: TD-native compinputs block in <name>.network.
+        if entry is not None:
+            self._write_design_comp_network(entry, parent_path)
 
     def _param_lines(self, params, td_type, op_type, full_path, container_path, name) -> list:
         """Build the .parm body lines (between the leading/trailing '?') from a builder
@@ -1323,14 +1338,7 @@ end
         # If operator is a container type (container, panel, geo, base, etc.)
         # AND has children/operators, delegate to _write_container
         # =================================================================
-        comp_types = ["container", "panel", "geo", "geometry", "base", "light", "camera",
-                      "null_comp", "window", "widget", "field", "button", "slider", "list"]
-        has_children = op.get("children", []) or op.get("operators", []) or op.get("network", {})
-        is_comp_type = (op_type.lower() in comp_types or
-                        op_type.lower().startswith("comp:") or
-                        (op_family and op_family.upper() == "COMP"))
-
-        if is_comp_type and has_children and not (op.get("external_tox") or op.get("externaltox")):
+        if self._is_comp_with_children(op):
             self.log(f"    Detected COMP with children: {name} - delegating to _write_container")
             self._write_container(op, container_path)
             return
@@ -1462,10 +1470,26 @@ end
         container_name = container_path.split("/")[-1] if "/" in container_path else container_path
         container_relative = f"{container_name}/{name}"
 
-        inputs = (self.connections.get(full_path, []) or
-                  self.connections.get(short_path, []) or
-                  self.connections.get(container_relative, []) or  # BUG-011 FIX
-                  self.connections.get(name, []))  # Also try just the operator name
+        inputs = []
+        input_key = None
+        for key in (full_path, short_path,
+                    container_relative,  # BUG-011 FIX
+                    name):               # Also try just the operator name
+            if self.connections.get(key):
+                inputs = list(self.connections[key])
+                input_key = key
+                break
+
+        # A wire into a component the design defines comes from OUTSIDE the component,
+        # so it is not its In op's own input: TD stores it as a compinputs row in
+        # <comp>.network (_write_design_comp_network). Written here, a path like
+        # 'A/out1' resolves inside the component and TD drops it on open — the silent
+        # drop a long real-world build had to hand-patch. A wire from a sibling INSIDE
+        # the component (a local fallback source; TD's own saves have them) stays.
+        design_owner = self._design_comp_at.get(container_path)
+        if design_owner is not None and name in design_owner["in_names"]:
+            into_comp = {w["pair"] for w in design_owner["inbound"]}
+            inputs = [s for s in inputs if (input_key, s) not in into_comp]
 
         # BUG-3: an external-tox placeholder's own .n must carry NO inputs block — TD
         # silently drops sibling-name inputs on a COMP whose connectors don't exist until
@@ -1473,6 +1497,10 @@ end
         # TD-native compinputs block in <name>.network, written after the .parm below.
         if external_tox:
             inputs = []
+
+        for src in inputs:
+            self._written_wires.add((input_key, src))
+        self.wires_written += len(inputs)
 
         # Resolve palette sources to internal output operators
         if inputs:
@@ -1963,6 +1991,247 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             entry["rel_path"] = f"{parent}/{name}" if parent else name
             self.palette_io_map[name] = entry
 
+        self._prepass_design_comps(network)
+
+    # =========================================================================
+    # COMPONENTS THE DESIGN DEFINES ITSELF (containers with children)
+    # =========================================================================
+
+    _COMP_TYPES = ("container", "panel", "geo", "geometry", "base", "light", "camera",
+                   "null_comp", "window", "widget", "field", "button", "slider", "list")
+
+    def _is_comp_with_children(self, op) -> bool:
+        """BUG-002: a COMP operator listing its own children is written as a container
+        (_write_container), unless it is an external_tox placeholder."""
+        if not isinstance(op, dict):
+            return False
+        op_type = str(op.get("type", "null")).lower()
+        family = op.get("family")
+        has_children = op.get("children", []) or op.get("operators", []) or op.get("network", {})
+        is_comp_type = (op_type in self._COMP_TYPES or op_type.startswith("comp:")
+                        or (family and str(family).upper() == "COMP"))
+        return bool(is_comp_type and has_children
+                    and not (op.get("external_tox") or op.get("externaltox")))
+
+    @staticmethod
+    def _container_parts(container: dict):
+        """(operators, connections, nested containers) exactly as _write_container reads them."""
+        network = container.get("network", {}) or {}
+        ops = (container.get("operators", []) or network.get("operators", [])
+               or container.get("children", []))
+        conns = container.get("connections", []) or network.get("connections", [])
+        nested = container.get("containers", []) or network.get("containers", [])
+        return ops or [], conns or [], nested or []
+
+    @staticmethod
+    def _natural_key(name: str):
+        """TD positions component connectors alphanumerically by In/Out op name."""
+        return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", str(name))]
+
+    def _prepass_design_comps(self, network: dict):
+        """Prime the interface of every component the design defines itself, BEFORE any
+        operator is written, then sort every declared wire.
+
+        Interface: the component's In and Out ops (name + family), from the same type
+        resolution _write_operator uses, in TD's connector order. A bare source
+        `"from": "A"` resolves through it (_resolve_palette_source), whatever the design
+        order.
+
+        Wires: every declared connection is recorded as the (target key, source) pair
+        the connection map holds, so _raise_on_unwritten_wires can prove each one was
+        written. A wire whose target is a component of the scope it is declared in
+        (`"to": "B"` or `"to": "B/<In op>"`, source outside B) is a wire INTO that
+        component; it is queued on B's entry for _write_design_comp_network. A wire
+        that would reach inside a component any other way fails here, loudly: TD only
+        joins operators that share a parent."""
+        self.design_comp_io = {}
+        self.design_comp_by_rel = {}
+        self._design_comp_at = {}
+        self._declared_wires = set()
+        self._written_wires = set()
+        self.wires_written = 0
+        self.container_io_map = {}
+        top = self._design_tree(None, network.get("operators", []) or [],
+                                network.get("containers", []) or [])
+        self._sort_scope_wires(None, network.get("connections", []) or [], top)
+
+    def _design_tree(self, scope_name, ops, containers) -> dict:
+        """name -> interface entry for the design-defined components directly inside a
+        scope (recursively filled). Palette/external placeholders are not included."""
+        children = {}
+        candidates = [c for c in containers if isinstance(c, dict)]
+        candidates += [o for o in ops if self._is_comp_with_children(o)]
+        for c in candidates:
+            if c.get("palette"):
+                continue
+            name = c.get("name", "container")
+            c_ops, c_conns, c_nested = self._container_parts(c)
+            ins, outs = [], []
+            for idx, o in enumerate(c_ops):
+                if (not isinstance(o, dict) or self._is_comp_with_children(o)
+                        or o.get("palette") or o.get("external_tox") or o.get("externaltox")):
+                    continue
+                token = self._map_op_type(str(o.get("type", "null")), name, o.get("family"))
+                family, _, base = token.partition(":")
+                io = {"name": o.get("name", f"op{idx}"), "family": family}
+                if base == "in":
+                    ins.append(io)
+                elif base == "out":
+                    outs.append(io)
+            ins.sort(key=lambda d: self._natural_key(d["name"]))
+            outs.sort(key=lambda d: self._natural_key(d["name"]))
+            rel = f"{scope_name}/{name}" if scope_name else name
+            entry = {
+                "name": name, "rel_path": rel,
+                "inputs": ins, "outputs": outs,
+                "in_names": [d["name"] for d in ins],
+                "out_names": [d["name"] for d in outs],
+                "inbound": [], "connections": c_conns,
+            }
+            entry["children"] = self._design_tree(name, c_ops, c_nested)
+            self.design_comp_io[id(c)] = entry
+            prior = self.design_comp_by_rel.get(rel)
+            if prior is None:
+                self.design_comp_by_rel[rel] = entry
+            else:
+                paths = prior.get("ambiguous") or [prior["rel_path"]]
+                self.design_comp_by_rel[rel] = {"ambiguous": paths + [rel], "out_names": []}
+            if outs:  # BUG-C shape, kept for callers that read it
+                self.container_io_map[name] = {"outputs": outs}
+            children[name] = entry
+        return children
+
+    def _sort_scope_wires(self, scope_name, conns, children: dict):
+        """Record each wire declared in one scope and queue the ones INTO a component."""
+        for conn in conns:
+            if not isinstance(conn, dict):
+                continue
+            src, dst = conn.get("from", ""), conn.get("to", "")
+            if not (src and dst):
+                continue
+            # The connection-map form (_build_connection_map / _write_container).
+            key_src = src if (scope_name is None or "/" in src) else f"{scope_name}/{src}"
+            key_dst = dst if (scope_name is None or "/" in dst) else f"{scope_name}/{dst}"
+            self._declared_wires.add((key_dst, key_src))
+            self._queue_wire_into_comp(scope_name, children, src, dst, (key_dst, key_src))
+        for entry in children.values():
+            self._sort_scope_wires(entry["name"], entry["connections"], entry["children"])
+
+    def _queue_wire_into_comp(self, scope_name, children, src, dst, pair):
+        s = [p for p in src.split("/") if p]
+        d = [p for p in dst.split("/") if p]
+        if not s or not d:
+            return
+        if scope_name is None:  # '/project1/A/out1' addressing at the top level
+            for parts in (s, d):
+                if len(parts) > 1 and parts[0] == "project1" and "project1" not in children:
+                    del parts[0]
+        # A wire whose two ends sit inside the same component belongs to that scope.
+        node, scope = children, scope_name
+        while len(s) > 1 and len(d) > 1 and s[0] == d[0] and s[0] in node:
+            scope, node = s[0], node[s[0]]["children"]
+            s, d = s[1:], d[1:]
+
+        src_comp = node.get(s[0])
+        if src_comp is not None and len(s) > 1 and (len(s) > 2 or s[1] not in src_comp["out_names"]):
+            raise ValueError(
+                f"Connection '{src}' -> '{dst}' takes its source from inside component "
+                f"'{s[0]}', but a wire leaves a component only through one of its Out ops. "
+                f"'{s[0]}' Out ops: {src_comp['out_names']}. Use \"from\": "
+                f"\"{s[0]}/<Out op>\", adding an Out op inside '{s[0]}' if needed.")
+
+        comp = node.get(d[0])
+        if comp is None or s[0] == d[0]:
+            return  # an ordinary wire between siblings; _write_operator writes it
+        rest = d[1:]
+        if len(rest) > 1 or (rest and rest[0] not in comp["in_names"]):
+            ins = comp["in_names"]
+            raise ValueError(
+                f"Connection '{src}' -> '{dst}' reaches inside component '{d[0]}', but a "
+                f"wire enters a component only through one of its In ops. '{d[0]}' In ops: "
+                f"{ins if ins else 'none — add an In op inside it'}. Use \"to\": "
+                f"\"{d[0]}/{ins[0] if ins else '<In op>'}\".")
+        comp["inbound"].append({
+            "in_op": rest[0] if rest else None, "src": s, "scope": scope, "node": node,
+            "pair": pair, "label": f"'{src}' -> '{dst}'",
+        })
+
+    def _design_row_source(self, wire: dict, comp_name: str) -> str:
+        """A compinputs source: relative to the component's parent; a bare component
+        source resolves to its single Out op (or fails loud)."""
+        s, node, scope = wire["src"], wire["node"], wire["scope"]
+        if len(s) > 1:
+            return "/".join(s)
+        sibling = node.get(s[0])
+        if sibling is not None:
+            return f"{s[0]}/{self._design_single_output(sibling, s[0], consumer=comp_name)}"
+        qualified = f"{scope}/{s[0]}" if scope else s[0]
+        resolved = self._resolve_palette_source(qualified, consumer=comp_name)
+        if scope and resolved.startswith(scope + "/"):
+            resolved = resolved[len(scope) + 1:]
+        return resolved
+
+    def _write_design_comp_network(self, entry: dict, parent_path: str):
+        """Write the compinputs block for a component the design defines itself.
+
+        Same TD-native block as palette/external_tox placeholders (_emit_compinputs), and
+        the same binding rule as the external_tox fix:
+          - explicit `"to": "B/in1"` binds that In op by name;
+          - bare `"to": "B"` binds only a component with exactly one In op;
+            otherwise fail loud listing the candidates;
+          - an In op takes one wire; a component with no In ops takes none.
+        The row index is the In op's connector index (TD's alphanumeric order)."""
+        inbound = entry["inbound"]
+        if not inbound:
+            return
+        name, in_names = entry["name"], entry["in_names"]
+        if not in_names:
+            raise ValueError(
+                f"Cannot wire {inbound[0]['label']} into component '{name}': '{name}' "
+                f"contains no In operators, so it has no inputs. Add an In op inside "
+                f"'{name}' and wire to it.")
+        assign = {n: [] for n in in_names}
+        bare = []
+        for w in inbound:
+            (assign[w["in_op"]] if w["in_op"] else bare).append(w)
+        if bare:
+            if len(in_names) == 1 and len(bare) == 1 and not assign[in_names[0]]:
+                assign[in_names[0]].append(bare[0])
+            else:
+                raise ValueError(
+                    f"Cannot wire {bare[0]['label']} into component '{name}': '{name}' has "
+                    f"{len(in_names)} In ops: {in_names}. Name the target explicitly, e.g. "
+                    f"\"to\": \"{name}/{in_names[0]}\".")
+        for n, wires in assign.items():
+            if len(wires) > 1:
+                raise ValueError(
+                    f"In op '{name}/{n}' is wired {len(wires)} times "
+                    f"({', '.join(w['label'] for w in wires)}); a component input takes "
+                    f"one wire.")
+        families = {d["name"]: d["family"] for d in entry["inputs"]}
+        rows = []
+        for idx, n in enumerate(in_names):
+            for w in assign[n]:
+                rows.append((idx, self._design_row_source(w, name), n, families[n]))
+                self._written_wires.add(w["pair"])
+        self._emit_compinputs(f"{parent_path}/{name}", rows)
+
+    def _raise_on_unwritten_wires(self):
+        """Fail the build when a declared wire is not in the file. Such a wire used to
+        vanish while the receipt still counted it."""
+        missing = sorted(self._declared_wires - self._written_wires)
+        if not missing:
+            return
+        shown = ", ".join(f"'{s}' -> '{d}'" for d, s in missing[:10])
+        more = f" (and {len(missing) - 10} more)" if len(missing) > 10 else ""
+        raise ValueError(
+            f"Build stopped: {len(missing)} declared connection(s) could not be written and "
+            f"would be missing from the file: {shown}{more}. Each target must name an "
+            f"operator in the design. A wire joins operators that share a parent: it "
+            f"enters a component through one of its In ops (\"to\": \"<comp>/<In op>\", "
+            f"declared beside the component) and leaves through an Out op "
+            f"(\"from\": \"<comp>/<Out op>\").")
+
     def _palette_io_entry(self, component_name: str) -> dict:
         """Registry-backed io_map entry for a `palette` reference (raises the unknown-name
         ValueError). index_authority: shipped registry entries are live-harvested, so their
@@ -2227,21 +2496,28 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
             if k not in keys:
                 keys.append(k)
 
-        # Explicit inner-name targets: '<key>/<suffix>' dsts.
+        # Explicit inner-name targets: '<key>/<suffix>' dsts. origin remembers which
+        # connection-map key each source came from, to mark the wire written.
         explicit = {}
+        origin = {}
         for k in keys:
             prefix = k + "/"
             for dst, srcs in self.connections.items():
                 if dst.startswith(prefix):
                     suffix = dst[len(prefix):]
                     bucket = explicit.setdefault(suffix, [])
-                    bucket.extend(s for s in srcs if s not in bucket)
+                    for s in srcs:
+                        origin.setdefault((suffix, s), dst)
+                        if s not in bucket:
+                            bucket.append(s)
 
         bare = []
+        bare_key = None
         for k in keys:
             got = self.connections.get(k)
             if got:
                 bare = list(got)
+                bare_key = k
                 break
         # The connection map double-stores '<comp>/inN' sources under the base key
         # (BUG-B); a source wired both ways keeps its explicit binding.
@@ -2294,8 +2570,7 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                         f"({tox}) has {len(in_ops)} in ops: {in_names}. Name the target "
                         f"explicitly, e.g. \"to\": \"{comp_name}/{in_names[0]}\".")
 
-        lines = ["1", "compinputs", "{"]
-        idx = 0
+        rows = []
         for d in in_ops:
             for src in assign[d["name"]]:
                 resolved = self._resolve_palette_source(src, consumer=comp_name)
@@ -2303,16 +2578,29 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                 # same-container prefix (mirrors the .n inputs writer normalization).
                 if resolved.startswith(container_name + "/"):
                     resolved = resolved[len(container_name) + 1:]
-                lines.append(f"{idx} \t{resolved}")
-                lines.append(f"\t{d['name']}")
-                lines.append(f"\t{d['family']}")
-                idx += 1
-        if idx == 0:
-            return
-        lines.extend(["}", "end"])
+                rows.append((len(rows), resolved, d["name"], d["family"]))
+                if (d["name"], src) in origin:
+                    self._written_wires.add((origin[(d["name"], src)], src))
+                else:
+                    self._written_wires.add((bare_key, src))
+        self._emit_compinputs(full_path, rows)
 
-        self._write_file(f"{full_path}.network", "\n".join(lines) + "\n")
-        self.log(f"    Wrote .network file with {idx} external connection(s)")
+    def _emit_compinputs(self, comp_full_path: str, rows: list):
+        """Write `<comp>.network` holding TD's compinputs block — one row per wired In
+        op: (index, source relative to the comp's parent, inner In op name, family).
+        Shared by palette / external_tox placeholders and design-defined components;
+        the byte shape matches TouchDesigner's own save (pinned in tests)."""
+        if not rows:
+            return
+        lines = ["1", "compinputs", "{"]
+        for idx, src, in_name, family in rows:
+            lines.append(f"{idx} \t{src}")
+            lines.append(f"\t{in_name}")
+            lines.append(f"\t{family}")
+        lines.extend(["}", "end"])
+        self._write_file(f"{comp_full_path}.network", "\n".join(lines) + "\n")
+        self.wires_written += len(rows)
+        self.log(f"    Wrote .network file with {len(rows)} external connection(s)")
 
     def _resolve_palette_source(self, source: str, consumer: str = None) -> str:
         """Resolve a palette/external/container COMP source to its inner out op.
@@ -2371,18 +2659,38 @@ flags =  {self._flags_tokens(op.get("flags", {}) or {})}parlanguage 0
                 f"{len(names)} out ops: {names}. Use an explicit source, e.g. "
                 f"\"from\": \"{source}/{names[0]}\".")
 
-        # BUG-C FIX: Check regular containers
-        if source in self.container_io_map:
-            io_info = self.container_io_map[source]
-            outputs = io_info.get('outputs', [])
-
-            if outputs:
-                out_op = outputs[0]['name']
-                resolved = f"{source}/{out_op}"
-                self.log(f"    Resolved container source: {source} -> {resolved}")
-                return resolved
+        # BUG-C: components the design defines itself. Their Out ops are known from the
+        # design (primed before any op is written), but connector order is TD's
+        # alphanumeric sort of the Out op names, so a bare source binds only a
+        # single-output component — the same rule as the external_tox fix.
+        design = self.design_comp_by_rel.get(source)
+        if design is not None:
+            return f"{source}/{self._design_single_output(design, source, consumer)}"
 
         return source
+
+    def _design_single_output(self, entry: dict, source: str, consumer: str = None) -> str:
+        """The one Out op a bare reference to a design-defined component binds to, or a
+        loud ValueError naming the candidates."""
+        who = f"'{consumer}'" if consumer else "consumer"
+        if entry.get("ambiguous"):
+            raise ValueError(
+                f"Cannot wire {who} from '{source}': more than one component in the design "
+                f"is reachable by that name ({', '.join(entry['ambiguous'])}). Give the "
+                f"components distinct names.")
+        names = entry["out_names"]
+        if len(names) == 1:
+            self.log(f"    Resolved container source: {source} -> {source}/{names[0]}")
+            return names[0]
+        if not names:
+            raise ValueError(
+                f"Cannot wire {who} from component '{source}': a component is never itself "
+                f"a data source, and '{source}' contains no Out operators. Add an Out op "
+                f"inside '{source}' and wire from it, e.g. \"from\": \"{source}/out1\".")
+        raise ValueError(
+            f"Cannot wire {who} from component '{source}': a component is never itself a "
+            f"data source; name its Out op. '{source}' has {len(names)} Out ops: {names}. "
+            f"Use an explicit source, e.g. \"from\": \"{source}/{names[0]}\".")
 
     def _write_custom_parameters(self, container_path: str, custom_pars: list):
         """Write .cparm file for custom parameters on a container.

@@ -103,6 +103,86 @@ def _connection_error_message() -> str:
     )
 
 
+def _exception_message(exc: BaseException, read_timeout: float = 20.0, script: bool = False) -> str:
+    """Turn an exception from a live call into a sentence that says what to do.
+
+    Never returns an empty or bare ``Error:`` line: httpx timeouts carry an empty
+    message, so the exception CLASS NAME is always included.
+    """
+    name = type(exc).__name__
+    if isinstance(exc, httpx.ConnectError):
+        return _connection_error_message()
+    if isinstance(exc, httpx.TimeoutException):
+        secs = f"{read_timeout:g}"
+        if isinstance(exc, httpx.ConnectTimeout):
+            return (
+                f"Error ({name}): could not open a connection to TouchDesigner at "
+                f"{TD_API_URL} within 5 s. TouchDesigner may be starting up, frozen, "
+                "or something else is holding the port. Do not retry in a loop."
+            )
+        text = (
+            f"Error ({name}): TouchDesigner accepted the connection but did not answer "
+            f"in {secs} s. Its main thread is busy, a dialog is open, the window is "
+            "minimized, or cooking is switched off. Do not retry in a loop."
+        )
+        if script:
+            text += (
+                " The script may still be running or may have finished. Call "
+                "`get_mutation_status` before running it again."
+            )
+        return text
+    detail = str(exc).strip()
+    return f"Error ({name}): {detail}" if detail else f"Error ({name}): no further detail from the exception."
+
+
+def _status_message(response: httpx.Response) -> str:
+    """Turn a non-200 response into a sentence that carries the status code."""
+    code = response.status_code
+    body = (response.text or "").strip()
+    if code == 401:
+        return (
+            "TD Error (401): TouchDesigner refused the request as unauthorized. Either the "
+            "token is wrong (TD_API_TOKEN / ~/.td_builder/api_token does not match the one "
+            "TouchDesigner holds) or cooking is switched off in TouchDesigner, which "
+            "presents as a failed login."
+            + (f" Body: {body}" if body else "")
+        )
+    if code == 404:
+        has_json_error = False
+        if body:
+            try:
+                parsed = json.loads(body)
+                has_json_error = isinstance(parsed, dict) and bool(parsed.get("error") or parsed.get("message"))
+            except ValueError:
+                has_json_error = False
+        if not has_json_error:
+            return (
+                "TD Error (404): the webserver component is loaded but its Python modules "
+                "were not found. The `.tox` must sit beside its `modules` folder."
+                + (f" Body: {body}" if body else "")
+            )
+    return f"TD Error ({code}): {body}" if body else f"TD Error ({code}): empty response body."
+
+
+def _normalise_top_resolution(value):
+    """capture_top_output size: a whole number (longest side) or "original".
+
+    Returns the string the server route takes, or raises ValueError with a sentence.
+    The three older strings ("256", "512", "1024") keep working.
+    """
+    if value is None or value == "original":
+        return "original"
+    if isinstance(value, bool):
+        raise ValueError
+    if isinstance(value, int):
+        if value > 0:
+            return str(value)
+        raise ValueError
+    if isinstance(value, str) and value.isdigit() and int(value) > 0:
+        return str(int(value))
+    raise ValueError
+
+
 def _restore_point_note(data: dict) -> str:
     """OBS-1 (D3): a one-line warning appended to a mutator's rendered result when
     the pre-mutation restore point was NOT taken (skipped = untitled project;
@@ -190,16 +270,24 @@ def _glsl_status_note(gs) -> str:
 async def capture_top_output(arguments: dict) -> Sequence[Union[TextContent, ImageContent]]:
     """Capture a TOP operator's rendered output as an image."""
     try:
+        try:
+            resolution = _normalise_top_resolution(arguments.get("resolution", "original"))
+        except ValueError:
+            return [TextContent(type="text", text=(
+                f"Invalid resolution {arguments.get('resolution')!r}: use a whole number "
+                "(longest side in pixels, e.g. 640) or \"original\". Width-by-height such "
+                "as \"640x400\" is not accepted."
+            ))]
         async with TDClient(read_timeout=60.0) as client:
             response = await client.post("/api/feedback/capture/top", json={
                 "operator_path": arguments["operator_path"],
-                "resolution": arguments.get("resolution", "original"),
+                "resolution": resolution,
                 "format": arguments.get("format", "jpeg"),
                 "quality": arguments.get("quality", 0.85)
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error ({response.status_code}): {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -220,7 +308,7 @@ async def capture_top_output(arguments: dict) -> Sequence[Union[TextContent, Ima
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error capturing TOP: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=60.0))]
 
 
 async def get_top_info(arguments: dict) -> Sequence[TextContent]:
@@ -232,7 +320,7 @@ async def get_top_info(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -258,7 +346,7 @@ async def get_top_info(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting TOP info: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_cook_errors(arguments: dict) -> Sequence[TextContent]:
@@ -276,7 +364,7 @@ async def get_cook_errors(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/feedback/errors/cook", params=params)
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -298,7 +386,7 @@ async def get_cook_errors(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting cook errors: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_error_summary(arguments: dict) -> Sequence[TextContent]:
@@ -308,7 +396,7 @@ async def get_error_summary(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/feedback/errors/summary")
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -328,7 +416,7 @@ async def get_error_summary(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting summary: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def capture_network_layout(arguments: dict) -> Sequence[TextContent]:
@@ -341,7 +429,7 @@ async def capture_network_layout(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -367,7 +455,7 @@ async def capture_network_layout(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting network layout: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_python_exceptions(arguments: dict) -> Sequence[TextContent]:
@@ -379,7 +467,7 @@ async def get_python_exceptions(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -401,7 +489,7 @@ async def get_python_exceptions(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting Python exceptions: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 def _render_op_capture(result: dict) -> Sequence[Union[TextContent, ImageContent]]:
@@ -470,7 +558,7 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
             })
 
             if resp1.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {resp1.text}")]
+                return [TextContent(type="text", text=_status_message(resp1))]
 
             data1 = resp1.json()
             if not (data1.get("success") and data1.get("data")):
@@ -503,7 +591,7 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
                 resp2 = await client.post("/api/feedback/capture/op", json=payload)
 
                 if resp2.status_code != 200:
-                    return [TextContent(type="text", text=f"TD Error: {resp2.text}")]
+                    return [TextContent(type="text", text=_status_message(resp2))]
 
                 data2 = resp2.json()
                 if not (data2.get("success") and data2.get("data")):
@@ -516,7 +604,7 @@ async def capture_op_viewer(arguments: dict) -> Sequence[Union[TextContent, Imag
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error capturing operator: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=60.0))]
 
 
 async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
@@ -537,7 +625,7 @@ async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/feedback/glsl/status", params=params)
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -588,7 +676,7 @@ async def get_glsl_status(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error getting GLSL status: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 # =============================================================================
@@ -602,7 +690,7 @@ async def get_td_info(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/td/server/td")
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -641,7 +729,7 @@ async def get_td_info(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_td_nodes(arguments: dict) -> Sequence[TextContent]:
@@ -659,7 +747,7 @@ async def get_td_nodes(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/nodes", params=params)
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -684,7 +772,7 @@ async def get_td_nodes(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
@@ -696,7 +784,7 @@ async def get_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -706,7 +794,7 @@ async def get_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def create_td_node(arguments: dict) -> Sequence[TextContent]:
@@ -720,7 +808,7 @@ async def create_td_node(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -737,7 +825,7 @@ async def create_td_node(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=60.0))]
 
 
 async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
@@ -750,7 +838,7 @@ async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -768,7 +856,7 @@ async def update_td_node_parameters(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def delete_td_node(arguments: dict) -> Sequence[TextContent]:
@@ -780,7 +868,7 @@ async def delete_td_node(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success"):
@@ -792,7 +880,7 @@ async def delete_td_node(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def execute_python_script(arguments: dict) -> Sequence[TextContent]:
@@ -804,7 +892,7 @@ async def execute_python_script(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -823,7 +911,7 @@ async def execute_python_script(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=120.0, script=True))]
 
 
 async def exec_node_method(arguments: dict) -> Sequence[TextContent]:
@@ -838,7 +926,7 @@ async def exec_node_method(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -858,7 +946,7 @@ async def exec_node_method(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0, script=True))]
 
 
 async def get_td_node_errors(arguments: dict) -> Sequence[TextContent]:
@@ -872,7 +960,7 @@ async def get_td_node_errors(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/nodes/errors", params=params)
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -882,7 +970,7 @@ async def get_td_node_errors(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_td_classes(arguments: dict) -> Sequence[TextContent]:
@@ -900,7 +988,7 @@ async def get_td_classes(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/td/classes", params=params)
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -910,7 +998,7 @@ async def get_td_classes(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_td_class_details(arguments: dict) -> Sequence[TextContent]:
@@ -920,7 +1008,7 @@ async def get_td_class_details(arguments: dict) -> Sequence[TextContent]:
             response = await client.get(f"/api/td/classes/{arguments['class_name']}")
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -930,7 +1018,7 @@ async def get_td_class_details(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
@@ -950,7 +1038,7 @@ async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
             })
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -960,7 +1048,7 @@ async def get_td_module_help(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 async def save_td_project(arguments: dict) -> Sequence[TextContent]:
@@ -973,7 +1061,7 @@ async def save_td_project(arguments: dict) -> Sequence[TextContent]:
             response = await client.post("/api/td/server/save", json={})
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -991,7 +1079,7 @@ async def save_td_project(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=60.0))]
 
 
 async def get_mutation_status(arguments: dict) -> Sequence[TextContent]:
@@ -1001,7 +1089,7 @@ async def get_mutation_status(arguments: dict) -> Sequence[TextContent]:
             response = await client.get("/api/td/server/mutation_status")
 
             if response.status_code != 200:
-                return [TextContent(type="text", text=f"TD Error: {response.text}")]
+                return [TextContent(type="text", text=_status_message(response))]
 
             data = response.json()
             if data.get("success") and data.get("data"):
@@ -1011,7 +1099,7 @@ async def get_mutation_status(arguments: dict) -> Sequence[TextContent]:
     except httpx.ConnectError:
         return [TextContent(type="text", text=_connection_error_message())]
     except Exception as e:
-        return [TextContent(type="text", text=f"Error: {str(e)}")]
+        return [TextContent(type="text", text=_exception_message(e, read_timeout=20.0))]
 
 
 # =============================================================================
@@ -1053,10 +1141,12 @@ TD_LIVE_TOOLS: List[Tool] = [
                     "description": "Path to TOP operator (e.g., /project1/moviefilein1)"
                 },
                 "resolution": {
-                    "type": "string",
-                    "enum": ["original", "256", "512", "1024"],
+                    "anyOf": [
+                        {"type": "integer", "minimum": 1},
+                        {"type": "string", "enum": ["original", "256", "512", "1024"]}
+                    ],
                     "default": "original",
-                    "description": "Output resolution"
+                    "description": "Output size: a whole number (longest side in pixels, like capture_op_viewer) or \"original\". The strings \"256\"/\"512\"/\"1024\" still work."
                 },
                 "format": {
                     "type": "string",

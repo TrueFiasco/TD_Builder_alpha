@@ -3,6 +3,19 @@
 ## Unreleased
 
 ### Fixed
+- **Live tools say why TouchDesigner did not answer.** Every live handler used to end
+  in a bare `Error: ` (httpx timeouts have an empty message) or `TD Error: <body>`
+  with no status. One helper now turns each exception or non-200 status into a
+  sentence that always names the exception class: connected-but-silent (busy,
+  dialog, minimized, cooking off; do not retry in a loop), script timeouts (check
+  `get_mutation_status` before re-running), 401 (wrong token or cooking off),
+  404 with no error body (webserver modules not found beside the `.tox`), and
+  any other status with its code and body. Connection-refused keeps its text.
+- **`capture_top_output` takes a whole number or `"original"`**, like
+  `capture_op_viewer`; `"256"`/`"512"`/`"1024"` still work and anything else is
+  refused with a sentence saying what is accepted. Client side only: the
+  TouchDesigner webserver's TOP capture does not resize yet (it returns the
+  original size whatever is sent), so the number is accepted and passed through.
 - **Pinned `mcp>=1.0.0,<2`** (pyproject + `.github/requirements-light.txt`). The
   `mcp` 2.x line removed `Server.list_tools`, so every install since 2.0.0
   shipped (early August) failed at import with
